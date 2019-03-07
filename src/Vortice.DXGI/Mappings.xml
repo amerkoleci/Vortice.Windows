@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-dxgi" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.DXGI</assembly>
+  <namespace>Vortice.DXGI</namespace>
+  <depends>SharpGen.Runtime.COM</depends>
+
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="StdLib" />
+
+  <include file="dxgiformat.h"
+             namespace="Vortice.DXGI"
+             attach="true"/>
+
+  <include file="dxgidebug.h"
+             namespace="Vortice.DXGI"
+             attach="true"/>
+
+  <!--<include file="dxgi.h"
+             namespace="Vortice.DXGI"
+             attach="true"/>-->
+
+  <bindings>
+    <bind from="LUID" to="System.Int64"/>
+  </bindings>
+
+  <mapping>
+    <map enum="DXGI(.+)" name-tmp="$1" />
+    <map enum-item="DXGI_FORMAT_.*" naming="underscore" />
+    <map enum-item="DXGI_FORMAT_420_OPAQUE" name="Opaque420"/>
+
+    <map enum="DXGI_DEBUG_RLO_FLAGS" name="ReportLiveObjectFlags" />
+    <map struct="DXGI(.+)" name-tmp="$1" />
+    
+    <map struct="DXGI_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshalto="true" />
+    <map struct="DXGI_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" native="true" marshal="true" struct-to-class="true" marshalto="true" />
+    <map interface="IDXGI(.+)" name-tmp="$1" />
+
+    <remove function=".*" />
+  </mapping>
+</config>

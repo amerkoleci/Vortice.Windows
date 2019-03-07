@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-d3d11" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.Direct3D11</assembly>
+  <namespace>Vortice.Direct3D11</namespace>
+  <depends>Vortice.DXGI</depends>
+
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="StdLib" />
+
+  <include-prolog>
+    #define D3D11_NO_HELPERS
+  </include-prolog>
+
+  <include file="d3d11.h"
+             namespace="Vortice.Direct3D11"
+             attach="true"/>
+
+  <mapping>
+    <remove function=".*" />
+  </mapping>
+</config>
