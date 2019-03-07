@@ -1,0 +1,25 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+
+branches:
+  only:
+    - master
+
+build_script:
+  - cmd: dotnet restore src\Vortice.Windows.sln
+  - cmd: msbuild /t:Pack /p:Configuration=Release src\Vortice.DXGI\Vortice.DXGI.csproj /m
+  - cmd: msbuild /t:Pack /p:Configuration=Release src\Vortice.Direct3D11\Vortice.Direct3D11.csproj /m
+
+artifacts:
+- path: bin\Packages\Release\*.nupkg
+  name: Nugets Artifacts
+
+deploy:
+- provider: NuGet
+  server: https://www.myget.org/F/vortice/api/v2/package
+  api_key:
+    secure: rVfu/HYGH96xeQfy+gRBC/ovHCheQKTjwIeNIE9HlpkN6e4/YtPUqn5f036pSlmi
+  skip_symbols: false
+  symbol_server: https://www.myget.org/F/vortice/api/v2/package
+  artifact: Nugets Artifacts
