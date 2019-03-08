@@ -8,7 +8,7 @@ branches:
 
 build_script:
   - cmd: dotnet restore src\Vortice.Windows.sln
-  - cmd: msbuild /t:Pack /p:Configuration=Release src\Vortice.DXGI\Vortice.DXGI.csproj /m
+  - cmd: msbuild /t:Pack /p:Configuration=Release src\Vortice.D3D\Vortice.D3D.csproj /m
   - cmd: msbuild /t:Pack /p:Configuration=Release src\Vortice.Direct3D11\Vortice.Direct3D11.csproj /m
 
 artifacts:

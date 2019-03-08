@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-d3d" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.D3D</assembly>
+  <namespace>Vortice</namespace>
+  <depends>SharpGen.Runtime.COM</depends>
+
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="StdLib" />
+
+  <include file="d3dcommon.h" 
+           namespace="Vortice.Direct3D" 
+           output="Direct3D">
+    <attach>D3D_DRIVER_TYPE</attach>
+    <attach>D3D_FEATURE_LEVEL</attach>
+    <attach>D3D_PRIMITIVE_TOPOLOGY</attach>
+    <attach>D3D_SRV_DIMENSION</attach>
+  </include>
+
+  <include file="dxgiformat.h" 
+           namespace="Vortice.DXGI" 
+           attach="true" 
+           output="DXGI"/>
+
+  <include file="dxgidebug.h"
+           namespace="Vortice.DXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgitype.h"
+           namespace="Vortice.DXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgicommon.h"
+           namespace="Vortice.DXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgi.h"
+           namespace="Vortice.DXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <extension>
+    <define struct="Vortice.Size" sizeof="8" />
+    <define struct="Vortice.RawRectangle" sizeof="16" />
+    <!--<define struct="Vortice.RawRectangleF" sizeof="16" />-->
+
+    <create class="DXGIInternal" />
+  </extension>
+
+  <bindings>
+    <bind from="SIZE" to="Vortice.Size" />
+    <!--<bind from="POINT" to="Vortice.Point" />-->
+    <bind from="RECT" to="Vortice.RawRectangle" />
+    <bind from="HWND" to="System.IntPtr"/>
+    <bind from="HDC" to="System.IntPtr"/>
+    <bind from="HINSTANCE" to="System.IntPtr"/>
+    <bind from="LUID" to="System.Int64"/>
+    <bind from="HMONITOR" to="System.IntPtr"/>
+  </bindings>
+
+  <naming>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="TOPLEFT">TopLeft</short>
+    <short name="UINT32">UInt32</short>
+    <short name="UINT64">UInt64</short>
+    <short name="IUNKNOWN">IUnknown</short>
+    <short name="RECTANGLE">Rectangle</short>
+    <short name="RECTS">Rectangles</short>
+    <short name="RECT">Rectangle</short>
+    <short name="POINT">Point</short>
+    <short name="POINTS">Points</short>
+    <short name="TRIANGLE">Triangle</short>
+    <short name="LIST">List</short>
+    <short name="ADJACENCY">Adjacency</short>
+    <short name="ADJ">Adjacency</short>
+    <short name="STRIP">Strip</short>
+    <short name="SRV">ShaderResourceView</short>
+    <short name="DSV">DepthStencilView</short>
+    <short name="RTV">RenderTargetView</short>
+    <short name="TEXTURE">Texture</short>
+    <short name="TEXT">Text</short>
+    <short name="CUBE">Cube</short>
+    <short name="TEX">Texture</short>
+    <short name="1D">1D</short>
+    <short name="2D">2D</short>
+    <short name="3D">3D</short>
+    <short name="MS">Multisampled</short>
+    <short name="RW">RW</short>
+    <short name="ARRAYSIZE">ArraySize</short>
+    <short name="ARRAYSLICE">ArraySlice</short>
+    <short name="ARRAYS">Arrays</short>
+    <short name="ARRAY">Array</short>
+    <short name="BUFFERS">Buffers</short>
+    <short name="BUFFER">Buffer</short>
+    <short name="BUFFEREX">BufferExtended</short>
+    <short name="CBV">ConstantBufferView</short>
+    <short name="CBUFFER">ConstantBuffer</short>
+    <short name="TBUFFER">TextureBuffer</short>
+  </naming>
+
+  <mapping>
+    <map enum="D3D(.*)" name-tmp="$1" />
+    <map enum-item="D3D(?!_PF_)(.*)" name-tmp="$1" />
+
+    <!-- D3D_DRIVER_TYPE -->
+    <map enum="D3D_DRIVER_TYPE" name="DriverType" />
+    <map enum-item="D3D_DRIVER_TYPE_(.*)" name-tmp="$1" />
+
+    <!-- D3D_FEATURE_LEVEL -->
+    <map enum-item="D3D_FEATURE_LEVEL_(.*)" name="Level_$1" />
+
+    <!-- D3D_PRIMITIVE_TOPOLOGY -->
+    <remove enum-item="D3D(\d+)_PRIMITIVE_TOPOLOGY_.*" />
+    <!--<remove enum-item="D3D(\d+)_PRIMITIVE_.*" />-->
+    <map enum="D3D_PRIMITIVE_TOPOLOGY" name="PrimitiveTopology" />
+    <map enum-item="D3D_PRIMITIVE_TOPOLOGY_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_PRIMITIVE_TOPOLOGY_(\d+)_CONTROL_POINT_PATCHLIST" name="PatchListWith$1ControlPoints" />
+
+    <!-- D3D_SRV_DIMENSION -->
+    <remove enum-item="D3D(\d+)_SRV_DIMENSION_.*" />
+    <remove enum-item="D3D(\d+_1)_SRV_DIMENSION_.*" />
+    <map enum="D3D_SRV_DIMENSION" name="ShaderResourceViewDimension" />
+    <map enum-item="D3D_SRV_DIMENSION_(.*)" name-tmp="$1" />
+
+    <!-- dxgi enums -->
+    <map enum="DXGI(.+)" name-tmp="$1" />
+    <map enum-item="DXGI_FORMAT_.*" naming="underscore" />
+    <map enum-item="DXGI_FORMAT_420_OPAQUE" name="Opaque420"/>
+
+    <map enum="DXGI_DEBUG_RLO_FLAGS" name="ReportLiveObjectFlags" />
+
+    <!-- dxgi structs -->
+    <map struct="DXGI(.+)" name-tmp="$1" />
+    <map struct="D3DCOLORVALUE" name="Rgba" />
+    <map struct="DXGI_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true"   />
+    <map method="IDXGIInfoQueue::GetMessageW?" visibility="internal"/>
+    <map param="IDXGIInfoQueue::GetMessageW?::pMessage" type="void" attribute="in"/>
+    <map method="IDXGIInfoQueue::GetStorageFilter" visibility="internal"/>
+    <map param="IDXGIInfoQueue::GetStorageFilter::pFilter" type="void" attribute="in"/>
+    <map method="IDXGIInfoQueue::GetRetrievalFilter" visibility="internal"/>
+    <map param="IDXGIInfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
+
+    <map struct="DXGI_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true"  />
+    <remove field="DXGI_INFO_QUEUE_FILTER_DESC::.*"/>
+
+    <map field="DXGI_ADAPTER_DESC[123]?::AdapterLuid" name="Luid" />
+    <map field="DXGI_ADAPTER_DESC[123]?::SubSysId" name="SubsystemId" />
+    <map field="DXGI_ADAPTER_DESC[12]::Flags" type="DXGI_ADAPTER_FLAG" />
+
+    <map struct="DXGI_ADAPTER_DESC[123]" pack="4"/>
+    
+    <!--<map interface="IDXGI(.+)" name-tmp="$1" />-->
+
+    <map method="IDXGIFactory::EnumAdapters" name="EnumAdapters" visibility="internal" check="false"/>
+    <map method="IDXGIFactory1::EnumAdapters1" name="EnumAdapters1" visibility="internal" check="false"/>
+
+    <map function="DXGIGetDebugInterface.*" dll='"dxgidebug.dll"' group="Vortice.DXGIInternal" hresult="true" check="false" />
+    <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
+
+    <map function="CreateDXGIFactory.*" dll='"dxgi.dll"' group="Vortice.DXGIInternal" hresult="true" check="false" />
+    <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
+  </mapping>
+</config>
