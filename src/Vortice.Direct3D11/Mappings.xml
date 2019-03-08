@@ -141,11 +141,17 @@
     <!-- DeviceContext methods -->
     <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
     <map param="ID3D11DeviceContext::Map::MapFlags" type="D3D11_MAP_FLAG" />
+    <map method="ID3D11DeviceContext::FinishCommandList" visibility="internal" name="FinishCommandListInternal" hresult="true" check="false" />
+    <map param="ID3D11DeviceContext::FinishCommandList::ppCommandList" attribute="out fast" />
+    
+    <!-- ID3D11CommandList methods -->
+    <remove method="ID3D11CommandList::GetContextFlags" />
     
     <remove function="D3D11CreateDeviceAndSwapChain"/>
     <map function="D3D11(.+)" name-tmp="$1" />
     <map function="D3D11.*" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11" />
     <!--<map param="D3D11CreateDevice::ppDevice" attribute="out fast" />-->
     <map function="D3D11CreateDevice" check="false"/>
+    
   </mapping>
 </config>
