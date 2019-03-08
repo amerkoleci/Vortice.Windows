@@ -46,6 +46,9 @@
     <define struct="Vortice.RawRectangle" sizeof="16" />
     <!--<define struct="Vortice.RawRectangleF" sizeof="16" />-->
 
+    <create class="Vortice.DXGI.ResultCode" visibility="public"/>
+    <const from-macro="DXGI_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DXGI.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    
     <create class="DXGIInternal" />
   </extension>
 

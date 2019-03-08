@@ -17,7 +17,7 @@ namespace HelloDirect3D11
 
         public static void Main()
         {
-            if (IDXGIFactory1.TryCreate(out var factory))
+            if (IDXGIFactory1.TryCreate(out var factory).Success)
             {
                 var adapter = factory.EnumerateAdapters();
                 var result = ID3D11Device.TryCreate(

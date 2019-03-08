@@ -95,7 +95,7 @@
     <map enum-item="D3D11_CPU_ACCESS_(.*)" name-tmp="$1" />
     
     <map enum="D3D11_BLEND_OP" name="BlendOperation" />
-
+    <map enum="D3D11_CLEAR_FLAG" name="DepthStencilClearFlags" />
 
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
@@ -104,7 +104,10 @@
     <map struct="D3D11_OMAC" name="Omac" marshalto="true"/>
     <map field="D3D11_OMAC::Omac" name="Buffer"/>
 
-    <!-- methods -->
+    <!-- ID3D11DeviceChild methods -->
+    <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
+
+    <!-- ID3D11Device methods -->
     <map method="ID3D(\d+)Device[123]?::GetImmediateContext[123]?" persist="true"/>
     <map method="ID3D(\d+)Device::GetDeviceRemovedReason" check="false"/>
     <map method="ID3D(\d+)Device::CheckFormatSupport" check="false" />
@@ -116,11 +119,11 @@
     <map method="ID3D11Device::CheckFeatureSupport" visibility="internal" check="false"/>
     <map param="ID3D11Device::CheckFeatureSupport::pFeatureSupportData" attribute="in" type="void" />
     <map method="ID3D11Device::GetCreationFlags" type="D3D11_CREATE_DEVICE_FLAG"/>
-    
     <map param="ID3D11Device::CreateBlendState::pBlendStateDesc" attribute="in value" />
     <map param="ID3D11Device::CreateBlendState::ppBlendState" attribute="out" return="true"/>
 
-    <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
+    <!-- DeviceContext methods -->
+    <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
 
     <remove function="D3D11CreateDeviceAndSwapChain"/>
     <map function="D3D11(.+)" name-tmp="$1" />

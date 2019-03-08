@@ -9,17 +9,18 @@ namespace Vortice.DXGI
         /// Try to create new instance of <see cref="IDXGIFactory1"/>.
         /// </summary>
         /// <param name="factory">The <see cref="IDXGIFactory1"/> being created.</param>
-        /// <returns>True if succed, false otherwise.</returns>
-        public static bool TryCreate(out IDXGIFactory1 factory)
+        /// <returns>Return the <see cref="Result"/>.</returns>
+        public static Result TryCreate(out IDXGIFactory1 factory)
         {
-            if (Vortice.DXGIInternal.CreateDXGIFactory1(typeof(IDXGIFactory1).GUID, out var nativePtr).Success)
+            var result = Vortice.DXGIInternal.CreateDXGIFactory1(typeof(IDXGIFactory1).GUID, out var nativePtr);
+            if (result.Success)
             {
                 factory = new IDXGIFactory1(nativePtr);
-                return true;
+                return result;
             }
 
             factory = null;
-            return false;
+            return result;
         }
 
         public IDXGIAdapter1[] EnumerateAdapters()

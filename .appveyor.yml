@@ -12,7 +12,7 @@ build_script:
   - cmd: msbuild /t:Pack /p:Configuration=Release src\Vortice.Direct3D11\Vortice.Direct3D11.csproj /m
 
 artifacts:
-- path: bin\Packages\Release\*.nupkg
+- path: bin\Release\Packages\*.nupkg
   name: Nugets Artifacts
 
 deploy:
