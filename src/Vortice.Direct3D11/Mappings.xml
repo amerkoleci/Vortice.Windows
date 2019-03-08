@@ -64,6 +64,9 @@
     <short name="CBV">ConstantBufferView</short>
     <short name="CBUFFER">ConstantBuffer</short>
     <short name="TBUFFER">TextureBuffer</short>
+    <short name="VDOV">VideoDecoderOutputView</short>
+    <short name="VPIV">VideoProcessorInputView</short>
+    <short name="VPOV">VideoProcessorOutputView</short>
   </naming>
 
   <mapping>
@@ -97,12 +100,25 @@
     <map enum="D3D11_BLEND_OP" name="BlendOperation" />
     <map enum="D3D11_CLEAR_FLAG" name="DepthStencilClearFlags" />
 
+    <map enum="D3D11_BIND_FLAG" name="BindFlags" />
+    <map enum="D3D11_MAP_FLAG" name="MapFlags" />
+    <map enum="D3D11_VDOV_DIMENSION" name="VideoDecoderOutputViewDimension" />
+    <map enum="D3D11_VPIV_DIMENSION" name="VideoProcessorInputViewDimension" />
+    <map enum="D3D11_VPOV_DIMENSION" name="VideoProcessorOutputViewDimension" />
+
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
     <!--<map interface="ID3D1[0-3](.+)" name-tmp="$1" />-->
 
+    <map field=".*::(.*)DescW?" name="$1Description" />
+    <map field=".*::(.*)Desc1" name="$1Description1" />
+    <map field=".*::(.*)Desc2" name="$1Description2" />
     <map struct="D3D11_OMAC" name="Omac" marshalto="true"/>
     <map field="D3D11_OMAC::Omac" name="Buffer"/>
+
+    <map method=".*::(.*)DescW?" name="$1Description" />
+    <map method=".*::(.*)Desc1" name="$1Description1" />
+    <map method=".*::(.*)Desc2" name="$1Description2" />
 
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
@@ -124,7 +140,8 @@
 
     <!-- DeviceContext methods -->
     <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
-
+    <map param="ID3D11DeviceContext::Map::MapFlags" type="D3D11_MAP_FLAG" />
+    
     <remove function="D3D11CreateDeviceAndSwapChain"/>
     <map function="D3D11(.+)" name-tmp="$1" />
     <map function="D3D11.*" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11" />

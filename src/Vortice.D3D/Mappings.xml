@@ -150,6 +150,9 @@
     <map struct="DXGI_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true"  />
     <remove field="DXGI_INFO_QUEUE_FILTER_DESC::.*"/>
 
+    <map field=".*::(.*)DescW?" name="$1Description" />
+    <map field=".*::(.*)Desc1" name="$1Description1" />
+    <map field=".*::(.*)Desc2" name="$1Description2" />
     <map field="DXGI_ADAPTER_DESC[123]?::AdapterLuid" name="Luid" />
     <map field="DXGI_ADAPTER_DESC[123]?::SubSysId" name="SubsystemId" />
     <map field="DXGI_ADAPTER_DESC[12]::Flags" type="DXGI_ADAPTER_FLAG" />
@@ -157,7 +160,11 @@
     <map struct="DXGI_ADAPTER_DESC[123]" pack="4"/>
     
     <!--<map interface="IDXGI(.+)" name-tmp="$1" />-->
-
+    <map method=".*::(.*)DescW?" name="$1Description" />
+    <map method=".*::(.*)Desc1" name="$1Description1" />
+    <map method=".*::(.*)Desc2" name="$1Description2" />
+    <map method=".*GetType" name="GetTypeInfo" />
+    
     <map method="IDXGIFactory::EnumAdapters" name="EnumAdapters" visibility="internal" check="false"/>
     <map method="IDXGIFactory1::EnumAdapters1" name="EnumAdapters1" visibility="internal" check="false"/>
 
