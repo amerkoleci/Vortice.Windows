@@ -5,9 +5,9 @@ using System.Text;
 using Vortice.Direct3D;
 using Vortice.DXGI;
 
-namespace Vortice.Direct3D11
+namespace Vortice.Direct3D12
 {
-    public partial class ID3D11Device
+    public partial class ID3D12Device
     {
         public static bool TryCreate(
             IDXGIAdapter adapter,

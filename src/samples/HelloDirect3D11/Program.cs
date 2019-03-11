@@ -11,14 +11,15 @@ namespace HelloDirect3D11
     {
         private static readonly FeatureLevel[] _featureLevels = new FeatureLevel[]
         {
-                    FeatureLevel.Level_11_1,
-                    FeatureLevel.Level_11_0
+            FeatureLevel.Level_11_1,
+            FeatureLevel.Level_11_0
         };
 
         public static void Main()
         {
-            if (IDXGIFactory1.TryCreate(out var factory).Success)
+            if (IDXGIFactory4.TryCreate(out var factory).Success)
             {
+                var warp = factory.GetWarpAdapter<IDXGIAdapter1>();
                 var adapter = factory.EnumerateAdapters();
                 var result = ID3D11Device.TryCreate(
                      null,

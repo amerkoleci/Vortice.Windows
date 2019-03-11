@@ -1,3 +1,6 @@
+// Copyright (c) Amer Koleci and contributors.
+// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+
 using System.Collections.Generic;
 using SharpGen.Runtime;
 
@@ -12,7 +15,7 @@ namespace Vortice.DXGI
         /// <returns>Return the <see cref="Result"/>.</returns>
         public static Result TryCreate(out IDXGIFactory1 factory)
         {
-            var result = Vortice.DXGIInternal.CreateDXGIFactory1(typeof(IDXGIFactory1).GUID, out var nativePtr);
+            var result = DXGIInternal.CreateDXGIFactory1(typeof(IDXGIFactory1).GUID, out var nativePtr);
             if (result.Success)
             {
                 factory = new IDXGIFactory1(nativePtr);
@@ -23,10 +26,10 @@ namespace Vortice.DXGI
             return result;
         }
 
-        public IDXGIAdapter1[] EnumerateAdapters()
+        public new IDXGIAdapter1[] EnumerateAdapters()
         {
             var adapters = new List<IDXGIAdapter1>();
-            for (uint adapterIndex = 0; EnumAdapters1(adapterIndex, out var adapter).Success; ++adapterIndex)
+            for (int adapterIndex = 0; EnumAdapters1(adapterIndex, out var adapter) != ResultCode.NotFound; ++adapterIndex)
             {
                 adapters.Add(adapter);
             }
