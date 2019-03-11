@@ -72,6 +72,19 @@
     
     <map enum-item="D3D12_(MESSAGE_ID.*)" name-tmp="$1" />
     <map enum-item="D3D12_RESOURCE_BINDING_TIER_(.*)" name="Tier$1"/>
+    <map enum-item="D3D12_VIEW_INSTANCING_TIER(.*)" name-tmp="Tier$1"/>
+    <map enum-item="D3D12_CONSERVATIVE_RASTERIZATION_TIER(.*)" name-tmp="Tier$1"/>
+    <map enum-item="D3D12_CROSS_NODE_SHARING_TIER(.*)" name-tmp="Tier$1"/>
+    <map enum-item="D3D12_RESOURCE_HEAP_TIER(.*)" name-tmp="Tier$1"/>
+    <map enum-item="D3D12_TILED_RESOURCES_TIER(.*)" name-tmp="Tier$1"/>
+    <map enum-item="D3D12_INDEX_BUFFER_STRIP_CUT_(VALUE_0x.*)" name-tmp="$1"/>
+    <map enum-item="D3D12_MESSAGE_ID_RESOURCE_BARRIER_INVALID_FLAG" name="ResourceBarrierInvalidFlag"/>
+    <map enum-item="D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS" name="Constant32Bits"/>
+    <map enum-item="D3D_ROOT_SIGNATURE_VERSION(.*)" name-tmp="Version$1"/>
+    <map enum-item="D3D12_SHADER_MIN_PRECISION_SUPPORT_(\d*)_BIT" name-tmp="Bit$1"/>
+    <map enum-item="D3D12_DSV_FLAG(.*)" name-tmp="$1"/>
+    <map enum-item="D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER_(.*)" name-tmp="Tier$1"/>
+    
     <map enum="D3D12_FORMAT_SUPPORT1" flags="true"/>
     <map enum="D3D12_FORMAT_SUPPORT2" flags="true"/>
     <map enum="D3D12_RESOURCE_STATES" flags="true"/>

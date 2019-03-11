@@ -7,18 +7,14 @@
   <sdk name="WindowsSdk" version="10.0.17763.0" />
   <sdk name="StdLib" />
 
-  <include file="d3dcommon.h" 
-           namespace="Vortice.Direct3D" 
-           output="Direct3D">
-    <attach>D3D_DRIVER_TYPE</attach>
-    <attach>D3D_FEATURE_LEVEL</attach>
-    <attach>D3D_PRIMITIVE_TOPOLOGY</attach>
-    <attach>D3D_SRV_DIMENSION</attach>
-  </include>
+  <include file="d3dcommon.h"
+           namespace="Vortice.Direct3D"
+           attach="true"
+           output="Direct3D" />
 
-  <include file="dxgiformat.h" 
-           namespace="Vortice.DXGI" 
-           attach="true" 
+  <include file="dxgiformat.h"
+           namespace="Vortice.DXGI"
+           attach="true"
            output="DXGI"/>
 
   <include file="dxgidebug.h"
@@ -77,8 +73,11 @@
     <create class="Vortice.DXGI.ResultCode" visibility="public"/>
     <const from-macro="DXGI_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DXGI.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
     <const from-macro="DXGI_(CREATE_FACTORY_DEBUG)" type="int" cpp-type="int" name="$1" class="Vortice.DXGIInternal" />
-    
+
     <create class="DXGIInternal" />
+
+    <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
+    <create class="CommonGuid" visibility="public" />
   </extension>
 
   <bindings>
@@ -140,26 +139,62 @@
   <mapping>
     <map enum="D3D(.*)" name-tmp="$1" />
     <map enum-item="D3D(?!_PF_)(.*)" name-tmp="$1" />
-
-    <!-- D3D_DRIVER_TYPE -->
-    <map enum="D3D_DRIVER_TYPE" name="DriverType" />
-    <map enum-item="D3D_DRIVER_TYPE_(.*)" name-tmp="$1" />
-
-    <!-- D3D_FEATURE_LEVEL -->
-    <map enum-item="D3D_FEATURE_LEVEL_(.*)" name="Level_$1" />
-
-    <!-- D3D_PRIMITIVE_TOPOLOGY -->
+    <map enum-item="D3D_INTERPOLATION(.*)" name-tmp="$1" />
+    <remove enum-item="D3D(\d+)_CBF_USERPACKED.*"/>
     <remove enum-item="D3D(\d+)_PRIMITIVE_TOPOLOGY_.*" />
-    <!--<remove enum-item="D3D(\d+)_PRIMITIVE_.*" />-->
+    <remove enum-item="D3D(\d+)_PRIMITIVE_.*" />
+    <remove enum-item="D3D(\d+)_SRV_DIMENSION_.*" />
+    <remove enum-item="D3D(\d+_1)_SRV_DIMENSION_.*" />
+    <remove enum-item="D3D(\d+)_SVC_.*" />
+    <remove enum-item="D3D(\d+)_SVF_.*" />
+    <remove enum-item="D3D(\d+)_SVT_.*" />
+    <remove enum-item="D3D(\d+)_SIF_.*" />
+    <remove enum-item="D3D(\d+)_SIT_.*" />
+    <remove enum-item="D3D(\d+)_CT_.*" />
+    <remove enum-item="D3D(\d+)_NAME_.*" />
+    <remove enum-item="D3D(\d+)_INCLUDE_.*" />
+    <remove enum-item="D3D(\d+)_RETURN_TYPE_.*" />
+    <remove enum-item="D3D(\d+)_TESSELLATOR_OUTPUT_.*" />
+    <remove enum-item="D3D(\d+)_TESSELLATOR_DOMAIN_.*" />
+    <remove enum-item="D3D(\d+)_TESSELLATOR_PARTITIONING_.*" />
+    <remove enum-item="D3D(\d+)_REGISTER_COMPONENT_.*" />
+    <map enum="D3D_PRIMITIVE" name="InputPrimitive" />
+    <map enum-item="D3D_FEATURE_LEVEL_(.*)" name="Level_$1" />
+    <map enum="D3D_SRV_DIMENSION" name="ShaderResourceViewDimension" />
+    <map enum-item="D3D_SRV_DIMENSION_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_PRIMITIVE_(\d+)_CONTROL_POINT_PATCH" name="PatchWith$1ControlPoints" />
+    <map enum-item="D3D_PRIMITIVE_([^0-9].*)" name-tmp="$1" />
     <map enum="D3D_PRIMITIVE_TOPOLOGY" name="PrimitiveTopology" />
     <map enum-item="D3D_PRIMITIVE_TOPOLOGY_(.*)" name-tmp="$1" />
     <map enum-item="D3D_PRIMITIVE_TOPOLOGY_(\d+)_CONTROL_POINT_PATCHLIST" name="PatchListWith$1ControlPoints" />
-
-    <!-- D3D_SRV_DIMENSION -->
-    <remove enum-item="D3D(\d+)_SRV_DIMENSION_.*" />
-    <remove enum-item="D3D(\d+_1)_SRV_DIMENSION_.*" />
-    <map enum="D3D_SRV_DIMENSION" name="ShaderResourceViewDimension" />
-    <map enum-item="D3D_SRV_DIMENSION_(.*)" name-tmp="$1" />
+    <map enum="D3D_SHADER_CBUFFER_FLAGS" name="ConstantBufferFlags" />
+    <map enum-item="D3D_SVC_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_SVF_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_SVT_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_SVT_MIN(\d+)(.*)" name-tmp="MIN$2$1"/>
+    <map enum-item="D3D_SIF_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_SIT_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_CT_(.*)" name-tmp="$1" />
+    <map enum="D3D_DRIVER_TYPE" name="DriverType" />
+    <map enum-item="D3D_DRIVER_TYPE_(.*)" name-tmp="$1" />
+    <map enum="D3D_NAME" name="SystemValueType" />
+    <map enum-item="D3D_NAME_(.*)" name-tmp="$1" />
+    <map enum="D3DCOMPILER_STRIP_FLAGS" name="StripFlags" />
+    <map enum="D3D_INCLUDE_TYPE" name="IncludeType" />
+    <map enum-item="D3D_INCLUDE_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_RETURN_TYPE_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_TESSELLATOR_DOMAIN_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_TESSELLATOR_DOMAIN_TRI" name="Triangle" />
+    <map enum-item="D3D_TESSELLATOR_OUTPUT_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_TESSELLATOR_OUTPUT_TRIANGLE_CCW" name="TriangleCounterclockwise" />
+    <map enum-item="D3D_TESSELLATOR_OUTPUT_TRIANGLE_CW" name="TriangleClockwise" />
+    <map enum-item="D3D_TESSELLATOR_PARTITIONING_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_TESSELLATOR_PARTITIONING_POW2" name="PowerOfTwo" />
+    <map enum="D3D_REGISTER_COMPONENT_TYPE" name="RegisterComponentType" />
+    <map enum-item="D3D_REGISTER_COMPONENT_(.*)" name-tmp="$1" />
+    
+    <!-- d3dcommon structs -->
+    <map struct="D3D_SHADER_MACRO" name="ShaderMacro" />
 
     <!-- dxgi enums -->
     <map enum="DXGI(.+)" name-tmp="$1" />
@@ -193,6 +228,8 @@
     <map struct="DXGI_ADAPTER_DESC[123]" pack="4"/>
 
     <map interface="ID3D10Blob" name="Blob" />
+    <map interface="ID3DInclude" name="Include" callback="true" />
+    <map interface="ID3DDestructionNotifier" name="DestructionNotifier" callback="true" />
     
     <!--<map interface="IDXGI(.+)" name-tmp="$1" />-->
     <map method=".*::(.*)DescW?" name="$1Description" />
@@ -201,7 +238,7 @@
 
     <!-- IDXGIObject -->
     <map method="IDXGIObject::GetParent" visibility="private" hresult="true" check="false"/>
-    
+
     <map method="IDXGIFactory::EnumAdapters" name="EnumAdapters" visibility="internal" check="false"/>
 
     <map param="IDXGIFactory::MakeWindowAssociation::Flags" type="DXGI_MWA_FLAGS" />
@@ -241,7 +278,7 @@
 
     <!-- IDXGIFactory7 -->
     <map param="IDXGIFactory7::RegisterAdaptersChangedEvent::pdwCookie" return="true"/>
-    
+
     <map function="DXGIGetDebugInterface.*" dll='"dxgidebug.dll"' group="Vortice.DXGIInternal" hresult="true" check="false" />
     <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
 
