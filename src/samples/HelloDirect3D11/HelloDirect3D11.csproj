@@ -6,5 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />
+    <ProjectReference Include="..\..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
   </ItemGroup>
 </Project>

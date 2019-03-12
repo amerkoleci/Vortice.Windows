@@ -18,6 +18,9 @@
     <const from-macro="D3D11_SDK_VERSION" class="Vortice.Direct3D11.D3D11" type="int" name="SdkVersion" />
     <create class="D3D11" />
 
+    <create class="ResultCode" visibility="public static" />
+    <const from-macro="D3D11_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct3D11.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+
   </extension>
 
   <bindings>
@@ -45,6 +48,8 @@
     <short name="SRV">ShaderResourceView</short>
     <short name="DSV">DepthStencilView</short>
     <short name="RTV">RenderTargetView</short>
+    <short name="UAVS">UnorderedAccessViews</short>
+    <short name="UAV">UnorderedAccessView</short>
     <short name="TEXTURE">Texture</short>
     <short name="TEXT">Text</short>
     <short name="CUBE">Cube</short>

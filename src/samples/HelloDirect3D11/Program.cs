@@ -9,25 +9,19 @@ namespace HelloDirect3D11
 {
     public static class Program
     {
-        private static readonly FeatureLevel[] _featureLevels = new FeatureLevel[]
+        class TestApplication : Application
         {
-            FeatureLevel.Level_11_1,
-            FeatureLevel.Level_11_0
-        };
+            public TestApplication(bool useDirect3D12)
+                : base(useDirect3D12)
+            {
+            }
+        }
 
         public static void Main()
         {
-            if (IDXGIFactory4.TryCreate(out var factory).Success)
+            using (var app = new TestApplication(true))
             {
-                var warp = factory.GetWarpAdapter<IDXGIAdapter1>();
-                var adapter = factory.EnumerateAdapters();
-                var result = ID3D11Device.TryCreate(
-                     null,
-                     DriverType.Hardware,
-                     DeviceCreationFlags.None,
-                     _featureLevels,
-                     out var device,
-                     out var context);
+                app.Run();
             }
         }
     }

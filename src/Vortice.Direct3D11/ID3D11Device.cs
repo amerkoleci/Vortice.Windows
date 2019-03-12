@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) Amer Koleci and contributors.
+// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+
+using System;
 using System.Runtime.CompilerServices;
-using System.Text;
+using SharpGen.Runtime;
 using Vortice.Direct3D;
 using Vortice.DXGI;
 
@@ -9,7 +11,7 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11Device
     {
-        public static bool TryCreate(
+        public static Result TryCreate(
             IDXGIAdapter adapter,
             DriverType driverType,
             DeviceCreationFlags flags,
@@ -31,7 +33,7 @@ namespace Vortice.Direct3D11
 
             if (result.Failure)
             {
-                return false;
+                return result;
             }
 
             if (immediateContext != null)
@@ -41,7 +43,7 @@ namespace Vortice.Direct3D11
                 immediateContext.Device__ = device;
             }
 
-            return true;
+            return result;
         }
 
         public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : struct

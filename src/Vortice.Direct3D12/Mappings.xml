@@ -16,6 +16,8 @@
              attach="true"/>
   <extension>
     <create class="D3D12" />
+    <create class="ResultCode" visibility="public static" />
+    <const from-macro="D3D12_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct3D12.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
   </extension>
 
   <bindings>
@@ -43,6 +45,8 @@
     <short name="SRV">ShaderResourceView</short>
     <short name="DSV">DepthStencilView</short>
     <short name="RTV">RenderTargetView</short>
+    <short name="UAVS">UnorderedAccessViews</short>
+    <short name="UAV">UnorderedAccessView</short>
     <short name="TEXTURE">Texture</short>
     <short name="TEXT">Text</short>
     <short name="CUBE">Cube</short>
@@ -69,7 +73,7 @@
 
   <mapping>
     <map enum="D3D(\d+)(.*)" name-tmp="$2" />
-    
+
     <map enum-item="D3D12_(MESSAGE_ID.*)" name-tmp="$1" />
     <map enum-item="D3D12_RESOURCE_BINDING_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D12_VIEW_INSTANCING_TIER(.*)" name-tmp="Tier$1"/>
@@ -80,11 +84,15 @@
     <map enum-item="D3D12_INDEX_BUFFER_STRIP_CUT_(VALUE_0x.*)" name-tmp="$1"/>
     <map enum-item="D3D12_MESSAGE_ID_RESOURCE_BARRIER_INVALID_FLAG" name="ResourceBarrierInvalidFlag"/>
     <map enum-item="D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS" name="Constant32Bits"/>
+    <map enum="D3D_ROOT_SIGNATURE_VERSION" name="RootSignatureVersion"/>
     <map enum-item="D3D_ROOT_SIGNATURE_VERSION(.*)" name-tmp="Version$1"/>
     <map enum-item="D3D12_SHADER_MIN_PRECISION_SUPPORT_(\d*)_BIT" name-tmp="Bit$1"/>
     <map enum-item="D3D12_DSV_FLAG(.*)" name-tmp="$1"/>
     <map enum-item="D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER_(.*)" name-tmp="Tier$1"/>
-    
+
+    <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_UNDEFINED_SWIZZLE" name="UndefinedSwizzle64kb"/>
+    <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_STANDARD_SWIZZLE" name="StandardSwizzle64kb"/>
+
     <map enum="D3D12_FORMAT_SUPPORT1" flags="true"/>
     <map enum="D3D12_FORMAT_SUPPORT2" flags="true"/>
     <map enum="D3D12_RESOURCE_STATES" flags="true"/>
@@ -101,6 +109,9 @@
     <map enum-item="D3D12_RENDER_PASS_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D12_DRED_VERSION_1_0" name="Version10"/>
     <map enum-item="D3D12_RAYTRACING_TIER_(.*)" name="Tier$1"/>
+    <map enum="D3D12_GPU_BASED_VALIDATION_FLAGS" flags="false"/>
+    <map enum-item="D3D12_(.*)_DESCRIPTOR_HEAP$" name-tmp="$1"/>
+    <remove enum-item="D3D12_NUM_DESCRIPTOR_HEAP_TYPES"/>
 
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
@@ -117,12 +128,71 @@
     <remove field="D3D12_VERSIONED_ROOT_SIGNATURE_DESC::.*"/>
     <remove field="D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS::.*" />
     
+    <map field="D3D12_NODE_MASK::NodeMask" name="Mask" />
+    <map field="D3D12_DESCRIPTOR_HEAP_DESC::NumDescriptors" name="DescriptorCount"/>
+
     <!-- ID3D12Device methods -->
+    <map method="ID3D12Device::CheckFeatureSupport" visibility="internal" check="false"/>
+    <map method="ID3D12Device::GetDeviceRemovedReason" check="false"/>
+    
+    <map method="ID3D12Device::CreateCommittedResource" visibility="private"/>
+    <map param="ID3D12Device::CreateCommittedResource::pResourceDesc" attribute="in value"/>
+    <map param="ID3D12Device::CreateCommittedResource::ppvResource" attribute="out" type="ID3D12Resource" return="true"/>
+
+    <map method="ID3D12Device::CreateCommandQueue" visibility="private"/>
+    <map param="ID3D12Device::CreateCommandQueue::ppCommandQueue" attribute="out" type="ID3D12CommandQueue" return="true"/>
+
+    <map method="ID3D12Device::CreateDescriptorHeap" visibility="private"/>
+    <map param="ID3D12Device::CreateDescriptorHeap::ppvHeap" attribute="out" type="ID3D12DescriptorHeap" return="true"/>
+
+    <map method="ID3D12Device::CreateCommandAllocator" visibility="private"/>
+    <map param="ID3D12Device::CreateCommandAllocator::ppCommandAllocator" attribute="out" type="ID3D12CommandAllocator" return="true"/>
+
+    <map method="ID3D12Device::CreateCommandList" visibility="private"/>
+    <map param="ID3D12Device::CreateCommandList::ppCommandList" attribute="out" return="true"/>
+
+    <map method="ID3D12Device::CreateFence" visibility="private"/>
+    <map param="ID3D12Device::CreateFence::ppFence" attribute="out" type="ID3D12Fence" return="true"/>
+
+    <map method="ID3D12Device::CreateHeap" visibility="private"/>
+    <map param="ID3D12Device::CreateHeap::ppvHeap" attribute="out" type="ID3D12Heap" return="true"/>
+
+    <map method="ID3D12Device::CreateRootSignature" visibility="private"/>
+    <map param="ID3D12Device::CreateRootSignature::ppvRootSignature" attribute="out" type="ID3D12RootSignature" return="true"/>
+
+    <!-- ID3D12Device1 methods -->
+    <map method="ID3D12Device1::CreatePipelineLibrary" visibility="private"/>
+    <map param="ID3D12Device1::CreatePipelineLibrary::ppPipelineLibrary" attribute="out" type="ID3D12PipelineLibrary" return="true"/>
+
+    <!-- ID3D12Device2 methods -->
+    <map method="ID3D12Device2::CreatePipelineState" visibility="private"/>
+    <map param="ID3D12Device2::CreatePipelineState::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
+
+    <!-- ID3D12Device3 methods -->
+
+    <!-- ID3D12Device4 methods -->
+    <map method="ID3D12Device4::CreateCommandList1" visibility="private"/>
+    <map param="ID3D12Device4::CreateCommandList1::ppCommandList" attribute="out" type="ID3D12GraphicsCommandList1" return="true"/>
+    
+    <!-- ID3D12Debug1 -->
+    <map method="ID3D12Debug1::SetEnableGPUBasedValidation" property="false" />
+    <map method="ID3D12Debug1::SetEnableSynchronizedCommandQueueValidation" property="false" />
+    
+    <!-- ID3D12Debug2 -->
+    <map method="ID3D12Debug2::SetGPUBasedValidationFlags" property="false" />
+    
+    <!-- ID3D12Debug3 -->
+    <map method="ID3D12Debug3::SetEnableGPUBasedValidation" property="false" />
+    <map method="ID3D12Debug3::SetEnableSynchronizedCommandQueueValidation" property="false" />
+    <map method="ID3D12Debug3::SetGPUBasedValidationFlags" property="false" />
+    
+    <!-- ID3D12GraphicsCommandList -->
+    <map method="ID3D12GraphicsCommandList::Close" hresult="true" check="false" />
     
     <map function="D3D12(.+)" name-tmp="$1" />
     <map function="D3D12.*" dll='"d3d12.dll"' group="Vortice.Direct3D12.D3D12" />
     <map function="D3D12CreateDevice" check="false"/>
     <map function="D3D12GetDebugInterface" hresult="true" check="false"/>
-    
+
   </mapping>
 </config>
