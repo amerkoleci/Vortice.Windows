@@ -14,5 +14,32 @@ namespace Vortice.Direct3D12
         {
             return CreateCommandList1(nodeMask, type, commandListFlags, typeof(ID3D12GraphicsCommandList1).GUID);
         }
+
+        public ID3D12Resource1 CreateCommittedResource1(
+            HeapProperties heapProperties,
+            HeapFlags heapFlags,
+            ResourceDescription description,
+            ResourceStates initialResourceState,
+            ID3D12ProtectedResourceSession protectedSession,
+            ClearValue? optimizedClearValue = null)
+        {
+            Guard.NotNull(protectedSession, nameof(protectedSession));
+
+            return CreateCommittedResource1(
+                ref heapProperties,
+                heapFlags,
+                ref description,
+                initialResourceState,
+                optimizedClearValue,
+                protectedSession,
+                typeof(ID3D12Resource1).GUID);
+        }
+
+        public ID3D12Heap1 CreateHeap1(HeapDescription description, ID3D12ProtectedResourceSession protectedSession)
+        {
+            Guard.NotNull(protectedSession, nameof(protectedSession));
+
+            return CreateHeap1(ref description, protectedSession, typeof(ID3D12Heap1).GUID);
+        }
     }
 }

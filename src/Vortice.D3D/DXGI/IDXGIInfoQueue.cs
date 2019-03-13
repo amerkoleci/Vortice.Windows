@@ -8,18 +8,6 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIInfoQueue
     {
-        /// <summary>
-        /// If the DXGI debug layer is installed (e.g. on developer machines), creates the DXGI InfoQueue object.
-        /// Otherwise, returns null.
-        /// </summary>
-        /// <remarks>
-        /// Currently doesn't work for Windows Store (aka UWP) apps 
-        /// </remarks>
-        public static IDXGIInfoQueue TryCreate()
-        {
-            return DebugInterface.Get<IDXGIInfoQueue>(out var nativePtr) ? new IDXGIInfoQueue(nativePtr) : null;
-        }
-
         public unsafe InfoQueueMessage GetMessage(Guid producer, ulong messageIndex)
         {
             PointerSize messageSize = 0;

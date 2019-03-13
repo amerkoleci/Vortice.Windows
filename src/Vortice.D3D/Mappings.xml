@@ -66,6 +66,7 @@
     <define struct="Vortice.Size" sizeof="8" />
     <define struct="Vortice.Point" sizeof="8" />
     <define struct="Vortice.RawRectangle" sizeof="16" />
+    <define struct="Vortice.Color4" sizeof="16" />
     <define struct="System.Numerics.Matrix3x2" sizeof="24" />
 
     <create-cpp enum="DXGI_PRESENT_FLAGS" macro="DXGI_PRESENT_.*" />
@@ -208,7 +209,7 @@
     <map enum-item="D3D_TESSELLATOR_PARTITIONING_POW2" name="PowerOfTwo" />
     <map enum="D3D_REGISTER_COMPONENT_TYPE" name="RegisterComponentType" />
     <map enum-item="D3D_REGISTER_COMPONENT_(.*)" name-tmp="$1" />
-    
+
     <!-- d3dcommon structs -->
     <map struct="D3D_SHADER_MACRO" name="ShaderMacro" />
 
@@ -245,16 +246,19 @@
     <map field="DXGI_ADAPTER_DESC[12]::Flags" type="DXGI_ADAPTER_FLAG" />
 
     <map struct="DXGI_ADAPTER_DESC[123]" pack="4"/>
-    
+
     <!-- DXGI_SWAP_CHAIN_DESC -->
     <map field="DXGI_SWAP_CHAIN_DESC::Windowed" name="IsWindowed" />
     <map field="DXGI_SWAP_CHAIN_DESC[12]?::BufferUsage" name="Usage" type="DXGI_USAGE_ENUM"/>
     <map field="DXGI_SWAP_CHAIN_DESC[12]?::Flags" type="DXGI_SWAP_CHAIN_FLAG" />
-    
+
+    <map struct="DXGI_PRESENT_PARAMETERS" native="true" marshal="true" marshalto="true"/>
+    <map field="DXGI_PRESENT_PARAMETERS::.*" visibility="internal"/>
+
     <map interface="ID3D10Blob" name="Blob" />
     <map interface="ID3DInclude" name="Include" callback="true" />
     <map interface="ID3DDestructionNotifier" name="DestructionNotifier" callback="true" />
-    
+
     <!--<map interface="IDXGI(.+)" name-tmp="$1" />-->
     <map method=".*::(.*)DescW?" name="$1Description" />
     <map method=".*::(.*)Desc1" name="$1Description1" />
@@ -263,6 +267,7 @@
     <!-- IDXGIObject -->
     <map method="IDXGIObject::GetParent" visibility="private" hresult="true" check="false"/>
 
+    <!-- IDXGIFactory -->
     <map method="IDXGIFactory::EnumAdapters" name="EnumAdapters" visibility="internal" check="false"/>
 
     <map param="IDXGIFactory::MakeWindowAssociation::Flags" type="DXGI_MWA_FLAGS" />
@@ -283,11 +288,12 @@
     <map param="IDXGIFactory2::CreateSwapChainForCoreWindow::ppSwapChain" return="true"/>
     <map method="IDXGIFactory2::CreateSwapChainForHwnd" visibility="private" />
     <map param="IDXGIFactory2::CreateSwapChainForHwnd::ppSwapChain" return="true"/>
-    
+
     <map param="IDXGIFactory2::GetSharedResourceAdapterLuid::pLuid" return="true"/>
     <map param="IDXGIFactory2::RegisterOcclusionStatusEvent::pdwCookie" return="true"/>
     <map param="IDXGIFactory2::RegisterOcclusionStatusWindow::pdwCookie" return="true"/>
     <map param="IDXGIFactory2::RegisterStereoStatusEvent::pdwCookie" return="true"/>
+    <map param="IDXGIFactory2::RegisterStereoStatusWindow::pdwCookie" return="true"/>
 
     <!-- IDXGIFactory4 -->
     <map method="IDXGIFactory4::EnumWarpAdapter" visibility="private" hresult="true" check="false"/>
@@ -301,7 +307,7 @@
 
     <!-- IDXGIFactory7 -->
     <map param="IDXGIFactory7::RegisterAdaptersChangedEvent::pdwCookie" return="true"/>
-    
+
     <!-- IDXGIFactoryMedia  -->
     <map method="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle" visibility="private" />
     <map param="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
@@ -319,12 +325,34 @@
     <map method="IDXGISwapChain::GetBuffer" hresult="true" check="false" visibility="private" />
     <map method="IDXGISwapChain::ResizeTarget" hresult="true" check="false" visibility="private"  />
     
+    <!-- IDXGISwapChain1 -->
+    <map method="IDXGISwapChain1::GetHwnd" property="false" visibility="private" hresult="true" check="false"  />
+    <map method="IDXGISwapChain1::GetCoreWindow" property="false" visibility="private" hresult="true" check="false"  />
+    <map method="IDXGISwapChain1::Present1" visibility="internal" hresult="true"/>
+    <map param="IDXGISwapChain1::Present1::pPresentParameters" type="void"/>
+    <map param="IDXGISwapChain1::Present1::PresentFlags" type="DXGI_PRESENT_FLAGS" />
+
+    <!-- IDXGISwapChain2 -->
+    <map param="IDXGISwapChain2::GetMaximumFrameLatency::pMaxLatency" attribute="out" />
+    <map param="IDXGISwapChain2::GetMatrixTransform::pMatrix" attribute="out" />
+    <map method="IDXGISwapChain2::[GS]etSourceSize" visibility="private"  />
+
+    <!-- IDXGISwapChain3 -->
+    <map method="IDXGISwapChain3::GetCurrentBackBufferIndex" property="false"  />
+    <map param="IDXGISwapChain3::CheckColorSpaceSupport::pColorSpaceSupport" type="DXGI_SWAP_CHAIN_COLOR_SPACE_SUPPORT_FLAG" />
+    <map param="IDXGISwapChain3::CheckColorSpaceSupport::pColorSpaceSupport" return="true" />
+    <map param="IDXGISwapChain3::ResizeBuffers1::SwapChainFlags" type="DXGI_SWAP_CHAIN_FLAG" />
+
+    <!-- IDXGIFactory -->
+    <map method="IDXGIAdapter::EnumOutputs" visibility="internal" check="false"/>
+    <map method="IDXGIAdapter::CheckInterfaceSupport" visibility="public" check="false"/>
+
     <map function="DXGIGetDebugInterface.*" dll='"dxgidebug.dll"' group="Vortice.DXGIInternal" hresult="true" check="false" />
     <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
 
     <map function="CreateDXGIFactory.*" dll='"dxgi.dll"' group="Vortice.DXGIInternal" hresult="true" check="false" />
     <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
 
-    <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="Vortice.DXGIInternal" name="DeclareAdapterRemovalSupport" hresult="true" check="false" />
+    <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="Vortice.DXGIInternal" hresult="true" check="false" />
   </mapping>
 </config>
