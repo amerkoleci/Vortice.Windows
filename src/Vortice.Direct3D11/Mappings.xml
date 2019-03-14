@@ -14,17 +14,40 @@
   <include file="d3d11.h"
              namespace="Vortice.Direct3D11"
              attach="true"/>
+
+  <include file="d3d11_1.h"
+             namespace="Vortice.Direct3D11"
+             attach="true"/>
+
+  <include file="d3d11_2.h"
+             namespace="Vortice.Direct3D11"
+             attach="true"/>
+
+  <include file="d3d11_3.h"
+             namespace="Vortice.Direct3D11"
+             attach="true"/>
+
+  <include file="d3d11_4.h"
+             namespace="Vortice.Direct3D11"
+             attach="true"/>
+  
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="Vortice.Direct3D11.D3D11" type="int" name="SdkVersion" />
-    <create class="D3D11" />
+    <create class="D3D11" visibility="public static" />
 
     <create class="ResultCode" visibility="public static" />
     <const from-macro="D3D11_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct3D11.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
 
+    <define struct="System.Numerics.Vector4" sizeof="16" />
+    <define struct="Vortice.Color4" sizeof="16" />
+    <define struct="Vortice.Int4" sizeof="16" />
   </extension>
 
   <bindings>
     <bind from="LUID" to="System.Int64"/>
+    <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
+    <bind from="VORTICE_COLOR4" to="Vortice.Color4" />
+    <bind from="VORTICE_INT4" to="Vortice.Int4" />
   </bindings>
 
   <naming>
@@ -76,7 +99,8 @@
 
   <mapping>
     <map enum="D3D(\d+)(.*)" name-tmp="$2" />
-
+    <map enum="D3D11_1_(.*)" name-tmp="$1"/>
+    
     <map enum="D3D11_CREATE_DEVICE_FLAG" name="DeviceCreationFlags" />
     
     <map enum-item="D3D11_(MESSAGE_ID.*)" name-tmp="$1" />
@@ -101,16 +125,20 @@
 
     <map enum="D3D11_CPU_ACCESS_FLAG" name="CpuAccessFlags" />
     <map enum-item="D3D11_CPU_ACCESS_(.*)" name-tmp="$1" />
+    <map enum="D3D11_RESOURCE_MISC_FLAG" name="ResourceOptionFlags" />
     
     <map enum="D3D11_BLEND_OP" name="BlendOperation" />
     <map enum="D3D11_CLEAR_FLAG" name="DepthStencilClearFlags" />
 
     <map enum="D3D11_BIND_FLAG" name="BindFlags" />
     <map enum="D3D11_MAP_FLAG" name="MapFlags" />
+    <map enum="D3D11_FENCE_FLAG" name="FenceFlags" />
     <map enum="D3D11_VDOV_DIMENSION" name="VideoDecoderOutputViewDimension" />
     <map enum="D3D11_VPIV_DIMENSION" name="VideoProcessorInputViewDimension" />
     <map enum="D3D11_VPOV_DIMENSION" name="VideoProcessorOutputViewDimension" />
-
+    <map enum-item="D3D11_CONTEXT_TYPE_3D" name="ThreeDimensions" />
+    <map enum-item="D3D11_TEXTURE_LAYOUT_64K_STANDARD_SWIZZLE" name="StandardSwizzle64K" />
+    
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
     <!--<map interface="ID3D1[0-3](.+)" name-tmp="$1" />-->
@@ -125,6 +153,24 @@
     <map method=".*::(.*)Desc1" name="$1Description1" />
     <map method=".*::(.*)Desc2" name="$1Description2" />
 
+    <map field="D3D11_BUFFER_DESC::BindFlags" type="D3D11_BIND_FLAG" />
+    <map field="D3D11_BUFFER_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_BUFFER_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_TEXTURE1D_DESC::BindFlags" type="D3D11_BIND_FLAG" />
+    <map field="D3D11_TEXTURE1D_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_TEXTURE1D_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_TEXTURE2D_DESC1?::BindFlags" type="D3D11_BIND_FLAG" />
+    <map field="D3D11_TEXTURE2D_DESC1?::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_TEXTURE2D_DESC1?::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_TEXTURE3D_DESC1?::BindFlags" type="D3D11_BIND_FLAG" />
+    <map field="D3D11_TEXTURE3D_DESC1?::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_TEXTURE3D_DESC1?::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT::OutFormatSupport" type="D3D11_FORMAT_SUPPORT" />
+    <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT2::OutFormatSupport2" type="D3D11_FORMAT_SUPPORT2" />
+
+    <map field="D3D11_VIEWPORT::TopLeftX" name="X" />
+    <map field="D3D11_VIEWPORT::TopLeftY" name="Y" />
+
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
 
@@ -133,7 +179,7 @@
     <map method="ID3D(\d+)Device::GetDeviceRemovedReason" check="false"/>
     <map method="ID3D(\d+)Device::CheckFormatSupport" check="false" />
     <map method="ID3D(\d+)Device::CheckMultisampleQualityLevels" check="false"/>
-    <map param="ID3D(\d+)Device::CheckFormatSupport::pFormatSupport" type="D3D$1_FORMAT_SUPPORT" return="true"/>
+    <map param="ID3D(\d+)Device::CheckFormatSupport::pFormatSupport" type="D3D11_FORMAT_SUPPORT" return="true"/>
     <map param="ID3D(\d+)Device::CheckMultisampleQualityLevels::pNumQualityLevels" return="true" />
     <map method="ID3D(\d+)Device::CheckCounterInfo" property="false" check="false" name="CheckCounterInfo" />
     <map param="ID3D(\d+)Device::CheckCounterInfo::pCounterInfo" return="true" />
@@ -143,18 +189,121 @@
     <map param="ID3D11Device::CreateBlendState::pBlendStateDesc" attribute="in value" />
     <map param="ID3D11Device::CreateBlendState::ppBlendState" attribute="out" return="true"/>
 
-    <!-- DeviceContext methods -->
+    <map param="ID3D11Device::CreateBuffer::pDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateBuffer::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device::CreateBuffer::ppBuffer" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateClassLinkage::ppLinkage" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateComputeShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateComputeShader::ppComputeShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateCounter::ppCounter" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateDeferredContext::ppDeferredContext" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateDepthStencilState::pDepthStencilDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateDepthStencilState::ppDepthStencilState" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateDepthStencilView::pDesc" default="null"/>
+    <map param="ID3D11Device::CreateDepthStencilView::ppDepthStencilView" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateDomainShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateDomainShader::ppDomainShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateGeometryShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateGeometryShader::ppGeometryShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateGeometryShaderWithStreamOutput::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateGeometryShaderWithStreamOutput::ppGeometryShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateHullShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateHullShader::ppHullShader" attribute="out" return="true"/>
+    <map method="ID3D11Device::CreateInputLayout" visibility="private" />
+    <map param="ID3D11Device::CreateInputLayout::ppInputLayout" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreatePixelShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreatePixelShader::ppPixelShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreatePredicate::ppPredicate" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateQuery::ppQuery" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateRasterizerState::pRasterizerDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateRasterizerState::ppRasterizerState" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateRenderTargetView::pDesc" default="null"/>
+    <map param="ID3D11Device::CreateRenderTargetView::ppRTView" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateSamplerState::pSamplerDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateSamplerState::ppSamplerState" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateShaderResourceView::pDesc" default="null"/>
+    <map param="ID3D11Device::CreateShaderResourceView::ppSRView" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateTexture1D::pDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateTexture1D::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device::CreateTexture1D::ppTexture1D" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateTexture2D::pDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateTexture2D::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device::CreateTexture2D::ppTexture2D" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateTexture3D::pDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateTexture3D::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device::CreateTexture3D::ppTexture3D" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateUnorderedAccessView::pDesc" default="null"/>
+    <map param="ID3D11Device::CreateUnorderedAccessView::ppUAView" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateVertexShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateVertexShader::ppVertexShader" attribute="out" return="true"/>
+
+    <!-- ID3D11Device1 -->
+    <map param="ID3D11Device1::CreateDeviceContextState::Flags" type="D3D11_1_CREATE_DEVICE_CONTEXT_STATE_FLAG"/>
+    <map param="ID3D11Device1::CreateBlendState1::pBlendStateDesc" attribute="in value" />
+    <map param="ID3D11Device1::CreateBlendState1::ppBlendState" attribute="out" return="true"/>
+    <map param="ID3D11Device1::CreateDeferredContext1::ppDeferredContext" attribute="out" return="true"/>
+    <map param="ID3D11Device1::CreateRasterizerState1::pRasterizerDesc" attribute="in value" />
+    <map param="ID3D11Device1::CreateRasterizerState1::ppRasterizerState" attribute="out" return="true"/>
+
+    <!-- ID3D11Device2 -->
+    <map method="ID3D11Device2::CheckMultisampleQualityLevels1" check="false"/>
+    <map param="ID3D11Device2::CheckMultisampleQualityLevels1::pNumQualityLevels" return="true" />
+    <map param="ID3D11Device2::CheckMultisampleQualityLevels1::Flags" type="D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG" />
+    <map method="ID3D11Device2::CreateDeferredContext2" visibility="private" />
+    <map param="ID3D11Device2::CreateDeferredContext2::ppDeferredContext" attribute="out" return="true"/>
+
+    <!-- ID3D11Device3 -->
+    <map method="ID3D11Device3::CreateDeferredContext3" visibility="private" />
+    <map param="ID3D11Device3::CreateDeferredContext3::ppDeferredContext" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateQuery1::ppQuery1" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateRasterizerState2::pRasterizerDesc" attribute="in value" />
+    <map param="ID3D11Device3::CreateRasterizerState2::ppRasterizerState" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateRenderTargetView1::pDesc1" default="null"/>
+    <map param="ID3D11Device3::CreateRenderTargetView1::ppRTView1" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateShaderResourceView1::pDesc1" default="null"/>
+    <map param="ID3D11Device3::CreateShaderResourceView1::ppSRView1" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateUnorderedAccessView1::pDesc1" default="null"/>
+    <map param="ID3D11Device3::CreateUnorderedAccessView1::ppUAView1" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateTexture2D1::pDesc1" attribute="in value" />
+    <map param="ID3D11Device3::CreateTexture2D1::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device3::CreateTexture2D1::ppTexture2D" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateTexture3D1::pDesc1" attribute="in value" />
+    <map param="ID3D11Device3::CreateTexture3D1::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device3::CreateTexture3D1::ppTexture3D" attribute="out" return="true"/>
+    
+    <!-- ID3D11Device4 -->
+    <map param="ID3D11Device4::RegisterDeviceRemovedEvent::pdwCookie" return="true"/>
+
+    <!-- ID3D11Device5 -->
+    <map method="ID3D11Device5::CreateFence" visibility="private"/>
+    <map param="ID3D11Device5::CreateFence::Flags" type="D3D11_FENCE_FLAG" />
+    <map param="ID3D11Device5::CreateFence::ppFence" attribute="out" type="ID3D11Fence" return="true"/>
+    <map method="ID3D11Device5::OpenSharedFence" visibility="private"/>
+    <map param="ID3D11Device5::OpenSharedFence::ppFence" attribute="out" type="ID3D11Fence" return="true"/>
+
+    <map method="ID3D11Fence::CreateSharedHandle" visibility="private" />
+    <map param="ID3D11Fence::CreateSharedHandle::pHandle" attribute="out" return="true"/>
+    
+    <!-- ID3D11DeviceContext -->
     <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
     <map param="ID3D11DeviceContext::Map::MapFlags" type="D3D11_MAP_FLAG" />
     <map method="ID3D11DeviceContext::FinishCommandList" visibility="internal" name="FinishCommandListInternal" hresult="true" check="false" />
     <map param="ID3D11DeviceContext::FinishCommandList::ppCommandList" attribute="out fast" />
+    <map param="ID3D11DeviceContext::ClearRenderTargetView::ColorRGBA" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" />
+    <map method="ID3D11DeviceContext::ClearUnorderedAccessViewFloat" name="ClearUnorderedAccessView" />
+    <map method="ID3D11DeviceContext::ClearUnorderedAccessViewUint" name="ClearUnorderedAccessView" />
+
+    <map param="ID3D11DeviceContext::ClearUnorderedAccessViewFloat::Values" type="VORTICE_VECTOR4"  override-native-type="true" pointer="*" array="0" />
+    <map param="ID3D11DeviceContext::ClearUnorderedAccessViewUint::Values" type="VORTICE_INT4"  override-native-type="true" pointer="*" array="0" />
     
-    <!-- ID3D11CommandList methods -->
+    <!-- ID3D11DeviceContext1 -->
+    <map param="ID3D11DeviceContext1::ClearView::Color" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0"/>
+    
+    <!-- ID3D11CommandList -->
     <remove method="ID3D11CommandList::GetContextFlags" />
     
     <remove function="D3D11CreateDeviceAndSwapChain"/>
-    <map function="D3D11(.+)" name-tmp="$1" />
-    <map function="D3D11.*" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11" />
+    <map function="D3D11.*" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11" visibility="private" />
     <!--<map param="D3D11CreateDevice::ppDevice" attribute="out fast" />-->
     <map function="D3D11CreateDevice" check="false"/>
     

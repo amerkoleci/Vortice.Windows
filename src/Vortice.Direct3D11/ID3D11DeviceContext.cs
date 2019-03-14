@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
+﻿// Copyright (c) Amer Koleci and contributors.
+// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+
 using SharpGen.Runtime;
-using Vortice.Direct3D;
-using Vortice.DXGI;
 
 namespace Vortice.Direct3D11
 {

@@ -3,14 +3,10 @@
 
 using System;
 
-namespace Vortice.Direct3D11
+namespace HelloDirect3D11
 {
-    public partial class ID3D11CommandList
+    public interface IGraphicsDevice : IDisposable
     {
-        internal ID3D11CommandList()
-            : base(IntPtr.Zero)
-        {
-
-        }
+        void Present();
     }
 }

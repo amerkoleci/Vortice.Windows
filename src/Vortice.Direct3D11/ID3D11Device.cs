@@ -3,52 +3,94 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using SharpGen.Runtime;
 using Vortice.Direct3D;
-using Vortice.DXGI;
 
 namespace Vortice.Direct3D11
 {
     public partial class ID3D11Device
     {
-        public static Result TryCreate(
-            IDXGIAdapter adapter,
-            DriverType driverType,
-            DeviceCreationFlags flags,
-            FeatureLevel[] featureLevels,
-            out ID3D11Device device,
-            out ID3D11DeviceContext immediateContext)
-        {
-            var result = D3D11.CreateDevice(
-                adapter,
-                driverType,
-                IntPtr.Zero,
-                (int)flags,
-                featureLevels,
-                (featureLevels != null) ? featureLevels.Length : 0,
-                D3D11.SdkVersion,
-                out device,
-                out FeatureLevel featureLevel,
-                out immediateContext);
-
-            if (result.Failure)
-            {
-                return result;
-            }
-
-            if (immediateContext != null)
-            {
-                device.AddRef();
-                device.ImmediateContext__ = immediateContext;
-                immediateContext.Device__ = device;
-            }
-
-            return result;
-        }
-
         public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : struct
         {
             return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Interop.SizeOf<T>()).Success;
+        }
+
+        public unsafe ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        {
+            Guard.NotNull(shaderBytecode, nameof(shaderBytecode));
+
+            fixed (void* pBuffer = shaderBytecode)
+            {
+                return CreateVertexShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            }
+        }
+
+        public unsafe ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        {
+            Guard.NotNull(shaderBytecode, nameof(shaderBytecode));
+
+            fixed (void* pBuffer = shaderBytecode)
+            {
+                return CreatePixelShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            }
+        }
+
+        public unsafe ID3D11GeometryShader CreateGeometryShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        {
+            Guard.NotNull(shaderBytecode, nameof(shaderBytecode));
+
+            fixed (void* pBuffer = shaderBytecode)
+            {
+                return CreateGeometryShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            }
+        }
+
+        public unsafe ID3D11HullShader CreateHullShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        {
+            Guard.NotNull(shaderBytecode, nameof(shaderBytecode));
+
+            fixed (void* pBuffer = shaderBytecode)
+            {
+                return CreateHullShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            }
+        }
+
+        public unsafe ID3D11DomainShader CreateDomainShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        {
+            Guard.NotNull(shaderBytecode, nameof(shaderBytecode));
+
+            fixed (void* pBuffer = shaderBytecode)
+            {
+                return CreateDomainShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            }
+        }
+
+        public unsafe ID3D11ComputeShader CreateComputeShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        {
+            Guard.NotNull(shaderBytecode, nameof(shaderBytecode));
+
+            fixed (void* pBuffer = shaderBytecode)
+            {
+                return CreateComputeShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            }
+        }
+
+        public unsafe ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, byte[] shaderBytecode)
+        {
+            Guard.NotNull(inputElements, nameof(inputElements));
+            Guard.NotNull(shaderBytecode, nameof(shaderBytecode));
+
+            fixed (void* pBuffer = shaderBytecode)
+            {
+                return CreateInputLayout(inputElements, inputElements.Length, (IntPtr)pBuffer, shaderBytecode.Length);
+            }
+        }
+
+        public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, Blob blob)
+        {
+            Guard.NotNull(inputElements, nameof(inputElements));
+            Guard.NotNull(blob, nameof(blob));
+
+            return CreateInputLayout(inputElements, inputElements.Length, blob.BufferPointer, blob.BufferPointer);
         }
     }
 }

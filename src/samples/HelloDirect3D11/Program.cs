@@ -9,7 +9,7 @@ namespace HelloDirect3D11
 {
     public static class Program
     {
-        class TestApplication : Application
+        private class TestApplication : Application
         {
             public TestApplication(bool useDirect3D12)
                 : base(useDirect3D12)
@@ -19,7 +19,7 @@ namespace HelloDirect3D11
 
         public static void Main()
         {
-            using (var app = new TestApplication(true))
+            using (var app = new TestApplication(useDirect3D12: true))
             {
                 app.Run();
             }

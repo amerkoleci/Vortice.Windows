@@ -1,16 +1,13 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct3D11
 {
-    public partial class ID3D11CommandList
+    public partial class ID3D11Device3
     {
-        internal ID3D11CommandList()
-            : base(IntPtr.Zero)
+        public unsafe ID3D11DeviceContext3 CreateDeferredContext3()
         {
-
+            return CreateDeferredContext3(0);
         }
     }
 }
