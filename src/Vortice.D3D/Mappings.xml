@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<config id="vortice-d3d" xmlns="urn:SharpGen.Config">
+<config id="sharp-d3d" xmlns="urn:SharpGen.Config">
   <assembly>Vortice.D3D</assembly>
   <namespace>Vortice</namespace>
   <depends>SharpGen.Runtime.COM</depends>
@@ -196,7 +196,6 @@
     <map enum-item="D3D_DRIVER_TYPE_(.*)" name-tmp="$1" />
     <map enum="D3D_NAME" name="SystemValueType" />
     <map enum-item="D3D_NAME_(.*)" name-tmp="$1" />
-    <map enum="D3DCOMPILER_STRIP_FLAGS" name="StripFlags" />
     <map enum="D3D_INCLUDE_TYPE" name="IncludeType" />
     <map enum-item="D3D_INCLUDE_(.*)" name-tmp="$1" />
     <map enum-item="D3D_RETURN_TYPE_(.*)" name-tmp="$1" />

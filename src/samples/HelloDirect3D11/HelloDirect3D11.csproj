@@ -6,8 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />
-    <ProjectReference Include="..\..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />
-    <ProjectReference Include="..\..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
+    <ProjectReference Include="..\..\SharpD3D11\SharpD3D11.csproj" />
+    <ProjectReference Include="..\..\SharpD3D12\SharpD3D12.csproj" />
   </ItemGroup>
 
   <!-- https://github.com/dotnet/corert/blob/master/Documentation/using-corert/optimizing-corert.md -->

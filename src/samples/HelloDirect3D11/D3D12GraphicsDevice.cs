@@ -2,16 +2,15 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Vortice.Direct3D;
-using Vortice.Direct3D12;
+using SharpD3D12;
 using Vortice.DXGI;
 using static Vortice.DXGI.DXGI;
-using static Vortice.Direct3D12.D3D12;
+using static SharpD3D12.D3D12;
 using System.Diagnostics;
 using Vortice;
 using System.Threading;
+using SharpD3D12.Debug;
 
 namespace HelloDirect3D11
 {

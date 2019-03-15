@@ -4,13 +4,13 @@ VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3D", "Vortice.D3D\Vortice.D3D.csproj", "{A9645572-0847-4FDA-90F4-0ACA2C257847}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D11", "Vortice.Direct3D11\Vortice.Direct3D11.csproj", "{26314741-88F5-4C0A-B34C-09FD714380A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpD3D11", "SharpD3D11\SharpD3D11.csproj", "{26314741-88F5-4C0A-B34C-09FD714380A7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpD3D12", "SharpD3D12\SharpD3D12.csproj", "{734F3D9C-F768-425A-A2C4-E3491AD7B4C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5676F50D-CC54-4DC6-980D-6B68FFF64065}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D11", "samples\HelloDirect3D11\HelloDirect3D11.csproj", "{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D12", "Vortice.Direct3D12\Vortice.Direct3D12.csproj", "{734F3D9C-F768-425A-A2C4-E3491AD7B4C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

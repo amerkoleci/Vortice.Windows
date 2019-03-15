@@ -5,10 +5,10 @@ using System;
 using System.Diagnostics;
 using Vortice;
 using Vortice.Direct3D;
-using Vortice.Direct3D11;
+using SharpD3D11;
 using Vortice.DXGI;
 using static Vortice.DXGI.DXGI;
-using static Vortice.Direct3D11.D3D11;
+using static SharpD3D11.D3D11;
 
 namespace HelloDirect3D11
 {
