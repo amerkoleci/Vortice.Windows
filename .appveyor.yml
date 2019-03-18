@@ -8,7 +8,7 @@ branches:
 
 build_script:
   - cmd: dotnet restore src\Vortice.Windows.sln
-  - cmd: msbuild /t:Pack /p:Configuration=Release src\Vortice.D3D\Vortice.D3D.csproj /m
+  - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpDXGI\SharpDXGI.csproj /m
   - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpD3D11\SharpD3D11.csproj /m
   - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpD3D12\SharpD3D12.csproj /m
 
