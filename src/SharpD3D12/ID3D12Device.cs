@@ -5,8 +5,8 @@ using System;
 using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
-using Vortice;
-using Vortice.Direct3D;
+using SharpDXGI;
+using SharpDXGI.Direct3D;
 
 namespace SharpD3D12
 {

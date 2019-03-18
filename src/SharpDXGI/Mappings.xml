@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="sharp-dxgi" xmlns="urn:SharpGen.Config">
+  <assembly>SharpDXGI</assembly>
+  <namespace>SharpDXGI</namespace>
+  <depends>SharpGen.Runtime.COM</depends>
+
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="StdLib" />
+
+  <include file="d3dcommon.h"
+           namespace="SharpDXGI.Direct3D"
+           attach="true"
+           output="Direct3D" />
+
+  <include file="dxgiformat.h"
+           namespace="SharpDXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgidebug.h"
+           namespace="SharpDXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgitype.h"
+           namespace="SharpDXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgicommon.h"
+           namespace="SharpDXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgi.h"
+           namespace="SharpDXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgi1_2.h"
+           namespace="SharpDXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgi1_3.h"
+           namespace="SharpDXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgi1_4.h"
+           namespace="SharpDXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgi1_5.h"
+           namespace="SharpDXGI"
+           attach="true"
+           output="DXGI"/>
+
+  <include file="dxgi1_6.h"
+          namespace="SharpDXGI"
+          attach="true"
+          output="DXGI"/>
+
+  <extension>
+    <define struct="System.Drawing.Point" sizeof="8" />
+    <define struct="System.Drawing.PointF" sizeof="8" />
+    <define struct="System.Drawing.Size" sizeof="8" />
+    <define struct="System.Drawing.SizeF" sizeof="8" />
+    <define struct="SharpDXGI.RawRectangle" sizeof="16" />
+    <define struct="System.Numerics.Vector2" sizeof="8" />
+    <define struct="System.Numerics.Vector3" sizeof="12" />
+    <define struct="System.Numerics.Vector4" sizeof="16" />
+    <define struct="System.Numerics.Matrix3x2" sizeof="24" />
+
+    <create-cpp enum="DXGI_PRESENT_FLAGS" macro="DXGI_PRESENT_.*" />
+    <create-cpp enum="DXGI_USAGE_ENUM" macro="DXGI_USAGE_.*" />
+    <create-cpp enum="DXGI_RESOURCE_PRIORITY" macro="DXGI_RESOURCE_.*" />
+    <create-cpp enum="DXGI_MAP_FLAGS" macro="DXGI_MAP_.*" />
+    <create-cpp enum="DXGI_ENUM_MODES_FLAGS" macro="DXGI_ENUM_MODES_.*" />
+    <create-cpp enum="DXGI_MWA_FLAGS" macro="DXGI_MWA_.*" />
+    <create-cpp enum="DXGI_SHARED_RESOURCE_FLAGS" macro="DXGI_SHARED_RESOURCE_.*" />
+
+    <create class="SharpDXGI.ResultCode" visibility="public"/>
+    <const from-macro="DXGI_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="SharpDXGI.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DXGI_(CREATE_FACTORY_DEBUG)" type="int" cpp-type="int" name="$1" class="SharpDXGI.DXGI" />
+
+    <create class="DXGI" visibility="public static" />
+
+    <const from-guid="WKPDID_D3DDebugObjectName" class="SharpDXGI.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
+    <create class="CommonGuid" visibility="public" />
+  </extension>
+
+  <bindings>
+    <bind from="UINT" to="System.Int32" />
+    <bind from="SIZE" to="System.Drawing.Size" />
+    <bind from="POINT" to="System.Drawing.Point" />
+    <bind from="RECT" to="SharpDXGI.RawRectangle" />
+    <bind from="HWND" to="System.IntPtr"/>
+    <bind from="HDC" to="System.IntPtr"/>
+    <bind from="HINSTANCE" to="System.IntPtr"/>
+    <bind from="LUID" to="System.Int64"/>
+    <bind from="HMONITOR" to="System.IntPtr"/>
+
+    <bind from="D3DCOLORVALUE" to="System.Numerics.Vector4" />
+    <bind from="DXGI_MATRIX_3X2_F" to="System.Numerics.Matrix3x2" />
+  </bindings>
+
+  <naming>
+    <short name="(R(\d).*)$">$1</short>
+    <short name="(B(\d).*)$">$1</short>
+    <short name="(G(\d).*)$">$1</short>
+    <short name="(A(\d).*)$">$1</short>
+    <short name="(X(\d).*)$">$1</short>
+    <short name="(BC(\d).*)$">$1</short>
+    <short name="(AYUV)$">$1</short>
+    <short name="(YUY2)$">$1</short>
+    <short name="(NV\d+)$">$1</short>
+    <short name="(AI\d+)$">$1</short>
+    <short name="(IA\d+)$">$1</short>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="TOPLEFT">TopLeft</short>
+    <short name="UINT32">UInt32</short>
+    <short name="UINT64">UInt64</short>
+    <short name="IUNKNOWN">IUnknown</short>
+    <short name="RECTANGLE">Rectangle</short>
+    <short name="RECTS">Rectangles</short>
+    <short name="RECT">Rectangle</short>
+    <short name="POINT">Point</short>
+    <short name="POINTS">Points</short>
+    <short name="TRIANGLE">Triangle</short>
+    <short name="LIST">List</short>
+    <short name="ADJACENCY">Adjacency</short>
+    <short name="ADJ">Adjacency</short>
+    <short name="STRIP">Strip</short>
+    <short name="SRV">ShaderResourceView</short>
+    <short name="DSV">DepthStencilView</short>
+    <short name="RTV">RenderTargetView</short>
+    <short name="UAVS">UnorderedAccessViews</short>
+    <short name="UAV">UnorderedAccessView</short>
+    <short name="TEXTURE">Texture</short>
+    <short name="TEXT">Text</short>
+    <short name="CUBE">Cube</short>
+    <short name="TEX">Texture</short>
+    <short name="1D">1D</short>
+    <short name="2D">2D</short>
+    <short name="3D">3D</short>
+    <short name="MS">Multisampled</short>
+    <short name="RW">RW</short>
+    <short name="ARRAYSIZE">ArraySize</short>
+    <short name="ARRAYSLICE">ArraySlice</short>
+    <short name="ARRAYS">Arrays</short>
+    <short name="ARRAY">Array</short>
+    <short name="BUFFERS">Buffers</short>
+    <short name="BUFFER">Buffer</short>
+    <short name="BUFFEREX">BufferExtended</short>
+    <short name="CBV">ConstantBufferView</short>
+    <short name="CBUFFER">ConstantBuffer</short>
+    <short name="TBUFFER">TextureBuffer</short>
+    <short name="BYTES">Bytes</short>
+    <short name="BYTE">Byte</short>
+    <short name="UINT8">UInt8</short>
+    <short name="UINT">UInt</short>
+    <short name="SINT">SInt</short>
+    <short name="UNORM">UNorm</short>
+    <short name="SNORM">SNorm</short>
+    <short name="SRGB">SRgb</short>
+  </naming>
+
+  <mapping>
+    <map enum="D3D(.*)" name-tmp="$1" />
+    <map enum-item="D3D(?!_PF_)(.*)" name-tmp="$1" />
+    <map enum-item="D3D_INTERPOLATION(.*)" name-tmp="$1" />
+    <remove enum-item="D3D(\d+)_CBF_USERPACKED.*"/>
+    <remove enum-item="D3D(\d+)_PRIMITIVE_TOPOLOGY_.*" />
+    <remove enum-item="D3D(\d+)_PRIMITIVE_.*" />
+    <remove enum-item="D3D(\d+)_SRV_DIMENSION_.*" />
+    <remove enum-item="D3D(\d+_1)_SRV_DIMENSION_.*" />
+    <remove enum-item="D3D(\d+)_SVC_.*" />
+    <remove enum-item="D3D(\d+)_SVF_.*" />
+    <remove enum-item="D3D(\d+)_SVT_.*" />
+    <remove enum-item="D3D(\d+)_SIF_.*" />
+    <remove enum-item="D3D(\d+)_SIT_.*" />
+    <remove enum-item="D3D(\d+)_CT_.*" />
+    <remove enum-item="D3D(\d+)_NAME_.*" />
+    <remove enum-item="D3D(\d+)_INCLUDE_.*" />
+    <remove enum-item="D3D(\d+)_RETURN_TYPE_.*" />
+    <remove enum-item="D3D(\d+)_TESSELLATOR_OUTPUT_.*" />
+    <remove enum-item="D3D(\d+)_TESSELLATOR_DOMAIN_.*" />
+    <remove enum-item="D3D(\d+)_TESSELLATOR_PARTITIONING_.*" />
+    <remove enum-item="D3D(\d+)_REGISTER_COMPONENT_.*" />
+    <map enum="D3D_PRIMITIVE" name="InputPrimitive" />
+    <map enum-item="D3D_FEATURE_LEVEL_(.*)" name="Level_$1" />
+    <map enum="D3D_SRV_DIMENSION" name="ShaderResourceViewDimension" />
+    <map enum-item="D3D_SRV_DIMENSION_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_PRIMITIVE_(\d+)_CONTROL_POINT_PATCH" name="PatchWith$1ControlPoints" />
+    <map enum-item="D3D_PRIMITIVE_([^0-9].*)" name-tmp="$1" />
+    <map enum="D3D_PRIMITIVE_TOPOLOGY" name="PrimitiveTopology" />
+    <map enum-item="D3D_PRIMITIVE_TOPOLOGY_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_PRIMITIVE_TOPOLOGY_(\d+)_CONTROL_POINT_PATCHLIST" name="PatchListWith$1ControlPoints" />
+    <map enum="D3D_SHADER_CBUFFER_FLAGS" name="ConstantBufferFlags" />
+    <map enum-item="D3D_SVC_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_SVF_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_SVT_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_SVT_MIN(\d+)(.*)" name-tmp="MIN$2$1"/>
+    <map enum-item="D3D_SIF_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_SIT_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_CT_(.*)" name-tmp="$1" />
+    <map enum="D3D_DRIVER_TYPE" name="DriverType" />
+    <map enum-item="D3D_DRIVER_TYPE_(.*)" name-tmp="$1" />
+    <map enum="D3D_NAME" name="SystemValueType" />
+    <map enum-item="D3D_NAME_(.*)" name-tmp="$1" />
+    <map enum="D3D_INCLUDE_TYPE" name="IncludeType" />
+    <map enum-item="D3D_INCLUDE_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_RETURN_TYPE_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_TESSELLATOR_DOMAIN_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_TESSELLATOR_DOMAIN_TRI" name="Triangle" />
+    <map enum-item="D3D_TESSELLATOR_OUTPUT_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_TESSELLATOR_OUTPUT_TRIANGLE_CCW" name="TriangleCounterclockwise" />
+    <map enum-item="D3D_TESSELLATOR_OUTPUT_TRIANGLE_CW" name="TriangleClockwise" />
+    <map enum-item="D3D_TESSELLATOR_PARTITIONING_(.*)" name-tmp="$1" />
+    <map enum-item="D3D_TESSELLATOR_PARTITIONING_POW2" name="PowerOfTwo" />
+    <map enum="D3D_REGISTER_COMPONENT_TYPE" name="RegisterComponentType" />
+    <map enum-item="D3D_REGISTER_COMPONENT_(.*)" name-tmp="$1" />
+
+    <!-- d3dcommon structs -->
+    <map struct="D3D_SHADER_MACRO" name="ShaderMacro" />
+
+    <!-- dxgi enums -->
+    <map enum="DXGI(.+)" name-tmp="$1" />
+    <map enum="DXGI_USAGE_ENUM" name="Usage" flags="true" none="false" />
+    <map enum-item="DXGI_USAGE_(.+)" name-tmp="$1" />
+    <map enum-item="DXGI_USAGE_BACK_BUFFER" name="Backbuffer" />
+    <map enum-item="DXGI_FORMAT_.*" naming="underscore" />
+    <map enum-item="DXGI_FORMAT_420_OPAQUE" name="Opaque420"/>
+    <map enum="DXGI_DEBUG_RLO_FLAGS" name="ReportLiveObjectFlags" />
+    <map enum="DXGI_MWA_FLAGS" name="WindowAssociationFlags" />
+    <map enum-item="DXGI_MWA_NO_WINDOW_CHANGES" name="IgnoreAll" />
+    <map enum-item="DXGI_MWA_NO_ALT_ENTER" name="IgnoreAltEnter" />
+    <map enum-item="DXGI_MWA_NO_PRINT_SCREEN" name="IgnorePrintScreen" />
+
+    <!-- dxgi structs -->
+    <map struct="DXGI(.+)" name-tmp="$1" />
+    <map struct="DXGI_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true"   />
+    <map method="IDXGIInfoQueue::GetMessageW?" visibility="internal"/>
+    <map param="IDXGIInfoQueue::GetMessageW?::pMessage" type="void" attribute="in"/>
+    <map method="IDXGIInfoQueue::GetStorageFilter" visibility="internal"/>
+    <map param="IDXGIInfoQueue::GetStorageFilter::pFilter" type="void" attribute="in"/>
+    <map method="IDXGIInfoQueue::GetRetrievalFilter" visibility="internal"/>
+    <map param="IDXGIInfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
+
+    <map struct="DXGI_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true"  />
+    <remove field="DXGI_INFO_QUEUE_FILTER_DESC::.*"/>
+
+    <map field=".*::(.*)DescW?" name="$1Description" />
+    <map field="DXGI_ADAPTER_DESC[123]?::AdapterLuid" name="Luid" />
+    <map field="DXGI_ADAPTER_DESC[123]?::SubSysId" name="SubsystemId" />
+    <map field="DXGI_ADAPTER_DESC[12]::Flags" type="DXGI_ADAPTER_FLAG" />
+
+    <map struct="DXGI_ADAPTER_DESC[123]" pack="4"/>
+
+    <!-- DXGI_SWAP_CHAIN_DESC -->
+    <map field="DXGI_SWAP_CHAIN_DESC::Windowed" name="IsWindowed" />
+    <map field="DXGI_SWAP_CHAIN_DESC[12]?::BufferUsage" name="Usage" type="DXGI_USAGE_ENUM"/>
+    <map field="DXGI_SWAP_CHAIN_DESC[12]?::Flags" type="DXGI_SWAP_CHAIN_FLAG" />
+
+    <map struct="DXGI_PRESENT_PARAMETERS" native="true" marshal="true" marshalto="true"/>
+    <map field="DXGI_PRESENT_PARAMETERS::.*" visibility="internal"/>
+
+    <map interface="ID3D10Blob" name="Blob" />
+    <map interface="ID3DInclude" name="Include" callback="true" />
+    <map interface="ID3DDestructionNotifier" name="DestructionNotifier" callback="true" />
+
+    <!--<map interface="IDXGI(.+)" name-tmp="$1" />-->
+    <map method=".*::(.*)DescW?" name="$1Description" />
+    <map method=".*::(.*)Desc1" name="$1Description1" />
+    <map method=".*::(.*)Desc2" name="$1Description2" />
+
+    <!-- IDXGIObject -->
+    <map method="IDXGIObject::GetParent" visibility="private" hresult="true" check="false"/>
+
+    <!-- IDXGIFactory -->
+    <map method="IDXGIFactory::EnumAdapters" name="EnumAdapters" visibility="internal" check="false"/>
+
+    <map param="IDXGIFactory::MakeWindowAssociation::Flags" type="DXGI_MWA_FLAGS" />
+    <map param="IDXGIFactory::CreateSoftwareAdapter::ppAdapter" return="true" />
+    <map method="IDXGIFactory::GetWindowAssociation" property="false" />
+    <map param="IDXGIFactory::GetWindowAssociation::pWindowHandle" return="true" />
+    <!--<map method="IDXGIFactory::CreateSwapChain" visibility="internal" />-->
+    <map param="IDXGIFactory::CreateSwapChain::pDesc" attribute="in value" />
+    <map param="IDXGIFactory::CreateSwapChain::ppSwapChain" return="true"/>
+
+    <!-- IDXGIFactory1 -->
+    <map method="IDXGIFactory1::EnumAdapters1" name="EnumAdapters1" visibility="internal" check="false"/>
+
+    <!-- IDXGIFactory2 -->
+    <map method="IDXGIFactory2::CreateSwapChainForComposition" visibility="private" />
+    <map param="IDXGIFactory2::CreateSwapChainForComposition::ppSwapChain" return="true"/>
+    <map method="IDXGIFactory2::CreateSwapChainForCoreWindow" visibility="private" />
+    <map param="IDXGIFactory2::CreateSwapChainForCoreWindow::ppSwapChain" return="true"/>
+    <map method="IDXGIFactory2::CreateSwapChainForHwnd" visibility="private" />
+    <map param="IDXGIFactory2::CreateSwapChainForHwnd::ppSwapChain" return="true"/>
+
+    <map param="IDXGIFactory2::GetSharedResourceAdapterLuid::pLuid" return="true"/>
+    <map param="IDXGIFactory2::RegisterOcclusionStatusEvent::pdwCookie" return="true"/>
+    <map param="IDXGIFactory2::RegisterOcclusionStatusWindow::pdwCookie" return="true"/>
+    <map param="IDXGIFactory2::RegisterStereoStatusEvent::pdwCookie" return="true"/>
+    <map param="IDXGIFactory2::RegisterStereoStatusWindow::pdwCookie" return="true"/>
+
+    <!-- IDXGIFactory4 -->
+    <map method="IDXGIFactory4::EnumWarpAdapter" visibility="private" hresult="true" check="false"/>
+    <map method="IDXGIFactory4::EnumAdapterByLuid" visibility="private" hresult="true" check="false"/>
+
+    <!-- IDXGIFactory5 -->
+    <map method="IDXGIFactory5::CheckFeatureSupport" check="false" visibility="private"/>
+
+    <!-- IDXGIFactory6 -->
+    <map method="IDXGIFactory6::EnumAdapterByGpuPreference" name="EnumAdapterByGpuPreference" visibility="internal" check="false"/>
+
+    <!-- IDXGIFactory7 -->
+    <map param="IDXGIFactory7::RegisterAdaptersChangedEvent::pdwCookie" return="true"/>
+
+    <!-- IDXGIFactoryMedia  -->
+    <map method="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle" visibility="private" />
+    <map param="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
+
+    <map method="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle" visibility="private" />
+    <map param="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
+
+    <!-- IDXGISwapChain -->
+    <map method="IDXGISwapChain::GetFrameStatistics" hresult="true" check="false" property="false" name="GetFrameStatistics"/>
+    <map method="IDXGISwapChain::Present" hresult="true" check="false" visibility="public" />
+    <map param="IDXGISwapChain::Present::Flags" type="DXGI_PRESENT_FLAGS" />
+    <map method="IDXGISwapChain::ResizeBuffers" hresult="true" check="false"  />
+    <map param="IDXGISwapChain::ResizeBuffers::SwapChainFlags" type="DXGI_SWAP_CHAIN_FLAG" />
+    <map method="IDXGISwapChain::SetFullscreenState" hresult="true" check="false" visibility="private" />
+    <map method="IDXGISwapChain::GetBuffer" hresult="true" check="false" visibility="private" />
+    <map method="IDXGISwapChain::ResizeTarget" hresult="true" check="false" visibility="private"  />
+    
+    <!-- IDXGISwapChain1 -->
+    <map method="IDXGISwapChain1::GetHwnd" property="false" visibility="private" hresult="true" check="false"  />
+    <map method="IDXGISwapChain1::GetCoreWindow" property="false" visibility="private" hresult="true" check="false"  />
+    <map method="IDXGISwapChain1::Present1" visibility="internal" hresult="true"/>
+    <map param="IDXGISwapChain1::Present1::pPresentParameters" type="void"/>
+    <map param="IDXGISwapChain1::Present1::PresentFlags" type="DXGI_PRESENT_FLAGS" />
+
+    <!-- IDXGISwapChain2 -->
+    <map param="IDXGISwapChain2::GetMaximumFrameLatency::pMaxLatency" attribute="out" />
+    <map param="IDXGISwapChain2::GetMatrixTransform::pMatrix" attribute="out" />
+    <map method="IDXGISwapChain2::[GS]etSourceSize" visibility="private"  />
+
+    <!-- IDXGISwapChain3 -->
+    <map method="IDXGISwapChain3::GetCurrentBackBufferIndex" property="false"  />
+    <map param="IDXGISwapChain3::CheckColorSpaceSupport::pColorSpaceSupport" type="DXGI_SWAP_CHAIN_COLOR_SPACE_SUPPORT_FLAG" />
+    <map param="IDXGISwapChain3::CheckColorSpaceSupport::pColorSpaceSupport" return="true" />
+    <map param="IDXGISwapChain3::ResizeBuffers1::SwapChainFlags" type="DXGI_SWAP_CHAIN_FLAG" />
+
+    <!-- IDXGIFactory -->
+    <map method="IDXGIAdapter::EnumOutputs" visibility="internal" check="false"/>
+    <map method="IDXGIAdapter::CheckInterfaceSupport" visibility="public" check="false"/>
+
+    <map function="DXGIGetDebugInterface.*" dll='"dxgidebug.dll"' group="SharpDXGI.DXGI" hresult="true" check="false" />
+    <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
+
+    <map function="CreateDXGIFactory.*" dll='"dxgi.dll"' group="SharpDXGI.DXGI" hresult="true" check="false" />
+    <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
+
+    <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="SharpDXGI.DXGI" hresult="true" check="false" />
+  </mapping>
+</config>

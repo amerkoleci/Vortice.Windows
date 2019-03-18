@@ -2,7 +2,7 @@
 <config id="sharp-d3d12" xmlns="urn:SharpGen.Config">
   <assembly>SharpD3D12</assembly>
   <namespace>SharpD3D12</namespace>
-  <depends>Vortice.D3D</depends>
+  <depends>SharpDXGI</depends>
 
   <sdk name="WindowsSdk" version="10.0.17763.0" />
   <sdk name="StdLib" />
@@ -19,13 +19,13 @@
     <create class="D3D12" visibility="public static" />
     <create class="ResultCode" visibility="public static" />
     <const from-macro="D3D12_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="SharpD3D12.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <define struct="Vortice.Color4" sizeof="16" />
+    <define struct="System.Numerics.Vector4" sizeof="16" />
     <define struct="SharpD3D12.CpuDescriptorHandle" sizeof="8" />
   </extension>
 
   <bindings>
     <bind from="LUID" to="System.Int64"/>
-    <bind from="VORTICE_COLOR4" to="Vortice.Color4" />
+    <bind from="VORTICE_COLOR4" to="System.Numerics.Vector4" />
     <bind from="D3D12_CPU_DESCRIPTOR_HANDLE" to="SharpD3D12.CpuDescriptorHandle" />
   </bindings>
 

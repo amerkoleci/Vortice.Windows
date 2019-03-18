@@ -14,6 +14,6 @@
     <PackageReference Include="SharpGen.Runtime.COM" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vortice.D3D\Vortice.D3D.csproj" />
+    <ProjectReference Include="..\SharpDXGI\SharpDXGI.csproj" />
   </ItemGroup>
 </Project>

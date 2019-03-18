@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using Vortice;
-using Vortice.Direct3D;
+using SharpDXGI;
+using SharpDXGI.Direct3D;
 
 namespace SharpD3D12
 {

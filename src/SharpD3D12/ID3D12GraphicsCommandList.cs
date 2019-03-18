@@ -2,9 +2,11 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Drawing;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Vortice;
+using SharpDXGI;
 
 namespace SharpD3D12
 {
@@ -54,8 +56,21 @@ namespace SharpD3D12
             ResourceBarrier(1, new IntPtr(&barrier));
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 colorRGBA, params RawRectangle[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Vector4 colorRGBA, params RawRectangle[] rectangles)
         {
+            if (rectangles.Length == 0)
+            {
+                ClearRenderTargetView(renderTargetView, colorRGBA, 0, null);
+            }
+            else
+            {
+                ClearRenderTargetView(renderTargetView, colorRGBA, rectangles.Length, rectangles);
+            }
+        }
+
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color color, params RawRectangle[] rectangles)
+        {
+            var colorRGBA = new Vector4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
             if (rectangles.Length == 0)
             {
                 ClearRenderTargetView(renderTargetView, colorRGBA, 0, null);

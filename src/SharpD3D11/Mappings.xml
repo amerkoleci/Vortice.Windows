@@ -2,7 +2,7 @@
 <config id="sharp-d3d11" xmlns="urn:SharpGen.Config">
   <assembly>SharpD3D11</assembly>
   <namespace>SharpD3D11</namespace>
-  <depends>Vortice.D3D</depends>
+  <depends>SharpDXGI</depends>
 
   <sdk name="WindowsSdk" version="10.0.17763.0" />
   <sdk name="StdLib" />
@@ -39,15 +39,14 @@
     <const from-macro="D3D11_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="SharpD3D11.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
 
     <define struct="System.Numerics.Vector4" sizeof="16" />
-    <define struct="Vortice.Color4" sizeof="16" />
-    <define struct="Vortice.Int4" sizeof="16" />
+    <define struct="SharpD3D11.Int4" sizeof="16" />
   </extension>
 
   <bindings>
     <bind from="LUID" to="System.Int64"/>
     <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
-    <bind from="VORTICE_COLOR4" to="Vortice.Color4" />
-    <bind from="VORTICE_INT4" to="Vortice.Int4" />
+    <bind from="VORTICE_COLOR4" to="System.Numerics.Vector4" />
+    <bind from="VORTICE_INT4" to="SharpD3D11.Int4" />
   </bindings>
 
   <naming>

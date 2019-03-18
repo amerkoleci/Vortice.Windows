@@ -3,8 +3,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using SharpGen.Runtime;
-using Vortice;
+using SharpDXGI;
 
 namespace SharpD3D12
 {

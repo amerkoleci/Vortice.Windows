@@ -4,10 +4,10 @@
 using System;
 using System.Diagnostics;
 using Vortice;
-using Vortice.Direct3D;
+using SharpDXGI.Direct3D;
 using SharpD3D11;
-using Vortice.DXGI;
-using static Vortice.DXGI.DXGI;
+using SharpDXGI;
+using static SharpDXGI.DXGI;
 using static SharpD3D11.D3D11;
 
 namespace HelloDirect3D11
@@ -73,7 +73,7 @@ namespace HelloDirect3D11
                 OutputWindow = window.Handle,
                 SampleDescription = new SampleDescription(1, 0),
                 SwapEffect = SwapEffect.Discard,
-                Usage = Vortice.Usage.RenderTargetOutput
+                Usage = SharpDXGI.Usage.RenderTargetOutput
             };
 
             SwapChain = DXGIFactory.CreateSwapChain(_d3d11Device, swapChainDescription);
@@ -95,7 +95,7 @@ namespace HelloDirect3D11
         {
             var result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
-                && result.Code == Vortice.DXGI.ResultCode.DeviceRemoved.Code)
+                && result.Code == SharpDXGI.ResultCode.DeviceRemoved.Code)
             {
             }
         }

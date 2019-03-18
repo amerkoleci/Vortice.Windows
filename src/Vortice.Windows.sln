@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3D", "Vortice.D3D\Vortice.D3D.csproj", "{A9645572-0847-4FDA-90F4-0ACA2C257847}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpDXGI", "SharpDXGI\SharpDXGI.csproj", "{A9645572-0847-4FDA-90F4-0ACA2C257847}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpD3D11", "SharpD3D11\SharpD3D11.csproj", "{26314741-88F5-4C0A-B34C-09FD714380A7}"
 EndProject

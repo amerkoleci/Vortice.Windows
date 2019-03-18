@@ -4,7 +4,7 @@
 using System;
 using SharpGen.Runtime.Win32;
 using System.Threading;
-using Vortice;
+using SharpDXGI;
 
 namespace SharpD3D11
 {

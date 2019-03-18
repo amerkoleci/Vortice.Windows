@@ -2,15 +2,15 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using Vortice.Direct3D;
 using SharpD3D12;
-using Vortice.DXGI;
-using static Vortice.DXGI.DXGI;
+using SharpDXGI;
+using SharpDXGI.Direct3D;
+using static SharpDXGI.DXGI;
 using static SharpD3D12.D3D12;
 using System.Diagnostics;
-using Vortice;
 using System.Threading;
 using SharpD3D12.Debug;
+using System.Numerics;
 
 namespace HelloDirect3D11
 {
@@ -121,7 +121,7 @@ namespace HelloDirect3D11
             rtvHandle += _frameIndex * _rtvDescriptorSize;
 
             // Record commands.
-            Color4 clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
+            var clearColor = new Vector4(0.0f, 0.2f, 0.4f, 1.0f);
             _commandList.ClearRenderTargetView(rtvHandle, clearColor);
 
             // Indicate that the back buffer will now be used to present.
@@ -133,7 +133,7 @@ namespace HelloDirect3D11
 
             var result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
-                && result.Code == Vortice.DXGI.ResultCode.DeviceRemoved.Code)
+                && result.Code == SharpDXGI.ResultCode.DeviceRemoved.Code)
             {
             }
 
