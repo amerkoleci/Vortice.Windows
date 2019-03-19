@@ -240,6 +240,12 @@
     <map enum-item="DXGI_MWA_NO_WINDOW_CHANGES" name="IgnoreAll" />
     <map enum-item="DXGI_MWA_NO_ALT_ENTER" name="IgnoreAltEnter" />
     <map enum-item="DXGI_MWA_NO_PRINT_SCREEN" name="IgnorePrintScreen" />
+    <map enum="DXGI_SWAP_CHAIN_FLAG" name="SwapChainFlags" />
+    <map enum="DXGI_ADAPTER_FLAG" name="AdapterFlags" />
+    <map enum="DXGI_SWAP_CHAIN_COLOR_SPACE_SUPPORT_FLAG" name="SwapChainColorSpaceSupportFlags" />
+    <map enum="DXGI_OVERLAY_SUPPORT_FLAG" name="OverlaySupportFlags" />
+    <map enum="DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG" name="OverlayColorSpaceSupportFlags" />
+    <map enum="DXGI_OUTDUPL_POINTER_SHAPE_TYPE" name="PointerShapeType" />
 
     <!-- dxgi structs -->
     <map struct="DXGI(.+)" name-tmp="$1" />

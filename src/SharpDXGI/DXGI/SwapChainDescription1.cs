@@ -28,7 +28,7 @@ namespace SharpDXGI
             Scaling scaling = Scaling.None,
             SwapEffect swapEffect = SwapEffect.FlipDiscard,
             AlphaMode alphaMode = AlphaMode.Unspecified,
-            SwapChainFlag flags = SwapChainFlag.None)
+            SwapChainFlags flags = SwapChainFlags.None)
         {
             Width = width;
             Height = height;
