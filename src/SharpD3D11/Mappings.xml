@@ -30,6 +30,11 @@
   <include file="d3d11_4.h"
              namespace="SharpD3D11"
              attach="true"/>
+
+  <include file="d3d11sdklayers.h"
+           namespace="SharpD3D11.Debug"
+           attach="true"
+           output="Debug" />
   
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="SharpD3D11.D3D11" type="int" name="SdkVersion" />
@@ -125,6 +130,11 @@
     <map enum="D3D11_CPU_ACCESS_FLAG" name="CpuAccessFlags" />
     <map enum-item="D3D11_CPU_ACCESS_(.*)" name-tmp="$1" />
     <map enum="D3D11_RESOURCE_MISC_FLAG" name="ResourceOptionFlags" />
+    <map enum-item="D3D11_RESOURCE_MISC_HW_PROTECTED" name="HardwareProtected"/>
+    <map enum-item="D3D11_RESOURCE_MISC_SHARED_NTHANDLE" name="SharedNTHandle"/>
+    <map enum-item="D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS" name="DrawIndirectArgs"/>
+    <map enum-item="D3D11_RESOURCE_MISC_GDI_COMPATIBLE" name="GdiCompatible"/>
+    <map enum-item="D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX" name="SharedKeyedMutex"/>
     
     <map enum="D3D11_BLEND_OP" name="BlendOperation" />
     <map enum="D3D11_CLEAR_FLAG" name="DepthStencilClearFlags" />
@@ -138,9 +148,11 @@
     <map enum-item="D3D11_CONTEXT_TYPE_3D" name="ThreeDimensions" />
     <map enum-item="D3D11_TEXTURE_LAYOUT_64K_STANDARD_SWIZZLE" name="StandardSwizzle64K" />
     <map enum="D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG" name="CheckMultisampleQualityLevelsFlags" />
+    <map enum="D3D11_RLDO_FLAGS" name="ReportLiveDeviceObjectFlags" />
     
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
+    <remove struct="D3D11_AES_CTR_IV" />
     <remove struct="CD3D11_VIDEO_DEFAULT" />
 
     <map field=".*::(.*)DescW?" name="$1Description" />
@@ -174,8 +186,21 @@
     <map field="D3D11_SUBRESOURCE_DATA::pSysMem" name="DataPointer " />
     <map field="D3D11_SUBRESOURCE_DATA::SysMemPitch" name="Pitch" />
     <map field="D3D11_SUBRESOURCE_DATA::SysMemSlicePitch" name="SlicePitch" />
-    
 
+    <map struct="D3D11_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true"   />
+    <map method="ID3D11InfoQueue::GetMessageW?" visibility="internal"/>
+    <map param="ID3D11InfoQueue::GetMessageW?::pMessage" type="void" attribute="in"/>
+    <map method="ID3D11InfoQueue::GetStorageFilter" visibility="internal"/>
+    <map param="ID3D11InfoQueue::GetStorageFilter::pFilter" type="void" attribute="in"/>
+    <map method="ID3D11InfoQueue::GetRetrievalFilter" visibility="internal"/>
+    <map param="ID3D11InfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
+
+    <map struct="D3D11_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true"  />
+    <remove field="D3D11_INFO_QUEUE_FILTER_DESC::.*"/>
+
+    <map enum="D3D11_DSV_FLAG" name="DepthStencilViewFlags" />
+    <map field="D3D11_DEPTH_STENCIL_VIEW_DESC::Flags" type="D3D11_DSV_FLAG" />
+    
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
 

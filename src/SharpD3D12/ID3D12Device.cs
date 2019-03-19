@@ -29,6 +29,22 @@ namespace SharpD3D12
             return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Interop.SizeOf<T>()).Success;
         }
 
+        public unsafe Result CheckMaxSupportedFeatureLevel(FeatureLevel[] featureLevels, out FeatureLevel maxSupportedFeatureLevel)
+        {
+            fixed (FeatureLevel* levelsPtr = &featureLevels[0])
+            {
+                var featureData = new FeatureDataFeatureLevels
+                {
+                    NumFeatureLevels = featureLevels.Length,
+                    PFeatureLevelsRequested = new IntPtr(levelsPtr)
+                };
+
+                var result = CheckFeatureSupport(Feature.FeatureLevels, new IntPtr(&featureData), Interop.SizeOf<FeatureDataFeatureLevels>());
+                maxSupportedFeatureLevel = featureData.MaxSupportedFeatureLevel;
+                return result;
+            }
+        }
+
         public ID3D12Resource CreateCommittedResource(HeapProperties heapProperties, 
             HeapFlags heapFlags,
             ResourceDescription description, 

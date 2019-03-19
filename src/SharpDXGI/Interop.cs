@@ -21,8 +21,11 @@ namespace SharpDXGI
 
         public static IntPtr AllocToPointer<T>(T[] values) where T : struct
         {
-            if (values == null || values.Length == 0)
+            if (values == null
+                || values.Length == 0)
+            {
                 return IntPtr.Zero;
+            }
 
             int structSize = SizeOf<T>();
             int totalSize = values.Length * structSize;
