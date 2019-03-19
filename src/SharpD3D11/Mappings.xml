@@ -99,6 +99,27 @@
     <short name="VDOV">VideoDecoderOutputView</short>
     <short name="VPIV">VideoProcessorInputView</short>
     <short name="VPOV">VideoProcessorOutputView</short>
+    <!-- D3D11_MESSAGE_ID -->
+    <short name="ACQUIREHANDLEFORCAPTURE">AcquireHandleForCapture</short>
+    <short name="INVALIDARRAY">InvalidArray</short>
+    <short name="INVALIDBIND">InvalidBind</short>
+    <short name="INVALIDTYPE">InvalidType</short>
+    <short name="NULLPARAM">NullParam</short>
+    <short name="INVALIDMAPTYPE">InvalidMapType</short>
+    <short name="NOTMAPPED">NotMapped</short>
+    <short name="OUTOFRANGE">OutOfRange</short>
+    <short name="BLENDSTATE">BlendState</short>
+    <short name="CREATEBLENDSTATE">CreateBlendState</short>
+    <short name="COMMANDLIST">CommandList</short>
+    <short name="GETDESC">GetDescription</short>
+    <short name="ALREADYMAPPED">AlreadyMapped</short>
+    <short name="DEVICEREMOVED">DeviceRemoved</short>
+    <short name="INVALIDFLAGS">InvalidFlags</short>
+    <short name="CREATEDEPTHSTENCILSTATE">CreateDepthStencilState</short>
+    <short name="DEPTHSTENCILSTATE">DepthStencilState</short>
+    <short name="INVALIDBACKFACE">InvalidBackFace</short>
+    <short name="STENCILFAILOP">StencilFailOp</short>
+    <short name="STENCILFUNC">StencilFunc</short>
   </naming>
 
   <mapping>
@@ -107,7 +128,6 @@
     
     <map enum="D3D11_CREATE_DEVICE_FLAG" name="DeviceCreationFlags" />
     
-    <map enum-item="D3D11_(MESSAGE_ID.*)" name-tmp="$1" />
     <map enum-item="D3D11_SHARED_RESOURCE_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D11_SHADER_MIN_PRECISION_10_BIT" name="Bit10"/>
     <map enum-item="D3D11_SHADER_MIN_PRECISION_16_BIT" name="Bit16"/>
@@ -156,8 +176,6 @@
     <remove struct="CD3D11_VIDEO_DEFAULT" />
 
     <map field=".*::(.*)DescW?" name="$1Description" />
-    <map field=".*::(.*)Desc1" name="$1Description1" />
-    <map field=".*::(.*)Desc2" name="$1Description2" />
     <map struct="D3D11_OMAC" name="Omac" marshalto="true"/>
     <map field="D3D11_OMAC::Omac" name="Buffer"/>
 
@@ -200,6 +218,15 @@
 
     <map enum="D3D11_DSV_FLAG" name="DepthStencilViewFlags" />
     <map field="D3D11_DEPTH_STENCIL_VIEW_DESC::Flags" type="D3D11_DSV_FLAG" />
+
+    <map enum-item="D3D11_MESSAGE_ID_(.*)" name-tmp="$1" />
+    <remove enum-item="D3D11_MESSAGE_ID_D3D10L9_MESSAGES_START" />
+    <remove enum-item="D3D11_MESSAGE_ID_D3D10L9_MESSAGES_END" />
+    <remove enum-item="D3D11_MESSAGE_ID_D3D10_MESSAGES_START" />
+    <remove enum-item="D3D11_MESSAGE_ID_D3D10_MESSAGES_END" />
+    <map struct="D3D11_MESSAGE" marshal="true" new="false" marshalto="true" />
+    <map field="D3D11_MESSAGE::pDescription" name="Description" visibility="public"/>
+    <map field="D3D11_MESSAGE::DescriptionByteLength" visibility="internal"/>
     
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>

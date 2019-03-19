@@ -78,8 +78,6 @@
 
   <mapping>
     <map enum="D3D(\d+)(.*)" name-tmp="$2" />
-
-    <map enum-item="D3D12_(MESSAGE_ID.*)" name-tmp="$1" />
     <map enum-item="D3D12_MESSAGE_ID_MAP_INVALID_SUBRESOURCE" name="MapInvalidSubResource2"/>
     <map enum-item="D3D12_MESSAGE_ID_UNMAP_INVALID_SUBRESOURCE" name="UnmapInvalidSubResource2"/>
 
@@ -160,6 +158,11 @@
     <map param="ID3D12InfoQueue::GetStorageFilter::pFilter" type="void" attribute="in"/>
     <map method="ID3D12InfoQueue::GetRetrievalFilter" visibility="internal"/>
     <map param="ID3D12InfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
+
+    <map enum-item="D3D12_MESSAGE_ID_(.*)" name-tmp="$1" />
+    <map struct="D3D12_MESSAGE" marshal="true" new="false" marshalto="true" />
+    <map field="D3D12_MESSAGE::pDescription" name="Description" visibility="public"/>
+    <map field="D3D12_MESSAGE::DescriptionByteLength" visibility="internal"/>
 
     <map struct="D3D12_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true"  />
     <remove field="D3D12_INFO_QUEUE_FILTER_DESC::.*"/>
