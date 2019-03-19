@@ -14,7 +14,7 @@ namespace SharpD3D11
 
         public int CheckMultisampleQualityLevels1(Format format, int sampleCount)
         {
-            return CheckMultisampleQualityLevels1(format, sampleCount, CheckMultisampleQualityLevelsFlag.TiledResource);
+            return CheckMultisampleQualityLevels1(format, sampleCount, CheckMultisampleQualityLevelsFlags.TiledResource);
         }
     }
 }

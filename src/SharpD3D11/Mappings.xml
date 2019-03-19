@@ -137,10 +137,11 @@
     <map enum="D3D11_VPOV_DIMENSION" name="VideoProcessorOutputViewDimension" />
     <map enum-item="D3D11_CONTEXT_TYPE_3D" name="ThreeDimensions" />
     <map enum-item="D3D11_TEXTURE_LAYOUT_64K_STANDARD_SWIZZLE" name="StandardSwizzle64K" />
+    <map enum="D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG" name="CheckMultisampleQualityLevelsFlags" />
     
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
-    <!--<map interface="ID3D1[0-3](.+)" name-tmp="$1" />-->
+    <remove struct="CD3D11_VIDEO_DEFAULT" />
 
     <map field=".*::(.*)DescW?" name="$1Description" />
     <map field=".*::(.*)Desc1" name="$1Description1" />
@@ -170,6 +171,11 @@
     <map field="D3D11_VIEWPORT::TopLeftX" name="X" />
     <map field="D3D11_VIEWPORT::TopLeftY" name="Y" />
 
+    <map field="D3D11_SUBRESOURCE_DATA::pSysMem" name="DataPointer " />
+    <map field="D3D11_SUBRESOURCE_DATA::SysMemPitch" name="Pitch" />
+    <map field="D3D11_SUBRESOURCE_DATA::SysMemSlicePitch" name="SlicePitch" />
+    
+
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
 
@@ -189,7 +195,7 @@
     <map param="ID3D11Device::CreateBlendState::ppBlendState" attribute="out" return="true"/>
 
     <map param="ID3D11Device::CreateBuffer::pDesc" attribute="in value" />
-    <map param="ID3D11Device::CreateBuffer::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device::CreateBuffer::pInitialData" default="null" />
     <map param="ID3D11Device::CreateBuffer::ppBuffer" attribute="out" return="true"/>
     <map param="ID3D11Device::CreateClassLinkage::ppLinkage" attribute="out" return="true"/>
     <map param="ID3D11Device::CreateComputeShader::pClassLinkage" default="null"/>
@@ -284,6 +290,7 @@
     <map param="ID3D11Fence::CreateSharedHandle::pHandle" attribute="out" return="true"/>
     
     <!-- ID3D11DeviceContext -->
+    <map method="ID3D11DeviceContext::GetType" property="false" name="GetContextType" />
     <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
     <map param="ID3D11DeviceContext::Map::MapFlags" type="D3D11_MAP_FLAG" />
     <map method="ID3D11DeviceContext::FinishCommandList" visibility="internal" name="FinishCommandListInternal" hresult="true" check="false" />
