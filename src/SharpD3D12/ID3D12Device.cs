@@ -16,12 +16,20 @@ namespace SharpD3D12
 
         public static bool IsSupported(IUnknown adapter, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
         {
-            var result = D3D12.D3D12CreateDevice(
-               adapter,
-               minFeatureLevel,
-               typeof(ID3D12Device).GUID,
-               out var nativePtr);
-            return result.Success;
+            try
+            {
+                var result = D3D12.D3D12CreateDevice(
+                   adapter,
+                   minFeatureLevel,
+                   typeof(ID3D12Device).GUID,
+                   out var nativePtr);
+                return result.Success;
+            }
+            catch (DllNotFoundException)
+            {
+                // On pre Windows 10 d3d12.dll is not present and therefore not supported.
+                return false;
+            }
         }
 
         public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : struct
@@ -45,9 +53,9 @@ namespace SharpD3D12
             }
         }
 
-        public ID3D12Resource CreateCommittedResource(HeapProperties heapProperties, 
+        public ID3D12Resource CreateCommittedResource(HeapProperties heapProperties,
             HeapFlags heapFlags,
-            ResourceDescription description, 
+            ResourceDescription description,
             ResourceStates initialResourceState,
             ClearValue? optimizedClearValue = null)
         {
