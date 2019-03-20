@@ -9,23 +9,37 @@ using SharpD3D11;
 using SharpDXGI;
 using static SharpDXGI.DXGI;
 using static SharpD3D11.D3D11;
+using System.Numerics;
 
 namespace HelloDirect3D11
 {
     public sealed class D3D11GraphicsDevice : IGraphicsDevice
     {
-        private static readonly FeatureLevel[] _featureLevels = new FeatureLevel[]
+        private static readonly FeatureLevel[] _featureLevels = new[]
         {
             FeatureLevel.Level_11_1,
-            FeatureLevel.Level_11_0
+            FeatureLevel.Level_11_0,
+            FeatureLevel.Level_10_1,
+            FeatureLevel.Level_10_0
+        };
+
+        private static readonly FeatureLevel[] _featureLevelsNoLevel11 = new[]
+        {
+            FeatureLevel.Level_11_0,
+            FeatureLevel.Level_10_1,
+            FeatureLevel.Level_10_0
         };
 
         private const int FrameCount = 2;
-        public readonly IDXGIFactory1 DXGIFactory;
-        private readonly ID3D11Device _d3d11Device;
-        private readonly ID3D11DeviceContext _d3d11DeviceContext;
-        public ID3D11Device D3D11Device => _d3d11Device;
-        public IDXGISwapChain SwapChain { get; }
+
+        public readonly Window Window;
+        public readonly IDXGIFactory1 Factory;
+        public readonly ID3D11Device Device;
+        public readonly FeatureLevel FeatureLevel;
+        public readonly ID3D11DeviceContext DeviceContext;
+        public readonly IDXGISwapChain SwapChain;
+        public readonly ID3D11Texture2D BackBuffer;
+        public readonly ID3D11RenderTargetView RenderTargetView;
 
         public static bool IsSupported()
         {
@@ -34,7 +48,8 @@ namespace HelloDirect3D11
 
         public D3D11GraphicsDevice(bool validation, Window window)
         {
-            if (CreateDXGIFactory1(out DXGIFactory).Failure)
+            Window = window;
+            if (CreateDXGIFactory1(out Factory).Failure)
             {
                 throw new InvalidOperationException("Cannot create IDXGIFactory1");
             }
@@ -50,19 +65,24 @@ namespace HelloDirect3D11
                 DriverType.Hardware,
                 creationFlags,
                 _featureLevels,
-                out _d3d11Device,
-                out _d3d11DeviceContext).Failure)
+                out Device, out FeatureLevel, out DeviceContext).Failure)
             {
                 // Remove debug flag not being supported.
                 creationFlags &= ~DeviceCreationFlags.Debug;
 
-                Debug.Assert(D3D11CreateDevice(
-                    null,
-                    DriverType.Hardware,
-                    creationFlags,
-                    _featureLevels,
-                    out _d3d11Device,
-                    out _d3d11DeviceContext).Success);
+                var result = D3D11CreateDevice(null, DriverType.Hardware,
+                    creationFlags, _featureLevels,
+                    out Device, out FeatureLevel, out DeviceContext);
+                if (result.Failure)
+                {
+                    // This will fail on Win 7 due to lack of 11.1, so re-try again without it
+                    D3D11CreateDevice(
+                        null,
+                        DriverType.Hardware,
+                        creationFlags,
+                        _featureLevelsNoLevel11,
+                        out Device, out FeatureLevel, out DeviceContext).CheckError();
+                }
             }
 
             var swapChainDescription = new SwapChainDescription()
@@ -76,23 +96,31 @@ namespace HelloDirect3D11
                 Usage = SharpDXGI.Usage.RenderTargetOutput
             };
 
-            SwapChain = DXGIFactory.CreateSwapChain(_d3d11Device, swapChainDescription);
-            DXGIFactory.MakeWindowAssociation(window.Handle, WindowAssociationFlags.IgnoreAltEnter);
+            SwapChain = Factory.CreateSwapChain(Device, swapChainDescription);
+            Factory.MakeWindowAssociation(window.Handle, WindowAssociationFlags.IgnoreAltEnter);
 
-            var backBuffer = SwapChain.GetBuffer<ID3D11Texture2D>(0);
-            var renderView = _d3d11Device.CreateRenderTargetView(backBuffer);
+            BackBuffer = SwapChain.GetBuffer<ID3D11Texture2D>(0);
+            RenderTargetView = Device.CreateRenderTargetView(BackBuffer);
         }
 
         public void Dispose()
         {
+            RenderTargetView.Dispose();
+            BackBuffer.Dispose();
+            DeviceContext.ClearState();
+            DeviceContext.Flush();
+            DeviceContext.Dispose();
+            Device.Dispose();
             SwapChain.Dispose();
-            _d3d11DeviceContext.Dispose();
-            _d3d11Device.Dispose();
-            DXGIFactory.Dispose();
+            Factory.Dispose();
         }
 
         public void Present()
         {
+            DeviceContext.RSSetViewport(new Viewport(Window.Width, Window.Height));
+            var clearColor = new Vector4(0.0f, 0.2f, 0.4f, 1.0f);
+            DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
+
             var result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
                 && result.Code == SharpDXGI.ResultCode.DeviceRemoved.Code)

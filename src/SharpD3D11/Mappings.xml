@@ -353,6 +353,9 @@
 
     <map param="ID3D11DeviceContext::ClearUnorderedAccessViewFloat::Values" type="VORTICE_VECTOR4"  override-native-type="true" pointer="*" array="0" />
     <map param="ID3D11DeviceContext::ClearUnorderedAccessViewUint::Values" type="VORTICE_INT4"  override-native-type="true" pointer="*" array="0" />
+
+    <map method="ID3D11DeviceContext::RSSetViewports" rawptr="true"/>
+    <map method="ID3D11DeviceContext::RSSetScissorRects" rawptr="true"/>
     
     <!-- ID3D11DeviceContext1 -->
     <map param="ID3D11DeviceContext1::ClearView::Color" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0"/>

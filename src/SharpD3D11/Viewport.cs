@@ -5,6 +5,16 @@ namespace SharpD3D11
 {
     public partial struct Viewport
     {
+        public Viewport(int width, int height)
+        {
+            X = 0.0f;
+            Y = 0.0f;
+            Width = width;
+            Height = height;
+            MinDepth = 0.0f;
+            MaxDepth = 1.0f;
+        }
+
         public Viewport(float width, float height)
         {
             X = 0.0f;

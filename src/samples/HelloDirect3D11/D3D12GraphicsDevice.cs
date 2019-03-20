@@ -41,6 +41,11 @@ namespace HelloDirect3D11
 
         public D3D12GraphicsDevice(bool validation, Window window)
         {
+            if (!IsSupported())
+            {
+                throw new InvalidOperationException("Direct3D12 is not supported on current OS");
+            }
+
             if (validation
                 && D3D12GetDebugInterface<ID3D12Debug>(out var debug).Success)
             {
@@ -56,7 +61,7 @@ namespace HelloDirect3D11
                 throw new InvalidOperationException("Cannot create IDXGIFactory4");
             }
 
-            Debug.Assert(D3D12CreateDevice(null, FeatureLevel.Level_11_0, out _d3d12Device).Success);
+            D3D12CreateDevice(null, FeatureLevel.Level_11_0, out _d3d12Device).CheckError();
             _d3d12CommandQueue = _d3d12Device.CreateCommandQueue(new CommandQueueDescription(CommandListType.Direct, CommandQueuePriority.Normal));
 
             var swapChainDesc = new SwapChainDescription1

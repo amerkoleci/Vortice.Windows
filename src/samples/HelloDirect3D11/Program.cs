@@ -15,7 +15,7 @@ namespace HelloDirect3D11
 
         public static void Main()
         {
-            using (var app = new TestApplication(useDirect3D12: true))
+            using (var app = new TestApplication(useDirect3D12: false))
             {
                 app.Run();
             }
