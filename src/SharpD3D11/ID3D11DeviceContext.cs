@@ -4,6 +4,7 @@
 using System;
 using System.Drawing;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using SharpDXGI;
 using SharpGen.Runtime;
 
@@ -32,14 +33,11 @@ namespace SharpD3D11
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public void RSSetScissorRects(params RawRectangle[] rectangles)
+        public unsafe void RSSetScissorRects(params RawRectangle[] rectangles)
         {
-            unsafe
+            fixed (void* pRects = rectangles)
             {
-                fixed (void* pRects = rectangles)
-                {
-                    RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
-                }
+                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
             }
         }
 
@@ -49,6 +47,112 @@ namespace SharpD3D11
 
             var colorRGBA = new Vector4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
             ClearRenderTargetView(renderTargetView, colorRGBA);
+        }
+
+        public unsafe void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)
+        {
+            Guard.NotNull(renderTargetView, nameof(renderTargetView));
+            var renderTargetViewPtr = renderTargetView.NativePointer;
+            OMSetRenderTargets(1, new IntPtr(&renderTargetViewPtr), depthStencilView);
+        }
+
+        public unsafe void OMSetRenderTargets(ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
+        {
+            Guard.NotNull(renderTargetViews, nameof(renderTargetViews));
+
+            var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+            for (int i = 0; i < renderTargetViews.Length; i++)
+            {
+                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
+            }
+
+            OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
+        }
+
+        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+            ID3D11RenderTargetView renderTargetView,
+            ID3D11DepthStencilView depthStencilView,
+            int startSlot,
+            ID3D11UnorderedAccessView[] unorderedAccessViews)
+        {
+            Guard.NotNull(renderTargetView, nameof(renderTargetView));
+            Guard.NotNullOrEmpty(unorderedAccessViews, nameof(unorderedAccessViews));
+
+            // Marshal array.
+            var renderTargetViewsPtr = renderTargetView.NativePointer;
+
+            IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+            int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
+            for (int i = 0; i < unorderedAccessViews.Length; i++)
+            {
+                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
+                uavInitialCounts[i] = -1;
+            }
+
+            OMSetRenderTargetsAndUnorderedAccessViews(1, renderTargetViewsPtr,
+                depthStencilView,
+                startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
+                (IntPtr)uavInitialCounts);
+        }
+
+        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+            ID3D11RenderTargetView[] renderTargetViews,
+            ID3D11DepthStencilView depthStencilView,
+            int startSlot,
+            ID3D11UnorderedAccessView[] unorderedAccessViews)
+        {
+            Guard.NotNullOrEmpty(renderTargetViews, nameof(renderTargetViews));
+            Guard.NotNullOrEmpty(unorderedAccessViews, nameof(unorderedAccessViews));
+
+            // Marshal array.
+            var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+            for (int i = 0; i < renderTargetViews.Length; i++)
+            {
+                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
+            }
+
+            IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+            int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
+            for (int i = 0; i < unorderedAccessViews.Length; i++)
+            {
+                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
+                uavInitialCounts[i] = -1;
+            }
+
+            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr,
+                depthStencilView,
+                startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
+                (IntPtr)uavInitialCounts);
+        }
+
+        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+            ID3D11RenderTargetView[] renderTargetViews,
+            ID3D11DepthStencilView depthStencilView,
+            int startSlot,
+            ID3D11UnorderedAccessView[] unorderedAccessViews,
+            int[] uavInitialCounts)
+        {
+            Guard.NotNullOrEmpty(renderTargetViews, nameof(renderTargetViews));
+            Guard.NotNullOrEmpty(unorderedAccessViews, nameof(unorderedAccessViews));
+            Guard.NotNullOrEmpty(uavInitialCounts, nameof(uavInitialCounts));
+
+            // Marshal array.
+            var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+            for (int i = 0; i < renderTargetViews.Length; i++)
+            {
+                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
+            }
+
+            var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+            for (int i = 0; i < unorderedAccessViews.Length; i++)
+            {
+                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
+            }
+
+            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr,
+                depthStencilView,
+                startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
+                (IntPtr)Unsafe.AsPointer(ref uavInitialCounts[0]));
         }
 
         public ID3D11CommandList FinishCommandList(bool restoreState)

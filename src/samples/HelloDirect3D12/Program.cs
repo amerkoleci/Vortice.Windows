@@ -10,7 +10,7 @@ namespace HelloDirect3D11
         private class TestApplication : Application
         {
             public TestApplication()
-                : base(false)
+                : base(true)
             {
             }
         }

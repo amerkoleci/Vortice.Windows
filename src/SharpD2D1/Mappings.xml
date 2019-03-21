@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="sharp-d2d1" xmlns="urn:SharpGen.Config">
+  <assembly>SharpD2D1</assembly>
+  <namespace>SharpD2D1</namespace>
+  <depends>SharpDXGI</depends>
+
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="StdLib" />
+
+  <include file="d2dbasetypes.h" attach="true"/>
+  <include file="wincodec.h" namespace="SharpD2D1.WIC" output="WIC">
+    <attach>WICBitmapLockFlags</attach>
+    <attach>WICBitmapPaletteType</attach>
+    <attach>IWICPalette</attach>
+    <attach>IWICBitmapLock</attach>
+    <attach>IWICBitmapSource</attach>
+    <attach>IWICBitmap</attach>
+  </include>
+  <include file="dcommon.h" attach="true"/>
+  <include file="d2d1.h" attach="true" />
+  <ifdef name="DESKTOP">
+    <include file="d2derr.h" attach="true" />
+  </ifdef>
+  <ifdef name="UWP">
+    <include file="d2derr.h" attach="true">
+      <pre>
+        #undef WINAPI_FAMILY
+        #define WINAPI_FAMILY WINAPI_FAMILY_DESKTOP_APP
+      </pre>
+      <post>
+        #undef WINAPI_FAMILY
+        #define WINAPI_FAMILY WINAPI_FAMILY_APP
+      </post>
+    </include>
+  </ifdef>
+
+  <include file="dwrite.h"
+           namespace="SharpD2D1.DirectWrite"
+           attach="true"
+           output="DWrite" />
+
+  <extension>
+    <create class="SharpD2D1.WIC.PixelFormat" visibility="public sealed"/>
+    <const from-guid="GUID_WICPixel(Format.*)" class="SharpD2D1.WIC.PixelFormat" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <const from-guid="CLSID_WICImagingFactory" class="SharpD2D1.WIC.ImagingFactory" type="System.Guid" name="WICImagingFactoryClsid">new System.Guid("$1")</const>
+
+    <create class="SharpD2D1.WIC.BitmapEncoderGuids" visibility="public sealed"/>
+    <const from-guid="CLSID_WIC(.*)Encoder" class="SharpD2D1.WIC.BitmapEncoderGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+
+    <create class="SharpD2D1.WIC.ContainerFormatGuids" visibility="public sealed"/>
+    <const from-guid="GUID_ContainerFormat(.*)" class="SharpD2D1.WIC.ContainerFormatGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+
+    <create class="SharpD2D1.WIC.BitmapDecoderGuids" visibility="public sealed"/>
+    <const from-guid="CLSID_WIC(.*)Decoder" class="SharpD2D1.WIC.BitmapDecoderGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+
+    <create class="SharpD2D1.WIC.ResultCode" visibility="public"/>
+    <const from-macro="WINCODEC_ERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="SharpD2D1.WIC.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    
+    <create class="SharpD2D1.DirectWrite.DWrite" visibility="public static" />
+    <create class="D2D1" visibility="public static" />
+
+    <define struct="System.Drawing.Rectangle" sizeof="16" />
+    <define struct="System.Numerics.Vector4" sizeof="16" />
+    <define struct="System.Numerics.Matrix3x2" sizeof="24" />
+    <define struct="System.Numerics.Matrix4x4" sizeof="64" />
+  </extension>
+
+  <bindings>
+    <bind from="D2D_SIZE_U" to="System.Drawing.Size" />
+    <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
+    <bind from="D2D_RECT_U" to="SharpDXGI.RawRectangle" />
+    <bind from="D2D_RECT_F" to="SharpDXGI.RawRectangleF" />
+    <bind from="D2D_POINT_2U" to="System.Drawing.Point" />
+    <bind from="D2D_POINT_2F" to="System.Drawing.PointF" />
+    <bind from="D2D_VECTOR_2F" to="System.Numerics.Vector2" />
+    <bind from="D2D_VECTOR_3F" to="System.Numerics.Vector3" />
+    <bind from="D2D_VECTOR_4F" to="System.Numerics.Vector4" />
+    <bind from="DWRITE_MATRIX" to="System.Numerics.Matrix3x2" />
+    <bind from="D2D_MATRIX_3X2_F" to="System.Numerics.Matrix3x2" />
+    <bind from="D2D_MATRIX_4X3_F" to="SharpD2D1.Matrix4x3" />
+    <bind from="D2D_MATRIX_4X4_F" to="System.Numerics.Matrix4x4" />
+    <bind from="D2D_MATRIX_5X4_F" to="SharpD2D1.Matrix5x4" />
+    <bind from="WICRect" to="System.Drawing.Rectangle"/>
+    <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
+  </bindings>
+
+  <naming>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="TOPLEFT">TopLeft</short>
+    <short name="UINT32">UInt32</short>
+    <short name="UINT64">UInt64</short>
+    <short name="IUNKNOWN">IUnknown</short>
+    <short name="RECTANGLE">Rectangle</short>
+    <short name="RECTS">Rectangles</short>
+    <short name="RECT">Rectangle</short>
+    <short name="POINT">Point</short>
+    <short name="POINTS">Points</short>
+    <short name="TRIANGLE">Triangle</short>
+    <short name="LIST">List</short>
+    <short name="ADJACENCY">Adjacency</short>
+    <short name="ADJ">Adjacency</short>
+    <short name="STRIP">Strip</short>
+    <short name="SRV">ShaderResourceView</short>
+    <short name="DSV">DepthStencilView</short>
+    <short name="RTV">RenderTargetView</short>
+    <short name="UAVS">UnorderedAccessViews</short>
+    <short name="UAV">UnorderedAccessView</short>
+    <short name="TEXTURE">Texture</short>
+    <short name="TEXT">Text</short>
+    <short name="CUBE">Cube</short>
+    <short name="TEX">Texture</short>
+    <short name="1D">1D</short>
+    <short name="2D">2D</short>
+    <short name="3D">3D</short>
+    <short name="MS">Multisampled</short>
+    <short name="RW">RW</short>
+    <short name="ARRAYSIZE">ArraySize</short>
+    <short name="ARRAYSLICE">ArraySlice</short>
+    <short name="ARRAYS">Arrays</short>
+    <short name="ARRAY">Array</short>
+    <short name="BUFFERS">Buffers</short>
+    <short name="BUFFER">Buffer</short>
+    <short name="BUFFEREX">BufferExtended</short>
+    <short name="CBV">ConstantBufferView</short>
+    <short name="CBUFFER">ConstantBuffer</short>
+    <short name="TBUFFER">TextureBuffer</short>
+    <short name="VDOV">VideoDecoderOutputView</short>
+    <short name="VPIV">VideoProcessorInputView</short>
+    <short name="VPOV">VideoProcessorOutputView</short>
+  </naming>
+
+  <mapping>
+    <!-- WIC enums -->
+    <map enum="WIC(.*)" name="$1"/>
+    <map enum="WIC8(.*)" name="$1"/>
+    <map enum-item="WIC(.*)" name="$1"/>
+    <map enum-item="WIC8(.*)" name="$1"/>
+
+    <map enum="WICBitmapLockFlags" flags="true" none="true"/>
+    <remove enum-item="WICBITMAPLOCKFLAGS_FORCE_DWORD" />
+    
+    <!-- DWRITE enums -->
+    <map enum="DWRITE(.+)" name-tmp="$1" />
+    
+    <!-- d2d1 enums -->
+    <map enum="D2D1(.*)" name-tmp="$1" />
+    <map enum-item="D2D1_FEATURE_LEVEL_(.*)" name="Level_$1" />
+    <map enum-item="D2D1_GAMMA_2_2" name="StandardRgb" />
+    <map enum-item="D2D1_GAMMA_1_0" name="Linear" />
+
+    <map enum-item="D2D1_BUFFER_PRECISION_([0-9]+)BPC_(.*)" name-tmp="PER_CHANNEL_$1_$2" />
+
+    <map enum-item="D2D1_CHANNEL_DEPTH_1" name-tmp="One" />
+    <map enum-item="D2D1_CHANNEL_DEPTH_4" name-tmp="Four" />
+
+    <!-- dwrite structs -->
+    <map struct="DWRITE(.+)" name-tmp="$1" />
+
+    <!-- d2d1 structs -->
+    <map struct="D2D1(.*)" name-tmp="$1" />
+
+    <!--IWICBitmapLock-->
+    <map method="IWICBitmapLock::GetDataPointer" visibility="internal"/>
+    <map param="IWICBitmapLock::GetDataPointer::ppbData" attribute="out" type="void" return="true"/>
+
+    <!--IWICBitmapSource -->
+    <map method="IWICBitmapSource::CopyPixels" visibility="internal"/>
+    <map param="IWICBitmapSource::CopyPixels::prc" type="void" attribute="in"/>
+    <map param="IWICBitmapSource::CopyPixels::pbBuffer" type="void" />
+
+
+    <!--IWICBitmap -->
+    <map method="IWICBitmap::Lock" visibility="internal"/>
+    <map param="IWICBitmap::Lock::ppILock" return="true"/>
+    <map param="IWICBitmap::Lock::flags" type="WICBitmapLockFlags"/>
+    <map param="IWICBitmap::Lock::prcLock" type="void" attribute="in"/>
+    <map method="IWICBitmap::SetPalette" property="false"/>
+    
+    <!-- TODO: Wrap LOGFONTW -->
+    <remove method="IDWriteGdiInterop::CreateFontFromLOGFONT" />
+    <remove method="IDWriteGdiInterop::ConvertFontToLOGFONT" />
+    <remove method="IDWriteGdiInterop::ConvertFontFaceToLOGFONT" />
+
+    <map function="D2D1.*" dll='"d2d1.dll"' group="SharpD2D1.D2D1" />
+    <map param="D2D1CreateFactory.*?::ppIFactory" attribute="out" />
+
+    <map function="DWriteCreateFactory" dll='"dwrite.dll"' group="SharpD2D1.DirectWrite.DWrite" />
+    <map param="DWriteCreateFactory::factory" attribute="out fast"/>
+  </mapping>
+</config>

@@ -61,6 +61,30 @@ namespace SharpDXGI
         }
 
         /// <summary>
+        /// Verifies, that the array is not null and not empty.
+        /// </summary>
+        /// <typeparam name="T">The type of objects in the <paramref name="target"/></typeparam>
+        /// <param name="target">The target array, which should be checked against being null or empty.</param>
+        /// <param name="parameterName">Name of the parameter.</param>
+        /// <param name="message">The error message, if any to add to the exception.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="target"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="target"/> is empty.</exception>
+        public static void NotNullOrEmpty<T>(T[] target, string parameterName, string message = "")
+        {
+            NotNull(target, parameterName, message);
+
+            if (target.Length == 0)
+            {
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    throw new ArgumentException(message, parameterName);
+                }
+
+                throw new ArgumentException("Value cannot be empty.", parameterName);
+            }
+        }
+
+        /// <summary>
         /// Verifies, that the enumeration is not null and not empty.
         /// </summary>
         /// <typeparam name="T">The type of objects in the <paramref name="target"/></typeparam>

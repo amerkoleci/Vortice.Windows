@@ -68,6 +68,7 @@
     <define struct="System.Drawing.Size" sizeof="8" />
     <define struct="System.Drawing.SizeF" sizeof="8" />
     <define struct="SharpDXGI.RawRectangle" sizeof="16" />
+    <define struct="SharpDXGI.RawRectangleF" sizeof="16" />
     <define struct="System.Numerics.Vector2" sizeof="8" />
     <define struct="System.Numerics.Vector3" sizeof="12" />
     <define struct="System.Numerics.Vector4" sizeof="16" />

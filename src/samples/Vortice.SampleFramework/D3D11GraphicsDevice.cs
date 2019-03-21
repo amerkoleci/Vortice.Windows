@@ -10,8 +10,9 @@ using SharpDXGI;
 using static SharpDXGI.DXGI;
 using static SharpD3D11.D3D11;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
-namespace HelloDirect3D11
+namespace Vortice
 {
     public sealed class D3D11GraphicsDevice : IGraphicsDevice
     {
@@ -85,19 +86,21 @@ namespace HelloDirect3D11
                 }
             }
 
+            var hwnd = (IntPtr)window.Handle;
+
             var swapChainDescription = new SwapChainDescription()
             {
                 BufferCount = FrameCount,
                 BufferDescription = new ModeDescription(window.Width, window.Height, Format.B8G8R8A8_UNorm),
                 IsWindowed = true,
-                OutputWindow = window.Handle,
+                OutputWindow = hwnd,
                 SampleDescription = new SampleDescription(1, 0),
                 SwapEffect = SwapEffect.Discard,
                 Usage = SharpDXGI.Usage.RenderTargetOutput
             };
 
             SwapChain = Factory.CreateSwapChain(Device, swapChainDescription);
-            Factory.MakeWindowAssociation(window.Handle, WindowAssociationFlags.IgnoreAltEnter);
+            Factory.MakeWindowAssociation(hwnd, WindowAssociationFlags.IgnoreAltEnter);
 
             BackBuffer = SwapChain.GetBuffer<ID3D11Texture2D>(0);
             RenderTargetView = Device.CreateRenderTargetView(BackBuffer);
@@ -115,17 +118,23 @@ namespace HelloDirect3D11
             Factory.Dispose();
         }
 
-        public void Present()
+        public bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null)
         {
             DeviceContext.RSSetViewport(new Viewport(Window.Width, Window.Height));
             var clearColor = new Vector4(0.0f, 0.2f, 0.4f, 1.0f);
             DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
 
+            // Call callback.
+            draw(Window.Width, Window.Height);
+
             var result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
                 && result.Code == SharpDXGI.ResultCode.DeviceRemoved.Code)
             {
+                return false;
             }
+
+            return true;
         }
     }
 }

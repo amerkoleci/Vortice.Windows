@@ -2,28 +2,24 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Vortice;
+using SharpDXGI;
 using Vortice.Win32;
 using static Vortice.Win32.Kernel32;
 using static Vortice.Win32.User32;
 
-namespace HelloDirect3D11
+namespace Vortice
 {
-    public abstract class Application : IDisposable
+    public abstract partial class Application : IDisposable
     {
         public static readonly string WndClassName = "VorticeWindow";
         public readonly IntPtr HInstance = GetModuleHandle(null);
-        private readonly WNDPROC _wndProc;
-        private bool _paused;
-        private bool _exitRequested;
+        private WNDPROC _wndProc;
 
-        private readonly IGraphicsDevice _graphicsDevice;
-        public readonly Window Window;
-
-        protected Application(bool useDirect3D12)
+        private void PlatformConstruct()
         {
             _wndProc = ProcessWindowMessage;
             var wndClassEx = new WNDCLASSEX
@@ -48,41 +44,13 @@ namespace HelloDirect3D11
             }
 
             // Create main window.
-            Window = new Window("Vortice", 800, 600);
-
-            if (useDirect3D12
-                && !D3D12GraphicsDevice.IsSupported())
-            {
-                useDirect3D12 = false;
-            }
-
-            var validation = false;
-#if DEBUG
-            validation = true;
-#endif
-
-            if (useDirect3D12)
-            {
-                _graphicsDevice = new D3D12GraphicsDevice(validation, Window);
-            }
-            else
-            {
-                _graphicsDevice = new D3D11GraphicsDevice(validation, Window);
-            }
+            MainWindow = new Window("Vortice", 800, 600);
         }
 
-        public void Dispose()
+        private void PlatformRun()
         {
-            _graphicsDevice.Dispose();
-        }
+            InitializeBeforeRun();
 
-        public void Tick()
-        {
-            _graphicsDevice.Present();
-        }
-
-        public void Run()
-        {
             while (!_exitRequested)
             {
                 if (!_paused)
@@ -123,14 +91,6 @@ namespace HelloDirect3D11
                     }
                 }
             }
-        }
-
-        protected virtual void OnActivated()
-        {
-        }
-
-        protected virtual void OnDeactivated()
-        {
         }
 
         private IntPtr ProcessWindowMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)

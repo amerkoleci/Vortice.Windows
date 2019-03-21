@@ -93,6 +93,40 @@ namespace SharpD3D12
             }
         }
 
+        public unsafe void ClearUnorderedAccessView(
+            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
+            CpuDescriptorHandle viewCpuHandle,
+            ID3D12Resource resource,
+            Vector4 clearValue,
+            params RawRectangle[] rectangles)
+        {
+            if (rectangles.Length == 0)
+            {
+                ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, 0, null);
+            }
+            else
+            {
+                ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
+            }
+        }
+
+        public unsafe void ClearUnorderedAccessView(
+            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
+            CpuDescriptorHandle viewCpuHandle,
+            ID3D12Resource resource,
+            int[] clearValues,
+            params RawRectangle[] rectangles)
+        {
+            if (rectangles.Length == 0)
+            {
+                ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValues, 0, null);
+            }
+            else
+            {
+                ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValues, rectangles.Length, rectangles);
+            }
+        }
+
         public unsafe void RSSetViewport(Viewport viewport)
         {
             RSSetViewports(1, new IntPtr(&viewport));
@@ -122,6 +156,19 @@ namespace SharpD3D12
                 {
                     RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
                 }
+            }
+        }
+
+        public unsafe void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor)
+        {
+            OMSetRenderTargets(1, new IntPtr(&renderTargetDescriptor), false, depthStencilDescriptor);
+        }
+
+        public unsafe void OMSetRenderTargets(CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor)
+        {
+            fixed (void* pRT = renderTargetDescriptors)
+            {
+                OMSetRenderTargets(renderTargetDescriptors?.Length ?? 0, new IntPtr(pRT), false, depthStencilDescriptor);
             }
         }
 

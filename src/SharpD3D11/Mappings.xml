@@ -43,6 +43,18 @@
     <create class="ResultCode" visibility="public static" />
     <const from-macro="D3D11_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="SharpD3D11.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
 
+    <const from-macro="D3D11_REQ_MIP_LEVELS" class="SharpD3D11.ID3D11Resource" type="int" name="MaximumMipLevels" />
+    <const from-macro="D3D11_REQ_RESOURCE_SIZE_IN_MEGABYTES_EXPRESSION_A_TERM" class="SharpD3D11.ID3D11Resource" type="int" name="ResourceSizeInMegabytes" />
+    <const from-macro="D3D11_REQ_TEXTURE1D_ARRAY_AXIS_DIMENSION" class="SharpD3D11.ID3D11Resource" type="int" name="MaximumTexture1DArraySize" />
+    <const from-macro="D3D11_REQ_TEXTURE2D_ARRAY_AXIS_DIMENSION" class="SharpD3D11.ID3D11Resource" type="int" name="MaximumTexture2DArraySize" />
+    <const from-macro="D3D11_REQ_TEXTURE1D_U_DIMENSION" class="SharpD3D11.ID3D11Resource" type="int" name="MaximumTexture1DSize" />
+    <const from-macro="D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION" class="SharpD3D11.ID3D11Resource" type="int" name="MaximumTexture2DSize" />
+    <const from-macro="D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION" class="SharpD3D11.ID3D11Resource" type="int" name="MaximumTexture3DSize" />
+    <const from-macro="D3D11_REQ_TEXTURECUBE_DIMENSION" class="SharpD3D11.ID3D11Resource" type="int" name="MaximumTextureCubeSize" />
+
+    <const from-macro="D3D11_1_UAV_SLOT_COUNT" class="SharpD3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewSlotCount" />
+    <const from-macro="D3D11_PS_CS_UAV_REGISTER_COUNT" class="SharpD3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewRegisterCount" />
+
     <define struct="System.Numerics.Vector4" sizeof="16" />
     <define struct="SharpD3D11.Int4" sizeof="16" />
   </extension>
@@ -356,6 +368,14 @@
 
     <map method="ID3D11DeviceContext::RSSetViewports" rawptr="true"/>
     <map method="ID3D11DeviceContext::RSSetScissorRects" rawptr="true"/>
+
+    <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="internal"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" attribute="in"/>
+
+    <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="internal"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void"/>
     
     <!-- ID3D11DeviceContext1 -->
     <map param="ID3D11DeviceContext1::ClearView::Color" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0"/>

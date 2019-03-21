@@ -280,7 +280,17 @@
     <map method="ID3D12GraphicsCommandList::ClearDepthStencilView" visibility="private"/>
     <map method="ID3D12GraphicsCommandList::RSSetViewports" rawptr="true"/>
     <map method="ID3D12GraphicsCommandList::RSSetScissorRects" rawptr="true"/>
-    
+
+    <map method="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat" visibility="private" />
+    <map method="ID3D12GraphicsCommandList::ClearUnorderedAccessViewUint" visibility="private" />
+    <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat::Values" type="VORTICE_COLOR4"  override-native-type="true" pointer="*" array="0" />
+    <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat::pRects" attribute="in buffer optional" default="null" />
+    <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewUint::Values" attribute="in buffer" />
+    <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewUint::pRects" attribute="in buffer optional" default="null" />
+
+    <map method="ID3D12GraphicsCommandList::OMSetRenderTargets" visibility="private"/>
+    <map param="ID3D12GraphicsCommandList::OMSetRenderTargets::pRenderTargetDescriptors" type="void"/>
+
     <!-- ID3D12DescriptorHeap -->
     <map method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" property="false" />
     <map method="ID3D12DescriptorHeap::GetGPUDescriptorHandleForHeapStart" property="false" />

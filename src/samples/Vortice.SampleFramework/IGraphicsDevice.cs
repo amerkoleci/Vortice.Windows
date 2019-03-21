@@ -2,11 +2,12 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 
-namespace HelloDirect3D11
+namespace Vortice
 {
     public interface IGraphicsDevice : IDisposable
     {
-        void Present();
+        bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null);
     }
 }

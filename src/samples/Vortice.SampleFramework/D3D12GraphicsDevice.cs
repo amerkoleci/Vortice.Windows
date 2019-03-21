@@ -11,13 +11,15 @@ using System.Diagnostics;
 using System.Threading;
 using SharpD3D12.Debug;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
-namespace HelloDirect3D11
+namespace Vortice
 {
     public sealed class D3D12GraphicsDevice : IGraphicsDevice
     {
         private const int FrameCount = 2;
 
+        public readonly Window Window;
         public readonly IDXGIFactory4 DXGIFactory;
         private readonly ID3D12Device _d3d12Device;
         private readonly ID3D12CommandQueue _d3d12CommandQueue;
@@ -45,6 +47,8 @@ namespace HelloDirect3D11
             {
                 throw new InvalidOperationException("Direct3D12 is not supported on current OS");
             }
+
+            Window = window;
 
             if (validation
                 && D3D12GetDebugInterface<ID3D12Debug>(out var debug).Success)
@@ -75,8 +79,9 @@ namespace HelloDirect3D11
                 SampleDescription = new SampleDescription(1, 0)
             };
 
-            var swapChain = DXGIFactory.CreateSwapChainForHwnd(_d3d12CommandQueue, window.Handle, swapChainDesc);
-            DXGIFactory.MakeWindowAssociation(window.Handle, WindowAssociationFlags.IgnoreAltEnter);
+            var hwnd = (IntPtr)window.Handle;
+            var swapChain = DXGIFactory.CreateSwapChainForHwnd(_d3d12CommandQueue, hwnd, swapChainDesc);
+            DXGIFactory.MakeWindowAssociation(hwnd, WindowAssociationFlags.IgnoreAltEnter);
 
             SwapChain = swapChain.QueryInterface<IDXGISwapChain3>();
             _frameIndex = SwapChain.GetCurrentBackBufferIndex();
@@ -114,13 +119,16 @@ namespace HelloDirect3D11
             DXGIFactory.Dispose();
         }
 
-        public void Present()
+        public bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null)
         {
             _commandAllocator.Reset();
             _commandList.Reset(_commandAllocator, null);
 
             // Indicate that the back buffer will be used as a render target.
             _commandList.ResourceBarrierTransition(_renderTargets[_frameIndex], ResourceStates.Present, ResourceStates.RenderTarget);
+
+            // Call callback.
+            draw(Window.Width, Window.Height);
 
             var rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
             rtvHandle += _frameIndex * _rtvDescriptorSize;
@@ -140,9 +148,12 @@ namespace HelloDirect3D11
             if (result.Failure
                 && result.Code == SharpDXGI.ResultCode.DeviceRemoved.Code)
             {
+                return false;
             }
 
             WaitForPreviousFrame();
+
+            return true;
         }
 
         private void WaitForPreviousFrame()
