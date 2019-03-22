@@ -97,10 +97,13 @@
     <bind from="SIZE" to="System.Drawing.Size" />
     <bind from="POINT" to="System.Drawing.Point" />
     <bind from="RECT" to="SharpDXGI.RawRectangle" />
+    <bind from="LUID" to="System.Int64"/>
     <bind from="HWND" to="System.IntPtr"/>
     <bind from="HDC" to="System.IntPtr"/>
     <bind from="HINSTANCE" to="System.IntPtr"/>
-    <bind from="LUID" to="System.Int64"/>
+    <bind from="HBITMAP" to="System.IntPtr"/>
+    <bind from="HICON" to="System.IntPtr"/>
+    <bind from="HPALETTE" to="System.IntPtr"/>
     <bind from="HMONITOR" to="System.IntPtr"/>
 
     <bind from="D3DCOLORVALUE" to="System.Numerics.Vector4" />
