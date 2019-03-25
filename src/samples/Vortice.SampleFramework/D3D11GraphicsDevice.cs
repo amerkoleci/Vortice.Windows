@@ -2,13 +2,11 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
-using Vortice;
 using SharpDXGI.Direct3D;
-using SharpD3D11;
+using SharpDirect3D11;
 using SharpDXGI;
 using static SharpDXGI.DXGI;
-using static SharpD3D11.D3D11;
+using static SharpDirect3D11.D3D11;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 

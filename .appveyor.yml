@@ -7,11 +7,11 @@ branches:
     - master
 
 build_script:
-  - cmd: dotnet restore src\Vortice.Windows.sln
+  - cmd: dotnet restore src\SharpWindows.sln
   - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpDXGI\SharpDXGI.csproj /m
-  - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpD3D11\SharpD3D11.csproj /m
-  - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpD3D12\SharpD3D12.csproj /m
-  - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpD2D1\SharpD2D1.csproj /m
+  - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpDirect3D11\SharpDirect3D11.csproj /m
+  - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpDirect3D12\SharpDirect3D12.csproj /m
+  - cmd: msbuild /t:Pack /p:Configuration=Release src\SharpDirect2D\SharpDirect2D.csproj /m
 
 artifacts:
 - path: bin\Release\Packages\*.nupkg

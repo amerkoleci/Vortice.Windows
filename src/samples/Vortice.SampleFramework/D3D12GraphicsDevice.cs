@@ -2,16 +2,15 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using SharpD3D12;
-using SharpDXGI;
-using SharpDXGI.Direct3D;
-using static SharpDXGI.DXGI;
-using static SharpD3D12.D3D12;
-using System.Diagnostics;
-using System.Threading;
-using SharpD3D12.Debug;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using SharpDirect3D12;
+using SharpDirect3D12.Debug;
+using SharpDXGI;
+using SharpDXGI.Direct3D;
+using static SharpDirect3D12.D3D12;
+using static SharpDXGI.DXGI;
 
 namespace Vortice
 {
