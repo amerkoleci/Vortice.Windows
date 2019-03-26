@@ -45,5 +45,27 @@ namespace SharpDirect3D12
             debugInterface = CppObject.FromPointer<T>(nativePtr);
             return result;
         }
+
+        public static string D3D12SerializeRootSignature(RootSignatureDescription description, RootSignatureVersion version, out Blob blob)
+        {
+            var result = D3D12SerializeRootSignature(description, version, out blob, out Blob errorBlob);
+            if (result.Failure)
+            {
+                return errorBlob.ConvertToString();
+            }
+
+            return string.Empty;
+        }
+
+        public static string D3D12SerializeVersionedRootSignature(VersionedRootSignatureDescription description, out Blob blob)
+        {
+            var result = D3D12SerializeVersionedRootSignature(description, out blob, out Blob errorBlob);
+            if (result.Failure)
+            {
+                return errorBlob.ConvertToString();
+            }
+
+            return string.Empty;
+        }
     }
 }

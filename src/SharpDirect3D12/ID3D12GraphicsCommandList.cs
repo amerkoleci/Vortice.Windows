@@ -56,21 +56,8 @@ namespace SharpDirect3D12
             ResourceBarrier(1, new IntPtr(&barrier));
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Vector4 colorRGBA, params RawRectangle[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 colorRGBA, params RawRectangle[] rectangles)
         {
-            if (rectangles.Length == 0)
-            {
-                ClearRenderTargetView(renderTargetView, colorRGBA, 0, null);
-            }
-            else
-            {
-                ClearRenderTargetView(renderTargetView, colorRGBA, rectangles.Length, rectangles);
-            }
-        }
-
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color color, params RawRectangle[] rectangles)
-        {
-            var colorRGBA = new Vector4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
             if (rectangles.Length == 0)
             {
                 ClearRenderTargetView(renderTargetView, colorRGBA, 0, null);
@@ -97,7 +84,7 @@ namespace SharpDirect3D12
             GpuDescriptorHandle viewGpuHandleInCurrentHeap,
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
-            Vector4 clearValue,
+            Color4 clearValue,
             params RawRectangle[] rectangles)
         {
             if (rectangles.Length == 0)
@@ -114,25 +101,25 @@ namespace SharpDirect3D12
             GpuDescriptorHandle viewGpuHandleInCurrentHeap,
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
-            int[] clearValues,
+            IntVector4 clearValue,
             params RawRectangle[] rectangles)
         {
             if (rectangles.Length == 0)
             {
-                ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValues, 0, null);
+                ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, 0, null);
             }
             else
             {
-                ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValues, rectangles.Length, rectangles);
+                ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
             }
         }
 
-        public unsafe void RSSetViewport(Viewport viewport)
+        public unsafe void RSSetViewport(ViewportF viewport)
         {
             RSSetViewports(1, new IntPtr(&viewport));
         }
 
-        public void RSSetViewports(params Viewport[] viewports)
+        public void RSSetViewports(params ViewportF[] viewports)
         {
             unsafe
             {

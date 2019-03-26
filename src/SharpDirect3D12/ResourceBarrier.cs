@@ -39,10 +39,6 @@ namespace SharpDirect3D12
             set => _union.UnorderedAccessView = value;
         }
 
-        /// <summary>
-        /// Because this union contains pointers, it is aligned on 8 bytes boundary, making the field ResourceBarrier.Type 
-        /// to be aligned on 8 bytes instead of 4 bytes, so we can't use directly Explicit layout on ResourceBarrier
-        /// </summary>
         [StructLayout(LayoutKind.Explicit, Pack = 0)]
         private struct Union
         {

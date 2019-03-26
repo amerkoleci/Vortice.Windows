@@ -54,16 +54,14 @@
 
     <const from-macro="D3D11_1_UAV_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewSlotCount" />
     <const from-macro="D3D11_PS_CS_UAV_REGISTER_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewRegisterCount" />
-
-    <define struct="System.Numerics.Vector4" sizeof="16" />
-    <define struct="SharpDirect3D11.Int4" sizeof="16" />
   </extension>
 
   <bindings>
     <bind from="LUID" to="System.Int64"/>
     <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
-    <bind from="VORTICE_COLOR4" to="System.Numerics.Vector4" />
-    <bind from="VORTICE_INT4" to="SharpDirect3D11.Int4" />
+    <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
+    <bind from="VORTICE_INT4" to="Vortice.Mathematics.IntVector4" />
+    <bind from="D3D11_VIEWPORT" to="Vortice.Mathematics.ViewportF"/>
   </bindings>
 
   <naming>
@@ -209,9 +207,6 @@
     <map field="D3D11_TEXTURE3D_DESC1?::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
     <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT::OutFormatSupport" type="D3D11_FORMAT_SUPPORT" />
     <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT2::OutFormatSupport2" type="D3D11_FORMAT_SUPPORT2" />
-
-    <map field="D3D11_VIEWPORT::TopLeftX" name="X" />
-    <map field="D3D11_VIEWPORT::TopLeftY" name="Y" />
 
     <map field="D3D11_SUBRESOURCE_DATA::pSysMem" name="DataPointer " />
     <map field="D3D11_SUBRESOURCE_DATA::SysMemPitch" name="Pitch" />

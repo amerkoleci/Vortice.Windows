@@ -106,6 +106,42 @@ namespace SharpDirect3D12
             return CreateHeap(ref description, typeof(ID3D12Heap).GUID);
         }
 
+        public ID3D12RootSignature CreateRootSignature(int nodeMask, VersionedRootSignatureDescription description)
+        {
+            var result = D3D12.D3D12SerializeVersionedRootSignature(description, out var blob, out var errorBlob);
+            if (result.Failure)
+            {
+                return null;
+            }
+
+            var signature = CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID);
+            blob.Dispose();
+            return signature;
+        }
+
+        public ID3D12RootSignature CreateRootSignature(VersionedRootSignatureDescription description)
+        {
+            return CreateRootSignature(0, description);
+        }
+
+        public ID3D12RootSignature CreateRootSignature(int nodeMask, RootSignatureDescription description, RootSignatureVersion version = RootSignatureVersion.Version1)
+        {
+            var result = D3D12.D3D12SerializeRootSignature(description, version, out var blob, out var errorBlob);
+            if (result.Failure)
+            {
+                return null;
+            }
+
+            var signature = CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID);
+            blob.Dispose();
+            return signature;
+        }
+
+        public ID3D12RootSignature CreateRootSignature(RootSignatureDescription description, RootSignatureVersion version = RootSignatureVersion.Version1)
+        {
+            return CreateRootSignature(0, description, version);
+        }
+
         public ID3D12RootSignature CreateRootSignature(Blob blob)
         {
             return CreateRootSignature(0, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID);

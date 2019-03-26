@@ -9,6 +9,7 @@ using SharpDirect3D12;
 using SharpDirect3D12.Debug;
 using SharpDXGI;
 using SharpDXGI.Direct3D;
+using Vortice.Mathematics;
 using static SharpDirect3D12.D3D12;
 using static SharpDXGI.DXGI;
 
@@ -110,6 +111,13 @@ namespace Vortice
             _d3d12Fence = _d3d12Device.CreateFence(0);
             _fenceValue = 1;
             _fenceEvent = new AutoResetEvent(false);
+
+            var rootSignatureDesc = new RootSignatureDescription
+            {
+                Flags = RootSignatureFlags.AllowInputAssemblerInputLayout
+            };
+
+            var rootSignature = _d3d12Device.CreateRootSignature(rootSignatureDesc);
         }
 
         public void Dispose()
@@ -133,7 +141,7 @@ namespace Vortice
             rtvHandle += _frameIndex * _rtvDescriptorSize;
 
             // Record commands.
-            var clearColor = new Vector4(0.0f, 0.2f, 0.4f, 1.0f);
+            var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
             _commandList.ClearRenderTargetView(rtvHandle, clearColor);
 
             // Indicate that the back buffer will now be used to present.

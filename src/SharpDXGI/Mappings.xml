@@ -69,13 +69,21 @@
     <define struct="Vortice.Mathematics.SizeF" sizeof="8" />
     <define struct="Vortice.Mathematics.Rectangle" sizeof="16" />
     <define struct="Vortice.Mathematics.RectangleF" sizeof="16" />
-    <define struct="SharpDXGI.RawRectangle" sizeof="16" />
-    <define struct="SharpDXGI.RawRectangleF" sizeof="16" />
+    <define struct="Vortice.Mathematics.Color" sizeof="4" />
+    <define struct="Vortice.Mathematics.Color3" sizeof="12" />
+    <define struct="Vortice.Mathematics.Color4" sizeof="16" />
+    <define struct="Vortice.Mathematics.IntVector2" sizeof="8" />
+    <define struct="Vortice.Mathematics.IntVector3" sizeof="12" />
+    <define struct="Vortice.Mathematics.IntVector4" sizeof="16" />
+    <define struct="Vortice.Mathematics.Viewport" sizeof="24" />
+    <define struct="Vortice.Mathematics.ViewportF" sizeof="24" />
     <define struct="System.Numerics.Vector2" sizeof="8" />
     <define struct="System.Numerics.Vector3" sizeof="12" />
     <define struct="System.Numerics.Vector4" sizeof="16" />
     <define struct="System.Numerics.Matrix3x2" sizeof="24" />
     <define struct="System.Numerics.Matrix4x4" sizeof="64" />
+    <define struct="SharpDXGI.RawRectangle" sizeof="16" />
+    <define struct="SharpDXGI.RawRectangleF" sizeof="16" />
 
     <create-cpp enum="DXGI_PRESENT_FLAGS" macro="DXGI_PRESENT_.*" />
     <create-cpp enum="DXGI_USAGE_ENUM" macro="DXGI_USAGE_.*" />
@@ -109,6 +117,7 @@
     <bind from="HPALETTE" to="System.IntPtr"/>
     <bind from="HMONITOR" to="System.IntPtr"/>
 
+    <bind from="DXGI_RGB" to="Vortice.Mathematics.Color3" />
     <bind from="D3DCOLORVALUE" to="System.Numerics.Vector4" />
     <bind from="DXGI_MATRIX_3X2_F" to="System.Numerics.Matrix3x2" />
   </bindings>
@@ -249,10 +258,15 @@
     <map enum-item="DXGI_MWA_NO_PRINT_SCREEN" name="IgnorePrintScreen" />
     <map enum="DXGI_SWAP_CHAIN_FLAG" name="SwapChainFlags" />
     <map enum="DXGI_ADAPTER_FLAG" name="AdapterFlags" />
+    <map enum="DXGI_ADAPTER_FLAG3" name="AdapterFlags3" flags="true" none="false" />
     <map enum="DXGI_SWAP_CHAIN_COLOR_SPACE_SUPPORT_FLAG" name="SwapChainColorSpaceSupportFlags" />
     <map enum="DXGI_OVERLAY_SUPPORT_FLAG" name="OverlaySupportFlags" />
     <map enum="DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG" name="OverlayColorSpaceSupportFlags" />
     <map enum="DXGI_OUTDUPL_POINTER_SHAPE_TYPE" name="PointerShapeType" />
+    <map enum="DXGI_ENUM_MODES_FLAGS" name="DisplayModeEnumerationFlags" flags="true" none="false"/>
+    <map enum="DXGI_MAP_FLAGS" flags="true" none="false" />
+    <remove enum-item=".*_FORCE_DWORD" />
+    <remove enum-item=".*_FORCE_UINT" />
 
     <!-- dxgi structs -->
     <map struct="DXGI(.+)" name-tmp="$1" />
@@ -290,6 +304,7 @@
     <map method=".*::(.*)DescW?" name="$1Description" />
     <map method=".*::(.*)Desc1" name="$1Description1" />
     <map method=".*::(.*)Desc2" name="$1Description2" />
+    <map method=".*::(.*)Desc3" name="$1Description3" />
 
     <!-- IDXGIObject -->
     <map method="IDXGIObject::GetParent" visibility="private" hresult="true" check="false"/>
@@ -370,10 +385,69 @@
     <map param="IDXGISwapChain3::CheckColorSpaceSupport::pColorSpaceSupport" return="true" />
     <map param="IDXGISwapChain3::ResizeBuffers1::SwapChainFlags" type="DXGI_SWAP_CHAIN_FLAG" />
 
-    <!-- IDXGIFactory -->
+    <!-- IDXGIAdapter -->
     <map method="IDXGIAdapter::EnumOutputs" visibility="internal" check="false"/>
     <map method="IDXGIAdapter::CheckInterfaceSupport" visibility="public" check="false"/>
 
+    <!-- IDXGIAdapter3 -->
+    <map param="IDXGIAdapter3::QueryVideoMemoryInfo::pVideoMemoryInfo" attribute="out" return="true"/>
+    <map param="IDXGIAdapter3::RegisterHardwareContentProtectionTeardownStatusEvent::pdwCookie" return="true"/>
+    <map param="IDXGIAdapter3::RegisterVideoMemoryBudgetChangeNotificationEvent::pdwCookie" return="true"/>
+    
+    <!-- IDXGIDecodeSwapChain -->
+    <map param="IDXGIDecodeSwapChain::PresentBuffer::Flags" type="DXGI_PRESENT_FLAGS" />
+
+    <!-- IDXGIDevice -->
+    <map param="IDXGIDevice::CreateSurface::pDesc" attribute="in value" />
+    <map param="IDXGIDevice::CreateSurface::Usage" type="DXGI_USAGE_ENUM" />
+    <map param="IDXGIDevice::CreateSurface::ppSurface" attribute="out" return="true"/>
+    <map method="IDXGIDevice::QueryResourceResidency" visibility="private" hresult="true" check="false"/>
+
+    <!-- IDXGIOutput -->
+    <map method="IDXGIOutput::FindClosestMatchingMode" visibility="private" />
+    <map method="IDXGIOutput::GetDisplayModeList" visibility="private" />
+    <map method="IDXGIOutput::SetDisplaySurface" property="false" />
+
+    <!-- IDXGIOutput1 -->
+    <map method="IDXGIOutput1::FindClosestMatchingMode1" visibility="private" />
+    <map method="IDXGIOutput1::GetDisplayModeList1" visibility="private" />
+    <map method="IDXGIOutput1::DuplicateOutput" visibility="private" name="DuplicateOutputPrivate" />
+    <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" attribute="out" return="true"/>
+    
+    <!-- IDXGIOutput3 -->
+    <map method="IDXGIOutput3::CheckOverlaySupport" visibility="private" name="CheckOverlaySupportPrivate" />
+    <map param="IDXGIOutput3::CheckOverlaySupport::pFlags" type="DXGI_OVERLAY_SUPPORT_FLAG" attribute="out" return="true"/>
+
+    <!-- IDXGIOutput4 -->
+    <map method="IDXGIOutput4::CheckOverlayColorSpaceSupport" visibility="private" name="CheckOverlayColorSpaceSupportPrivate" />
+    <map param="IDXGIOutput4::CheckOverlayColorSpaceSupport::pFlags" type="DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG" attribute="out" return="true"/>
+
+    <!-- IDXGIOutput5 -->
+    <map method="IDXGIOutput5::DuplicateOutput1" visibility="private" name="DuplicateOutput1Private" />
+    <map param="IDXGIOutput5::DuplicateOutput1::ppOutputDuplication" attribute="out" return="true"/>
+
+    <!-- IDXGIOutput6 -->
+    <map param="IDXGIOutput6::CheckHardwareCompositionSupport::pFlags" type="DXGI_HARDWARE_COMPOSITION_SUPPORT_FLAGS" attribute="out" return="true"/>
+
+    <!-- IDXGIResource -->
+    <map param="IDXGIResource::GetUsage::pUsage" type="DXGI_USAGE_ENUM" attribute="out" />
+
+    <!-- IDXGIResource1 -->
+    <map param="IDXGIResource1::CreateSubresourceSurface::ppSurface" attribute="out" return="true" />
+    <map method="IDXGIResource1::CreateSharedHandle" visibility="public"/>
+    <map param="IDXGIResource1::CreateSharedHandle::dwAccess" type="DXGI_SHARED_RESOURCE_FLAGS"/>
+    <map param="IDXGIResource1::CreateSharedHandle::pHandle" return="true"/>
+
+    <!-- IDXGISurface -->
+    <map param="IDXGISurface::Map::pLockedRect" attribute="out" return="true" />
+    <map param="IDXGISurface::Map::MapFlags" type="DXGI_MAP_FLAGS" />
+
+    <!-- IDXGISurface1 -->
+    <map param="IDXGISurface1::GetDC::phdc" attribute="out" return="true" />
+
+    <!-- IDXGISurface2 -->
+    <map method="IDXGISurface2::GetResource" visibility="private" hresult="true" check="false"/>
+    
     <map function="DXGIGetDebugInterface.*" dll='"dxgidebug.dll"' group="SharpDXGI.DXGI" hresult="true" check="false" />
     <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
 

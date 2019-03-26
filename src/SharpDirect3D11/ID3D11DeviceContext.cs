@@ -12,12 +12,12 @@ namespace SharpDirect3D11
 {
     public partial class ID3D11DeviceContext
     {
-        public unsafe void RSSetViewport(Viewport viewport)
+        public unsafe void RSSetViewport(ViewportF viewport)
         {
             RSSetViewports(1, new IntPtr(&viewport));
         }
 
-        public void RSSetViewports(params Viewport[] viewports)
+        public void RSSetViewports(params ViewportF[] viewports)
         {
             unsafe
             {
@@ -39,14 +39,6 @@ namespace SharpDirect3D11
             {
                 RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
             }
-        }
-
-        public void ClearRenderTargetView(ID3D11RenderTargetView renderTargetView, Color color)
-        {
-            Guard.NotNull(renderTargetView, nameof(renderTargetView));
-
-            var colorRGBA = new Vector4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
-            ClearRenderTargetView(renderTargetView, colorRGBA);
         }
 
         public unsafe void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)

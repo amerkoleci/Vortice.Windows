@@ -9,6 +9,7 @@ using static SharpDXGI.DXGI;
 using static SharpDirect3D11.D3D11;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Vortice.Mathematics;
 
 namespace Vortice
 {
@@ -118,8 +119,8 @@ namespace Vortice
 
         public bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null)
         {
-            DeviceContext.RSSetViewport(new Viewport(Window.Width, Window.Height));
-            var clearColor = new Vector4(0.0f, 0.2f, 0.4f, 1.0f);
+            DeviceContext.RSSetViewport(new ViewportF(Window.Width, Window.Height));
+            var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
             DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
 
             // Call callback.
