@@ -43,5 +43,20 @@ namespace SharpDirect3D12
 
             return CreateHeap1(ref description, protectedSession, typeof(ID3D12Heap1).GUID);
         }
+
+        public ID3D12ProtectedResourceSession CreateProtectedResourceSession(ProtectedResourceSessionDescription description)
+        {
+            return CreateProtectedResourceSession(description, typeof(ID3D12ProtectedResourceSession).GUID);
+        }
+
+        public ID3D12Resource1 CreateReservedResource1(ResourceDescription description, ResourceStates initialState, ClearValue clearValue, ID3D12ProtectedResourceSession protectedResourceSession)
+        {
+            return CreateReservedResource1(ref description, initialState, clearValue, protectedResourceSession, typeof(ID3D12Resource1).GUID);
+        }
+
+        public ID3D12Resource1 CreateReservedResource1(ResourceDescription description, ResourceStates initialState, ID3D12ProtectedResourceSession protectedResourceSession)
+        {
+            return CreateReservedResource1(ref description, initialState, null, protectedResourceSession, typeof(ID3D12Resource1).GUID);
+        }
     }
 }

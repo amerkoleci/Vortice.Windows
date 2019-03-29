@@ -32,6 +32,13 @@ namespace SharpDirect3D12
             }
         }
 
+        public unsafe T CheckFeatureSupport<T>(Feature feature) where T : struct
+        {
+            T featureSupport = default;
+            CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Interop.SizeOf<T>());
+            return featureSupport;
+        }
+
         public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : struct
         {
             return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Interop.SizeOf<T>()).Success;
@@ -51,6 +58,50 @@ namespace SharpDirect3D12
                 maxSupportedFeatureLevel = featureData.MaxSupportedFeatureLevel;
                 return result;
             }
+        }
+
+        public unsafe FeatureDataGpuVirtualAddressSupport GpuVirtualAddressSupport
+        {
+            get
+            {
+                var featureData = new FeatureDataGpuVirtualAddressSupport();
+                if (CheckFeatureSupport(Feature.GpuVirtualAddressSupport, new IntPtr(&featureData), Interop.SizeOf<FeatureDataGpuVirtualAddressSupport>()).Success)
+                {
+                    return featureData;
+                }
+
+                return default;
+            }
+        }
+
+        public unsafe ShaderModel CheckHighestShaderModel(ShaderModel highestShaderModel)
+        {
+            var featureData = new FeatureDataShaderModel
+            {
+                HighestShaderModel = highestShaderModel
+            };
+
+            if (CheckFeatureSupport(Feature.ShaderModel, new IntPtr(&featureData), Interop.SizeOf<FeatureDataShaderModel>()).Success)
+            {
+                return featureData.HighestShaderModel;
+            }
+
+            return ShaderModel.Model51;
+        }
+
+        public unsafe RootSignatureVersion CheckHighestRootSignatureVersion(RootSignatureVersion highestVersion)
+        {
+            var featureData = new FeatureDataRootSignature
+            {
+                HighestVersion = highestVersion
+            };
+
+            if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), Interop.SizeOf<FeatureDataRootSignature>()).Success)
+            {
+                return featureData.HighestVersion;
+            }
+
+            return RootSignatureVersion.Version10;
         }
 
         public ID3D12Resource CreateCommittedResource(HeapProperties heapProperties,
@@ -226,6 +277,26 @@ namespace SharpDirect3D12
             }
 
             return handleRef;
+        }
+
+        public HeapProperties GetCustomHeapProperties(HeapType heapType)
+        {
+            return GetCustomHeapProperties(0, heapType);
+        }
+
+        public void Evict(params ID3D12Pageable[] objects)
+        {
+            Evict(objects.Length, objects);
+        }
+
+        public ResourceAllocationInfo GetResourceAllocationInfo(int visibleMask, params ResourceDescription[] resourceDescriptions)
+        {
+            return GetResourceAllocationInfo(visibleMask, resourceDescriptions.Length, resourceDescriptions);
+        }
+
+        public ResourceAllocationInfo GetResourceAllocationInfo(params ResourceDescription[] resourceDescriptions)
+        {
+            return GetResourceAllocationInfo(0, resourceDescriptions.Length, resourceDescriptions);
         }
     }
 }

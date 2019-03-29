@@ -35,7 +35,7 @@
            namespace="SharpDirect3D11.Debug"
            attach="true"
            output="Debug" />
-  
+
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="SharpDirect3D11.D3D11" type="int" name="SdkVersion" />
     <create class="D3D11" visibility="public static" />
@@ -66,6 +66,7 @@
 
   <naming>
     <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTORS">Descriptors</short>
     <short name="DESCRIPTION">Description</short>
     <short name="DESC">Description</short>
     <short name="TOPLEFT">TopLeft</short>
@@ -110,6 +111,9 @@
     <short name="VPIV">VideoProcessorInputView</short>
     <short name="VPOV">VideoProcessorOutputView</short>
     <!-- D3D11_MESSAGE_ID -->
+    <short name="SRC">Source</short>
+    <short name="DST">Destination</short>
+    <short name="ATOMICCOPYBUFFER">AtomicCopyBuffer</short>
     <short name="ACQUIREHANDLEFORCAPTURE">AcquireHandleForCapture</short>
     <short name="INVALIDARRAY">InvalidArray</short>
     <short name="INVALIDBIND">InvalidBind</short>
@@ -130,14 +134,75 @@
     <short name="INVALIDBACKFACE">InvalidBackFace</short>
     <short name="STENCILFAILOP">StencilFailOp</short>
     <short name="STENCILFUNC">StencilFunc</short>
+    <short name="CHECKCRYPTOSESSIONSTATUS">CheckCryptoSessionStatus</short>
+    <short name="CHECKFEATURESUPPORT">CheckFeatureSupport</short>
+    <short name="CHECKFORMATSUPPORT">CheckFormatSupport</short>
+    <short name="CHECKMULTISAMPLEQUALITYLEVELS">CheckMultisampleQualityLevels</short>
+    <short name="CHECKVIDEODECODERDOWNSAMPLING">CheckVideoDecoderDownsampling</short>
+    <short name="INVALIDCOLORSPACE">InvalidColorSpace</short>
+    <short name="ZEROWIDTHHEIGHT">ZeroWidthHeight</short>
+    <short name="CHECKVIDEOPROCESSORFORMATCONVERSION">CheckVideoProcessorFormatConversion</short>
+    <short name="CLEARDEPTHSTENCILVIEW">ClearDepthStencilView</short>
+    <short name="DENORMFLUSH">DenormFlush</short>
+    <short name="READONLY">ReadOnly</short>
+    <short name="INVALIDDEPTH">InvalidDepth</short>
+    <short name="MISMATCHINGCLEARVALUE">MismatchingClearValue</short>
+    <short name="CLEARRENDERTARGETVIEW">ClearRenderTargetView</short>
+    <short name="CLEARUNORDEREDACCESSVIEW">ClearUnorderedAccessView</short>
+    <short name="GS">GeometryState</short>
+    <short name="OM">OutputMerger</short>
+    <short name="OUTOF">OutOf</short>
+    <short name="BOUNDS">Bounds</short>
+    <short name="SHADERRESOURCEVIEW">ShaderResourceView</short>
+    <short name="COPYBUFFERREGION">CopyBufferRegion</short>
+    <short name="COPYFLAGS">CopyFlags</short>
+    <short name="DSTRANGEOUTOFBOUNDS">DestionationRangeOutOfBounds</short>
+    <short name="INVALIDCOPYFLAGS">InvalidCopyFlags</short>
+    <short name="INVALIDSRCRESOURCEDIMENSION">InvalidSourceResourceDimension</short>
+    <short name="INVALIDDSTRESOURCEDIMENSION">InvalidDestionationResourceDimension</short>
+    <short name="NULLSRC">NullSource</short>
+    <short name="NULLDST">NullDestionation</short>
+    <short name="SRCRANGEOUTOFBOUNDS">SourceRangeOutOfBounds</short>
+    <short name="INVALIDLAYOUT">InvalidLayout</short>
+    <short name="COPYRESOURCE">CopyResource</short>
+    <short name="INVALIDDESTINATIONSTATE">InvalidDestinationState</short>
+    <short name="INVALIDDSTRESOURCE">InvalidDestinationResource</short>
+    <short name="INVALIDSOURCE">InvalidSource</short>
+    <short name="INVALIDSOURCESTATE">InvalidSourceState</short>
+    <short name="INVALIDSRCRESOURCE">InvalidSourceResource</short>
+    <short name="COPYSTRUCTURECOUNT">CopyStructureCount</short>
+    <short name="INVALIDOFFSET">InvalidOffset</short>
+    <short name="LARGEOFFSET">LargeOffset</short>
+    <short name="COPYSUBRESOURCEREGION">CopySubresourceRegion</short>
+    <short name="EMPTYSOURCEBOX">EmptySourceBox</short>
+    <short name="COPYTEXTUREREGION">CopyTextureRegion</short>
+    <short name="COPYTILES">CopyTiles</short>
+    <short name="COPYTILEMAPPINGS">CopyTileMappings</short>
+    <short name="INVALIDBLENDOP">InvalidBlendOp</short>
+    <short name="INVALIDBLENDOPALPHA">InvalidBlendOpAlpha</short>
+    <short name="INVALIDDESTBLEND">InvalidDestionationBlend</short>
+    <short name="INVALIDDESTBLENDALPHA">InvalidDestionationBlendAlpha</short>
+    <short name="INVALIDLOGICOPS">InvalidLogicOps</short>
+    <short name="INVALIDRENDERTARGETWRITEMASK">InvalidRenderTargetWriteMask</short>
+    <short name="INVALIDSRCBLEND">InvalidSourceBlend</short>
+    <short name="INVALIDSRCBLENDALPHA">InvalidSourceBlendAlpha</short>
+    <short name="NULLDESC">NullDescription</short>
+    <short name="AUTHENTICATEDCHANNEL">AuthenticatedChannel</short>
+    <short name="CREATEBUFFER">CreateBuffer</short>
+    <short name="INVALIDSTRUCTURESTRIDE">InvalidStructureStride</short>
+    <short name="INVALIDUSAGE">InvalidUsage</short>
+    <short name="CHECKCOUNTER">CheckCounter</short>
+    <short name="WELLKNOWN">WellKnown</short>
+    <short name="CREATECOUNTER">CreateCounter</short>
+    <short name="NONEXCLUSIVE">NonExclusive</short>
   </naming>
 
   <mapping>
     <map enum="D3D(\d+)(.*)" name-tmp="$2" />
     <map enum="D3D11_1_(.*)" name-tmp="$1"/>
-    
+
     <map enum="D3D11_CREATE_DEVICE_FLAG" name="DeviceCreationFlags" />
-    
+
     <map enum-item="D3D11_SHARED_RESOURCE_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D11_SHADER_MIN_PRECISION_10_BIT" name="Bit10"/>
     <map enum-item="D3D11_SHADER_MIN_PRECISION_16_BIT" name="Bit16"/>
@@ -165,7 +230,7 @@
     <map enum-item="D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS" name="DrawIndirectArgs"/>
     <map enum-item="D3D11_RESOURCE_MISC_GDI_COMPATIBLE" name="GdiCompatible"/>
     <map enum-item="D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX" name="SharedKeyedMutex"/>
-    
+
     <map enum="D3D11_BLEND_OP" name="BlendOperation" />
     <map enum="D3D11_CLEAR_FLAG" name="DepthStencilClearFlags" />
 
@@ -179,7 +244,7 @@
     <map enum-item="D3D11_TEXTURE_LAYOUT_64K_STANDARD_SWIZZLE" name="StandardSwizzle64K" />
     <map enum="D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG" name="CheckMultisampleQualityLevelsFlags" />
     <map enum="D3D11_RLDO_FLAGS" name="ReportLiveDeviceObjectFlags" />
-    
+
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
     <remove struct="D3D11_AES_CTR_IV" />
@@ -234,7 +299,7 @@
     <map struct="D3D11_MESSAGE" marshal="true" new="false" marshalto="true" />
     <map field="D3D11_MESSAGE::pDescription" name="Description" visibility="public"/>
     <map field="D3D11_MESSAGE::DescriptionByteLength" visibility="internal"/>
-    
+
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
 
@@ -334,7 +399,7 @@
     <map param="ID3D11Device3::CreateTexture3D1::pDesc1" attribute="in value" />
     <map param="ID3D11Device3::CreateTexture3D1::pInitialData" attribute="in buffer optional" default="null" />
     <map param="ID3D11Device3::CreateTexture3D1::ppTexture3D" attribute="out" return="true"/>
-    
+
     <!-- ID3D11Device4 -->
     <map param="ID3D11Device4::RegisterDeviceRemovedEvent::pdwCookie" return="true"/>
 
@@ -347,7 +412,7 @@
 
     <map method="ID3D11Fence::CreateSharedHandle" visibility="private" />
     <map param="ID3D11Fence::CreateSharedHandle::pHandle" attribute="out" return="true"/>
-    
+
     <!-- ID3D11DeviceContext -->
     <map method="ID3D11DeviceContext::GetType" property="false" name="GetContextType" />
     <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
@@ -371,17 +436,17 @@
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void"/>
-    
+
     <!-- ID3D11DeviceContext1 -->
     <map param="ID3D11DeviceContext1::ClearView::Color" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0"/>
-    
+
     <!-- ID3D11CommandList -->
     <remove method="ID3D11CommandList::GetContextFlags" />
-    
+
     <remove function="D3D11CreateDeviceAndSwapChain"/>
     <map function="D3D11.*" dll='"d3d11.dll"' group="SharpDirect3D11.D3D11" visibility="private" />
     <!--<map param="D3D11CreateDevice::ppDevice" attribute="out fast" />-->
     <map function="D3D11CreateDevice" check="false"/>
-    
+
   </mapping>
 </config>

@@ -112,12 +112,25 @@ namespace Vortice
             _fenceValue = 1;
             _fenceEvent = new AutoResetEvent(false);
 
+            var highestShaderVersion = _d3d12Device.CheckHighestShaderModel(ShaderModel.Model60);
+            var highestRootSignatureVersion = _d3d12Device.CheckHighestRootSignatureVersion(RootSignatureVersion.Version11);
+            var opts5 = _d3d12Device.CheckFeatureSupport<FeatureDataD3D12Options5>(SharpDirect3D12.Feature.Options5);
+
             var rootSignatureDesc = new RootSignatureDescription
             {
                 Flags = RootSignatureFlags.AllowInputAssemblerInputLayout
             };
 
-            var rootSignature = _d3d12Device.CreateRootSignature(rootSignatureDesc);
+            var versionedRootSignatureDesc = new VersionedRootSignatureDescription
+            {
+                Version = RootSignatureVersion.Version11,
+                Description_1_1 = new RootSignatureDescription1
+                {
+                    Flags = RootSignatureFlags.AllowInputAssemblerInputLayout
+                }
+            };
+
+            var rootSignature = _d3d12Device.CreateRootSignature(versionedRootSignatureDesc);
         }
 
         public void Dispose()
