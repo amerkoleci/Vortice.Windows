@@ -12,7 +12,9 @@ namespace SharpDXGI
         public static int SizeOf<T>() => Unsafe.SizeOf<T>();
 
         public static void Read<T>(IntPtr srcPointer, ref T value)
-            => Unsafe.Copy(ref value, srcPointer.ToPointer());
+        {
+            Unsafe.Copy(ref value, srcPointer.ToPointer());
+        }
 
         public static void Read<T>(IntPtr srcPointer, T[] values)
         {
@@ -20,6 +22,22 @@ namespace SharpDXGI
             long size = stride * values.Length;
             void* dstPtr = Unsafe.AsPointer(ref values[0]);
             Buffer.MemoryCopy(srcPointer.ToPointer(), dstPtr, size, size);
+        }
+
+        public static void Write<T>(IntPtr dstPointer, ref T value)
+        {
+            Unsafe.Copy(dstPointer.ToPointer(), ref value);
+        }
+
+        public static void Write<T>(IntPtr dstPointer, T[] values)
+        {
+            if (values == null || values.Length == 0)
+                return;
+
+            int stride = SizeOf<T>();
+            uint size = (uint)(stride * values.Length);
+            void* srcPtr = Unsafe.AsPointer(ref values[0]);
+            Unsafe.CopyBlock(dstPointer.ToPointer(), srcPtr, size);
         }
 
         public static IntPtr Alloc(int byteCount)

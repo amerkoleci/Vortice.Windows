@@ -461,6 +461,12 @@
     
     <!-- Shader -->
     <map param="ID3D11ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetOutputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetPatchConstantParameterDesc::pDesc" attribute="out" return="true"/>
+    
+    <map param="ID3D11ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
 
     <remove function="D3D11CreateDeviceAndSwapChain"/>
     <map function="D3D11.*" dll='"d3d11.dll"' group="SharpDirect3D11.D3D11" visibility="private" />

@@ -48,10 +48,24 @@ namespace SharpDirect3D11
             OMSetRenderTargets(1, new IntPtr(&renderTargetViewPtr), depthStencilView);
         }
 
+        public unsafe void OMSetRenderTargets(int renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
+        {
+            IntPtr* renderTargetViewsPtr = (IntPtr*)0;
+            if (renderTargetViewsCount > 0)
+            {
+                IntPtr* tempPtr = stackalloc IntPtr[renderTargetViewsCount];
+                renderTargetViewsPtr = tempPtr;
+                for (int i = 0; i < renderTargetViewsCount; i++)
+                {
+                    renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
+                }
+            }
+
+            OMSetRenderTargets(renderTargetViewsCount, (IntPtr)renderTargetViewsPtr, depthStencilView);
+        }
+
         public unsafe void OMSetRenderTargets(ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
         {
-            Guard.NotNull(renderTargetViews, nameof(renderTargetViews));
-
             var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
             for (int i = 0; i < renderTargetViews.Length; i++)
             {

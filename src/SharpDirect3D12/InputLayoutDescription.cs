@@ -2,8 +2,10 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpDXGI;
+using SharpGen.Runtime;
 
 namespace SharpDirect3D12
 {
@@ -35,18 +37,23 @@ namespace SharpDirect3D12
 
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        internal struct __Native
+        internal unsafe struct __Native
         {
-            public IntPtr InputElementsPointer;
+            public InputElementDescription.__Native* pInputElementDescs;
 
             public int NumElements;
 
             internal void __MarshalFree()
             {
-                if (InputElementsPointer != IntPtr.Zero)
-                {
-                    Marshal.FreeHGlobal(InputElementsPointer);
-                }
+                //if (InputElementsPointer != IntPtr.Zero)
+                //{
+                //    for (int i = 0; i < NumElements; i++)
+                //    {
+                //        elements[i].__MarshalFree(ref nativeElements[i]);
+                //    }
+
+                //    Marshal.FreeHGlobal(InputElementsPointer);
+                //}
             }
         }
 
@@ -75,7 +82,7 @@ namespace SharpDirect3D12
                     Elements[i].__MarshalTo(ref nativeElements[i]);
                 }
 
-                @ref.InputElementsPointer = (IntPtr)nativeElements;
+                @ref.pInputElementDescs = nativeElements;
             }
         }
         #endregion

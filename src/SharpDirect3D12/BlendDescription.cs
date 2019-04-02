@@ -9,11 +9,6 @@ namespace SharpDirect3D12
     public partial struct BlendDescription
     {
         /// <summary>
-        /// A built-in description with settings for default blend, that is no blend at all.
-        /// </summary>
-        public static readonly BlendDescription Default = new BlendDescription(Blend.One, Blend.Zero);
-
-        /// <summary>
         /// A built-in description with settings for additive blend, that is adding the destination data to the source data without using alpha.
         /// </summary>
         public static readonly BlendDescription Additive = new BlendDescription(Blend.SourceAlpha, Blend.One);

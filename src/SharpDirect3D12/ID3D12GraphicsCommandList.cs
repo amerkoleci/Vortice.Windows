@@ -159,6 +159,14 @@ namespace SharpDirect3D12
             }
         }
 
+        public unsafe void OMSetRenderTargets(int renderTargetDescriptorsCount, CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor)
+        {
+            fixed (void* pRT = renderTargetDescriptors)
+            {
+                OMSetRenderTargets(renderTargetDescriptorsCount, new IntPtr(pRT), false, depthStencilDescriptor);
+            }
+        }
+
         public void BeginEvent(string name)
         {
             Guard.NotNullOrEmpty(name, nameof(name));

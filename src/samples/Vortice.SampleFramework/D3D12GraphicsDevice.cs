@@ -171,8 +171,12 @@ namespace Vortice
                 InputLayout = new InputLayoutDescription(inputElementDescs),
                 SampleMask = int.MaxValue,
                 PrimitiveTopologyType = PrimitiveTopologyType.Triangle,
-                DepthStencilState = DepthStencilDescription.None,
+                RasterizerState = RasterizerDescription.CullCounterClockwise,
+                BlendState = BlendDescription.Opaque,
+                DepthStencilState = new DepthStencilDescription(false, true),
                 RenderTargetFormats = new[] { Format.R8G8B8A8_UNorm },
+                DepthStencilFormat = Format.Unknown,
+                SampleDescription = new SampleDescription(1, 0)
             };
 
             var pipelineState = _d3d12Device.CreateGraphicsPipelineState(psoDesc);

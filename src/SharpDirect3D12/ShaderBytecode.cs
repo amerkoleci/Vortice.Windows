@@ -68,7 +68,7 @@ namespace SharpDirect3D12
 
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
-            if (Data != null && Data.Length > 0)
+            if (Data?.Length > 0)
             {
                 @ref.Bytecode = Interop.AllocToPointer(Data);
                 @ref.Length = Data.Length;

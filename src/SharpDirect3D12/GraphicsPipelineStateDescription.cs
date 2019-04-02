@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpDXGI;
 using SharpGen.Runtime;
@@ -28,7 +29,7 @@ namespace SharpDirect3D12
 
         public BlendDescription BlendState { get; set; }
 
-        public int SampleMask { get; set; } = int.MaxValue;
+        public uint SampleMask { get; set; } = uint.MaxValue;
 
         public RasterizerDescription RasterizerState { get; set; }
 
@@ -68,21 +69,21 @@ namespace SharpDirect3D12
             public ShaderBytecode.__Native GeometryShader;
             public StreamOutputDescription.__Native StreamOutput;
             public BlendDescription.__Native BlendState;
-            public int SampleMask;
+            public uint SampleMask;
             public RasterizerDescription RasterizerState;
             public DepthStencilDescription DepthStencilState;
             public InputLayoutDescription.__Native InputLayout;
             public IndexBufferStripCutValue IndexBufferStripCutValue;
             public PrimitiveTopologyType PrimitiveTopologyType;
             public int NumRenderTargets;
-            public Format __RenderTargetFormats0;
-            public Format __RenderTargetFormats1;
-            public Format __RenderTargetFormats2;
-            public Format __RenderTargetFormats3;
-            public Format __RenderTargetFormats4;
-            public Format __RenderTargetFormats5;
-            public Format __RenderTargetFormats6;
-            public Format __RenderTargetFormats7;
+            public Format RenderTargetFormats;
+            private Format __RenderTargetFormats1;
+            private Format __RenderTargetFormats2;
+            private Format __RenderTargetFormats3;
+            private Format __RenderTargetFormats4;
+            private Format __RenderTargetFormats5;
+            private Format __RenderTargetFormats6;
+            private Format __RenderTargetFormats7;
             public Format DepthStencilFormat;
             public SampleDescription SampleDescription;
             public int NodeMask;
@@ -121,11 +122,10 @@ namespace SharpDirect3D12
             @ref.IndexBufferStripCutValue = IndexBufferStripCutValue;
             @ref.PrimitiveTopologyType = PrimitiveTopologyType;
             @ref.NumRenderTargets = RenderTargetFormats.Length;
-            fixed (void* __from = &RenderTargetFormats[0], __to = &@ref.__RenderTargetFormats0)
-            {
-                MemoryHelpers.CopyMemory((IntPtr)__to, (IntPtr)__from, BlendDescription.SimultaneousRenderTargetCount * sizeof(Format));
-            }
-
+            MemoryHelpers.CopyMemory(
+                (IntPtr)Unsafe.AsPointer(ref @ref.RenderTargetFormats),
+                (IntPtr)Unsafe.AsPointer(ref RenderTargetFormats[0]),
+                BlendDescription.SimultaneousRenderTargetCount * sizeof(Format));
             @ref.DepthStencilFormat = DepthStencilFormat;
             @ref.SampleDescription = SampleDescription;
             @ref.NodeMask = NodeMask;

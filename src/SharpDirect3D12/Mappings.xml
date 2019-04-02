@@ -34,6 +34,10 @@
     <const from-macro="D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT" class="SharpDirect3D12.BlendDescription" type="int" name="SimultaneousRenderTargetCount" />
     <const from-macro="D3D12_DEFAULT_STENCIL_READ_MASK" class="SharpDirect3D12.DepthStencilDescription" type="int" name="DefaultStencilReadMask" />
     <const from-macro="D3D12_DEFAULT_STENCIL_WRITE_MASK" class="SharpDirect3D12.DepthStencilDescription" type="int" name="DefaultStencilWriteMask" />
+    <const from-macro="D3D12_DEFAULT_DEPTH_BIAS" class="SharpDirect3D12.RasterizerDescription" type="int" name="DefaultDepthBias" />
+    <const from-macro="D3D12_DEFAULT_DEPTH_BIAS_CLAMP" class="SharpDirect3D12.RasterizerDescription" type="float" name="DefaultDepthBiasClamp" />
+    <const from-macro="D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS" class="SharpDirect3D12.RasterizerDescription" type="float" name="DefaultSlopeScaledDepthBias" />
+    
   </extension>
 
   <bindings>
@@ -473,6 +477,18 @@
     <!-- ID3D12PipelineLibrary1 methods -->
     <map method="ID3D12PipelineLibrary1::LoadPipeline" visibility="private"/>
     <map param="ID3D12PipelineLibrary1::LoadPipeline::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
+
+    <!-- Shader -->
+    <map param="ID3D12ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12ShaderReflection::GetOutputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12ShaderReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12ShaderReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12ShaderReflection::GetPatchConstantParameterDesc::pDesc" attribute="out" return="true"/>
+
+    <map param="ID3D12FunctionReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12FunctionReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
+
+    <map param="ID3D12ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
 
     <map function="D3D12.*" dll='"d3d12.dll"' group="SharpDirect3D12.D3D12" visibility="internal" />
     <map function="D3D12CreateDevice" check="false"/>
