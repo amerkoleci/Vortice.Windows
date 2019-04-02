@@ -36,6 +36,11 @@
            attach="true"
            output="Debug" />
 
+  <include file="d3d11shader.h"
+           namespace="SharpDirect3D11.Shader"
+           attach="true"
+           output="Shader" />
+
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="SharpDirect3D11.D3D11" type="int" name="SdkVersion" />
     <create class="D3D11" visibility="public static" />
@@ -54,6 +59,10 @@
 
     <const from-macro="D3D11_1_UAV_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewSlotCount" />
     <const from-macro="D3D11_PS_CS_UAV_REGISTER_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewRegisterCount" />
+
+    <const from-macro="D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT" class="SharpDirect3D11.BlendDescription" type="int" name="SimultaneousRenderTargetCount" />
+    <const from-macro="D3D11_DEFAULT_STENCIL_READ_MASK" class="SharpDirect3D11.DepthStencilDescription" type="int" name="DefaultStencilReadMask" />
+    <const from-macro="D3D11_DEFAULT_STENCIL_WRITE_MASK" class="SharpDirect3D11.DepthStencilDescription" type="int" name="DefaultStencilWriteMask" />
   </extension>
 
   <bindings>
@@ -219,7 +228,7 @@
     <map enum="D3D11_COUNTER" name="CounterKind" />
     <map enum="D3D11_FORMAT_SUPPORT" flags="true" none="true" />
     <map enum="D3D11_FORMAT_SUPPORT2" flags="true" none="true" />
-    <map enum="D3D11_COLOR_WRITE_ENABLE" name="ColorWriteMaskFlags" type="byte" flags="true"  />
+    <map enum="D3D11_COLOR_WRITE_ENABLE" name="ColorWriteEnable" type="byte" flags="true"  />
     <map enum-item="D3D11_COLOR_WRITE_ENABLE_(.*)" name-tmp="$1" />
 
     <map enum="D3D11_CPU_ACCESS_FLAG" name="CpuAccessFlags" />
@@ -299,6 +308,13 @@
     <map struct="D3D11_MESSAGE" marshal="true" new="false" marshalto="true" />
     <map field="D3D11_MESSAGE::pDescription" name="Description" visibility="public"/>
     <map field="D3D11_MESSAGE::DescriptionByteLength" visibility="internal"/>
+
+    <map field="D3D11_INPUT_ELEMENT_DESC::InputSlot" name="Slot" />
+    <map field="D3D11_INPUT_ELEMENT_DESC::InputSlotClass" name="Classification" />
+
+    <map struct="D3D11_BLEND_DESC" marshalto="true"/>
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
 
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
@@ -442,6 +458,9 @@
 
     <!-- ID3D11CommandList -->
     <remove method="ID3D11CommandList::GetContextFlags" />
+    
+    <!-- Shader -->
+    <map param="ID3D11ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
 
     <remove function="D3D11CreateDeviceAndSwapChain"/>
     <map function="D3D11.*" dll='"d3d11.dll"' group="SharpDirect3D11.D3D11" visibility="private" />

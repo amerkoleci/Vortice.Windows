@@ -73,7 +73,7 @@ namespace Vortice
                 BufferCount = FrameCount,
                 Width = window.Width,
                 Height = window.Height,
-                Format = Format.B8G8R8A8_UNorm,
+                Format = Format.R8G8B8A8_UNorm,
                 Usage = Usage.RenderTargetOutput,
                 SwapEffect = SwapEffect.FlipDiscard,
                 SampleDescription = new SampleDescription(1, 0)
@@ -130,7 +130,52 @@ namespace Vortice
                 }
             };
 
-            var rootSignature = _d3d12Device.CreateRootSignature(versionedRootSignatureDesc);
+            var rootSignature = _d3d12Device.CreateRootSignature(rootSignatureDesc);
+
+            const string shaderSource = @"struct PSInput {
+                float4 position : SV_POSITION;
+                float4 color : COLOR;
+            };
+            PSInput VSMain(float4 position : POSITION, float4 color : COLOR) {
+                PSInput result;
+                result.position = position;
+                result.color = color;
+                return result;
+            }
+            float4 PSMain(PSInput input) : SV_TARGET {
+                return input.color;
+            }
+";
+
+            var vertexShader = ShaderCompiler.Compile(shaderSource, ShaderStage.Vertex);
+            var pixelShader = ShaderCompiler.Compile(shaderSource, ShaderStage.Pixel);
+
+            var reflection = new SharpDirect3D11.Shader.ID3D11ShaderReflection(vertexShader);
+            var description = reflection.Description;
+            for (int i = 0; i < description.InputParameters; i++)
+            {
+                var t = reflection.GetInputParameterDescription(i);
+            }
+
+            var inputElementDescs = new[]
+            {
+                new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
+                new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
+            };
+
+            var psoDesc = new GraphicsPipelineStateDescription()
+            {
+                RootSignature = rootSignature,
+                VertexShader = vertexShader,
+                PixelShader = pixelShader,
+                InputLayout = new InputLayoutDescription(inputElementDescs),
+                SampleMask = int.MaxValue,
+                PrimitiveTopologyType = PrimitiveTopologyType.Triangle,
+                DepthStencilState = DepthStencilDescription.None,
+                RenderTargetFormats = new[] { Format.R8G8B8A8_UNorm },
+            };
+
+            var pipelineState = _d3d12Device.CreateGraphicsPipelineState(psoDesc);
         }
 
         public void Dispose()

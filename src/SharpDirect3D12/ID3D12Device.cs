@@ -212,7 +212,16 @@ namespace SharpDirect3D12
 
         public ID3D12PipelineState CreateComputePipelineState(ComputePipelineStateDescription description)
         {
-            return CreateComputePipelineState(ref description, typeof(ID3D12PipelineState).GUID);
+            Guard.NotNull(description, nameof(description));
+
+            return CreateComputePipelineState(description, typeof(ID3D12PipelineState).GUID);
+        }
+
+        public ID3D12PipelineState CreateGraphicsPipelineState(GraphicsPipelineStateDescription description)
+        {
+            Guard.NotNull(description, nameof(description));
+
+            return CreateGraphicsPipelineState(description, typeof(ID3D12PipelineState).GUID);
         }
 
         public ID3D12QueryHeap CreateQueryHeap(QueryHeapDescription description)

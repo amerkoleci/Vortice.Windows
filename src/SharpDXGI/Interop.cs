@@ -22,6 +22,18 @@ namespace SharpDXGI
             Buffer.MemoryCopy(srcPointer.ToPointer(), dstPtr, size, size);
         }
 
+        public static IntPtr Alloc(int byteCount)
+        {
+            if (byteCount == 0)
+            {
+                return IntPtr.Zero;
+            }
+
+            return Marshal.AllocHGlobal(byteCount);
+        }
+
+        public static IntPtr Alloc<T>(int count = 1) => Alloc(Unsafe.SizeOf<T>() * count);
+
         public static IntPtr AllocToPointer<T>(T[] values) where T : struct
         {
             if (values == null

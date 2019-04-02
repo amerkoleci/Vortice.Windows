@@ -26,7 +26,6 @@ namespace SharpDirect3D12.Debug
             return message;
         }
 
-
         public unsafe InfoQueueFilter GetStorageFilter()
         {
             var sizeFilter = PointerSize.Zero;
