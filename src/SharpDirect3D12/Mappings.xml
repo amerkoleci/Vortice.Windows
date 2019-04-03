@@ -293,7 +293,8 @@
 
     <map struct="D3D12_SHADER_BYTECODE" name="ShaderBytecode" struct-to-class="true" marshal="true"  />
     <remove field="D3D12_SHADER_BYTECODE::.*"/>
-
+    
+    <map struct="D3D12_INPUT_ELEMENT_DESC" marshalto="true"/>
     <map field="D3D12_INPUT_ELEMENT_DESC::InputSlot" name="Slot" />
     <map field="D3D12_INPUT_ELEMENT_DESC::InputSlotClass" name="Classification" />
 
@@ -301,11 +302,9 @@
     <remove field="D3D12_INPUT_LAYOUT_DESC::.*"/>
 
     <map struct="D3D12_SO_DECLARATION_ENTRY" name="StreamOutputElement" marshalto="true" />
-    <map struct="D3D12_STREAM_OUTPUT_DESC" struct-to-class="true" marshalto="true"/>
-    <map field="D3D12_STREAM_OUTPUT_DESC::pSODeclaration" visibility="private" />
-    <map field="D3D12_STREAM_OUTPUT_DESC::NumEntries" visibility="private"/>
-    <map field="D3D12_STREAM_OUTPUT_DESC::pBufferStrides" visibility="private" />
-    <map field="D3D12_STREAM_OUTPUT_DESC::NumStrides" visibility="private"/>
+
+    <map struct="D3D12_STREAM_OUTPUT_DESC" name="StreamOutputDescription" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_STREAM_OUTPUT_DESC::.*"/>
 
     <map struct="D3D12_GRAPHICS_PIPELINE_STATE_DESC" name="GraphicsPipelineStateDescription" native="true" struct-to-class="true" marshal="true" />
     <remove field="D3D12_GRAPHICS_PIPELINE_STATE_DESC::.*"/>
@@ -493,7 +492,7 @@
     <map function="D3D12.*" dll='"d3d12.dll"' group="SharpDirect3D12.D3D12" visibility="internal" />
     <map function="D3D12CreateDevice" check="false"/>
     <map function="D3D12GetDebugInterface" hresult="true" check="false"/>
-    <map function="D3D12SerializeRootSignature" hresult="true" check="false"/>
+    <remove function="D3D12SerializeRootSignature"/>
     <map function="D3D12SerializeVersionedRootSignature" hresult="true" check="false"/>
 
   </mapping>

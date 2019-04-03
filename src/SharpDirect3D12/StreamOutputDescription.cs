@@ -1,6 +1,11 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
+using System.Runtime.InteropServices;
+using SharpDXGI;
+using SharpGen.Runtime;
+
 namespace SharpDirect3D12
 {
     /// <summary>
@@ -26,6 +31,11 @@ namespace SharpDirect3D12
         public int[] Strides { get; set; }
 
         /// <summary>
+        /// The index number of the stream to be sent to the rasterizer stage.
+        /// </summary>
+        public int RasterizedStream { get; set; }
+
+        /// <summary>
         /// Implicitely converts to an <see cref="StreamOutputDescription"/> from an array of <see cref="StreamOutputElement"/>
         /// </summary>
         /// <param name="elements">Array of <see cref="StreamOutputElement"/>.</param>
@@ -33,5 +43,64 @@ namespace SharpDirect3D12
         {
             return new StreamOutputDescription(elements);
         }
+
+        #region Marshal
+        [StructLayout(LayoutKind.Sequential, Pack = 0)]
+        internal unsafe struct __Native
+        {
+            public StreamOutputElement.__Native* pSODeclaration;
+            public int NumEntries;
+            public IntPtr pBufferStrides;
+            public int NumStrides;
+            public int RasterizedStream;
+        }
+
+        internal unsafe void __MarshalFree(ref __Native @ref)
+        {
+            if (@ref.pSODeclaration != null)
+            {
+                for (int i = 0; i < @ref.NumEntries; i++)
+                {
+                    Elements[i].__MarshalFree(ref @ref.pSODeclaration[i]);
+                }
+
+                Marshal.FreeHGlobal((IntPtr)@ref.pSODeclaration);
+            }
+
+            if (@ref.pBufferStrides != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(@ref.pBufferStrides);
+            }
+        }
+
+        internal unsafe void __MarshalTo(ref __Native @ref)
+        {
+            @ref.NumEntries = Elements?.Length ?? 0;
+            if (@ref.NumEntries > 0)
+            {
+                var nativeElements = (StreamOutputElement.__Native*)Interop.Alloc<StreamOutputElement.__Native>(@ref.NumEntries);
+                for (int i = 0; i < @ref.NumEntries; i++)
+                {
+                    Elements[i].__MarshalTo(ref nativeElements[i]);
+                }
+
+                @ref.pSODeclaration = nativeElements;
+            }
+
+            @ref.NumStrides = Strides?.Length ?? 0;
+            if (@ref.NumStrides > 0)
+            {
+                var nativeStrides = Interop.Alloc<int>(@ref.NumStrides);
+                fixed (int* src = &Strides[0])
+                {
+                    MemoryHelpers.CopyMemory(nativeStrides, (IntPtr)src, @ref.NumStrides * sizeof(int));
+                }
+
+                @ref.pBufferStrides = nativeStrides;
+            }
+
+            @ref.RasterizedStream = RasterizedStream;
+        }
+        #endregion
     }
 }

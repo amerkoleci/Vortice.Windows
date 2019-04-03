@@ -4,6 +4,8 @@
 using System;
 using System.Runtime.InteropServices;
 using SharpDXGI;
+using SharpDXGI.Direct3D;
+using SharpGen.Runtime;
 
 namespace SharpDirect3D12
 {
@@ -15,7 +17,7 @@ namespace SharpDirect3D12
         public RootParameter[] Parameters { get; set; }
         public StaticSamplerDescription[] StaticSamplers { get; set; }
         public RootSignatureFlags Flags { get; set; }
-
+        
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal struct __Native

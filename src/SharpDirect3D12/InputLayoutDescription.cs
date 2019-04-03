@@ -42,32 +42,18 @@ namespace SharpDirect3D12
             public InputElementDescription.__Native* pInputElementDescs;
 
             public int NumElements;
-
-            internal void __MarshalFree()
-            {
-                //if (InputElementsPointer != IntPtr.Zero)
-                //{
-                //    for (int i = 0; i < NumElements; i++)
-                //    {
-                //        elements[i].__MarshalFree(ref nativeElements[i]);
-                //    }
-
-                //    Marshal.FreeHGlobal(InputElementsPointer);
-                //}
-            }
         }
 
-        internal void __MarshalFree(ref __Native @ref)
+        internal unsafe void __MarshalFree(ref __Native @ref)
         {
-            @ref.__MarshalFree();
-        }
-
-        internal void __MarshalFrom(ref __Native @ref)
-        {
-            Elements = new InputElementDescription[@ref.NumElements];
-            if (@ref.NumElements > 0)
+            if (@ref.pInputElementDescs != null)
             {
-                //Interop.Read(@ref.PCategoryList, Categories);
+                for (int i = 0; i < @ref.NumElements; i++)
+                {
+                    Elements[i].__MarshalFree(ref @ref.pInputElementDescs[i]);
+                }
+
+                Marshal.FreeHGlobal((IntPtr)@ref.pInputElementDescs);
             }
         }
 

@@ -21,12 +21,17 @@ namespace Vortice
 
         public readonly Window Window;
         public readonly IDXGIFactory4 DXGIFactory;
+        public readonly IDXGIAdapter1 DXGIAdapter;
         private readonly ID3D12Device _d3d12Device;
         private readonly ID3D12CommandQueue _d3d12CommandQueue;
         private readonly ID3D12DescriptorHeap _rtvHeap;
         private readonly int _rtvDescriptorSize;
         private readonly ID3D12Resource[] _renderTargets;
         private readonly ID3D12CommandAllocator _commandAllocator;
+
+        private readonly ID3D12RootSignature _rootSignature;
+        private readonly ID3D12PipelineState _pipelineState;
+
         private readonly ID3D12GraphicsCommandList _commandList;
         private readonly ID3D12Fence _d3d12Fence;
         private ulong _fenceValue;
@@ -65,8 +70,28 @@ namespace Vortice
                 throw new InvalidOperationException("Cannot create IDXGIFactory4");
             }
 
-            D3D12CreateDevice(null, FeatureLevel.Level_11_0, out _d3d12Device).CheckError();
-            _d3d12CommandQueue = _d3d12Device.CreateCommandQueue(new CommandQueueDescription(CommandListType.Direct, CommandQueuePriority.Normal));
+            var adapters = DXGIFactory.EnumAdapters1();
+            for (var i = 0; i < adapters.Length; i++)
+            {
+                var adapter = adapters[i];
+                var desc = adapter.Description1;
+
+                // Don't select the Basic Render Driver adapter.
+                if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
+                {
+                    continue;
+                }
+
+                if (D3D12CreateDevice(adapter, FeatureLevel.Level_11_0, out var device).Success)
+                {
+                    DXGIAdapter = adapter;
+                    _d3d12Device = device;
+                    break;
+                }
+            }
+
+            // Create Command queue.
+            _d3d12CommandQueue = _d3d12Device.CreateCommandQueue(CommandListType.Direct);
 
             var swapChainDesc = new SwapChainDescription1
             {
@@ -104,33 +129,21 @@ namespace Vortice
             }
 
             _commandAllocator = _d3d12Device.CreateCommandAllocator(CommandListType.Direct);
-            _commandList = _d3d12Device.CreateCommandList(CommandListType.Direct, _commandAllocator);
-            _commandList.Close();
 
-            // Create synchronization objects.
-            _d3d12Fence = _d3d12Device.CreateFence(0);
-            _fenceValue = 1;
-            _fenceEvent = new AutoResetEvent(false);
-
-            var highestShaderVersion = _d3d12Device.CheckHighestShaderModel(ShaderModel.Model60);
+            //var highestShaderVersion = _d3d12Device.CheckHighestShaderModel(ShaderModel.Model60);
             var highestRootSignatureVersion = _d3d12Device.CheckHighestRootSignatureVersion(RootSignatureVersion.Version11);
-            var opts5 = _d3d12Device.CheckFeatureSupport<FeatureDataD3D12Options5>(SharpDirect3D12.Feature.Options5);
+            //var opts5 = _d3d12Device.CheckFeatureSupport<FeatureDataD3D12Options5>(SharpDirect3D12.Feature.Options5);
 
-            var rootSignatureDesc = new RootSignatureDescription
+            var rootSignatureDesc = new VersionedRootSignatureDescription
             {
-                Flags = RootSignatureFlags.AllowInputAssemblerInputLayout
-            };
-
-            var versionedRootSignatureDesc = new VersionedRootSignatureDescription
-            {
-                Version = RootSignatureVersion.Version11,
+                Version = highestRootSignatureVersion,
                 Description_1_1 = new RootSignatureDescription1
                 {
                     Flags = RootSignatureFlags.AllowInputAssemblerInputLayout
                 }
             };
 
-            var rootSignature = _d3d12Device.CreateRootSignature(rootSignatureDesc);
+            _rootSignature = _d3d12Device.CreateRootSignature(0, rootSignatureDesc);
 
             const string shaderSource = @"struct PSInput {
                 float4 position : SV_POSITION;
@@ -145,17 +158,12 @@ namespace Vortice
             float4 PSMain(PSInput input) : SV_TARGET {
                 return input.color;
             }
-";
 
-            var vertexShader = ShaderCompiler.Compile(shaderSource, ShaderStage.Vertex);
-            var pixelShader = ShaderCompiler.Compile(shaderSource, ShaderStage.Pixel);
-
-            var reflection = new SharpDirect3D11.Shader.ID3D11ShaderReflection(vertexShader);
-            var description = reflection.Description;
-            for (int i = 0; i < description.InputParameters; i++)
+            [numthreads(1, 1, 1)]
+            void CSMain(uint3 DTid : SV_DispatchThreadID )
             {
-                var t = reflection.GetInputParameterDescription(i);
             }
+";
 
             var inputElementDescs = new[]
             {
@@ -165,21 +173,38 @@ namespace Vortice
 
             var psoDesc = new GraphicsPipelineStateDescription()
             {
-                RootSignature = rootSignature,
-                VertexShader = vertexShader,
-                PixelShader = pixelShader,
+                RootSignature = _rootSignature,
+                VertexShader = ShaderCompiler.Compile(shaderSource, ShaderStage.Vertex),
+                PixelShader = ShaderCompiler.Compile(shaderSource, ShaderStage.Pixel),
                 InputLayout = new InputLayoutDescription(inputElementDescs),
-                SampleMask = int.MaxValue,
+                SampleMask = uint.MaxValue,
                 PrimitiveTopologyType = PrimitiveTopologyType.Triangle,
                 RasterizerState = RasterizerDescription.CullCounterClockwise,
                 BlendState = BlendDescription.Opaque,
-                DepthStencilState = new DepthStencilDescription(false, true),
+                DepthStencilState = new DepthStencilDescription(false, false),
                 RenderTargetFormats = new[] { Format.R8G8B8A8_UNorm },
                 DepthStencilFormat = Format.Unknown,
                 SampleDescription = new SampleDescription(1, 0)
             };
 
-            var pipelineState = _d3d12Device.CreateGraphicsPipelineState(psoDesc);
+            _pipelineState = _d3d12Device.CreateGraphicsPipelineState(psoDesc);
+
+            _commandList = _d3d12Device.CreateCommandList(CommandListType.Direct, _commandAllocator, _pipelineState);
+            _commandList.Close();
+
+            var vertexBufferSize = 3 * Unsafe.SizeOf<Vertex>();
+
+            var vertexBuffer = _d3d12Device.CreateCommittedResource(
+                new HeapProperties(HeapType.Upload),
+                HeapFlags.None,
+                ResourceDescription.Buffer((ulong)vertexBufferSize),
+                ResourceStates.GenericRead);
+
+            // Create synchronization objects.
+            _d3d12Fence = _d3d12Device.CreateFence(0);
+            _fenceValue = 1;
+            _fenceEvent = new AutoResetEvent(false);
+            WaitForPreviousFrame();
         }
 
         public void Dispose()
@@ -246,5 +271,18 @@ namespace Vortice
 
             _frameIndex = SwapChain.GetCurrentBackBufferIndex();
         }
+
+        private readonly struct Vertex
+        {
+            public readonly Vector3 Position;
+            public readonly Color4 Color;
+
+            public Vertex(in Vector3 position, in Color4 color)
+            {
+                Position = position;
+                Color = color;
+            }
+        };
+
     }
 }

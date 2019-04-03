@@ -38,7 +38,6 @@ namespace SharpDirect3D12
 
         internal void __MarshalFrom(ref __Native @ref)
         {
-
         }
 
         internal unsafe void __MarshalTo(ref __Native @ref)

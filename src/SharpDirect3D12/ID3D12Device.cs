@@ -119,6 +119,16 @@ namespace SharpDirect3D12
                 typeof(ID3D12Resource).GUID);
         }
 
+        public ID3D12CommandQueue CreateCommandQueue(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
+        {
+            return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask), typeof(ID3D12CommandQueue).GUID);
+        }
+
+        public ID3D12CommandQueue CreateCommandQueue(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
+        {
+            return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask), typeof(ID3D12CommandQueue).GUID);
+        }
+
         public ID3D12CommandQueue CreateCommandQueue(CommandQueueDescription description)
         {
             return CreateCommandQueue(description, typeof(ID3D12CommandQueue).GUID);
@@ -157,50 +167,34 @@ namespace SharpDirect3D12
             return CreateHeap(ref description, typeof(ID3D12Heap).GUID);
         }
 
-        public ID3D12RootSignature CreateRootSignature(int nodeMask, VersionedRootSignatureDescription description)
+        public ID3D12RootSignature CreateRootSignature(int nodeMask, VersionedRootSignatureDescription rootSignatureDescription)
         {
-            var result = D3D12.D3D12SerializeVersionedRootSignature(description, out var blob, out var errorBlob);
+            Guard.NotNull(rootSignatureDescription, nameof(rootSignatureDescription));
+
+            var result = D3D12.D3D12SerializeVersionedRootSignature(rootSignatureDescription, out var blob, out var errorBlob);
             if (result.Failure)
             {
-                return null;
+                if (errorBlob != null)
+                {
+                    throw new SharpGenException(result, errorBlob.ConvertToString());
+                }
+
+                throw new SharpGenException(result);
             }
 
-            var signature = CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID);
-            blob.Dispose();
-            return signature;
-        }
-
-        public ID3D12RootSignature CreateRootSignature(VersionedRootSignatureDescription description)
-        {
-            return CreateRootSignature(0, description);
-        }
-
-        public ID3D12RootSignature CreateRootSignature(int nodeMask, RootSignatureDescription description, RootSignatureVersion version = RootSignatureVersion.Version1)
-        {
-            var result = D3D12.D3D12SerializeRootSignature(description, version, out var blob, out var errorBlob);
-            if (result.Failure)
+            try
             {
-                return null;
+                return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID);
             }
-
-            var signature = CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID);
-            blob.Dispose();
-            return signature;
+            finally
+            {
+                blob.Dispose();
+            }
         }
 
-        public ID3D12RootSignature CreateRootSignature(RootSignatureDescription description, RootSignatureVersion version = RootSignatureVersion.Version1)
+        public ID3D12RootSignature CreateRootSignature(VersionedRootSignatureDescription rootSignatureDescription)
         {
-            return CreateRootSignature(0, description, version);
-        }
-
-        public ID3D12RootSignature CreateRootSignature(Blob blob)
-        {
-            return CreateRootSignature(0, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID);
-        }
-
-        public ID3D12RootSignature CreateRootSignature(int nodeMask, Blob blob)
-        {
-            return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID);
+            return CreateRootSignature(0, rootSignatureDescription);
         }
 
         public ID3D12CommandSignature CreateCommandSignature(CommandSignatureDescription description, ID3D12RootSignature rootSignature)

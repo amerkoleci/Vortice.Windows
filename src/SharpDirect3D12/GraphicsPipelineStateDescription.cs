@@ -3,7 +3,6 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using SharpDXGI;
 using SharpGen.Runtime;
 
@@ -58,7 +57,6 @@ namespace SharpDirect3D12
         public PipelineStateFlags Flags { get; set; }
 
         #region Marshal
-        [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal struct __Native
         {
             public IntPtr RootSignature;
@@ -73,7 +71,7 @@ namespace SharpDirect3D12
             public RasterizerDescription RasterizerState;
             public DepthStencilDescription DepthStencilState;
             public InputLayoutDescription.__Native InputLayout;
-            public IndexBufferStripCutValue IndexBufferStripCutValue;
+            public IndexBufferStripCutValue IBStripCutValue;
             public PrimitiveTopologyType PrimitiveTopologyType;
             public int NumRenderTargets;
             public Format RenderTargetFormats;
@@ -119,13 +117,21 @@ namespace SharpDirect3D12
             @ref.RasterizerState = RasterizerState;
             @ref.DepthStencilState = DepthStencilState;
             InputLayout?.__MarshalTo(ref @ref.InputLayout);
-            @ref.IndexBufferStripCutValue = IndexBufferStripCutValue;
+            @ref.IBStripCutValue = IndexBufferStripCutValue;
             @ref.PrimitiveTopologyType = PrimitiveTopologyType;
-            @ref.NumRenderTargets = RenderTargetFormats.Length;
-            MemoryHelpers.CopyMemory(
-                (IntPtr)Unsafe.AsPointer(ref @ref.RenderTargetFormats),
-                (IntPtr)Unsafe.AsPointer(ref RenderTargetFormats[0]),
-                BlendDescription.SimultaneousRenderTargetCount * sizeof(Format));
+            if (RenderTargetFormats.Length > 0)
+            {
+                @ref.NumRenderTargets = Math.Min(RenderTargetFormats.Length, BlendDescription.SimultaneousRenderTargetCount);
+                MemoryHelpers.CopyMemory(
+                    (IntPtr)Unsafe.AsPointer(ref @ref.RenderTargetFormats),
+                    (IntPtr)Unsafe.AsPointer(ref RenderTargetFormats[0]),
+                    @ref.NumRenderTargets * sizeof(Format));
+            }
+            else
+            {
+                @ref.NumRenderTargets = 0;
+            }
+
             @ref.DepthStencilFormat = DepthStencilFormat;
             @ref.SampleDescription = SampleDescription;
             @ref.NodeMask = NodeMask;

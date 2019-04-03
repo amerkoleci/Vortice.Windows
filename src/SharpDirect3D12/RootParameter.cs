@@ -13,9 +13,36 @@ namespace SharpDirect3D12
     public partial struct RootParameter
     {
         #region Marshal
-        private RootParameterType _parameterType;
+        public RootParameterType ParameterType;
         private Union _union;
-        private ShaderVisibility _shaderVisibility;
+
+        public RootDescriptorTable DescriptorTable
+        {
+            get
+            {
+                var result = new RootDescriptorTable();
+                result.__MarshalFrom(ref _union.DescriptorTable);
+                return result;
+            }
+            set
+            {
+                value.__MarshalTo(ref _union.DescriptorTable);
+            }
+        }
+
+        public RootConstants Constants
+        {
+            get => _union.Constants;
+            set => _union.Constants = value;
+        }
+
+        public RootDescriptor Descriptor
+        {
+            get => _union.Descriptor;
+            set => _union.Descriptor = value;
+        }
+
+        public ShaderVisibility ShaderVisibility;
 
         [StructLayout(LayoutKind.Explicit, Pack = 0)]
         private struct Union
