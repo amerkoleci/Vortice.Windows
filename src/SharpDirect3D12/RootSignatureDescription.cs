@@ -4,8 +4,6 @@
 using System;
 using System.Runtime.InteropServices;
 using SharpDXGI;
-using SharpDXGI.Direct3D;
-using SharpGen.Runtime;
 
 namespace SharpDirect3D12
 {
@@ -17,7 +15,28 @@ namespace SharpDirect3D12
         public RootParameter[] Parameters { get; set; }
         public StaticSamplerDescription[] StaticSamplers { get; set; }
         public RootSignatureFlags Flags { get; set; }
-        
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RootSignatureDescription"/> class.
+        /// </summary>
+        public RootSignatureDescription()
+            : this(RootSignatureFlags.None)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RootSignatureDescription"/> class.
+        /// </summary>
+        /// <param name="flags">The flags.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="samplers">The samplers.</param>
+        public RootSignatureDescription(RootSignatureFlags flags, RootParameter[] parameters = null, StaticSamplerDescription[] samplers = null)
+        {
+            Parameters = parameters;
+            StaticSamplers = samplers;
+            Flags = flags;
+        }
+
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal struct __Native

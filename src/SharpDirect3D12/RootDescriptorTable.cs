@@ -17,6 +17,11 @@ namespace SharpDirect3D12
         /// </summary>
         public DescriptorRange[] Ranges { get; set; }
 
+        public RootDescriptorTable(params DescriptorRange[] ranges)
+        {
+            Ranges = ranges;
+        }
+
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal struct __Native

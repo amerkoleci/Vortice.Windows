@@ -53,7 +53,7 @@ namespace SharpDirect3D11
             IntPtr* renderTargetViewsPtr = (IntPtr*)0;
             if (renderTargetViewsCount > 0)
             {
-                IntPtr* tempPtr = stackalloc IntPtr[renderTargetViewsCount];
+                var tempPtr = stackalloc IntPtr[renderTargetViewsCount];
                 renderTargetViewsPtr = tempPtr;
                 for (int i = 0; i < renderTargetViewsCount; i++)
                 {
@@ -87,7 +87,7 @@ namespace SharpDirect3D11
             // Marshal array.
             var renderTargetViewsPtr = renderTargetView.NativePointer;
 
-            IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+            var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
             int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
             for (int i = 0; i < unorderedAccessViews.Length; i++)
             {
@@ -117,7 +117,7 @@ namespace SharpDirect3D11
                 renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
             }
 
-            IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+            var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
             int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
             for (int i = 0; i < unorderedAccessViews.Length; i++)
             {
@@ -171,6 +171,28 @@ namespace SharpDirect3D11
         public Result FinishCommandList(bool restoreState, ID3D11CommandList commandList)
         {
             return FinishCommandListInternal(restoreState, commandList);
+        }
+
+        public bool IsDataAvailable(ID3D11Asynchronous data)
+        {
+            return GetData(data, IntPtr.Zero, 0, AsyncGetDataFlags.None) == Result.Ok;
+        }
+
+        public bool IsDataAvailable(ID3D11Asynchronous data, AsyncGetDataFlags flags)
+        {
+            return GetData(data, IntPtr.Zero, 0, flags) == Result.Ok;
+        }
+
+        public T GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags) where T : struct
+        {
+            GetData(data, flags, out T result);
+            return result;
+        }
+
+        public unsafe bool GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags, out T result) where T : struct
+        {
+            result = default;
+            return GetData(data, (IntPtr)Unsafe.AsPointer(ref result), Unsafe.SizeOf<T>(), flags) == Result.Ok;
         }
     }
 }

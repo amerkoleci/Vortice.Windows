@@ -83,7 +83,6 @@
     <define struct="System.Numerics.Matrix3x2" sizeof="24" />
     <define struct="System.Numerics.Matrix4x4" sizeof="64" />
     <define struct="SharpDXGI.RawRectangle" sizeof="16" />
-    <define struct="SharpDXGI.RawRectangleF" sizeof="16" />
 
     <create-cpp enum="DXGI_PRESENT_FLAGS" macro="DXGI_PRESENT_.*" />
     <create-cpp enum="DXGI_USAGE_ENUM" macro="DXGI_USAGE_.*" />
@@ -395,6 +394,12 @@
     <map param="IDXGIAdapter3::RegisterVideoMemoryBudgetChangeNotificationEvent::pdwCookie" return="true"/>
     
     <!-- IDXGIDecodeSwapChain -->
+    <map method="IDXGIDecodeSwapChain::GetSourceRect" visibility="private" property="false" />
+    <map method="IDXGIDecodeSwapChain::SetSourceRect" visibility="private" property="false" />
+    <map method="IDXGIDecodeSwapChain::GetTargetRect" visibility="private" property="false" />
+    <map method="IDXGIDecodeSwapChain::SetTargetRect" visibility="private" property="false" />
+    <map method="IDXGIDecodeSwapChain::GetDestSize" visibility="private" property="false" />
+    <map method="IDXGIDecodeSwapChain::SetDestSize" visibility="private" property="false" />
     <map param="IDXGIDecodeSwapChain::PresentBuffer::Flags" type="DXGI_PRESENT_FLAGS" />
 
     <!-- IDXGIDevice -->

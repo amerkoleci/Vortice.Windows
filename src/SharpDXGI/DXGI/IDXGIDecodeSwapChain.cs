@@ -7,7 +7,33 @@ namespace SharpDXGI
 {
     public partial class IDXGIDecodeSwapChain
     {
-        public Size DestSize
+        public Rectangle SourceRectangle
+        {
+            get
+            {
+                GetSourceRect(out RawRectangle rawRect);
+                return rawRect;
+            }
+            set
+            {
+                SetSourceRect(value);
+            }
+        }
+
+        public Rectangle TargetRectangle
+        {
+            get
+            {
+                GetTargetRect(out RawRectangle rawRect);
+                return rawRect;
+            }
+            set
+            {
+                SetTargetRect(value);
+            }
+        }
+
+        public Size DestinationSize
         {
             get
             {

@@ -8,16 +8,16 @@ namespace SharpDirect3D12
     /// <summary>
     /// Describes the slot of a root signature version 1.0.
     /// </summary>
-    public partial struct RootParameter
+    public partial struct RootParameter1
     {
         public RootParameterType ParameterType;
         private Union _union;
 
-        public RootDescriptorTable DescriptorTable
+        public RootDescriptorTable1 DescriptorTable
         {
             get
             {
-                var result = new RootDescriptorTable();
+                var result = new RootDescriptorTable1();
                 result.__MarshalFrom(ref _union.DescriptorTable);
                 return result;
             }
@@ -33,7 +33,7 @@ namespace SharpDirect3D12
             set => _union.Constants = value;
         }
 
-        public RootDescriptor Descriptor
+        public RootDescriptor1 Descriptor
         {
             get => _union.Descriptor;
             set => _union.Descriptor = value;
@@ -45,13 +45,13 @@ namespace SharpDirect3D12
         private struct Union
         {
             [FieldOffset(0)]
-            public RootDescriptorTable.__Native DescriptorTable;
+            public RootDescriptorTable1.__Native DescriptorTable;
 
             [FieldOffset(0)]
             public RootConstants Constants;
 
             [FieldOffset(0)]
-            public RootDescriptor Descriptor;
+            public RootDescriptor1 Descriptor;
         }
     }
 }

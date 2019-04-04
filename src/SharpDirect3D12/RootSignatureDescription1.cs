@@ -16,6 +16,27 @@ namespace SharpDirect3D12
         public StaticSamplerDescription[] StaticSamplers { get; set; }
         public RootSignatureFlags Flags { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RootSignatureDescription1"/> class.
+        /// </summary>
+        public RootSignatureDescription1()
+            : this(RootSignatureFlags.None)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RootSignatureDescription1"/> class.
+        /// </summary>
+        /// <param name="flags">The flags.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="samplers">The samplers.</param>
+        public RootSignatureDescription1(RootSignatureFlags flags, RootParameter1[] parameters = null, StaticSamplerDescription[] samplers = null)
+        {
+            Parameters = parameters;
+            StaticSamplers = samplers;
+            Flags = flags;
+        }
+
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal struct __Native

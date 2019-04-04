@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Vortice.Mathematics;
 
 namespace SharpDXGI
 {
@@ -39,6 +40,26 @@ namespace SharpDXGI
             Top = top;
             Right = right;
             Bottom = bottom;
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Rectangle"/> to <see cref="RawRectangle"/>.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator RawRectangle(Rectangle value)
+        {
+            return new RawRectangle(value.Left, value.Top, value.Right, value.Bottom);
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="RawRectangle"/> to <see cref="Rectangle"/>.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator Rectangle(RawRectangle value)
+        {
+            return new Rectangle(value.Left, value.Top, value.Right - value.Left, value.Bottom - value.Top);
         }
     }
 }

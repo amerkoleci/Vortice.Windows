@@ -130,9 +130,10 @@ namespace SharpDirect3D12
             }
         }
 
-        public unsafe void RSSetScissorRect(RawRectangle rectangle)
+        public unsafe void RSSetScissorRect(Rectangle rectangle)
         {
-            RSSetScissorRects(1, new IntPtr(&rectangle));
+            RawRectangle rawRect = rectangle;
+            RSSetScissorRects(1, new IntPtr(&rawRect));
         }
 
         public void RSSetScissorRects(params RawRectangle[] rectangles)
@@ -146,12 +147,12 @@ namespace SharpDirect3D12
             }
         }
 
-        public unsafe void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor)
+        public unsafe void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
         {
             OMSetRenderTargets(1, new IntPtr(&renderTargetDescriptor), false, depthStencilDescriptor);
         }
 
-        public unsafe void OMSetRenderTargets(CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor)
+        public unsafe void OMSetRenderTargets(CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
         {
             fixed (void* pRT = renderTargetDescriptors)
             {
@@ -159,12 +160,38 @@ namespace SharpDirect3D12
             }
         }
 
-        public unsafe void OMSetRenderTargets(int renderTargetDescriptorsCount, CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor)
+        public unsafe void OMSetRenderTargets(int renderTargetDescriptorsCount, CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
         {
             fixed (void* pRT = renderTargetDescriptors)
             {
                 OMSetRenderTargets(renderTargetDescriptorsCount, new IntPtr(pRT), false, depthStencilDescriptor);
             }
+        }
+
+        public unsafe void IASetVertexBuffers(int startSlot, int viewsCount, VertexBufferView[] vertexBufferViews)
+        {
+            fixed (void* descPtr = vertexBufferViews)
+            {
+                IASetVertexBuffers(startSlot, viewsCount, new IntPtr(descPtr));
+            }
+        }
+
+        public unsafe void IASetVertexBuffers(int startSlot, params VertexBufferView[] vertexBufferViews)
+        {
+            fixed (void* descPtr = vertexBufferViews)
+            {
+                IASetVertexBuffers(startSlot, vertexBufferViews.Length, new IntPtr(descPtr));
+            }
+        }
+
+        public unsafe void IASetVertexBuffers(int startSlot, VertexBufferView vertexBufferView)
+        {
+            IASetVertexBuffers(startSlot, 1, (IntPtr)(&vertexBufferView));
+        }
+
+        public unsafe void IASetVertexBuffers(VertexBufferView vertexBufferView)
+        {
+            IASetVertexBuffers(0, 1, (IntPtr)(&vertexBufferView));
         }
 
         public void BeginEvent(string name)

@@ -9,6 +9,7 @@ using SharpDirect3D12;
 using SharpDirect3D12.Debug;
 using SharpDXGI;
 using SharpDXGI.Direct3D;
+using SharpGen.Runtime;
 using Vortice.Mathematics;
 using static SharpDirect3D12.D3D12;
 using static SharpDXGI.DXGI;
@@ -33,6 +34,9 @@ namespace Vortice
         private readonly ID3D12PipelineState _pipelineState;
 
         private readonly ID3D12GraphicsCommandList _commandList;
+
+        private readonly ID3D12Resource _vertexBuffer;
+
         private readonly ID3D12Fence _d3d12Fence;
         private ulong _fenceValue;
         private readonly AutoResetEvent _fenceEvent;
@@ -134,14 +138,9 @@ namespace Vortice
             var highestRootSignatureVersion = _d3d12Device.CheckHighestRootSignatureVersion(RootSignatureVersion.Version11);
             //var opts5 = _d3d12Device.CheckFeatureSupport<FeatureDataD3D12Options5>(SharpDirect3D12.Feature.Options5);
 
-            var rootSignatureDesc = new VersionedRootSignatureDescription
-            {
-                Version = highestRootSignatureVersion,
-                Description_1_1 = new RootSignatureDescription1
-                {
-                    Flags = RootSignatureFlags.AllowInputAssemblerInputLayout
-                }
-            };
+            var rootSignatureDesc = new VersionedRootSignatureDescription(
+                new RootSignatureDescription1(RootSignatureFlags.AllowInputAssemblerInputLayout)
+                );
 
             _rootSignature = _d3d12Device.CreateRootSignature(0, rootSignatureDesc);
 
@@ -181,7 +180,7 @@ namespace Vortice
                 PrimitiveTopologyType = PrimitiveTopologyType.Triangle,
                 RasterizerState = RasterizerDescription.CullCounterClockwise,
                 BlendState = BlendDescription.Opaque,
-                DepthStencilState = new DepthStencilDescription(false, false),
+                DepthStencilState = DepthStencilDescription.None,
                 RenderTargetFormats = new[] { Format.R8G8B8A8_UNorm },
                 DepthStencilFormat = Format.Unknown,
                 SampleDescription = new SampleDescription(1, 0)
@@ -194,11 +193,26 @@ namespace Vortice
 
             var vertexBufferSize = 3 * Unsafe.SizeOf<Vertex>();
 
-            var vertexBuffer = _d3d12Device.CreateCommittedResource(
+            _vertexBuffer = _d3d12Device.CreateCommittedResource(
                 new HeapProperties(HeapType.Upload),
                 HeapFlags.None,
                 ResourceDescription.Buffer((ulong)vertexBufferSize),
                 ResourceStates.GenericRead);
+
+            var triangleVertices = new Vertex[]
+            {
+                  new Vertex(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
+                  new Vertex(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
+                  new Vertex(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
+            };
+
+            unsafe
+            {
+                var bufferData = _vertexBuffer.Map(0);
+                var src = new ReadOnlySpan<Vertex>(triangleVertices);
+                MemoryHelpers.CopyMemory(bufferData, src);
+                _vertexBuffer.Unmap(0);
+            }
 
             // Create synchronization objects.
             _d3d12Fence = _d3d12Device.CreateFence(0);
@@ -216,7 +230,12 @@ namespace Vortice
         public bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null)
         {
             _commandAllocator.Reset();
-            _commandList.Reset(_commandAllocator, null);
+            _commandList.Reset(_commandAllocator, _pipelineState);
+
+            // Set necessary state.
+            _commandList.SetGraphicsRootSignature(_rootSignature);
+            _commandList.RSSetViewports(new ViewportF(Window.Width, Window.Height));
+            _commandList.RSSetScissorRects(new Rectangle(Window.Width, Window.Height));
 
             // Indicate that the back buffer will be used as a render target.
             _commandList.ResourceBarrierTransition(_renderTargets[_frameIndex], ResourceStates.Present, ResourceStates.RenderTarget);
@@ -227,9 +246,17 @@ namespace Vortice
             var rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
             rtvHandle += _frameIndex * _rtvDescriptorSize;
 
+            _commandList.OMSetRenderTargets(rtvHandle);
+
             // Record commands.
             var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
             _commandList.ClearRenderTargetView(rtvHandle, clearColor);
+
+            _commandList.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
+            var stride = Unsafe.SizeOf<Vertex>();
+            var vertexBufferSize = 3 * stride;
+            _commandList.IASetVertexBuffers(new VertexBufferView(_vertexBuffer.GPUVirtualAddress, vertexBufferSize, stride));
+            _commandList.DrawInstanced(3, 1, 0, 0);
 
             // Indicate that the back buffer will now be used to present.
             _commandList.ResourceBarrierTransition(_renderTargets[_frameIndex], ResourceStates.RenderTarget, ResourceStates.Present);

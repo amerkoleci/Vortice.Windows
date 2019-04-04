@@ -13,22 +13,43 @@ namespace SharpDirect3D12
     public partial class ID3D12Device
     {
         private const int GENERIC_ALL = 0x10000000;
+        private RootSignatureVersion? _highestRootSignatureVersion;
 
         public static bool IsSupported(IUnknown adapter, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
         {
             try
             {
-                var result = D3D12.D3D12CreateDevice(
-                   adapter,
-                   minFeatureLevel,
-                   typeof(ID3D12Device).GUID,
-                   out var nativePtr);
-                return result.Success;
+                return D3D12.D3D12CreateDeviceNoDevice(adapter, minFeatureLevel).Success;
             }
             catch (DllNotFoundException)
             {
                 // On pre Windows 10 d3d12.dll is not present and therefore not supported.
                 return false;
+            }
+        }
+
+        public unsafe RootSignatureVersion HighestRootSignatureVersion
+        {
+            get
+            {
+                if (!_highestRootSignatureVersion.HasValue)
+                {
+                    var featureData = new FeatureDataRootSignature
+                    {
+                        HighestVersion = RootSignatureVersion.Version11
+                    };
+
+                    if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), Interop.SizeOf<FeatureDataRootSignature>()).Failure)
+                    {
+                        _highestRootSignatureVersion = RootSignatureVersion.Version11;
+                    }
+                    else
+                    {
+                        _highestRootSignatureVersion = featureData.HighestVersion;
+                    }
+                }
+
+                return _highestRootSignatureVersion.Value;
             }
         }
 
@@ -167,11 +188,9 @@ namespace SharpDirect3D12
             return CreateHeap(ref description, typeof(ID3D12Heap).GUID);
         }
 
-        public ID3D12RootSignature CreateRootSignature(int nodeMask, VersionedRootSignatureDescription rootSignatureDescription)
+        public ID3D12RootSignature CreateRootSignature(int nodeMask, RootSignatureDescription description, RootSignatureVersion version)
         {
-            Guard.NotNull(rootSignatureDescription, nameof(rootSignatureDescription));
-
-            var result = D3D12.D3D12SerializeVersionedRootSignature(rootSignatureDescription, out var blob, out var errorBlob);
+            var result = D3D12.D3D12SerializeRootSignature(description, version, out var blob, out var errorBlob);
             if (result.Failure)
             {
                 if (errorBlob != null)
@@ -189,6 +208,106 @@ namespace SharpDirect3D12
             finally
             {
                 blob.Dispose();
+            }
+        }
+
+        public ID3D12RootSignature CreateRootSignature(RootSignatureDescription description, RootSignatureVersion version)
+        {
+            return CreateRootSignature(0, description, version);
+        }
+
+        public ID3D12RootSignature CreateRootSignature(int nodeMask, VersionedRootSignatureDescription rootSignatureDescription)
+        {
+            Guard.NotNull(rootSignatureDescription, nameof(rootSignatureDescription));
+
+            var result = Result.Ok;
+            Blob signature = null;
+            Blob errorBlob = null;
+
+            // D3DX12SerializeVersionedRootSignature
+            switch (HighestRootSignatureVersion)
+            {
+                case RootSignatureVersion.Version10:
+                    switch (rootSignatureDescription.Version)
+                    {
+                        case RootSignatureVersion.Version10:
+                            result = D3D12.D3D12SerializeRootSignature(rootSignatureDescription.Description_1_0, RootSignatureVersion.Version1, out signature, out errorBlob);
+                            break;
+
+                        case RootSignatureVersion.Version11:
+                            // Convert to version 1.0.
+                            var desc_1_1 = rootSignatureDescription.Description_1_1;
+                            RootParameter[] parameters_1_0 = null;
+
+                            if (desc_1_1.Parameters?.Length > 0)
+                            {
+                                parameters_1_0 = new RootParameter[desc_1_1.Parameters.Length];
+                                for (var i = 0; i < parameters_1_0.Length; i++)
+                                {
+                                    parameters_1_0[i].ParameterType = desc_1_1.Parameters[i].ParameterType;
+                                    parameters_1_0[i].ShaderVisibility = desc_1_1.Parameters[i].ShaderVisibility;
+
+                                    switch (desc_1_1.Parameters[i].ParameterType)
+                                    {
+                                        case RootParameterType.Constant32Bits:
+                                            parameters_1_0[i].Constants = desc_1_1.Parameters[i].Constants;
+                                            break;
+
+                                        case RootParameterType.ConstantBufferView:
+                                        case RootParameterType.ShaderResourceView:
+                                        case RootParameterType.UnorderedAccessView:
+                                            parameters_1_0[i].Descriptor = new RootDescriptor(
+                                                desc_1_1.Parameters[i].Descriptor.ShaderRegister,
+                                                desc_1_1.Parameters[i].Descriptor.RegisterSpace);
+                                            break;
+
+                                        case RootParameterType.DescriptorTable:
+                                            var table_1_1 = desc_1_1.Parameters[i].DescriptorTable;
+                                            var ranges = new DescriptorRange[table_1_1.Ranges?.Length ?? 0];
+
+                                            for (var x = 0; x < ranges.Length; x++)
+                                            {
+                                                ranges[x].BaseShaderRegister = table_1_1.Ranges[x].BaseShaderRegister;
+                                                ranges[x].NumDescriptors = table_1_1.Ranges[x].NumDescriptors;
+                                                ranges[x].OffsetInDescriptorsFromTableStart = table_1_1.Ranges[x].OffsetInDescriptorsFromTableStart;
+                                                ranges[x].RangeType = table_1_1.Ranges[x].RangeType;
+                                                ranges[x].RegisterSpace = table_1_1.Ranges[x].RegisterSpace;
+                                            }
+
+                                            parameters_1_0[i].DescriptorTable = new RootDescriptorTable(ranges);
+                                            break;
+                                    }
+                                }
+                            }
+
+                            var desc_1_0 = new RootSignatureDescription(desc_1_1.Flags, parameters_1_0, desc_1_1.StaticSamplers);
+                            result = D3D12.D3D12SerializeRootSignature(desc_1_0, RootSignatureVersion.Version1, out signature, out errorBlob);
+                            break;
+                    }
+                    break;
+
+                case RootSignatureVersion.Version11:
+                    result = D3D12.D3D12SerializeVersionedRootSignature(rootSignatureDescription, out signature, out errorBlob);
+                    break;
+            }
+
+            if (result.Failure || signature == null)
+            {
+                if (errorBlob != null)
+                {
+                    throw new SharpGenException(result, errorBlob.ConvertToString());
+                }
+
+                throw new SharpGenException(result);
+            }
+
+            try
+            {
+                return CreateRootSignature(nodeMask, signature.BufferPointer, signature.BufferSize, typeof(ID3D12RootSignature).GUID);
+            }
+            finally
+            {
+                signature.Dispose();
             }
         }
 

@@ -12,9 +12,27 @@ namespace SharpDirect3D12
     /// </summary>
     public partial class VersionedRootSignatureDescription
     {
-        public RootSignatureVersion Version { get; set; }
-        public RootSignatureDescription Description_1_0 { get; set; }
-        public RootSignatureDescription1 Description_1_1 { get; set; }
+        public RootSignatureVersion Version { get; private set; }
+
+        public RootSignatureDescription Description_1_0 { get; private set; }
+        public RootSignatureDescription1 Description_1_1 { get; private set; }
+
+        internal VersionedRootSignatureDescription()
+        {
+
+        }
+
+        public VersionedRootSignatureDescription(RootSignatureDescription description)
+        {
+            Version = RootSignatureVersion.Version10;
+            Description_1_0 = description;
+        }
+
+        public VersionedRootSignatureDescription(RootSignatureDescription1 description)
+        {
+            Version = RootSignatureVersion.Version11;
+            Description_1_1 = description;
+        }
 
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -22,10 +40,6 @@ namespace SharpDirect3D12
         {
             public RootSignatureVersion Version;
             public Union Union;
-
-            internal void __MarshalFree()
-            {
-            }
         }
 
         [StructLayout(LayoutKind.Explicit, Pack = 0)]
@@ -40,18 +54,20 @@ namespace SharpDirect3D12
 
         internal unsafe void __MarshalFree(ref __Native @ref)
         {
-            @ref.__MarshalFree();
         }
 
         internal unsafe void __MarshalFrom(ref __Native @ref)
         {
-            Version = @ref.Version;
-            if (Version == RootSignatureVersion.Version11)
+            if (@ref.Version == RootSignatureVersion.Version11)
             {
+                Version = RootSignatureVersion.Version11;
+                Description_1_1 = new RootSignatureDescription1();
                 Description_1_1.__MarshalFrom(ref @ref.Union.Desc_1_1);
             }
             else
             {
+                Version = RootSignatureVersion.Version10;
+                Description_1_0 = new RootSignatureDescription();
                 Description_1_0.__MarshalFrom(ref @ref.Union.Desc_1_0);
             }
         }

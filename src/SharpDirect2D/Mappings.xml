@@ -40,6 +40,8 @@
            output="DWrite" />
 
   <extension>
+    <define struct="SharpDirect2D.RawRectangleF" sizeof="16" />
+    
     <create class="SharpDirect2D.WIC.WIC" visibility="public static"/>
     
     <create class="SharpDirect2D.WIC.PixelFormat" visibility="public sealed"/>
@@ -70,7 +72,7 @@
     <bind from="D2D_POINT_2U" to="Vortice.Mathematics.Point" />
     <bind from="D2D_POINT_2F" to="Vortice.Mathematics.PointF" />
     <bind from="D2D_RECT_U" to="SharpDXGI.RawRectangle" />
-    <bind from="D2D_RECT_F" to="SharpDXGI.RawRectangleF" />
+    <bind from="D2D_RECT_F" to="SharpDirect2D.RawRectangleF" />
     <bind from="D2D_VECTOR_2F" to="System.Numerics.Vector2" />
     <bind from="D2D_VECTOR_3F" to="System.Numerics.Vector3" />
     <bind from="D2D_VECTOR_4F" to="System.Numerics.Vector4" />

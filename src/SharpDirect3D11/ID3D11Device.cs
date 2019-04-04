@@ -10,9 +10,21 @@ namespace SharpDirect3D11
 {
     public partial class ID3D11Device
     {
+        public unsafe T CheckFeatureSupport<T>(Feature feature) where T : struct
+        {
+            T featureSupport = default;
+            CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Interop.SizeOf<T>());
+            return featureSupport;
+        }
+
         public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : struct
         {
             return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Interop.SizeOf<T>()).Success;
+        }
+
+        public ID3D11DeviceContext CreateDeferredContext()
+        {
+            return CreateDeferredContext(0);
         }
 
         public ID3D11Buffer CreateBuffer(BufferDescription description, IntPtr dataPointer)
@@ -115,6 +127,25 @@ namespace SharpDirect3D11
             Guard.NotNull(blob, nameof(blob));
 
             return CreateInputLayout(inputElements, inputElements.Length, blob.BufferPointer, blob.BufferPointer);
+        }
+
+        /// <summary>
+        /// Give a device access to a shared resource created on a different device.
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="ID3D11Resource"/> </typeparam>
+        /// <param name="handle">A handle to the resource to open.</param>
+        /// <returns>Instance of <see cref="ID3D11Resource"/>.</returns>
+        public T OpenSharedResource<T>(IntPtr handle) where T : ID3D11Resource
+        {
+            Guard.IsTrue(handle != IntPtr.Zero, nameof(handle), "Invalid handle");
+
+            var result = OpenSharedResource(handle, typeof(T).GUID, out var nativePtr);
+            if (result.Failure)
+            {
+                return default;
+            }
+
+            return FromPointer<T>(nativePtr);
         }
     }
 }

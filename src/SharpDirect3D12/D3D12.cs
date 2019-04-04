@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
 using SharpDXGI.Direct3D;
 using SharpGen.Runtime;
 
@@ -29,6 +30,15 @@ namespace SharpDirect3D12
             }
 
             device = new ID3D12Device(nativePtr);
+            return result;
+        }
+
+        internal static unsafe Result D3D12CreateDeviceNoDevice(IUnknown adapter, FeatureLevel minFeatureLevel)
+        {
+            var adapterPtr = CppObject.ToCallbackPtr<IUnknown>(adapter);
+            var riid = typeof(ID3D12Device).GUID;
+            var result = D3D12CreateDevice_((void*)adapterPtr, (int)minFeatureLevel, &riid, null);
+            GC.KeepAlive(adapter);
             return result;
         }
 

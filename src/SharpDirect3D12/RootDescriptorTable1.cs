@@ -17,23 +17,25 @@ namespace SharpDirect3D12
         /// </summary>
         public DescriptorRange1[] Ranges { get; set; }
 
+        public RootDescriptorTable1(params DescriptorRange1[] ranges)
+        {
+            Ranges = ranges;
+        }
+
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal struct __Native
         {
             public int NumDescriptorRanges;
             public IntPtr PDescriptorRanges;
-
-            internal void __MarshalFree()
-            {
-                if (PDescriptorRanges != IntPtr.Zero)
-                    Marshal.FreeHGlobal(PDescriptorRanges);
-            }
         }
 
         internal unsafe void __MarshalFree(ref __Native @ref)
         {
-            @ref.__MarshalFree();
+            if (@ref.PDescriptorRanges != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(@ref.PDescriptorRanges);
+            }
         }
 
         internal unsafe void __MarshalFrom(ref __Native @ref)
