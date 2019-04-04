@@ -23,6 +23,11 @@ namespace SharpDirect3D12
                    minFeatureLevel,
                    typeof(ID3D12Device).GUID,
                    out var nativePtr);
+
+                var device = new ID3D12Device(nativePtr);
+
+                device.Dispose();
+
                 return result.Success;
             }
             catch (DllNotFoundException)
