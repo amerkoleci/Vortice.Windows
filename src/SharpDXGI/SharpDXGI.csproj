@@ -6,12 +6,11 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>SharpDXGI</RootNamespace>
     <LangVersion>7.3</LangVersion>
-    <CastXmlPath Condition="Exists('/usr/bin/castxml')">/usr/bin/castxml</CastXmlPath>
-    <CastXmlPath Condition="Exists('/usr/local/bin/castxml')">/usr/local/bin/castxml</CastXmlPath>
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="SharpGenTools.Sdk" Version="1.1.3-ci499" PrivateAssets="All" />
     <PackageReference Include="SharpGen.Runtime.COM" Version="1.1.0" />
   </ItemGroup>
+
 </Project>

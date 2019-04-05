@@ -70,7 +70,7 @@
     <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.IntVector4" />
-    <bind from="D3D11_VIEWPORT" to="Vortice.Mathematics.ViewportF"/>
+    <bind from="D3D11_VIEWPORT" to="Vortice.Mathematics.Viewport"/>
   </bindings>
 
   <naming>

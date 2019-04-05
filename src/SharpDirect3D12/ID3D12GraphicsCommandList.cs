@@ -56,7 +56,7 @@ namespace SharpDirect3D12
             ResourceBarrier(1, new IntPtr(&barrier));
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 colorRGBA, params RawRectangle[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 colorRGBA, params RectI[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -68,7 +68,7 @@ namespace SharpDirect3D12
             }
         }
 
-        public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil, params RawRectangle[] rectangles)
+        public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil, params RectI[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -85,7 +85,7 @@ namespace SharpDirect3D12
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
             Color4 clearValue,
-            params RawRectangle[] rectangles)
+            params RectI[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -102,7 +102,7 @@ namespace SharpDirect3D12
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
             IntVector4 clearValue,
-            params RawRectangle[] rectangles)
+            params RectI[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -114,12 +114,12 @@ namespace SharpDirect3D12
             }
         }
 
-        public unsafe void RSSetViewport(ViewportF viewport)
+        public unsafe void RSSetViewport(Viewport viewport)
         {
             RSSetViewports(1, new IntPtr(&viewport));
         }
 
-        public void RSSetViewports(params ViewportF[] viewports)
+        public void RSSetViewports(params Viewport[] viewports)
         {
             unsafe
             {
@@ -130,13 +130,12 @@ namespace SharpDirect3D12
             }
         }
 
-        public unsafe void RSSetScissorRect(Rectangle rectangle)
+        public unsafe void RSSetScissorRect(RectI rectangle)
         {
-            RawRectangle rawRect = rectangle;
-            RSSetScissorRects(1, new IntPtr(&rawRect));
+            RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public void RSSetScissorRects(params RawRectangle[] rectangles)
+        public void RSSetScissorRects(params RectI[] rectangles)
         {
             unsafe
             {

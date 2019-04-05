@@ -7,12 +7,12 @@ namespace SharpDXGI
 {
     public partial class IDXGISwapChain2
     {
-        public Size SourceSize
+        public SizeI SourceSize
         {
             get
             {
                 GetSourceSize(out var width, out var height);
-                return new Size(width, height);
+                return new SizeI(width, height);
             }
             set
             {

@@ -10,12 +10,12 @@ namespace SharpDirect2D.WIC
 {
     public partial class IWICBitmapSource
     {
-        public Size Size
+        public SizeI Size
         {
             get
             {
                 GetSize(out var width, out var height);
-                return new Size(width, height);
+                return new SizeI(width, height);
             }
         }
 
@@ -27,7 +27,7 @@ namespace SharpDirect2D.WIC
             CopyPixels(IntPtr.Zero, stride, size, data);
         }
 
-        public unsafe void CopyPixels(Rectangle rectangle, int stride, int size, IntPtr data)
+        public unsafe void CopyPixels(WICRect rectangle, int stride, int size, IntPtr data)
         {
             Guard.MustBeGreaterThan(size, 0, "Size must be greather than 0");
             Guard.MustBeGreaterThan(stride, 0, "Stride must be greather than 0");
@@ -43,7 +43,7 @@ namespace SharpDirect2D.WIC
             CopyPixels(IntPtr.Zero, stride, data.Length, (IntPtr)Unsafe.AsPointer(ref data[0]));
         }
 
-        public unsafe void CopyPixels(Rectangle rectangle, int stride, byte[] data)
+        public unsafe void CopyPixels(WICRect rectangle, int stride, byte[] data)
         {
             Guard.MustBeGreaterThan(stride, 0, "Stride must be greather than 0");
             Guard.NotNullOrEmpty(data, nameof(data));
@@ -59,7 +59,7 @@ namespace SharpDirect2D.WIC
             CopyPixels(IntPtr.Zero, stride, data.Length, (IntPtr)Unsafe.AsPointer(ref data[0]));
         }
 
-        public unsafe void CopyPixels<T>(Rectangle rectangle, int stride, T[] data) where T : struct
+        public unsafe void CopyPixels<T>(WICRect rectangle, int stride, T[] data) where T : struct
         {
             Guard.MustBeGreaterThan(stride, 0, "Stride must be greather than 0");
             Guard.NotNullOrEmpty(data, nameof(data));

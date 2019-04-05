@@ -12,12 +12,12 @@ namespace SharpDirect3D11
 {
     public partial class ID3D11DeviceContext
     {
-        public unsafe void RSSetViewport(ViewportF viewport)
+        public unsafe void RSSetViewport(Viewport viewport)
         {
             RSSetViewports(1, new IntPtr(&viewport));
         }
 
-        public void RSSetViewports(params ViewportF[] viewports)
+        public void RSSetViewports(params Viewport[] viewports)
         {
             unsafe
             {
@@ -28,12 +28,12 @@ namespace SharpDirect3D11
             }
         }
 
-        public unsafe void RSSetScissorRect(RawRectangle rectangle)
+        public unsafe void RSSetScissorRect(RectI rectangle)
         {
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public unsafe void RSSetScissorRects(params RawRectangle[] rectangles)
+        public unsafe void RSSetScissorRects(params RectI[] rectangles)
         {
             fixed (void* pRects = rectangles)
             {

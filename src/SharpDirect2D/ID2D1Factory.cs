@@ -33,12 +33,11 @@ namespace SharpDirect2D
             return geometryGroup;
         }
 
-        public ID2D1RectangleGeometry CreateRectangleGeometry(RectangleF rectangle)
+        public ID2D1RectangleGeometry CreateRectangleGeometry(Rect rectangle)
         {
             unsafe
             {
-                var rawRectangle = new RawRectangleF(rectangle.Left, rectangle.Top, rectangle.Right, rectangle.Bottom);
-                return CreateRectangleGeometry(new IntPtr(&rawRectangle));
+                return CreateRectangleGeometry(new IntPtr(&rectangle));
             }
         }
 

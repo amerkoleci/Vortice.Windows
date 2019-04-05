@@ -80,12 +80,11 @@ namespace SharpDirect2D
             return CreateSharedBitmap(typeof(IWICBitmapLock).GUID, bitmapLock.NativePointer, bitmapProperties);
         }
 
-        public void DrawText(string text, IDWriteTextFormat textFormat, RectangleF layoutRect, ID2D1Brush defaultFillBrush, DrawTextOptions options = DrawTextOptions.None, MeasuringMode measuringMode = MeasuringMode.Natural)
+        public void DrawText(string text, IDWriteTextFormat textFormat, Rect layoutRect, ID2D1Brush defaultFillBrush, DrawTextOptions options = DrawTextOptions.None, MeasuringMode measuringMode = MeasuringMode.Natural)
         {
             Guard.NotNullOrEmpty(text, nameof(text));
 
-            var rawLayoutRect = new RawRectangleF(layoutRect.Left, layoutRect.Top, layoutRect.Right, layoutRect.Bottom);
-            DrawText(text, text.Length, textFormat, rawLayoutRect, defaultFillBrush, options, measuringMode);
+            DrawText(text, text.Length, textFormat, layoutRect, defaultFillBrush, options, measuringMode);
         }
 
         public Result EndDraw()

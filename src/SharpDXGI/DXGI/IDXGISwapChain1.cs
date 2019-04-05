@@ -39,14 +39,13 @@ namespace SharpDXGI
             return FromPointer<T>(nativePtr);
         }
 
-
         public unsafe Result Present(int syncInterval, PresentFlags presentFlags, PresentParameters presentParameters)
         {
             bool hasScrollRectangle = presentParameters.ScrollRectangle.HasValue;
             bool hasScrollOffset = presentParameters.ScrollOffset.HasValue;
 
-            var scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle.Value : new RawRectangle();
-            var scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset.Value : default(Point);
+            var scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle.Value : new RectI();
+            var scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset.Value : default(PointI);
 
             fixed (void* pDirtyRects = presentParameters.DirtyRectangles)
             {
