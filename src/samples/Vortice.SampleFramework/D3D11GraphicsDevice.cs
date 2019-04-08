@@ -119,7 +119,7 @@ namespace Vortice
 
         public bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null)
         {
-            DeviceContext.RSSetViewport(new ViewportF(Window.Width, Window.Height));
+            DeviceContext.RSSetViewport(new Viewport(Window.Width, Window.Height));
             var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
             DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
 

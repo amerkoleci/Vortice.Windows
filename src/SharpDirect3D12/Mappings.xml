@@ -94,7 +94,7 @@
     <short name="VDOV">VideoDecoderOutputView</short>
     <short name="VPIV">VideoProcessorInputView</short>
     <short name="VPOV">VideoProcessorOutputView</short>
-    <short name="SUBRESOURCE">SubResource</short>
+    <short name="SUBRESOURCE">Subresource</short>
     <short name="FOOTPRINT">FootPrint</short>
     <short name="IA">InputAssembler</short>
     <!-- D3D12_MESSAGE_ID -->
@@ -141,6 +141,10 @@
     <short name="OM">OutputMerger</short>
     <short name="OUTOF">OutOf</short>
     <short name="BOUNDS">Bounds</short>
+    <short name="CHECKCOUNTER">CheckCounter</short>
+    <short name="WELLKNOWN">WellKnown</short>
+    <short name="CREATECOUNTER">CreateCounter</short>
+    <short name="NONEXCLUSIVE">NonExclusive</short>
     <short name="SHADERRESOURCEVIEW">ShaderResourceView</short>
     <short name="COPYBUFFERREGION">CopyBufferRegion</short>
     <short name="COPYFLAGS">CopyFlags</short>
@@ -149,7 +153,7 @@
     <short name="INVALIDSRCRESOURCEDIMENSION">InvalidSourceResourceDimension</short>
     <short name="INVALIDDSTRESOURCEDIMENSION">InvalidDestionationResourceDimension</short>
     <short name="NULLSRC">NullSource</short>
-    <short name="NULLDST">NullDestionation</short>
+    <short name="NULLDST">NullDestination</short>
     <short name="SRCRANGEOUTOFBOUNDS">SourceRangeOutOfBounds</short>
     <short name="INVALIDLAYOUT">InvalidLayout</short>
     <short name="COPYRESOURCE">CopyResource</short>
@@ -179,7 +183,111 @@
     <short name="CREATEBUFFER">CreateBuffer</short>
     <short name="INVALIDSTRUCTURESTRIDE">InvalidStructureStride</short>
     <short name="INVALIDUSAGE">InvalidUsage</short>
+    <short name="INVALIDRESOURCE">InvalidResource</short>
     <short name="COMMANDALLOCATOR">CommandAllocator</short>
+    <short name="WRITETOSUBRESOURCE">WriteToSubresource</short>
+    <short name="MAKERESIDENT">MakeResident</short>
+    <short name="INVALIDOBJECT">InvalidObject</short>
+    <short name="INVALIDARG">InvalidArg</short>
+    <short name="INVALIDDATAPOINTER">InvalidDataPointer</short>
+    <short name="INVALIDHEAP">InvalidHeap</short>
+    <short name="INVALIDRANGE">InvalidRange</short>
+    <short name="INVALIDPRIORITY">InvalidPriority</short>
+    <short name="NULLRANGE">NullRange</short>
+    <short name="NULLOBJECTARRAY">NullObjectArray</short>
+    <short name="TILEDRESOURCEBARRIER">TiledResourceBarrier</short>
+    <short name="OFFERRELEASE">OfferRelease</short>
+    <short name="OFFERRESOURCES">OfferResources</short>
+    <short name="OPENEXISTINGHEAP">OpenExistingHeap</short>
+    <short name="INVALIDADDRESS">InvalidAddress</short>
+    <short name="INVALIDHANDLE">InvalidHandle</short>
+    <short name="INVALIDVIEW">InvalidView</short>
+    <short name="INVALIDSIZE">InvalidSize</short>
+    <short name="INVALIDBOX">InvalidBox</short>
+    <short name="INVALIDARGS">InvalidArgs</short>
+    <short name="INVALIDSUBRESOURCE">InvalidSubresource</short>
+    <short name="OMSETRENDERTARGETS">OutputMergerSetRenderTargets</short>
+    <short name="NOTENOUGHMEMORY">NotEnoughMemory</short>
+    <short name="READFROMSUBRESOURCE">ReadFromSubResource</short>
+    <short name="EMPTYBOX">EmptyBox</short>
+    <short name="REFLECTSHAREDPROPERTIES">ReflectSharedProperties</short>
+    <short name="SAMPLEPOSITIONS">SamplePositions</short>
+    <short name="SETSAMPLEPOSITIONS">SetSamplePositions</short>
+    <short name="RECORDTIME">RecordTime</short>
+    <short name="ASSUMEDFROMCLEAR">AssumedFromClear</short>
+    <short name="ASSUMEDFROMFIRSTUSE">AssumedFromFirstUse</short>
+    <short name="UPDATESUBRESOURCE">UpdateSubresource</short>
+    <short name="EMPTYDESTBOX">EmptyDestinationBox</short>
+    <short name="STOREPIPELINE">StorePipeline</short>
+    <short name="NONAME">NoName</short>
+    <short name="DUPLICATENAME">DuplicateName</short>
+    <short name="SETPRIVATEDATA">SetPrivateData</short>
+    <short name="CHANGINGPARAMS">ChangingParams</short>
+    <short name="INVALIDFREEDATA">InvalidFreeData</short>
+    <short name="INVALIDIUNKNOWN">InvalidIUnknown</short>
+    <short name="SETRESIDENCYPRIORITY">SetResidencyPriority</short>
+    <short name="INVALIDDSTCOORDINATES">InvalidDestinationCoordinates</short>
+    <short name="INVALIDDSTDIMENSIONS">InvalidDestinationDimensions</short>
+    <short name="INVALIDDSTFORMAT">InvalidDestinationFormat</short>
+    <short name="INVALIDDSTOFFSET">InvalidDestinationOffset</short>
+    <short name="INVALIDDSTPLACEMENT">InvalidDestinationPlacement</short>
+    <short name="INVALIDDSTROWPITCH">InvalidDestinationRowPitch</short>
+    <short name="INVALIDDSTSUBRESOURCE">InvalidDestinationSubresource</short>
+    <short name="INVALIDSRCBOX">InvalidSourceBox</short>
+    <short name="INVALIDSRCDIMENSIONS">InvalidSourceDimensions</short>
+    <short name="INVALIDDSTDSPLACEDFOOTPRINTFORMAT">InvalidDestinationDisplacedFootPrintFormat</short>
+    <short name="INVALIDSRCDSPLACEDFOOTPRINTFORMAT">InvalidSourceDisplacedFootPrintFormat</short>
+    <short name="INVALIDSRCFORMAT">InvalidSourceFormat</short>
+    <short name="INVALIDSRCOFFSET">InvalidSourceOffset</short>
+    <short name="INVALIDSRCPLACEMENT">InvalidSourcePlacement</short>
+    <short name="INVALIDSRCROWPITCH">InvalidSourceRowPitch</short>
+    <short name="INVALIDSRCSUBRESOURCE">InvalidSourceSubresource</short>
+    <short name="INVALIDCALL">InvalidCall</short>
+    <short name="SRCREGIONOUTOFBOUNDS">SourceRegionOutOfBounds</short>
+    <short name="UNRECOGNIZEDDSTFORMAT">UnrecognizedDestinationFormat</short>
+    <short name="UNRECOGNIZEDDSTTYPE">UnrecognizedDestinationType</short>
+    <short name="UNRECOGNIZEDSRCFORMAT">UnrecognizedSourceFormat</short>
+    <short name="UNRECOGNIZEDSRCTYPE">UnrecognizedSourceType</short>
+    <short name="CREATECOMMANDSIGNATURE">CreateCommandSignature</short>
+    <short name="CREATECOMPUTESHADER">CreateComputeShader</short>
+    <short name="CREATECOMPUTEPIPELINESTATE">CreateComputePipelineState</short>
+    <short name="COMMANDSIGNATURE">CommandSignature</short>
+    <short name="INVALIDCLASSLINKAGE">InvalidClassLinkage</short>
+    <short name="INVALIDSHADERBYTECODE">InvalidShaderBytecode</short>
+    <short name="CREATEDEPTHSTENCILVIEW">CreateDepthStencilView</short>
+    <short name="CREATEDEVICE">CreateDevice</short>
+    <short name="CREATEDOMAINSHADER">CreateDomainShader</short>
+    <short name="INVALIDSHADERTYPE">InvalidShaderType</short>
+    <short name="CREATEGEOMETRYSHADER">CreateGeometryShader</short>
+    <short name="REATEGEOMETRYSHADERWITHSTREAMOUTPUT">CreateGeometryShaderWithStreamOutput</short>
+    <short name="CREATEGRAPHICSPIPELINESTATE">CreateGraphicsPipelineState</short>
+    <short name="DEPTHSTENCILVIEW">DepthStencilView</short>
+    <short name="CREATEHEAP">CreateHeap</short>
+    <short name="INVALIDALIGNMENT">InvalidAlignment</short>
+    <short name="CREATEHULLSHADER">CreateHullShader</short>
+    <short name="IMAGECOMMANDLIST">ImageCommandList</short>
+    <short name="CREATEINPUTLAYOUT">CreateInputLayout</short>
+    <short name="INCOMPATIBLEFORMAT">IncompatibleFormat</short>
+    <short name="INVALIDFORMAT">InvalidFormat</short>
+    <short name="INVALIDSLOT">InvalidSlot</short>
+    <short name="INVALIDINPUTSLOTCLASS">InvalidInputSlotClass</short>
+    <short name="INVALIDSLOTCLASSCHANGE">InvalidInputClassChange</short>
+    <short name="INVALIDSTEPRATECHANGE">InvalidStepRateChange</short>
+    <short name="DUPLICATESEMANTIC">DuplicateSemantic</short>
+    <short name="NULLSEMANTIC">NullSemantic</short>
+    <short name="STEPRATESLOTCLASSMISMATCH">StepRateSlotClassMissmatch</short>
+    <short name="TOOMANYELEMENTS">TooManyElements</short>
+    <short name="UNPARSEABLEINPUTSIGNATURE">UnparseableInputSignature</short>
+    <short name="MONITOREDFENCE">MonitoredFence</short>
+    <short name="PIPELINESTATE">PipelineState</short>
+    <short name="CREATEPIPELINESTATE">CreatePipelineState</short>
+    <short name="CREATEPIXELSHADER">CreatePixelShader</short>
+    <short name="CREATEPLACEDRESOURCEONBUFFER">CreatePlacedResourceOnBuffer</short>
+    <short name="CREATEQUERY">CreateQuery</short>
+    <short name="CREATERASTERIZERSTATE">CreateRasterizerState</short>
+    <short name="CONSERVATIVERASTERMODE">ConvervativeRasterMode</short>
+    <short name="KEYEDMUTEX">KeyedMutex</short>
+    <short name="WRONGSTATE">WrongState</short>
   </naming>
 
   <mapping>
@@ -270,6 +378,9 @@
     <map param="ID3D12InfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
 
     <map enum-item="D3D12_MESSAGE_ID_(.*)" name-tmp="$1" />
+    <remove enum-item="D3D12_MESSAGE_ID_MAP_INVALID_SUBRESOURCE" />
+    <remove enum-item="D3D12_MESSAGE_ID_UNMAP_INVALID_SUBRESOURCE" />
+    <remove enum-item="D3D12_MESSAGE_ID_D3D12_MESSAGES_END" />
     <map struct="D3D12_MESSAGE" marshal="true" new="false" marshalto="true" />
     <map field="D3D12_MESSAGE::pDescription" name="Description" visibility="public"/>
     <map field="D3D12_MESSAGE::DescriptionByteLength" visibility="internal"/>

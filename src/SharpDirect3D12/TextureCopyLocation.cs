@@ -18,7 +18,7 @@ namespace SharpDirect3D12
             set => _type = value;
         }
 
-        public PlacedSubResourceFootPrint PlacedFootPrint
+        public PlacedSubresourceFootPrint PlacedFootPrint
         {
             get => _union.PlacedFootprint;
             set => _union.PlacedFootprint = value;
@@ -40,7 +40,7 @@ namespace SharpDirect3D12
         {
             Guard.NotNull(resource, nameof(resource));
 
-            _type = TextureCopyType.SubResourceIndex;
+            _type = TextureCopyType.SubresourceIndex;
             _resource = resource != null ? resource.NativePointer : IntPtr.Zero;
             _union.SubResourceIndex = subResourceIndex;
         }
@@ -50,7 +50,7 @@ namespace SharpDirect3D12
         /// </summary>
         /// <param name="resource">Instance of <see cref="ID3D12Resource"/></param>
         /// <param name="placedFootprint">Placed foot print.</param>
-        public TextureCopyLocation(ID3D12Resource resource, PlacedSubResourceFootPrint placedFootprint)
+        public TextureCopyLocation(ID3D12Resource resource, PlacedSubresourceFootPrint placedFootprint)
             : this()
         {
             Guard.NotNull(resource, nameof(resource));
@@ -69,7 +69,7 @@ namespace SharpDirect3D12
         private struct Union
         {
             [FieldOffset(0)]
-            public PlacedSubResourceFootPrint PlacedFootprint;
+            public PlacedSubresourceFootPrint PlacedFootprint;
 
             [FieldOffset(0)]
             public int SubResourceIndex;

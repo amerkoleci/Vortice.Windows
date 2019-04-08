@@ -194,5 +194,36 @@ namespace SharpDirect3D11
             result = default;
             return GetData(data, (IntPtr)Unsafe.AsPointer(ref result), Unsafe.SizeOf<T>(), flags) == Result.Ok;
         }
+
+        public ID3D11BlendState OMGetBlendState()
+        {
+            OMGetBlendState(out var blendState, out var blendFactor, out var sampleMask);
+            return blendState;
+        }
+
+        public ID3D11BlendState OMGetBlendState(out float blendFactor)
+        {
+            OMGetBlendState(out var blendState, out blendFactor, out var sampleMask);
+            return blendState;
+        }
+
+        public ID3D11BlendState OMGetBlendState(out float blendFactor, out int sampleMask)
+        {
+            OMGetBlendState(out var blendState, out blendFactor, out sampleMask);
+            return blendState;
+        }
+
+        public unsafe void RSGetViewports(Viewport[] viewports)
+        {
+            Guard.NotNullOrEmpty(viewports, nameof(viewports));
+            int numViewports = viewports.Length;
+            RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+        }
+
+        public unsafe void RSGetViewports(int count, Viewport[] viewports)
+        {
+            Guard.NotNullOrEmpty(viewports, nameof(viewports));
+            RSGetViewports(ref count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+        }
     }
 }
