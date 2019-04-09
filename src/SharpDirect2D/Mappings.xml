@@ -67,12 +67,12 @@
 
   <bindings>
     <bind from="UINT32" to="System.Int32" />
-    <bind from="D2D_SIZE_U" to="Vortice.Mathematics.SizeI" />
-    <bind from="D2D_SIZE_F" to="Vortice.Mathematics.Size" />
-    <bind from="D2D_POINT_2U" to="Vortice.Mathematics.PointI" />
-    <bind from="D2D_POINT_2F" to="Vortice.Mathematics.Point" />
-    <bind from="D2D_RECT_U" to="Vortice.Mathematics.RectI" />
-    <bind from="D2D_RECT_F" to="Vortice.Mathematics.Rect" />
+    <bind from="D2D_SIZE_U" to="Vortice.Mathematics.Size" />
+    <bind from="D2D_SIZE_F" to="Vortice.Mathematics.SizeF" />
+    <bind from="D2D_POINT_2U" to="Vortice.Mathematics.Point" />
+    <bind from="D2D_POINT_2F" to="Vortice.Mathematics.PointF" />
+    <bind from="D2D_RECT_U" to="Vortice.Mathematics.Rect" />
+    <bind from="D2D_RECT_F" to="Vortice.Mathematics.RectF" />
     <bind from="D2D_VECTOR_2F" to="System.Numerics.Vector2" />
     <bind from="D2D_VECTOR_3F" to="System.Numerics.Vector3" />
     <bind from="D2D_VECTOR_4F" to="System.Numerics.Vector4" />
@@ -81,7 +81,7 @@
     <bind from="D2D_MATRIX_4X3_F" to="SharpDirect2D.Matrix4x3" />
     <bind from="D2D_MATRIX_4X4_F" to="System.Numerics.Matrix4x4" />
     <bind from="D2D_MATRIX_5X4_F" to="SharpDirect2D.Matrix5x4" />
-    <bind from="WICRect" to="SharpDirect2D.WICRect"/>
+    <bind from="WICRect" to="Vortice.Mathematics.RectF"/>
     <bind from="HBITMAP" to="System.IntPtr"/>
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>

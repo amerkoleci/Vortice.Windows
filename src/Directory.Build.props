@@ -21,11 +21,11 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/amerkoleci/vortice</PackageProjectUrl>
-    <Version>1.0.0-alpha08</Version>
+    <Version>1.0.0-alpha09</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vortice.Mathematics" Version="1.0.0-alpha06" />
+    <PackageReference Include="Vortice.Mathematics" Version="1.0.0-alpha07" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All"/>
   </ItemGroup>

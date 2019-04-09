@@ -13,7 +13,7 @@ namespace SharpDirect2D.WIC
             return Lock(IntPtr.Zero, flags);
         }
 
-        public unsafe IWICBitmapLock Lock(WICRect lockRectangle, BitmapLockFlags flags = BitmapLockFlags.None)
+        public unsafe IWICBitmapLock Lock(Rect lockRectangle, BitmapLockFlags flags = BitmapLockFlags.None)
         {
             return Lock(new IntPtr(&lockRectangle), flags);
         }

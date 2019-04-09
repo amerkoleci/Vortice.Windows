@@ -62,7 +62,7 @@ namespace Vortice
 
             if (Width > 0 && Height > 0)
             {
-                var rect = RectI.Create(0, 0, Width, Height);
+                var rect = new InteropRect(0, 0, Width, Height);
 
                 // Adjust according to window styles
                 AdjustWindowRectEx(

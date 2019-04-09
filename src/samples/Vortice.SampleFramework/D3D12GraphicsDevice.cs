@@ -235,7 +235,7 @@ namespace Vortice
             // Set necessary state.
             _commandList.SetGraphicsRootSignature(_rootSignature);
             _commandList.RSSetViewport(new Viewport(Window.Width, Window.Height));
-            _commandList.RSSetScissorRect(RectI.Create(Window.Width, Window.Height));
+            _commandList.RSSetScissorRect(new InteropRect(0, 0, Window.Width, Window.Height));
 
             // Indicate that the back buffer will be used as a render target.
             _commandList.ResourceBarrierTransition(_renderTargets[_frameIndex], ResourceStates.Present, ResourceStates.RenderTarget);

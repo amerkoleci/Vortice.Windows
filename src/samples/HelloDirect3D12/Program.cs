@@ -8,6 +8,7 @@ using SharpDirect2D;
 using SharpDirect2D.WIC;
 using SharpDXGI;
 using Vortice;
+using Vortice.Mathematics;
 
 namespace HelloDirect3D11
 {
@@ -30,7 +31,7 @@ namespace HelloDirect3D11
             const int width = 512;
             const int height = 512;
 
-            var rectangleGeometry = d2dFactory.CreateRoundedRectangleGeometry(new RoundedRectangle() { RadiusX = 32, RadiusY = 32, Rect = new RawRectangleF(128, 128, width - 128 * 2, height - 128 * 2) });
+            var rectangleGeometry = d2dFactory.CreateRoundedRectangleGeometry(new RoundedRectangle() { RadiusX = 32, RadiusY = 32, Rect = new RectF(128, 128, width - 128 * 2, height - 128 * 2) });
 
             var wicBitmap = wicFactory.CreateBitmap(width, height, SharpDirect2D.WIC.PixelFormat.Format32bppBGR, BitmapCreateCacheOption.CacheOnLoad);
 
@@ -38,9 +39,9 @@ namespace HelloDirect3D11
 
             var d2dRenderTarget = d2dFactory.CreateWicBitmapRenderTarget(wicBitmap, renderTargetProperties);
 
-            var solidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new Vector4(1.0f));
+            var solidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new Color4(1.0f));
             d2dRenderTarget.BeginDraw();
-            d2dRenderTarget.Clear(new Vector4(0.0f, 0.0f, 0.0f, 1.0f));
+            d2dRenderTarget.Clear(new Color4(0.0f, 0.0f, 0.0f, 1.0f));
             d2dRenderTarget.FillGeometry(rectangleGeometry, solidColorBrush, null);
             d2dRenderTarget.EndDraw();
 

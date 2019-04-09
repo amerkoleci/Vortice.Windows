@@ -44,8 +44,8 @@ namespace SharpDXGI
             bool hasScrollRectangle = presentParameters.ScrollRectangle.HasValue;
             bool hasScrollOffset = presentParameters.ScrollOffset.HasValue;
 
-            var scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle.Value : new RectI();
-            var scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset.Value : default(PointI);
+            var scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle.Value : new InteropRect();
+            var scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset.Value : default;
 
             fixed (void* pDirtyRects = presentParameters.DirtyRectangles)
             {

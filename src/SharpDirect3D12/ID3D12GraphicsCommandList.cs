@@ -56,7 +56,7 @@ namespace SharpDirect3D12
             ResourceBarrier(1, new IntPtr(&barrier));
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 colorRGBA, params RectI[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 colorRGBA, params InteropRect[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -68,7 +68,7 @@ namespace SharpDirect3D12
             }
         }
 
-        public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil, params RectI[] rectangles)
+        public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil, params InteropRect[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -85,7 +85,7 @@ namespace SharpDirect3D12
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
             Color4 clearValue,
-            params RectI[] rectangles)
+            params InteropRect[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -102,7 +102,7 @@ namespace SharpDirect3D12
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
             IntVector4 clearValue,
-            params RectI[] rectangles)
+            params InteropRect[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -130,12 +130,12 @@ namespace SharpDirect3D12
             }
         }
 
-        public unsafe void RSSetScissorRect(RectI rectangle)
+        public unsafe void RSSetScissorRect(InteropRect rectangle)
         {
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public void RSSetScissorRects(params RectI[] rectangles)
+        public void RSSetScissorRects(params InteropRect[] rectangles)
         {
             unsafe
             {

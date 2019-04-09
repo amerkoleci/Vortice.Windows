@@ -28,12 +28,12 @@ namespace SharpDirect3D11
             }
         }
 
-        public unsafe void RSSetScissorRect(RectI rectangle)
+        public unsafe void RSSetScissorRect(InteropRect rectangle)
         {
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public unsafe void RSSetScissorRects(params RectI[] rectangles)
+        public unsafe void RSSetScissorRects(params InteropRect[] rectangles)
         {
             fixed (void* pRects = rectangles)
             {

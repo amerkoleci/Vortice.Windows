@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using SharpDXGI;
 using Vortice.Mathematics;
 
 namespace Vortice.Win32
@@ -366,7 +367,7 @@ namespace Vortice.Win32
         public IntPtr WParam;
         public IntPtr LParam;
         public uint Time;
-        public PointI Point;
+        public Point Point;
     }
 
     public delegate IntPtr WNDPROC(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
@@ -481,11 +482,11 @@ namespace Vortice.Win32
 
         [return: MarshalAs(UnmanagedType.U1)]
         [DllImport(LibraryName, ExactSpelling = true)]
-        public static extern bool AdjustWindowRect([In] [Out] ref RectI lpRect, WindowStyles dwStyle, bool hasMenu);
+        public static extern bool AdjustWindowRect([In] [Out] ref InteropRect lpRect, WindowStyles dwStyle, bool hasMenu);
 
         [return: MarshalAs(UnmanagedType.U1)]
         [DllImport(LibraryName, ExactSpelling = true)]
-        public static extern bool AdjustWindowRectEx([In] [Out] ref RectI lpRect, WindowStyles dwStyle, bool bMenu, WindowExStyles exStyle);
+        public static extern bool AdjustWindowRectEx([In] [Out] ref InteropRect lpRect, WindowStyles dwStyle, bool bMenu, WindowExStyles exStyle);
 
         [DllImport(LibraryName, CharSet = CharSet.Unicode)]
         public static extern IntPtr CreateWindowEx(
