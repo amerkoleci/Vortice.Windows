@@ -63,6 +63,10 @@
     <const from-macro="D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT" class="SharpDirect3D11.BlendDescription" type="int" name="SimultaneousRenderTargetCount" />
     <const from-macro="D3D11_DEFAULT_STENCIL_READ_MASK" class="SharpDirect3D11.DepthStencilDescription" type="int" name="DefaultStencilReadMask" />
     <const from-macro="D3D11_DEFAULT_STENCIL_WRITE_MASK" class="SharpDirect3D11.DepthStencilDescription" type="int" name="DefaultStencilWriteMask" />
+
+    <const from-macro="D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="CommonShaderConstantBufferSlotCount" />
+    <const from-macro="D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="CommonShaderSamplerSlotCount" />
+    <const from-macro="D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="CommonShaderInputResourceSlotCount" />
   </extension>
 
   <bindings>
@@ -318,7 +322,7 @@
 
     <map enum="D3D11_CREATE_DEVICE_FLAG" name="DeviceCreationFlags" />
     <map enum="D3D11_1_CREATE_DEVICE_CONTEXT_STATE_FLAG" name="CreateDeviceContextStateFlags" />
-    
+
     <map enum-item="D3D11_SHARED_RESOURCE_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D11_SHADER_MIN_PRECISION_10_BIT" name="Bit10"/>
     <map enum-item="D3D11_SHADER_MIN_PRECISION_16_BIT" name="Bit16"/>
@@ -362,7 +366,7 @@
     <map enum="D3D11_RLDO_FLAGS" name="ReportLiveDeviceObjectFlags" />
     <map enum="D3D11_ASYNC_GETDATA_FLAG" name="AsyncGetDataFlags" />
     <map enum-item="D3D11_ASYNC_GETDATA_DONOTFLUSH" name="DoNotFlush" />
-    
+
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
     <remove struct="D3D11_AES_CTR_IV" />
@@ -429,7 +433,7 @@
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
     <map method="ID3D11DeviceChild::GetPrivateData" visibility="public" hresult="true" check="false"/>
     <map method="ID3D11DeviceChild::SetPrivateData" visibility="public" hresult="true" check="false"/>
-    
+
     <!-- ID3D11Device methods -->
     <map method="ID3D(\d+)Device[123]?::GetImmediateContext[123]?" persist="true"/>
     <map method="ID3D(\d+)Device::GetDeviceRemovedReason" check="false"/>
@@ -579,13 +583,19 @@
     <map param="ID3D11DeviceContext::IAGetInputLayout::ppInputLayout" return="true" />
     <map param="ID3D11DeviceContext::IAGetPrimitiveTopology::pTopology" return="true" />
     <map param="ID3D11DeviceContext::RSGetViewports::pViewports" type="void" />
-    
+    <map method="ID3D11DeviceContext::VSSetShader" visibility="internal"/>
+    <map method="ID3D11DeviceContext::PSSetShader" visibility="internal"/>
+    <map method="ID3D11DeviceContext::DSSetShader" visibility="internal"/>
+    <map method="ID3D11DeviceContext::HSSetShader" visibility="internal"/>
+    <map method="ID3D11DeviceContext::GSSetShader" visibility="internal"/>
+    <map method="ID3D11DeviceContext::CSSetShader" visibility="internal"/>
+
     <!-- ID3D11DeviceContext1 -->
     <map method="ID3D11DeviceContext1::ClearView" visibility="private"/>
     <map param="ID3D11DeviceContext1::ClearView::Color" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0"/>
     <map param="ID3D11DeviceContext1::SwapDeviceContextState::ppPreviousState" attribute="out" return="true"/>
     <map method="ID3D11DeviceContext1::DiscardView1" visibility="private"/>
-    
+
     <!-- ID3D11CommandList -->
     <remove method="ID3D11CommandList::GetContextFlags" />
 

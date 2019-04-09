@@ -3,7 +3,6 @@
 
 using System;
 using Vortice.Mathematics;
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using SharpDXGI;
 using SharpGen.Runtime;
@@ -225,5 +224,305 @@ namespace SharpDirect3D11
             Guard.NotNullOrEmpty(viewports, nameof(viewports));
             RSGetViewports(ref count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
         }
+
+        #region VertexShader
+        public void VSSetShader(ID3D11VertexShader vertexShader)
+        {
+            VSSetShader(ToCallbackPtr<ID3D11VertexShader>(vertexShader), IntPtr.Zero, 0);
+        }
+
+        public void VSSetShader(ID3D11VertexShader vertexShader, ID3D11ClassInstance[] classInstances)
+        {
+            VSSetShader(vertexShader, classInstances, classInstances.Length);
+        }
+
+        public void VSSetShader(ID3D11VertexShader vertexShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            VSSetShader(vertexShader, classInstances, classInstancesCount);
+        }
+
+        public unsafe void VSSetConstantBuffer(int startSlot, ID3D11Buffer constantBuffer)
+        {
+            var constantBufferPtr = constantBuffer.NativePointer;
+            VSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+        }
+
+        public void VSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        {
+            VSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public unsafe void VSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        {
+            var samplerPtr = sampler.NativePointer;
+            VSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+        }
+
+        public void VSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        {
+            VSSetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public unsafe void VSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        {
+            var viewPtr = shaderResourceView.NativePointer;
+            VSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+        }
+
+        public void VSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            VSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+        #endregion
+
+        #region PixelShader
+        public void PSSetShader(ID3D11PixelShader pixelShader)
+        {
+            PSSetShader(ToCallbackPtr<ID3D11PixelShader>(pixelShader), IntPtr.Zero, 0);
+        }
+
+        public void PSSetShader(ID3D11PixelShader pixelShader, ID3D11ClassInstance[] classInstances)
+        {
+            PSSetShader(pixelShader, classInstances, classInstances.Length);
+        }
+
+        public void PSSetShader(ID3D11PixelShader pixelShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            PSSetShader(pixelShader, classInstances, classInstancesCount);
+        }
+
+        public unsafe void PSSetConstantBuffer(int startSlot, ID3D11Buffer constantBuffer)
+        {
+            var constantBufferPtr = constantBuffer.NativePointer;
+            PSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+        }
+
+        public void PSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        {
+            PSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public unsafe void PSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        {
+            var samplerPtr = sampler.NativePointer;
+            PSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+        }
+
+        public void PSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        {
+            PSSetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public unsafe void PSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        {
+            var viewPtr = shaderResourceView.NativePointer;
+            PSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+        }
+
+        public void PSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            PSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+        #endregion
+
+        #region DomainShader
+        public void DSSetShader(ID3D11DomainShader domainShader)
+        {
+            DSSetShader(ToCallbackPtr<ID3D11DomainShader>(domainShader), IntPtr.Zero, 0);
+        }
+
+        public void DSSetShader(ID3D11DomainShader domainShader, ID3D11ClassInstance[] classInstances)
+        {
+            DSSetShader(domainShader, classInstances, classInstances.Length);
+        }
+
+        public void DSSetShader(ID3D11DomainShader domainShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            DSSetShader(domainShader, classInstances, classInstancesCount);
+        }
+
+        public unsafe void DSSetConstantBuffers(int startSlot, ID3D11Buffer constantBuffer)
+        {
+            var constantBufferPtr = constantBuffer.NativePointer;
+            DSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+        }
+
+        public void DSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        {
+            DSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public unsafe void DSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        {
+            var samplerPtr = sampler.NativePointer;
+            DSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+        }
+
+        public void DSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        {
+            DSSetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public unsafe void DSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        {
+            var viewPtr = shaderResourceView.NativePointer;
+            DSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+        }
+
+        public void DSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            DSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+        #endregion
+
+        #region HullShader
+        public void HSSetShader(ID3D11HullShader hullShader)
+        {
+            HSSetShader(ToCallbackPtr<ID3D11HullShader>(hullShader), IntPtr.Zero, 0);
+        }
+
+        public void HSSetShader(ID3D11HullShader hullShader, ID3D11ClassInstance[] classInstances)
+        {
+            HSSetShader(hullShader, classInstances, classInstances.Length);
+        }
+
+        public void HSSetShader(ID3D11HullShader hullShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            HSSetShader(hullShader, classInstances, classInstancesCount);
+        }
+
+        public unsafe void HSSetConstantBuffers(int startSlot, ID3D11Buffer constantBuffer)
+        {
+            var constantBufferPtr = constantBuffer.NativePointer;
+            HSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+        }
+
+        public void HSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        {
+            HSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public unsafe void HSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        {
+            var samplerPtr = sampler.NativePointer;
+            HSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+        }
+
+        public void HSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        {
+            HSSetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public unsafe void HSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        {
+            var viewPtr = shaderResourceView.NativePointer;
+            HSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+        }
+
+        public void HSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            HSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+        #endregion
+
+        #region GeometryShader
+        public void GSSetShader(ID3D11GeometryShader geometryShader)
+        {
+            GSSetShader(ToCallbackPtr<ID3D11GeometryShader>(geometryShader), IntPtr.Zero, 0);
+        }
+
+        public void GSSetShader(ID3D11GeometryShader geometryShader, ID3D11ClassInstance[] classInstances)
+        {
+            GSSetShader(geometryShader, classInstances, classInstances.Length);
+        }
+
+        public void GSSetShader(ID3D11GeometryShader geometryShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            GSSetShader(geometryShader, classInstances, classInstancesCount);
+        }
+
+        public unsafe void GSSetConstantBuffers(int startSlot, ID3D11Buffer constantBuffer)
+        {
+            var constantBufferPtr = constantBuffer.NativePointer;
+            GSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+        }
+
+        public void GSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        {
+            GSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public unsafe void GSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        {
+            var samplerPtr = sampler.NativePointer;
+            GSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+        }
+
+        public void GSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        {
+            GSSetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public unsafe void GSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        {
+            var viewPtr = shaderResourceView.NativePointer;
+            GSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+        }
+
+        public void GSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            GSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+        #endregion
+
+        #region ComputeShader
+        public void CSSetShader(ID3D11ComputeShader computeShader)
+        {
+            CSSetShader(ToCallbackPtr<ID3D11ComputeShader>(computeShader), IntPtr.Zero, 0);
+        }
+
+        public void CSSetShader(ID3D11ComputeShader computeShader, ID3D11ClassInstance[] classInstances)
+        {
+            CSSetShader(computeShader, classInstances, classInstances.Length);
+        }
+
+        public void CSSetShader(ID3D11ComputeShader computeShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            CSSetShader(computeShader, classInstances, classInstancesCount);
+        }
+
+        public unsafe void CSSetConstantBuffers(int startSlot, ID3D11Buffer constantBuffer)
+        {
+            var constantBufferPtr = constantBuffer.NativePointer;
+            CSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+        }
+
+        public void CSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        {
+            CSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public unsafe void CSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        {
+            var samplerPtr = sampler.NativePointer;
+            CSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+        }
+
+        public void CSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        {
+            CSSetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public unsafe void CSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        {
+            var viewPtr = shaderResourceView.NativePointer;
+            CSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+        }
+
+        public void CSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            CSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+        #endregion
     }
 }
