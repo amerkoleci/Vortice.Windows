@@ -67,6 +67,7 @@
     <const from-macro="D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="CommonShaderConstantBufferSlotCount" />
     <const from-macro="D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="CommonShaderSamplerSlotCount" />
     <const from-macro="D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="CommonShaderInputResourceSlotCount" />
+    <const from-macro="D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="ViewportAndScissorRectObjectCountPerPipeline" />
   </extension>
 
   <bindings>
@@ -564,9 +565,19 @@
     <map param="ID3D11DeviceContext::ClearUnorderedAccessViewFloat::Values" type="VORTICE_VECTOR4"  override-native-type="true" pointer="*" array="0" />
     <map param="ID3D11DeviceContext::ClearUnorderedAccessViewUint::Values" type="VORTICE_INT4"  override-native-type="true" pointer="*" array="0" />
 
-    <map method="ID3D11DeviceContext::RSSetViewports" rawptr="true"/>
-    <map method="ID3D11DeviceContext::RSSetScissorRects" rawptr="true"/>
-
+    <map method="ID3D11DeviceContext::RSGetScissorRects" visibility="internal" />
+    <map param="ID3D11DeviceContext::RSGetScissorRects::pRects" type="void" />
+    <map method="ID3D11DeviceContext::RSSetScissorRects" visibility="internal" />
+    <map param="ID3D11DeviceContext::RSSetScissorRects::pRects" type="void" />
+    <map method="ID3D11DeviceContext::RSGetViewports" visibility="internal" />
+    <map param="ID3D11DeviceContext::RSGetViewports::pViewports" type="void" />
+    <map method="ID3D11DeviceContext::RSSetViewports" visibility="internal" />
+    <map param="ID3D11DeviceContext::RSSetViewports::pViewports" type="void" />
+    <map param="ID3D11DeviceContext::OMGetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" />
+    <map param="ID3D11DeviceContext::OMSetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" default="null"/>
+    <map param="ID3D11DeviceContext::OMSetBlendState::SampleMask" default="-1"/>
+    <map param="ID3D11DeviceContext::OMSetDepthStencilState::StencilRef" default="0"/>
+    
     <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="internal"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" attribute="in"/>
 
@@ -575,6 +586,10 @@
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void"/>
 
+    <map method="ID3D11DeviceContext::SOSetTargets" visibility="internal" />
+    <map param="ID3D11DeviceContext::SOSetTargets::ppSOTargets" type="void" attribute="in"/>
+    <map param="ID3D11DeviceContext::SOSetTargets::pOffsets" type="void" attribute="in"/>
+
     <map method="ID3D11DeviceContext::GetData" hresult="true" check="false" />
     <map param="ID3D11DeviceContext::GetData::GetDataFlags" type="D3D11_ASYNC_GETDATA_FLAG" />
     <map param="ID3D11DeviceContext::Map::pMappedResource" attribute="out" return="true"/>
@@ -582,13 +597,10 @@
 
     <map param="ID3D11DeviceContext::IAGetInputLayout::ppInputLayout" return="true" />
     <map param="ID3D11DeviceContext::IAGetPrimitiveTopology::pTopology" return="true" />
-    <map param="ID3D11DeviceContext::RSGetViewports::pViewports" type="void" />
-    <map method="ID3D11DeviceContext::VSSetShader" visibility="internal"/>
-    <map method="ID3D11DeviceContext::PSSetShader" visibility="internal"/>
-    <map method="ID3D11DeviceContext::DSSetShader" visibility="internal"/>
-    <map method="ID3D11DeviceContext::HSSetShader" visibility="internal"/>
-    <map method="ID3D11DeviceContext::GSSetShader" visibility="internal"/>
-    <map method="ID3D11DeviceContext::CSSetShader" visibility="internal"/>
+    <map param="ID3D11DeviceContext::RSGetState::ppRasterizerState" return="true" />
+    
+    <map method="ID3D11DeviceContext::[A-Z][A-Z]SetShader" visibility="internal"/>
+    <map param="ID3D11DeviceContext::[A-Z][A-Z]GetShader::pNumClassInstances" attribute="inout" />
 
     <!-- ID3D11DeviceContext1 -->
     <map method="ID3D11DeviceContext1::ClearView" visibility="private"/>

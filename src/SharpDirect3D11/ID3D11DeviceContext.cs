@@ -200,29 +200,95 @@ namespace SharpDirect3D11
             return blendState;
         }
 
-        public ID3D11BlendState OMGetBlendState(out float blendFactor)
+        public ID3D11BlendState OMGetBlendState(out Color4 blendFactor)
         {
             OMGetBlendState(out var blendState, out blendFactor, out var sampleMask);
             return blendState;
         }
 
-        public ID3D11BlendState OMGetBlendState(out float blendFactor, out int sampleMask)
+        public ID3D11BlendState OMGetBlendState(out Color4 blendFactor, out int sampleMask)
         {
             OMGetBlendState(out var blendState, out blendFactor, out sampleMask);
             return blendState;
         }
 
+        public unsafe Viewport RSGetViewport()
+        {
+            int numViewports = 1;
+            var viewport = new Viewport();
+            RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewport));
+            return viewport;
+        }
+
+        public unsafe void RSGetViewport(ref Viewport viewport)
+        {
+            int numViewports = 1;
+            RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewport));
+        }
+
         public unsafe void RSGetViewports(Viewport[] viewports)
         {
-            Guard.NotNullOrEmpty(viewports, nameof(viewports));
             int numViewports = viewports.Length;
             RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
         }
 
         public unsafe void RSGetViewports(int count, Viewport[] viewports)
         {
-            Guard.NotNullOrEmpty(viewports, nameof(viewports));
             RSGetViewports(ref count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+        }
+
+        public unsafe InteropRect RSGetScissorRect()
+        {
+            int numRects = 1;
+            var rect = new InteropRect();
+            RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rect));
+            return rect;
+        }
+
+        public unsafe void RSGetScissorRect(ref InteropRect rect)
+        {
+            int numRects = 1;
+            RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rect));
+        }
+
+        public unsafe void RSGetScissorRects(InteropRect[] rects)
+        {
+            int numRects = rects.Length;
+            RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rects[0]));
+        }
+
+        public unsafe void RSGetScissorRects(int count, InteropRect[] rects)
+        {
+            RSGetScissorRects(ref count, (IntPtr)Unsafe.AsPointer(ref rects[0]));
+        }
+
+        /// <summary>
+        /// Set the target output buffers for the stream-output stage of the pipeline.
+        /// </summary>
+        /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
+        /// <param name="strides">Array of offsets to the output buffers from ppSOTargets, one offset for each buffer. The offset values must be in bytes.</param>
+        public void SOSetTargets(ID3D11Buffer[] targets, int[] strides = null)
+        {
+            SOSetTargets(targets.Length, targets, strides);
+        }
+
+        /// <summary>
+        /// Set the target output buffers for the stream-output stage of the pipeline.
+        /// </summary>
+        /// <param name="buffersCount">The number of buffer to bind to the device. A maximum of four output buffers can be set. If less than four are defined by the call, the remaining buffer slots are set to null.</param>
+        /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
+        /// <param name="strides">Array of offsets to the output buffers from ppSOTargets, one offset for each buffer. The offset values must be in bytes.</param>
+        public unsafe void SOSetTargets(int buffersCount, ID3D11Buffer[] targets, int[] strides = null)
+        {
+            var targetsPtr = stackalloc IntPtr[buffersCount];
+            for (int i = 0; i < buffersCount; i++)
+            {
+                targetsPtr[i] = targets[i] != null ? targets[i].NativePointer : IntPtr.Zero;
+            }
+
+            SOSetTargets(buffersCount, (IntPtr)targetsPtr,
+                strides?.Length > 0 ? (IntPtr)Unsafe.AsPointer(ref strides[0]) : IntPtr.Zero
+                );
         }
 
         #region VertexShader
@@ -272,6 +338,41 @@ namespace SharpDirect3D11
         public void VSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
         {
             VSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+
+        public ID3D11VertexShader VSGetShader()
+        {
+            var count = 0;
+            VSGetShader(out var shader, null, ref count);
+            return shader;
+        }
+
+        public ID3D11VertexShader VSGetShader(ID3D11ClassInstance[] classInstances)
+        {
+            var count = classInstances.Length;
+            VSGetShader(out var shader, classInstances, ref count);
+            return shader;
+        }
+
+        public ID3D11VertexShader VSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            VSGetShader(out var shader, classInstances, ref classInstancesCount);
+            return shader;
+        }
+
+        public void VSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+        {
+            VSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public void VSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+        {
+            VSGetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public void VSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            VSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
         #endregion
 
@@ -323,6 +424,41 @@ namespace SharpDirect3D11
         {
             PSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
+
+        public ID3D11PixelShader PSGetShader()
+        {
+            var count = 0;
+            PSGetShader(out var shader, null, ref count);
+            return shader;
+        }
+
+        public ID3D11PixelShader PSGetShader(ID3D11ClassInstance[] classInstances)
+        {
+            var count = classInstances.Length;
+            PSGetShader(out var shader, classInstances, ref count);
+            return shader;
+        }
+
+        public ID3D11PixelShader PSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            PSGetShader(out var shader, classInstances, ref classInstancesCount);
+            return shader;
+        }
+
+        public void PSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+        {
+            PSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public void PSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+        {
+            PSGetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public void PSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            PSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
         #endregion
 
         #region DomainShader
@@ -372,6 +508,41 @@ namespace SharpDirect3D11
         public void DSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
         {
             DSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+
+        public ID3D11DomainShader DSGetShader()
+        {
+            var count = 0;
+            DSGetShader(out var shader, null, ref count);
+            return shader;
+        }
+
+        public ID3D11DomainShader DSGetShader(ID3D11ClassInstance[] classInstances)
+        {
+            var count = classInstances.Length;
+            DSGetShader(out var shader, classInstances, ref count);
+            return shader;
+        }
+
+        public ID3D11DomainShader DSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            DSGetShader(out var shader, classInstances, ref classInstancesCount);
+            return shader;
+        }
+
+        public void DSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+        {
+            DSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public void DSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+        {
+            DSGetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public void DSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            DSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
         #endregion
 
@@ -423,6 +594,41 @@ namespace SharpDirect3D11
         {
             HSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
+
+        public ID3D11HullShader HSGetShader()
+        {
+            var count = 0;
+            HSGetShader(out var shader, null, ref count);
+            return shader;
+        }
+
+        public ID3D11HullShader HSGetShader(ID3D11ClassInstance[] classInstances)
+        {
+            var count = classInstances.Length;
+            HSGetShader(out var shader, classInstances, ref count);
+            return shader;
+        }
+
+        public ID3D11HullShader HSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            HSGetShader(out var shader, classInstances, ref classInstancesCount);
+            return shader;
+        }
+
+        public void HSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+        {
+            HSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public void HSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+        {
+            HSGetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public void HSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            HSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
         #endregion
 
         #region GeometryShader
@@ -473,6 +679,41 @@ namespace SharpDirect3D11
         {
             GSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
+
+        public ID3D11GeometryShader GSGetShader()
+        {
+            var count = 0;
+            GSGetShader(out var shader, null, ref count);
+            return shader;
+        }
+
+        public ID3D11GeometryShader GSGetShader(ID3D11ClassInstance[] classInstances)
+        {
+            var count = classInstances.Length;
+            GSGetShader(out var shader, classInstances, ref count);
+            return shader;
+        }
+
+        public ID3D11GeometryShader GSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            GSGetShader(out var shader, classInstances, ref classInstancesCount);
+            return shader;
+        }
+
+        public void GSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+        {
+            GSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public void GSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+        {
+            GSGetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public void GSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            GSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
         #endregion
 
         #region ComputeShader
@@ -522,6 +763,41 @@ namespace SharpDirect3D11
         public void CSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
         {
             CSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+
+        public ID3D11ComputeShader CSGetShader()
+        {
+            var count = 0;
+            CSGetShader(out var shader, null, ref count);
+            return shader;
+        }
+
+        public ID3D11ComputeShader CSGetShader(ID3D11ClassInstance[] classInstances)
+        {
+            var count = classInstances.Length;
+            CSGetShader(out var shader, classInstances, ref count);
+            return shader;
+        }
+
+        public ID3D11ComputeShader CSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        {
+            CSGetShader(out var shader, classInstances, ref classInstancesCount);
+            return shader;
+        }
+
+        public void CSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+        {
+            CSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        }
+
+        public void CSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+        {
+            CSGetSamplers(startSlot, samplers.Length, samplers);
+        }
+
+        public void CSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+        {
+            CSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
         #endregion
     }

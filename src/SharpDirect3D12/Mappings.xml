@@ -39,7 +39,8 @@
     <const from-macro="D3D12_DEFAULT_DEPTH_BIAS" class="SharpDirect3D12.RasterizerDescription" type="int" name="DefaultDepthBias" />
     <const from-macro="D3D12_DEFAULT_DEPTH_BIAS_CLAMP" class="SharpDirect3D12.RasterizerDescription" type="float" name="DefaultDepthBiasClamp" />
     <const from-macro="D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS" class="SharpDirect3D12.RasterizerDescription" type="float" name="DefaultSlopeScaledDepthBias" />
-    
+
+    <const from-macro="D3D12_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE" class="SharpDirect3D12.ID3D12GraphicsCommandList" type="int" name="ViewportAndScissorRectObjectCountPerPipeline" />
   </extension>
 
   <bindings>
