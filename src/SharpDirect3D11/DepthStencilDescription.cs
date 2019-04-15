@@ -1,48 +1,47 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-namespace SharpDirect3D12
+namespace SharpDirect3D11
 {
     /// <summary>
     /// Describes depth-stencil state.
     /// </summary>
-    public partial struct DepthStencilDescription1
+    public partial struct DepthStencilDescription
     {
         /// <summary>
         /// A built-in description with default settings for using a depth stencil buffer.
         /// </summary>
-        public static readonly DepthStencilDescription1 Default = new DepthStencilDescription1(true, true);
+        public static readonly DepthStencilDescription Default = new DepthStencilDescription(true, true);
 
         /// <summary>
         /// A built-in description with settings for enabling a read-only depth stencil buffer.
         /// </summary>
-        public static readonly DepthStencilDescription1 DepthRead = new DepthStencilDescription1(true, false);
+        public static readonly DepthStencilDescription DepthRead = new DepthStencilDescription(true, false);
 
         /// <summary>
         /// A built-in description with settings for not using a depth stencil buffer.
         /// </summary>
-        public static readonly DepthStencilDescription1 None = new DepthStencilDescription1(false, false);
+        public static readonly DepthStencilDescription None = new DepthStencilDescription(false, false);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DepthStencilDescription1"/> struct.
+        /// Initializes a new instance of the <see cref="DepthStencilDescription"/> struct.
         /// </summary>
         /// <param name="depthEnable"></param>
         /// <param name="depthWriteEnable"></param>
-        public DepthStencilDescription1(bool depthEnable, bool depthWriteEnable)
+        public DepthStencilDescription(bool depthEnable, bool depthWriteEnable)
         {
             DepthEnable = depthEnable;
             DepthWriteMask = depthWriteEnable ? DepthWriteMask.All : DepthWriteMask.Zero;
             DepthFunc = ComparisonFunction.Less;
             StencilEnable = false;
-            StencilReadMask = DepthStencilDescription.DefaultStencilReadMask;
-            StencilWriteMask = DepthStencilDescription.DefaultStencilWriteMask;
+            StencilReadMask = DefaultStencilReadMask;
+            StencilWriteMask = DefaultStencilWriteMask;
             FrontFace = DepthStencilOperationDescription.Default;
             BackFace = DepthStencilOperationDescription.Default;
-            DepthBoundsTestEnable = false;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DepthStencilDescription1"/> struct.
+        /// Initializes a new instance of the <see cref="DepthStencilDescription"/> struct.
         /// </summary>
         /// <param name="depthEnable">Specifies whether to enable depth testing. Set this member to <b>true</b> to enable depth testing.</param>
         /// <param name="depthWriteEnable">Specifies a value that identifies a portion of the depth-stencil buffer that can be modified by depth data.</param>
@@ -58,8 +57,7 @@ namespace SharpDirect3D12
         /// <param name="backStencilDepthFailOp"></param>
         /// <param name="backStencilPassOp"></param>
         /// <param name="backStencilFunc"></param>
-        /// <param name="depthBoundsTestEnable"></param>
-        public DepthStencilDescription1(
+        public DepthStencilDescription(
             bool depthEnable,
             bool depthWriteEnable,
             ComparisonFunction depthFunc,
@@ -73,8 +71,7 @@ namespace SharpDirect3D12
             StencilOperation backStencilFailOp,
             StencilOperation backStencilDepthFailOp,
             StencilOperation backStencilPassOp,
-            ComparisonFunction backStencilFunc,
-            bool depthBoundsTestEnable)
+            ComparisonFunction backStencilFunc)
         {
             DepthEnable = depthEnable;
             DepthWriteMask = depthWriteEnable ? DepthWriteMask.All : DepthWriteMask.Zero;
@@ -90,7 +87,6 @@ namespace SharpDirect3D12
             BackFace.StencilDepthFailOp = backStencilDepthFailOp;
             BackFace.StencilPassOp = backStencilPassOp;
             BackFace.StencilFunc = backStencilFunc;
-            DepthBoundsTestEnable = depthBoundsTestEnable;
         }
     }
 }

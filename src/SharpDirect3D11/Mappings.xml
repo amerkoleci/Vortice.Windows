@@ -63,7 +63,10 @@
     <const from-macro="D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT" class="SharpDirect3D11.BlendDescription" type="int" name="SimultaneousRenderTargetCount" />
     <const from-macro="D3D11_DEFAULT_STENCIL_READ_MASK" class="SharpDirect3D11.DepthStencilDescription" type="int" name="DefaultStencilReadMask" />
     <const from-macro="D3D11_DEFAULT_STENCIL_WRITE_MASK" class="SharpDirect3D11.DepthStencilDescription" type="int" name="DefaultStencilWriteMask" />
-
+    <const from-macro="D3D11_DEFAULT_DEPTH_BIAS" class="SharpDirect3D11.RasterizerDescription" type="int" name="DefaultDepthBias" />
+    <const from-macro="D3D11_DEFAULT_DEPTH_BIAS_CLAMP" class="SharpDirect3D11.RasterizerDescription" type="float" name="DefaultDepthBiasClamp" />
+    <const from-macro="D3D11_DEFAULT_SLOPE_SCALED_DEPTH_BIAS" class="SharpDirect3D11.RasterizerDescription" type="float" name="DefaultSlopeScaledDepthBias" />
+    
     <const from-macro="D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="CommonShaderConstantBufferSlotCount" />
     <const from-macro="D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="CommonShaderSamplerSlotCount" />
     <const from-macro="D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT" class="SharpDirect3D11.ID3D11DeviceContext" type="int" name="CommonShaderInputResourceSlotCount" />
@@ -354,7 +357,9 @@
 
     <map enum="D3D11_BLEND_OP" name="BlendOperation" />
     <map enum="D3D11_CLEAR_FLAG" name="DepthStencilClearFlags" />
-
+    <map enum="D3D11_COMPARISON_FUNC" name="ComparisonFunction" />
+    <map enum="D3D11_STENCIL_OP" name="StencilOperation" />
+    
     <map enum="D3D11_BIND_FLAG" name="BindFlags" />
     <map enum="D3D11_MAP_FLAG" name="MapFlags" />
     <map enum="D3D11_FENCE_FLAG" name="FenceFlags" />
@@ -429,6 +434,11 @@
     <map struct="D3D11_BLEND_DESC" marshalto="true"/>
     <map field="D3D11_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
+
+    <map struct="D3D11_DEPTH_STENCILOP_DESC" name="DepthStencilOperationDescription" />
+
+    <map field="D3D11_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
+    <map field="D3D11_SAMPLER_DESC::BorderColor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
 
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>

@@ -64,13 +64,13 @@ namespace SharpDirect3D12
             bool stencilEnable,
             byte stencilReadMask,
             byte stencilWriteMask,
-            StencilOp frontStencilFailOp,
-            StencilOp frontStencilDepthFailOp,
-            StencilOp frontStencilPassOp,
+            StencilOperation frontStencilFailOp,
+            StencilOperation frontStencilDepthFailOp,
+            StencilOperation frontStencilPassOp,
             ComparisonFunction frontStencilFunc,
-            StencilOp backStencilFailOp,
-            StencilOp backStencilDepthFailOp,
-            StencilOp backStencilPassOp,
+            StencilOperation backStencilFailOp,
+            StencilOperation backStencilDepthFailOp,
+            StencilOperation backStencilPassOp,
             ComparisonFunction backStencilFunc)
         {
             DepthEnable = depthEnable;

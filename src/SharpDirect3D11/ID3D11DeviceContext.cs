@@ -291,6 +291,33 @@ namespace SharpDirect3D11
                 );
         }
 
+        public unsafe void IASetVertexBuffers(int slot, VertexBufferView vertexBufferView)
+        {
+            var stride = vertexBufferView.Stride;
+            var offset = vertexBufferView.Offset;
+            var pVertexBuffers = vertexBufferView.Buffer == null ? IntPtr.Zero : vertexBufferView.Buffer.NativePointer;
+            IASetVertexBuffers(slot, 1, new IntPtr(&pVertexBuffers), new IntPtr(&stride), new IntPtr(&offset));
+        }
+
+        public unsafe void IASetVertexBuffers(int firstSlot, params VertexBufferView[] vertexBufferViews)
+        {
+            IASetVertexBuffers(firstSlot, vertexBufferViews.Length, vertexBufferViews);
+        }
+
+        public unsafe void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, VertexBufferView[] vertexBufferViews)
+        {
+            IntPtr* vertexBuffers = stackalloc IntPtr[vertexBufferViewsCount];
+            var strides = stackalloc int[vertexBufferViewsCount];
+            var offsets = stackalloc int[vertexBufferViewsCount];
+            for (int i = 0; i < vertexBufferViewsCount; i++)
+            {
+                vertexBuffers[i] = (vertexBufferViews[i].Buffer == null) ? IntPtr.Zero : vertexBufferViews[i].Buffer.NativePointer;
+                strides[i] = vertexBufferViews[i].Stride;
+                offsets[i] = vertexBufferViews[i].Offset;
+            }
+            IASetVertexBuffers(firstSlot, vertexBufferViewsCount, new IntPtr(vertexBuffers), new IntPtr(strides), new IntPtr(offsets));
+        }
+
         #region VertexShader
         public void VSSetShader(ID3D11VertexShader vertexShader)
         {

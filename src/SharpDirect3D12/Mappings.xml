@@ -344,6 +344,7 @@
 
     <map enum="D3D12_BLEND_OP" name="BlendOperation" />
     <map enum="D3D12_COMPARISON_FUNC" name="ComparisonFunction" />
+    <map enum="D3D12_STENCIL_OP" name="StencilOperation" />
     <map enum="D3D12_COLOR_WRITE_ENABLE" name="ColorWriteEnable" type="byte" flags="true"  />
     <map enum-item="D3D12_COLOR_WRITE_ENABLE(.*)" name-tmp="$1" />
     
@@ -435,6 +436,9 @@
 
     <map struct="D3D12_BLEND_DESC" marshalto="true"/>
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D12_COLOR_WRITE_ENABLE" />
+    <map field="D3D12_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
+    <map field="D3D12_SAMPLER_DESC::BorderColor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
+    <map field="D3D12_STATIC_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
     
     <map enum="D3D12_STATE_SUBOBJECT_TYPE" name="StateSubObjectType" />
     <map struct="D3D12_STATE_SUBOBJECT" name="StateSubObject" />

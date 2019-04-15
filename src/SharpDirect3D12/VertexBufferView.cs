@@ -9,7 +9,7 @@ namespace SharpDirect3D12
     public partial struct VertexBufferView
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RootDescriptor1"/> struct.
+        /// Initializes a new instance of the <see cref="VertexBufferView"/> struct.
         /// </summary>
         /// <param name="bufferLocation">Specifies a gpu virtual address that identifies the address of the buffer.</param>
         /// <param name="sizeInBytes">Specifies the size in bytes of the buffer.</param>
