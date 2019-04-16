@@ -142,6 +142,34 @@
     <short name="VALUEOUTOFRANGE">ValueOutOfRange</short>
     <short name="UNKNOWNIMAGEFORMAT">UnknownImageFormat</short>
     <short name="UNSUPPORTEDVERSION">UnsupportedVersion</short>
+    <short name="POINTER">Pointer</short>
+    <short name="POINTERS">Pointers</short>
+    <short name="NOPERSPECTIVE">NoPerspective</short>
+    <short name="POINTLIST">PointList</short>
+    <short name="LINELIST">LineList</short>
+    <short name="LINESTRIP">LineStrip</short>
+    <short name="TRIANGLELIST">TriangleList</short>
+    <short name="COMPUTESHADER">ComputeShader</short>
+    <short name="DEPTHSTENCIL">DepthStencil</short>
+    <short name="DEPTHSTENCILVIEW">DepthStencilView</short>
+    <short name="DOMAINSHADER">DomainShader</short>
+    <short name="GEOMETRYSHADER">GeometryShader</short>
+    <short name="HULLSHADER">HullShader</short>
+    <short name="MIN8FLOAT">Min8Float</short>
+    <short name="MIN10FLOAT">Min10Float</short>
+    <short name="MIN16FLOAT">Min16Float</short>
+    <short name="MIN12INT">Min12Int</short>
+    <short name="MIN16INT">Min16Int</short>
+    <short name="MIN16UINT">Min16UInt</short>
+    <short name="PIXELFRAGMENT">PixelFragment</short>
+    <short name="PIXELSHADER">PixelShader</short>
+    <short name="RENDERTARGETVIEW">RenderTargetView</short>
+    <short name="SAMPLER1D">Sampler1D</short>
+    <short name="SAMPLER2D">Sampler2D</short>
+    <short name="SAMPLER3D">Sampler3D</short>
+    <short name="SAMPLERCUBE">SamplerCube</short>
+    <short name="VERTEXFRAGMENT">VertexFragment</short>
+    <short name="VERTEXSHADER">VertexShader</short>
   </naming>
 
   <mapping>

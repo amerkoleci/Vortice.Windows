@@ -144,6 +144,7 @@
     <short name="RECTANGLE">Rectangle</short>
     <short name="RECTS">Rectangles</short>
     <short name="RECT">Rectangle</short>
+    <short name="LINE">Line</short>
     <short name="POINT">Point</short>
     <short name="POINTS">Points</short>
     <short name="TRIANGLE">Triangle</short>
@@ -183,6 +184,34 @@
     <short name="UNORM">UNorm</short>
     <short name="SNORM">SNorm</short>
     <short name="SRGB">SRgb</short>
+    <short name="POINTER">Pointer</short>
+    <short name="POINTERS">Pointers</short>
+    <short name="NOPERSPECTIVE">NoPerspective</short>
+    <short name="POINTLIST">PointList</short>
+    <short name="LINELIST">LineList</short>
+    <short name="LINESTRIP">LineStrip</short>
+    <short name="TRIANGLELIST">TriangleList</short>
+    <short name="COMPUTESHADER">ComputeShader</short>
+    <short name="DEPTHSTENCIL">DepthStencil</short>
+    <short name="DEPTHSTENCILVIEW">DepthStencilView</short>
+    <short name="DOMAINSHADER">DomainShader</short>
+    <short name="GEOMETRYSHADER">GeometryShader</short>
+    <short name="HULLSHADER">HullShader</short>
+    <short name="MIN8FLOAT">Min8Float</short>
+    <short name="MIN10FLOAT">Min10Float</short>
+    <short name="MIN16FLOAT">Min16Float</short>
+    <short name="MIN12INT">Min12Int</short>
+    <short name="MIN16INT">Min16Int</short>
+    <short name="MIN16UINT">Min16UInt</short>
+    <short name="PIXELFRAGMENT">PixelFragment</short>
+    <short name="PIXELSHADER">PixelShader</short>
+    <short name="RENDERTARGETVIEW">RenderTargetView</short>
+    <short name="SAMPLER1D">Sampler1D</short>
+    <short name="SAMPLER2D">Sampler2D</short>
+    <short name="SAMPLER3D">Sampler3D</short>
+    <short name="SAMPLERCUBE">SamplerCube</short>
+    <short name="VERTEXFRAGMENT">VertexFragment</short>
+    <short name="VERTEXSHADER">VertexShader</short>
   </naming>
 
   <mapping>
@@ -240,6 +269,10 @@
     <map enum-item="D3D_TESSELLATOR_PARTITIONING_POW2" name="PowerOfTwo" />
     <map enum="D3D_REGISTER_COMPONENT_TYPE" name="RegisterComponentType" />
     <map enum-item="D3D_REGISTER_COMPONENT_(.*)" name-tmp="$1" />
+    <map enum="D3D_CBF_USERPACKED" name="UserPacked" />
+    <map enum="D3D_PF_NONE" name="None" />
+    <map enum="D3D_PF_IN" name="In" />
+    <map enum="D3D_PF_OUT" name="Out" />
 
     <!-- d3dcommon structs -->
     <map struct="D3D_SHADER_MACRO" name="ShaderMacro" />
