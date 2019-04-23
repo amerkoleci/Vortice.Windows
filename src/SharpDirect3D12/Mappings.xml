@@ -45,7 +45,7 @@
 
   <bindings>
     <bind from="LUID" to="System.Int64"/>
-    <bind from="VORTICE_INT4" to="Vortice.Mathematics.IntVector4" />
+    <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
     <bind from="D3D12_CPU_DESCRIPTOR_HANDLE" to="SharpDirect3D12.CpuDescriptorHandle" />
     <bind from="D3D12_VIEWPORT" to="Vortice.Mathematics.Viewport"/>

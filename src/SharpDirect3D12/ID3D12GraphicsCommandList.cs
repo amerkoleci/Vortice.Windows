@@ -101,7 +101,7 @@ namespace SharpDirect3D12
             GpuDescriptorHandle viewGpuHandleInCurrentHeap,
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
-            IntVector4 clearValue,
+            Int4 clearValue,
             params InteropRect[] rectangles)
         {
             if (rectangles.Length == 0)

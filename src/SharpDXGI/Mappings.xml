@@ -72,9 +72,9 @@
     <define struct="Vortice.Mathematics.Color" sizeof="4" />
     <define struct="Vortice.Mathematics.Color3" sizeof="12" />
     <define struct="Vortice.Mathematics.Color4" sizeof="16" />
-    <define struct="Vortice.Mathematics.IntVector2" sizeof="8" />
-    <define struct="Vortice.Mathematics.IntVector3" sizeof="12" />
-    <define struct="Vortice.Mathematics.IntVector4" sizeof="16" />
+    <define struct="Vortice.Mathematics.Int2" sizeof="8" />
+    <define struct="Vortice.Mathematics.Int3" sizeof="12" />
+    <define struct="Vortice.Mathematics.Int4" sizeof="16" />
     <define struct="Vortice.Mathematics.Viewport" sizeof="24" />
     <define struct="System.Numerics.Vector2" sizeof="8" />
     <define struct="System.Numerics.Vector3" sizeof="12" />
