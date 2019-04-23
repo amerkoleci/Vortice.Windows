@@ -24,8 +24,12 @@
     <VersionPrefix>1.0.0</VersionPrefix>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <SharpGenVersion>1.2.0</SharpGenVersion>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Vortice.Mathematics" Version="1.0.0-pre020" />
+    <PackageReference Include="Vortice.Mathematics" Version="1.0.0-pre021" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All"/>
   </ItemGroup>
