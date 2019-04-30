@@ -100,9 +100,10 @@
     <short name="SUBRESOURCE">Subresource</short>
     <short name="FOOTPRINT">FootPrint</short>
     <short name="IA">InputAssembler</short>
-    <!-- D3D12_MESSAGE_ID -->
     <short name="SRC">Source</short>
     <short name="DST">Destination</short>
+    <short name="DEST">Destination</short>
+    <!-- D3D12_MESSAGE_ID -->
     <short name="ATOMICCOPYBUFFER">AtomicCopyBuffer</short>
     <short name="ACQUIREHANDLEFORCAPTURE">AcquireHandleForCapture</short>
     <short name="INVALIDARRAY">InvalidArray</short>
@@ -480,7 +481,8 @@
     <map param="ID3D12Resource::Unmap::pWrittenRange" default="null"/>
     <map param="ID3D12Resource::Map::ppData" attribute="out" return="true"/>
     <map param="ID3D12Resource::ReadFromSubresource::pDstData" attribute="in value"/>
-
+    <map param="ID3D12Resource::ReadFromSubresource::pSrcBox" default="null"/>
+    
     <!-- ID3D12Device methods -->
     <map method="ID3D12Device::CheckFeatureSupport" visibility="internal" check="false"/>
     <map method="ID3D12Device::GetDeviceRemovedReason" check="false"/>
@@ -616,6 +618,8 @@
 
     <map method="ID3D12GraphicsCommandList::OMSetRenderTargets" visibility="private"/>
     <map param="ID3D12GraphicsCommandList::OMSetRenderTargets::pRenderTargetDescriptors" type="void"/>
+
+    <map method="ID3D12GraphicsCommandList::CopyTextureRegion" visibility="private" name="CopyTextureRegion_" />
 
     <!-- ID3D12DescriptorHeap -->
     <map method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" property="false" />

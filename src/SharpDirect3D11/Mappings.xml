@@ -127,9 +127,10 @@
     <short name="VDOV">VideoDecoderOutputView</short>
     <short name="VPIV">VideoProcessorInputView</short>
     <short name="VPOV">VideoProcessorOutputView</short>
-    <!-- D3D11_MESSAGE_ID -->
     <short name="SRC">Source</short>
     <short name="DST">Destination</short>
+    <short name="DEST">Destination</short>
+    <!-- D3D11_MESSAGE_ID -->
     <short name="ATOMICCOPYBUFFER">AtomicCopyBuffer</short>
     <short name="ACQUIREHANDLEFORCAPTURE">AcquireHandleForCapture</short>
     <short name="INVALIDARRAY">InvalidArray</short>
@@ -576,7 +577,9 @@
     <map param="ID3D11Device3::CreateTexture3D1::pDesc1" attribute="in value" />
     <map param="ID3D11Device3::CreateTexture3D1::pInitialData" attribute="in buffer optional" default="null" />
     <map param="ID3D11Device3::CreateTexture3D1::ppTexture3D" attribute="out" return="true"/>
-
+    <map param="ID3D11Device3::ReadFromSubresource::pDstData" attribute="in value"/>
+    <map param="ID3D11Device3::ReadFromSubresource::pSrcBox" default="null"/>
+    
     <!-- ID3D11Device4 -->
     <map param="ID3D11Device4::RegisterDeviceRemovedEvent::pdwCookie" return="true"/>
 
@@ -640,11 +643,15 @@
     <map method="ID3D11DeviceContext::[A-Z][A-Z]SetShader" visibility="internal"/>
     <map param="ID3D11DeviceContext::[A-Z][A-Z]GetShader::pNumClassInstances" attribute="inout" />
 
+    <map param="ID3D11DeviceContext::CopySubresourceRegion::pSrcBox" default="null"/>
+
     <!-- ID3D11DeviceContext1 -->
     <map method="ID3D11DeviceContext1::ClearView" visibility="private"/>
     <map param="ID3D11DeviceContext1::ClearView::Color" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0"/>
     <map param="ID3D11DeviceContext1::SwapDeviceContextState::ppPreviousState" attribute="out" return="true"/>
     <map method="ID3D11DeviceContext1::DiscardView1" visibility="private"/>
+    <map param="ID3D11DeviceContext1::CopySubresourceRegion1::CopyFlags" type="D3D11_COPY_FLAGS" />
+    <map param="ID3D11DeviceContext1::UpdateSubresource1::CopyFlags" type="D3D11_COPY_FLAGS" />
 
     <!-- ID3D11CommandList -->
     <remove method="ID3D11CommandList::GetContextFlags" />
