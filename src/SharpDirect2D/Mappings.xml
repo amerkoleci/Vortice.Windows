@@ -70,7 +70,7 @@
     <bind from="D2D_SIZE_U" to="Vortice.Mathematics.Size" />
     <bind from="D2D_SIZE_F" to="Vortice.Mathematics.SizeF" />
     <bind from="D2D_POINT_2U" to="Vortice.Mathematics.Point" />
-    <bind from="D2D_POINT_2F" to="Vortice.Mathematics.PointF" />
+    <bind from="D2D_POINT_2F" to="System.Numerics.Vector2" />
     <bind from="D2D_RECT_U" to="Vortice.Mathematics.Rect" />
     <bind from="D2D_RECT_F" to="Vortice.Mathematics.RectF" />
     <bind from="D2D_VECTOR_2F" to="System.Numerics.Vector2" />
@@ -86,6 +86,7 @@
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>
     <bind from="IPrintDocumentPackageTarget" to="SharpGen.Runtime.ComObject" />
+    <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
   </bindings>
 
   <naming>
@@ -170,6 +171,10 @@
     <short name="SAMPLERCUBE">SamplerCube</short>
     <short name="VERTEXFRAGMENT">VertexFragment</short>
     <short name="VERTEXSHADER">VertexShader</short>
+    <short name="SRC">Source</short>
+    <short name="DST">Destination</short>
+    <short name="DEST">Destination</short>
+    <short name="INV">Inverse</short>
   </naming>
 
   <mapping>
@@ -290,13 +295,58 @@
     <map enum="D2D1_.*_OPTIONS1?" flags="true"/>
 
     <map enum-item="D2D1_COLOR_SPACE_SCRGB" name="ScRgb"/>
+    <map enum-item="D2D1_BLEND_SRC_ALPHA_SAT" name="SourceAlphaSaturate" />
+
+    <map struct="D2D1_INPUT_ELEMENT_DESC" marshalto="true"/>
+    <map field="D2D1_INPUT_ELEMENT_DESC::inputSlot" name="Slot" />
+    <map struct="D2D1_CUSTOM_VERTEX_BUFFER_PROPERTIES" name="CustomVertexBufferProperties" struct-to-class="true" marshal="true" />
+    <remove field="D2D1_CUSTOM_VERTEX_BUFFER_PROPERTIES::.*"/>
+
+    <map struct="D2D1_VERTEX_BUFFER_PROPERTIES" name="VertexBufferProperties" struct-to-class="true" marshal="true" />
+    <remove field="D2D1_VERTEX_BUFFER_PROPERTIES::.*"/>
 
     <!-- dwrite structs -->
     <map struct="DWRITE(.+)" name-tmp="$1" />
 
     <!-- d2d1 structs -->
     <map struct="D2D1(.*)" name-tmp="$1" />
+    <map field="D2D1_BLEND_DESCRIPTION::blendFactor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
 
+    <!-- ID2D1EffectContext -->
+    <map method="ID2D1EffectContext::CheckFeatureSupport" visibility="internal" check="false"/>
+
+    <map param="ID2D1EffectContext::CreateBlendTransform::blendDescription" attribute="in value" />
+    <map param="ID2D1EffectContext::CreateBlendTransform::transform" return="true"/>
+    <map param="ID2D1EffectContext::CreateBorderTransform::transform" return="true"/>
+    <map param="ID2D1EffectContext::CreateBoundsAdjustmentTransform::transform" return="true"/>
+    <map param="ID2D1EffectContext::CreateColorContext::colorContext" return="true"/>
+    <map param="ID2D1EffectContext::CreateColorContextFromFilename::colorContext" return="true"/>
+    <map param="ID2D1EffectContext::CreateColorContextFromWicColorContext::colorContext" return="true"/>
+    <map param="ID2D1EffectContext::CreateEffect::effect" return="true"/>
+    <map param="ID2D1EffectContext::CreateOffsetTransform::transform" return="true"/>
+    <map param="ID2D1EffectContext::CreateResourceTexture::resourceTexture" return="true"/>
+    <map param="ID2D1EffectContext::CreateTransformNodeFromEffect::transformNode" return="true"/>
+    <map param="ID2D1EffectContext::CreateVertexBuffer::buffer" return="true"/>
+    <map param="ID2D1EffectContext::FindResourceTexture::resourceTexture" return="true"/>
+    <map param="ID2D1EffectContext::FindVertexBuffer::buffer" return="true"/>
+    <map param="ID2D1EffectContext::GetMaximumSupportedFeatureLevel::maximumSupportedFeatureLevel" return="true"/>
+
+    <!-- ID2D1Bitmap1 -->
+    <map param="ID2D1Bitmap1::Map::mappedRect" return="true"/>
+
+    <!-- ID2D1GdiInteropRenderTarget -->
+    <map param="ID2D1GdiInteropRenderTarget::GetDC::hdc" return="true" />
+
+    <!-- ID2D1Geometry -->
+    <map param="ID2D1Geometry::CompareWithGeometry::relation" return="true" />
+    <map param="ID2D1Geometry::ComputeArea::area" return="true" />
+    <map param="ID2D1Geometry::ComputeLength::length" return="true" />
+    <map param="ID2D1Geometry::ComputePointAtLength::point" return="true" />
+    <map param="ID2D1Geometry::FillContainsPoint::contains" return="true" />
+    <map param="ID2D1Geometry::GetBounds::bounds" return="true" />
+    <map param="ID2D1Geometry::GetWidenedBounds::bounds" return="true" />
+    <map param="ID2D1Geometry::StrokeContainsPoint::contains" return="true" />
+    
     <!--IWICStream-->
     <map method="IWICStream::InitializeFrom.*" visibility="internal"/>
     <map param="IWICStream::InitializeFromMemory::pbBuffer" type="void" attribute="in"/>
@@ -427,6 +477,9 @@
 
     <map method="ID2D1RenderTarget::DrawTextW" visibility="private" name="DrawText" />
     <map method="ID2D1RenderTarget::EndDraw" hresult="true" check="false" />
+
+    <!-- ID2D1PathGeometry -->
+    <map param="ID2D1PathGeometry::Open::geometrySink" return="true" />
 
     <map interface="ID2D(\d+).*Sink1?" callback="true" callback-dual="true" callback-visibility="internal" />
     <map interface="ID2D(\d+).*Sink2?" callback="true" callback-dual="true" callback-visibility="internal" />

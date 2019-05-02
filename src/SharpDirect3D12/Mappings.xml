@@ -103,6 +103,7 @@
     <short name="SRC">Source</short>
     <short name="DST">Destination</short>
     <short name="DEST">Destination</short>
+    <short name="INV">Inverse</short>
     <!-- D3D12_MESSAGE_ID -->
     <short name="ATOMICCOPYBUFFER">AtomicCopyBuffer</short>
     <short name="ACQUIREHANDLEFORCAPTURE">AcquireHandleForCapture</short>
@@ -464,7 +465,19 @@
     <remove field="D3D12_COMPUTE_PIPELINE_STATE_DESC::.*"/>
 
     <map struct="D3D12_BLEND_DESC" marshalto="true"/>
+    
+    <!-- D3D12_RENDER_TARGET_BLEND_DESC struct -->
+    <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendEnable" name="IsBlendEnabled" />
+    <map field="D3D12_RENDER_TARGET_BLEND_DESC::SrcBlend" name="SourceBlend" />
+    <map field="D3D12_RENDER_TARGET_BLEND_DESC::DestBlend" name="DestinationBlend" />
+    <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendOp" name="BlendOperation" />
+    <map field="D3D12_RENDER_TARGET_BLEND_DESC::SrcBlendAlpha" name="SourceBlendAlpha" />
+    <map field="D3D12_RENDER_TARGET_BLEND_DESC::DestBlendAlpha" name="DestinationBlendAlpha" />
+    <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendOpAlpha" name="BlendOperationAlpha" />
+    <map field="D3D12_RENDER_TARGET_BLEND_DESC::LogicOpEnable" name="IsLogicOperationEnabled"/>
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D12_COLOR_WRITE_ENABLE" />
+    
+    <!-- D3D12_SAMPLER_DESC struct -->
     <map field="D3D12_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
     <map field="D3D12_SAMPLER_DESC::BorderColor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
     <map field="D3D12_STATIC_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />

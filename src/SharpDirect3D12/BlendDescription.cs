@@ -16,12 +16,12 @@ namespace SharpDirect3D12
         /// <summary>
         /// A built-in description with settings for alpha blend, that is blending the source and destination data using alpha.
         /// </summary>
-        public static readonly BlendDescription AlphaBlend = new BlendDescription(Blend.One, Blend.InvSourceAlpha);
+        public static readonly BlendDescription AlphaBlend = new BlendDescription(Blend.One, Blend.InverseSourceAlpha);
 
         /// <summary>
         /// A built-in description with settings for blending with non-premultipled alpha, that is blending source and destination data using alpha while assuming the color data contains no alpha information.
         /// </summary>
-        public static readonly BlendDescription NonPremultiplied = new BlendDescription(Blend.SourceAlpha, Blend.InvSourceAlpha);
+        public static readonly BlendDescription NonPremultiplied = new BlendDescription(Blend.SourceAlpha, Blend.InverseSourceAlpha);
 
         /// <summary>
         /// A built-in description with settings for opaque blend, that is overwriting the source with the destination data.
@@ -53,27 +53,27 @@ namespace SharpDirect3D12
 
             for (var i = 0; i < SimultaneousRenderTargetCount; i++)
             {
-                RenderTarget[i].LogicOpEnable = false;
-                RenderTarget[i].SrcBlend = sourceBlend;
-                RenderTarget[i].DestBlend = destinationBlend;
-                RenderTarget[i].BlendOp = BlendOperation.Add;
-                RenderTarget[i].SrcBlendAlpha = srcBlendAlpha;
-                RenderTarget[i].DestBlendAlpha = destBlendAlpha;
-                RenderTarget[i].BlendOpAlpha = BlendOperation.Add;
+                RenderTarget[i].IsLogicOperationEnabled = false;
+                RenderTarget[i].SourceBlend = sourceBlend;
+                RenderTarget[i].DestinationBlend = destinationBlend;
+                RenderTarget[i].BlendOperation = BlendOperation.Add;
+                RenderTarget[i].SourceBlendAlpha = srcBlendAlpha;
+                RenderTarget[i].DestinationBlendAlpha = destBlendAlpha;
+                RenderTarget[i].BlendOperationAlpha = BlendOperation.Add;
                 RenderTarget[i].LogicOp = LogicOp.Noop;
                 RenderTarget[i].RenderTargetWriteMask = ColorWriteEnable.All;
-                RenderTarget[i].BlendEnable = IsBlendEnabled(ref RenderTarget[i]);
+                RenderTarget[i].IsBlendEnabled = IsBlendEnabled(ref RenderTarget[i]);
             }
         }
 
         private static bool IsBlendEnabled(ref RenderTargetBlendDescription renderTarget)
         {
-            return renderTarget.BlendOpAlpha != BlendOperation.Add
-                    || renderTarget.SrcBlendAlpha != Blend.One
-                    || renderTarget.DestBlendAlpha != Blend.Zero
-                    || renderTarget.BlendOp != BlendOperation.Add
-                    || renderTarget.SrcBlend != Blend.One
-                    || renderTarget.DestBlend != Blend.Zero;
+            return renderTarget.BlendOperationAlpha != BlendOperation.Add
+                    || renderTarget.SourceBlendAlpha != Blend.One
+                    || renderTarget.DestinationBlendAlpha != Blend.Zero
+                    || renderTarget.BlendOperation != BlendOperation.Add
+                    || renderTarget.SourceBlend != Blend.One
+                    || renderTarget.DestinationBlend != Blend.Zero;
         }
     }
 }

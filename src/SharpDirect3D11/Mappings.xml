@@ -130,6 +130,7 @@
     <short name="SRC">Source</short>
     <short name="DST">Destination</short>
     <short name="DEST">Destination</short>
+    <short name="INV">Inverse</short>
     <!-- D3D11_MESSAGE_ID -->
     <short name="ATOMICCOPYBUFFER">AtomicCopyBuffer</short>
     <short name="ACQUIREHANDLEFORCAPTURE">AcquireHandleForCapture</short>
@@ -461,14 +462,25 @@
     <map field="D3D11_INPUT_ELEMENT_DESC::InputSlotClass" name="Classification" />
 
     <map struct="D3D11_BLEND_DESC" marshalto="true"/>
-    <map field="D3D11_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
-    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
+    
 
     <map struct="D3D11_DEPTH_STENCILOP_DESC" name="DepthStencilOperationDescription" />
 
     <map field="D3D11_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
     <map field="D3D11_SAMPLER_DESC::BorderColor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
 
+    <!-- D3D11_RENDER_TARGET_BLEND_DESC/D3D11_RENDER_TARGET_BLEND_DESC1 struct -->
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendEnable" name="IsBlendEnabled" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::SrcBlend" name="SourceBlend" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::DestBlend" name="DestinationBlend" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendOp" name="BlendOperation" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::SrcBlendAlpha" name="SourceBlendAlpha" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::DestBlendAlpha" name="DestinationBlendAlpha" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendOpAlpha" name="BlendOperationAlpha" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::LogicOpEnable" name="IsLogicOperationEnabled"/>
+    
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
     <map method="ID3D11DeviceChild::GetPrivateData" visibility="public" hresult="true" check="false"/>
