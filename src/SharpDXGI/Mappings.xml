@@ -212,6 +212,7 @@
     <short name="SAMPLERCUBE">SamplerCube</short>
     <short name="VERTEXFRAGMENT">VertexFragment</short>
     <short name="VERTEXSHADER">VertexShader</short>
+    <short name="SHAREDEXP">SharedExp</short>
   </naming>
 
   <mapping>

@@ -104,6 +104,7 @@
     <short name="DST">Destination</short>
     <short name="DEST">Destination</short>
     <short name="INV">Inverse</short>
+    <short name="INVALID">Invalid</short>
     <!-- D3D12_MESSAGE_ID -->
     <short name="ATOMICCOPYBUFFER">AtomicCopyBuffer</short>
     <short name="ACQUIREHANDLEFORCAPTURE">AcquireHandleForCapture</short>
