@@ -5,9 +5,9 @@ using System;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
-namespace SharpDirect3D12
+namespace SharpShaderCompiler
 {
-    internal unsafe static class Compiler
+    public unsafe static partial class Compiler
     {
         public static Result D3DReflect<T>(byte[] shaderBytecode, out IntPtr nativePtr) where T : ComObject
         {

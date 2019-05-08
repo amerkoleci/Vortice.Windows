@@ -16,11 +16,6 @@
              namespace="SharpDirect3D12"
              attach="true"/>
 
-  <include file="d3d12shader.h"
-           namespace="SharpDirect3D12.Shader"
-           attach="true"
-           output="Shader" />
-
   <!--<include file="d3d12video.h"
            namespace="SharpDirect3D12.Video"
            attach="true"
@@ -649,18 +644,6 @@
     <!-- ID3D12PipelineLibrary1 methods -->
     <map method="ID3D12PipelineLibrary1::LoadPipeline" visibility="private"/>
     <map param="ID3D12PipelineLibrary1::LoadPipeline::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
-
-    <!-- Shader -->
-    <map param="ID3D12ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
-    <map param="ID3D12ShaderReflection::GetOutputParameterDesc::pDesc" attribute="out" return="true"/>
-    <map param="ID3D12ShaderReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
-    <map param="ID3D12ShaderReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
-    <map param="ID3D12ShaderReflection::GetPatchConstantParameterDesc::pDesc" attribute="out" return="true"/>
-
-    <map param="ID3D12FunctionReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
-    <map param="ID3D12FunctionReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
-
-    <map param="ID3D12ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
 
     <map function="D3D12.*" dll='"d3d12.dll"' group="SharpDirect3D12.D3D12" visibility="internal" />
     <map function="D3D12CreateDevice" check="false"/>

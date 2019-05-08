@@ -36,11 +36,6 @@
            attach="true"
            output="Debug" />
 
-  <include file="d3d11shader.h"
-           namespace="SharpDirect3D11.Shader"
-           attach="true"
-           output="Shader" />
-
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="SharpDirect3D11.D3D11" type="int" name="SdkVersion" />
     <create class="D3D11" visibility="public static" />
@@ -670,15 +665,6 @@
 
     <!-- ID3D11CommandList -->
     <remove method="ID3D11CommandList::GetContextFlags" />
-
-    <!-- Shader -->
-    <map param="ID3D11ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
-    <map param="ID3D11ShaderReflection::GetOutputParameterDesc::pDesc" attribute="out" return="true"/>
-    <map param="ID3D11ShaderReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
-    <map param="ID3D11ShaderReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
-    <map param="ID3D11ShaderReflection::GetPatchConstantParameterDesc::pDesc" attribute="out" return="true"/>
-
-    <map param="ID3D11ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
 
     <remove function="D3D11CreateDeviceAndSwapChain"/>
     <map function="D3D11.*" dll='"d3d11.dll"' group="SharpDirect3D11.D3D11" visibility="private" />
