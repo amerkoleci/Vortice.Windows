@@ -276,7 +276,7 @@
     <map enum="D3D_PF_OUT" name="Out" />
 
     <!-- d3dcommon structs -->
-    <map struct="D3D_SHADER_MACRO" name="ShaderMacro" />
+    <map struct="D3D_SHADER_MACRO" name="ShaderMacro" native="true" marshal="true" />
 
     <!-- dxgi enums -->
     <map enum="DXGI(.+)" name-tmp="$1" />

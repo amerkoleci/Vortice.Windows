@@ -204,6 +204,7 @@
     <map param="D3DCompile::pDefines" attribute="in buffer optional" />
     <map param="D3DPreprocess::pDefines" attribute="in buffer optional" />
     <map function="D3DGet.*SignatureBlob" check="false" />
+    <map function="D3DReflect" check="false" />
     <map function="D3DStripShader" check="false" />
 
     <map param="D3DGetTraceInstructionOffsets::pOffsets" attribute="out" return="true"/>

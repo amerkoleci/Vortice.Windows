@@ -1,4 +1,5 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -12,8 +13,5 @@
   <ItemGroup>
     <ProjectReference Include="..\SharpDXGI\SharpDXGI.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="D3D11\" />
-    <Folder Include="D3D12\" />
-  </ItemGroup>
+
 </Project>

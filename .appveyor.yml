@@ -37,6 +37,7 @@ before_package:
 - cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release SharpDirect3D11/SharpDirect3D11.csproj
 - cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release SharpDirect3D12/SharpDirect3D12.csproj
 - cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release SharpDirect2D/SharpDirect2D.csproj
+- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release SharpShaderCompiler/SharpShaderCompiler.csproj
 
 artifacts:
 - path: bin\Release\Packages\*.nupkg

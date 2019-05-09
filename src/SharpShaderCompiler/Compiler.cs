@@ -3,29 +3,64 @@
 
 using System;
 using System.Runtime.InteropServices;
+using SharpDXGI.Direct3D;
 using SharpGen.Runtime;
 
 namespace SharpShaderCompiler
 {
     public unsafe static partial class Compiler
     {
-        public static Result D3DReflect<T>(byte[] shaderBytecode, out IntPtr nativePtr) where T : ComObject
+        public static Result Reflect<T>(byte[] shaderBytecode, out T reflection) where T : ComObject
         {
             var interfaceGuid = typeof(T).GUID;
-            Result result = Result.Fail;
             fixed (void* shaderBytecodePtr = shaderBytecode)
             {
                 PointerSize srcDataSize = shaderBytecode.Length;
-                fixed (IntPtr* ptr = &nativePtr)
+                var result = Reflect(new IntPtr(shaderBytecodePtr), srcDataSize, interfaceGuid, out var nativePtr);
+                if (result.Success)
                 {
-                    result = D3DReflect(shaderBytecodePtr, srcDataSize, &interfaceGuid, ptr);
+                    reflection = CppObject.FromPointer<T>(nativePtr);
+                    return result;
+                }
+
+                reflection = null;
+                return result;
+            }
+        }
+
+        public static ShaderBytecode CompressShaders(params ShaderBytecode[] shaderBytecodes)
+        {
+            Blob blob = null;
+            var shaderData = new ShaderData[shaderBytecodes.Length];
+            var handles = new GCHandle[shaderBytecodes.Length];
+            try
+            {
+                for (int i = 0; i < shaderBytecodes.Length; i++)
+                {
+                    handles[i] = GCHandle.Alloc(shaderBytecodes[i].Data, GCHandleType.Pinned);
+
+                    shaderData[i] = new ShaderData
+                    {
+                        BytecodePtr = handles[i].AddrOfPinnedObject(),
+                        BytecodeLength = shaderBytecodes[i].Data.Length
+                    };
+                }
+                CompressShaders(shaderBytecodes.Length, shaderData, 1, out blob);
+            }
+            finally
+            {
+                foreach (var handle in handles)
+                {
+                    handle.Free();
                 }
             }
 
-            return result;
-        }
+            if (blob == null)
+            {
+                return default;
+            }
 
-        [DllImport("d3dcompiler_47.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern int D3DReflect(void* pSrcData, void* srcDataSize, void* pInterface, void* ppReflector);
+            return new ShaderBytecode(blob);
+        }
     }
 }
