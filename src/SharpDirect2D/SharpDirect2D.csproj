@@ -1,4 +1,5 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
+  
   <PropertyGroup>
     <TargetFrameworks></TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;uap10.0.16299</TargetFrameworks>
@@ -16,4 +17,5 @@
   <ItemGroup>
     <ProjectReference Include="..\SharpDXGI\SharpDXGI.csproj" />
   </ItemGroup>
+  
 </Project>
