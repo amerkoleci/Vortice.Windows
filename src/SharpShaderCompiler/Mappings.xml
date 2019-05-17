@@ -151,6 +151,7 @@
       
     <map field="D3D11_SHADER_VARIABLE_DESC::uFlags" name="Flags" type="D3D_SHADER_VARIABLE_FLAGS" />
     
+    <map method="ID3D11ShaderReflection::GetDesc" name="GetDescription" />
     <map param="ID3D11ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
     <map param="ID3D11ShaderReflection::GetOutputParameterDesc::pDesc" attribute="out" return="true"/>
     <map param="ID3D11ShaderReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
@@ -183,6 +184,7 @@
     <map field="D3D12_SHADER_TYPE_DESC::Rows" name="RowCount" />
     <map field="D3D12_SHADER_VARIABLE_DESC::uFlags" name="Flags" type="D3D_SHADER_VARIABLE_FLAGS" />
     
+    <map method="ID3D12ShaderReflection::GetDesc" name="GetDescription" />
     <map param="ID3D12ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
     <map param="ID3D12ShaderReflection::GetOutputParameterDesc::pDesc" attribute="out" return="true"/>
     <map param="ID3D12ShaderReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
