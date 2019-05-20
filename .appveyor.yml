@@ -10,7 +10,7 @@ install:
 - ps: >-
     cd src
 
-    nuget restore SharpWindows.sln
+    nuget restore Vortice.Windows.sln
 
     $env:VORTICE_BUILD_NUMBER = ([int]$env:APPVEYOR_BUILD_NUMBER).ToString("000")
    
@@ -30,14 +30,14 @@ install:
       }
     }
 build:
-  project: src/SharpWindows.sln
+  project: src/Vortice.Windows.sln
   verbosity: minimal
 before_package:
-- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release SharpDXGI/SharpDXGI.csproj
-- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release SharpDirect3D11/SharpDirect3D11.csproj
-- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release SharpDirect3D12/SharpDirect3D12.csproj
-- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release SharpDirect2D/SharpDirect2D.csproj
-- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release SharpShaderCompiler/SharpShaderCompiler.csproj
+- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release Vortice.DirectX/Vortice.DirectX.csproj
+- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release Vortice.DirectX.Direct3D11/Vortice.DirectX.Direct3D11.csproj
+- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release Vortice.DirectX.Direct3D12/Vortice.DirectX.Direct3D12.csproj
+- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release Vortice.DirectX.Direct2D/Vortice.DirectX.Direct2D.csproj
+- cmd: msbuild /t:pack /p:VersionSuffix="%BUILD_VERSION_SUFFIX%" /p:Configuration=Release Vortice.DirectX.ShaderCompiler/Vortice.DirectX.ShaderCompiler.csproj
 
 artifacts:
 - path: bin\Release\Packages\*.nupkg

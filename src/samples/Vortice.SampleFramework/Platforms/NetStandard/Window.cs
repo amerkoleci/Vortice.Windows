@@ -3,8 +3,7 @@
 
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using SharpDXGI;
+using Vortice.DirectX;
 using Vortice.Mathematics;
 using Vortice.Win32;
 using static Vortice.Win32.User32;

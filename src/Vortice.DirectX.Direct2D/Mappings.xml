@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-d2d1" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.DirectX.Direct2D</assembly>
+  <namespace>Vortice.DirectX.Direct2D</namespace>
+  <depends>Vortice.DirectX</depends>
+
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="StdLib" />
+
+  <include file="d2dbasetypes.h" attach="true"/>
+  <include file="wincodec.h"
+           namespace="Vortice.DirectX.Direct2D.WIC" 
+           output="WIC"
+           attach="true" />
+  <include file="dcommon.h" attach="true"/>
+  <ifdef name="DESKTOP">
+    <include file="d2derr.h" attach="true" />
+  </ifdef>
+  <ifdef name="UWP">
+    <include file="d2derr.h" attach="true">
+      <pre>
+        #undef WINAPI_FAMILY
+        #define WINAPI_FAMILY WINAPI_FAMILY_DESKTOP_APP
+      </pre>
+      <post>
+        #undef WINAPI_FAMILY
+        #define WINAPI_FAMILY WINAPI_FAMILY_APP
+      </post>
+    </include>
+  </ifdef>
+  
+  <include file="d2d1.h" attach="true" />
+  <include file="d2d1_1.h" attach="true" />
+  <include file="d2d1effects.h" attach="true" />
+  <include file="d2d1effectauthor.h" attach="true" />
+
+  <include file="dwrite.h"
+           namespace="Vortice.DirectX.Direct2D.DirectWrite"
+           attach="true"
+           output="DWrite" />
+
+  <extension>
+    <create class="Vortice.DirectX.Direct2D.WIC.WIC" visibility="public static"/>
+    
+    <create class="Vortice.DirectX.Direct2D.WIC.PixelFormat" visibility="public sealed"/>
+    <const from-guid="GUID_WICPixel(Format.*)" class="Vortice.DirectX.Direct2D.WIC.PixelFormat" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <const from-guid="CLSID_WICImagingFactory" class="Vortice.DirectX.Direct2D.WIC.IWICImagingFactory" type="System.Guid" name="WICImagingFactoryClsid">new System.Guid("$1")</const>
+
+    <create class="Vortice.DirectX.Direct2D.WIC.BitmapEncoderGuids" visibility="public sealed"/>
+    <const from-guid="CLSID_WIC(.*)Encoder" class="Vortice.DirectX.Direct2D.WIC.BitmapEncoderGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+
+    <create class="Vortice.DirectX.Direct2D.WIC.ContainerFormatGuids" visibility="public sealed"/>
+    <const from-guid="GUID_ContainerFormat(.*)" class="Vortice.DirectX.Direct2D.WIC.ContainerFormatGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+
+    <create class="Vortice.DirectX.Direct2D.WIC.BitmapDecoderGuids" visibility="public sealed"/>
+    <const from-guid="CLSID_WIC(.*)Decoder" class="Vortice.DirectX.Direct2D.WIC.BitmapDecoderGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+
+    <create class="Vortice.DirectX.Direct2D.WIC.ResultCode" visibility="public"/>
+    <const from-macro="WINCODEC_ERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DirectX.Direct2D.WIC.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    
+    <create class="Vortice.DirectX.Direct2D.DirectWrite.DWrite" visibility="public static" />
+    <create class="D2D1" visibility="public static" />
+    
+  </extension>
+
+  <bindings>
+    <bind from="UINT32" to="System.Int32" />
+    <bind from="D2D_SIZE_U" to="System.Drawing.Size" />
+    <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
+    <bind from="D2D_POINT_2U" to="System.Drawing.Point" />
+    <bind from="D2D_POINT_2F" to="System.Numerics.Vector2" />
+    <bind from="D2D_RECT_U" to="System.Drawing.Rectangle" />
+    <bind from="D2D_RECT_F" to="System.Drawing.RectangleF" />
+    <bind from="D2D_VECTOR_2F" to="System.Numerics.Vector2" />
+    <bind from="D2D_VECTOR_3F" to="System.Numerics.Vector3" />
+    <bind from="D2D_VECTOR_4F" to="System.Numerics.Vector4" />
+    <bind from="DWRITE_MATRIX" to="System.Numerics.Matrix3x2" />
+    <bind from="D2D_MATRIX_3X2_F" to="System.Numerics.Matrix3x2" />
+    <bind from="D2D_MATRIX_4X3_F" to="Vortice.DirectX.Direct2D.Matrix4x3" />
+    <bind from="D2D_MATRIX_4X4_F" to="System.Numerics.Matrix4x4" />
+    <bind from="D2D_MATRIX_5X4_F" to="Vortice.DirectX.Direct2D.Matrix5x4" />
+    <bind from="WICRect" to="System.Drawing.RectangleF"/>
+    <bind from="HBITMAP" to="System.IntPtr"/>
+    <bind from="HICON" to="System.IntPtr"/>
+    <bind from="HPALETTE" to="System.IntPtr"/>
+    <bind from="IPrintDocumentPackageTarget" to="SharpGen.Runtime.ComObject" />
+    <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
+  </bindings>
+
+  <naming>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="TOPLEFT">TopLeft</short>
+    <short name="UINT32">UInt32</short>
+    <short name="UINT64">UInt64</short>
+    <short name="IUNKNOWN">IUnknown</short>
+    <short name="RECTANGLE">Rectangle</short>
+    <short name="RECTS">Rectangles</short>
+    <short name="RECT">Rectangle</short>
+    <short name="POINT">Point</short>
+    <short name="POINTS">Points</short>
+    <short name="TRIANGLE">Triangle</short>
+    <short name="LIST">List</short>
+    <short name="ADJACENCY">Adjacency</short>
+    <short name="ADJ">Adjacency</short>
+    <short name="STRIP">Strip</short>
+    <short name="SRV">ShaderResourceView</short>
+    <short name="DSV">DepthStencilView</short>
+    <short name="RTV">RenderTargetView</short>
+    <short name="UAVS">UnorderedAccessViews</short>
+    <short name="UAV">UnorderedAccessView</short>
+    <short name="TEXTURE">Texture</short>
+    <short name="TEXT">Text</short>
+    <short name="CUBE">Cube</short>
+    <short name="TEX">Texture</short>
+    <short name="1D">1D</short>
+    <short name="2D">2D</short>
+    <short name="3D">3D</short>
+    <short name="MS">Multisampled</short>
+    <short name="RW">RW</short>
+    <short name="ARRAYSIZE">ArraySize</short>
+    <short name="ARRAYSLICE">ArraySlice</short>
+    <short name="ARRAYS">Arrays</short>
+    <short name="ARRAY">Array</short>
+    <short name="BUFFERS">Buffers</short>
+    <short name="BUFFER">Buffer</short>
+    <short name="BUFFEREX">BufferExtended</short>
+    <short name="CBV">ConstantBufferView</short>
+    <short name="CBUFFER">ConstantBuffer</short>
+    <short name="TBUFFER">TextureBuffer</short>
+    <short name="VDOV">VideoDecoderOutputView</short>
+    <short name="VPIV">VideoProcessorInputView</short>
+    <short name="VPOV">VideoProcessorOutputView</short>
+    <short name="INVALIDPARAMETER">InvalidParameter</short>
+    <short name="OUTOFMEMORY">OutOfMemory</short>
+    <short name="NOTIMPLEMENTED">NotImplemented</short>
+    <short name="ACCESSDENIED">AccessDenied</short>
+    <short name="VALUEOVERFLOW">ValueOverflow</short>
+    <short name="WRONGSTATE">WrongState</short>
+    <short name="VALUEOUTOFRANGE">ValueOutOfRange</short>
+    <short name="UNKNOWNIMAGEFORMAT">UnknownImageFormat</short>
+    <short name="UNSUPPORTEDVERSION">UnsupportedVersion</short>
+    <short name="POINTER">Pointer</short>
+    <short name="POINTERS">Pointers</short>
+    <short name="NOPERSPECTIVE">NoPerspective</short>
+    <short name="POINTLIST">PointList</short>
+    <short name="LINELIST">LineList</short>
+    <short name="LINESTRIP">LineStrip</short>
+    <short name="TRIANGLELIST">TriangleList</short>
+    <short name="COMPUTESHADER">ComputeShader</short>
+    <short name="DEPTHSTENCIL">DepthStencil</short>
+    <short name="DEPTHSTENCILVIEW">DepthStencilView</short>
+    <short name="DOMAINSHADER">DomainShader</short>
+    <short name="GEOMETRYSHADER">GeometryShader</short>
+    <short name="HULLSHADER">HullShader</short>
+    <short name="MIN8FLOAT">Min8Float</short>
+    <short name="MIN10FLOAT">Min10Float</short>
+    <short name="MIN16FLOAT">Min16Float</short>
+    <short name="MIN12INT">Min12Int</short>
+    <short name="MIN16INT">Min16Int</short>
+    <short name="MIN16UINT">Min16UInt</short>
+    <short name="PIXELFRAGMENT">PixelFragment</short>
+    <short name="PIXELSHADER">PixelShader</short>
+    <short name="RENDERTARGETVIEW">RenderTargetView</short>
+    <short name="SAMPLER1D">Sampler1D</short>
+    <short name="SAMPLER2D">Sampler2D</short>
+    <short name="SAMPLER3D">Sampler3D</short>
+    <short name="SAMPLERCUBE">SamplerCube</short>
+    <short name="VERTEXFRAGMENT">VertexFragment</short>
+    <short name="VERTEXSHADER">VertexShader</short>
+    <short name="SRC">Source</short>
+    <short name="DST">Destination</short>
+    <short name="DEST">Destination</short>
+    <short name="INV">Inverse</short>
+  </naming>
+
+  <mapping>
+    <!-- WIC enums -->
+    <map enum="WIC(.*)" name="$1"/>
+    <map enum="WIC8(.*)" name="$1"/>
+    <map enum-item="WIC(.*)" name="$1"/>
+    <map enum-item="WIC8(.*)" name="$1"/>
+    <map enum-item="WICBitmap(.*)" name="$1"/>
+    <map enum-item="WIC8BIMIptc(.*)" name="$1"/>
+    <map enum-item="WIC8BIMIptcDigest(.*)" name="$1"/>
+    <map enum-item="WIC8BIMResolutionInfo(.*)" name="$1"/>
+    <map enum-item="WICBitmapDitherType(.*)" name="$1"/>
+    <map enum-item="WICBitmapInterpolationMode(.*)" name="$1"/>
+    <map enum-item="WICBitmapPaletteType(.*)" name="$1"/>
+    <map enum-item="WICBitmapDecoderCapability(.*)" name="$1"/>
+    <map enum-item="WICBitmapTransform(.*)" name="$1"/>
+    <map enum-item="WICColorContext(.*)" name="$1"/>
+    <map enum-item="WICComponent(.*)" name="$1"/>
+    <map enum-item="WICComponentEnumerate(.*)" name="$1"/>
+    <map enum="WICComponentType" flags="true"/>
+    <map enum="WICComponentEnumerateOptions" flags="true"/>
+    <map enum="WICComponentSigning" flags="true"/>
+    <map enum-item="WICDdsAlphaMode(.*)" name="$1"/>
+    <map enum-item="WICDdsTexture(.*)" name="Texture$1"/>
+    <map enum-item="WICDecodeMetadata(.*)" name="$1"/>
+    <map enum-item="WICRawCapability(.*)" name="$1"/>
+    <map enum-item="WIC(.*)ParameterSet" name="$1"/>
+    <map enum-item="WICRawRenderMode(.*)" name="$1"/>
+    <map enum-item="WICRawRotationCapability(.*)" name="$1"/>
+    <map enum-item="WICBitmapEncoder(.*)" name="$1"/>
+    <map enum-item="WICBitmapEncoderCache(.*)" name="$1"/>
+    
+    <map enum="WICBitmapLockFlags" flags="true" none="true"/>
+    <remove enum-item=".*_FORCE_DWORD" />
+    <remove enum-item=".*_FORCE_UINT" />
+    
+    <!-- DWRITE enums -->
+    <map enum="DWRITE(.+)" name-tmp="$1" />
+    
+    <!-- d2d1 enums -->
+    <map enum="D2D1(.*)" name-tmp="$1" />
+    <map enum-item="D2D1_FEATURE_LEVEL_(.*)" name="Level_$1" />
+    <map enum-item="D2D1_GAMMA_2_2" name="StandardRgb" />
+    <map enum-item="D2D1_GAMMA_1_0" name="Linear" />
+
+    <map enum-item="D2D1_BUFFER_PRECISION_([0-9]+)BPC_(.*)" name-tmp="PER_CHANNEL_$1_$2" />
+
+    <map enum-item="D2D1_CHANNEL_DEPTH_1" name-tmp="One" />
+    <map enum-item="D2D1_CHANNEL_DEPTH_4" name-tmp="Four" />
+    <map enum-item="D2D1_FEATURE_LEVEL_DEFAULT" name="Default" />
+
+    <map enum="D2D1_2DAFFINETRANSFORM_INTERPOLATION_MODE" name="AffineTransform2DInterpolationMode"/>
+    <map enum="D2D1_2DAFFINETRANSFORM_PROP" name="AffineTransform2DProperty"/>
+    <map enum="D2D1_3DPERSPECTIVETRANSFORM_INTERPOLATION_MODE" name="PerspectiveTransform3DInteroplationMode"/>
+    <map enum="D2D1_3DPERSPECTIVETRANSFORM_PROP" name="PerspectiveTransform3DProperty"/>
+    <map enum="D2D1_3DTRANSFORM_INTERPOLATION_MODE" name="Transform3DInterpolationMode"/>
+    <map enum="D2D1_3DTRANSFORM_PROP" name="Transform3DProperties"/>
+    <map enum="D2D1_ARITHMETICCOMPOSITE_PROP" name="ArithmeticCompositeProperties"/>
+    <map enum="D2D1_ATLAS_PROP" name="AtlasProperties"/>
+    <map enum="D2D1_BITMAPSOURCE_ALPHA_MODE" name="BitmapSourceAlphaMode"/>
+    <map enum="D2D1_BITMAPSOURCE_INTERPOLATION_MODE" name="BitmapSourceInterpolationMode"/>
+    <map enum="D2D1_BITMAPSOURCE_ORIENTATION" name="BitmapSourceOrientation"/>
+    <map enum="D2D1_BITMAPSOURCE_PROP" name="BitmapSourceProperties"/>
+    <map enum="D2D1_BLEND_PROP" name="BlendProperties"/>
+    <map enum="D2D1_BORDER_PROP" name="BorderProperties"/>
+    <map enum="D2D1_BRIGHTNESS_PROP" name="BrightnessProperties"/>
+    <map enum="D2D1_COLORMANAGEMENT_ALPHA_MODE" name="ColorManagementAlphaMode"/>
+    <map enum="D2D1_COLORMANAGEMENT_PROP" name="ColorManagementProperties"/>
+    <map enum="D2D1_COLORMANAGEMENT_RENDERING_INTENT" name="ColorManagementRenderingIntent"/>
+    <map enum="D2D1_COLORMATRIX_ALPHA_MODE" name="ColorMatrixAlphaMode"/>
+    <map enum="D2D1_COLORMATRIX_PROP" name="ColorMatrixProperties"/>
+    <map enum="D2D1_COMPOSITE_PROP" name="CompositeProperties"/>
+    <map enum="D2D1_CONVOLVEMATRIX_PROP" name="ConvoleMatrixProperties"/>
+    <map enum="D2D1_CONVOLVEMATRIX_SCALE_MODE" name="ConvoleMatrixScaleMode"/>
+    <map enum="D2D1_CROP_PROP" name="CropProperties"/>
+    <map enum="D2D1_DIRECTIONALBLUR_OPTIMIZATION" name="DirectionalBlurOptimization"/>
+    <map enum="D2D1_DIRECTIONALBLUR_PROP" name="DirectionalBlurProperties"/>
+    <map enum="D2D1_DISCRETETRANSFER_PROP" name="DiscreteTransferProperties"/>
+    <map enum="D2D1_DISPLACEMENTMAP_PROP" name="DisplacementMapProperties"/>
+    <map enum="D2D1_DISPLACEMENTMAP_X_CHANNEL_SELECT" name="DisplacementMapSelectChannelX"/>
+    <map enum="D2D1_DISPLACEMENTMAP_Y_CHANNEL_SELECT" name="DisplacementMapSelectChannelY"/>
+    <map enum="D2D1_DISTANTDIFFUSE_PROP" name="DistantDiffuseProperties"/>
+    <map enum="D2D1_DISTANTDIFFUSE_SCALE_MODE" name="DistantDiffuseScaleMode"/>
+    <map enum="D2D1_DISTANTSPECULAR_PROP" name="DistantSpecularProperties"/>
+    <map enum="D2D1_DISTANTSPECULAR_SCALE_MODE" name="DistantSpecularScaleMode"/>
+    <map enum="D2D1_DPICOMPENSATION_INTERPOLATION_MODE" name="DpiCompensationInterpolationMode"/>
+    <map enum="D2D1_DPICOMPENSATION_PROP" name="DpiCompensationProperties"/>
+    <map enum="D2D1_ENUM_0" name="InterpolationModeDefinition"/>
+    <map enum-item="D2D1_INTERPOLATION_MODE_DEFINITION_(.*)" name-tmp="$1"/>
+    <map enum="D2D1_FLOOD_PROP" name="FloodProperties"/>
+    <map enum="D2D1_GAMMATRANSFER_PROP" name="GammaTransferProperties"/>
+    <map enum="D2D1_GAUSSIANBLUR_OPTIMIZATION" name="GaussianBlurOptimization"/>
+    <map enum="D2D1_GAUSSIANBLUR_PROP" name="GaussianBlurProperties"/>
+    <map enum="D2D1_HIGHQUALITYSCALE_PROP" name="HighQualityScaleProperties"/>
+    <map enum="D2D1_HISTOGRAM_PROP" name="HistogramProperties"/>
+    <map enum="D2D1_HUEROTATION_PROP" name="HueRotationProperties"/>
+    <map enum="D2D1_LINEARTRANSFER_PROP" name="LinearTransferProperties"/>
+    <map enum="D2D1_MORPHOLOGY_PROP" name="MorphologyProperties"/>
+    <map enum="D2D1_POINTDIFFUSE_PROP" name="PointDiffuseProperties"/>
+    <map enum="D2D1_POINTDIFFUSE_SCALE_MODE" name="PointDiffuseScaleMode"/>
+    <map enum="D2D1_POINTSPECULAR_PROP" name="PointSpecularProperties"/>
+    <map enum="D2D1_POINTSPECULAR_SCALE_MODE" name="PointSpecularScaleMode"/>
+    <map enum="D2D1_SCALE_PROP" name="ScaleProperties"/>
+    <map enum="D2D1_SATURATION_PROP" name="SaturationProperties"/>
+    <map enum="D2D1_SHADOW_PROP" name="ShadowProperties"/>
+    <map enum="D2D1_SPOTDIFFUSE_PROP" name="SpotDiffuseProperties"/>
+    <map enum="D2D1_SPOTDIFFUSE_SCALE_MODE" name="SpotDiffuseScaleMode"/>
+    <map enum="D2D1_SPOTSPECULAR_PROP" name="SpotSpecularProperties"/>
+    <map enum="D2D1_SPOTSPECULAR_SCALE_MODE" name="SpotSpecularScaleMode"/>
+    <map enum="D2D1_SUBPROPERTY" name="SubProperty"/>
+    <map enum="D2D1_TABLETRANSFER_PROP" name="TableTransferProperties"/>
+    <map enum="D2D1_TILE_PROP" name="TileProperties"/>
+    <map enum="D2D1_TURBULENCE_PROP" name="TurbulenceProperties"/>
+    <map enum="D2D1_OPACITYMETADATA_PROP" name="OpacityMetadataProperties"/>
+    <map enum="D2D1_YCBCR_PROP" name="YCbCrProperties"/>
+
+    <map enum="D2D1_.*_OPTIONS1?" flags="true"/>
+
+    <map enum-item="D2D1_COLOR_SPACE_SCRGB" name="ScRgb"/>
+    <map enum-item="D2D1_BLEND_SRC_ALPHA_SAT" name="SourceAlphaSaturate" />
+
+    <map struct="D2D1_INPUT_ELEMENT_DESC" marshalto="true"/>
+    <map field="D2D1_INPUT_ELEMENT_DESC::inputSlot" name="Slot" />
+    <map struct="D2D1_CUSTOM_VERTEX_BUFFER_PROPERTIES" name="CustomVertexBufferProperties" struct-to-class="true" marshal="true" />
+    <remove field="D2D1_CUSTOM_VERTEX_BUFFER_PROPERTIES::.*"/>
+
+    <map struct="D2D1_VERTEX_BUFFER_PROPERTIES" name="VertexBufferProperties" struct-to-class="true" marshal="true" />
+    <remove field="D2D1_VERTEX_BUFFER_PROPERTIES::.*"/>
+
+    <!-- dwrite structs -->
+    <map struct="DWRITE(.+)" name-tmp="$1" />
+
+    <!-- d2d1 structs -->
+    <map struct="D2D1(.*)" name-tmp="$1" />
+    <map field="D2D1_BLEND_DESCRIPTION::blendFactor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
+
+    <!-- ID2D1Device -->
+    <map param="ID2D1Device::CreateDeviceContext::deviceContext" return="true" />
+    <map param="ID2D1Device::CreatePrintControl::printControl" return="true" />
+
+    <!-- ID2D1DeviceContext -->
+    <map param="ID2D1DeviceContext::CreateBitmap::bitmap" return="true" />
+    <map param="ID2D1DeviceContext::CreateBitmapBrush::bitmapBrush" return="true" />
+    <map param="ID2D1DeviceContext::CreateBitmapFromDxgiSurface::bitmap" return="true" />
+    <map param="ID2D1DeviceContext::CreateBitmapFromWicBitmap::bitmap" return="true" />
+    <map param="ID2D1DeviceContext::CreateColorContext::colorContext" return="true" />
+    <map param="ID2D1DeviceContext::CreateColorContextFromFilename::colorContext" return="true" />
+    <map param="ID2D1DeviceContext::CreateColorContextFromWicColorContext::colorContext" return="true" />
+    <map param="ID2D1DeviceContext::CreateCommandList::commandList" return="true" />
+    <map param="ID2D1DeviceContext::CreateEffect::effect" return="true" />
+    <map param="ID2D1DeviceContext::CreateGradientStopCollection::gradientStopCollection1" return="true" />
+    <map param="ID2D1DeviceContext::CreateImageBrush::imageBrush" return="true" />
+    <map param="ID2D1DeviceContext::GetEffectInvalidRectangleCount::rectangleCount" return="true"/>
+    <map method="ID2D1DeviceContext::GetEffectInvalidRectangles" visibility="internal"/>
+    <map method="ID2D1DeviceContext::GetEffectRequiredInputRectangles" visibility="internal"/>
+    <map param="ID2D1DeviceContext::GetImageLocalBounds::localBounds" return="true"/>
+    <map param="ID2D1DeviceContext::GetImageWorldBounds::worldBounds" return="true"/>
+    <map param="ID2D1DeviceContext::GetGlyphRunWorldBounds::bounds" return="true"/>
+    
+    <map method="ID2D1DeviceContext::GetPrimitiveBlend" property="false"/>
+    <map method="ID2D1DeviceContext::SetPrimitiveBlend" property="false"/>
+    <map method="ID2D1DeviceContext::GetRenderingControls" property="false"/>
+    <map method="ID2D1DeviceContext::SetRenderingControls" property="false"/>
+    <map param="ID2D1DeviceContext::GetRenderingControls::renderingControls" return="true" />
+
+    <map method="ID2D1DeviceContext::GetTarget" property="false"/>
+    <map method="ID2D1DeviceContext::SetTarget" property="false"/>
+    <map param="ID2D1DeviceContext::GetTarget::image" return="true" />
+    
+    <map method="ID2D1DeviceContext::GetUnitMode" property="false"/>
+    <map method="ID2D1DeviceContext::SetUnitMode" property="false"/>
+
+    <map param="ID2D1DeviceContext::FillOpacityMask::destinationRectangle" default="null" />
+    <map param="ID2D1DeviceContext::FillOpacityMask::sourceRectangle" default="null" />
+
+    <!-- ID2D1EffectContext -->
+    <map method="ID2D1EffectContext::CheckFeatureSupport" visibility="internal" check="false"/>
+
+    <map param="ID2D1EffectContext::CreateBlendTransform::blendDescription" attribute="in value" />
+    <map param="ID2D1EffectContext::CreateBlendTransform::transform" return="true"/>
+    <map param="ID2D1EffectContext::CreateBorderTransform::transform" return="true"/>
+    <map param="ID2D1EffectContext::CreateBoundsAdjustmentTransform::transform" return="true"/>
+    <map param="ID2D1EffectContext::CreateColorContext::colorContext" return="true"/>
+    <map param="ID2D1EffectContext::CreateColorContextFromFilename::colorContext" return="true"/>
+    <map param="ID2D1EffectContext::CreateColorContextFromWicColorContext::colorContext" return="true"/>
+    <map param="ID2D1EffectContext::CreateEffect::effect" return="true"/>
+    <map param="ID2D1EffectContext::CreateOffsetTransform::transform" return="true"/>
+    <map param="ID2D1EffectContext::CreateResourceTexture::resourceTexture" return="true"/>
+    <map param="ID2D1EffectContext::CreateTransformNodeFromEffect::transformNode" return="true"/>
+    <map param="ID2D1EffectContext::CreateVertexBuffer::buffer" return="true"/>
+    <map param="ID2D1EffectContext::FindResourceTexture::resourceTexture" return="true"/>
+    <map param="ID2D1EffectContext::FindVertexBuffer::buffer" return="true"/>
+    <map param="ID2D1EffectContext::GetMaximumSupportedFeatureLevel::maximumSupportedFeatureLevel" return="true"/>
+
+    <!-- ID2D1Bitmap1 -->
+    <map param="ID2D1Bitmap1::Map::mappedRect" return="true"/>
+
+    <!-- ID2D1GdiInteropRenderTarget -->
+    <map param="ID2D1GdiInteropRenderTarget::GetDC::hdc" return="true" />
+
+    <!-- ID2D1Geometry -->
+    <map param="ID2D1Geometry::CompareWithGeometry::relation" return="true" />
+    <map param="ID2D1Geometry::ComputeArea::area" return="true" />
+    <map param="ID2D1Geometry::ComputeLength::length" return="true" />
+    <map param="ID2D1Geometry::ComputePointAtLength::point" return="true" />
+    <map param="ID2D1Geometry::FillContainsPoint::contains" return="true" />
+    <map param="ID2D1Geometry::GetBounds::bounds" return="true" />
+    <map param="ID2D1Geometry::GetWidenedBounds::bounds" return="true" />
+    <map param="ID2D1Geometry::StrokeContainsPoint::contains" return="true" />
+    
+    <!--IWICStream-->
+    <map method="IWICStream::InitializeFrom.*" visibility="internal"/>
+    <map param="IWICStream::InitializeFromMemory::pbBuffer" type="void" attribute="in"/>
+    
+    <!--IWICBitmapLock-->
+    <map method="IWICBitmapLock::GetDataPointer" visibility="internal"/>
+    <map param="IWICBitmapLock::GetDataPointer::ppbData" attribute="out" type="void" return="true"/>
+
+    <!--IWICBitmapSource -->
+    <map method="IWICBitmapSource::CopyPixels" visibility="internal"/>
+    <map param="IWICBitmapSource::CopyPixels::prc" type="void" attribute="in"/>
+    <map param="IWICBitmapSource::CopyPixels::pbBuffer" type="void" />
+
+
+    <!--IWICBitmap -->
+    <map method="IWICBitmap::Lock" visibility="internal"/>
+    <map param="IWICBitmap::Lock::ppILock" return="true"/>
+    <map param="IWICBitmap::Lock::flags" type="WICBitmapLockFlags"/>
+    <map param="IWICBitmap::Lock::prcLock" type="void" attribute="in"/>
+    <map method="IWICBitmap::SetPalette" property="false"/>
+
+    <!-- TODO: Handle DXGI_JPEG_AC_HUFFMAN_TABLE -->
+    <remove method="IWICJpegFrameDecode::GetAcHuffmanTable" />
+    <remove method="IWICJpegFrameDecode::GetDcHuffmanTable" />
+    <remove method="IWICJpegFrameDecode::GetQuantizationTable" />
+    <remove method="IWICJpegFrameEncode::GetAcHuffmanTable" />
+    <remove method="IWICJpegFrameEncode::GetDcHuffmanTable" />
+    <remove method="IWICJpegFrameEncode::GetQuantizationTable" />
+
+    <!-- IDWriteFontFace -->
+    <map method="IDWriteFontFace::GetType" name="GetFaceType" />
+
+    <!-- TODO: Wrap LOGFONTW -->
+    <remove method="IDWriteGdiInterop::CreateFontFromLOGFONT" />
+    <remove method="IDWriteGdiInterop::ConvertFontToLOGFONT" />
+    <remove method="IDWriteGdiInterop::ConvertFontFaceToLOGFONT" />
+
+    <!-- IWICBitmapFrameEncode -->
+    <map method="IWICBitmapFrameEncode::SetPixelFormat" property="false"/>
+
+    <!-- IWICBitmapEncoder -->
+    <map param="IWICBitmapEncoder::CreateNewFrame::ppIFrameEncode" attribute="out" return="true"/>
+
+    <!-- WIC functions -->
+    <remove function=".*_Stub"/>
+    <remove function=".*_Proxy"/>
+    <remove function=".*_UserSize"/>
+    <remove function=".*_UserMarshal"/>
+    <remove function=".*_UserUnmarshal"/>
+    <remove function=".*_UserFree"/>
+
+    <!-- ID2D1Factory -->
+    <map method="IWICImagingFactory::CreateBitmap" visibility="private" name="CreateBitmapPrivate" />
+    <map param="IWICImagingFactory::Create.*::pp.*" attribute="out" return="true"/>
+
+    <!-- ID2D1Factory -->
+    <map param="ID2D1Factory::CreateDCRenderTarget::renderTargetProperties" attribute="in value" />
+    <map param="ID2D1Factory::CreateDCRenderTarget::dcRenderTarget" attribute="out" return="true"/>
+
+    <map method="ID2D1Factory::CreateDrawingStateBlock" visibility="private" />
+    <map param="ID2D1Factory::CreateDrawingStateBlock::drawingStateBlock" attribute="out" return="true"/>
+
+    <map param="ID2D1Factory::CreateDxgiSurfaceRenderTarget::renderTargetProperties" attribute="in value" />
+    <map param="ID2D1Factory::CreateDxgiSurfaceRenderTarget::renderTarget" attribute="out" return="true"/>
+
+    <map param="ID2D1Factory::CreateEllipseGeometry::ellipseGeometry" attribute="out" return="true"/>
+    
+    <map method="ID2D1Factory::CreateGeometryGroup" visibility="private" />
+
+    <map param="ID2D1Factory::CreateHwndRenderTarget::renderTargetProperties" attribute="in value" />
+    <map param="ID2D1Factory::CreateHwndRenderTarget::hwndRenderTargetProperties" attribute="in value" />
+    <map param="ID2D1Factory::CreateHwndRenderTarget::hwndRenderTarget" attribute="out" return="true"/>
+
+    <map param="ID2D1Factory::CreatePathGeometry::pathGeometry" attribute="out" return="true"/>
+
+    <map method="ID2D1Factory::CreateRectangleGeometry" visibility="private" />
+    <map param="ID2D1Factory::CreateRectangleGeometry::rectangle" type="void" attribute="in"/>
+    <map param="ID2D1Factory::CreateRectangleGeometry::rectangleGeometry" attribute="out" return="true"/>
+
+    <map param="ID2D1Factory::CreateRoundedRectangleGeometry::roundedRectangle" attribute="in value" />
+    <map param="ID2D1Factory::CreateRoundedRectangleGeometry::roundedRectangleGeometry" attribute="out" return="true"/>
+
+    <map method="ID2D1Factory::CreateStrokeStyle" visibility="private" />
+    <map param="ID2D1Factory::CreateStrokeStyle::strokeStyle" attribute="out" return="true"/>
+
+    <map param="ID2D1Factory::CreateTransformedGeometry::transformedGeometry" attribute="out" return="true"/>
+
+    <map param="ID2D1Factory::CreateWicBitmapRenderTarget::renderTargetProperties" attribute="in value" />
+    <map param="ID2D1Factory::CreateWicBitmapRenderTarget::renderTarget" attribute="out" return="true"/>
+
+    <!-- ID2D1Factory -->
+    <map param="ID2D1Factory1::CreateDevice::d2dDevice" attribute="out" return="true"/>
+    <map method="ID2D1Factory1::CreateDrawingStateBlock" visibility="private" />
+    <map param="ID2D1Factory1::CreateDrawingStateBlock::drawingStateBlock" attribute="out" return="true"/>
+
+    <map param="ID2D1Factory1::CreateGdiMetafile::metafile" attribute="out" return="true"/>
+    <map param="ID2D1Factory1::CreatePathGeometry::pathGeometry" attribute="out" return="true"/>
+
+    <map method="ID2D1Factory1::CreateStrokeStyle" visibility="private" />
+    <map param="ID2D1Factory1::CreateStrokeStyle::strokeStyle" attribute="out" return="true"/>
+    
+    <!-- ID2D1RenderTarget -->
+    <map param="ID2D1RenderTarget::CreateBitmap::bitmap" attribute="out" return="true"/>
+    <map param="ID2D1RenderTarget::CreateBitmapBrush::bitmapBrush" attribute="out" return="true"/>
+    <map param="ID2D1RenderTarget::CreateBitmapFromWicBitmap::bitmap" attribute="out" return="true"/>
+    <map param="ID2D1RenderTarget::CreateCompatibleRenderTarget::bitmapRenderTarget" attribute="out" return="true"/>
+
+    <map method="ID2D1RenderTarget::CreateGradientStopCollection" visibility="private" />
+    <map param="ID2D1RenderTarget::CreateGradientStopCollection::gradientStopCollection" attribute="out" return="true"/>
+
+    <map param="ID2D1RenderTarget::CreateLayer::size" default="null" />
+    <map param="ID2D1RenderTarget::CreateLayer::layer" attribute="out" return="true"/>
+
+    <map method="ID2D1RenderTarget::CreateLinearGradientBrush" visibility="private" />
+    <map param="ID2D1RenderTarget::CreateLinearGradientBrush::linearGradientBrush" attribute="out" return="true"/>
+    
+    <map param="ID2D1RenderTarget::CreateMesh::mesh" attribute="out" return="true"/>
+
+    <map method="ID2D1RenderTarget::CreateRadialGradientBrush" visibility="private" />
+    <map param="ID2D1RenderTarget::CreateRadialGradientBrush::radialGradientBrush" attribute="out" return="true"/>
+
+    <map method="ID2D1RenderTarget::CreateSharedBitmap" visibility="private" />
+    <map param="ID2D1RenderTarget::CreateSharedBitmap::data" attribute="in" />
+    <map param="ID2D1RenderTarget::CreateSharedBitmap::bitmap" attribute="out" return="true"/>
+
+    <map param="ID2D1RenderTarget::CreateSolidColorBrush::brushProperties" default="null"/>
+    <map param="ID2D1RenderTarget::CreateSolidColorBrush::solidColorBrush" attribute="out" return="true"/>
+
+    <map method="ID2D1RenderTarget::DrawTextW" visibility="private" name="DrawText" />
+    <map method="ID2D1RenderTarget::EndDraw" hresult="true" check="false" />
+
+    <!-- ID2D1PathGeometry -->
+    <map param="ID2D1PathGeometry::Open::geometrySink" return="true" />
+
+    <map interface="ID2D(\d+).*Sink1?" callback="true" callback-dual="true" callback-visibility="internal" />
+    <map interface="ID2D(\d+).*Sink2?" callback="true" callback-dual="true" callback-visibility="internal" />
+    <map interface="ID2D(\d+).*Sink3?" callback="true" callback-dual="true" callback-visibility="internal" />
+    <map interface="ID2D(\d+).*Sink4?" callback="true" callback-dual="true" callback-visibility="internal" />
+
+    <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.DirectX.Direct2D.WIC.WIC" visibility="internal" />
+
+    <map function="D2D1.*" dll='"d2d1.dll"' group="Vortice.DirectX.Direct2D.D2D1" />
+    <map function="D2D1CreateFactory" hresult="true" check="false" visibility="internal" />
+    <map param="D2D1CreateFactory.*?::ppIFactory" attribute="out" />
+    <map function="D2D1ComputeMaximumScaleFactor" dll='"d2d1.dll"' group="Vortice.DirectX.Direct2D.D2D1" />
+    
+    <map function="DWriteCreateFactory" dll='"dwrite.dll"' group="Vortice.DirectX.Direct2D.DirectWrite.DWrite" visibility="internal" hresult="true" check="false" />
+    <map param="DWriteCreateFactory::factory" attribute="out fast"/>
+  </mapping>
+</config>

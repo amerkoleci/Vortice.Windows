@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-shader-compiler" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.DirectX.ShaderCompiler</assembly>
+  <namespace>Vortice.DirectX.ShaderCompiler</namespace>
+  <depends>Vortice.DirectX</depends>
+
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="StdLib" />
+
+  <include file="d3dcompiler.h" attach="true">
+    <pre>
+      struct ID3D10Effect;
+    </pre>
+  </include>
+
+  <include file="d3d11shader.h"
+           namespace="Vortice.DirectX.ShaderCompiler.D3D11"
+           attach="true"
+           output="D3D11Shader" />
+
+  <include file="d3d12shader.h"
+           namespace="Vortice.DirectX.ShaderCompiler.D3D12"
+           attach="true"
+           output="D3D12Shader" />
+
+  <extension>
+    <create class="Compiler" visibility="public static" />
+
+    <create-cpp enum="D3DCOMPILE_SHADER_FLAGS" macro="D3DCOMPILE_DEBUG|D3DCOMPILE_SKIP_VALIDATION|D3DCOMPILE_SKIP_OPTIMIZATION|D3DCOMPILE_PACK_MATRIX_ROW_MAJOR|D3DCOMPILE_PACK_MATRIX_COLUMN_MAJOR|D3DCOMPILE_PARTIAL_PRECISION|D3DCOMPILE_FORCE_VS_SOFTWARE_NO_OPT|D3DCOMPILE_FORCE_PS_SOFTWARE_NO_OPT|D3DCOMPILE_NO_PRESHADER|D3DCOMPILE_AVOID_FLOW_CONTROL|D3DCOMPILE_PREFER_FLOW_CONTROL|D3DCOMPILE_ENABLE_STRICTNESS|D3DCOMPILE_ENABLE_BACKWARDS_COMPATIBILITY|D3DCOMPILE_IEEE_STRICTNESS|D3DCOMPILE_OPTIMIZATION_LEVEL0|D3DCOMPILE_OPTIMIZATION_LEVEL1|D3DCOMPILE_OPTIMIZATION_LEVEL2|D3DCOMPILE_OPTIMIZATION_LEVEL3|D3DCOMPILE_RESERVED16|D3DCOMPILE_RESERVED17|D3DCOMPILE_WARNINGS_ARE_ERRORS" />
+    <create-cpp enum="D3DCOMPILE_EFFECT_FLAGS" macro="D3DCOMPILE_EFFECT_.*" />
+    <create-cpp enum="D3DCOMPILE_DISASM_FLAGS" macro="D3D_DISASM_.*" />
+    <create-cpp enum="D3DCOMPILE_SECDATA_FLAGS" macro="D3DCOMPILE_SECDATA_.*"/>
+    <create-cpp enum="D3DCOMPILE_SHADER_REQUIRES_FLAGS" macro="D3D_SHADER_REQUIRES_.*" />
+
+    <define enum="Vortice.DirectX.ShaderCompiler.RegisterComponentMaskFlags" sizeof="1" />
+  </extension>
+
+  <bindings>
+    <bind from="LUID" to="System.Int64"/>
+    <bind from="D3D11_REGISTER_COMPONENT_MASK_FLAG" to="Vortice.DirectX.ShaderCompiler.RegisterComponentMaskFlags" />
+  </bindings>
+
+  <naming>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTORS">Descriptors</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="TOPLEFT">TopLeft</short>
+    <short name="UINT32">UInt32</short>
+    <short name="UINT64">UInt64</short>
+    <short name="IUNKNOWN">IUnknown</short>
+    <short name="RECTANGLE">Rectangle</short>
+    <short name="RECTS">Rectangles</short>
+    <short name="RECT">Rectangle</short>
+    <short name="POINT">Point</short>
+    <short name="POINTS">Points</short>
+    <short name="TRIANGLE">Triangle</short>
+    <short name="LIST">List</short>
+    <short name="ADJACENCY">Adjacency</short>
+    <short name="ADJ">Adjacency</short>
+    <short name="STRIP">Strip</short>
+    <short name="SRV">ShaderResourceView</short>
+    <short name="DSV">DepthStencilView</short>
+    <short name="RTV">RenderTargetView</short>
+    <short name="UAVS">UnorderedAccessViews</short>
+    <short name="UAV">UnorderedAccessView</short>
+    <short name="TEXTURE">Texture</short>
+    <short name="TEXT">Text</short>
+    <short name="CUBE">Cube</short>
+    <short name="TEX">Texture</short>
+    <short name="1D">1D</short>
+    <short name="2D">2D</short>
+    <short name="3D">3D</short>
+    <short name="MS">Multisampled</short>
+    <short name="RW">RW</short>
+    <short name="ARRAYSIZE">ArraySize</short>
+    <short name="ARRAYSLICE">ArraySlice</short>
+    <short name="ARRAYS">Arrays</short>
+    <short name="ARRAY">Array</short>
+    <short name="BUFFERS">Buffers</short>
+    <short name="BUFFER">Buffer</short>
+    <short name="BUFFEREX">BufferExtended</short>
+    <short name="CBV">ConstantBufferView</short>
+    <short name="CBUFFER">ConstantBuffer</short>
+    <short name="TBUFFER">TextureBuffer</short>
+    <short name="VDOV">VideoDecoderOutputView</short>
+    <short name="VPIV">VideoProcessorInputView</short>
+    <short name="VPOV">VideoProcessorOutputView</short>
+    <short name="SRC">Source</short>
+    <short name="DST">Destination</short>
+    <short name="DEST">Destination</short>
+    <short name="INV">Inverse</short>
+    <short name="INVALID">Invalid</short>
+  </naming>
+
+  <mapping>
+    <map enum="D3D(.*)" name-tmp="$1" />
+    <map enum-item="D3D(.*)" name-tmp="$1" />
+    <map enum="D3DCOMPILE_(.+)" name-tmp="$1" />
+    <map enum="D3DCOMPILER_(.+)" name-tmp="$1" />
+    <map enum="D3D11(.*)" name-tmp="$1" />
+    <map enum-item="D3D11(.*)" name-tmp="$1" />
+    <map enum="D3D12(.*)" name-tmp="$1" />
+    <map enum-item="D3D12(.*)" name-tmp="$1" />
+    <map enum-item="D3DCOMPILE_EFFECT_CHILD_EFFECT" name="ChildEffect" />
+    <map enum-item="D3DCOMPILE_EFFECT_ALLOW_SLOW_OPS" name="AllowSlowOperations" />
+    <map enum-item="D3D_CT_RESOURCE_BIND_INFO" name="ResourceBinding" />
+    <map enum-item="D3D_DISASM_(.*)" name-tmp="$1" />
+    <map enum-item="D3D11_REGISTER_COMPONENT_MASK_(.*)" name-tmp="$1" />
+    <map enum-item="D3D12_REGISTER_COMPONENT_MASK_(.*)" name-tmp="$1" />
+    <map enum-item="D3DCOMPILE_(\w[^F].*)" name-tmp="$1" />
+    <map enum="D3D11_SHADER_VERSION_TYPE" name="ShaderVersion" />
+    <map enum="D3D12_SHADER_VERSION_TYPE" name="ShaderVersion" />
+    <map enum-item="D3D11_SHVER_(.*)" name-tmp="$1" />
+    <map enum-item="D3D12_SHVER_(.*)" name-tmp="$1" />
+    <map enum="D3D_BLOB_PART" name="ShaderBytecodePart" />
+    <map enum-item="D3D_BLOB_(.*)" name-tmp="$1" />
+    <map enum="D3DCOMPILE_SECDATA_FLAGS" name="SecondaryDataFlags"/>
+    <map enum-item="D3DCOMPILE_SECDATA_(.*)" name-tmp="$1"/>
+
+    <map struct="D3D(.*)" name-tmp="$1" />
+    <map struct="D3D11(.*)" name-tmp="$1" />
+    <map struct="D3D12(.*)" name-tmp="$1" />
+    <map struct="D3D_SHADER_DATA" visibility="internal" />
+    <map field="D3D_SHADER_DATA::pBytecode" name="BytecodePtr" />
+    
+    <!-- d3d11shader -->
+    <map struct="D3D11_SHADER_BUFFER_DESC" name="ConstantBufferDescription" />
+    <map field="D3D11_SHADER_BUFFER_DESC::uFlags" name="Flags" type="D3D_SHADER_CBUFFER_FLAGS" />
+    <map field="D3D11_SHADER_BUFFER_DESC::Variables" name="VariableCount" />
+    
+    <map struct="D3D11_SHADER_INPUT_BIND_DESC" name="InputBindingDescription" />
+    <map field="D3D11_SHADER_INPUT_BIND_DESC::uFlags" name="Flags" type="D3D_SHADER_INPUT_FLAGS" />
+    
+    <map field="D3D11_SHADER_DESC::c([A-Z].*)" name="$1" />
+    <map field="D3D11_SHADER_DESC::cGS(.*)" name="GeometryShader$1" />
+    <map field="D3D11_SHADER_DESC::GS(.*)" name="GeometryShader$1" />
+    <map field="D3D11_SHADER_DESC::HS(.*)" name="HullShader$1" />
+    <map field="D3D11_SHADER_DESC::DclCount" name="DeclarationCount" />
+    <map field="D3D11_SHADER_DESC::DefCount" name="DefineCount" />
+    <map field="D3D11_SHADER_DESC::Flags" type="D3DCOMPILE_SHADER_FLAGS" />
+    
+    <map struct="D3D11_SIGNATURE_PARAMETER_DESC" name="ShaderParameterDescription" />
+    <map field="D3D11_SIGNATURE_PARAMETER_DESC::ReadWriteMask" type="D3D11_REGISTER_COMPONENT_MASK_FLAG" />
+         
+    <map field="D3D11_SIGNATURE_PARAMETER_DESC::Mask" name="UsageMask" type="D3D11_REGISTER_COMPONENT_MASK_FLAG" />
+    <map field="D3D11_SHADER_TYPE_DESC::Columns" name="ColumnCount" />
+    <map field="D3D11_SHADER_TYPE_DESC::Elements" name="ElementCount" />
+    <map field="D3D11_SHADER_TYPE_DESC::Members" name="MemberCount" />
+    <map field="D3D11_SHADER_TYPE_DESC::Rows" name="RowCount" />
+      
+    <map field="D3D11_SHADER_VARIABLE_DESC::uFlags" name="Flags" type="D3D_SHADER_VARIABLE_FLAGS" />
+    
+    <map method="ID3D11ShaderReflection::GetDesc" name="GetDescription" persist="true" />
+    <map param="ID3D11ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetOutputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetPatchConstantParameterDesc::pDesc" attribute="out" return="true"/>
+
+    <map method="ID3D11ShaderReflectionVariable::GetType" name="GetVariableType" />
+    <map param="ID3D11ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
+
+    <!-- d3d12shader -->
+    <map struct="D3D12_SHADER_BUFFER_DESC" name="ConstantBufferDescription" />
+    <map field="D3D12_SHADER_BUFFER_DESC::uFlags" name="Flags" type="D3D_SHADER_CBUFFER_FLAGS" />
+    <map field="D3D12_SHADER_BUFFER_DESC::Variables" name="VariableCount" />
+    
+    <map struct="D3D12_SHADER_INPUT_BIND_DESC" name="InputBindingDescription" />
+    <map field="D3D12_SHADER_INPUT_BIND_DESC::uFlags" name="Flags" type="D3D_SHADER_INPUT_FLAGS" />
+    <map field="D3D12_SHADER_DESC::c([A-Z].*)" name="$1" />
+    <map field="D3D12_SHADER_DESC::cGS(.*)" name="GeometryShader$1" />
+    <map field="D3D12_SHADER_DESC::GS(.*)" name="GeometryShader$1" />
+    <map field="D3D12_SHADER_DESC::HS(.*)" name="HullShader$1" />
+    <map field="D3D12_SHADER_DESC::DclCount" name="DeclarationCount" />
+    <map field="D3D12_SHADER_DESC::DefCount" name="DefineCount" />
+    <map field="D3D12_SHADER_DESC::Flags" type="D3DCOMPILE_SHADER_FLAGS" />
+    
+    <map struct="D3D12_SIGNATURE_PARAMETER_DESC" name="ShaderParameterDescription" />
+    <map field="D3D12_SIGNATURE_PARAMETER_DESC::ReadWriteMask" type="D3D11_REGISTER_COMPONENT_MASK_FLAG" />
+    <map field="D3D12_SIGNATURE_PARAMETER_DESC::Mask" name="UsageMask" type="D3D11_REGISTER_COMPONENT_MASK_FLAG" />
+    <map field="D3D12_SHADER_TYPE_DESC::Columns" name="ColumnCount" />
+    <map field="D3D12_SHADER_TYPE_DESC::Elements" name="ElementCount" />
+    <map field="D3D12_SHADER_TYPE_DESC::Members" name="MemberCount" />
+    <map field="D3D12_SHADER_TYPE_DESC::Rows" name="RowCount" />
+    <map field="D3D12_SHADER_VARIABLE_DESC::uFlags" name="Flags" type="D3D_SHADER_VARIABLE_FLAGS" />
+    
+    <map method="ID3D12ShaderReflection::GetDesc" name="GetDescription" persist="true" />
+    <map param="ID3D12ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12ShaderReflection::GetOutputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12ShaderReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12ShaderReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12ShaderReflection::GetPatchConstantParameterDesc::pDesc" attribute="out" return="true"/>
+
+    <map param="ID3D12FunctionReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D12FunctionReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
+    <map method="ID3D12ShaderReflectionVariable::GetType" name="GetVariableType" />
+    <map param="ID3D12ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
+
+    <remove function="D3DDisassemble10Effect" />
+    <map function="D3D(.*)" name-tmp="$1" />
+    <map function="D3D[^1].*"  dll='"#(D3DCOMPILER_DLL_A)"' group="Vortice.DirectX.ShaderCompiler.Compiler" />
+    <map param="D3DCompile.*?::Flags1" type="D3DCOMPILE_SHADER_FLAGS" />
+    <map param="D3DCompile.*?::Flags2" type="D3DCOMPILE_EFFECT_FLAGS" />
+    <map param="D3DDisassemble::Flags" type="D3DCOMPILE_DISASM_FLAGS" />
+    <map param="D3DStripShader::uStripFlags" type="D3DCOMPILER_STRIP_FLAGS" />
+    <map param="D3DCompile::pDefines" attribute="in buffer optional" />
+    <map param="D3DPreprocess::pDefines" attribute="in buffer optional" />
+    <map function="D3DGet.*SignatureBlob" check="false" />
+    <map function="D3DReflect" check="false" />
+    <map function="D3DStripShader" check="false" />
+
+    <map param="D3DGetTraceInstructionOffsets::pOffsets" attribute="out" return="true"/>
+    <map param="D3DGetTraceInstructionOffsets::pTotalInsts" attribute="out"/>
+    <map param="D3DCompile2::SecondaryDataFlags" type="D3DCOMPILE_SECDATA_FLAGS"/>
+
+    <map function="D3DCompile.*" check="false"/>
+
+    <map function="D3DLoadModule" check="false" />
+    <map param="D3DLoadModule::ppModule" attribute="out fast" />
+    <map param="D3DCreateLinker::ppLinker" attribute="out fast" />
+    <map param="D3DCreateFunctionLinkingGraph::ppFunctionLinkingGraph" attribute="out fast" />
+
+    <map function="D3DCompressShaders" visibility="internal" />
+    
+
+  </mapping>
+</config>

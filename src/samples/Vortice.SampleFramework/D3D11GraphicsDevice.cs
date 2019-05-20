@@ -2,14 +2,15 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using SharpDXGI.Direct3D;
-using SharpDirect3D11;
-using SharpDXGI;
-using static SharpDXGI.DXGI;
-using static SharpDirect3D11.D3D11;
+using Vortice.DirectX.Direct3D;
+using Vortice.DirectX.Direct3D11;
+using Vortice.DirectX.DXGI;
+using static Vortice.DirectX.DXGI.DXGI;
+using static Vortice.DirectX.Direct3D11.D3D11;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
+using Vortice.DirectX;
 
 namespace Vortice
 {
@@ -95,7 +96,7 @@ namespace Vortice
                 OutputWindow = hwnd,
                 SampleDescription = new SampleDescription(1, 0),
                 SwapEffect = SwapEffect.Discard,
-                Usage = SharpDXGI.Usage.RenderTargetOutput
+                Usage = Vortice.DirectX.Usage.RenderTargetOutput
             };
 
             SwapChain = Factory.CreateSwapChain(Device, swapChainDescription);
@@ -128,7 +129,7 @@ namespace Vortice
 
             var result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
-                && result.Code == SharpDXGI.ResultCode.DeviceRemoved.Code)
+                && result.Code == DirectX.DXGI.ResultCode.DeviceRemoved.Code)
             {
                 return false;
             }

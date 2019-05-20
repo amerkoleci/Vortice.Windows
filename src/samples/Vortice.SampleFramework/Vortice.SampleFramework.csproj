@@ -21,9 +21,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\SharpDirect2D\SharpDirect2D.csproj" />
-    <ProjectReference Include="..\..\SharpDirect3D11\SharpDirect3D11.csproj" />
-    <ProjectReference Include="..\..\SharpDirect3D12\SharpDirect3D12.csproj" />
+    <ProjectReference Include="..\..\Vortice.DirectX.Direct2D\Vortice.DirectX.Direct2D.csproj" />
+    <ProjectReference Include="..\..\Vortice.DirectX.Direct3D11\Vortice.DirectX.Direct3D11.csproj" />
+    <ProjectReference Include="..\..\Vortice.DirectX.Direct3D12\Vortice.DirectX.Direct3D12.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,14 +5,15 @@ using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using SharpDirect3D12;
-using SharpDirect3D12.Debug;
-using SharpDXGI;
-using SharpDXGI.Direct3D;
+using Vortice.DirectX.Direct3D12;
+using Vortice.DirectX.Direct3D12.Debug;
+using Vortice.DirectX.DXGI;
+using Vortice.DirectX.Direct3D;
 using SharpGen.Runtime;
 using Vortice.Mathematics;
-using static SharpDirect3D12.D3D12;
-using static SharpDXGI.DXGI;
+using static Vortice.DirectX.Direct3D12.D3D12;
+using static Vortice.DirectX.DXGI.DXGI;
+using Vortice.DirectX;
 
 namespace Vortice
 {
@@ -267,7 +268,7 @@ namespace Vortice
 
             var result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
-                && result.Code == SharpDXGI.ResultCode.DeviceRemoved.Code)
+                && result.Code == Vortice.DirectX.DXGI.ResultCode.DeviceRemoved.Code)
             {
                 return false;
             }
