@@ -15,3 +15,11 @@ Library development, contributions and bugfixes by:
 - Amer Koleci
 
 SharpDX bindings where used for some platforms to understand how mapping work using SharpGenTools.
+
+## Build
+
+In order to compile, you need to install **Visual Studio 2017 or newer** with the components:
+
+- [x] Visual C++ Toolset Component
+- [x] Windows 10 - 1903 SDK (10.0.18362.0) Component
+- [x] .NET Core SDK
