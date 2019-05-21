@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
 
-namespace Vortice.DirectX.Direct2D.WIC
+namespace Vortice.DirectX.WIC
 {
     public partial class IWICBitmapSource
     {

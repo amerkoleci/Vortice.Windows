@@ -2,8 +2,8 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-using Vortice.DirectX.Direct2D.DirectWrite;
-using Vortice.DirectX.Direct2D.WIC;
+using Vortice.DirectX.DirectWrite;
+using Vortice.DirectX.WIC;
 using SharpGen.Runtime;
 using Vortice.Mathematics;
 using Vortice.DirectX.DXGI;

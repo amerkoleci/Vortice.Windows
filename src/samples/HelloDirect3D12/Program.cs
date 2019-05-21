@@ -2,12 +2,12 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Drawing;
 using System.IO;
-using System.Numerics;
-using SharpDirect2D;
-using SharpDirect2D.WIC;
-using SharpDXGI;
 using Vortice;
+using Vortice.DirectX.Direct2D;
+using Vortice.DirectX.DXGI;
+using Vortice.DirectX.WIC;
 using Vortice.Mathematics;
 
 namespace HelloDirect3D11
@@ -31,11 +31,11 @@ namespace HelloDirect3D11
             const int width = 512;
             const int height = 512;
 
-            var rectangleGeometry = d2dFactory.CreateRoundedRectangleGeometry(new RoundedRectangle() { RadiusX = 32, RadiusY = 32, Rect = new RectF(128, 128, width - 128 * 2, height - 128 * 2) });
+            var rectangleGeometry = d2dFactory.CreateRoundedRectangleGeometry(new RoundedRectangle(new RectangleF(128, 128, width - 128 * 2, height - 128 * 2), 32, 32));
 
-            var wicBitmap = wicFactory.CreateBitmap(width, height, SharpDirect2D.WIC.PixelFormat.Format32bppBGR, BitmapCreateCacheOption.CacheOnLoad);
+            var wicBitmap = wicFactory.CreateBitmap(width, height, Vortice.DirectX.WIC.PixelFormat.Format32bppBGR, BitmapCreateCacheOption.CacheOnLoad);
 
-            var renderTargetProperties = new RenderTargetProperties(new SharpDirect2D.PixelFormat(Format.Unknown, SharpDirect2D.AlphaMode.Unknown));
+            var renderTargetProperties = new RenderTargetProperties(new Vortice.DirectX.Direct2D.PixelFormat(Format.Unknown, Vortice.DirectX.Direct2D.AlphaMode.Unknown));
 
             var d2dRenderTarget = d2dFactory.CreateWicBitmapRenderTarget(wicBitmap, renderTargetProperties);
 
@@ -62,7 +62,7 @@ namespace HelloDirect3D11
                     var bitmapFrameEncode = encoder.CreateNewFrame(props);
                     bitmapFrameEncode.Initialize(null);
                     bitmapFrameEncode.SetSize(width, height);
-                    var pixelFormatGuid = SharpDirect2D.WIC.PixelFormat.FormatDontCare;
+                    var pixelFormatGuid = Vortice.DirectX.WIC.PixelFormat.FormatDontCare;
                     bitmapFrameEncode.SetPixelFormat(ref pixelFormatGuid);
                     bitmapFrameEncode.WriteSource(wicBitmap, null);
 

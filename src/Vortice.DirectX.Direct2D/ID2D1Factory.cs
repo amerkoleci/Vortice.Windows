@@ -4,7 +4,7 @@
 using System;
 using System.Drawing;
 using System.Numerics;
-using Vortice.DirectX.Direct2D.DirectWrite;
+using Vortice.DirectX.DirectWrite;
 
 namespace Vortice.DirectX.Direct2D
 {

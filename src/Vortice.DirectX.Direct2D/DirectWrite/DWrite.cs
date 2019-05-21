@@ -3,7 +3,7 @@
 
 using SharpGen.Runtime;
 
-namespace Vortice.DirectX.Direct2D.DirectWrite
+namespace Vortice.DirectX.DirectWrite
 {
     public static partial class DWrite
     {

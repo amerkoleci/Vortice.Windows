@@ -9,7 +9,7 @@
 
   <include file="d2dbasetypes.h" attach="true"/>
   <include file="wincodec.h"
-           namespace="Vortice.DirectX.Direct2D.WIC" 
+           namespace="Vortice.DirectX.WIC" 
            output="WIC"
            attach="true" />
   <include file="dcommon.h" attach="true"/>
@@ -35,30 +35,30 @@
   <include file="d2d1effectauthor.h" attach="true" />
 
   <include file="dwrite.h"
-           namespace="Vortice.DirectX.Direct2D.DirectWrite"
+           namespace="Vortice.DirectX.DirectWrite"
            attach="true"
            output="DWrite" />
 
   <extension>
-    <create class="Vortice.DirectX.Direct2D.WIC.WIC" visibility="public static"/>
+    <create class="Vortice.DirectX.WIC.WIC" visibility="public static"/>
     
-    <create class="Vortice.DirectX.Direct2D.WIC.PixelFormat" visibility="public sealed"/>
-    <const from-guid="GUID_WICPixel(Format.*)" class="Vortice.DirectX.Direct2D.WIC.PixelFormat" type="System.Guid" name="$1">new System.Guid("$1")</const>
-    <const from-guid="CLSID_WICImagingFactory" class="Vortice.DirectX.Direct2D.WIC.IWICImagingFactory" type="System.Guid" name="WICImagingFactoryClsid">new System.Guid("$1")</const>
+    <create class="Vortice.DirectX.WIC.PixelFormat" visibility="public sealed"/>
+    <const from-guid="GUID_WICPixel(Format.*)" class="Vortice.DirectX.WIC.PixelFormat" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <const from-guid="CLSID_WICImagingFactory" class="Vortice.DirectX.WIC.IWICImagingFactory" type="System.Guid" name="WICImagingFactoryClsid">new System.Guid("$1")</const>
 
-    <create class="Vortice.DirectX.Direct2D.WIC.BitmapEncoderGuids" visibility="public sealed"/>
-    <const from-guid="CLSID_WIC(.*)Encoder" class="Vortice.DirectX.Direct2D.WIC.BitmapEncoderGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <create class="Vortice.DirectX.WIC.BitmapEncoderGuids" visibility="public sealed"/>
+    <const from-guid="CLSID_WIC(.*)Encoder" class="Vortice.DirectX.WIC.BitmapEncoderGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
 
-    <create class="Vortice.DirectX.Direct2D.WIC.ContainerFormatGuids" visibility="public sealed"/>
-    <const from-guid="GUID_ContainerFormat(.*)" class="Vortice.DirectX.Direct2D.WIC.ContainerFormatGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <create class="Vortice.DirectX.WIC.ContainerFormatGuids" visibility="public sealed"/>
+    <const from-guid="GUID_ContainerFormat(.*)" class="Vortice.DirectX.WIC.ContainerFormatGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
 
-    <create class="Vortice.DirectX.Direct2D.WIC.BitmapDecoderGuids" visibility="public sealed"/>
-    <const from-guid="CLSID_WIC(.*)Decoder" class="Vortice.DirectX.Direct2D.WIC.BitmapDecoderGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <create class="Vortice.DirectX.WIC.BitmapDecoderGuids" visibility="public sealed"/>
+    <const from-guid="CLSID_WIC(.*)Decoder" class="Vortice.DirectX.WIC.BitmapDecoderGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
 
-    <create class="Vortice.DirectX.Direct2D.WIC.ResultCode" visibility="public"/>
-    <const from-macro="WINCODEC_ERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DirectX.Direct2D.WIC.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <create class="Vortice.DirectX.WIC.ResultCode" visibility="public"/>
+    <const from-macro="WINCODEC_ERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DirectX.WIC.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
     
-    <create class="Vortice.DirectX.Direct2D.DirectWrite.DWrite" visibility="public static" />
+    <create class="Vortice.DirectX.DirectWrite.DWrite" visibility="public static" />
     <create class="D2D1" visibility="public static" />
     
   </extension>
@@ -523,14 +523,14 @@
     <map interface="ID2D(\d+).*Sink3?" callback="true" callback-dual="true" callback-visibility="internal" />
     <map interface="ID2D(\d+).*Sink4?" callback="true" callback-dual="true" callback-visibility="internal" />
 
-    <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.DirectX.Direct2D.WIC.WIC" visibility="internal" />
+    <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.DirectX.WIC.WIC" visibility="internal" />
 
     <map function="D2D1.*" dll='"d2d1.dll"' group="Vortice.DirectX.Direct2D.D2D1" />
     <map function="D2D1CreateFactory" hresult="true" check="false" visibility="internal" />
     <map param="D2D1CreateFactory.*?::ppIFactory" attribute="out" />
     <map function="D2D1ComputeMaximumScaleFactor" dll='"d2d1.dll"' group="Vortice.DirectX.Direct2D.D2D1" />
     
-    <map function="DWriteCreateFactory" dll='"dwrite.dll"' group="Vortice.DirectX.Direct2D.DirectWrite.DWrite" visibility="internal" hresult="true" check="false" />
+    <map function="DWriteCreateFactory" dll='"dwrite.dll"' group="Vortice.DirectX.DirectWrite.DWrite" visibility="internal" hresult="true" check="false" />
     <map param="DWriteCreateFactory::factory" attribute="out fast"/>
   </mapping>
 </config>

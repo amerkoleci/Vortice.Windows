@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Vortice.DirectX.Direct2D.WIC
+namespace Vortice.DirectX.WIC
 {
     public partial class IWICImagingFactory
     {
