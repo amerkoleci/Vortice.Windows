@@ -30,7 +30,6 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-steps:
 - task: MSBuild@1
   inputs:
     solution: 'src/Vortice.DirectX/Vortice.DirectX.csproj'
