@@ -29,3 +29,14 @@ steps:
     solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: NuGetCommand@2
+  inputs:
+    command: pack
+    packagesToPack: 'src/Vortice.DirectX/Vortice.DirectX.csproj'
+
+- task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.SourcesDirectory)/Release/Packages'
+      artifactName: 'NuGet'
+    condition: succeeded()
