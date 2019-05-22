@@ -36,7 +36,7 @@ steps:
     packagesToPack: 'src/Vortice.DirectX/Vortice.DirectX.csproj'
 
 - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: '$(Build.SourcesDirectory)/Release/Packages'
-      artifactName: 'NuGet'
-    condition: succeeded()
+  inputs:
+    pathtoPublish: '$(Build.SourcesDirectory)/Release/Packages'
+    artifactName: 'NuGet'
+  condition: succeeded()
