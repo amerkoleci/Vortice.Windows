@@ -62,8 +62,9 @@ steps:
   condition: succeeded()
 
 - task: NuGetCommand@2
+  displayName: 'NuGet push'
   inputs:
     command: push
-    packagesToPush: '$(Build.SourcesDirectory)/bin/Release/**/*.nupkg;!$(Build.SourcesDirectory)/bin/Release/**/*.symbols.nupkg'
     nuGetFeedType: internal
     publishVstsFeed: 'amerkoleci'
+    packagesToPush: '$(Build.SourcesDirectory)/bin/Release/**/*.nupkg;!$(Build.SourcesDirectory)/bin/Release/**/*.symbols.nupkg'
