@@ -35,6 +35,26 @@ steps:
     solution: 'src/Vortice.DirectX/Vortice.DirectX.csproj'
     msbuildArguments: '/t:pack /p:Configuration=Release'
 
+- task: MSBuild@1
+  inputs:
+    solution: 'src/Vortice.DirectX.Direct3D11/Vortice.DirectX.Direct3D11.csproj'
+    msbuildArguments: '/t:pack /p:Configuration=Release'
+
+- task: MSBuild@1
+  inputs:
+    solution: 'src/Vortice.DirectX.Direct3D12/Vortice.DirectX.Direct3D12.csproj'
+    msbuildArguments: '/t:pack /p:Configuration=Release'
+
+- task: MSBuild@1
+  inputs:
+    solution: 'src/Vortice.DirectX.Direct2D/Vortice.DirectX.Direct2D.csproj'
+    msbuildArguments: '/t:pack /p:Configuration=Release'  
+
+- task: MSBuild@1
+  inputs:
+    solution: 'src/Vortice.DirectX.ShaderCompiler/Vortice.DirectX.ShaderCompiler.csproj'
+    msbuildArguments: '/t:pack /p:Configuration=Release'  
+
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: '$(Build.SourcesDirectory)/bin/Release/Packages'
