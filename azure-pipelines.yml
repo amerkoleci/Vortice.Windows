@@ -10,7 +10,13 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'DotNetCore Installer'
+  inputs:
+    version: '2.1.403'
+
 - task: NuGetToolInstaller@0
+  displayName: 'NuGet Installer'
 
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
