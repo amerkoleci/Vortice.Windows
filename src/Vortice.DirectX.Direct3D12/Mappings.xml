@@ -410,8 +410,7 @@
     <remove field="D3D12_ROOT_PARAMETER1::.*" />
     <remove field="D3D12_TEXTURE_COPY_LOCATION::.*" />
     <remove field="D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS::.*" />
-    <remove struct="D3D12_VERSIONED_DEVICE_REMOVED_EXTENDED_DATA" />
-    <!--<remove field="D3D12_VERSIONED_DEVICE_REMOVED_EXTENDED_DATA::.*"/>-->
+    <remove field="D3D12_VERSIONED_DEVICE_REMOVED_EXTENDED_DATA::.*"/>
     
     <map field="D3D12_RESOURCE_TRANSITION_BARRIER::pResource" name="ResourcePointer" type="void" visibility="private"/>
     <map field="D3D12_RESOURCE_ALIASING_BARRIER::pResourceBefore" name="ResourceBeforePointer" type="void" visibility="private"/>
