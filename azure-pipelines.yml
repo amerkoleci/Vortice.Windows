@@ -65,3 +65,5 @@ steps:
   inputs:
     command: push
     packagesToPush: '$(Build.SourcesDirectory)/bin/Release/**/*.nupkg;!$(Build.SourcesDirectory)/bin/Release/**/*.symbols.nupkg'
+    nuGetFeedType: internal
+    publishVstsFeed: 'amerkoleci'
