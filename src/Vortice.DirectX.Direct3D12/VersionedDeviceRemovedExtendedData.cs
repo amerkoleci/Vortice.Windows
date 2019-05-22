@@ -3,6 +3,7 @@
 
 using System.Runtime.InteropServices;
 
+#if TODO_D3D12_DRED
 namespace Vortice.DirectX.Direct3D12
 {
     /// <summary>
@@ -40,3 +41,4 @@ namespace Vortice.DirectX.Direct3D12
         }
     }
 } 
+#endif

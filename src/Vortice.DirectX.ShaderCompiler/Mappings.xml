@@ -4,7 +4,7 @@
   <namespace>Vortice.DirectX.ShaderCompiler</namespace>
   <depends>Vortice.DirectX</depends>
 
-  <sdk name="WindowsSdk" version="10.0.18362.0" />
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
   <sdk name="StdLib" />
 
   <include file="d3dcompiler.h" attach="true">
