@@ -37,6 +37,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: '$(Build.ArtifactStagingDirectory)/Release/Packages'
+    pathtoPublish: '$(Build.SourcesDirectory)/bin/Release/Packages'
     artifactName: 'NuGet'
   condition: succeeded()
