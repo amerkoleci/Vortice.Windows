@@ -6,18 +6,9 @@ branches:
   only:
     - master
 
-build:
-  project: src/Vortice.Windows.sln
-  verbosity: minimal
-
-before_package:
-- cmd: dotnet restore src\Vortice.Windows.sln
-- cmd: dotnet pack -c Release Vortice.DirectX/Vortice.DirectX.csproj
-- cmd: dotnet pack -c Release Vortice.DirectX.Direct3D11/Vortice.DirectX.Direct3D11.csproj
-- cmd: dotnet pack -c Release Vortice.DirectX.Direct3D12/Vortice.DirectX.Direct3D12.csproj
-- cmd: dotnet pack -c Release Vortice.DirectX.Direct2D/Vortice.DirectX.Direct2D.csproj
-- cmd: dotnet pack -c Release Vortice.DirectX.ShaderCompiler/Vortice.DirectX.ShaderCompiler.csproj
-
+build_script:
+  ci-build.cmd
+  
 artifacts:
 - path: bin\Release\Packages\*.nupkg
   name: Nugets Artifacts
