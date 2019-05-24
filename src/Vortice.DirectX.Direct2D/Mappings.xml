@@ -13,32 +13,18 @@
            output="WIC"
            attach="true" />
   <include file="dcommon.h" attach="true"/>
-  <ifdef name="DESKTOP">
-    <include file="d2derr.h" attach="true" />
-  </ifdef>
-  <ifdef name="UWP">
-    <include file="d2derr.h" attach="true">
-      <pre>
-        #undef WINAPI_FAMILY
-        #define WINAPI_FAMILY WINAPI_FAMILY_DESKTOP_APP
-      </pre>
-      <post>
-        #undef WINAPI_FAMILY
-        #define WINAPI_FAMILY WINAPI_FAMILY_APP
-      </post>
-    </include>
-  </ifdef>
-  
+  <include file="d2derr.h" attach="true" />
   <include file="d2d1.h" attach="true" />
   <include file="d2d1_1.h" attach="true" />
+  <include file="d2d1_2.h" attach="true" />
   <include file="d2d1effects.h" attach="true" />
   <include file="d2d1effectauthor.h" attach="true" />
 
-  <include file="dwrite.h"
-           namespace="Vortice.DirectX.DirectWrite"
-           attach="true"
-           output="DWrite" />
-
+  <include file="DWrite.h" namespace="Vortice.DirectX.DirectWrite" attach="true" output="DWrite" />
+  <include file="DWrite_1.h" namespace="Vortice.DirectX.DirectWrite" attach="true" output="DWrite" />
+  <include file="DWrite_2.h" namespace="Vortice.DirectX.DirectWrite" attach="true" output="DWrite" />
+  <include file="DWrite_3.h" namespace="Vortice.DirectX.DirectWrite" attach="true" output="DWrite" />
+  
   <extension>
     <create class="Vortice.DirectX.WIC.WIC" visibility="public static"/>
     
@@ -212,6 +198,7 @@
     
     <!-- DWRITE enums -->
     <map enum="DWRITE(.+)" name-tmp="$1" />
+    <map enum-item="DWRITE_GLYPH_ORIENTATION_ANGLE_(\d+)_DEGREES" name="Degrees$1"/>
     
     <!-- d2d1 enums -->
     <map enum="D2D1(.*)" name-tmp="$1" />
@@ -420,7 +407,14 @@
     <remove method="IDWriteGdiInterop::CreateFontFromLOGFONT" />
     <remove method="IDWriteGdiInterop::ConvertFontToLOGFONT" />
     <remove method="IDWriteGdiInterop::ConvertFontFaceToLOGFONT" />
-
+    <remove method="IDWriteGdiInterop1::CreateFontFromLOGFONT" />
+    <remove method="IDWriteGdiInterop1::GetMatchingFontsByLOGFONT" />
+    <remove method="IDWriteGdiInterop1::GetFontSignature" />
+    <remove method="IDWriteGdiInterop1::SetFontSignature" />
+    
+    <!-- IDWriteAsyncResult -->
+    <map method="IDWriteAsyncResult::GetResult" check="false"/>
+    
     <!-- IWICBitmapFrameEncode -->
     <map method="IWICBitmapFrameEncode::SetPixelFormat" property="false"/>
 
