@@ -46,7 +46,9 @@
     
     <create class="Vortice.DirectX.DirectWrite.DWrite" visibility="public static" />
     <create class="D2D1" visibility="public static" />
-    
+
+    <define struct="Vortice.DirectX.Gdi.LogFont" sizeof="32"/>
+    <define struct="Vortice.DirectX.Gdi.FontSignature" sizeof="24" />
   </extension>
 
   <bindings>
@@ -71,6 +73,8 @@
     <bind from="HPALETTE" to="System.IntPtr"/>
     <bind from="IPrintDocumentPackageTarget" to="SharpGen.Runtime.ComObject" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
+    <bind from="LOGFONTW" to="Vortice.DirectX.Gdi.LogFont"/>
+    <bind from="FONTSIGNATURE" to="Vortice.DirectX.Gdi.FontSignature" />
   </bindings>
 
   <naming>
@@ -403,14 +407,17 @@
     <!-- IDWriteFontFace -->
     <map method="IDWriteFontFace::GetType" name="GetFaceType" />
 
-    <!-- TODO: Wrap LOGFONTW -->
-    <remove method="IDWriteGdiInterop::CreateFontFromLOGFONT" />
-    <remove method="IDWriteGdiInterop::ConvertFontToLOGFONT" />
-    <remove method="IDWriteGdiInterop::ConvertFontFaceToLOGFONT" />
-    <remove method="IDWriteGdiInterop1::CreateFontFromLOGFONT" />
-    <remove method="IDWriteGdiInterop1::GetMatchingFontsByLOGFONT" />
-    <remove method="IDWriteGdiInterop1::GetFontSignature" />
-    <remove method="IDWriteGdiInterop1::SetFontSignature" />
+    <map method="IDWriteGdiInterop::.*?LOGFONT" visibility="internal" />
+    <map param="IDWriteGdiInterop::.*?LOGFONT::logFont" type="void" override-native-type="true" attribute="in" />
+    <map param="IDWriteGdiInterop::CreateBitmapRenderTarget::renderTarget" return="true" />
+    <map param="IDWriteGdiInterop::CreateFontFaceFromHdc::fontFace" return="true" />
+
+    <map method="IDWriteGdiInterop1::.*?LOGFONT" visibility="internal" />
+    <map param="IDWriteGdiInterop1::.*?LOGFONT::logFont" type="void" override-native-type="true" attribute="in" />
+    <map param="IDWriteGdiInterop1::CreateBitmapRenderTarget::renderTarget" return="true" />
+    <map param="IDWriteGdiInterop1::CreateFontFaceFromHdc::fontFace" return="true" />
+    <map param="IDWriteGdiInterop1::GetFontSignature::fontSignature" return="true" />
+    <map param="IDWriteGdiInterop1::CreateFontFromLOGFONT::font" return="true" />
     
     <!-- IDWriteAsyncResult -->
     <map method="IDWriteAsyncResult::GetResult" check="false"/>
