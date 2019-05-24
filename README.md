@@ -1,7 +1,7 @@
 # Vortice.Windows
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/amerkoleci/Vortice.Windows/blob/master/LICENSE)
-[![Build Status](https://dev.azure.com/amerkoleci/Vortice.Windows/_apis/build/status/amerkoleci.Vortice.Windows?branchName=master)](https://dev.azure.com/amerkoleci/Vortice.Windows/_build/latest?definitionId=10&branchName=master)
+[![Build status](https://ci.appveyor.com/api/projects/status/p7d0w62bm1cew9xn?svg=true)](https://ci.appveyor.com/project/amerkoleci/vortice-windows)
 
 **Vortice.Windows** is a collection of Win32 and UWP libraries with bindings support for [DXGI](https://docs.microsoft.com/en-us/windows/desktop/direct3ddxgi/d3d10-graphics-programming-guide-dxgi), [WIC](https://docs.microsoft.com/en-us/windows/desktop/wic/-wic-lh), [DirectWrite](https://docs.microsoft.com/en-us/windows/desktop/directwrite/direct-write-portal), [Direct2D](https://docs.microsoft.com/en-us/windows/desktop/direct2d/direct2d-portal), [Direct3D11](https://docs.microsoft.com/en-us/windows/desktop/direct3d11/atoc-dx-graphics-direct3d-11) and [Direct3D12](https://docs.microsoft.com/en-us/windows/desktop/direct3d12/directx-12-programming-guide).
 
