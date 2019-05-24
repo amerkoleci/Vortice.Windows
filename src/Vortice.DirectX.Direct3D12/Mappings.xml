@@ -7,11 +7,6 @@
   <sdk name="WindowsSdk" version="10.0.17763.0" />
   <sdk name="StdLib" />
 
-  <include file="d3d12sdklayers.h"
-           namespace="Vortice.DirectX.Direct3D12.Debug"
-           attach="true"
-           output="Debug" />
-
   <include file="d3d12.h"
              namespace="Vortice.DirectX.Direct3D12"
              attach="true"/>
@@ -20,6 +15,11 @@
            namespace="Vortice.DirectX.Direct3D12.Video"
            attach="true"
            output="Video" />-->
+
+  <include file="d3d12sdklayers.h"
+           namespace="Vortice.DirectX.Direct3D12.Debug"
+           attach="true"
+           output="Debug" />
   
   <extension>
     
@@ -679,7 +679,6 @@
     <map function="D3D12GetDebugInterface" hresult="true" check="false"/>
     <map function="D3D12SerializeRootSignature" hresult="true" check="false"/>
     <map function="D3D12SerializeVersionedRootSignature" hresult="true" check="false"/>
-
     <map method="ID3D12CommandList::GetType" name="GetCommandListType" />
 
   </mapping>

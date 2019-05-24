@@ -36,6 +36,10 @@
            attach="true"
            output="Debug" />
 
+  <include file="d3d11on12.h"
+             namespace="Vortice.DirectX.Direct3D11"
+             attach="true"/>
+
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="Vortice.DirectX.Direct3D11.D3D11" type="int" name="SdkVersion" />
     <create class="D3D11" visibility="public static" />
@@ -663,6 +667,15 @@
     <map param="ID3D11DeviceContext1::CopySubresourceRegion1::CopyFlags" type="D3D11_COPY_FLAGS" />
     <map param="ID3D11DeviceContext1::UpdateSubresource1::CopyFlags" type="D3D11_COPY_FLAGS" />
 
+    <!-- ID3D11On12Device -->
+    <map method="ID3D11On12Device::CreateWrappedResource" visibility="private"/>
+    <map param="ID3D11On12Device::CreateWrappedResource::InState" type="int" override-native-type="true" />
+    <map param="ID3D11On12Device::CreateWrappedResource::OutState" type="int" override-native-type="true" />
+    <map param="ID3D11On12Device::CreateWrappedResource::ppResource11" type="ID3D11Resource" return="true" />
+    <map method="ID3D11On12Device::AcquireWrappedResources" name="AcquireWrappedResources_" visibility="private"/>
+    <map method="ID3D11On12Device::ReleaseWrappedResources" name="ReleaseWrappedResources_" visibility="private"/>
+    <map method="ID3D11On12Device1::GetD3D12Device" visibility="private" check="false" />
+
     <!-- ID3D11CommandList -->
     <remove method="ID3D11CommandList::GetContextFlags" />
 
@@ -670,6 +683,11 @@
     <map function="D3D11.*" dll='"d3d11.dll"' group="Vortice.DirectX.Direct3D11.D3D11" visibility="private" />
     <!--<map param="D3D11CreateDevice::ppDevice" attribute="out fast" />-->
     <map function="D3D11CreateDevice" check="false"/>
+
+    <map function="D3D11On12CreateDevice" dll='"d3d11.dll"' group="Vortice.DirectX.Direct3D11.D3D11" visibility="private"/>
+    <map function="D3D11On12CreateDevice" check="false"/>
+    <map param="D3D11On12CreateDevice::Flags" type ="D3D11_CREATE_DEVICE_FLAG"/>
+    <map param="D3D11On12CreateDevice::ppDevice" type="ID3D11Device" attribute="out" />
 
   </mapping>
 </config>
