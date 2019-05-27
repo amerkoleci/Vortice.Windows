@@ -66,5 +66,15 @@ namespace Vortice.DirectX.Direct3D12
 
             return string.Empty;
         }
+
+        public static readonly Guid D3D12ExperimentalShaderModels = new Guid("76f5573e-f13a-40f5-b297-81ce9e18933f");
+        public static readonly Guid D3D12TiledResourceTier4 = new Guid("c9c4725f-a81a-4f56-8c5b-c51039d694fb");
+        public static readonly Guid D3D12MetaCommand = new Guid("C734C97E-8077-48C8-9FDC-D9D1DD31DD77");
+        public static readonly Guid D3D12ComputeOnlyDevices = new Guid("50f7ab08-4b6d-4e14-89a5-5d16cd272594");
+
+        public static void D3D12EnableExperimentalFeatures(params Guid[] features)
+        {
+            D3D12EnableExperimentalFeatures(features.Length, features, IntPtr.Zero, null);
+        }
     }
 }
