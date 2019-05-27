@@ -4,8 +4,9 @@
   <namespace>Vortice.DirectX.Direct3D12</namespace>
   <depends>Vortice.DirectX</depends>
 
-  <sdk name="WindowsSdk" version="10.0.17763.0" />
   <sdk name="StdLib" />
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <include-dir>$(THIS_CONFIG_PATH)/../native/include</include-dir>
 
   <include file="d3d12.h"
              namespace="Vortice.DirectX.Direct3D12"
