@@ -41,7 +41,6 @@
 
   <bindings>
     <bind from="LUID" to="System.Int64"/>
-    <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
     <bind from="D3D12_CPU_DESCRIPTOR_HANDLE" to="Vortice.DirectX.Direct3D12.CpuDescriptorHandle" />
@@ -651,7 +650,7 @@
 
     <map method="ID3D12GraphicsCommandList::OMSetRenderTargets" visibility="private"/>
     <map param="ID3D12GraphicsCommandList::OMSetRenderTargets::pRenderTargetDescriptors" type="void"/>
-    <map param="ID3D12GraphicsCommandList::OMSetBlendFactor::BlendFactor" type="VORTICE_VECTOR4" override-native-type="true" attribute="in" />
+    <map param="ID3D12GraphicsCommandList::OMSetBlendFactor::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" attribute="in" />
    
     <map method="ID3D12GraphicsCommandList::CopyTextureRegion" visibility="private" name="CopyTextureRegion_" />
 
