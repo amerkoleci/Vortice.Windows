@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX", "Vortice.DirectX\Vortice.DirectX.csproj", "{A9645572-0847-4FDA-90F4-0ACA2C257847}"
 EndProject
@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{97711777
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XAudio2", "Vortice.XAudio2\Vortice.XAudio2.csproj", "{99CD3A87-9F73-470A-BA7A-78CA529BD368}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{2182B80A-2BFC-4995-AB1C-BC8EB433FE4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2182B80A-2BFC-4995-AB1C-BC8EB433FE4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2182B80A-2BFC-4995-AB1C-BC8EB433FE4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Release|Any CPU.Build.0 = Release|Any CPU
 		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,10 +67,10 @@ Global
 		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99CD3A87-9F73-470A-BA7A-78CA529BD368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99CD3A87-9F73-470A-BA7A-78CA529BD368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99CD3A87-9F73-470A-BA7A-78CA529BD368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99CD3A87-9F73-470A-BA7A-78CA529BD368}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

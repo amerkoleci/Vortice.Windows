@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-xaudio2" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.XAudio2</assembly>
+  <namespace>Vortice.XAudio2</namespace>
+  <depends>SharpGen.Runtime.COM</depends>
+
+  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="StdLib" />
+
+  <include file="xaudio2.h" namespace="Vortice.XAudio2" attach="true" />
+
+  <extension>
+    <define struct="System.Drawing.Point" sizeof="8" />
+    <define struct="System.Drawing.PointF" sizeof="8" />
+    <define struct="System.Drawing.Size" sizeof="8" />
+    <define struct="System.Drawing.SizeF" sizeof="8" />
+    <define struct="System.Drawing.Rectangle" sizeof="16" />
+    <define struct="System.Drawing.RectangleF" sizeof="16" />
+    <define struct="Vortice.Mathematics.Color" sizeof="4" />
+    <define struct="Vortice.Mathematics.Color3" sizeof="12" />
+    <define struct="Vortice.Mathematics.Color4" sizeof="16" />
+    <define struct="Vortice.Mathematics.Int2" sizeof="8" />
+    <define struct="Vortice.Mathematics.Int3" sizeof="12" />
+    <define struct="Vortice.Mathematics.Int4" sizeof="16" />
+    <define struct="Vortice.Mathematics.Viewport" sizeof="24" />
+    <define struct="System.Numerics.Vector2" sizeof="8" />
+    <define struct="System.Numerics.Vector3" sizeof="12" />
+    <define struct="System.Numerics.Vector4" sizeof="16" />
+    <define struct="System.Numerics.Matrix3x2" sizeof="24" />
+    <define struct="System.Numerics.Matrix4x4" sizeof="64" />
+
+    <create-cpp enum="XAUDIO2_VOICE_SEND_FLAGS" macro="XAUDIO2_SEND_(USEFILTER)" />
+    <create-cpp enum="XAUDIO2_VOICE_FLAGS" macro="XAUDIO2_VOICE_.*" />
+    <create-cpp enum="XAUDIO2_FLAGS" macro="XAUDIO2_DEBUG_ENGINE" />
+    <create-cpp enum="XAUDIO2_PLAY_FLAGS" macro="XAUDIO2_PLAY_.*" />
+    <create-cpp enum="XAUDIO2_LOG_TYPE" macro="XAUDIO2_LOG_.*" />
+    <create-cpp enum="XAUDIO2_BUFFER_FLAGS" macro="XAUDIO2_END_OF_STREAM" />
+
+    <const from-macro="XAUDIO2_MAX_BUFFER_BYTES" type="int" cpp-type="int" name="MaximumBufferBytes" class="SharpDX.XAudio2.XAudio2" visibility="public const">unchecked((int)$1)</const>
+    <const from-macro="XAUDIO2_MAX_QUEUED_BUFFERS" type="int" cpp-type="int" name="MaximumQueuedBuffers" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_AUDIO_CHANNELS" type="int" cpp-type="int" name="MaximumAudioChannels" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MIN_SAMPLE_RATE" type="int" cpp-type="int" name="MinimumSampleRate" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_SAMPLE_RATE" type="int" cpp-type="int" name="MaximumSampleRate" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_VOLUME_LEVEL" type="float" cpp-type="float" name="MaximumVolumeLevel" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MIN_FREQ_RATIO" type="float" cpp-type="float" name="MinimumFrequencyRatio" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_FREQ_RATIO" type="float" cpp-type="float" name="MaximumFrequencyRatio" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_FREQ_RATIO" type="float" cpp-type="float" name="DefaultFrequencyRatio" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_FILTER_ONEOVERQ" type="float" cpp-type="float" name="MaximumFilterOneOverQ" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_FILTER_FREQUENCY" type="float" cpp-type="float" name="MaximumFilterFrequency" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_LOOP_COUNT" type="int" cpp-type="int" name="MaximumLoopCount" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_COMMIT_NOW" type="int" cpp-type="int" name="CommitNow" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_COMMIT_ALL" type="int" cpp-type="int" name="CommitAll" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_NO_LOOP_REGION" type="int" cpp-type="int" name="NoLoopRegion" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_LOOP_INFINITE" type="int" cpp-type="int" name="LoopInfinite" class="SharpDX.XAudio2.AudioBuffer" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_CHANNELS" type="int" cpp-type="int" name="DefaultChannels" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_SAMPLERATE" type="int" cpp-type="int" name="DefaultSampleRate" class="SharpDX.XAudio2.XAudio2" visibility="public const" />
+
+    <create class="XAudio2Functions" visibility="public static" />
+
+    <create class="ResultCode" visibility="public"/>
+    <const from-macro="XAUDIO2_E_(.*)" type="SharpDX.ResultDescriptor" cpp-type="int" name="$1" class="SharpDX.XAudio2.ResultCode" visibility="public static readonly">new SharpDX.ResultDescriptor($1, "$3", "$0", "$2")</const>
+  </extension>
+
+  <bindings>
+  </bindings>
+
+  <mapping>
+    <remove function="XAudio2Create"/>
+  </mapping>
+</config>
