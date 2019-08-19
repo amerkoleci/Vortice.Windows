@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using SharpGen.Runtime;
 
 namespace Vortice.DirectX.Direct3D12
 {
@@ -87,6 +88,30 @@ namespace Vortice.DirectX.Direct3D12
                     handle = IntPtr.Zero;
                 }
             }
+        }
+
+        public void UpdateTileMappings(
+            ID3D12Resource resource, 
+            TiledResourceCoordinate[] resourceRegionStartCoordinates,
+            TileRegionSize[] resourceRegionSizes,
+            ID3D12Heap heap,
+            TileRangeFlags[] rangeFlags, 
+            int[] heapRangeStartOffsets, 
+            int[] rangeTileCounts,
+            TileMappingFlags flags = TileMappingFlags.None)
+        {
+            Guard.NotNull(resource, nameof(resource));
+
+            UpdateTileMappings(resource,
+                resourceRegionStartCoordinates.Length,
+                resourceRegionStartCoordinates,
+                resourceRegionSizes,
+                heap,
+                rangeFlags.Length,
+                rangeFlags,
+                heapRangeStartOffsets,
+                rangeTileCounts,
+                flags);
         }
     }
 }

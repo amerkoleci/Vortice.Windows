@@ -4,6 +4,7 @@
 using System;
 using Vortice.Mathematics;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace Vortice.DirectX.Direct3D12
 {
@@ -246,6 +247,58 @@ namespace Vortice.DirectX.Direct3D12
             TextureCopyLocation source, Box? sourceBox = null)
         {
             CopyTextureRegion_(destination, destinationX, destinationY, destinationZ, source, sourceBox);
+        }
+
+        /// <summary>
+        /// Discards an entire resource.
+        /// </summary>
+        /// <param name="resource">The resource to discard.</param>
+        public void DiscardResource(ID3D12Resource resource)
+        {
+            DiscardResource(resource, null);
+        }
+
+        /// <summary>
+        /// Discards a resource.
+        /// </summary>
+        /// <param name="resource">The resource to discard.</param>
+        /// <param name="firstSubresource">Index of the first subresource in the resource to discard.</param>
+        /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
+        public void DiscardResource(ID3D12Resource resource, int firstSubresource, int numSubresources)
+        {
+            DiscardResource(resource, new DiscardRegion
+            {
+                NumRects = 0,
+                PRects = IntPtr.Zero,
+                FirstSubresource = firstSubresource,
+                NumSubresources = numSubresources
+            });
+        }
+
+        /// <summary>
+        /// Discards a resource.
+        /// </summary>
+        /// <param name="resource">The resource to discard.</param>
+        /// <param name="rects">An array of  rectangles in the resource to discard. If null, DiscardResource discards the entire resource.</param>
+        /// <param name="firstSubresource">Index of the first subresource in the resource to discard.</param>
+        /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
+        public unsafe void DiscardResource(ID3D12Resource resource, InteropRect[] rects, int firstSubresource, int numSubresources)
+        {
+            DiscardResource(resource, new DiscardRegion
+            {
+                NumRects = rects.Length,
+                PRects = (IntPtr)Unsafe.AsPointer(ref rects[0]),
+                FirstSubresource = firstSubresource,
+                NumSubresources = numSubresources
+            });
+        }
+
+
+        public void Reset(ID3D12CommandAllocator commandAllocator)
+        {
+            Guard.NotNull(commandAllocator, nameof(commandAllocator));
+
+            Reset(commandAllocator, null);
         }
     }
 }

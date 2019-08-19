@@ -31,7 +31,9 @@ namespace Vortice.DirectX.Direct3D12
             internal void __MarshalFree()
             {
                 if (PDescriptorRanges != IntPtr.Zero)
+                {
                     Marshal.FreeHGlobal(PDescriptorRanges);
+                }
             }
         }
 
@@ -40,7 +42,7 @@ namespace Vortice.DirectX.Direct3D12
             @ref.__MarshalFree();
         }
 
-        internal unsafe void __MarshalFrom(ref __Native @ref)
+        internal unsafe void __MarshalFrom(in __Native @ref)
         {
             Ranges = new DescriptorRange[@ref.NumDescriptorRanges];
             if (@ref.NumDescriptorRanges > 0)

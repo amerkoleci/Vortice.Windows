@@ -277,6 +277,7 @@ namespace Vortice.DirectX.Direct3D12
             }
             finally
             {
+                errorBlob?.Dispose();
                 blob.Dispose();
             }
         }
@@ -314,21 +315,21 @@ namespace Vortice.DirectX.Direct3D12
                                 parameters_1_0 = new RootParameter[desc_1_1.Parameters.Length];
                                 for (var i = 0; i < parameters_1_0.Length; i++)
                                 {
-                                    parameters_1_0[i].ParameterType = desc_1_1.Parameters[i].ParameterType;
-                                    parameters_1_0[i].ShaderVisibility = desc_1_1.Parameters[i].ShaderVisibility;
+                                    var parameterShaderVisibility = desc_1_1.Parameters[i].ShaderVisibility;
 
                                     switch (desc_1_1.Parameters[i].ParameterType)
                                     {
                                         case RootParameterType.Constant32Bits:
-                                            parameters_1_0[i].Constants = desc_1_1.Parameters[i].Constants;
+                                            parameters_1_0[i] = new RootParameter(desc_1_1.Parameters[i].Constants, parameterShaderVisibility);
                                             break;
 
                                         case RootParameterType.ConstantBufferView:
                                         case RootParameterType.ShaderResourceView:
                                         case RootParameterType.UnorderedAccessView:
-                                            parameters_1_0[i].Descriptor = new RootDescriptor(
-                                                desc_1_1.Parameters[i].Descriptor.ShaderRegister,
-                                                desc_1_1.Parameters[i].Descriptor.RegisterSpace);
+                                            parameters_1_0[i] = new RootParameter(desc_1_1.Parameters[i].ParameterType,
+                                                new RootDescriptor(desc_1_1.Parameters[i].Descriptor.ShaderRegister, desc_1_1.Parameters[i].Descriptor.RegisterSpace),
+                                                desc_1_1.Parameters[i].ShaderVisibility
+                                                );
                                             break;
 
                                         case RootParameterType.DescriptorTable:
@@ -337,14 +338,15 @@ namespace Vortice.DirectX.Direct3D12
 
                                             for (var x = 0; x < ranges.Length; x++)
                                             {
-                                                ranges[x].BaseShaderRegister = table_1_1.Ranges[x].BaseShaderRegister;
-                                                ranges[x].NumDescriptors = table_1_1.Ranges[x].NumDescriptors;
-                                                ranges[x].OffsetInDescriptorsFromTableStart = table_1_1.Ranges[x].OffsetInDescriptorsFromTableStart;
-                                                ranges[x].RangeType = table_1_1.Ranges[x].RangeType;
-                                                ranges[x].RegisterSpace = table_1_1.Ranges[x].RegisterSpace;
+                                                ranges[x] = new DescriptorRange(
+                                                    table_1_1.Ranges[x].RangeType,
+                                                    table_1_1.Ranges[x].NumDescriptors,
+                                                    table_1_1.Ranges[x].BaseShaderRegister,
+                                                    table_1_1.Ranges[x].RegisterSpace,
+                                                    table_1_1.Ranges[x].OffsetInDescriptorsFromTableStart);
                                             }
 
-                                            parameters_1_0[i].DescriptorTable = new RootDescriptorTable(ranges);
+                                            parameters_1_0[i] = new RootParameter(new RootDescriptorTable(ranges), parameterShaderVisibility);
                                             break;
                                     }
                                 }
@@ -377,6 +379,7 @@ namespace Vortice.DirectX.Direct3D12
             }
             finally
             {
+                errorBlob?.Dispose();
                 signature.Dispose();
             }
         }
@@ -388,9 +391,10 @@ namespace Vortice.DirectX.Direct3D12
 
         public ID3D12CommandSignature CreateCommandSignature(CommandSignatureDescription description, ID3D12RootSignature rootSignature)
         {
+            Guard.NotNull(description, nameof(description));
             Guard.NotNull(rootSignature, nameof(rootSignature));
 
-            return CreateCommandSignature(ref description, rootSignature, typeof(ID3D12CommandSignature).GUID);
+            return CreateCommandSignature(description, rootSignature, typeof(ID3D12CommandSignature).GUID);
         }
 
         public ID3D12PipelineState CreateComputePipelineState(ComputePipelineStateDescription description)

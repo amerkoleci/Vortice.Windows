@@ -30,10 +30,8 @@ namespace Vortice.DirectX.Direct3D12
         /// <param name="sizeInBytes">Specifies the size in bytes of the index buffer.</param>
         /// <param name="is32Bit">Specifies if index buffer is 32 bit or 16 bit sized.</param>
         public IndexBufferView(long bufferLocation, int sizeInBytes, bool is32Bit = false)
+            : this(bufferLocation, sizeInBytes, is32Bit ? Format.R32_UInt : Format.R16_UInt)
         {
-            BufferLocation = bufferLocation;
-            SizeInBytes = sizeInBytes;
-            Format = is32Bit ? Format.R32_UInt : Format.R16_UInt;
         }
     }
 }

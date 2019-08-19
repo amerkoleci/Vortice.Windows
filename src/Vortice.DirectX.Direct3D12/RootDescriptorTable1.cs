@@ -37,7 +37,7 @@ namespace Vortice.DirectX.Direct3D12
             }
         }
 
-        internal unsafe void __MarshalFrom(ref __Native @ref)
+        internal unsafe void __MarshalFrom(in __Native @ref)
         {
             Ranges = new DescriptorRange1[@ref.NumDescriptorRanges];
             if (@ref.NumDescriptorRanges > 0)
