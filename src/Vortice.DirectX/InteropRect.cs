@@ -4,7 +4,6 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using Vortice.Mathematics;
 
 namespace Vortice.DirectX
 {

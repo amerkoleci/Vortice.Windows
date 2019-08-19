@@ -14,44 +14,38 @@ namespace Vortice.DirectX.Direct3D12
             ID3D12Resource resource,
             ResourceStates stateBefore,
             ResourceStates stateAfter,
-            int subresource = -1,
+            int subresource = Direct3D12.ResourceBarrier.AllSubResources,
             ResourceBarrierFlags flags = ResourceBarrierFlags.None)
         {
-            var barrier = new ResourceBarrier
-            {
-                Type = ResourceBarrierType.Transition,
-                Flags = flags,
-                Transition = new ResourceTransitionBarrier(resource, stateBefore, stateAfter, subresource)
-            };
-
+            var barrier = new ResourceBarrier(
+                new ResourceTransitionBarrier(resource, stateBefore, stateAfter, subresource),
+                flags);
             ResourceBarrier(1, new IntPtr(&barrier));
         }
 
         public unsafe void ResourceBarrierAliasing(ID3D12Resource resourceBefore, ID3D12Resource resourceAfter)
         {
-            var barrier = new ResourceBarrier
-            {
-                Type = ResourceBarrierType.Aliasing,
-                Aliasing = new ResourceAliasingBarrier(resourceBefore, resourceAfter)
-            };
-
+            var barrier = new ResourceBarrier(new ResourceAliasingBarrier(resourceBefore, resourceAfter));
             ResourceBarrier(1, new IntPtr(&barrier));
         }
 
         public unsafe void ResourceBarrierUnorderedAccessView(ID3D12Resource resource)
         {
-            var barrier = new ResourceBarrier
-            {
-                Type = ResourceBarrierType.UnorderedAccessView,
-                UnorderedAccessView = new ResourceUnorderedAccessViewBarrier(resource)
-            };
-
+            var barrier = new ResourceBarrier(new ResourceUnorderedAccessViewBarrier(resource));
             ResourceBarrier(1, new IntPtr(&barrier));
         }
 
         public unsafe void ResourceBarrier(ResourceBarrier barrier)
         {
             ResourceBarrier(1, new IntPtr(&barrier));
+        }
+
+        public unsafe void ResourceBarrier(params ResourceBarrier[] barriers)
+        {
+            fixed (void* pBarriers = barriers)
+            {
+                ResourceBarrier(barriers.Length, new IntPtr(pBarriers));
+            }
         }
 
         public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 colorRGBA, params InteropRect[] rectangles)

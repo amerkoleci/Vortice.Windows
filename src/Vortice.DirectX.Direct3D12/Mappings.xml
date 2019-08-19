@@ -36,6 +36,7 @@
     <const from-macro="D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS" class="Vortice.DirectX.Direct3D12.RasterizerDescription" type="float" name="DefaultSlopeScaledDepthBias" />
 
     <const from-macro="D3D12_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE" class="Vortice.DirectX.Direct3D12.ID3D12GraphicsCommandList" type="int" name="ViewportAndScissorRectObjectCountPerPipeline" />
+    <const from-macro="D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES" class="Vortice.DirectX.Direct3D12.ResourceBarrier" type="int" name="AllSubResources" />
   </extension>
 
   <bindings>

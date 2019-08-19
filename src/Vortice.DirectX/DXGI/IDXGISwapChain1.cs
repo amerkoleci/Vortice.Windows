@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using Vortice.Mathematics;
 using SharpGen.Runtime;
 
 namespace Vortice.DirectX.DXGI
