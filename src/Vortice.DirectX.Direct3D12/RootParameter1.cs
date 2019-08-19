@@ -76,7 +76,7 @@ namespace Vortice.DirectX.Direct3D12
             if (parameterType == RootParameterType.Constant32Bits
                 || parameterType == RootParameterType.DescriptorTable)
             {
-                throw new ArgumentException($"Cannot this type [{parameterType}] for a RootDescriptor", "type");
+                throw new ArgumentException($"Cannot this type [{parameterType}] for a RootDescriptor", nameof(parameterType));
             }
 
             _parameterType = parameterType;

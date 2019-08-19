@@ -20,14 +20,14 @@
            namespace="Vortice.DirectX.Direct3D12.Debug"
            attach="true"
            output="Debug" />
-  
+
   <extension>
-    
+
     <create class="D3D12" visibility="public static" />
     <create class="ResultCode" visibility="public static" />
     <const from-macro="D3D12_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DirectX.Direct3D12.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
     <define struct="Vortice.DirectX.Direct3D12.CpuDescriptorHandle" sizeof="8" />
-    
+
     <const from-macro="D3D12_SIMULTANEOUS_RENDER_TARGET_COUNT" class="Vortice.DirectX.Direct3D12.BlendDescription" type="int" name="SimultaneousRenderTargetCount" />
     <const from-macro="D3D12_DEFAULT_STENCIL_READ_MASK" class="Vortice.DirectX.Direct3D12.DepthStencilDescription" type="int" name="DefaultStencilReadMask" />
     <const from-macro="D3D12_DEFAULT_STENCIL_WRITE_MASK" class="Vortice.DirectX.Direct3D12.DepthStencilDescription" type="int" name="DefaultStencilWriteMask" />
@@ -322,6 +322,7 @@
     <short name="VERTEXFRAGMENT">VertexFragment</short>
     <short name="VERTEXSHADER">VertexShader</short>
     <short name="SUBOBJECT">SubObject</short>
+    <short name="WRITEBUFFERIMMEDIATE">WriteBufferImmediate</short>
   </naming>
 
   <mapping>
@@ -350,7 +351,7 @@
     <map enum-item="D3D12_AXIS_SHADING_RATE_4X" name="Rate4x"/>
     <map enum-item="D3D12_DRED_VERSION_1_0" name="Version1_0"/>
     <map enum-item="D3D12_DRED_VERSION_1_1" name="Version1_1"/>
-    
+
     <!-- D3D12_SHADING_RATE -->
     <map enum-item="D3D12_SHADING_RATE_1X1" name="Rate1x1"/>
     <map enum-item="D3D12_SHADING_RATE_1X2" name="Rate1x2"/>
@@ -376,7 +377,7 @@
     <map enum-item="D3D_SHADER_MODEL_6_3" name="Model63"/>
     <map enum-item="D3D_SHADER_MODEL_6_4" name="Model64"/>
     <map enum-item="D3D_SHADER_MODEL_6_5" name="Model65"/>
-    
+
     <map enum="D3D12_RLDO_FLAGS" name="ReportLiveDeviceObjectFlags" />
     <map enum-item="D3D12_HEAP_SERIALIZATION_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER_(.*)" name="Tier$1"/>
@@ -400,7 +401,7 @@
     <map enum="D3D12_STENCIL_OP" name="StencilOperation" />
     <map enum="D3D12_COLOR_WRITE_ENABLE" name="ColorWriteEnable" type="byte" flags="true"  />
     <map enum-item="D3D12_COLOR_WRITE_ENABLE(.*)" name-tmp="$1" />
-    
+
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
     <!--<map interface="ID3D1[0-3](.+)" name-tmp="$1" />-->
@@ -420,7 +421,7 @@
     <remove field="D3D12_TEXTURE_COPY_LOCATION::.*" />
     <remove field="D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS::.*" />
     <remove field="D3D12_VERSIONED_DEVICE_REMOVED_EXTENDED_DATA::.*"/>
-    
+
     <map field="D3D12_RESOURCE_TRANSITION_BARRIER::pResource" name="ResourcePointer" type="void" visibility="private"/>
     <map field="D3D12_RESOURCE_ALIASING_BARRIER::pResourceBefore" name="ResourceBeforePointer" type="void" visibility="private"/>
     <map field="D3D12_RESOURCE_ALIASING_BARRIER::pResourceAfter" name="ResourceAfterPointer" type="void" visibility="private"/>
@@ -451,28 +452,28 @@
 
     <map struct="D3D12_ROOT_DESCRIPTOR_TABLE" struct-to-class="true" marshal="true"  />
     <remove field="D3D12_ROOT_DESCRIPTOR_TABLE::.*"/>
-    
+
     <map struct="D3D12_ROOT_DESCRIPTOR_TABLE1" struct-to-class="true" marshal="true"  />
     <remove field="D3D12_ROOT_DESCRIPTOR_TABLE1::.*"/>
-    
+
     <map struct="D3D12_ROOT_SIGNATURE_DESC" struct-to-class="true" marshal="true"  />
     <remove field="D3D12_ROOT_SIGNATURE_DESC::.*"/>
-    
+
     <map struct="D3D12_ROOT_SIGNATURE_DESC1" struct-to-class="true" marshal="true"  />
     <remove field="D3D12_ROOT_SIGNATURE_DESC1::.*"/>
-    
+
     <map struct="D3D12_VERSIONED_ROOT_SIGNATURE_DESC" struct-to-class="true" marshal="true" />
     <remove field="D3D12_VERSIONED_ROOT_SIGNATURE_DESC::.*"/>
-    
+
     <map struct="D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS" struct-to-class="true" marshal="true"  />
-    
+
     <map field="D3D12_CLEAR_VALUE::Color" type="VORTICE_COLOR4" array="" override-native-type="true" />
 
     <map struct="D3D12_DEPTH_STENCILOP_DESC" name="DepthStencilOperationDescription" />
 
     <map struct="D3D12_SHADER_BYTECODE" name="ShaderBytecode" struct-to-class="true" marshal="true"  />
     <remove field="D3D12_SHADER_BYTECODE::.*"/>
-    
+
     <map struct="D3D12_INPUT_ELEMENT_DESC" marshalto="true"/>
     <map field="D3D12_INPUT_ELEMENT_DESC::InputSlot" name="Slot" />
     <map field="D3D12_INPUT_ELEMENT_DESC::InputSlotClass" name="Classification" />
@@ -492,7 +493,7 @@
     <remove field="D3D12_COMPUTE_PIPELINE_STATE_DESC::.*"/>
 
     <map struct="D3D12_BLEND_DESC" marshalto="true"/>
-    
+
     <!-- D3D12_RENDER_TARGET_BLEND_DESC struct -->
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendEnable" name="IsBlendEnabled" />
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::SrcBlend" name="SourceBlend" />
@@ -503,7 +504,7 @@
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendOpAlpha" name="BlendOperationAlpha" />
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::LogicOpEnable" name="IsLogicOperationEnabled"/>
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D12_COLOR_WRITE_ENABLE" />
-    
+
     <!-- D3D12_SAMPLER_DESC struct -->
     <map field="D3D12_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
     <map field="D3D12_SAMPLER_DESC::BorderColor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
@@ -525,7 +526,7 @@
     <map field="D3D12_STATE_SUBOBJECT::pDesc" name="Description"/>
 
     <map struct="D3D12_DISCARD_REGION" visibility="internal"/>
-    
+
     <!-- ID3D12Object methods -->
     <map method="ID3D12Object::SetName" property="false"/>
 
@@ -607,7 +608,7 @@
     <!-- ID3D12Device1 methods -->
     <map method="ID3D12Device1::CreatePipelineLibrary" visibility="private"/>
     <map param="ID3D12Device1::CreatePipelineLibrary::ppPipelineLibrary" attribute="out" type="ID3D12PipelineLibrary" return="true"/>
-    
+
     <!-- ID3D12Device2 methods -->
     <map method="ID3D12Device2::CreatePipelineState" visibility="private"/>
     <map param="ID3D12Device2::CreatePipelineState::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
@@ -616,7 +617,7 @@
     <map method="ID3D12Device3::EnqueueMakeResident" visibility="private" hresult="true" check="false"/>
     <map method="ID3D12Device3::OpenExistingHeapFromAddress" visibility="private" hresult="true" check="false"/>
     <map method="ID3D12Device3::OpenExistingHeapFromFileMapping" visibility="private" hresult="true" check="false"/>
-    
+
     <!-- ID3D12Device4 methods -->
     <map method="ID3D12Device4::CreateCommandList1" visibility="private"/>
     <map param="ID3D12Device4::CreateCommandList1::ppCommandList" attribute="out" type="ID3D12GraphicsCommandList1" return="true"/>
@@ -626,17 +627,17 @@
 
     <map method="ID3D12Device4::CreateHeap1" visibility="private"/>
     <map param="ID3D12Device4::CreateHeap1::ppvHeap" attribute="out" type="ID3D12Heap1" return="true"/>
-    
+
     <map method="ID3D12Device4::CreateProtectedResourceSession" visibility="private"/>
     <map param="ID3D12Device4::CreateProtectedResourceSession::ppSession" attribute="out" type="ID3D12ProtectedResourceSession" return="true"/>
-    
+
     <map method="ID3D12Device4::CreateReservedResource1" visibility="private"/>
     <map param="ID3D12Device4::CreateReservedResource1::ppvResource" attribute="out" type="ID3D12Resource1" return="true"/>
-    
+
     <!-- ID3D12Device5 methods -->
     <map method="ID3D12Device5::CreateMetaCommand" visibility="private"/>
     <map param="ID3D12Device5::CreateMetaCommand::ppMetaCommand" attribute="out" type="ID3D12MetaCommand" return="true"/>
-    
+
     <map method="ID3D12Device5::CreateStateObject" visibility="private"/>
     <map param="ID3D12Device5::CreateStateObject::ppStateObject" attribute="out" type="ID3D12StateObject" return="true"/>
     <map param="ID3D12Device5::GetRaytracingAccelerationStructurePrebuildInfo::pInfo" attribute="out" return="true"/>
@@ -675,7 +676,7 @@
     <map method="ID3D12GraphicsCommandList::RSSetScissorRects" rawptr="true"/>
     <map method="ID3D12GraphicsCommandList::IASetVertexBuffers" visibility="private" />
     <map param="ID3D12GraphicsCommandList::IASetVertexBuffers::pViews" attribute="in" type="void"/>
-    
+
     <map method="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat" visibility="private" />
     <map method="ID3D12GraphicsCommandList::ClearUnorderedAccessViewUint" visibility="private" />
     <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat::Values" type="VORTICE_COLOR4"  override-native-type="true" pointer="*" array="0" />
@@ -686,9 +687,19 @@
     <map method="ID3D12GraphicsCommandList::OMSetRenderTargets" visibility="private"/>
     <map param="ID3D12GraphicsCommandList::OMSetRenderTargets::pRenderTargetDescriptors" type="void"/>
     <map param="ID3D12GraphicsCommandList::OMSetBlendFactor::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" attribute="in" />
-   
+
     <map method="ID3D12GraphicsCommandList::CopyTextureRegion" visibility="private" name="CopyTextureRegion_" />
     <map method="ID3D12GraphicsCommandList::DiscardResource" visibility="private" />
+
+    <!-- ID3D12GraphicsCommandList1 -->
+    <map method="ID3D12GraphicsCommandList1::ResolveSubresourceRegion" visibility="private" name="ResolveSubresourceRegion_"/>
+    <map method="ID3D12GraphicsCommandList1::SetViewInstanceMask" property="false"/>
+    
+    <!-- ID3D12GraphicsCommandList2 -->
+    <map method="ID3D12GraphicsCommandList2::WriteBufferImmediate" visibility="private" name="WriteBufferImmediate_"/>
+    
+    <!-- ID3D12GraphicsCommandList3 -->
+    <map method="ID3D12GraphicsCommandList3::SetProtectedResourceSession" property="false"/>
 
     <!-- ID3D12GraphicsCommandList4 -->
     <map method="ID3D12GraphicsCommandList4::BuildRaytracingAccelerationStructure" visibility="private"/>
@@ -696,7 +707,7 @@
     <map method="ID3D12GraphicsCommandList4::InitializeMetaCommand" visibility="private"/>
     <map method="ID3D12GraphicsCommandList4::ExecuteMetaCommand" visibility="private"/>
     <map method="ID3D12GraphicsCommandList4::SetPipelineState1" property="false" />
-    
+
     <!-- ID3D12DescriptorHeap -->
     <map method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" property="false" />
     <map method="ID3D12DescriptorHeap::GetGPUDescriptorHandleForHeapStart" property="false" />
