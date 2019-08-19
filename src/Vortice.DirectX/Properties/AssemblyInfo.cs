@@ -7,3 +7,4 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Vortice.DirectX.Direct3D11")]
 [assembly: InternalsVisibleTo("Vortice.DirectX.Direct3D12")]
 [assembly: InternalsVisibleTo("Vortice.DirectX.ShaderCompiler")]
+[assembly: InternalsVisibleTo("Vortice.XAudio2")]

@@ -16,7 +16,7 @@ namespace Vortice.DirectX.Direct3D11
             return CreateSharedHandle(attributes, GENERIC_ALL, name);
         }
 
-        public void SetEventOnCompletion(ulong value, EventWaitHandle waitHandle)
+        public void SetEventOnCompletion(long value, EventWaitHandle waitHandle)
         {
             Guard.NotNull(waitHandle, nameof(waitHandle));
 

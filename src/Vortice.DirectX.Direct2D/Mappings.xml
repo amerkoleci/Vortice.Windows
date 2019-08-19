@@ -4,7 +4,7 @@
   <namespace>Vortice.DirectX.Direct2D</namespace>
   <depends>Vortice.DirectX</depends>
 
-  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="WindowsSdk" version="10.0.18362.0" />
   <sdk name="StdLib" />
 
   <include file="d2dbasetypes.h" attach="true"/>
@@ -53,6 +53,7 @@
 
   <bindings>
     <bind from="UINT32" to="System.Int32" />
+    <bind from="UINT64" to="System.Int64" />
     <bind from="D2D_SIZE_U" to="System.Drawing.Size" />
     <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
     <bind from="D2D_POINT_2U" to="System.Drawing.Point" />

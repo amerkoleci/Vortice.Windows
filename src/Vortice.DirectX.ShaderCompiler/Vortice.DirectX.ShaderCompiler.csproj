@@ -7,8 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
-    <PackageReference Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
+    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenCLIVersion)" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />

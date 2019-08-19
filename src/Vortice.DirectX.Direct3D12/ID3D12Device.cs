@@ -52,16 +52,16 @@ namespace Vortice.DirectX.Direct3D12
             }
         }
 
-        public unsafe T CheckFeatureSupport<T>(Feature feature) where T : struct
+        public unsafe T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
         {
             T featureSupport = default;
-            CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Interop.SizeOf<T>());
+            CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), sizeof(T));
             return featureSupport;
         }
 
-        public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : struct
+        public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
         {
-            return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Interop.SizeOf<T>()).Success;
+            return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), sizeof(T)).Success;
         }
 
         public unsafe Result CheckMaxSupportedFeatureLevel(FeatureLevel[] featureLevels, out FeatureLevel maxSupportedFeatureLevel)
@@ -80,18 +80,89 @@ namespace Vortice.DirectX.Direct3D12
             }
         }
 
-        public unsafe FeatureDataGpuVirtualAddressSupport GpuVirtualAddressSupport
+        public FeatureDataD3D12Options Options
         {
-            get
-            {
-                var featureData = new FeatureDataGpuVirtualAddressSupport();
-                if (CheckFeatureSupport(Feature.GpuVirtualAddressSupport, new IntPtr(&featureData), Interop.SizeOf<FeatureDataGpuVirtualAddressSupport>()).Success)
-                {
-                    return featureData;
-                }
+            get => CheckFeatureSupport<FeatureDataD3D12Options>(Feature.Options);
+        }
 
-                return default;
-            }
+        public FeatureDataArchitecture Architecture
+        {
+            get => CheckFeatureSupport<FeatureDataArchitecture>(Feature.Architecture);
+        }
+
+        public FeatureDataGpuVirtualAddressSupport GpuVirtualAddressSupport
+        {
+            get => CheckFeatureSupport<FeatureDataGpuVirtualAddressSupport>(Feature.GpuVirtualAddressSupport);
+        }
+
+        public FeatureDataD3D12Options1 Options1
+        {
+            get => CheckFeatureSupport<FeatureDataD3D12Options1>(Feature.Options1);
+        }
+
+        public FeatureDataProtectedResourceSessionSupport ProtectedResourceSessionSupport
+        {
+            get => CheckFeatureSupport<FeatureDataProtectedResourceSessionSupport>(Feature.ProtectedResourceSessionSupport);
+        }
+
+        public FeatureDataArchitecture1 Architecture1
+        {
+            get => CheckFeatureSupport<FeatureDataArchitecture1>(Feature.Architecture1);
+        }
+
+        public FeatureDataD3D12Options2 Options2
+        {
+            get => CheckFeatureSupport<FeatureDataD3D12Options2>(Feature.Options2);
+        }
+
+        public FeatureDataShaderCache ShaderCache
+        {
+            get => CheckFeatureSupport<FeatureDataShaderCache>(Feature.ShaderCache);
+        }
+
+        public FeatureDataCommandQueuePriority CommandQueuePriority
+        {
+            get => CheckFeatureSupport<FeatureDataCommandQueuePriority>(Feature.CommandQueuePriority);
+        }
+
+        public FeatureDataD3D12Options3 Options3
+        {
+            get => CheckFeatureSupport<FeatureDataD3D12Options3>(Feature.Options3);
+        }
+
+        public FeatureDataExistingHeaps ExistingHeaps
+        {
+            get => CheckFeatureSupport<FeatureDataExistingHeaps>(Feature.ExistingHeaps);
+        }
+
+        public FeatureDataD3D12Options4 Options4
+        {
+            get => CheckFeatureSupport<FeatureDataD3D12Options4>(Feature.Options4);
+        }
+
+        public FeatureDataSerialization Serialization
+        {
+            get => CheckFeatureSupport<FeatureDataSerialization>(Feature.Serialization);
+        }
+
+        public FeatureDataCrossNode CrossNode
+        {
+            get => CheckFeatureSupport<FeatureDataCrossNode>(Feature.CrossNode);
+        }
+
+        public FeatureDataD3D12Options5 Options5
+        {
+            get => CheckFeatureSupport<FeatureDataD3D12Options5>(Feature.Options5);
+        }
+
+        public FeatureDataD3D12Options6 Options6
+        {
+            get => CheckFeatureSupport<FeatureDataD3D12Options6>(Feature.Options6);
+        }
+
+        public FeatureDataQueryMetaCommand QueryMetaCommand
+        {
+            get => CheckFeatureSupport<FeatureDataQueryMetaCommand>(Feature.QueryMetaCommand);
         }
 
         public unsafe ShaderModel CheckHighestShaderModel(ShaderModel highestShaderModel)
@@ -177,7 +248,7 @@ namespace Vortice.DirectX.Direct3D12
             return new ID3D12GraphicsCommandList(nativePtr);
         }
 
-        public ID3D12Fence CreateFence(ulong initialValue, FenceFlags flags = FenceFlags.None)
+        public ID3D12Fence CreateFence(long initialValue, FenceFlags flags = FenceFlags.None)
         {
             return CreateFence(initialValue, flags, typeof(ID3D12Fence).GUID);
         }
@@ -343,7 +414,7 @@ namespace Vortice.DirectX.Direct3D12
 
         public ID3D12Resource CreatePlacedResource(
             ID3D12Heap heap,
-            ulong heapOffset,
+            long heapOffset,
             ResourceDescription resourceDescription,
             ResourceStates initialState,
             ClearValue? clearValue = null)
@@ -405,9 +476,22 @@ namespace Vortice.DirectX.Direct3D12
             return GetCustomHeapProperties(0, heapType);
         }
 
+        /// <summary>
+        /// Enables the page-out of data, which precludes GPU access of that data.
+        /// </summary>
+        /// <param name="objects"></param>
         public void Evict(params ID3D12Pageable[] objects)
         {
             Evict(objects.Length, objects);
+        }
+
+        /// <summary>
+        /// Makes objects resident for the device.
+        /// </summary>
+        /// <param name="objects"></param>
+        public void MakeResident(params ID3D12Pageable[] objects)
+        {
+            MakeResident(objects.Length, objects);
         }
 
         public ResourceAllocationInfo GetResourceAllocationInfo(int visibleMask, params ResourceDescription[] resourceDescriptions)

@@ -1,12 +1,9 @@
 <Project>
   <PropertyGroup>
     <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-    <RepositoryRootDirectory>$(MSBuildThisFileDirectory)</RepositoryRootDirectory>
-    <BinDir>$(RepositoryRootDirectory)bin</BinDir>
-    <OutputPath>$([System.IO.Path]::GetFullPath('$(RepositoryRootDirectory)bin\$(Configuration)'))\$(MSBuildProjectName)</OutputPath>
-    <!-- Conflicts with SharpGenTools -->
-    <!-- <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)../obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath> -->
-    <PackageOutputPath>$(BinDir)\$(Configuration)\Packages</PackageOutputPath>
+    <RepositoryRootDirectory>$(MSBuildThisFileDirectory)..\</RepositoryRootDirectory>
+    <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(RepositoryRootDirectory)bin\$(MSBuildProjectName)\</BaseOutputPath>
+    <PackageOutputPath>$(RepositoryRootDirectory)bin\$(Configuration)\Packages</PackageOutputPath>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
@@ -25,14 +22,15 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SharpGenVersion>1.2.0</SharpGenVersion>
-    <NerdbankGitVersioningVersion>2.3.38</NerdbankGitVersioningVersion>
+    <SharpGenRuntimeVersion>1.2.0</SharpGenRuntimeVersion>
+    <SharpGenCLIVersion>2.0.0-ci.1001</SharpGenCLIVersion>
+    <NerdbankGitVersioningVersion>3.0.25</NerdbankGitVersioningVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Vortice.Mathematics" Version="1.0.0-pre023" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All"/>
     <PackageReference Include="Nerdbank.GitVersioning" Version="$(NerdbankGitVersioningVersion)" PrivateAssets="all" />
   </ItemGroup>
 </Project>

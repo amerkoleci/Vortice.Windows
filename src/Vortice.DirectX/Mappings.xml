@@ -4,7 +4,7 @@
   <namespace>Vortice.DirectX</namespace>
   <depends>SharpGen.Runtime.COM</depends>
 
-  <sdk name="WindowsSdk" version="10.0.17763.0" />
+  <sdk name="WindowsSdk" version="10.0.18362.0" />
   <sdk name="StdLib" />
 
   <include file="d3dcommon.h"
@@ -62,6 +62,45 @@
           attach="true"
           output="DXGI"/>
 
+  <include file="hidusage.h" 
+           namespace="Vortice.DirectX.Multimedia"
+           attach="true"
+           output="Multimedia">
+    <post>
+      // Additionnals HID_USAGE_PAGES*
+      #define HID_USAGE_PAGE_MEDICAL  0x40
+      #define HID_USAGE_PAGE_MONITOR_PAGE0 0x80
+      #define HID_USAGE_PAGE_MONITOR_PAGE1 0x81
+      #define HID_USAGE_PAGE_MONITOR_PAGE2 0x82
+      #define HID_USAGE_PAGE_MONITOR_PAGE3 0x83
+      #define HID_USAGE_PAGE_POWER_PAGE0 0x84
+      #define HID_USAGE_PAGE_POWER_PAGE1 0x85
+      #define HID_USAGE_PAGE_POWER_PAGE2 0x86
+      #define HID_USAGE_PAGE_POWER_PAGE3 0x87
+      #define HID_USAGE_PAGE_BARCODE 0x8C
+      #define HID_USAGE_PAGE_SCALE 0x8D
+      #define HID_USAGE_PAGE_MSR 0x8E
+
+      // The Usage typedef doesn't exist when compiling for STORE_APP so we define it here
+      #define USAGE USHORT
+    </post>
+  </include>
+
+  <!-- Include mmreg.h before audiodefs.h in order to avoid redefinition problem -->
+  <!--<include file="mmreg.h" 
+           namespace="Vortice.DirectX.Multimedia" 
+           attach="true"
+           output="Multimedia">
+    <pre>
+      #define WAVE_FORMAT_PCM     1
+    </pre>
+  </include>-->
+
+  <include file="AudioSessionTypes.h" 
+           namespace="Vortice.DirectX.Multimedia"
+           attach="true"
+           output="Multimedia" />
+
   <extension>
     <define struct="System.Drawing.Point" sizeof="8" />
     <define struct="System.Drawing.PointF" sizeof="8" />
@@ -102,6 +141,12 @@
 
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.DirectX.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
+
+    <!-- Multimedia -->
+    <create-cpp enum="SPEAKER_FLAGS" macro="SPEAKER_.*" />
+    <create-cpp enum="HID_USAGE_PAGE" macro="HID_USAGE_PAGE_.*" />
+    <create-cpp enum="HID_USAGE_ID" macro="HID_USAGE_[^P].*" />
+    <create-cpp enum="WAVE_FORMAT_ENCODING" macro="WAVE_FORMAT_(.*)" />
   </extension>
 
   <bindings>
@@ -126,7 +171,6 @@
     <bind from="WAVEFORMATEX" to="Vortice.DirectX.Multimedia.WaveFormat" />
     <bind from="tWAVEFORMATEX" to="Vortice.DirectX.Multimedia.WaveFormat" />
     <bind from="WAVEFORMATEXTENSIBLE" to="Vortice.DirectX.Multimedia.WaveFormatExtensible" />
-    <bind from="AUDIO_STREAM_CATEGORY" to="Vortice.DirectX.Multimedia.AudioStreamCategory" />
   </bindings>
 
   <naming>
@@ -496,5 +540,31 @@
     <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
 
     <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="Vortice.DirectX.DXGI.DXGI" hresult="true" check="false" />
+
+    <!-- Multimedia -->
+    <!-- class SharpDX.Multimedia.UsagePage -->
+    <map enum="SPEAKER_FLAGS" name="Speakers" flags="true" none="true"/>
+    <map enum-item="SPEAKER_2POINT1" name="TwoPointOne" />
+    <map enum-item="SPEAKER_4POINT1" name="FourPointOne" />
+    <map enum-item="SPEAKER_5POINT1" name="FivePointOne" />
+    <map enum-item="SPEAKER_7POINT1" name="SevenPointOne" />
+    <map enum-item="SPEAKER_5POINT1_SURROUND" name="FivePointOneSurround" />
+    <map enum-item="SPEAKER_7POINT1_SURROUND" name="SevenPointOneSurround" />
+
+    <!-- class SharpDX.Multimedia.UsagePage -->
+    <map enum="HID_USAGE_PAGE" name="UsagePage" type="short"/>
+    <map enum-item="HID_USAGE_PAGE_(.*)" name-tmp="$1" naming="noexpand"/>
+
+    <!-- class SharpDX.Multimedia.UsageId -->
+    <map enum="HID_USAGE_ID" name="UsageId" type="short"/>
+    <map enum-item="HID_USAGE_([^P].*)" name-tmp="$1" naming="noexpand"/>
+
+    <!-- class SharpDX.Multimedia.WaveFormatEncoding-->
+    <map enum="WAVE_FORMAT_ENCODING" name="WaveFormatEncoding" type="short"/>
+    <map enum-item="WAVE_FORMAT_(.*)" name-tmp="$1" naming="noexpand" />
+    <map enum-item="WAVE_FORMAT_([0-9].*)" name-tmp="Tag$1" />
+    <map enum-item="WAVE_FORMAT_GSM610" name-tmp="DefaultGsm610" />
+
+    <map enum-item="AudioCategory_(.*)" name="$1"/>
   </mapping>
 </config>

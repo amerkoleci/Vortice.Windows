@@ -14,7 +14,7 @@ namespace Vortice.DirectX.Direct3D12
         /// <param name="bufferLocation">Specifies a gpu virtual address that identifies the address of the buffer.</param>
         /// <param name="sizeInBytes">Specifies the size in bytes of the buffer.</param>
         /// <param name="strideInBytes">Specifies the size in bytes of each vertex entry.</param>
-        public VertexBufferView(ulong bufferLocation, int sizeInBytes, int strideInBytes)
+        public VertexBufferView(long bufferLocation, int sizeInBytes, int strideInBytes)
         {
             BufferLocation = bufferLocation;
             SizeInBytes = sizeInBytes;

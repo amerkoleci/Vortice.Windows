@@ -5,8 +5,7 @@
   <depends>Vortice.DirectX</depends>
 
   <sdk name="StdLib" />
-  <sdk name="WindowsSdk" version="10.0.17763.0" />
-  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include</include-dir>
+  <sdk name="WindowsSdk" version="10.0.18362.0" />
 
   <include file="d3d12.h"
              namespace="Vortice.DirectX.Direct3D12"
@@ -40,6 +39,7 @@
   </extension>
 
   <bindings>
+    <bind from="UINT64" to="System.Int64" />
     <bind from="LUID" to="System.Int64"/>
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
@@ -389,6 +389,7 @@
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS3" name="Options3"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS4" name="Options4"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS5" name="Options5"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS6" name="Options6"/>
 
     <map enum="D3D12_BLEND_OP" name="BlendOperation" />
     <map enum="D3D12_COMPARISON_FUNC" name="ComparisonFunction" />
@@ -505,7 +506,7 @@
     <map struct="D3D12_STATE_SUBOBJECT" name="StateSubObject" />
     <map field="D3D12_STATE_SUBOBJECT::pDesc" name="Description"/>
     
-    <!-- ID3D12Device methods -->
+    <!-- ID3D12Object methods -->
     <map method="ID3D12Object::SetName" property="false"/>
 
     <!-- ID3D12Resource methods -->
@@ -514,7 +515,13 @@
     <map param="ID3D12Resource::Map::ppData" attribute="out" return="true"/>
     <map param="ID3D12Resource::ReadFromSubresource::pDstData" attribute="in value"/>
     <map param="ID3D12Resource::ReadFromSubresource::pSrcBox" default="null"/>
-    
+
+    <!-- ID3D12Resource1 methods -->
+    <map method="ID3D12Resource1::GetProtectedResourceSession" visibility="private" hresult="true" check="false"/>
+
+    <!-- ID3D12ProtectedSession methods -->
+    <map method="ID3D12ProtectedSession::GetStatusFence" visibility="private" hresult="true" check="false"/>
+
     <!-- ID3D12Device methods -->
     <map method="ID3D12Device::CheckFeatureSupport" visibility="internal" check="false"/>
     <map method="ID3D12Device::GetDeviceRemovedReason" check="false"/>
@@ -571,6 +578,7 @@
     <map method="ID3D12Device::OpenSharedHandle" visibility="private" hresult="true" check="false"/>
     <map method="ID3D12Device::OpenSharedHandleByName" visibility="private" hresult="true" check="false"/>
     <map method="ID3D12Device::Evict" visibility="private"/>
+    <map method="ID3D12Device::MakeResident" visibility="private"/>
     <map method="ID3D12Device::GetResourceAllocationInfo" visibility="private"/>
 
     <!-- ID3D12Device1 methods -->
@@ -582,7 +590,10 @@
     <map param="ID3D12Device2::CreatePipelineState::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
 
     <!-- ID3D12Device3 methods -->
-
+    <map method="ID3D12Device3::EnqueueMakeResident" visibility="private" hresult="true" check="false"/>
+    <map method="ID3D12Device3::OpenExistingHeapFromAddress" visibility="private" hresult="true" check="false"/>
+    <map method="ID3D12Device3::OpenExistingHeapFromFileMapping" visibility="private" hresult="true" check="false"/>
+    
     <!-- ID3D12Device4 methods -->
     <map method="ID3D12Device4::CreateCommandList1" visibility="private"/>
     <map param="ID3D12Device4::CreateCommandList1::ppCommandList" attribute="out" type="ID3D12GraphicsCommandList1" return="true"/>
