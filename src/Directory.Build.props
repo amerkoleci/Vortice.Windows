@@ -22,8 +22,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SharpGenRuntimeVersion>1.2.0</SharpGenRuntimeVersion>
-    <SharpGenCLIVersion>2.0.0-ci.1001</SharpGenCLIVersion>
+    <SharpGenVersion>1.2.0</SharpGenVersion>
     <NerdbankGitVersioningVersion>3.0.25</NerdbankGitVersioningVersion>
   </PropertyGroup>
 
