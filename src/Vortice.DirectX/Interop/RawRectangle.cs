@@ -5,11 +5,14 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectX
+namespace Vortice.Interop
 {
+    /// <summary>
+    /// Interop type for a Rectangle (4 ints) in left, top, right, bottom.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     [DebuggerDisplay("Left: {Left}, Top: {Top}, Right: {Right}, Bottom: {Bottom}")]
-    public readonly struct InteropRect
+    public readonly struct RawRectangle
     {
         /// <summary>
         /// The left position.
@@ -31,7 +34,7 @@ namespace Vortice.DirectX
         /// </summary>
         public readonly int Bottom;
 
-        public InteropRect(int left, int top, int right, int bottom)
+        public RawRectangle(int left, int top, int right, int bottom)
         {
             Left = left;
             Top = top;
@@ -40,21 +43,21 @@ namespace Vortice.DirectX
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="Rectangle"/> to <see cref="InteropRect"/>.
+        /// Performs an implicit conversion from <see cref="Rectangle"/> to <see cref="RawRectangle"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator InteropRect(Rectangle value)
+        public static implicit operator RawRectangle(Rectangle value)
         {
-            return new InteropRect(value.Left, value.Top, value.Right, value.Bottom);
+            return new RawRectangle(value.Left, value.Top, value.Right, value.Bottom);
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="InteropRect"/> to <see cref="Rectangle"/>.
+        /// Performs an implicit conversion from <see cref="RawRectangle"/> to <see cref="Rectangle"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator Rectangle(InteropRect value)
+        public static implicit operator Rectangle(RawRectangle value)
         {
             return Rectangle.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
         }

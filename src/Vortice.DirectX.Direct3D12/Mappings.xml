@@ -44,10 +44,10 @@
     <bind from="UINT32" to="System.Int32" />
     <bind from="UINT64" to="System.Int64" />
     <bind from="LUID" to="System.Int64"/>
-    <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
-    <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
+    <bind from="VORTICE_INT4" to="Vortice.Interop.RawInt4" />
+    <bind from="VORTICE_COLOR4" to="Vortice.Interop.RawColor4" />
     <bind from="D3D12_CPU_DESCRIPTOR_HANDLE" to="Vortice.DirectX.Direct3D12.CpuDescriptorHandle" />
-    <bind from="D3D12_VIEWPORT" to="Vortice.Mathematics.Viewport"/>
+    <bind from="D3D12_VIEWPORT" to="Vortice.Interop.RawViewport"/>
   </bindings>
 
   <naming>

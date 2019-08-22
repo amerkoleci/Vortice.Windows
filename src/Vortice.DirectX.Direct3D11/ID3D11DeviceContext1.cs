@@ -3,23 +3,23 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Vortice.Mathematics;
+using Vortice.Interop;
 
 namespace Vortice.DirectX.Direct3D11
 {
     public partial class ID3D11DeviceContext1
     {
-        public void ClearView(ID3D11View view, Color4 color)
+        public void ClearView(ID3D11View view, RawColor4 color)
         {
             ClearView(view, color);
         }
 
-        public void ClearView(ID3D11View view, Color4 color, InteropRect[] rects)
+        public void ClearView(ID3D11View view, RawColor4 color, RawRectangle[] rects)
         {
             ClearView(view, color, rects, rects.Length);
         }
 
-        public void DiscardView1(ID3D11View view, InteropRect[] rects)
+        public void DiscardView1(ID3D11View view, RawRectangle[] rects)
         {
             DiscardView1(view, rects, rects.Length);
         }

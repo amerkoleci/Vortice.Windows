@@ -8,11 +8,16 @@
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
     <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenVersion)" />
+    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vortice.Runtime.COM\Vortice.Runtime.COM.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interop\" />
   </ItemGroup>
 
 </Project>

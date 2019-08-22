@@ -5,7 +5,6 @@ using System.Numerics;
 using Vortice.DirectX.DirectWrite;
 using Vortice.DirectX.WIC;
 using SharpGen.Runtime;
-using Vortice.Mathematics;
 using Vortice.DirectX.DXGI;
 using System.Drawing;
 

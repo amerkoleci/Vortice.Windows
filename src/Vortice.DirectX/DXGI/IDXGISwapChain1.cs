@@ -3,6 +3,7 @@
 
 using System;
 using SharpGen.Runtime;
+using Vortice.Interop;
 
 namespace Vortice.DirectX.DXGI
 {
@@ -43,7 +44,7 @@ namespace Vortice.DirectX.DXGI
             bool hasScrollRectangle = presentParameters.ScrollRectangle.HasValue;
             bool hasScrollOffset = presentParameters.ScrollOffset.HasValue;
 
-            var scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle.Value : new InteropRect();
+            var scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle.Value : new RawRectangle();
             var scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset.Value : default;
 
             fixed (void* pDirtyRects = presentParameters.DirtyRectangles)

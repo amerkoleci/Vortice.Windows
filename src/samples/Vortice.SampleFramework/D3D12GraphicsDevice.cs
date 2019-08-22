@@ -14,6 +14,7 @@ using Vortice.Mathematics;
 using static Vortice.DirectX.Direct3D12.D3D12;
 using static Vortice.DirectX.DXGI.DXGI;
 using Vortice.DirectX;
+using Vortice.Interop;
 
 namespace Vortice
 {
@@ -235,8 +236,8 @@ namespace Vortice
 
             // Set necessary state.
             _commandList.SetGraphicsRootSignature(_rootSignature);
-            _commandList.RSSetViewport(new Viewport(Window.Width, Window.Height));
-            _commandList.RSSetScissorRect(new InteropRect(0, 0, Window.Width, Window.Height));
+            _commandList.RSSetViewport(new RawViewport(Window.Width, Window.Height));
+            _commandList.RSSetScissorRect(new RawRectangle(0, 0, Window.Width, Window.Height));
 
             // Indicate that the back buffer will be used as a render target.
             _commandList.ResourceBarrierTransition(_renderTargets[_frameIndex], ResourceStates.Present, ResourceStates.RenderTarget);

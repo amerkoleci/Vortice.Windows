@@ -74,7 +74,7 @@
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>
     <bind from="IPrintDocumentPackageTarget" to="SharpGen.Runtime.ComObject" />
-    <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
+    <bind from="VORTICE_COLOR4" to="Vortice.Interop.RawColor4" />
     <bind from="LOGFONTW" to="Vortice.DirectX.Gdi.LogFont"/>
     <bind from="FONTSIGNATURE" to="Vortice.DirectX.Gdi.FontSignature" />
   </bindings>

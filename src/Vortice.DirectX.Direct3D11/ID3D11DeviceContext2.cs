@@ -3,7 +3,6 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Vortice.Mathematics;
 
 namespace Vortice.DirectX.Direct3D11
 {

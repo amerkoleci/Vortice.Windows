@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using Vortice.Mathematics;
+using Vortice.Interop;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 
@@ -48,7 +48,7 @@ namespace Vortice.DirectX.Direct3D12
             }
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 colorRGBA, params InteropRect[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, RawColor4 colorRGBA, params RawRectangle[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -76,8 +76,8 @@ namespace Vortice.DirectX.Direct3D12
             GpuDescriptorHandle viewGpuHandleInCurrentHeap,
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
-            Color4 clearValue,
-            params InteropRect[] rectangles)
+            RawColor4 clearValue,
+            params RawRectangle[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -93,8 +93,8 @@ namespace Vortice.DirectX.Direct3D12
             GpuDescriptorHandle viewGpuHandleInCurrentHeap,
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
-            Int4 clearValue,
-            params InteropRect[] rectangles)
+            RawInt4 clearValue,
+            params RawRectangle[] rectangles)
         {
             if (rectangles.Length == 0)
             {
@@ -106,12 +106,12 @@ namespace Vortice.DirectX.Direct3D12
             }
         }
 
-        public unsafe void RSSetViewport(Viewport viewport)
+        public unsafe void RSSetViewport(RawViewport viewport)
         {
             RSSetViewports(1, new IntPtr(&viewport));
         }
 
-        public void RSSetViewports(params Viewport[] viewports)
+        public void RSSetViewports(params RawViewport[] viewports)
         {
             unsafe
             {
@@ -122,12 +122,12 @@ namespace Vortice.DirectX.Direct3D12
             }
         }
 
-        public unsafe void RSSetScissorRect(InteropRect rectangle)
+        public unsafe void RSSetScissorRect(RawRectangle rectangle)
         {
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public void RSSetScissorRects(params InteropRect[] rectangles)
+        public void RSSetScissorRects(params RawRectangle[] rectangles)
         {
             unsafe
             {
@@ -276,7 +276,7 @@ namespace Vortice.DirectX.Direct3D12
         /// <param name="rects">An array of  rectangles in the resource to discard. If null, DiscardResource discards the entire resource.</param>
         /// <param name="firstSubresource">Index of the first subresource in the resource to discard.</param>
         /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
-        public unsafe void DiscardResource(ID3D12Resource resource, InteropRect[] rects, int firstSubresource, int numSubresources)
+        public unsafe void DiscardResource(ID3D12Resource resource, RawRectangle[] rects, int firstSubresource, int numSubresources)
         {
             DiscardResource(resource, new DiscardRegion
             {

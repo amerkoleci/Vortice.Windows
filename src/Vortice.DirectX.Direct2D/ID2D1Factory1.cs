@@ -4,7 +4,6 @@
 using System;
 using System.Numerics;
 using Vortice.DirectX.DirectWrite;
-using Vortice.Mathematics;
 
 namespace Vortice.DirectX.Direct2D
 {

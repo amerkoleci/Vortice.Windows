@@ -108,17 +108,18 @@
     <define struct="System.Drawing.SizeF" sizeof="8" />
     <define struct="System.Drawing.Rectangle" sizeof="16" />
     <define struct="System.Drawing.RectangleF" sizeof="16" />
-    <define struct="Vortice.Mathematics.Color3" sizeof="12" />
-    <define struct="Vortice.Mathematics.Color4" sizeof="16" />
-    <define struct="Vortice.Mathematics.Int4" sizeof="16" />
-    <define struct="Vortice.Mathematics.Viewport" sizeof="24" />
+    <define struct="Vortice.Interop.RawColor3" sizeof="12" />
+    <define struct="Vortice.Interop.RawColor4" sizeof="16" />
+    <define struct="Vortice.Interop.RawInt3" sizeof="12" />
+    <define struct="Vortice.Interop.RawInt4" sizeof="16" />
+    <define struct="Vortice.Interop.RawViewport" sizeof="24" />
+    <define struct="Vortice.Interop.RawRectangle" sizeof="16" />
     <define struct="System.Numerics.Vector2" sizeof="8" />
     <define struct="System.Numerics.Vector3" sizeof="12" />
     <define struct="System.Numerics.Vector4" sizeof="16" />
     <define struct="System.Numerics.Matrix3x2" sizeof="24" />
     <define struct="System.Numerics.Matrix4x4" sizeof="64" />
 
-    <define struct="Vortice.DirectX.InteropRect" sizeof="16" />
     <define struct="Vortice.DirectX.Multimedia.WaveFormat" sizeof="18" marshal="true" />
     <define struct="Vortice.DirectX.Multimedia.WaveFormatExtensible" sizeof="18" marshal="true" custom-new="true"/>
 
@@ -159,10 +160,10 @@
 
     <bind from="POINT" to="System.Drawing.Point" />
     <bind from="SIZE" to="System.Drawing.Size" />
-    <bind from="RECT" to="Vortice.DirectX.InteropRect" />
-    <bind from="DXGI_RGB" to="Vortice.Mathematics.Color3" />
-    <bind from="DXGI_RGBA" to="Vortice.Mathematics.Color4" />
-    <bind from="D3DCOLORVALUE" to="Vortice.Mathematics.Color4" />
+    <bind from="RECT" to="Vortice.Interop.RawRectangle" />
+    <bind from="DXGI_RGB" to="Vortice.Interop.RawColor3" />
+    <bind from="DXGI_RGBA" to="Vortice.Interop.RawColor4" />
+    <bind from="D3DCOLORVALUE" to="Vortice.Interop.RawColor4" />
     <bind from="DXGI_MATRIX_3X2_F" to="System.Numerics.Matrix3x2" />
 
     <bind from="WAVEFORMATEX" to="Vortice.DirectX.Multimedia.WaveFormat" />

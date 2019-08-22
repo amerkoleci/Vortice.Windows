@@ -2,20 +2,20 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using Vortice.Mathematics;
 using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
+using Vortice.Interop;
 
 namespace Vortice.DirectX.Direct3D11
 {
     public partial class ID3D11DeviceContext
     {
-        public unsafe void RSSetViewport(Viewport viewport)
+        public unsafe void RSSetViewport(RawViewport viewport)
         {
             RSSetViewports(1, new IntPtr(&viewport));
         }
 
-        public void RSSetViewports(params Viewport[] viewports)
+        public void RSSetViewports(params RawViewport[] viewports)
         {
             unsafe
             {
@@ -26,12 +26,12 @@ namespace Vortice.DirectX.Direct3D11
             }
         }
 
-        public unsafe void RSSetScissorRect(InteropRect rectangle)
+        public unsafe void RSSetScissorRect(RawRectangle rectangle)
         {
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public unsafe void RSSetScissorRects(params InteropRect[] rectangles)
+        public unsafe void RSSetScissorRects(params RawRectangle[] rectangles)
         {
             fixed (void* pRects = rectangles)
             {
@@ -199,64 +199,64 @@ namespace Vortice.DirectX.Direct3D11
             return blendState;
         }
 
-        public ID3D11BlendState OMGetBlendState(out Color4 blendFactor)
+        public ID3D11BlendState OMGetBlendState(out RawColor4 blendFactor)
         {
             OMGetBlendState(out var blendState, out blendFactor, out var sampleMask);
             return blendState;
         }
 
-        public ID3D11BlendState OMGetBlendState(out Color4 blendFactor, out int sampleMask)
+        public ID3D11BlendState OMGetBlendState(out RawColor4 blendFactor, out int sampleMask)
         {
             OMGetBlendState(out var blendState, out blendFactor, out sampleMask);
             return blendState;
         }
 
-        public unsafe Viewport RSGetViewport()
+        public unsafe RawViewport RSGetViewport()
         {
             int numViewports = 1;
-            var viewport = new Viewport();
+            var viewport = new RawViewport();
             RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewport));
             return viewport;
         }
 
-        public unsafe void RSGetViewport(ref Viewport viewport)
+        public unsafe void RSGetViewport(ref RawViewport viewport)
         {
             int numViewports = 1;
             RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewport));
         }
 
-        public unsafe void RSGetViewports(Viewport[] viewports)
+        public unsafe void RSGetViewports(RawViewport[] viewports)
         {
             int numViewports = viewports.Length;
             RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
         }
 
-        public unsafe void RSGetViewports(int count, Viewport[] viewports)
+        public unsafe void RSGetViewports(int count, RawViewport[] viewports)
         {
             RSGetViewports(ref count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
         }
 
-        public unsafe InteropRect RSGetScissorRect()
+        public unsafe RawRectangle RSGetScissorRect()
         {
             int numRects = 1;
-            var rect = new InteropRect();
+            var rect = new RawRectangle();
             RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rect));
             return rect;
         }
 
-        public unsafe void RSGetScissorRect(ref InteropRect rect)
+        public unsafe void RSGetScissorRect(ref RawRectangle rect)
         {
             int numRects = 1;
             RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rect));
         }
 
-        public unsafe void RSGetScissorRects(InteropRect[] rects)
+        public unsafe void RSGetScissorRects(RawRectangle[] rects)
         {
             int numRects = rects.Length;
             RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rects[0]));
         }
 
-        public unsafe void RSGetScissorRects(int count, InteropRect[] rects)
+        public unsafe void RSGetScissorRects(int count, RawRectangle[] rects)
         {
             RSGetScissorRects(ref count, (IntPtr)Unsafe.AsPointer(ref rects[0]));
         }

@@ -79,9 +79,9 @@
     <bind from="UINT64" to="System.Int64" />
     <bind from="LUID" to="System.Int64"/>
     <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
-    <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
-    <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
-    <bind from="D3D11_VIEWPORT" to="Vortice.Mathematics.Viewport"/>
+    <bind from="VORTICE_COLOR4" to="Vortice.Interop.RawColor4" />
+    <bind from="VORTICE_INT4" to="Vortice.Interop.RawInt4" />
+    <bind from="D3D11_VIEWPORT" to="Vortice.Interop.RawViewport"/>
   </bindings>
 
   <naming>

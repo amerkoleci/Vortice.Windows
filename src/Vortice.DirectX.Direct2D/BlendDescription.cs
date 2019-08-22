@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using Vortice.Mathematics;
+using Vortice.Interop;
 
 namespace Vortice.DirectX.Direct2D
 {
@@ -98,7 +98,7 @@ namespace Vortice.DirectX.Direct2D
         public BlendDescription(
             Blend sourceBlend, Blend destinationBlend, BlendOperation blendOperation,
             Blend sourceBlendAlpha, Blend destinationBlendAlpha, BlendOperation blendOperationAlpha,
-            Color4 blendFactor)
+            RawColor4 blendFactor)
         {
             SourceBlend = sourceBlend;
             DestinationBlend = destinationBlend;
