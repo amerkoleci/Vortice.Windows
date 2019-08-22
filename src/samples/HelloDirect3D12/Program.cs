@@ -8,7 +8,7 @@ using Vortice;
 using Vortice.DirectX.Direct2D;
 using Vortice.DirectX.DXGI;
 using Vortice.DirectX.WIC;
-using Vortice.Mathematics;
+using Vortice.Interop;
 
 namespace HelloDirect3D11
 {
@@ -39,9 +39,9 @@ namespace HelloDirect3D11
 
             var d2dRenderTarget = d2dFactory.CreateWicBitmapRenderTarget(wicBitmap, renderTargetProperties);
 
-            var solidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new Color4(1.0f));
+            var solidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new RawColor4(1.0f, 1.0f, 1.0f, 1.0f));
             d2dRenderTarget.BeginDraw();
-            d2dRenderTarget.Clear(new Color4(0.0f, 0.0f, 0.0f, 1.0f));
+            d2dRenderTarget.Clear(new RawColor4(0.0f, 0.0f, 0.0f, 1.0f));
             d2dRenderTarget.FillGeometry(rectangleGeometry, solidColorBrush, null);
             d2dRenderTarget.EndDraw();
 

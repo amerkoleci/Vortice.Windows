@@ -9,7 +9,7 @@ using static Vortice.DirectX.DXGI.DXGI;
 using static Vortice.DirectX.Direct3D11.D3D11;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using Vortice.Mathematics;
+using Vortice.Interop;
 using Vortice.DirectX;
 
 namespace Vortice
@@ -120,8 +120,8 @@ namespace Vortice
 
         public bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null)
         {
-            DeviceContext.RSSetViewport(new Viewport(Window.Width, Window.Height));
-            var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
+            DeviceContext.RSSetViewport(new RawViewport(0.0f, 0.0f, Window.Width, Window.Height));
+            var clearColor = new RawColor4(0.0f, 0.2f, 0.4f, 1.0f);
             DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
 
             // Call callback.

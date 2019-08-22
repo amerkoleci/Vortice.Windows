@@ -60,16 +60,19 @@ namespace Vortice.DirectX.Direct3D12
             }
         }
 
-        public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil, params InteropRect[] rectangles)
+        public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil)
         {
-            if (rectangles.Length == 0)
-            {
-                ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, 0, null);
-            }
-            else
-            {
-                ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, rectangles.Length, rectangles);
-            }
+            ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, 0, null);
+        }
+
+        public void ClearDepthStencilView(
+            CpuDescriptorHandle depthStencilView,
+            ClearFlags clearFlags,
+            float depth,
+            byte stencil,
+            params RawRectangle[] rectangles)
+        {
+            ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, rectangles.Length, rectangles);
         }
 
         public unsafe void ClearUnorderedAccessView(

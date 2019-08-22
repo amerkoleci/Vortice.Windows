@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using Vortice.Mathematics;
+using Vortice.Interop;
 
 namespace Vortice.DirectX.ShaderCompiler.D3D11
 {
@@ -12,12 +12,12 @@ namespace Vortice.DirectX.ShaderCompiler.D3D11
         private ID3D11ShaderReflectionConstantBuffer[] _constantBuffers;
         private InputBindingDescription[] _resources;
 
-        public Extent3D ThreadGroupSize
+        public RawInt3 ThreadGroupSize
         {
             get
             {
                 GetThreadGroupSize(out var x, out var y, out var z);
-                return new Extent3D(x, y, z);
+                return new RawInt3(x, y, z);
             }
         }
 
@@ -89,10 +89,10 @@ namespace Vortice.DirectX.ShaderCompiler.D3D11
             }
         }
 
-        public int GetThreadGroupSize(out Extent3D size)
+        public int GetThreadGroupSize(out RawInt3 size)
         {
             var totalSize = GetThreadGroupSize(out var x, out var y, out var z);
-            size = new Extent3D(x, y, z);
+            size = new RawInt3(x, y, z);
             return totalSize;
         }
     }

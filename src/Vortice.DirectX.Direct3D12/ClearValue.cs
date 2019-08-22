@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using Vortice.DirectX.DXGI;
-using Vortice.Mathematics;
+using Vortice.Interop;
 
 namespace Vortice.DirectX.Direct3D12
 {
@@ -19,7 +19,7 @@ namespace Vortice.DirectX.Direct3D12
         /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
         /// </param>
         /// <param name="color">Specifies a RGBA clear color.</param>
-        public ClearValue(Format format, Color4 color)
+        public ClearValue(Format format, RawColor4 color)
         {
             Format = format;
             Color = color;

@@ -10,7 +10,6 @@ using Vortice.DirectX.Direct3D12.Debug;
 using Vortice.DirectX.DXGI;
 using Vortice.DirectX.Direct3D;
 using SharpGen.Runtime;
-using Vortice.Mathematics;
 using static Vortice.DirectX.Direct3D12.D3D12;
 using static Vortice.DirectX.DXGI.DXGI;
 using Vortice.DirectX;
@@ -203,9 +202,9 @@ namespace Vortice
 
             var triangleVertices = new Vertex[]
             {
-                  new Vertex(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
-                  new Vertex(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
-                  new Vertex(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
+                  new Vertex(new Vector3(0f, 0.5f, 0.0f), new RawColor4(1.0f, 0.0f, 0.0f, 1.0f)),
+                  new Vertex(new Vector3(0.5f, -0.5f, 0.0f), new RawColor4(0.0f, 1.0f, 0.0f, 1.0f)),
+                  new Vertex(new Vector3(-0.5f, -0.5f, 0.0f), new RawColor4(0.0f, 0.0f, 1.0f, 1.0f))
             };
 
             unsafe
@@ -236,7 +235,7 @@ namespace Vortice
 
             // Set necessary state.
             _commandList.SetGraphicsRootSignature(_rootSignature);
-            _commandList.RSSetViewport(new RawViewport(Window.Width, Window.Height));
+            _commandList.RSSetViewport(new RawViewport(0.0f, 0.0f, Window.Width, Window.Height));
             _commandList.RSSetScissorRect(new RawRectangle(0, 0, Window.Width, Window.Height));
 
             // Indicate that the back buffer will be used as a render target.
@@ -251,7 +250,7 @@ namespace Vortice
             _commandList.OMSetRenderTargets(rtvHandle);
 
             // Record commands.
-            var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
+            var clearColor = new RawColor4(0.0f, 0.2f, 0.4f, 1.0f);
             _commandList.ClearRenderTargetView(rtvHandle, clearColor);
 
             _commandList.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
@@ -304,9 +303,9 @@ namespace Vortice
         private readonly struct Vertex
         {
             public readonly Vector3 Position;
-            public readonly Color4 Color;
+            public readonly RawColor4 Color;
 
-            public Vertex(in Vector3 position, in Color4 color)
+            public Vertex(in Vector3 position, in RawColor4 color)
             {
                 Position = position;
                 Color = color;
