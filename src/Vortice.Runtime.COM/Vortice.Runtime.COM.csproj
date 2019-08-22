@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <RootNamespace>SharpGen.Runtime</RootNamespace>
+    <Description>C# COM Interop classes for use with SharpGenTools generated libraries</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SharpGenMapping Include="Mapping.xml" />
+    <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenVersion)" />
+    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>
