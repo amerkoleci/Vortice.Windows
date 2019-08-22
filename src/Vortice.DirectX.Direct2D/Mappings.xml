@@ -438,7 +438,8 @@
     <remove function=".*_UserUnmarshal"/>
     <remove function=".*_UserFree"/>
 
-    <!-- ID2D1Factory -->
+    <!-- IWICImagingFactory -->
+    <remove method="IWICImagingFactory::CreateComponentEnumerator" />
     <map method="IWICImagingFactory::CreateBitmap" visibility="private" name="CreateBitmapPrivate" />
     <map param="IWICImagingFactory::Create.*::pp.*" attribute="out" return="true"/>
 

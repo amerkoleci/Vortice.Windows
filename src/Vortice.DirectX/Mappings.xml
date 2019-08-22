@@ -2,7 +2,7 @@
 <config id="vortice-directx" xmlns="urn:SharpGen.Config">
   <assembly>Vortice.DirectX</assembly>
   <namespace>Vortice.DirectX</namespace>
-  <depends>SharpGen.Runtime.COM</depends>
+  <depends>Vortice.Runtime.COM</depends>
 
   <sdk name="WindowsSdk" version="10.0.18362.0" />
   <sdk name="StdLib" />
@@ -108,11 +108,8 @@
     <define struct="System.Drawing.SizeF" sizeof="8" />
     <define struct="System.Drawing.Rectangle" sizeof="16" />
     <define struct="System.Drawing.RectangleF" sizeof="16" />
-    <define struct="Vortice.Mathematics.Color" sizeof="4" />
     <define struct="Vortice.Mathematics.Color3" sizeof="12" />
     <define struct="Vortice.Mathematics.Color4" sizeof="16" />
-    <define struct="Vortice.Mathematics.Int2" sizeof="8" />
-    <define struct="Vortice.Mathematics.Int3" sizeof="12" />
     <define struct="Vortice.Mathematics.Int4" sizeof="16" />
     <define struct="Vortice.Mathematics.Viewport" sizeof="24" />
     <define struct="System.Numerics.Vector2" sizeof="8" />
