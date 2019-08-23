@@ -18,10 +18,39 @@ namespace Vortice.XInput
             return XInputSetState(userIndex, &vibration);
         }
 
+        void IXInput.XInputEnable(int enable)
+        {
+            throw new NotSupportedException("XInputEnable is not supported on XInput9.1.0");
+        }
+
+        int IXInput.XInputGetCapabilities(int dwUserIndex, DeviceQueryType dwFlags, out Capabilities capabilities)
+        {
+            return XInputGetCapabilities(dwUserIndex, dwFlags, out capabilities);
+        }
+
+        int IXInput.XInputGetBatteryInformation(int dwUserIndex, BatteryDeviceType devType, out BatteryInformation batteryInformation)
+        {
+            throw new NotSupportedException("XInputGetBatteryInformation is not supported on XInput9.1.0");
+        }
+
+        int IXInput.XInputGetKeystroke(int dwUserIndex, out Keystroke keystroke)
+        {
+            throw new NotSupportedException("XInputGetKeystroke is not supported on XInput9.1.0");
+        }
+
+        int IXInput.XInputGetAudioDeviceIds(int dwUserIndex, IntPtr renderDeviceId, IntPtr renderCount, IntPtr captureDeviceId, IntPtr captureCount)
+        {
+            throw new NotSupportedException("XInputGetAudioDeviceIds is not supported on XInput9.1.0");
+        }
+
+
         [DllImport("xinput9_1_0.dll", CallingConvention = CallingConvention.StdCall)]
-        public static extern int XInputGetState(int dwUserIndex, out State state);
+        private static extern int XInputGetState(int dwUserIndex, out State state);
 
         [DllImport("xinput9_1_0.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern int XInputSetState(int dwUserIndex, Vibration* pVibration);
+
+        [DllImport("xinput9_1_0.dll", CallingConvention = CallingConvention.StdCall)]
+        private static extern int XInputGetCapabilities(int dwUserIndex, DeviceQueryType dwFlags, out Capabilities capabilities);
     }
 }

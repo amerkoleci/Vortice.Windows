@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Vortice.XInput
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    internal struct Vibration
+    public struct Vibration
     {
         public ushort LeftMotorSpeed;
         public ushort RightMotorSpeed;

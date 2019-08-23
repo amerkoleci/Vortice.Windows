@@ -4,14 +4,13 @@
 namespace Vortice.XInput
 {
     /// <summary>
-    /// Describes the user index.
+    /// Describes The charge state of the battery.
     /// </summary>
-    public enum UserIndex : byte
+    public enum BatteryLevel : byte
     {
-        One = 0,
-        Two = 1,
-        Three = 2,
-        Four = 3,
-        Max = 4
+        Empty,
+        Low,
+        Medium,
+        Full
     }
 }
