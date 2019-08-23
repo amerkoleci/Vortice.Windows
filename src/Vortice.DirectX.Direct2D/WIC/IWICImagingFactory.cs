@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.IO;
 
 namespace Vortice.DirectX.WIC
 {
@@ -55,6 +56,25 @@ namespace Vortice.DirectX.WIC
                 default:
                     return null;
             }
+        }
+
+        public IWICBitmapDecoder CreateDecoderFromFilename(string fileName, DecodeOptions metadataOptions)
+        {
+            return CreateDecoderFromFilename(fileName, null, FileAccess.Read, metadataOptions);
+        }
+
+        public IWICBitmapDecoder CreateDecoderFromFilename(
+            string fileName,
+            FileAccess desiredAccess,
+            DecodeOptions metadataOptions)
+        {
+            return CreateDecoderFromFilename(fileName, null, desiredAccess, metadataOptions);
+        }
+
+        public IWICBitmapDecoder CreateDecoderFromFilename(string fileName, Guid? guidVendor, FileAccess desiredAccess, DecodeOptions metadataOptions)
+        {
+            var nativeAccess = desiredAccess.ToNative();
+            return CreateDecoderFromFilename_(fileName, guidVendor, (uint)nativeAccess, metadataOptions);
         }
     }
 }

@@ -10,9 +10,6 @@ namespace Vortice.DirectX.WIC
 {
     public partial class IWICStream
     {
-        private const uint GENERIC_READ = (0x80000000);
-        private const uint GENERIC_WRITE = (0x40000000);
-
         private ComStreamProxy _streamProxy;
 
         /// <summary>
@@ -22,24 +19,9 @@ namespace Vortice.DirectX.WIC
         /// <param name="access">The <see cref="FileAccess"/> mode.</param>
         public void Initialize(string fileName, FileAccess access)
         {
-            uint desiredAccess = 0;
-            switch (access)
-            {
-                case FileAccess.Read:
-                    desiredAccess = GENERIC_READ;
-                    break;
-
-                case FileAccess.Write:
-                    desiredAccess = GENERIC_WRITE;
-                    break;
-
-                case FileAccess.ReadWrite:
-                    desiredAccess = GENERIC_READ | GENERIC_WRITE;
-                    break;
-            }
-
             DisposeStreamProxy();
-            InitializeFromFilename(fileName, (int)desiredAccess);
+            NativeFileAccess desiredAccess = access.ToNative();
+            InitializeFromFilename(fileName, (uint)desiredAccess);
         }
 
         public void Initialize(IStream comStream)
@@ -64,15 +46,36 @@ namespace Vortice.DirectX.WIC
             Guard.NotNullOrEmpty(data, nameof(data));
 
             DisposeStreamProxy();
-            InitializeFromMemory((IntPtr)Unsafe.AsPointer(ref data[0]), data.Length);
+            fixed (void* dataPtr = &data[0])
+            {
+                InitializeFromMemory(new IntPtr(dataPtr), (uint)data.Length);
+            }
         }
 
-        public unsafe void Initialize<T>(T[] data) where T : struct
+        public void Initialize<T>(ReadOnlySpan<T> data) where T : unmanaged
+        {
+            DisposeStreamProxy();
+            unsafe
+            {
+                fixed (void* dataPtr = data)
+                {
+                    InitializeFromMemory(new IntPtr(dataPtr), (uint)(data.Length * sizeof(T)));
+                }
+            }
+        }
+
+        public void Initialize<T>(T[] data) where T : unmanaged
         {
             Guard.NotNullOrEmpty(data, nameof(data));
 
             DisposeStreamProxy();
-            InitializeFromMemory((IntPtr)Unsafe.AsPointer(ref data[0]), data.Length * Unsafe.SizeOf<T>());
+            unsafe
+            {
+                fixed (void* dataPtr = data)
+                {
+                    InitializeFromMemory(new IntPtr(dataPtr), (uint)(data.Length * sizeof(T)));
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)

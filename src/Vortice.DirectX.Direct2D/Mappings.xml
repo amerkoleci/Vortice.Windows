@@ -55,6 +55,8 @@
     <bind from="UINT16" to="System.Int16" />
     <bind from="UINT32" to="System.Int32" />
     <bind from="UINT64" to="System.Int64" />
+    <bind from="DWORD" to="System.UInt32" />
+    
     <bind from="D2D_SIZE_U" to="System.Drawing.Size" />
     <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
     <bind from="D2D_POINT_2U" to="System.Drawing.Point" />
@@ -442,6 +444,7 @@
     <remove method="IWICImagingFactory::CreateComponentEnumerator" />
     <map method="IWICImagingFactory::CreateBitmap" visibility="private" name="CreateBitmapPrivate" />
     <map param="IWICImagingFactory::Create.*::pp.*" attribute="out" return="true"/>
+    <map method="IWICImagingFactory::CreateDecoderFromFilename" visibility="private" name="CreateDecoderFromFilename_" />
 
     <!-- ID2D1Factory -->
     <map param="ID2D1Factory::CreateDCRenderTarget::renderTargetProperties" attribute="in value" />
