@@ -10,6 +10,7 @@ using Vortice.DirectX.DXGI;
 using Vortice.DirectX.WIC;
 using Vortice.DirectX.DirectWrite;
 using Vortice.Interop;
+using Vortice.Dxc;
 
 namespace HelloDirect3D11
 {
@@ -23,8 +24,15 @@ namespace HelloDirect3D11
             }
         }
 
+        private static void TestDxc()
+        {
+            var library = Dxc.CreateDxcLibrary();
+        }
+
         public static void Main()
         {
+            TestDxc();
+
             var wicFactory = new IWICImagingFactory();
             D2D1.D2D1CreateFactory(out ID2D1Factory d2dFactory);
 

@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Runtime.COM", "Vort
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XInput", "Vortice.XInput\Vortice.XInput.csproj", "{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc", "Vortice.Dxc\Vortice.Dxc.csproj", "{B9511CB1-AF96-4108-BD05-A85973C60AC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9511CB1-AF96-4108-BD05-A85973C60AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9511CB1-AF96-4108-BD05-A85973C60AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9511CB1-AF96-4108-BD05-A85973C60AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9511CB1-AF96-4108-BD05-A85973C60AC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

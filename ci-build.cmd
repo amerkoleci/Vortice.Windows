@@ -10,3 +10,4 @@ dotnet pack -c Release src/Vortice.DirectX.Direct3D12/Vortice.DirectX.Direct3D12
 dotnet pack -c Release src/Vortice.DirectX.Direct2D/Vortice.DirectX.Direct2D.csproj
 dotnet pack -c Release src/Vortice.DirectX.ShaderCompiler/Vortice.DirectX.ShaderCompiler.csproj
 dotnet pack -c Release src/Vortice.XInput/Vortice.XInput.csproj
+dotnet pack -c Release src/Vortice.Dxc/Vortice.Dxc.csproj
