@@ -8,21 +8,33 @@ namespace Vortice.DirectX.DirectWrite
     public static partial class DWrite
     {
         /// <summary>
-        /// Try to create new instance of <see cref="IDWriteFactory"/>.
+        ///  Try to create new instance of <see cref="IDWriteFactory"/>.
         /// </summary>
+        /// <typeparam name="T">Type based on <see cref="IDWriteFactory"/>.</typeparam>
+        /// <param name="factory">The <see cref="IDWriteFactory"/> being created.</param>
+        /// <returns>Return the <see cref="Result"/>.</returns>
+        public static Result DWriteCreateFactory<T>(out T factory) where T : IDWriteFactory
+        {
+            return DWriteCreateFactory(FactoryType.Shared, out factory);
+        }
+
+        /// <summary>
+        ///  Try to create new instance of <see cref="IDWriteFactory"/>.
+        /// </summary>
+        /// <typeparam name="T">Type based on <see cref="IDWriteFactory"/>.</typeparam>
         /// <param name="factoryType">The type of factory.</param>
         /// <param name="factory">The <see cref="IDWriteFactory"/> being created.</param>
         /// <returns>Return the <see cref="Result"/>.</returns>
-        public static Result DWriteCreateFactory(FactoryType factoryType, out IDWriteFactory factory)
+        public static Result DWriteCreateFactory<T>(FactoryType factoryType, out T factory) where T : IDWriteFactory
         {
-            factory = new IDWriteFactory();
-            var result = DWriteCreateFactory(factoryType, typeof(IDWriteFactory).GUID, factory);
-            if (result.Success)
+            var result = DWriteCreateFactory(factoryType, typeof(IDWriteFactory).GUID, out var nativePtr);
+            if (result.Failure)
             {
+                factory = null;
                 return result;
             }
 
-            factory = null;
+            factory = CppObject.FromPointer<T>(nativePtr);
             return result;
         }
     }

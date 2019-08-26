@@ -114,6 +114,125 @@ namespace Vortice.DirectX.Direct2D
         }
 
         /// <summary>	
+        /// Draws the outline of the specified ellipse using the specified brush. 	
+        /// </summary>	
+        /// <param name="ellipse">The position and radius of the ellipse to draw, in device-independent pixels.</param>
+        /// <param name="brush">The brush used to paint the ellipse's outline.</param>
+        public void DrawEllipse(Ellipse ellipse, ID2D1Brush brush)
+        {
+            DrawEllipse(ellipse, brush, 1.0f, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of the specified ellipse using the brush and stroke width. 	
+        /// </summary>	
+        /// <param name="ellipse">The position and radius of the ellipse to draw, in device-independent pixels. </param>
+        /// <param name="brush">The brush used to paint the ellipse's outline. </param>
+        /// <param name="strokeWidth">The thickness of the ellipse's stroke. The stroke is centered on the ellipse's outline. </param>
+        public void DrawEllipse(Ellipse ellipse, ID2D1Brush brush, float strokeWidth)
+        {
+            DrawEllipse(ellipse, brush, strokeWidth, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of the specified geometry.
+        /// </summary>	
+        /// <param name="geometry">The <see cref="ID2D1Geometry"/> to draw.</param>
+        /// <param name="brush">The brush used to paint the geometry's stroke.</param>
+        public void DrawGeometry(ID2D1Geometry geometry, ID2D1Brush brush)
+        {
+            DrawGeometry(geometry, brush, 1.0f, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of the specified geometry with given brush.
+        /// </summary>	
+        /// <param name="geometry">The <see cref="ID2D1Geometry"/> to draw. </param>
+        /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the geometry's stroke. </param>
+        /// <param name="strokeWidth">The thickness of the geometry's stroke. The stroke is centered on the geometry's outline.</param>
+        public void DrawGeometry(ID2D1Geometry geometry, ID2D1Brush brush, float strokeWidth)
+        {
+            DrawGeometry(geometry, brush, strokeWidth, null);
+        }
+
+        /// <summary>	
+        /// Draws a line between the specified points using given brush. 	
+        /// </summary>	
+        /// <param name="point0">The start point of the line, in device-independent pixels. </param>
+        /// <param name="point1">The end point of the line, in device-independent pixels. </param>
+        /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the line's stroke. </param>
+        public void DrawLine(Vector2 point0, Vector2 point1, ID2D1Brush brush)
+        {
+            DrawLine(point0, point1, brush, 1.0f, null);
+        }
+
+        /// <summary>	
+        /// Draws a line between the specified points using given brush and stroke width. 	
+        /// </summary>	
+        /// <param name="point0">The start point of the line, in device-independent pixels. </param>
+        /// <param name="point1">The end point of the line, in device-independent pixels. </param>
+        /// <param name="brush">The brush used to paint the line's stroke. </param>
+        /// <param name="strokeWidth">A value greater than or equal to 0.0f that specifies the width of the stroke. If this parameter isn't specified, it defaults to 1.0f.  The stroke is centered on the line. </param>
+        public void DrawLine(Vector2 point0, Vector2 point1, ID2D1Brush brush, float strokeWidth)
+        {
+            DrawLine(point0, point1, brush, strokeWidth, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of a rectangle that has the specified dimensions. 
+        /// </summary>
+        /// <param name="rect">The dimensions of the rectangle to draw, in device-independent pixels. </param>
+        /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke. </param>
+        public void DrawRectangle(RawRectangleF rect, ID2D1Brush brush)
+        {
+            DrawRectangle(rect, brush, 1.0f, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of a rectangle that has the specified dimensions and stroke style.
+        /// </summary>
+        /// <param name="rect">The dimensions of the rectangle to draw, in device-independent pixels.</param>
+        /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke.</param>
+        /// <param name="strokeWidth">A value greater than or equal to 0.0f that specifies the width of the rectangle's stroke. The stroke is centered on the rectangle's outline.</param>
+        public void DrawRectangle(RawRectangleF rect, ID2D1Brush brush, float strokeWidth)
+        {
+            DrawRectangle(rect, brush, strokeWidth, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of the specified rounded rectangle.
+        /// </summary>
+        /// <param name="roundedRect">The dimensions of the rounded rectangle to draw, in device-independent pixels. </param>
+        /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rounded rectangle's outline.  </param>
+        public void DrawRoundedRectangle(RoundedRectangle roundedRect, ID2D1Brush brush)
+        {
+            DrawRoundedRectangle(ref roundedRect, brush, 1.0f, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of the specified rounded rectangle.
+        /// </summary>
+        /// <param name="roundedRect">The dimensions of the rounded rectangle to draw, in device-independent pixels. </param>
+        /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rounded rectangle's outline.  </param>
+        /// <param name="strokeWidth">The width of the rounded rectangle's stroke. The stroke is centered on the rounded rectangle's outline. The default value is 1.0f.  </param>
+        public void DrawRoundedRectangle(RoundedRectangle roundedRect, ID2D1Brush brush, float strokeWidth)
+        {
+            DrawRoundedRectangle(ref roundedRect, brush, strokeWidth, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of the specified rounded rectangle using the specified stroke style.
+        /// </summary>	
+        /// <param name="roundedRect">The dimensions of the rounded rectangle to draw, in device-independent pixels.</param>
+        /// <param name="brush">The brush used to paint the rounded rectangle's outline.</param>
+        /// <param name="strokeWidth">The width of the rounded rectangle's stroke. The stroke is centered on the rounded rectangle's outline. The default value is 1.0f.</param>
+        /// <param name="strokeStyle">The style of the rounded rectangle's stroke, or NULL to paint a solid stroke. The default value is NULL. </param>
+        public void DrawRoundedRectangle(RoundedRectangle roundedRect, ID2D1Brush brush, float strokeWidth, ID2D1StrokeStyle strokeStyle)
+        {
+            DrawRoundedRectangle(ref roundedRect, brush, strokeWidth, strokeStyle);
+        }
+
+        /// <summary>	
         /// Draws the specified text using the format information provided by an <see cref="IDWriteTextFormat" /> object. 	
         /// </summary>	
         /// <remarks>
@@ -165,6 +284,17 @@ namespace Vortice.DirectX.Direct2D
             Guard.NotNullOrEmpty(text, nameof(text));
 
             DrawText(text, text.Length, textFormat, layoutRect, defaultForegroundBrush, options, measuringMode);
+        }
+
+        /// <summary>	
+        /// Draws the formatted text described by the specified <see cref="IDWriteTextLayout"/> object.
+        /// </summary>
+        /// <param name="origin">The point, described in device-independent pixels, at which the upper-left corner of the text described by textLayout is drawn. </param>
+        /// <param name="textLayout">The formatted text to draw. Any drawing effects that do not inherit from <see cref="ID2D1Resource" /> are ignored. If there are drawing effects that inherit from <see cref="ID2D1Resource"/> that are not brushes, this method fails and the render target is put in an error state.  </param>
+        /// <param name="defaultForegroundBrush">The <see cref="ID2D1Brush"/> used to paint any text in textLayout that does not already have a brush associated with it as a drawing effect (specified by the <see cref="IDWriteTextLayout.SetDrawingEffect(IUnknown, TextRange)"/> method).</param>
+        public void DrawTextLayout(Vector2 origin, IDWriteTextLayout textLayout, ID2D1Brush defaultForegroundBrush)
+        {
+            DrawTextLayout(origin, textLayout, defaultForegroundBrush, DrawTextOptions.None);
         }
 
         public Result EndDraw()

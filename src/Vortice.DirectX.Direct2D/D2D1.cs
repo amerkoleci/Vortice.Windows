@@ -10,10 +10,20 @@ namespace Vortice.DirectX.Direct2D
         /// <summary>
         /// Try to create new instance of <see cref="ID2D1Factory"/>.
         /// </summary>
-        /// <param name="factoryType">The type of factory.</param>
         /// <param name="factory">The <see cref="ID2D1Factory"/> being created.</param>
         /// <returns>Return the <see cref="Result"/>.</returns>
-        public static Result D2D1CreateFactory<T>(FactoryType factoryType, out T factory) where T : ID2D1Factory
+        public static Result D2D1CreateFactory<T>(out T factory) where T : ID2D1Factory
+        {
+            return D2D1CreateFactory(FactoryType.SingleThreaded, out factory);
+        }
+
+            /// <summary>
+            /// Try to create new instance of <see cref="ID2D1Factory"/>.
+            /// </summary>
+            /// <param name="factoryType">The type of factory.</param>
+            /// <param name="factory">The <see cref="ID2D1Factory"/> being created.</param>
+            /// <returns>Return the <see cref="Result"/>.</returns>
+            public static Result D2D1CreateFactory<T>(FactoryType factoryType, out T factory) where T : ID2D1Factory
         {
             var options = new FactoryOptions
             {

@@ -8,6 +8,7 @@ using Vortice;
 using Vortice.DirectX.Direct2D;
 using Vortice.DirectX.DXGI;
 using Vortice.DirectX.WIC;
+using Vortice.DirectX.DirectWrite;
 using Vortice.Interop;
 
 namespace HelloDirect3D11
@@ -25,7 +26,10 @@ namespace HelloDirect3D11
         public static void Main()
         {
             var wicFactory = new IWICImagingFactory();
-            D2D1.D2D1CreateFactory(FactoryType.SingleThreaded, out ID2D1Factory d2dFactory);
+            D2D1.D2D1CreateFactory(out ID2D1Factory d2dFactory);
+
+            DWrite.DWriteCreateFactory(out IDWriteFactory dwriteFactory).CheckError();
+            var textFormat = dwriteFactory.CreateTextFormat("Calibri", 20);
 
             const string fileName = "output.jpg";
             const int width = 512;
@@ -40,9 +44,12 @@ namespace HelloDirect3D11
             var d2dRenderTarget = d2dFactory.CreateWicBitmapRenderTarget(wicBitmap, renderTargetProperties);
 
             var solidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new RawColor4(1.0f, 1.0f, 1.0f, 1.0f));
+            var redSolidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new RawColor4(1.0f, 0.0f, 0.0f, 1.0f));
+
             d2dRenderTarget.BeginDraw();
             d2dRenderTarget.Clear(new RawColor4(0.0f, 0.0f, 0.0f, 1.0f));
             d2dRenderTarget.FillGeometry(rectangleGeometry, solidColorBrush, null);
+            d2dRenderTarget.DrawText("Hello", textFormat, new RawRectangleF(0, 0, 120, 24), redSolidColorBrush);
             d2dRenderTarget.EndDraw();
 
             if (File.Exists(fileName))

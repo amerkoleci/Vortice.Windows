@@ -409,8 +409,65 @@
     <remove method="IWICJpegFrameEncode::GetQuantizationTable" />
 
     <!-- IDWriteFontFace -->
+    <map param="IDWriteFactory::CreateCustomFontCollection::fontCollection" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateFontFileReference::fontFile" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateCustomFontFileReference::fontFile" attribute="out" return="true"/>
+    <map method="IDWriteFactory::CreateFontFace" visibility="internal" hresult="true" check="false" />
+    <map param="IDWriteFactory::CreateRenderingParams::renderingParams" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateMonitorRenderingParams::renderingParams" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateCustomRenderingParams::renderingParams" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateTextFormat::textFormat" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateTypography::typography" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateTextLayout::textLayout" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateGdiCompatibleTextLayout::textLayout" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateEllipsisTrimmingSign::trimmingSign" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateTextAnalyzer::textAnalyzer" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateNumberSubstitution::numberSubstitution" attribute="out" return="true"/>
+    <map param="IDWriteFactory::CreateGlyphRunAnalysis::glyphRunAnalysis" attribute="out" return="true"/>
+    <map method="IDWriteFactory::((Unr|R)egisterFont(File|Collection)Loader)" visibility="internal" name="$1_" />
+    <map param="IDWriteFactory::GetSystemFontCollection::fontCollection" return="true" />
+    
+    <!-- IDWriteFactory1 -->
+    <map param="IDWriteFactory1::GetEudcFontCollection::fontCollection" return="true" />
+    <map param="IDWriteFactory1::CreateCustomRenderingParams::renderingParams" attribute="out" return="true"/>
+
+    <!-- IDWriteFactory2 -->
+    <map param="IDWriteFactory2::CreateFontFallbackBuilder::fontFallbackBuilder" return="true" />
+    <map param="IDWriteFactory2::CreateGlyphRunAnalysis::glyphRunAnalysis" return="true" />
+    <map param="IDWriteFactory2::TranslateColorGlyphRun::colorLayers" return="true" />
+    
+    <!-- IDWriteTextFormat -->
+    <map method="IDWriteTextFormat::GetFontFamilyName" visibility="internal" />
+    <map method="IDWriteTextFormat::GetLocaleName" visibility="internal" />
+    <map method="IDWriteTextFormat::GetFontFamilyNameLength" visibility="internal" property="false" />
+    <map method="IDWriteTextFormat::GetLocaleNameLength" visibility="internal" property="false" />
+    
+    <!-- IDWriteFont -->
+    <map param="IDWriteFont::CreateFontFace::fontFace" attribute="out" return="true" />
+
+    <!-- IDWriteFontFace -->
+    <map method="IDWriteFontFace::GetFiles" visibility="internal" />
+    <map method="IDWriteFontFace::GetDesignGlyphMetrics" visibility="internal" />
+    <map method="IDWriteFontFace::GetGdiCompatibleGlyphMetrics" visibility="internal" />
+    <map param="IDWriteFontFace::GetGdiCompatibleMetrics::fontFaceMetrics" return="true" />
+    <map method="IDWriteFontFace::GetGlyphIndicesW" visibility="internal" />
+    <map param="IDWriteFontFace::GetRecommendedRenderingMode::renderingMode" return="true" />
+    <map method="IDWriteFontFace::TryGetFontTable" visibility="internal" />
     <map method="IDWriteFontFace::GetType" name="GetFaceType" />
 
+    <!-- IDWriteFontCollection -->
+    <map param="IDWriteFontCollection::FindFamilyName::exists" return="true" />
+    <map param="IDWriteFontCollection::GetFontFamily::fontFamily" return="true" />
+    <map param="IDWriteFontCollection::GetFontFromFontFace::font" return="true" />
+    <map interface="IDWriteFontCollectionLoader" callback="true" callback-dual="false" />
+
+    <!-- IDWriteFontFileLoader -->
+    <map interface="IDWriteFontFileLoader" callback-visibility="public" callback="true" callback-dual="true" />
+
+    <!-- IDWriteFontFileEnumerator -->
+    <map interface="IDWriteFontFileEnumerator" callback="true" callback-dual="false" />
+
+    <!-- IDWriteGdiInterop -->
     <map method="IDWriteGdiInterop::.*?LOGFONT" visibility="internal" />
     <map param="IDWriteGdiInterop::.*?LOGFONT::logFont" type="void" override-native-type="true" attribute="in" />
     <map param="IDWriteGdiInterop::CreateBitmapRenderTarget::renderTarget" return="true" />
@@ -538,6 +595,6 @@
     <map function="D2D1ComputeMaximumScaleFactor" dll='"d2d1.dll"' group="Vortice.DirectX.Direct2D.D2D1" />
     
     <map function="DWriteCreateFactory" dll='"dwrite.dll"' group="Vortice.DirectX.DirectWrite.DWrite" visibility="internal" hresult="true" check="false" />
-    <map param="DWriteCreateFactory::factory" attribute="out fast"/>
+    <map param="DWriteCreateFactory::factory" attribute="out" type="void" />
   </mapping>
 </config>
