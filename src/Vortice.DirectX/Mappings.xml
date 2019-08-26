@@ -112,11 +112,12 @@
     <define struct="Vortice.Interop.RawColor4" sizeof="16" />
     <define struct="Vortice.Interop.RawInt3" sizeof="12" />
     <define struct="Vortice.Interop.RawInt4" sizeof="16" />
-    <define struct="Vortice.Interop.RawViewport" sizeof="24" />
     <define struct="Vortice.Interop.RawRectangle" sizeof="16" />
+    <define struct="Vortice.Interop.RawRectangleF" sizeof="16" />
     <define struct="System.Numerics.Vector2" sizeof="8" />
     <define struct="System.Numerics.Vector3" sizeof="12" />
     <define struct="System.Numerics.Vector4" sizeof="16" />
+    <define struct="Vortice.Interop.RawViewport" sizeof="24" />
     <define struct="System.Numerics.Matrix3x2" sizeof="24" />
     <define struct="System.Numerics.Matrix4x4" sizeof="64" />
 

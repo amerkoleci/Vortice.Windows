@@ -16,8 +16,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Vortice.Runtime.COM\Vortice.Runtime.COM.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interop\" />
-  </ItemGroup>
 
 </Project>

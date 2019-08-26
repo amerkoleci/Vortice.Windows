@@ -61,8 +61,8 @@
     <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
     <bind from="D2D_POINT_2U" to="System.Drawing.Point" />
     <bind from="D2D_POINT_2F" to="System.Numerics.Vector2" />
-    <bind from="D2D_RECT_U" to="System.Drawing.Rectangle" />
-    <bind from="D2D_RECT_F" to="System.Drawing.RectangleF" />
+    <bind from="D2D_RECT_U" to="Vortice.Interop.RawRectangle" />
+    <bind from="D2D_RECT_F" to="Vortice.Interop.RawRectangleF" />
     <bind from="D2D_VECTOR_2F" to="System.Numerics.Vector2" />
     <bind from="D2D_VECTOR_3F" to="System.Numerics.Vector3" />
     <bind from="D2D_VECTOR_4F" to="System.Numerics.Vector4" />

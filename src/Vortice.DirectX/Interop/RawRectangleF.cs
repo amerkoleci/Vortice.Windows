@@ -8,43 +8,43 @@ using System.Runtime.InteropServices;
 namespace Vortice.Interop
 {
     /// <summary>
-    /// Interop type for a Rectangle (4 ints) in left, top, right, bottom.
+    /// Interop type for a Rectangle (4 float) in left, top, right, bottom.
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     [DebuggerDisplay("Left: {Left}, Top: {Top}, Right: {Right}, Bottom: {Bottom}")]
-    public readonly struct RawRectangle
+    public readonly struct RawRectangleF
     {
         /// <summary>
         /// The left position.
         /// </summary>
-        public readonly int Left;
+        public readonly float Left;
 
         /// <summary>
         /// The top position.
         /// </summary>
-        public readonly int Top;
+        public readonly float Top;
 
         /// <summary>
         /// The right position
         /// </summary>
-        public readonly int Right;
+        public readonly float Right;
 
         /// <summary>
         /// The bottom position.
         /// </summary>
-        public readonly int Bottom;
+        public readonly float Bottom;
 
         /// <summary>
-        /// Gets the width of the <see cref="RawRectangle" />.
+        /// Gets the width of the <see cref="RawRectangleF" />.
         /// </summary>
-        public int Width => Right - Left;
+        public float Width => Right - Left;
 
         /// <summary>
-        /// Gets the height of the <see cref="RawRectangle" />.
+        /// Gets the height of the <see cref="RawRectangleF" />.
         /// </summary>
-        public int Height => Bottom - Top;
+        public float Height => Bottom - Top;
 
-        public RawRectangle(int left, int top, int right, int bottom)
+        public RawRectangleF(float left, float top, float right, float bottom)
         {
             Left = left;
             Top = top;
@@ -60,9 +60,14 @@ namespace Vortice.Interop
         /// <param name="width">The rectangle width.</param>
         /// <param name="height">The rectangle height.</param>
         /// <returns>Returns the new rectangle.</returns>
-        public static RawRectangle Create(int x, int y, int width, int height)
+        public static RawRectangleF Create(float x, float y, float width, float height)
         {
-            return new RawRectangle(x, y, x + width, y + height);
+            return new RawRectangleF(x, y, x + width, y + height);
+        }
+
+        public static implicit operator RawRectangleF(RawRectangle rect)
+        {
+            return new RawRectangleF(rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
 
         /// <summary>
@@ -70,9 +75,9 @@ namespace Vortice.Interop
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator RawRectangle(Rectangle value)
+        public static implicit operator RawRectangleF(RectangleF value)
         {
-            return new RawRectangle(value.Left, value.Top, value.Right, value.Bottom);
+            return new RawRectangleF(value.Left, value.Top, value.Right, value.Bottom);
         }
 
         /// <summary>
@@ -80,9 +85,9 @@ namespace Vortice.Interop
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator Rectangle(RawRectangle value)
+        public static implicit operator RectangleF(RawRectangleF value)
         {
-            return Rectangle.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
+            return RectangleF.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
         }
     }
 }

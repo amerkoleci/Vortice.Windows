@@ -3,6 +3,7 @@
 
 using System.Drawing;
 using System.Numerics;
+using Vortice.Interop;
 
 namespace Vortice.DirectX.Direct2D
 {
@@ -68,9 +69,9 @@ namespace Vortice.DirectX.Direct2D
             PushLayer(ref layerParameters, layer);
         }
 
-        public RectangleF[] GetEffectInvalidRectangles(ID2D1Effect effect)
+        public RawRectangleF[] GetEffectInvalidRectangles(ID2D1Effect effect)
         {
-            var invalidRects = new RectangleF[GetEffectInvalidRectangleCount(effect)];
+            var invalidRects = new RawRectangleF[GetEffectInvalidRectangleCount(effect)];
             if (invalidRects.Length == 0)
             {
                 return invalidRects;
@@ -80,16 +81,16 @@ namespace Vortice.DirectX.Direct2D
             return invalidRects;
         }
 
-        public RectangleF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, EffectInputDescription[] inputDescriptions)
+        public RawRectangleF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, EffectInputDescription[] inputDescriptions)
         {
-            var result = new RectangleF[inputDescriptions.Length];
+            var result = new RawRectangleF[inputDescriptions.Length];
             GetEffectRequiredInputRectangles(renderEffect, null, inputDescriptions, result, inputDescriptions.Length);
             return result;
         }
 
-        public RectangleF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, RectangleF renderImageRectangle, EffectInputDescription[] inputDescriptions)
+        public RawRectangleF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, RectangleF renderImageRectangle, EffectInputDescription[] inputDescriptions)
         {
-            var result = new RectangleF[inputDescriptions.Length];
+            var result = new RawRectangleF[inputDescriptions.Length];
             GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, result, inputDescriptions.Length);
             return result;
         }
