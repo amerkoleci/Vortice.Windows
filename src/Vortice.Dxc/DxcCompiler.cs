@@ -86,6 +86,34 @@ namespace Vortice.Dxc
                 arguments.Add("-spirv");
             }
 
+            if (options.ShiftAllConstantBuffersBindings > 0)
+            {
+                arguments.Add("-fvk-b-shift");
+                arguments.Add($"{options.ShiftAllConstantBuffersBindings}");
+                arguments.Add($"all");
+            }
+
+            if (options.ShiftAllTexturesBindings > 0)
+            {
+                arguments.Add("-fvk-t-shift");
+                arguments.Add($"{options.ShiftAllTexturesBindings}");
+                arguments.Add($"all");
+            }
+
+            if (options.ShiftAllSamplersBindings > 0)
+            {
+                arguments.Add("-fvk-s-shift");
+                arguments.Add($"{options.ShiftAllSamplersBindings}");
+                arguments.Add($"all");
+            }
+
+            if (options.ShiftAllUAVBuffersBindings > 0)
+            {
+                arguments.Add("-fvk-u-shift");
+                arguments.Add($"{options.ShiftAllUAVBuffersBindings}");
+                arguments.Add($"all");
+            }
+
             var compiler = Dxc.CreateDxcCompiler();
             return compiler.Compile(
                 Dxc.CreateBlobForText(Library, source),

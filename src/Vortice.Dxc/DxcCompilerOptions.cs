@@ -21,6 +21,11 @@ namespace Vortice.Dxc
         public int OptimizationLevel { get; set; } = 3;
         public bool AllResourcesBound { get; set; }
 
+        public int ShiftAllConstantBuffersBindings { get; set; }
+        public int ShiftAllTexturesBindings { get; set; }
+        public int ShiftAllSamplersBindings { get; set; }
+        public int ShiftAllUAVBuffersBindings { get; set; }
+
         /// <summary>
         /// Generate SPIR-V code
         /// </summary>
