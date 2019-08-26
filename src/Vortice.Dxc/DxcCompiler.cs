@@ -26,13 +26,18 @@ namespace Vortice.Dxc
 
             var arguments = new List<string>();
 
+            if (options.IEEEStrictness)
+            {
+                arguments.Add("-Gis");
+            }
+
             // HLSL matrices are translated into SPIR-V OpTypeMatrixs in a transposed manner,
             // See also https://antiagainst.github.io/post/hlsl-for-vulkan-matrices/
-            if (options.PackMatricesInRowMajor)
+            if (options.PackMatrixInColumnMajor)
             {
                 arguments.Add("-Zpc");
             }
-            else
+            else if (options.PackMatrixInRowMajor)
             {
                 arguments.Add("-Zpr");
             }

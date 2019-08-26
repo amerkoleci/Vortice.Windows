@@ -12,12 +12,14 @@ namespace Vortice.Dxc
     public sealed class DxcCompilerOptions
     {
         public DxcShaderModel ShaderModel { get; set; } = DxcShaderModel.Model6_2;
-        public bool PackMatricesInRowMajor { get; set; } = true;
-        public bool Enable16bitTypes { get; set; } = false;
-        public bool EnableDebugInfo { get; set; } = false;
-        public bool DisableOptimizations { get; set; } = false;
+        public bool IEEEStrictness { get; set; }
+        public bool PackMatrixInRowMajor { get; set; }
+        public bool PackMatrixInColumnMajor { get; set; }
+        public bool Enable16bitTypes { get; set; }
+        public bool EnableDebugInfo { get; set; }
+        public bool DisableOptimizations { get; set; }
         public int OptimizationLevel { get; set; } = 3;
-        public bool AllResourcesBound { get; set; } = false;
+        public bool AllResourcesBound { get; set; }
 
         /// <summary>
         /// Generate SPIR-V code
