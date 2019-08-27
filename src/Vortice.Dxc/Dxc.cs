@@ -346,6 +346,8 @@ namespace Vortice.Dxc
         DxcTranslationUnitFlags GetDefaultEditingTUOptions();
     }
 
+    public delegate int DxcCreateInstanceFn(ref Guid clsid, ref Guid iid, [MarshalAs(UnmanagedType.IUnknown)] out object instance);
+
     public static class Dxc
     {
         private static Guid CLSID_DxcAssembler = new Guid("D728DB68-F903-4F80-94CD-DCCF76EC7151");
@@ -443,35 +445,31 @@ namespace Vortice.Dxc
             }
         }
 
-        private delegate int DxcCreateInstanceFn(ref Guid clsid, ref Guid iid, [MarshalAs(UnmanagedType.IUnknown)] out object instance);
-        private static DxcCreateInstanceFn _createInstanceFn;
+        public static DxcCreateInstanceFn DxcCreateInstanceFn;
 
         private static int DxcCreateInstance(Guid clsid, Guid iid, out object instance)
         {
-            if (_createInstanceFn == null)
+            if (DxcCreateInstanceFn == null)
             {
-                _createInstanceFn = LoadDxcCreateInstanceWindows();
+                DxcCreateInstanceFn = DefaultDxcLib.GetDxcCreateInstanceFn();
             }
 
-            return _createInstanceFn(ref clsid, ref iid, out instance);
+            return DxcCreateInstanceFn(ref clsid, ref iid, out instance);
         }
+    }
 
-        private static DxcCreateInstanceFn LoadDxcCreateInstanceWindows()
+    public static class DefaultDxcLib
+    {
+        [DllImport("dxcompiler.dll", CallingConvention = CallingConvention.StdCall)]
+        private static extern int DxcCreateInstance(
+            ref Guid clsid,
+            ref Guid iid,
+            [MarshalAs(UnmanagedType.IUnknown)] out object instance);
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static DxcCreateInstanceFn GetDxcCreateInstanceFn()
         {
-            var handle = LoadLibraryW("dxcompiler.dll");
-            if (handle == IntPtr.Zero)
-            {
-                throw new System.ComponentModel.Win32Exception();
-            }
-
-            var fnPtr = GetProcAddress(handle, "DxcCreateInstance");
-            return (DxcCreateInstanceFn)Marshal.GetDelegateForFunctionPointer(fnPtr, typeof(DxcCreateInstanceFn));
+            return DxcCreateInstance;
         }
-
-        [DllImport("kernel32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true)]
-        private static extern IntPtr LoadLibraryW([MarshalAs(UnmanagedType.LPWStr)] string fileName);
-
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true)]
-        private static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
     }
 }
