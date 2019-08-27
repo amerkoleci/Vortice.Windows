@@ -9,7 +9,7 @@ namespace Vortice.Dxc
 {
     public static class DxcCompiler
     {
-        private static readonly IDxcLibrary Library = Dxc.CreateDxcLibrary();
+        public static readonly IDxcLibrary Library = Dxc.CreateDxcLibrary();
 
         public static IDxcOperationResult Compile(
             DxcShaderStage shaderStage,

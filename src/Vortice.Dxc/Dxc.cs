@@ -3,6 +3,7 @@
 // Implementation based on https://github.com/tgjones/DotNetDxc
 
 using System;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -445,31 +446,42 @@ namespace Vortice.Dxc
             }
         }
 
+        static Dxc()
+        {
+            switch (Environment.OSVersion.Platform)
+            {
+                case PlatformID.Win32NT:
+                case PlatformID.Win32S:
+                case PlatformID.Win32Windows:
+                    var path = Path.Combine("binaries", "win", Environment.Is64BitProcess ? "x64" : "x86");
+                    SetDllDirectory(path);
+                    break;
+            }
+
+            var handle = LoadLibraryW("dxcompiler.dll");
+            if (handle == IntPtr.Zero)
+            {
+                throw new System.ComponentModel.Win32Exception();
+            }
+
+            var fnPtr = GetProcAddress(handle, "DxcCreateInstance");
+            DxcCreateInstanceFn = (DxcCreateInstanceFn)Marshal.GetDelegateForFunctionPointer(fnPtr, typeof(DxcCreateInstanceFn));
+        }
+
         public static DxcCreateInstanceFn DxcCreateInstanceFn;
 
         private static int DxcCreateInstance(Guid clsid, Guid iid, out object instance)
         {
-            if (DxcCreateInstanceFn == null)
-            {
-                DxcCreateInstanceFn = DefaultDxcLib.GetDxcCreateInstanceFn();
-            }
-
             return DxcCreateInstanceFn(ref clsid, ref iid, out instance);
         }
-    }
 
-    public static class DefaultDxcLib
-    {
-        [DllImport("dxcompiler.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern int DxcCreateInstance(
-            ref Guid clsid,
-            ref Guid iid,
-            [MarshalAs(UnmanagedType.IUnknown)] out object instance);
+        [DllImport("kernel32", SetLastError = true)]
+        private static extern bool SetDllDirectory(string lpPathName);
 
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static DxcCreateInstanceFn GetDxcCreateInstanceFn()
-        {
-            return DxcCreateInstance;
-        }
+        [DllImport("kernel32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true)]
+        private static extern IntPtr LoadLibraryW([MarshalAs(UnmanagedType.LPWStr)] string fileName);
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true)]
+        private static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
     }
 }

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿  <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,18 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)native\win-x64\*.*">
-      <PackagePath>runtimes/win-x64/native</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)native\win-x86\*.*">
-      <PackagePath>runtimes/win-x86/native</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-    <Content Include="build\net40\Vortice.Dxc.targets">
-      <PackagePath>build/net40/Vortice.Dxc.targets</PackagePath>
-      <Pack>true</Pack>
-    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)binaries\**" PackagePath="binaries" Visible="true" />
+    <Content Include="$(MSBuildThisFileDirectory)build\**" PackagePath="build" Visible="true" />
   </ItemGroup>
 
 </Project>
