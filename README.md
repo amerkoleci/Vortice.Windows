@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/amerkoleci/Vortice.Windows/blob/master/LICENSE)
 [![Build status](https://ci.appveyor.com/api/projects/status/p7d0w62bm1cew9xn?svg=true)](https://ci.appveyor.com/project/amerkoleci/vortice-windows)
-[![NuGet](https://img.shields.io/nuget/v/Vortice.Windows.svg)](https://www.nuget.org/packages?q=Tags%3A%22vortice%22)
+[![NuGet](https://img.shields.io/nuget/v/Vortice.Runtime.COM.svg)](https://www.nuget.org/packages?q=Tags%3A%22vortice%22)
 
 **Vortice.Windows** is a collection of Win32 and UWP libraries with bindings support for [DXGI](https://docs.microsoft.com/en-us/windows/desktop/direct3ddxgi/d3d10-graphics-programming-guide-dxgi), [WIC](https://docs.microsoft.com/en-us/windows/desktop/wic/-wic-lh), [DirectWrite](https://docs.microsoft.com/en-us/windows/desktop/directwrite/direct-write-portal), [Direct2D](https://docs.microsoft.com/en-us/windows/desktop/direct2d/direct2d-portal), [Direct3D11](https://docs.microsoft.com/en-us/windows/desktop/direct3d11/atoc-dx-graphics-direct3d-11), [Direct3D12](https://docs.microsoft.com/en-us/windows/desktop/direct3d12/directx-12-programming-guide), [XInput](https://docs.microsoft.com/en-us/windows/win32/xinput/getting-started-with-xinput) and [XAudio2](https://docs.microsoft.com/en-us/windows/win32/xaudio2/xaudio2-introduction).
 
@@ -29,7 +29,7 @@ In order to compile, you need to install **Visual Studio 2017 or newer** with th
 
 ## Download
 
-All packages are available as NuGet packages: [![NuGet](https://img.shields.io/nuget/v/Vortice.Windows.svg)](https://www.nuget.org/packages?q=Tags%3A%22Vortice%22)
+All packages are available as NuGet packages: [![NuGet](https://img.shields.io/nuget/v/Vortice.Runtime.COM.svg)](https://www.nuget.org/packages?q=Tags%3A%22Vortice%22)
 
 Nightly packages can be download by adding the NuGet feed "https://www.myget.org/feed/vortice_windows" to your `NuGet.config` file:
 
