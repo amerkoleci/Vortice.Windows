@@ -1,4 +1,4 @@
-﻿  <Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)binaries\**" PackagePath="binaries" Visible="true" />
-    <Content Include="$(MSBuildThisFileDirectory)build\**" PackagePath="build" Visible="true" />
+    <Content Include="$(MSBuildThisFileDirectory)build\**" PackagePath="build" />
+    <Content Include="$(MSBuildThisFileDirectory)runtimes\**" PackagePath="runtimes" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
+
+  <Import Project="..\..\Vortice.Dxc\build\Vortice.Dxc.targets" />
+
   <ItemGroup>
     <ProjectReference Include="..\..\Vortice.Dxc\Vortice.Dxc.csproj" />
     <ProjectReference Include="..\Vortice.SampleFramework\Vortice.SampleFramework.csproj" />
