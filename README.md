@@ -9,6 +9,8 @@
 This project was born as [SharpDX](https://github.com/sharpdx/SharpDX) was recently inactive and the aim is to have .net standard 2.0 API and usage
 of modern stuff like Unsafe and SharpGen.Runtime.
 
+The API as still experimental and may change between release, make sure to take look at [CHANGELOG](https://github.com/amerkoleci/Vortice.Windows/blob/master/CHANGELOG.md)
+
 ## Credits
 
 Library development, contributions and bugfixes by:
@@ -24,3 +26,19 @@ In order to compile, you need to install **Visual Studio 2017 or newer** with th
 - [x] Visual C++ Toolset Component
 - [x] Windows 10 - 1903 SDK (10.0.18362.0) Component
 - [x] .NET Core SDK
+
+## Download
+
+All packages are available as NuGet packages: [![NuGet](https://img.shields.io/nuget/v/Vortice.Windows.svg)](https://www.nuget.org/packages?q=Tags%3A%22Vortice%22)
+
+Nightly packages can be download by adding the NuGet feed "https://www.myget.org/feed/vortice_windows" to your `NuGet.config` file:
+
+```xml
+ <configuration>
+   <packageSources>
+     <!-- ... -->
+     <add key="myget vortice_windows" value="https://www.myget.org/F/vortice_windows/api/v3/index.json />
+     <!-- ... -->
+   </packageSources>
+</configuration>     
+```
