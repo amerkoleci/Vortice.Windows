@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <DxcPlatform Condition="'$(Platform)' == 'AnyCPU'">x64</DxcPlatform>
+    <DxcPlatform Condition="'$(Platform)' != 'AnyCPU'">$(Platform)</DxcPlatform>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(RuntimeIdentifier) == ''">
+    <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\runtimes\win-$(DxcPlatform)\native\**" />
+  </ItemGroup>
+
+</Project>
