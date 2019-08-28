@@ -37,7 +37,7 @@ Nightly packages can be download by adding the NuGet feed "https://www.myget.org
  <configuration>
    <packageSources>
      <!-- ... -->
-     <add key="myget vortice_windows" value="https://www.myget.org/F/vortice_windows/api/v3/index.json />
+     <add key="myget vortice_windows" value="https://www.myget.org/F/vortice_windows/api/v3/index.json" />
      <!-- ... -->
    </packageSources>
 </configuration>     
