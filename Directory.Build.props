@@ -1,9 +1,10 @@
 <Project>
   <PropertyGroup>
     <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-    <RepositoryRootDirectory>$(MSBuildThisFileDirectory)..\</RepositoryRootDirectory>
-    <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(RepositoryRootDirectory)bin\$(MSBuildProjectName)\</BaseOutputPath>
-    <PackageOutputPath>$(RepositoryRootDirectory)bin\$(Configuration)\Packages</PackageOutputPath>
+    <RepositoryRootDirectory>$(MSBuildThisFileDirectory)</RepositoryRootDirectory>
+    <BinDir>$(RepositoryRootDirectory)bin</BinDir>
+    <OutputPath>$([System.IO.Path]::GetFullPath('$(RepositoryRootDirectory)bin\$(Configuration)'))\$(MSBuildProjectName)</OutputPath>
+    <PackageOutputPath>$(BinDir)\$(Configuration)\Packages</PackageOutputPath>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
