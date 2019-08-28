@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-direct3d11" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.Direct3D11</assembly>
+  <namespace>Vortice.Direct3D11</namespace>
+  <depends>Vortice.DXGI</depends>
+
+  <sdk name="WindowsSdk" version="10.0.18362.0" />
+  <sdk name="StdLib" />
+
+  <include-prolog>
+    #define D3D11_NO_HELPERS
+  </include-prolog>
+
+  <include file="d3d11.h" namespace="Vortice.Direct3D11" attach="true"/>
+  <include file="d3d11_1.h" namespace="Vortice.Direct3D11" attach="true"/>
+  <include file="d3d11_2.h" namespace="Vortice.Direct3D11" attach="true"/>
+  <include file="d3d11_3.h" namespace="Vortice.Direct3D11" attach="true"/>
+  <include file="d3d11_4.h" namespace="Vortice.Direct3D11" attach="true"/>
+  <include file="d3d11on12.h" namespace="Vortice.Direct3D11" attach="true"/>
+  <include file="d3d11shader.h" namespace="Vortice.Direct3D11.Shader" attach="true" output="Shader" />
+
+  <include file="d3d11sdklayers.h" namespace="Vortice.Direct3D11.Debug" attach="true" output="Debug" />
+  
+  <extension>
+    <const from-macro="D3D11_SDK_VERSION" class="Vortice.Direct3D11.D3D11" type="int" name="SdkVersion" />
+    <create class="D3D11" visibility="public static" />
+
+    <create class="ResultCode" visibility="public static" />
+    <const from-macro="D3D11_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct3D11.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+
+    <const from-macro="D3D11_REQ_MIP_LEVELS" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="MaximumMipLevels" />
+    <const from-macro="D3D11_REQ_RESOURCE_SIZE_IN_MEGABYTES_EXPRESSION_A_TERM" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="ResourceSizeInMegabytes" />
+    <const from-macro="D3D11_REQ_TEXTURE1D_ARRAY_AXIS_DIMENSION" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="MaximumTexture1DArraySize" />
+    <const from-macro="D3D11_REQ_TEXTURE2D_ARRAY_AXIS_DIMENSION" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="MaximumTexture2DArraySize" />
+    <const from-macro="D3D11_REQ_TEXTURE1D_U_DIMENSION" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="MaximumTexture1DSize" />
+    <const from-macro="D3D11_REQ_TEXTURE2D_U_OR_V_DIMENSION" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="MaximumTexture2DSize" />
+    <const from-macro="D3D11_REQ_TEXTURE3D_U_V_OR_W_DIMENSION" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="MaximumTexture3DSize" />
+    <const from-macro="D3D11_REQ_TEXTURECUBE_DIMENSION" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="MaximumTextureCubeSize" />
+
+    <const from-macro="D3D11_1_UAV_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewSlotCount" />
+    <const from-macro="D3D11_PS_CS_UAV_REGISTER_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewRegisterCount" />
+
+    <const from-macro="D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT" class="Vortice.Direct3D11.BlendDescription" type="int" name="SimultaneousRenderTargetCount" />
+    <const from-macro="D3D11_DEFAULT_STENCIL_READ_MASK" class="Vortice.Direct3D11.DepthStencilDescription" type="int" name="DefaultStencilReadMask" />
+    <const from-macro="D3D11_DEFAULT_STENCIL_WRITE_MASK" class="Vortice.Direct3D11.DepthStencilDescription" type="int" name="DefaultStencilWriteMask" />
+    <const from-macro="D3D11_DEFAULT_DEPTH_BIAS" class="Vortice.Direct3D11.RasterizerDescription" type="int" name="DefaultDepthBias" />
+    <const from-macro="D3D11_DEFAULT_DEPTH_BIAS_CLAMP" class="Vortice.Direct3D11.RasterizerDescription" type="float" name="DefaultDepthBiasClamp" />
+    <const from-macro="D3D11_DEFAULT_SLOPE_SCALED_DEPTH_BIAS" class="Vortice.Direct3D11.RasterizerDescription" type="float" name="DefaultSlopeScaledDepthBias" />
+
+    <const from-macro="D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="CommonShaderConstantBufferSlotCount" />
+    <const from-macro="D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="CommonShaderSamplerSlotCount" />
+    <const from-macro="D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="CommonShaderInputResourceSlotCount" />
+    <const from-macro="D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="ViewportAndScissorRectObjectCountPerPipeline" />
+    <const from-macro="D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="InputAssemblerVertexInputResourceSlotCount" />
+
+    <define enum="Vortice.Direct3D11.Shader.RegisterComponentMaskFlags" sizeof="1" />
+  </extension>
+
+  <bindings>
+    <bind from="UINT16" to="System.Int16" />
+    <bind from="UINT32" to="System.Int32" />
+    <bind from="UINT64" to="System.Int64" />
+    <bind from="LUID" to="System.Int64"/>
+    <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
+    <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
+    <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
+    <bind from="D3D11_VIEWPORT" to="Vortice.Mathematics.Viewport"/>
+    <bind from="D3D11_REGISTER_COMPONENT_MASK_FLAG" to="Vortice.Direct3D11.Shader.RegisterComponentMaskFlags" />
+  </bindings>
+
+  <naming>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTORS">Descriptors</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="TOPLEFT">TopLeft</short>
+    <short name="UINT32">UInt32</short>
+    <short name="UINT64">UInt64</short>
+    <short name="IUNKNOWN">IUnknown</short>
+    <short name="RECTANGLE">Rectangle</short>
+    <short name="RECTS">Rectangles</short>
+    <short name="RECT">Rectangle</short>
+    <short name="POINT">Point</short>
+    <short name="POINTS">Points</short>
+    <short name="TRIANGLE">Triangle</short>
+    <short name="LIST">List</short>
+    <short name="ADJACENCY">Adjacency</short>
+    <short name="ADJ">Adjacency</short>
+    <short name="STRIP">Strip</short>
+    <short name="SRV">ShaderResourceView</short>
+    <short name="DSV">DepthStencilView</short>
+    <short name="RTV">RenderTargetView</short>
+    <short name="UAVS">UnorderedAccessViews</short>
+    <short name="UAV">UnorderedAccessView</short>
+    <short name="TEXTURE">Texture</short>
+    <short name="TEXT">Text</short>
+    <short name="CUBE">Cube</short>
+    <short name="TEX">Texture</short>
+    <short name="1D">1D</short>
+    <short name="2D">2D</short>
+    <short name="3D">3D</short>
+    <short name="MS">Multisampled</short>
+    <short name="RW">RW</short>
+    <short name="ARRAYSIZE">ArraySize</short>
+    <short name="ARRAYSLICE">ArraySlice</short>
+    <short name="ARRAYS">Arrays</short>
+    <short name="ARRAY">Array</short>
+    <short name="BUFFERS">Buffers</short>
+    <short name="BUFFER">Buffer</short>
+    <short name="BUFFEREX">BufferExtended</short>
+    <short name="CBV">ConstantBufferView</short>
+    <short name="CBUFFER">ConstantBuffer</short>
+    <short name="TBUFFER">TextureBuffer</short>
+    <short name="VDOV">VideoDecoderOutputView</short>
+    <short name="VPIV">VideoProcessorInputView</short>
+    <short name="VPOV">VideoProcessorOutputView</short>
+    <short name="SRC">Source</short>
+    <short name="DST">Destination</short>
+    <short name="DEST">Destination</short>
+    <short name="INV">Inverse</short>
+    <short name="INVALID">Invalid</short>
+    <!-- D3D11_MESSAGE_ID -->
+    <short name="ATOMICCOPYBUFFER">AtomicCopyBuffer</short>
+    <short name="ACQUIREHANDLEFORCAPTURE">AcquireHandleForCapture</short>
+    <short name="INVALIDARRAY">InvalidArray</short>
+    <short name="INVALIDBIND">InvalidBind</short>
+    <short name="INVALIDTYPE">InvalidType</short>
+    <short name="NULLPARAM">NullParam</short>
+    <short name="INVALIDMAPTYPE">InvalidMapType</short>
+    <short name="NOTMAPPED">NotMapped</short>
+    <short name="OUTOFRANGE">OutOfRange</short>
+    <short name="BLENDSTATE">BlendState</short>
+    <short name="CREATEBLENDSTATE">CreateBlendState</short>
+    <short name="COMMANDLIST">CommandList</short>
+    <short name="GETDESC">GetDescription</short>
+    <short name="ALREADYMAPPED">AlreadyMapped</short>
+    <short name="DEVICEREMOVED">DeviceRemoved</short>
+    <short name="INVALIDFLAGS">InvalidFlags</short>
+    <short name="CREATEDEPTHSTENCILSTATE">CreateDepthStencilState</short>
+    <short name="DEPTHSTENCILSTATE">DepthStencilState</short>
+    <short name="INVALIDBACKFACE">InvalidBackFace</short>
+    <short name="STENCILFAILOP">StencilFailOp</short>
+    <short name="STENCILFUNC">StencilFunc</short>
+    <short name="CHECKCRYPTOSESSIONSTATUS">CheckCryptoSessionStatus</short>
+    <short name="CHECKFEATURESUPPORT">CheckFeatureSupport</short>
+    <short name="CHECKFORMATSUPPORT">CheckFormatSupport</short>
+    <short name="CHECKMULTISAMPLEQUALITYLEVELS">CheckMultisampleQualityLevels</short>
+    <short name="CHECKVIDEODECODERDOWNSAMPLING">CheckVideoDecoderDownsampling</short>
+    <short name="INVALIDCOLORSPACE">InvalidColorSpace</short>
+    <short name="ZEROWIDTHHEIGHT">ZeroWidthHeight</short>
+    <short name="CHECKVIDEOPROCESSORFORMATCONVERSION">CheckVideoProcessorFormatConversion</short>
+    <short name="CLEARDEPTHSTENCILVIEW">ClearDepthStencilView</short>
+    <short name="DENORMFLUSH">DenormFlush</short>
+    <short name="READONLY">ReadOnly</short>
+    <short name="INVALIDDEPTH">InvalidDepth</short>
+    <short name="MISMATCHINGCLEARVALUE">MismatchingClearValue</short>
+    <short name="CLEARRENDERTARGETVIEW">ClearRenderTargetView</short>
+    <short name="CLEARUNORDEREDACCESSVIEW">ClearUnorderedAccessView</short>
+    <short name="CREATECOMMANDLIST1">CreateCommandList1</short>
+    <short name="GS">GeometryState</short>
+    <short name="OM">OutputMerger</short>
+    <short name="OUTOF">OutOf</short>
+    <short name="BOUNDS">Bounds</short>
+    <short name="CHECKCOUNTER">CheckCounter</short>
+    <short name="WELLKNOWN">WellKnown</short>
+    <short name="CREATECOUNTER">CreateCounter</short>
+    <short name="NONEXCLUSIVE">NonExclusive</short>
+    <short name="SHADERRESOURCEVIEW">ShaderResourceView</short>
+    <short name="COPYBUFFERREGION">CopyBufferRegion</short>
+    <short name="COPYFLAGS">CopyFlags</short>
+    <short name="DSTRANGEOUTOFBOUNDS">DestionationRangeOutOfBounds</short>
+    <short name="INVALIDCOPYFLAGS">InvalidCopyFlags</short>
+    <short name="INVALIDSRCRESOURCEDIMENSION">InvalidSourceResourceDimension</short>
+    <short name="INVALIDDSTRESOURCEDIMENSION">InvalidDestionationResourceDimension</short>
+    <short name="NULLSRC">NullSource</short>
+    <short name="NULLDST">NullDestination</short>
+    <short name="SRCRANGEOUTOFBOUNDS">SourceRangeOutOfBounds</short>
+    <short name="INVALIDLAYOUT">InvalidLayout</short>
+    <short name="COPYRESOURCE">CopyResource</short>
+    <short name="INVALIDDESTINATIONSTATE">InvalidDestinationState</short>
+    <short name="INVALIDDSTRESOURCE">InvalidDestinationResource</short>
+    <short name="INVALIDSOURCE">InvalidSource</short>
+    <short name="INVALIDSOURCESTATE">InvalidSourceState</short>
+    <short name="INVALIDSRCRESOURCE">InvalidSourceResource</short>
+    <short name="COPYSTRUCTURECOUNT">CopyStructureCount</short>
+    <short name="INVALIDOFFSET">InvalidOffset</short>
+    <short name="LARGEOFFSET">LargeOffset</short>
+    <short name="COPYSUBRESOURCEREGION">CopySubresourceRegion</short>
+    <short name="EMPTYSOURCEBOX">EmptySourceBox</short>
+    <short name="COPYTEXTUREREGION">CopyTextureRegion</short>
+    <short name="COPYTILES">CopyTiles</short>
+    <short name="COPYTILEMAPPINGS">CopyTileMappings</short>
+    <short name="INVALIDBLENDOP">InvalidBlendOp</short>
+    <short name="INVALIDBLENDOPALPHA">InvalidBlendOpAlpha</short>
+    <short name="INVALIDDESTBLEND">InvalidDestionationBlend</short>
+    <short name="INVALIDDESTBLENDALPHA">InvalidDestionationBlendAlpha</short>
+    <short name="INVALIDLOGICOPS">InvalidLogicOps</short>
+    <short name="INVALIDRENDERTARGETWRITEMASK">InvalidRenderTargetWriteMask</short>
+    <short name="INVALIDSRCBLEND">InvalidSourceBlend</short>
+    <short name="INVALIDSRCBLENDALPHA">InvalidSourceBlendAlpha</short>
+    <short name="NULLDESC">NullDescription</short>
+    <short name="AUTHENTICATEDCHANNEL">AuthenticatedChannel</short>
+    <short name="CREATEBUFFER">CreateBuffer</short>
+    <short name="INVALIDSTRUCTURESTRIDE">InvalidStructureStride</short>
+    <short name="INVALIDUSAGE">InvalidUsage</short>
+    <short name="INVALIDRESOURCE">InvalidResource</short>
+    <short name="COMMANDALLOCATOR">CommandAllocator</short>
+    <short name="WRITETOSUBRESOURCE">WriteToSubresource</short>
+    <short name="MAKERESIDENT">MakeResident</short>
+    <short name="INVALIDOBJECT">InvalidObject</short>
+    <short name="INVALIDARG">InvalidArg</short>
+    <short name="INVALIDDATAPOINTER">InvalidDataPointer</short>
+    <short name="INVALIDHEAP">InvalidHeap</short>
+    <short name="INVALIDRANGE">InvalidRange</short>
+    <short name="INVALIDPRIORITY">InvalidPriority</short>
+    <short name="NULLRANGE">NullRange</short>
+    <short name="NULLOBJECTARRAY">NullObjectArray</short>
+    <short name="TILEDRESOURCEBARRIER">TiledResourceBarrier</short>
+    <short name="OFFERRELEASE">OfferRelease</short>
+    <short name="OFFERRESOURCES">OfferResources</short>
+    <short name="OPENEXISTINGHEAP">OpenExistingHeap</short>
+    <short name="INVALIDADDRESS">InvalidAddress</short>
+    <short name="INVALIDHANDLE">InvalidHandle</short>
+    <short name="INVALIDVIEW">InvalidView</short>
+    <short name="INVALIDSIZE">InvalidSize</short>
+    <short name="INVALIDBOX">InvalidBox</short>
+    <short name="INVALIDARGS">InvalidArgs</short>
+    <short name="INVALIDSUBRESOURCE">InvalidSubresource</short>
+    <short name="OMSETRENDERTARGETS">OutputMergerSetRenderTargets</short>
+    <short name="NOTENOUGHMEMORY">NotEnoughMemory</short>
+    <short name="READFROMSUBRESOURCE">ReadFromSubResource</short>
+    <short name="EMPTYBOX">EmptyBox</short>
+    <short name="REFLECTSHAREDPROPERTIES">ReflectSharedProperties</short>
+    <short name="SAMPLEPOSITIONS">SamplePositions</short>
+    <short name="SETSAMPLEPOSITIONS">SetSamplePositions</short>
+    <short name="RECORDTIME">RecordTime</short>
+    <short name="ASSUMEDFROMCLEAR">AssumedFromClear</short>
+    <short name="ASSUMEDFROMFIRSTUSE">AssumedFromFirstUse</short>
+    <short name="UPDATESUBRESOURCE">UpdateSubresource</short>
+    <short name="EMPTYDESTBOX">EmptyDestinationBox</short>
+    <short name="STOREPIPELINE">StorePipeline</short>
+    <short name="NONAME">NoName</short>
+    <short name="DUPLICATENAME">DuplicateName</short>
+    <short name="SETPRIVATEDATA">SetPrivateData</short>
+    <short name="CHANGINGPARAMS">ChangingParams</short>
+    <short name="INVALIDFREEDATA">InvalidFreeData</short>
+    <short name="INVALIDIUNKNOWN">InvalidIUnknown</short>
+    <short name="SETRESIDENCYPRIORITY">SetResidencyPriority</short>
+    <short name="INVALIDDSTCOORDINATES">InvalidDestinationCoordinates</short>
+    <short name="INVALIDDSTDIMENSIONS">InvalidDestinationDimensions</short>
+    <short name="INVALIDDSTFORMAT">InvalidDestinationFormat</short>
+    <short name="INVALIDDSTOFFSET">InvalidDestinationOffset</short>
+    <short name="INVALIDDSTPLACEMENT">InvalidDestinationPlacement</short>
+    <short name="INVALIDDSTROWPITCH">InvalidDestinationRowPitch</short>
+    <short name="INVALIDDSTSUBRESOURCE">InvalidDestinationSubresource</short>
+    <short name="INVALIDSRCBOX">InvalidSourceBox</short>
+    <short name="INVALIDSRCDIMENSIONS">InvalidSourceDimensions</short>
+    <short name="INVALIDDSTDSPLACEDFOOTPRINTFORMAT">InvalidDestinationDisplacedFootPrintFormat</short>
+    <short name="INVALIDSRCDSPLACEDFOOTPRINTFORMAT">InvalidSourceDisplacedFootPrintFormat</short>
+    <short name="INVALIDSRCFORMAT">InvalidSourceFormat</short>
+    <short name="INVALIDSRCOFFSET">InvalidSourceOffset</short>
+    <short name="INVALIDSRCPLACEMENT">InvalidSourcePlacement</short>
+    <short name="INVALIDSRCROWPITCH">InvalidSourceRowPitch</short>
+    <short name="INVALIDSRCSUBRESOURCE">InvalidSourceSubresource</short>
+    <short name="INVALIDCALL">InvalidCall</short>
+    <short name="SRCREGIONOUTOFBOUNDS">SourceRegionOutOfBounds</short>
+    <short name="UNRECOGNIZEDDSTFORMAT">UnrecognizedDestinationFormat</short>
+    <short name="UNRECOGNIZEDDSTTYPE">UnrecognizedDestinationType</short>
+    <short name="UNRECOGNIZEDSRCFORMAT">UnrecognizedSourceFormat</short>
+    <short name="UNRECOGNIZEDSRCTYPE">UnrecognizedSourceType</short>
+    <short name="CREATECOMMANDSIGNATURE">CreateCommandSignature</short>
+    <short name="CREATECOMPUTESHADER">CreateComputeShader</short>
+    <short name="CREATECOMPUTEPIPELINESTATE">CreateComputePipelineState</short>
+    <short name="COMMANDSIGNATURE">CommandSignature</short>
+    <short name="INVALIDCLASSLINKAGE">InvalidClassLinkage</short>
+    <short name="INVALIDSHADERBYTECODE">InvalidShaderBytecode</short>
+    <short name="CREATEDEPTHSTENCILVIEW">CreateDepthStencilView</short>
+    <short name="CREATEDEVICE">CreateDevice</short>
+    <short name="CREATEDOMAINSHADER">CreateDomainShader</short>
+    <short name="INVALIDSHADERTYPE">InvalidShaderType</short>
+    <short name="CREATEGEOMETRYSHADER">CreateGeometryShader</short>
+    <short name="REATEGEOMETRYSHADERWITHSTREAMOUTPUT">CreateGeometryShaderWithStreamOutput</short>
+    <short name="CREATEGRAPHICSPIPELINESTATE">CreateGraphicsPipelineState</short>
+    <short name="DEPTHSTENCILVIEW">DepthStencilView</short>
+    <short name="CREATEHEAP">CreateHeap</short>
+    <short name="INVALIDALIGNMENT">InvalidAlignment</short>
+    <short name="CREATEHULLSHADER">CreateHullShader</short>
+    <short name="IMAGECOMMANDLIST">ImageCommandList</short>
+    <short name="CREATEINPUTLAYOUT">CreateInputLayout</short>
+    <short name="INCOMPATIBLEFORMAT">IncompatibleFormat</short>
+    <short name="INVALIDFORMAT">InvalidFormat</short>
+    <short name="INVALIDSLOT">InvalidSlot</short>
+    <short name="INVALIDINPUTSLOTCLASS">InvalidInputSlotClass</short>
+    <short name="INVALIDSLOTCLASSCHANGE">InvalidInputClassChange</short>
+    <short name="INVALIDSTEPRATECHANGE">InvalidStepRateChange</short>
+    <short name="DUPLICATESEMANTIC">DuplicateSemantic</short>
+    <short name="NULLSEMANTIC">NullSemantic</short>
+    <short name="STEPRATESLOTCLASSMISMATCH">StepRateSlotClassMissmatch</short>
+    <short name="TOOMANYELEMENTS">TooManyElements</short>
+    <short name="UNPARSEABLEINPUTSIGNATURE">UnparseableInputSignature</short>
+    <short name="MONITOREDFENCE">MonitoredFence</short>
+    <short name="PIPELINESTATE">PipelineState</short>
+    <short name="CREATEPIPELINESTATE">CreatePipelineState</short>
+    <short name="CREATEPIXELSHADER">CreatePixelShader</short>
+    <short name="CREATEPLACEDRESOURCEONBUFFER">CreatePlacedResourceOnBuffer</short>
+    <short name="CREATEQUERY">CreateQuery</short>
+    <short name="CREATERASTERIZERSTATE">CreateRasterizerState</short>
+    <short name="CONSERVATIVERASTERMODE">ConvervativeRasterMode</short>
+    <short name="KEYEDMUTEX">KeyedMutex</short>
+    <short name="WRONGSTATE">WrongState</short>
+    <short name="POINTER">Pointer</short>
+    <short name="POINTERS">Pointers</short>
+    <short name="NOPERSPECTIVE">NoPerspective</short>
+    <short name="POINTLIST">PointList</short>
+    <short name="LINELIST">LineList</short>
+    <short name="LINESTRIP">LineStrip</short>
+    <short name="TRIANGLELIST">TriangleList</short>
+    <short name="COMPUTESHADER">ComputeShader</short>
+    <short name="DEPTHSTENCIL">DepthStencil</short>
+    <short name="DEPTHSTENCILVIEW">DepthStencilView</short>
+    <short name="DOMAINSHADER">DomainShader</short>
+    <short name="GEOMETRYSHADER">GeometryShader</short>
+    <short name="HULLSHADER">HullShader</short>
+    <short name="MIN8FLOAT">Min8Float</short>
+    <short name="MIN10FLOAT">Min10Float</short>
+    <short name="MIN16FLOAT">Min16Float</short>
+    <short name="MIN12INT">Min12Int</short>
+    <short name="MIN16INT">Min16Int</short>
+    <short name="MIN16UINT">Min16UInt</short>
+    <short name="PIXELFRAGMENT">PixelFragment</short>
+    <short name="PIXELSHADER">PixelShader</short>
+    <short name="RENDERTARGETVIEW">RenderTargetView</short>
+    <short name="SAMPLER1D">Sampler1D</short>
+    <short name="SAMPLER2D">Sampler2D</short>
+    <short name="SAMPLER3D">Sampler3D</short>
+    <short name="SAMPLERCUBE">SamplerCube</short>
+    <short name="VERTEXFRAGMENT">VertexFragment</short>
+    <short name="VERTEXSHADER">VertexShader</short>
+  </naming>
+
+  <mapping>
+    <map enum="D3D(\d+)(.*)" name-tmp="$2" />
+    <map enum="D3D11_1_(.*)" name-tmp="$1"/>
+
+    <map enum="D3D11_CREATE_DEVICE_FLAG" name="DeviceCreationFlags" />
+    <map enum="D3D11_1_CREATE_DEVICE_CONTEXT_STATE_FLAG" name="CreateDeviceContextStateFlags" />
+
+    <map enum-item="D3D11_SHARED_RESOURCE_TIER_(.*)" name="Tier$1"/>
+    <map enum-item="D3D11_SHADER_MIN_PRECISION_10_BIT" name="Bit10"/>
+    <map enum-item="D3D11_SHADER_MIN_PRECISION_16_BIT" name="Bit16"/>
+    <map enum-item="D3D11_VIDEO_PROCESSOR_ITELECINE_CAPS_([0-9]+)" name="Value$1"/>
+    <map enum-item="D3D11_VIDEO_PROCESSOR_ROTATION_90" name="Rotation90"/>
+    <map enum-item="D3D11_VIDEO_PROCESSOR_ROTATION_180" name="Rotation180"/>
+    <map enum-item="D3D11_VIDEO_PROCESSOR_ROTATION_270" name="Rotation270"/>
+
+    <map enum-item="D3D11_VIDEO_PROCESSOR_NOMINAL_RANGE_16_235" name="Range_16_235"/>
+    <map enum-item="D3D11_VIDEO_PROCESSOR_NOMINAL_RANGE_0_255" name="Range_0_255"/>
+
+    <map enum="D3D11_QUERY_MISC_FLAG" name="QueryFlags" />
+    <map enum="D3D11_QUERY" name="QueryType" />
+    <map enum="D3D11_COUNTER" name="CounterKind" />
+    <map enum="D3D11_FORMAT_SUPPORT" flags="true" none="true" />
+    <map enum="D3D11_FORMAT_SUPPORT2" flags="true" none="true" />
+    <map enum="D3D11_COLOR_WRITE_ENABLE" name="ColorWriteEnable" type="byte" flags="true"  />
+    <map enum-item="D3D11_COLOR_WRITE_ENABLE_(.*)" name-tmp="$1" />
+
+    <map enum="D3D11_CPU_ACCESS_FLAG" name="CpuAccessFlags" />
+    <map enum-item="D3D11_CPU_ACCESS_(.*)" name-tmp="$1" />
+    <map enum="D3D11_RESOURCE_MISC_FLAG" name="ResourceOptionFlags" />
+    <map enum-item="D3D11_RESOURCE_MISC_HW_PROTECTED" name="HardwareProtected"/>
+    <map enum-item="D3D11_RESOURCE_MISC_SHARED_NTHANDLE" name="SharedNTHandle"/>
+    <map enum-item="D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS" name="DrawIndirectArgs"/>
+    <map enum-item="D3D11_RESOURCE_MISC_GDI_COMPATIBLE" name="GdiCompatible"/>
+    <map enum-item="D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX" name="SharedKeyedMutex"/>
+
+    <map enum="D3D11_BLEND_OP" name="BlendOperation" />
+    <map enum="D3D11_CLEAR_FLAG" name="DepthStencilClearFlags" />
+    <map enum="D3D11_COMPARISON_FUNC" name="ComparisonFunction" />
+    <map enum="D3D11_STENCIL_OP" name="StencilOperation" />
+    
+    <map enum="D3D11_BIND_FLAG" name="BindFlags" />
+    <map enum="D3D11_MAP_FLAG" name="MapFlags" />
+    <map enum="D3D11_FENCE_FLAG" name="FenceFlags" />
+    <map enum="D3D11_VDOV_DIMENSION" name="VideoDecoderOutputViewDimension" />
+    <map enum="D3D11_VPIV_DIMENSION" name="VideoProcessorInputViewDimension" />
+    <map enum="D3D11_VPOV_DIMENSION" name="VideoProcessorOutputViewDimension" />
+    <map enum-item="D3D11_CONTEXT_TYPE_3D" name="ThreeDimensions" />
+    <map enum-item="D3D11_TEXTURE_LAYOUT_64K_STANDARD_SWIZZLE" name="StandardSwizzle64K" />
+    <map enum="D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG" name="CheckMultisampleQualityLevelsFlags" />
+    <map enum="D3D11_RLDO_FLAGS" name="ReportLiveDeviceObjectFlags" />
+    <map enum="D3D11_ASYNC_GETDATA_FLAG" name="AsyncGetDataFlags" />
+    <map enum-item="D3D11_ASYNC_GETDATA_DONOTFLUSH" name="DoNotFlush" />
+
+    <!-- structs -->
+    <map struct="D3D(\d+)(.*)" name-tmp="$2" />
+    <remove struct="D3D11_AES_CTR_IV" />
+    <remove struct="CD3D11_VIDEO_DEFAULT" />
+
+    <map field=".*::(.*)DescW?" name="$1Description" />
+    <map struct="D3D11_OMAC" name="Omac" marshalto="true"/>
+    <map field="D3D11_OMAC::Omac" name="Buffer"/>
+
+    <map method=".*::(.*)DescW?" name="$1Description" />
+    <map method=".*::(.*)Desc1" name="$1Description1" />
+    <map method=".*::(.*)Desc2" name="$1Description2" />
+
+    <map field="D3D11_BUFFER_DESC::BindFlags" type="D3D11_BIND_FLAG" />
+    <map field="D3D11_BUFFER_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_BUFFER_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_TEXTURE1D_DESC::BindFlags" type="D3D11_BIND_FLAG" />
+    <map field="D3D11_TEXTURE1D_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_TEXTURE1D_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_TEXTURE2D_DESC1?::BindFlags" type="D3D11_BIND_FLAG" />
+    <map field="D3D11_TEXTURE2D_DESC1?::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_TEXTURE2D_DESC1?::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_TEXTURE3D_DESC1?::BindFlags" type="D3D11_BIND_FLAG" />
+    <map field="D3D11_TEXTURE3D_DESC1?::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_TEXTURE3D_DESC1?::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT::OutFormatSupport" type="D3D11_FORMAT_SUPPORT" />
+    <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT2::OutFormatSupport2" type="D3D11_FORMAT_SUPPORT2" />
+
+    <map field="D3D11_SUBRESOURCE_DATA::pSysMem" name="DataPointer " />
+    <map field="D3D11_SUBRESOURCE_DATA::SysMemPitch" name="Pitch" />
+    <map field="D3D11_SUBRESOURCE_DATA::SysMemSlicePitch" name="SlicePitch" />
+
+    <map struct="D3D11_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true"   />
+    <map method="ID3D11InfoQueue::GetMessageW?" visibility="internal"/>
+    <map param="ID3D11InfoQueue::GetMessageW?::pMessage" type="void" attribute="in"/>
+    <map method="ID3D11InfoQueue::GetStorageFilter" visibility="internal"/>
+    <map param="ID3D11InfoQueue::GetStorageFilter::pFilter" type="void" attribute="in"/>
+    <map method="ID3D11InfoQueue::GetRetrievalFilter" visibility="internal"/>
+    <map param="ID3D11InfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
+
+    <map struct="D3D11_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true"  />
+    <remove field="D3D11_INFO_QUEUE_FILTER_DESC::.*"/>
+
+    <map enum="D3D11_DSV_FLAG" name="DepthStencilViewFlags" />
+    <map field="D3D11_DEPTH_STENCIL_VIEW_DESC::Flags" type="D3D11_DSV_FLAG" />
+
+    <map enum-item="D3D11_MESSAGE_ID_(.*)" name-tmp="$1" />
+    <remove enum-item="D3D11_MESSAGE_ID_D3D10L9_MESSAGES_START" />
+    <remove enum-item="D3D11_MESSAGE_ID_D3D10L9_MESSAGES_END" />
+    <remove enum-item="D3D11_MESSAGE_ID_D3D10_MESSAGES_START" />
+    <remove enum-item="D3D11_MESSAGE_ID_D3D10_MESSAGES_END" />
+    <map struct="D3D11_MESSAGE" marshal="true" new="false" marshalto="true" />
+    <map field="D3D11_MESSAGE::pDescription" name="Description" visibility="public"/>
+    <map field="D3D11_MESSAGE::DescriptionByteLength" visibility="internal"/>
+
+    <map field="D3D11_INPUT_ELEMENT_DESC::InputSlot" name="Slot" />
+    <map field="D3D11_INPUT_ELEMENT_DESC::InputSlotClass" name="Classification" />
+
+    <map enum-item="D3D11_BLEND_OP_REV_SUBTRACT" name="ReverseSubtract"/>
+    <map struct="D3D11_BLEND_DESC" marshalto="true"/>
+    
+
+    <map struct="D3D11_DEPTH_STENCILOP_DESC" name="DepthStencilOperationDescription" />
+
+    <map field="D3D11_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
+    <map field="D3D11_SAMPLER_DESC::BorderColor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
+
+    <!-- D3D11_RENDER_TARGET_BLEND_DESC/D3D11_RENDER_TARGET_BLEND_DESC1 struct -->
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendEnable" name="IsBlendEnabled" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::SrcBlend" name="SourceBlend" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::DestBlend" name="DestinationBlend" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendOp" name="BlendOperation" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::SrcBlendAlpha" name="SourceBlendAlpha" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::DestBlendAlpha" name="DestinationBlendAlpha" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendOpAlpha" name="BlendOperationAlpha" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::LogicOpEnable" name="IsLogicOperationEnabled"/>
+    
+    <!-- ID3D11DeviceChild methods -->
+    <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
+    <map method="ID3D11DeviceChild::GetPrivateData" visibility="public" hresult="true" check="false"/>
+    <map method="ID3D11DeviceChild::SetPrivateData" visibility="public" hresult="true" check="false"/>
+
+    <!-- ID3D11Device methods -->
+    <map method="ID3D(\d+)Device[123]?::GetImmediateContext[123]?" persist="true"/>
+    <map method="ID3D(\d+)Device::GetDeviceRemovedReason" check="false"/>
+    <map method="ID3D(\d+)Device::CheckFormatSupport" check="false" />
+    <map method="ID3D(\d+)Device::CheckMultisampleQualityLevels" check="false"/>
+    <map param="ID3D(\d+)Device::CheckFormatSupport::pFormatSupport" type="D3D11_FORMAT_SUPPORT" return="true"/>
+    <map param="ID3D(\d+)Device::CheckMultisampleQualityLevels::pNumQualityLevels" return="true" />
+    <map method="ID3D(\d+)Device::CheckCounterInfo" property="false" check="false" name="CheckCounterInfo" />
+    <map param="ID3D(\d+)Device::CheckCounterInfo::pCounterInfo" return="true" />
+    <map method="ID3D11Device::CheckFeatureSupport" visibility="internal" check="false"/>
+    <map param="ID3D11Device::CheckFeatureSupport::pFeatureSupportData" attribute="in" type="void" />
+    <map method="ID3D11Device::GetCreationFlags" type="D3D11_CREATE_DEVICE_FLAG"/>
+    <map param="ID3D11Device::CreateBlendState::pBlendStateDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateBlendState::ppBlendState" attribute="out" return="true"/>
+
+    <map param="ID3D11Device::CreateBuffer::pDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateBuffer::pInitialData" default="null" />
+    <map param="ID3D11Device::CreateBuffer::ppBuffer" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateClassLinkage::ppLinkage" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateComputeShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateComputeShader::ppComputeShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateCounter::ppCounter" attribute="out" return="true"/>
+    <map method="ID3D11Device::CreateDeferredContext" visibility="private" />
+    <map param="ID3D11Device::CreateDeferredContext::ppDeferredContext" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateDepthStencilState::pDepthStencilDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateDepthStencilState::ppDepthStencilState" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateDepthStencilView::pDesc" default="null"/>
+    <map param="ID3D11Device::CreateDepthStencilView::ppDepthStencilView" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateDomainShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateDomainShader::ppDomainShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateGeometryShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateGeometryShader::ppGeometryShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateGeometryShaderWithStreamOutput::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateGeometryShaderWithStreamOutput::ppGeometryShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateHullShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateHullShader::ppHullShader" attribute="out" return="true"/>
+    <map method="ID3D11Device::CreateInputLayout" visibility="private" />
+    <map param="ID3D11Device::CreateInputLayout::ppInputLayout" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreatePixelShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreatePixelShader::ppPixelShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreatePredicate::ppPredicate" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateQuery::ppQuery" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateRasterizerState::pRasterizerDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateRasterizerState::ppRasterizerState" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateRenderTargetView::pDesc" default="null"/>
+    <map param="ID3D11Device::CreateRenderTargetView::ppRTView" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateSamplerState::pSamplerDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateSamplerState::ppSamplerState" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateShaderResourceView::pDesc" default="null"/>
+    <map param="ID3D11Device::CreateShaderResourceView::ppSRView" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateTexture1D::pDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateTexture1D::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device::CreateTexture1D::ppTexture1D" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateTexture2D::pDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateTexture2D::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device::CreateTexture2D::ppTexture2D" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateTexture3D::pDesc" attribute="in value" />
+    <map param="ID3D11Device::CreateTexture3D::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device::CreateTexture3D::ppTexture3D" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateUnorderedAccessView::pDesc" default="null"/>
+    <map param="ID3D11Device::CreateUnorderedAccessView::ppUAView" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateVertexShader::pClassLinkage" default="null"/>
+    <map param="ID3D11Device::CreateVertexShader::ppVertexShader" attribute="out" return="true"/>
+    <map method="ID3D11Device::OpenSharedResource" visibility="private" hresult="true" check="false"/>
+
+    <!-- ID3D11Device1 -->
+    <map method="ID3D11Device1::CreateDeviceContextState" visibility="private" />
+    <map param="ID3D11Device1::CreateDeviceContextState::Flags" type="D3D11_1_CREATE_DEVICE_CONTEXT_STATE_FLAG"/>
+    <map param="ID3D11Device1::CreateDeviceContextState::ppContextState" attribute="out" return="true"/>
+    <map param="ID3D11Device1::CreateBlendState1::pBlendStateDesc" attribute="in value" />
+    <map param="ID3D11Device1::CreateBlendState1::ppBlendState" attribute="out" return="true"/>
+    <map method="ID3D11Device1::CreateDeferredContext1" visibility="private" />
+    <map param="ID3D11Device1::CreateDeferredContext1::ppDeferredContext" attribute="out" return="true"/>
+    <map param="ID3D11Device1::CreateRasterizerState1::pRasterizerDesc" attribute="in value" />
+    <map param="ID3D11Device1::CreateRasterizerState1::ppRasterizerState" attribute="out" return="true"/>
+    <map method="ID3D11Device1::OpenSharedResource1" visibility="private" hresult="true" check="false"/>
+    <map method="ID3D11Device1::OpenSharedResourceByName" visibility="private" hresult="true" check="false"/>
+
+    <!-- ID3D11Device2 -->
+    <map method="ID3D11Device2::CheckMultisampleQualityLevels1" check="false"/>
+    <map param="ID3D11Device2::CheckMultisampleQualityLevels1::pNumQualityLevels" return="true" />
+    <map param="ID3D11Device2::CheckMultisampleQualityLevels1::Flags" type="D3D11_CHECK_MULTISAMPLE_QUALITY_LEVELS_FLAG" />
+    <map method="ID3D11Device2::CreateDeferredContext2" visibility="private" />
+    <map param="ID3D11Device2::CreateDeferredContext2::ppDeferredContext" attribute="out" return="true"/>
+
+    <!-- ID3D11Device3 -->
+    <map method="ID3D11Device3::CreateDeferredContext3" visibility="private" />
+    <map param="ID3D11Device3::CreateDeferredContext3::ppDeferredContext" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateQuery1::ppQuery1" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateRasterizerState2::pRasterizerDesc" attribute="in value" />
+    <map param="ID3D11Device3::CreateRasterizerState2::ppRasterizerState" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateRenderTargetView1::pDesc1" default="null"/>
+    <map param="ID3D11Device3::CreateRenderTargetView1::ppRTView1" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateShaderResourceView1::pDesc1" default="null"/>
+    <map param="ID3D11Device3::CreateShaderResourceView1::ppSRView1" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateUnorderedAccessView1::pDesc1" default="null"/>
+    <map param="ID3D11Device3::CreateUnorderedAccessView1::ppUAView1" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateTexture2D1::pDesc1" attribute="in value" />
+    <map param="ID3D11Device3::CreateTexture2D1::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device3::CreateTexture2D1::ppTexture2D" attribute="out" return="true"/>
+    <map param="ID3D11Device3::CreateTexture3D1::pDesc1" attribute="in value" />
+    <map param="ID3D11Device3::CreateTexture3D1::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device3::CreateTexture3D1::ppTexture3D" attribute="out" return="true"/>
+    <map param="ID3D11Device3::ReadFromSubresource::pDstData" attribute="in value"/>
+    <map param="ID3D11Device3::ReadFromSubresource::pSrcBox" default="null"/>
+    
+    <!-- ID3D11Device4 -->
+    <map param="ID3D11Device4::RegisterDeviceRemovedEvent::pdwCookie" return="true"/>
+
+    <!-- ID3D11Device5 -->
+    <map method="ID3D11Device5::CreateFence" visibility="private"/>
+    <map param="ID3D11Device5::CreateFence::Flags" type="D3D11_FENCE_FLAG" />
+    <map param="ID3D11Device5::CreateFence::ppFence" attribute="out" type="ID3D11Fence" return="true"/>
+    <map method="ID3D11Device5::OpenSharedFence" visibility="private"/>
+    <map param="ID3D11Device5::OpenSharedFence::ppFence" attribute="out" type="ID3D11Fence" return="true"/>
+
+    <map method="ID3D11Fence::CreateSharedHandle" visibility="private" />
+    <map param="ID3D11Fence::CreateSharedHandle::pHandle" attribute="out" return="true"/>
+
+    <!-- ID3D11DeviceContext -->
+    <map method="ID3D11DeviceContext::GetType" property="false" name="GetContextType" />
+    <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
+    <map param="ID3D11DeviceContext::Map::MapFlags" type="D3D11_MAP_FLAG" />
+    <map method="ID3D11DeviceContext::FinishCommandList" visibility="internal" name="FinishCommandListInternal" hresult="true" check="false" />
+    <map param="ID3D11DeviceContext::FinishCommandList::ppCommandList" attribute="out fast" />
+    <map param="ID3D11DeviceContext::ClearRenderTargetView::ColorRGBA" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" />
+    <map method="ID3D11DeviceContext::ClearUnorderedAccessViewFloat" name="ClearUnorderedAccessView" />
+    <map method="ID3D11DeviceContext::ClearUnorderedAccessViewUint" name="ClearUnorderedAccessView" />
+
+    <map param="ID3D11DeviceContext::ClearUnorderedAccessViewFloat::Values" type="VORTICE_VECTOR4"  override-native-type="true" pointer="*" array="0" />
+    <map param="ID3D11DeviceContext::ClearUnorderedAccessViewUint::Values" type="VORTICE_INT4"  override-native-type="true" pointer="*" array="0" />
+
+    <map method="ID3D11DeviceContext::RSGetScissorRects" visibility="internal" />
+    <map param="ID3D11DeviceContext::RSGetScissorRects::pRects" type="void" />
+    <map method="ID3D11DeviceContext::RSSetScissorRects" visibility="internal" />
+    <map param="ID3D11DeviceContext::RSSetScissorRects::pRects" type="void" />
+    <map method="ID3D11DeviceContext::RSGetViewports" visibility="internal" />
+    <map param="ID3D11DeviceContext::RSGetViewports::pViewports" type="void" />
+    <map method="ID3D11DeviceContext::RSSetViewports" visibility="internal" />
+    <map param="ID3D11DeviceContext::RSSetViewports::pViewports" type="void" />
+    <map param="ID3D11DeviceContext::OMGetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" />
+    <map param="ID3D11DeviceContext::OMSetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" default="null"/>
+    <map param="ID3D11DeviceContext::OMSetBlendState::SampleMask" default="-1"/>
+    <map param="ID3D11DeviceContext::OMSetDepthStencilState::StencilRef" default="0"/>
+    
+    <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="internal"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" attribute="in"/>
+
+    <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="internal"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void"/>
+
+    <map method="ID3D11DeviceContext::SOSetTargets" visibility="internal" />
+    <map param="ID3D11DeviceContext::SOSetTargets::ppSOTargets" type="void" attribute="in"/>
+    <map param="ID3D11DeviceContext::SOSetTargets::pOffsets" type="void" attribute="in"/>
+
+    <map method="ID3D11DeviceContext::GetData" hresult="true" check="false" />
+    <map param="ID3D11DeviceContext::GetData::GetDataFlags" type="D3D11_ASYNC_GETDATA_FLAG" />
+    <map param="ID3D11DeviceContext::Map::pMappedResource" attribute="out" return="true"/>
+    <map param="ID3D11DeviceContext::GetPredication::ppPredicate" attribute="out" return="true"/>
+
+    <map param="ID3D11DeviceContext::IAGetInputLayout::ppInputLayout" return="true" />
+    <map param="ID3D11DeviceContext::IAGetPrimitiveTopology::pTopology" return="true" />
+    <map param="ID3D11DeviceContext::RSGetState::ppRasterizerState" return="true" />
+    
+    <map method="ID3D11DeviceContext::[A-Z][A-Z]SetShader" visibility="internal"/>
+    <map param="ID3D11DeviceContext::[A-Z][A-Z]GetShader::pNumClassInstances" attribute="inout" />
+
+    <map param="ID3D11DeviceContext::CopySubresourceRegion::pSrcBox" default="null"/>
+
+    <!-- ID3D11DeviceContext1 -->
+    <map method="ID3D11DeviceContext1::ClearView" visibility="private"/>
+    <map param="ID3D11DeviceContext1::ClearView::pRect" type="void" />
+    <map param="ID3D11DeviceContext1::ClearView::Color" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0"/>
+    <map param="ID3D11DeviceContext1::SwapDeviceContextState::ppPreviousState" attribute="out" return="true"/>
+    <map method="ID3D11DeviceContext1::DiscardView1" visibility="private"/>
+    <map param="ID3D11DeviceContext1::DiscardView1::pRects" type="void" />
+    <map param="ID3D11DeviceContext1::CopySubresourceRegion1::CopyFlags" type="D3D11_COPY_FLAGS" />
+    <map param="ID3D11DeviceContext1::UpdateSubresource1::CopyFlags" type="D3D11_COPY_FLAGS" />
+
+    <!-- ID3D11On12Device -->
+    <map method="ID3D11On12Device::CreateWrappedResource" visibility="private"/>
+    <map param="ID3D11On12Device::CreateWrappedResource::InState" type="int" override-native-type="true" />
+    <map param="ID3D11On12Device::CreateWrappedResource::OutState" type="int" override-native-type="true" />
+    <map param="ID3D11On12Device::CreateWrappedResource::ppResource11" type="ID3D11Resource" return="true" />
+    <map method="ID3D11On12Device::AcquireWrappedResources" name="AcquireWrappedResources_" visibility="private"/>
+    <map method="ID3D11On12Device::ReleaseWrappedResources" name="ReleaseWrappedResources_" visibility="private"/>
+    <map method="ID3D11On12Device1::GetD3D12Device" visibility="private" check="false" />
+
+    <!-- ID3D11CommandList -->
+    <remove method="ID3D11CommandList::GetContextFlags" />
+
+    <remove function="D3D11CreateDeviceAndSwapChain"/>
+    <map function="D3D11.*" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11" visibility="private" />
+    <!--<map param="D3D11CreateDevice::ppDevice" attribute="out fast" />-->
+    <map function="D3D11CreateDevice" check="false"/>
+
+    <map function="D3D11On12CreateDevice" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11" visibility="private"/>
+    <map function="D3D11On12CreateDevice" check="false"/>
+    <map param="D3D11On12CreateDevice::Flags" type ="D3D11_CREATE_DEVICE_FLAG"/>
+    <map param="D3D11On12CreateDevice::ppDevice" type="ID3D11Device" attribute="out" />
+
+    <!-- d3d11shader -->
+    <map struct="D3D11_SHADER_BUFFER_DESC" name="ConstantBufferDescription" />
+    <map field="D3D11_SHADER_BUFFER_DESC::uFlags" name="Flags" type="D3D_SHADER_CBUFFER_FLAGS" />
+    <map field="D3D11_SHADER_BUFFER_DESC::Variables" name="VariableCount" />
+
+    <map struct="D3D11_SHADER_INPUT_BIND_DESC" name="InputBindingDescription" />
+    <map field="D3D11_SHADER_INPUT_BIND_DESC::uFlags" name="Flags" type="D3D_SHADER_INPUT_FLAGS" />
+
+    <map field="D3D11_SHADER_DESC::c([A-Z].*)" name="$1" />
+    <map field="D3D11_SHADER_DESC::cGS(.*)" name="GeometryShader$1" />
+    <map field="D3D11_SHADER_DESC::GS(.*)" name="GeometryShader$1" />
+    <map field="D3D11_SHADER_DESC::HS(.*)" name="HullShader$1" />
+    <map field="D3D11_SHADER_DESC::DclCount" name="DeclarationCount" />
+    <map field="D3D11_SHADER_DESC::DefCount" name="DefineCount" />
+    <!--<map field="D3D11_SHADER_DESC::Flags" type="D3DCOMPILE_SHADER_FLAGS" />-->
+
+    <map struct="D3D11_SIGNATURE_PARAMETER_DESC" name="ShaderParameterDescription" />
+    <map field="D3D11_SIGNATURE_PARAMETER_DESC::ReadWriteMask" type="D3D11_REGISTER_COMPONENT_MASK_FLAG" />
+
+    <map field="D3D11_SIGNATURE_PARAMETER_DESC::Mask" name="UsageMask" type="D3D11_REGISTER_COMPONENT_MASK_FLAG" />
+    <map field="D3D11_SHADER_TYPE_DESC::Columns" name="ColumnCount" />
+    <map field="D3D11_SHADER_TYPE_DESC::Elements" name="ElementCount" />
+    <map field="D3D11_SHADER_TYPE_DESC::Members" name="MemberCount" />
+    <map field="D3D11_SHADER_TYPE_DESC::Rows" name="RowCount" />
+
+    <map field="D3D11_SHADER_VARIABLE_DESC::uFlags" name="Flags" type="D3D_SHADER_VARIABLE_FLAGS" />
+
+    <map method="ID3D11ShaderReflection::GetDesc" name="GetDescription" persist="true" />
+    <map param="ID3D11ShaderReflection::GetInputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetOutputParameterDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetResourceBindingDesc::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
+    <map param="ID3D11ShaderReflection::GetPatchConstantParameterDesc::pDesc" attribute="out" return="true"/>
+
+    <map method="ID3D11ShaderReflectionVariable::GetType" name="GetVariableType" />
+    <map param="ID3D11ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
+
+  </mapping>
+</config>

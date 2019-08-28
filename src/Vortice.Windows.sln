@@ -4,13 +4,13 @@ VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX", "Vortice.DirectX\Vortice.DirectX.csproj", "{A9645572-0847-4FDA-90F4-0ACA2C257847}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX.Direct3D11", "Vortice.DirectX.Direct3D11\Vortice.DirectX.Direct3D11.csproj", "{26314741-88F5-4C0A-B34C-09FD714380A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D11", "Vortice.Direct3D11\Vortice.Direct3D11.csproj", "{26314741-88F5-4C0A-B34C-09FD714380A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX.Direct3D12", "Vortice.DirectX.Direct3D12\Vortice.DirectX.Direct3D12.csproj", "{734F3D9C-F768-425A-A2C4-E3491AD7B4C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D12", "Vortice.Direct3D12\Vortice.Direct3D12.csproj", "{734F3D9C-F768-425A-A2C4-E3491AD7B4C7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX.Direct2D", "Vortice.DirectX.Direct2D\Vortice.DirectX.Direct2D.csproj", "{2182B80A-2BFC-4995-AB1C-BC8EB433FE4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct2D1", "Vortice.Direct2D1\Vortice.Direct2D1.csproj", "{2182B80A-2BFC-4995-AB1C-BC8EB433FE4C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX.ShaderCompiler", "Vortice.DirectX.ShaderCompiler\Vortice.DirectX.ShaderCompiler.csproj", "{E9F89D5F-AF93-498C-BFB0-61377F461491}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3DCompiler", "Vortice.D3DCompiler\Vortice.D3DCompiler.csproj", "{E9F89D5F-AF93-498C-BFB0-61377F461491}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5676F50D-CC54-4DC6-980D-6B68FFF64065}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XInput", "Vortice.XInput\Vortice.XInput.csproj", "{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc", "Vortice.Dxc\Vortice.Dxc.csproj", "{B9511CB1-AF96-4108-BD05-A85973C60AC9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI", "Vortice.DXGI\Vortice.DXGI.csproj", "{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{B9511CB1-AF96-4108-BD05-A85973C60AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9511CB1-AF96-4108-BD05-A85973C60AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9511CB1-AF96-4108-BD05-A85973C60AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.3</LangVersion>
+    <Description>A .NET bindings for DXGI</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <SharpGenMapping Include="Mappings.xml" />
+    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
+  </ItemGroup>
+  
+</Project>
