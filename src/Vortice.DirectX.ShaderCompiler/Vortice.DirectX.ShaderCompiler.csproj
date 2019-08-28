@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.3</LangVersion>
+    <Description>D3DCompiler bindings.</Description>
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />

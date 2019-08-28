@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.3</LangVersion>
+    <Description>Direct2D1 bindings.</Description>
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />

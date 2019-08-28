@@ -12,7 +12,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
-    <PackageTags>3D Engine Graphics gamedev vortice Direct3D DirectX Vulkan OpenGL Metal Core Standard Game</PackageTags>
+    <PackageTags>Vortice.Windows Vortice Graphics gamedev Direct3D DirectX Core Standard Game Direct3D11 Direct3D12 XAudio2 XInput Dxc</PackageTags>
     <Company>Amer Koleci</Company>
     <Authors>Amer Koleci</Authors>
     <Copyright>Copyright © 2019 Amer Koleci and contributors.</Copyright>

@@ -5,6 +5,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>7.3</LangVersion>
     <RootNamespace>Vortice.XAudio2</RootNamespace>
+    <Description>XAudio2 bindings.</Description>
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
