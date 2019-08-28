@@ -7,7 +7,7 @@
     <Content Condition="'$(_Vortice_Dxc_IsWindows)' == 'true'" Include="$(MSBuildThisFileDirectory)..\..\binaries\win\**">
       <Link>binaries/win/%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Visible>True</Visible>
+      <Visible>False</Visible>
     </Content>
   </ItemGroup>
 </Project>
