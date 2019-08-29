@@ -13,9 +13,6 @@ namespace Vortice.Direct3D11
         /// <summary>
         /// Gets or sets the debug-name for this object.
         /// </summary>
-        /// <value>
-        /// The debug name.
-        /// </value>
         public string DebugName
         {
             get
@@ -33,7 +30,6 @@ namespace Vortice.Direct3D11
                     return Marshal.PtrToStringAnsi(new IntPtr(pname));
                 }
             }
-
             set
             {
                 if (string.IsNullOrEmpty(value))

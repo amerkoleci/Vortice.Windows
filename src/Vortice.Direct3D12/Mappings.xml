@@ -528,7 +528,9 @@
     <map struct="D3D12_DISCARD_REGION" visibility="internal"/>
 
     <!-- ID3D12Object methods -->
-    <map method="ID3D12Object::SetName" property="false"/>
+    <map method="ID3D12Object::GetPrivateData" visibility="public" hresult="true" check="false"/>
+    <map method="ID3D12Object::SetPrivateData" visibility="public" hresult="true" check="false"/>
+    <map method="ID3D12Object::SetName" property="false" visibility="private"/>
 
     <!-- ID3D12DeviceChild methods -->
     <map method="ID3D12DeviceChild::GetDevice" visibility="private" hresult="true" check="false"/>

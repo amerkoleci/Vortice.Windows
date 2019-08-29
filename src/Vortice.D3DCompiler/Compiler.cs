@@ -10,6 +10,288 @@ namespace Vortice.D3DCompiler
 {
     public unsafe static partial class Compiler
     {
+        #region Compile
+        public static Result Compile(
+            string shaderSource,
+            string entryPoint,
+            string sourceName,
+            string profile,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            if (string.IsNullOrEmpty(shaderSource))
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+            try
+            {
+                return Compile(
+                    shaderSourcePtr,
+                    shaderSource.Length,
+                    sourceName,
+                    null,
+                    null,
+                    entryPoint,
+                    profile,
+                    ShaderFlags.None,
+                    EffectFlags.None,
+                    out blob,
+                    out errorBlob);
+            }
+            finally
+            {
+                if (shaderSourcePtr != IntPtr.Zero)
+                    Marshal.FreeHGlobal(shaderSourcePtr);
+            }
+        }
+
+        public static Result Compile(
+           string shaderSource,
+           ShaderMacro[] defines,
+           string entryPoint,
+           string sourceName,
+           string profile,
+           out Blob blob,
+           out Blob errorBlob)
+        {
+            if (string.IsNullOrEmpty(shaderSource))
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+            try
+            {
+                return Compile(
+                    shaderSourcePtr,
+                    shaderSource.Length,
+                    sourceName,
+                    defines,
+                    null,
+                    entryPoint,
+                    profile,
+                    ShaderFlags.None,
+                    EffectFlags.None,
+                    out blob,
+                    out errorBlob);
+            }
+            finally
+            {
+                if (shaderSourcePtr != IntPtr.Zero)
+                    Marshal.FreeHGlobal(shaderSourcePtr);
+            }
+        }
+
+        public static Result Compile(
+           string shaderSource,
+           ShaderMacro[] defines,
+           Include include,
+           string entryPoint,
+           string sourceName,
+           string profile,
+           out Blob blob,
+           out Blob errorBlob)
+        {
+            if (string.IsNullOrEmpty(shaderSource))
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+            try
+            {
+                return Compile(
+                    shaderSourcePtr,
+                    shaderSource.Length,
+                    sourceName,
+                    defines,
+                    include,
+                    entryPoint,
+                    profile,
+                    ShaderFlags.None,
+                    EffectFlags.None,
+                    out blob,
+                    out errorBlob);
+            }
+            finally
+            {
+                if (shaderSourcePtr != IntPtr.Zero)
+                    Marshal.FreeHGlobal(shaderSourcePtr);
+            }
+        }
+
+        public static Result Compile(
+           string shaderSource,
+           ShaderMacro[] defines,
+           Include include,
+           string entryPoint,
+           string sourceName,
+           string profile,
+           ShaderFlags shaderFlags,
+           out Blob blob,
+           out Blob errorBlob)
+        {
+            if (string.IsNullOrEmpty(shaderSource))
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+            try
+            {
+                return Compile(
+                    shaderSourcePtr,
+                    shaderSource.Length,
+                    sourceName,
+                    defines,
+                    include,
+                    entryPoint,
+                    profile,
+                    shaderFlags,
+                    EffectFlags.None,
+                    out blob,
+                    out errorBlob);
+            }
+            finally
+            {
+                if (shaderSourcePtr != IntPtr.Zero)
+                    Marshal.FreeHGlobal(shaderSourcePtr);
+            }
+        }
+
+        public static Result Compile(
+           string shaderSource,
+           ShaderMacro[] defines,
+           Include include,
+           string entryPoint,
+           string sourceName,
+           string profile,
+           ShaderFlags shaderFlags,
+           EffectFlags effectFlags,
+           out Blob blob,
+           out Blob errorBlob)
+        {
+            if (string.IsNullOrEmpty(shaderSource))
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+            try
+            {
+                return Compile(
+                    shaderSourcePtr,
+                    shaderSource.Length,
+                    sourceName,
+                    defines,
+                    include,
+                    entryPoint,
+                    profile,
+                    shaderFlags,
+                    effectFlags,
+                    out blob,
+                    out errorBlob);
+            }
+            finally
+            {
+                if (shaderSourcePtr != IntPtr.Zero)
+                    Marshal.FreeHGlobal(shaderSourcePtr);
+            }
+        }
+        #endregion
+
+        #region CompileFromFile
+        public static Result CompileFromFile(
+            string fileName,
+            string entryPoint,
+            string profile,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            return CompileFromFile(
+                fileName,
+                null,
+                null,
+                entryPoint,
+                profile,
+                ShaderFlags.None,
+                EffectFlags.None,
+                out blob,
+                out errorBlob);
+        }
+
+        public static Result CompileFromFile(
+            string fileName,
+            ShaderMacro[] defines,
+            string entryPoint,
+            string profile,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            return CompileFromFile(
+                fileName,
+                defines,
+                null,
+                entryPoint,
+                profile,
+                ShaderFlags.None,
+                EffectFlags.None,
+                out blob,
+                out errorBlob);
+        }
+
+        public static Result CompileFromFile(
+            string fileName,
+            ShaderMacro[] defines,
+            Include include,
+            string entryPoint,
+            string profile,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            return CompileFromFile(
+                fileName,
+                defines,
+                include,
+                entryPoint,
+                profile,
+                ShaderFlags.None,
+                EffectFlags.None,
+                out blob,
+                out errorBlob);
+        }
+
+        public static Result CompileFromFile(
+            string fileName,
+            ShaderMacro[] defines,
+            Include include,
+            string entryPoint,
+            string profile,
+            ShaderFlags shaderFlags,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            return CompileFromFile(
+                fileName,
+                defines,
+                include,
+                entryPoint,
+                profile,
+                shaderFlags,
+                EffectFlags.None,
+                out blob,
+                out errorBlob);
+        }
+        #endregion
+
+        public static Blob CreateBlob(PointerSize size)
+        {
+            CreateBlob(size, out var blob).CheckError();
+            return blob;
+        }
+
         public static Result Reflect<T>(byte[] shaderBytecode, out T reflection) where T : ComObject
         {
             var interfaceGuid = typeof(T).GUID;

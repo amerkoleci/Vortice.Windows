@@ -11,6 +11,8 @@ KEY CHANGES:
  - Removing usage of Guard class, user need to take care of arguments to native call, for better performance. 
  - d3d11shader.h bindings moved to Vortice.Direct3D11.Shader.
  - d3d12shader.h bindings moved to Vortice.Direct3D12.Shader.
+ - Vortice.D3DCompiler - Improvements in Compile and CompileFromFile.
+ - ID3D12Object improvements.
 
 -----------------------------------------------
 Release:     1.0.0 (August 2019)

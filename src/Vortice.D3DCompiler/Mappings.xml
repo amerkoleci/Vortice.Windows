@@ -137,7 +137,8 @@
     <map param="D3DCreateFunctionLinkingGraph::ppFunctionLinkingGraph" attribute="out fast" />
 
     <map function="D3DCompressShaders" visibility="internal" />
-
+    <map function="D3DCreateBlob" check="false" />
+    
     <remove function="D3DCreateLinker" />
     <remove function="D3DLoadModule" />
     <remove function="D3DCreateFunctionLinkingGraph" />
