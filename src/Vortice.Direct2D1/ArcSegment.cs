@@ -3,9 +3,8 @@
 
 using System.Drawing;
 using System.Numerics;
-using Vortice.Interop;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     /// <summary>
     /// Describes an elliptical arc between two points.

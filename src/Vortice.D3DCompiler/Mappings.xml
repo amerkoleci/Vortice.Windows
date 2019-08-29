@@ -110,8 +110,8 @@
     <map struct="D3D12(.*)" name-tmp="$1" />
     <map struct="D3D_SHADER_DATA" visibility="internal" />
     <map field="D3D_SHADER_DATA::pBytecode" name="BytecodePtr" />
-    
-    
+
+
     <remove function="D3DDisassemble10Effect" />
     <map function="D3D(.*)" name-tmp="$1" />
     <map function="D3D[^1].*"  dll='"#(D3DCOMPILER_DLL_A)"' group="Vortice.D3DCompiler.Compiler" />
@@ -137,7 +137,10 @@
     <map param="D3DCreateFunctionLinkingGraph::ppFunctionLinkingGraph" attribute="out fast" />
 
     <map function="D3DCompressShaders" visibility="internal" />
-    
+
+    <remove function="D3DCreateLinker" />
+    <remove function="D3DLoadModule" />
+    <remove function="D3DCreateFunctionLinkingGraph" />
 
   </mapping>
 </config>

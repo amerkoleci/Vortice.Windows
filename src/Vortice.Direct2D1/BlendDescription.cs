@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using Vortice.Interop;
+using Vortice.Mathematics;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     /// <summary>
     /// Defines a blend description to be used in a particular blend transform.
@@ -82,7 +82,7 @@ namespace Vortice.DirectX.Direct2D
             SourceBlendAlpha = sourceBlendAlpha;
             DestinationBlendAlpha = destinationBlendAlpha;
             BlendOperationAlpha = blendOperationAlpha;
-            BlendFactor = default;
+            BlendFactor = new Color4(1.0f, 1.0f, 1.0f, 1.0f);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Vortice.DirectX.Direct2D
         public BlendDescription(
             Blend sourceBlend, Blend destinationBlend, BlendOperation blendOperation,
             Blend sourceBlendAlpha, Blend destinationBlendAlpha, BlendOperation blendOperationAlpha,
-            RawColor4 blendFactor)
+            in Color4 blendFactor)
         {
             SourceBlend = sourceBlend;
             DestinationBlend = destinationBlend;

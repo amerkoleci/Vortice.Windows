@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using Vortice.Interop;
+using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12
 {
@@ -45,7 +45,7 @@ namespace Vortice.Direct3D12
             float mipLODBias,
             int maxAnisotropy,
             ComparisonFunction comparisonFunction,
-            RawColor4 borderColor,
+            in Color4 borderColor,
             float minLOD,
             float maxLOD)
         {
@@ -91,7 +91,7 @@ namespace Vortice.Direct3D12
             MipLODBias = mipLODBias;
             MaxAnisotropy = maxAnisotropy;
             ComparisonFunction = comparisonFunction;
-            BorderColor = new RawColor4(1.0f, 1.0f, 1.0f, 1.0f);
+            BorderColor = new Color4(1.0f, 1.0f, 1.0f, 1.0f);
             MinLOD = minLOD;
             MaxLOD = maxLOD;
         }

@@ -9,15 +9,11 @@ namespace Vortice.Direct3D12
     {
         public ID3D12PipelineState LoadPipeline(string name, PipelineStateStreamDescription description)
         {
-            Guard.NotNullOrEmpty(name, nameof(name));
-
             return LoadPipeline(name, ref description, typeof(ID3D12PipelineState).GUID);
         }
 
         public ID3D12PipelineState LoadPipeline(string name, ref PipelineStateStreamDescription description)
         {
-            Guard.NotNullOrEmpty(name, nameof(name));
-
             return LoadPipeline(name, ref description, typeof(ID3D12PipelineState).GUID);
         }
     }

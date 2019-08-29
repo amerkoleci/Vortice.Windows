@@ -12,8 +12,6 @@ namespace Vortice.Direct3D12
         /// <exception cref="System.ArgumentNullException">resourceBefore</exception>
         public ResourceUnorderedAccessViewBarrier(ID3D12Resource resource)
         {
-            Guard.NotNull(resource, nameof(resource));
-
             ResourcePointer = resource.NativePointer;
         }
     }

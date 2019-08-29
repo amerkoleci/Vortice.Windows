@@ -4,7 +4,7 @@
 using System.Numerics;
 using SharpGen.Runtime;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     [Shadow(typeof(ID2D1SimplifiedGeometrySinkShadow))]
     public partial interface ID2D1SimplifiedGeometrySink

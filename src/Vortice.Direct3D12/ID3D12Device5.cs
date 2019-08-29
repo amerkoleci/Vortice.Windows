@@ -38,8 +38,6 @@ namespace Vortice.Direct3D12
         /// <returns>An instance of <see cref="ID3D12MetaCommand"/>.</returns>
         public ID3D12MetaCommand CreateMetaCommand(Guid commandId, Blob blob)
         {
-            Guard.NotNull(blob, nameof(blob));
-
             return CreateMetaCommand(commandId, 0, blob.BufferPointer, blob.BufferSize, typeof(ID3D12MetaCommand).GUID);
         }
 
@@ -53,8 +51,6 @@ namespace Vortice.Direct3D12
         /// <returns>An instance of <see cref="ID3D12MetaCommand"/>.</returns>
         public ID3D12MetaCommand CreateMetaCommand(Guid commandId, int nodeMask, Blob blob)
         {
-            Guard.NotNull(blob, nameof(blob));
-
             return CreateMetaCommand(commandId, nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12MetaCommand).GUID);
         }
 

@@ -4,9 +4,10 @@
 using System;
 using System.Drawing;
 using System.Numerics;
-using Vortice.DirectX.DirectWrite;
+using Vortice.DirectWrite;
+using Vortice.Mathematics;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     public partial class ID2D1Factory
     {
@@ -22,7 +23,6 @@ namespace Vortice.DirectX.Direct2D
 
         public ID2D1DrawingStateBlock CreateDrawingStateBlock(DrawingStateDescription drawingStateDescription, IDWriteRenderingParams textRenderingParams)
         {
-            Guard.NotNull(textRenderingParams, nameof(textRenderingParams));
             return CreateDrawingStateBlock(drawingStateDescription, textRenderingParams);
         }
 
@@ -32,7 +32,7 @@ namespace Vortice.DirectX.Direct2D
             return geometryGroup;
         }
 
-        public ID2D1RectangleGeometry CreateRectangleGeometry(Rectangle rectangle)
+        public ID2D1RectangleGeometry CreateRectangleGeometry(RectF rectangle)
         {
             unsafe
             {
@@ -47,8 +47,6 @@ namespace Vortice.DirectX.Direct2D
 
         public ID2D1StrokeStyle CreateStrokeStyle(StrokeStyleProperties properties, float[] dashes)
         {
-            Guard.NotNullOrEmpty(dashes, nameof(dashes));
-
             return CreateStrokeStyle(ref properties, dashes, dashes.Length);
         }
 

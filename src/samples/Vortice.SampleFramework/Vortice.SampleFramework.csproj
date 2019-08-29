@@ -12,9 +12,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\Vortice.DirectX.Direct2D\Vortice.DirectX.Direct2D.csproj" />
-    <ProjectReference Include="..\..\Vortice.DirectX.Direct3D11\Vortice.DirectX.Direct3D11.csproj" />
-    <ProjectReference Include="..\..\Vortice.DirectX.Direct3D12\Vortice.DirectX.Direct3D12.csproj" />
+    <ProjectReference Include="..\..\Vortice.Direct2D1\Vortice.Direct2D1.csproj" />
+    <ProjectReference Include="..\..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />
+    <ProjectReference Include="..\..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
   </ItemGroup>
 
 </Project>

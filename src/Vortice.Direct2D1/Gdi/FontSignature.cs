@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectX.Gdi
+namespace Vortice.Gdi
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct FontSignature

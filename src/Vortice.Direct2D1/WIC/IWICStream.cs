@@ -3,10 +3,10 @@
 
 using System;
 using System.IO;
-using System.Runtime.CompilerServices;
+using Vortice.Win32;
 using SharpGen.Runtime.Win32;
 
-namespace Vortice.DirectX.WIC
+namespace Vortice.WIC
 {
     public partial class IWICStream
     {
@@ -26,16 +26,12 @@ namespace Vortice.DirectX.WIC
 
         public void Initialize(IStream comStream)
         {
-            Guard.NotNull(comStream, nameof(comStream));
-
             DisposeStreamProxy();
             InitializeFromIStream(comStream);
         }
 
         public void Initialize(Stream stream)
         {
-            Guard.NotNull(stream, nameof(stream));
-
             DisposeStreamProxy();
             _streamProxy = new ComStreamProxy(stream);
             InitializeFromIStream(_streamProxy);
@@ -43,8 +39,6 @@ namespace Vortice.DirectX.WIC
 
         public unsafe void Initialize(byte[] data)
         {
-            Guard.NotNullOrEmpty(data, nameof(data));
-
             DisposeStreamProxy();
             fixed (void* dataPtr = &data[0])
             {
@@ -66,8 +60,6 @@ namespace Vortice.DirectX.WIC
 
         public void Initialize<T>(T[] data) where T : unmanaged
         {
-            Guard.NotNullOrEmpty(data, nameof(data));
-
             DisposeStreamProxy();
             unsafe
             {

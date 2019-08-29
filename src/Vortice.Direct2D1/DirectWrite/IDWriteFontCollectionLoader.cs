@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
-namespace Vortice.DirectX.DirectWrite
+namespace Vortice.DirectWrite
 {
     [Shadow(typeof(IDWriteFontCollectionLoaderShadow))]
     public partial interface IDWriteFontCollectionLoader

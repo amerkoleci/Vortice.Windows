@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Vortice.DirectX.DirectWrite
+namespace Vortice.DirectWrite
 {
     public partial class IDWriteFactory
     {
@@ -59,14 +59,12 @@ namespace Vortice.DirectX.DirectWrite
         /// <returns>Instance of <see cref="IDWriteFontFace"/> or null if failed.</returns>
         public IDWriteFontFace CreateFontFace(FontFaceType fontFaceType, IDWriteFontFile[] fontFiles, int faceIndex = 0, FontSimulations fontFaceSimulationFlags = FontSimulations.None)
         {
-            Guard.NotNullOrEmpty(fontFiles, nameof(fontFiles));
-
             var result = CreateFontFace(
                 fontFaceType,
                 fontFiles.Length, fontFiles,
                 faceIndex,
                 fontFaceSimulationFlags,
-                out IDWriteFontFace fontFace);
+                out var fontFace);
             return result.Failure ? null : fontFace;
         }
 

@@ -4,7 +4,7 @@
 using System;
 using System.Drawing;
 
-namespace Vortice.DirectX.WIC
+namespace Vortice.WIC
 {
     public partial class IWICBitmap
     {

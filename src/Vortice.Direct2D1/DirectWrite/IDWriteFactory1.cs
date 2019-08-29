@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Vortice.DirectX.DirectWrite
+namespace Vortice.DirectWrite
 {
     public partial class IDWriteFactory1
     {

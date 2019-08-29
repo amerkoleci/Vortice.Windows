@@ -23,8 +23,6 @@ namespace Vortice.Direct3D12
             ID3D12ProtectedResourceSession protectedSession,
             ClearValue? optimizedClearValue = null)
         {
-            Guard.NotNull(protectedSession, nameof(protectedSession));
-
             return CreateCommittedResource1(
                 ref heapProperties,
                 heapFlags,
@@ -37,8 +35,6 @@ namespace Vortice.Direct3D12
 
         public ID3D12Heap1 CreateHeap1(HeapDescription description, ID3D12ProtectedResourceSession protectedSession)
         {
-            Guard.NotNull(protectedSession, nameof(protectedSession));
-
             return CreateHeap1(ref description, protectedSession, typeof(ID3D12Heap1).GUID);
         }
 

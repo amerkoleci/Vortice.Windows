@@ -3,9 +3,9 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Vortice.DirectX.Gdi;
+using Vortice.Gdi;
 
-namespace Vortice.DirectX.DirectWrite
+namespace Vortice.DirectWrite
 {
     public partial class IDWriteGdiInterop1
     {

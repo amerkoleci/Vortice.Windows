@@ -4,6 +4,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Vortice.DirectX;
 
 namespace Vortice.Direct3D12
 {

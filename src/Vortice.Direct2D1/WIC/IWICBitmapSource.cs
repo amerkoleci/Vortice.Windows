@@ -5,7 +5,7 @@ using System;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 
-namespace Vortice.DirectX.WIC
+namespace Vortice.WIC
 {
     public partial class IWICBitmapSource
     {
@@ -20,50 +20,38 @@ namespace Vortice.DirectX.WIC
 
         public void CopyPixels(int stride, int size, IntPtr data)
         {
-            Guard.MustBeGreaterThan(size, 0, "Size must be greather than 0");
-            Guard.MustBeGreaterThan(stride, 0, "Stride must be greather than 0");
-
             CopyPixels(IntPtr.Zero, stride, size, data);
         }
 
         public unsafe void CopyPixels(Rectangle rectangle, int stride, int size, IntPtr data)
         {
-            Guard.MustBeGreaterThan(size, 0, "Size must be greather than 0");
-            Guard.MustBeGreaterThan(stride, 0, "Stride must be greather than 0");
-
             CopyPixels(new IntPtr(&rectangle), stride, size, data);
         }
 
         public unsafe void CopyPixels(int stride, byte[] data)
         {
-            Guard.MustBeGreaterThan(stride, 0, "Stride must be greather than 0");
-            Guard.NotNullOrEmpty(data, nameof(data));
-
             CopyPixels(IntPtr.Zero, stride, data.Length, (IntPtr)Unsafe.AsPointer(ref data[0]));
         }
 
         public unsafe void CopyPixels(Rectangle rectangle, int stride, byte[] data)
         {
-            Guard.MustBeGreaterThan(stride, 0, "Stride must be greather than 0");
-            Guard.NotNullOrEmpty(data, nameof(data));
-
             CopyPixels(new IntPtr(&rectangle), stride, data.Length, (IntPtr)Unsafe.AsPointer(ref data[0]));
         }
 
-        public unsafe void CopyPixels<T>(int stride, T[] data) where T : struct
+        public unsafe void CopyPixels<T>(int stride, T[] data) where T : unmanaged
         {
-            Guard.MustBeGreaterThan(stride, 0, "Stride must be greather than 0");
-            Guard.NotNullOrEmpty(data, nameof(data));
-
-            CopyPixels(IntPtr.Zero, stride, data.Length, (IntPtr)Unsafe.AsPointer(ref data[0]));
+            fixed (void* dataPtr = data)
+            {
+                CopyPixels(IntPtr.Zero, stride, data.Length, (IntPtr)dataPtr);
+            }
         }
 
-        public unsafe void CopyPixels<T>(Rectangle rectangle, int stride, T[] data) where T : struct
+        public unsafe void CopyPixels<T>(Rectangle rectangle, int stride, T[] data) where T : unmanaged
         {
-            Guard.MustBeGreaterThan(stride, 0, "Stride must be greather than 0");
-            Guard.NotNullOrEmpty(data, nameof(data));
-
-            CopyPixels(new IntPtr(&rectangle), stride, data.Length, (IntPtr)Unsafe.AsPointer(ref data[0]));
+            fixed (void* dataPtr = data)
+            {
+                CopyPixels(new IntPtr(&rectangle), stride, data.Length, (IntPtr)dataPtr);
+            }
         }
     }
 }

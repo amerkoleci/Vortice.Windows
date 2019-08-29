@@ -3,9 +3,9 @@
 
 using System;
 using System.Numerics;
-using Vortice.DirectX.DirectWrite;
+using Vortice.DirectWrite;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     public partial class ID2D1Factory1
     {
@@ -21,7 +21,6 @@ namespace Vortice.DirectX.Direct2D
 
         public ID2D1DrawingStateBlock1 CreateDrawingStateBlock(DrawingStateDescription1 drawingStateDescription, IDWriteRenderingParams textRenderingParams)
         {
-            Guard.NotNull(textRenderingParams, nameof(textRenderingParams));
             return CreateDrawingStateBlock(drawingStateDescription, textRenderingParams);
         }
 
@@ -32,8 +31,6 @@ namespace Vortice.DirectX.Direct2D
 
         public ID2D1StrokeStyle1 CreateStrokeStyle(StrokeStyleProperties1 properties, float[] dashes)
         {
-            Guard.NotNullOrEmpty(dashes, nameof(dashes));
-
             return CreateStrokeStyle(ref properties, dashes, dashes.Length);
         }
     }

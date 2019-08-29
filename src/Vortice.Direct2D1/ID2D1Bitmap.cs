@@ -4,9 +4,9 @@
 using System;
 using System.Drawing;
 using System.Numerics;
-using System.Runtime.CompilerServices;
+using Vortice.Mathematics;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     public partial class ID2D1Bitmap
     {
@@ -29,7 +29,7 @@ namespace Vortice.DirectX.Direct2D
             CopyFromBitmap(destinationPoint, sourceBitmap, null);
         }
 
-        public void CopyFromBitmap(Point destinationPoint, ID2D1Bitmap sourceBitmap, Rectangle sourceArea)
+        public void CopyFromBitmap(Point destinationPoint, ID2D1Bitmap sourceBitmap, Rect sourceArea)
         {
             CopyFromBitmap(destinationPoint, sourceBitmap, sourceArea);
         }
@@ -49,7 +49,10 @@ namespace Vortice.DirectX.Direct2D
 
         public unsafe void CopyFromMemory<T>(T[] data, int pitch) where T : unmanaged
         {
-            CopyFromMemory(null, (IntPtr)Unsafe.AsPointer(ref data[0]), pitch);
+            fixed (void* dataPtr = data)
+            {
+                CopyFromMemory(null, (IntPtr)dataPtr, pitch);
+            }
         }
 
         public unsafe void CopyFromMemory<T>(Span<T> data, int pitch) where T : unmanaged
@@ -60,7 +63,7 @@ namespace Vortice.DirectX.Direct2D
             }
         }
 
-        public unsafe void CopyFromMemory(Rectangle destinationArea, byte[] data, int pitch)
+        public unsafe void CopyFromMemory(Rect destinationArea, byte[] data, int pitch)
         {
             fixed (void* dataPtr = &data[0])
             {
@@ -68,12 +71,15 @@ namespace Vortice.DirectX.Direct2D
             }
         }
 
-        public unsafe void CopyFromMemory<T>(Rectangle destinationArea, T[] data, int pitch) where T : struct
+        public unsafe void CopyFromMemory<T>(Rect destinationArea, T[] data, int pitch) where T : unmanaged
         {
-            CopyFromMemory(destinationArea, (IntPtr)Unsafe.AsPointer(ref data[0]), pitch);
+            fixed (void* dataPtr = data)
+            {
+                CopyFromMemory(destinationArea, (IntPtr)dataPtr, pitch);
+            }
         }
 
-        public unsafe void CopyFromMemory<T>(Rectangle destinationArea, Span<T> data, int pitch) where T : unmanaged
+        public unsafe void CopyFromMemory<T>(Rect destinationArea, Span<T> data, int pitch) where T : unmanaged
         {
             fixed (void* dataPtr = data)
             {
@@ -91,7 +97,7 @@ namespace Vortice.DirectX.Direct2D
             CopyFromRenderTarget(destinationPoint, renderTarget, null);
         }
 
-        public void CopyFromRenderTarget(Point destinationPoint, ID2D1RenderTarget renderTarget, Rectangle sourceArea)
+        public void CopyFromRenderTarget(Point destinationPoint, ID2D1RenderTarget renderTarget, Rect sourceArea)
         {
             CopyFromRenderTarget(destinationPoint, renderTarget, sourceArea);
         }

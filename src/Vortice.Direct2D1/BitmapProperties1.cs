@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     /// <summary>
     /// This structure allows a <see cref="ID2D1Bitmap1"/> to be created with bitmap options and color context information available.

@@ -4,55 +4,32 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using SharpGen.Runtime;
 
 namespace Vortice.DirectX
 {
     public static unsafe class Interop
     {
-        public static int SizeOf<T>() => Unsafe.SizeOf<T>();
-
-        public static void Read<T>(IntPtr srcPointer, ref T value)
+        public static void Read<T>(IntPtr source, T[] values) where T : unmanaged
         {
-            Unsafe.Copy(ref value, srcPointer.ToPointer());
-        }
-
-        public static void Read<T>(IntPtr srcPointer, T[] values)
-        {
-            int stride = SizeOf<T>();
-            long size = stride * values.Length;
-            void* dstPtr = Unsafe.AsPointer(ref values[0]);
-            Buffer.MemoryCopy(srcPointer.ToPointer(), dstPtr, size, size);
-        }
-
-        public static void Write<T>(IntPtr dstPointer, ref T value)
-        {
-            Unsafe.Copy(dstPointer.ToPointer(), ref value);
-        }
-
-        public static void Write<T>(IntPtr dstPointer, T[] values)
-        {
-            if (values == null || values.Length == 0)
-                return;
-
-            int stride = SizeOf<T>();
-            uint size = (uint)(stride * values.Length);
-            void* srcPtr = Unsafe.AsPointer(ref values[0]);
-            Unsafe.CopyBlock(dstPointer.ToPointer(), srcPtr, size);
-        }
-
-        public static IntPtr Alloc(int byteCount)
-        {
-            if (byteCount == 0)
+            var count = values.Length;
+            fixed (void* dstPtr = values)
             {
-                return IntPtr.Zero;
+                Unsafe.CopyBlockUnaligned(dstPtr, (void*)source, (uint)(count * sizeof(T)));
             }
-
-            return Marshal.AllocHGlobal(byteCount);
         }
 
-        public static IntPtr Alloc<T>(int count = 1) => Alloc(Unsafe.SizeOf<T>() * count);
+        public static void Write<T>(IntPtr destination, T[] values) where T : unmanaged
+        {
+            MemoryHelpers.Write(destination, new Span<T>(values), values.Length);
+        }
 
-        public static IntPtr AllocToPointer<T>(T[] values) where T : struct
+        public static IntPtr Alloc<T>(int count = 1) where T : unmanaged
+        {
+            return Marshal.AllocHGlobal(sizeof(T) * count);
+        }
+
+        public static IntPtr AllocToPointer<T>(T[] values) where T : unmanaged
         {
             if (values == null
                 || values.Length == 0)
@@ -60,7 +37,7 @@ namespace Vortice.DirectX
                 return IntPtr.Zero;
             }
 
-            int structSize = SizeOf<T>();
+            int structSize = sizeof(T);
             int totalSize = values.Length * structSize;
             var ptr = Marshal.AllocHGlobal(totalSize);
 

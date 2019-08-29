@@ -3,7 +3,7 @@
 
 using SharpGen.Runtime;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     public static partial class D2D1
     {

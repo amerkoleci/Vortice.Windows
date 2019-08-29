@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
 using System.Drawing;
 using System.Numerics;
-using Vortice.Interop;
+using Vortice.Mathematics;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     public partial class ID2D1DeviceContext
     {
@@ -19,7 +20,7 @@ namespace Vortice.DirectX.Direct2D
             DrawBitmap(bitmap, null, opacity, interpolationMode, null, perspectiveTransformRef);
         }
 
-        public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, RectangleF sourceRectangle, Matrix4x4 perspectiveTransformRef)
+        public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, RectF sourceRectangle, Matrix4x4 perspectiveTransformRef)
         {
             DrawBitmap(bitmap, null, opacity, interpolationMode, sourceRectangle, perspectiveTransformRef);
         }
@@ -69,9 +70,9 @@ namespace Vortice.DirectX.Direct2D
             PushLayer(ref layerParameters, layer);
         }
 
-        public RawRectangleF[] GetEffectInvalidRectangles(ID2D1Effect effect)
+        public RectF[] GetEffectInvalidRectangles(ID2D1Effect effect)
         {
-            var invalidRects = new RawRectangleF[GetEffectInvalidRectangleCount(effect)];
+            var invalidRects = new RectF[GetEffectInvalidRectangleCount(effect)];
             if (invalidRects.Length == 0)
             {
                 return invalidRects;
@@ -81,18 +82,33 @@ namespace Vortice.DirectX.Direct2D
             return invalidRects;
         }
 
-        public RawRectangleF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, EffectInputDescription[] inputDescriptions)
+        public void GetEffectInvalidRectangles(ID2D1Effect effect, RectF[] invalidRects)
         {
-            var result = new RawRectangleF[inputDescriptions.Length];
+            GetEffectInvalidRectangles(effect, invalidRects, invalidRects.Length);
+        }
+
+        public RectF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, EffectInputDescription[] inputDescriptions)
+        {
+            var result = new RectF[inputDescriptions.Length];
             GetEffectRequiredInputRectangles(renderEffect, null, inputDescriptions, result, inputDescriptions.Length);
             return result;
         }
 
-        public RawRectangleF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, RectangleF renderImageRectangle, EffectInputDescription[] inputDescriptions)
+        public RectF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, RectF renderImageRectangle, EffectInputDescription[] inputDescriptions)
         {
-            var result = new RawRectangleF[inputDescriptions.Length];
+            var result = new RectF[inputDescriptions.Length];
             GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, result, inputDescriptions.Length);
             return result;
+        }
+
+        public void GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, EffectInputDescription[] inputDescriptions, RectF[] requiredInputRects)
+        {
+            GetEffectRequiredInputRectangles(renderEffect, null, inputDescriptions, requiredInputRects, inputDescriptions.Length);
+        }
+
+        public void GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, RectF renderImageRectangle, EffectInputDescription[] inputDescriptions, RectF[] requiredInputRects)
+        {
+            GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, requiredInputRects, inputDescriptions.Length);
         }
     }
 }

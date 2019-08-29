@@ -15,8 +15,6 @@ namespace Vortice.Direct3D12
         /// <exception cref="System.ArgumentNullException">resource</exception>
         public ResourceTransitionBarrier(ID3D12Resource resource, ResourceStates stateBefore, ResourceStates stateAfter, int subresource = -1)
         {
-            Guard.NotNull(resource, nameof(resource));
-
             ResourcePointer = resource.NativePointer;
             Subresource = subresource;
             StateBefore = stateBefore;

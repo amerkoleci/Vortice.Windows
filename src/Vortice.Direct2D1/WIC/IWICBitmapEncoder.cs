@@ -3,7 +3,7 @@
 
 using SharpGen.Runtime.Win32;
 
-namespace Vortice.DirectX.WIC
+namespace Vortice.WIC
 {
     public partial class IWICBitmapEncoder
     {

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     /// <summary>
     /// Describes the extend modes and the interpolation mode of an <see cref="ID2D1BitmapBrush"/>.

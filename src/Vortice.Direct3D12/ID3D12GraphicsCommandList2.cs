@@ -5,7 +5,7 @@ using System;
 using System.Drawing;
 using SharpGen.Runtime;
 using Vortice.DirectX.Direct3D;
-using Vortice.DirectX.DXGI;
+using Vortice.DXGI;
 
 namespace Vortice.Direct3D12
 {
@@ -13,9 +13,6 @@ namespace Vortice.Direct3D12
     {
         public void WriteBufferImmediate(WriteBufferImmediateParameter[] @params, WriteBufferImmediateMode[] modes)
         {
-            Guard.NotNullOrEmpty(@params, nameof(@params));
-            Guard.NotNullOrEmpty(modes, nameof(modes));
-
             if (@params.Length != modes.Length)
             {
                 throw new InvalidOperationException($"params and modes need to have same length");

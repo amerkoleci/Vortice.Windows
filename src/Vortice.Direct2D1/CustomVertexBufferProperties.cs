@@ -4,8 +4,9 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Vortice.DirectX;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     /// <summary>
     /// Defines a vertex shader and the input element description to define the input layout. 

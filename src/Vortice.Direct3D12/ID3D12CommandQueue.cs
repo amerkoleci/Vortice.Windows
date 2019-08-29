@@ -11,15 +11,12 @@ namespace Vortice.Direct3D12
     {
         public unsafe void ExecuteCommandList(ID3D12CommandList commandList)
         {
-            Guard.NotNull(commandList, nameof(commandList));
             var ptr = commandList.NativePointer;
             ExecuteCommandLists(1, new IntPtr(&ptr));
         }
 
         public unsafe void ExecuteCommandLists(params ID3D12CommandList[] commandLists)
         {
-            Guard.MustBeGreaterThan(commandLists.Length, 0, nameof(commandLists));
-
             var commandListsPtr = (IntPtr*)0;
 
             int count = commandLists.Length;
@@ -35,8 +32,6 @@ namespace Vortice.Direct3D12
 
         public unsafe void ExecuteCommandLists(int count, ID3D12CommandList[] commandLists)
         {
-            Guard.MustBeGreaterThan(count, 0, nameof(count));
-            Guard.MustBeGreaterThan(commandLists.Length, 0, nameof(commandLists));
             var commandListsPtr = (IntPtr*)0;
 
             count = commandLists.Length;
@@ -52,8 +47,6 @@ namespace Vortice.Direct3D12
 
         public void BeginEvent(string name)
         {
-            Guard.NotNullOrEmpty(name, nameof(name));
-
             var handle = IntPtr.Zero;
             try
             {
@@ -65,15 +58,12 @@ namespace Vortice.Direct3D12
                 if (handle != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(handle);
-                    handle = IntPtr.Zero;
                 }
             }
         }
 
         public void SetMarker(string name)
         {
-            Guard.NotNullOrEmpty(name, nameof(name));
-
             var handle = IntPtr.Zero;
             try
             {
@@ -85,7 +75,6 @@ namespace Vortice.Direct3D12
                 if (handle != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(handle);
-                    handle = IntPtr.Zero;
                 }
             }
         }
@@ -100,8 +89,6 @@ namespace Vortice.Direct3D12
             int[] rangeTileCounts,
             TileMappingFlags flags = TileMappingFlags.None)
         {
-            Guard.NotNull(resource, nameof(resource));
-
             UpdateTileMappings(resource,
                 resourceRegionStartCoordinates.Length,
                 resourceRegionStartCoordinates,

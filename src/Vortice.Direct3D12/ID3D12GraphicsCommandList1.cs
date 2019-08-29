@@ -1,11 +1,8 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Drawing;
-using SharpGen.Runtime;
-using Vortice.DirectX.Direct3D;
 using Vortice.DXGI;
+using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12
 {
@@ -55,7 +52,7 @@ namespace Vortice.Direct3D12
             int dstX, int dstY,
             ID3D12Resource srcResource,
             int srcSubresource, 
-            Rectangle srcRect,
+            Rect srcRect,
             Format format, 
             ResolveMode resolveMode = ResolveMode.Decompress)
         {

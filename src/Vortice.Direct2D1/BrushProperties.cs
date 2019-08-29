@@ -3,7 +3,7 @@
 
 using System.Numerics;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     /// <summary>
     /// Describes the opacity and transformation of a brush.

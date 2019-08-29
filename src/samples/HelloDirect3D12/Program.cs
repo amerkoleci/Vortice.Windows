@@ -5,11 +5,11 @@ using System;
 using System.Drawing;
 using System.IO;
 using Vortice;
-using Vortice.DirectX.Direct2D;
-using Vortice.DirectX.DXGI;
-using Vortice.DirectX.WIC;
-using Vortice.DirectX.DirectWrite;
-using Vortice.Interop;
+using Vortice.Direct2D1;
+using Vortice.DXGI;
+using Vortice.WIC;
+using Vortice.DirectWrite;
+using Vortice.Mathematics;
 using Vortice.Dxc;
 
 namespace HelloDirect3D11
@@ -45,19 +45,19 @@ namespace HelloDirect3D11
 
             var rectangleGeometry = d2dFactory.CreateRoundedRectangleGeometry(new RoundedRectangle(new RectangleF(128, 128, width - 128 * 2, height - 128 * 2), 32, 32));
 
-            var wicBitmap = wicFactory.CreateBitmap(width, height, Vortice.DirectX.WIC.PixelFormat.Format32bppBGR, BitmapCreateCacheOption.CacheOnLoad);
+            var wicBitmap = wicFactory.CreateBitmap(width, height, Vortice.WIC.PixelFormat.Format32bppBGR, BitmapCreateCacheOption.CacheOnLoad);
 
-            var renderTargetProperties = new RenderTargetProperties(new Vortice.DirectX.Direct2D.PixelFormat(Format.Unknown, Vortice.DirectX.Direct2D.AlphaMode.Unknown));
+            var renderTargetProperties = new RenderTargetProperties(Vortice.Direct2D1.PixelFormat.Unknown);
 
             var d2dRenderTarget = d2dFactory.CreateWicBitmapRenderTarget(wicBitmap, renderTargetProperties);
 
-            var solidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new RawColor4(1.0f, 1.0f, 1.0f, 1.0f));
-            var redSolidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new RawColor4(1.0f, 0.0f, 0.0f, 1.0f));
+            var solidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new Color4(1.0f, 1.0f, 1.0f, 1.0f));
+            var redSolidColorBrush = d2dRenderTarget.CreateSolidColorBrush(new Color4(1.0f, 0.0f, 0.0f, 1.0f));
 
             d2dRenderTarget.BeginDraw();
-            d2dRenderTarget.Clear(new RawColor4(0.0f, 0.0f, 0.0f, 1.0f));
+            d2dRenderTarget.Clear(new Color4(0.0f, 0.0f, 0.0f, 1.0f));
             d2dRenderTarget.FillGeometry(rectangleGeometry, solidColorBrush, null);
-            d2dRenderTarget.DrawText("Hello", textFormat, new RawRectangleF(0, 0, 120, 24), redSolidColorBrush);
+            d2dRenderTarget.DrawText("Hello", textFormat, new Rect(0, 0, 120, 24), redSolidColorBrush);
             d2dRenderTarget.EndDraw();
 
             if (File.Exists(fileName))
@@ -77,9 +77,8 @@ namespace HelloDirect3D11
                     var bitmapFrameEncode = encoder.CreateNewFrame(props);
                     bitmapFrameEncode.Initialize(null);
                     bitmapFrameEncode.SetSize(width, height);
-                    var pixelFormatGuid = Vortice.DirectX.WIC.PixelFormat.FormatDontCare;
-                    bitmapFrameEncode.SetPixelFormat(ref pixelFormatGuid);
-                    bitmapFrameEncode.WriteSource(wicBitmap, null);
+                    bitmapFrameEncode.SetPixelFormat(Vortice.WIC.PixelFormat.FormatDontCare);
+                    bitmapFrameEncode.WriteSource(wicBitmap);
 
                     bitmapFrameEncode.Commit();
                     encoder.Commit();

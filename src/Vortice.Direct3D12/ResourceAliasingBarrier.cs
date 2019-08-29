@@ -13,9 +13,6 @@ namespace Vortice.Direct3D12
         /// <exception cref="System.ArgumentNullException">resourceBefore</exception>
         public ResourceAliasingBarrier(ID3D12Resource resourceBefore, ID3D12Resource resourceAfter)
         {
-            Guard.NotNull(resourceBefore, nameof(resourceBefore));
-            Guard.NotNull(resourceAfter, nameof(resourceAfter));
-
             ResourceBeforePointer = resourceBefore.NativePointer;
             ResourceAfterPointer = resourceAfter.NativePointer;
         }

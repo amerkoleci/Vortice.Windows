@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public struct Matrix4x3

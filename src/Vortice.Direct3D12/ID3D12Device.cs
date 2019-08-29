@@ -38,7 +38,7 @@ namespace Vortice.Direct3D12
                         HighestVersion = RootSignatureVersion.Version11
                     };
 
-                    if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), Interop.SizeOf<FeatureDataRootSignature>()).Failure)
+                    if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataRootSignature>()).Failure)
                     {
                         _highestRootSignatureVersion = RootSignatureVersion.Version11;
                     }
@@ -74,7 +74,7 @@ namespace Vortice.Direct3D12
                     PFeatureLevelsRequested = new IntPtr(levelsPtr)
                 };
 
-                var result = CheckFeatureSupport(Feature.FeatureLevels, new IntPtr(&featureData), Interop.SizeOf<FeatureDataFeatureLevels>());
+                var result = CheckFeatureSupport(Feature.FeatureLevels, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataFeatureLevels>());
                 maxSupportedFeatureLevel = featureData.MaxSupportedFeatureLevel;
                 return result;
             }
@@ -172,7 +172,7 @@ namespace Vortice.Direct3D12
                 HighestShaderModel = highestShaderModel
             };
 
-            if (CheckFeatureSupport(Feature.ShaderModel, new IntPtr(&featureData), Interop.SizeOf<FeatureDataShaderModel>()).Success)
+            if (CheckFeatureSupport(Feature.ShaderModel, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataShaderModel>()).Success)
             {
                 return featureData.HighestShaderModel;
             }
@@ -187,7 +187,7 @@ namespace Vortice.Direct3D12
                 HighestVersion = highestVersion
             };
 
-            if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), Interop.SizeOf<FeatureDataRootSignature>()).Success)
+            if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataRootSignature>()).Success)
             {
                 return featureData.HighestVersion;
             }
@@ -242,8 +242,6 @@ namespace Vortice.Direct3D12
 
         public ID3D12GraphicsCommandList CreateCommandList(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState = null)
         {
-            Guard.NotNull(commandAllocator, nameof(commandAllocator));
-
             var nativePtr = CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(ID3D12GraphicsCommandList).GUID);
             return new ID3D12GraphicsCommandList(nativePtr);
         }
@@ -289,8 +287,6 @@ namespace Vortice.Direct3D12
 
         public ID3D12RootSignature CreateRootSignature(int nodeMask, VersionedRootSignatureDescription rootSignatureDescription)
         {
-            Guard.NotNull(rootSignatureDescription, nameof(rootSignatureDescription));
-
             var result = Result.Ok;
             Blob signature = null;
             Blob errorBlob = null;
@@ -391,23 +387,16 @@ namespace Vortice.Direct3D12
 
         public ID3D12CommandSignature CreateCommandSignature(CommandSignatureDescription description, ID3D12RootSignature rootSignature)
         {
-            Guard.NotNull(description, nameof(description));
-            Guard.NotNull(rootSignature, nameof(rootSignature));
-
             return CreateCommandSignature(description, rootSignature, typeof(ID3D12CommandSignature).GUID);
         }
 
         public ID3D12PipelineState CreateComputePipelineState(ComputePipelineStateDescription description)
         {
-            Guard.NotNull(description, nameof(description));
-
             return CreateComputePipelineState(description, typeof(ID3D12PipelineState).GUID);
         }
 
         public ID3D12PipelineState CreateGraphicsPipelineState(GraphicsPipelineStateDescription description)
         {
-            Guard.NotNull(description, nameof(description));
-
             return CreateGraphicsPipelineState(description, typeof(ID3D12PipelineState).GUID);
         }
 
@@ -423,8 +412,6 @@ namespace Vortice.Direct3D12
             ResourceStates initialState,
             ClearValue? clearValue = null)
         {
-            Guard.NotNull(heap, nameof(heap));
-
             return CreatePlacedResource(heap, heapOffset, ref resourceDescription, initialState, clearValue, typeof(ID3D12Resource).GUID);
         }
 
@@ -435,9 +422,6 @@ namespace Vortice.Direct3D12
 
         public IntPtr CreateSharedHandle(ID3D12DeviceChild deviceChild, SecurityAttributes? attributes, string name)
         {
-            Guard.NotNull(deviceChild, nameof(deviceChild));
-            Guard.NotNullOrEmpty(name, nameof(name));
-
             return CreateSharedHandlePrivate(deviceChild, attributes, GENERIC_ALL, name);
         }
 
@@ -449,7 +433,6 @@ namespace Vortice.Direct3D12
         /// <returns>Instance of <see cref="ID3D12Heap"/>, <see cref="ID3D12Resource"/> or <see cref="ID3D12Fence"/>.</returns>
         public T OpenSharedHandle<T>(IntPtr handle) where T : ComObject
         {
-            Guard.IsTrue(handle != IntPtr.Zero, nameof(handle), "Invalid handle");
             var result = OpenSharedHandle(handle, typeof(T).GUID, out var nativePtr);
             if (result.Failure)
             {

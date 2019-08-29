@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using System.Numerics;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     internal class ID2D1SimplifiedGeometrySinkShadow : ComObjectShadow
     {

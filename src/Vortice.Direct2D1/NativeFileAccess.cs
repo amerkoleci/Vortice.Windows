@@ -4,7 +4,7 @@
 using System;
 using System.IO;
 
-namespace Vortice.DirectX
+namespace Vortice.Win32
 {
     [Flags]
     internal enum NativeFileAccess : uint

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using Vortice.Interop;
+using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12.Shader
 {
@@ -12,12 +12,12 @@ namespace Vortice.Direct3D12.Shader
         private ID3D12ShaderReflectionConstantBuffer[] _constantBuffers;
         private InputBindingDescription[] _resources;
 
-        public RawInt3 ThreadGroupSize
+        public Int3 ThreadGroupSize
         {
             get
             {
                 GetThreadGroupSize(out var x, out var y, out var z);
-                return new RawInt3(x, y, z);
+                return new Int3(x, y, z);
             }
         }
 
@@ -30,7 +30,7 @@ namespace Vortice.Direct3D12.Shader
                     _inputParameters = new ShaderParameterDescription[Description.InputParameters];
                     for (var i = 0; i < Description.InputParameters; i++)
                     {
-                        _inputParameters[i] = GetInputParameterDesc(i);
+                        _inputParameters[i] = GetInputParameterDescription(i);
                     }
                 }
 
@@ -47,7 +47,7 @@ namespace Vortice.Direct3D12.Shader
                     _outputParameters = new ShaderParameterDescription[Description.OutputParameters];
                     for (var i = 0; i < Description.OutputParameters; i++)
                     {
-                        _outputParameters[i] = GetOutputParameterDesc(i);
+                        _outputParameters[i] = GetOutputParameterDescription(i);
                     }
                 }
 
@@ -81,7 +81,7 @@ namespace Vortice.Direct3D12.Shader
                     _resources = new InputBindingDescription[Description.BoundResources];
                     for (var i = 0; i < Description.BoundResources; i++)
                     {
-                        _resources[i] = GetResourceBindingDesc(i);
+                        _resources[i] = GetResourceBindingDescription(i);
                     }
                 }
 
@@ -89,10 +89,10 @@ namespace Vortice.Direct3D12.Shader
             }
         }
 
-        public int GetThreadGroupSize(out RawInt3 size)
+        public int GetThreadGroupSize(out Int3 size)
         {
             var totalSize = GetThreadGroupSize(out var x, out var y, out var z);
-            size = new RawInt3(x, y, z);
+            size = new Int3(x, y, z);
             return totalSize;
         }
     }

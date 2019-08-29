@@ -3,7 +3,7 @@
 
 using System.Numerics;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     /// <summary>
     /// Contains the center point, x-radius, and y-radius of an ellipse.

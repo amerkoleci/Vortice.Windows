@@ -3,8 +3,10 @@
 
 using System;
 using System.IO;
+using Vortice.DirectX;
+using Vortice.Win32;
 
-namespace Vortice.DirectX.WIC
+namespace Vortice.WIC
 {
     public partial class IWICImagingFactory
     {

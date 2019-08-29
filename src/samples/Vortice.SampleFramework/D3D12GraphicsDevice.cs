@@ -5,15 +5,14 @@ using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using Vortice.DirectX.Direct3D12;
-using Vortice.DirectX.Direct3D12.Debug;
-using Vortice.DirectX.DXGI;
+using Vortice.Direct3D12;
+using Vortice.Direct3D12.Debug;
+using Vortice.DXGI;
 using Vortice.DirectX.Direct3D;
 using SharpGen.Runtime;
-using static Vortice.DirectX.Direct3D12.D3D12;
-using static Vortice.DirectX.DXGI.DXGI;
-using Vortice.DirectX;
-using Vortice.Interop;
+using static Vortice.Direct3D12.D3D12;
+using static Vortice.DXGI.DXGI;
+using Vortice.Mathematics;
 
 namespace Vortice
 {
@@ -202,9 +201,9 @@ namespace Vortice
 
             var triangleVertices = new Vertex[]
             {
-                  new Vertex(new Vector3(0f, 0.5f, 0.0f), new RawColor4(1.0f, 0.0f, 0.0f, 1.0f)),
-                  new Vertex(new Vector3(0.5f, -0.5f, 0.0f), new RawColor4(0.0f, 1.0f, 0.0f, 1.0f)),
-                  new Vertex(new Vector3(-0.5f, -0.5f, 0.0f), new RawColor4(0.0f, 0.0f, 1.0f, 1.0f))
+                  new Vertex(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
+                  new Vertex(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
+                  new Vertex(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
             };
 
             unsafe
@@ -235,8 +234,8 @@ namespace Vortice
 
             // Set necessary state.
             _commandList.SetGraphicsRootSignature(_rootSignature);
-            _commandList.RSSetViewport(new RawViewport(0.0f, 0.0f, Window.Width, Window.Height));
-            _commandList.RSSetScissorRect(new RawRectangle(0, 0, Window.Width, Window.Height));
+            _commandList.RSSetViewport(new Viewport(Window.Width, Window.Height));
+            _commandList.RSSetScissorRect(Rect.Create(Window.Width, Window.Height));
 
             // Indicate that the back buffer will be used as a render target.
             _commandList.ResourceBarrierTransition(_renderTargets[_frameIndex], ResourceStates.Present, ResourceStates.RenderTarget);
@@ -250,7 +249,7 @@ namespace Vortice
             _commandList.OMSetRenderTargets(rtvHandle);
 
             // Record commands.
-            var clearColor = new RawColor4(0.0f, 0.2f, 0.4f, 1.0f);
+            var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
             _commandList.ClearRenderTargetView(rtvHandle, clearColor);
 
             _commandList.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
@@ -268,7 +267,7 @@ namespace Vortice
 
             var result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
-                && result.Code == Vortice.DirectX.DXGI.ResultCode.DeviceRemoved.Code)
+                && result.Code == DXGI.ResultCode.DeviceRemoved.Code)
             {
                 return false;
             }
@@ -303,9 +302,9 @@ namespace Vortice
         private readonly struct Vertex
         {
             public readonly Vector3 Position;
-            public readonly RawColor4 Color;
+            public readonly Color4 Color;
 
-            public Vertex(in Vector3 position, in RawColor4 color)
+            public Vertex(in Vector3 position, in Color4 color)
             {
                 Position = position;
                 Color = color;

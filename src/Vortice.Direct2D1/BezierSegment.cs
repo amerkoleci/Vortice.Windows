@@ -3,7 +3,7 @@
 
 using System.Numerics;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     /// <summary>
     /// Represents a cubic bezier segment drawn between two points.

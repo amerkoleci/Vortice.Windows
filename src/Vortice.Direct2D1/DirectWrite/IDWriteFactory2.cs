@@ -3,9 +3,9 @@
 
 using System;
 using System.Numerics;
-using Vortice.DirectX.Direct2D;
+using Vortice.Direct2D1;
 
-namespace Vortice.DirectX.DirectWrite
+namespace Vortice.DirectWrite
 {
     public partial class IDWriteFactory2
     {

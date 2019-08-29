@@ -37,8 +37,6 @@ namespace Vortice.Direct3D12
         public TextureCopyLocation(ID3D12Resource resource, int subResourceIndex)
             : this()
         {
-            Guard.NotNull(resource, nameof(resource));
-
             _type = TextureCopyType.SubresourceIndex;
             _resource = resource != null ? resource.NativePointer : IntPtr.Zero;
             _union.SubResourceIndex = subResourceIndex;
@@ -52,8 +50,6 @@ namespace Vortice.Direct3D12
         public TextureCopyLocation(ID3D12Resource resource, PlacedSubresourceFootPrint placedFootprint)
             : this()
         {
-            Guard.NotNull(resource, nameof(resource));
-
             _type = TextureCopyType.PlacedFootPrint;
             _resource = resource != null ? resource.NativePointer : IntPtr.Zero;
             _union.PlacedFootprint = placedFootprint;

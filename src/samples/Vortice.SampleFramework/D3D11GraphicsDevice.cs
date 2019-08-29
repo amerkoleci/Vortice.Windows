@@ -3,20 +3,18 @@
 
 using System;
 using Vortice.DirectX.Direct3D;
-using Vortice.DirectX.Direct3D11;
-using Vortice.DirectX.DXGI;
-using static Vortice.DirectX.DXGI.DXGI;
-using static Vortice.DirectX.Direct3D11.D3D11;
-using System.Numerics;
+using Vortice.Direct3D11;
+using Vortice.DXGI;
+using static Vortice.DXGI.DXGI;
+using static Vortice.Direct3D11.D3D11;
 using System.Runtime.CompilerServices;
-using Vortice.Interop;
-using Vortice.DirectX;
+using Vortice.Mathematics;
 
 namespace Vortice
 {
     public sealed class D3D11GraphicsDevice : IGraphicsDevice
     {
-        private static readonly FeatureLevel[] _featureLevels = new[]
+        private static readonly FeatureLevel[] s_featureLevels = new[]
         {
             FeatureLevel.Level_11_1,
             FeatureLevel.Level_11_0,
@@ -24,7 +22,7 @@ namespace Vortice
             FeatureLevel.Level_10_0
         };
 
-        private static readonly FeatureLevel[] _featureLevelsNoLevel11 = new[]
+        private static readonly FeatureLevel[] s_featureLevelsNoLevel11 = new[]
         {
             FeatureLevel.Level_11_0,
             FeatureLevel.Level_10_1,
@@ -65,14 +63,14 @@ namespace Vortice
                 null,
                 DriverType.Hardware,
                 creationFlags,
-                _featureLevels,
+                s_featureLevels,
                 out Device, out FeatureLevel, out DeviceContext).Failure)
             {
                 // Remove debug flag not being supported.
                 creationFlags &= ~DeviceCreationFlags.Debug;
 
                 var result = D3D11CreateDevice(null, DriverType.Hardware,
-                    creationFlags, _featureLevels,
+                    creationFlags, s_featureLevels,
                     out Device, out FeatureLevel, out DeviceContext);
                 if (result.Failure)
                 {
@@ -81,7 +79,7 @@ namespace Vortice
                         null,
                         DriverType.Hardware,
                         creationFlags,
-                        _featureLevelsNoLevel11,
+                        s_featureLevelsNoLevel11,
                         out Device, out FeatureLevel, out DeviceContext).CheckError();
                 }
             }
@@ -96,7 +94,7 @@ namespace Vortice
                 OutputWindow = hwnd,
                 SampleDescription = new SampleDescription(1, 0),
                 SwapEffect = SwapEffect.Discard,
-                Usage = Vortice.DirectX.Usage.RenderTargetOutput
+                Usage = DXGI.Usage.RenderTargetOutput
             };
 
             SwapChain = Factory.CreateSwapChain(Device, swapChainDescription);
@@ -120,8 +118,8 @@ namespace Vortice
 
         public bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null)
         {
-            DeviceContext.RSSetViewport(new RawViewport(0.0f, 0.0f, Window.Width, Window.Height));
-            var clearColor = new RawColor4(0.0f, 0.2f, 0.4f, 1.0f);
+            DeviceContext.RSSetViewport(new Viewport(Window.Width, Window.Height));
+            var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
             DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
 
             // Call callback.
@@ -129,7 +127,7 @@ namespace Vortice
 
             var result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
-                && result.Code == DirectX.DXGI.ResultCode.DeviceRemoved.Code)
+                && result.Code == Vortice.DXGI.ResultCode.DeviceRemoved.Code)
             {
                 return false;
             }

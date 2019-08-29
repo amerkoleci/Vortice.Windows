@@ -11,7 +11,7 @@
     <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
+    <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
   </ItemGroup>
   
 </Project>

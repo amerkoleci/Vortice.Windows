@@ -3,7 +3,7 @@
 
 using System.Numerics;
 
-namespace Vortice.DirectX.Direct2D
+namespace Vortice.Direct2D1
 {
     internal partial class ID2D1SimplifiedGeometrySinkNative
     {
