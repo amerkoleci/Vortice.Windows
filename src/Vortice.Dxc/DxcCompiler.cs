@@ -16,7 +16,9 @@ namespace Vortice.Dxc
             string source,
             string entryPoint,
             string sourceName,
-            DxcCompilerOptions options)
+            DxcCompilerOptions options,
+            DXCDefine[] defines = null,
+            IDxcIncludeHandler include = null)
         {
             var shaderProfile = GetShaderProfile(shaderStage, options.ShaderModel);
             if (options == null)
@@ -114,6 +116,11 @@ namespace Vortice.Dxc
                 arguments.Add($"all");
             }
 
+            if (include == null)
+            {
+                include = Library.CreateIncludeHandler();
+            }
+
             var compiler = Dxc.CreateDxcCompiler();
             return compiler.Compile(
                 Dxc.CreateBlobForText(Library, source),
@@ -122,9 +129,9 @@ namespace Vortice.Dxc
                 shaderProfile,
                 arguments.ToArray(),
                 arguments.Count,
-                null,
-                0,
-                Library.CreateIncludeHandler()
+                defines,
+                defines != null ? defines.Length : 0,
+                include
                 );
         }
 
