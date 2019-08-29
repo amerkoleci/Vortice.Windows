@@ -19,7 +19,7 @@
     <Copyright>Copyright © 2019 Amer Koleci and contributors.</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://github.com/amerkoleci/vortice</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/amerkoleci/Vortice.Windows</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup>
