@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_Vortice_Dxc_IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</_Vortice_Dxc_IsWindows>
+
+    <_Vortice_Dxc_NativeRuntime Condition=" '$(_Vortice_Dxc_NativeRuntime)' == '' And '$(_Vortice_Dxc_IsWindows)' == 'true' And ('$(Prefer32Bit)' == 'true' Or '$(PlatformTarget)' == 'x86')">win-x86</_Vortice_Dxc_NativeRuntime>
+    <_Vortice_Dxc_NativeRuntime Condition=" '$(_Vortice_Dxc_NativeRuntime)' == '' And '$(_Vortice_Dxc_IsWindows)' == 'true' And ('$(Prefer32Bit)' == 'false' Or '$(PlatformTarget)' == 'x64')">win-x64</_Vortice_Dxc_NativeRuntime>
+
+    <_Vortice_Dxc_NativeLibName Condition="'$(_Vortice_Dxc_NativeRuntime)' == 'win-x86' Or '$(_Vortice_Dxc_NativeRuntime)' == 'win-x64'">dxcompiler.dll</_Vortice_Dxc_NativeLibName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Condition="'$(_Vortice_Dxc_NativeRuntime)' != ''" Include="$(MSBuildThisFileDirectory)..\..\runtimes\$(_Vortice_Dxc_NativeRuntime)\native\$(_Vortice_Dxc_NativeLibName)">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </Content>
+  </ItemGroup>
+</Project>

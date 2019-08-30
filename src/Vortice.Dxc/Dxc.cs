@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using NativeLibraryLoader;
 
 namespace Vortice.Dxc
 {
@@ -446,16 +447,12 @@ namespace Vortice.Dxc
             }
         }
 
+        private static readonly NativeLibrary s_dxCompilerLib;
+
         static Dxc()
         {
-            var handle = LoadLibraryW("dxcompiler.dll");
-            if (handle == IntPtr.Zero)
-            {
-                throw new System.ComponentModel.Win32Exception();
-            }
-
-            var fnPtr = GetProcAddress(handle, "DxcCreateInstance");
-            DxcCreateInstanceFn = (DxcCreateInstanceFn)Marshal.GetDelegateForFunctionPointer(fnPtr, typeof(DxcCreateInstanceFn));
+            s_dxCompilerLib = new NativeLibrary("dxcompiler.dll");
+            DxcCreateInstanceFn = s_dxCompilerLib.LoadFunction< DxcCreateInstanceFn>("DxcCreateInstance");
         }
 
         public static DxcCreateInstanceFn DxcCreateInstanceFn;
