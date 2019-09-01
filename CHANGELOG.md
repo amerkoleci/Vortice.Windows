@@ -6,6 +6,8 @@ Current Release:    1.1.0 (August 2019)
 Release:     1.2.0 (September 2019)
 -----------------------------------------------
 KEY CHANGES:
+- Rework Vortice.Dxc to use native library loader.
+- Optionally load dxil.dll using Dxil.LoadLibrary() if required.
 
 -----------------------------------------------
 Release:     1.1.0 (August 2019)
