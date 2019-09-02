@@ -38,14 +38,6 @@ nuget:
 
 deploy:
 - provider: NuGet
-  server: https://www.myget.org/F/vortice_windows/api/v2/package
-  api_key:
-    secure: rVfu/HYGH96xeQfy+gRBC/ovHCheQKTjwIeNIE9HlpkN6e4/YtPUqn5f036pSlmi
-  skip_symbols: false
-  symbol_server: https://www.myget.org/F/vortice_windows/api/v2/package
-  artifact: Nugets Artifacts
-  
-- provider: NuGet
   api_key:
     secure: oy2hlxj7dimfil2ijyiqs7w6wz7443ru7gfkh4zpx6rqvi
   on:
