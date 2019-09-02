@@ -6,12 +6,13 @@ branches:
   only:
     - master
 
+install:
 - ps: >-
     cd src
     nuget restore Vortice.Windows.sln
     $env:VORTICE_BUILD_NUMBER = ([int]$env:APPVEYOR_BUILD_NUMBER).ToString("000")
    
-    $env:VORTICE_VERSION_SUFFIX = "pre$env:ZIO_BUILD_NUMBER"
+    $env:VORTICE_VERSION_SUFFIX = "pre$env:VORTICE_BUILD_NUMBER"
     $env:appveyor_nuget_push = 'false'
     if(-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) {
       if($env:appveyor_repo_tag -eq 'True') {
