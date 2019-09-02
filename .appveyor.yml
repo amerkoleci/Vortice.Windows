@@ -45,11 +45,10 @@ deploy:
   symbol_server: https://www.myget.org/F/vortice_windows/api/v2/package
   artifact: Nugets Artifacts
   
-deploy:
 - provider: NuGet
   api_key:
     secure: oy2hlxj7dimfil2ijyiqs7w6wz7443ru7gfkh4zpx6rqvi
   on:
     appveyor_nuget_push: true
-  artifact: Nugets Artifacts  
+  artifact: Nugets Artifacts 
   
