@@ -31,13 +31,13 @@ In order to compile, you need to install **Visual Studio 2017 or newer** with th
 
 All packages are available as NuGet packages: [![NuGet](https://img.shields.io/nuget/v/Vortice.Runtime.COM.svg)](https://www.nuget.org/packages?q=Tags%3A%22Vortice.Windows%22)
 
-Nightly packages can be download by adding the NuGet feed "https://www.myget.org/feed/vortice_windows" to your `NuGet.config` file:
+Nightly packages can be download by adding the NuGet feed "https://ci.appveyor.com/nuget/vortice-windows" to your `NuGet.config` file:
 
 ```xml
  <configuration>
    <packageSources>
      <!-- ... -->
-     <add key="myget vortice_windows" value="https://www.myget.org/F/vortice_windows/api/v3/index.json" />
+     <add key="myget vortice_windows" value="https://ci.appveyor.com/nuget/vortice-windows" />
      <!-- ... -->
    </packageSources>
 </configuration>     
