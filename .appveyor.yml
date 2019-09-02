@@ -6,12 +6,34 @@ branches:
   only:
     - master
 
+- ps: >-
+    cd src
+    nuget restore Vortice.Windows.sln
+    $env:VORTICE_BUILD_NUMBER = ([int]$env:APPVEYOR_BUILD_NUMBER).ToString("000")
+   
+    $env:VORTICE_VERSION_SUFFIX = "pre$env:ZIO_BUILD_NUMBER"
+    $env:appveyor_nuget_push = 'false'
+    if(-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) {
+      if($env:appveyor_repo_tag -eq 'True') {
+    	  if($env:appveyor_repo_tag_name -match '^v[0-9]') {
+           $env:appveyor_nuget_push = 'true'
+           $env:VORTICE_VERSION_SUFFIX = ""
+        }
+    	  if($env:appveyor_repo_tag_name -eq 'latest') {
+           $env:appveyor_nuget_push = 'true'
+        }        
+      }
+    }
+
 build_script:
   ci-build.cmd
   
 artifacts:
 - path: bin\Release\Packages\*.nupkg
   name: Nugets Artifacts
+
+nuget:
+  project_feed: true
 
 deploy:
 - provider: NuGet
@@ -21,3 +43,12 @@ deploy:
   skip_symbols: false
   symbol_server: https://www.myget.org/F/vortice_windows/api/v2/package
   artifact: Nugets Artifacts
+  
+deploy:
+- provider: NuGet
+  api_key:
+    secure: oy2hlxj7dimfil2ijyiqs7w6wz7443ru7gfkh4zpx6rqvi
+  on:
+    appveyor_nuget_push: true
+  artifact: Nugets Artifacts  
+  
