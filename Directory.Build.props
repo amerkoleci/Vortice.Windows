@@ -5,6 +5,8 @@
     <BinDir>$(RepositoryRootDirectory)bin</BinDir>
     <OutputPath>$([System.IO.Path]::GetFullPath('$(RepositoryRootDirectory)bin\$(Configuration)'))\$(MSBuildProjectName)</OutputPath>
     <PackageOutputPath>$(BinDir)\$(Configuration)\Packages</PackageOutputPath>
+    <LangVersion>7.3</LangVersion>
+    <VersionPrefix>1.2.0</VersionPrefix>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
@@ -20,7 +22,6 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/amerkoleci/Vortice.Windows</PackageProjectUrl>
-    <VersionPrefix>1.2.0</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup>
