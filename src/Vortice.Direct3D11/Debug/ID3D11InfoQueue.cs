@@ -11,7 +11,7 @@ namespace Vortice.Direct3D11.Debug
         public unsafe Message GetMessage(long messageIndex)
         {
             PointerSize messageSize = 0;
-            GetMessageW(messageIndex, IntPtr.Zero, ref messageSize);
+            GetMessage(messageIndex, IntPtr.Zero, ref messageSize);
 
             if (messageSize == 0)
             {
@@ -19,7 +19,7 @@ namespace Vortice.Direct3D11.Debug
             }
 
             var messagePtr = stackalloc byte[(int)messageSize];
-            GetMessageW(messageIndex, new IntPtr(messagePtr), ref messageSize);
+            GetMessage(messageIndex, new IntPtr(messagePtr), ref messageSize);
 
             var message = new Message();
             message.__MarshalFrom(ref *(Message.__Native*)messagePtr);

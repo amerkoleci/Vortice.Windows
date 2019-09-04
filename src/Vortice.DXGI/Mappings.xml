@@ -98,6 +98,8 @@
     <!-- dxgi structs -->
     <map struct="DXGI(.+)" name-tmp="$1" />
     <map struct="DXGI_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true"   />
+
+    <map method="IDXGIInfoQueue::GetMessageW" name="GetMessage" />
     <map method="IDXGIInfoQueue::GetMessageW?" visibility="internal"/>
     <map param="IDXGIInfoQueue::GetMessageW?::pMessage" type="void" attribute="in"/>
     <map method="IDXGIInfoQueue::GetStorageFilter" visibility="internal"/>

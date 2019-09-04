@@ -297,11 +297,5 @@
     <map enum-item="WAVE_FORMAT_GSM610" name-tmp="DefaultGsm610" />
 
     <map enum-item="AudioCategory_(.*)" name="$1"/>
-
-    <map method=".*::GetTextMetricsW" name="GetTextMetrics" />
-    <map method=".*::PreloadTextW" name="PreloadText" />
-    <map method=".*::GetMessageW" name="GetMessage" />
-    <map method=".*::DrawTextW" name="DrawText" />
-    <map method=".*::GetGlyphIndicesW" name="GetGlyphIndices" />
   </mapping>
 </config>

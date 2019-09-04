@@ -11,7 +11,7 @@ namespace Vortice.DXGI
         public unsafe InfoQueueMessage GetMessage(Guid producer, long messageIndex)
         {
             PointerSize messageSize = 0;
-            GetMessageW(producer, messageIndex, IntPtr.Zero, ref messageSize);
+            GetMessage(producer, messageIndex, IntPtr.Zero, ref messageSize);
 
             if (messageSize == 0)
             {
@@ -19,7 +19,7 @@ namespace Vortice.DXGI
             }
 
             var messagePtr = stackalloc byte[messageSize];
-            GetMessageW(producer, messageIndex, new IntPtr(messagePtr), ref messageSize);
+            GetMessage(producer, messageIndex, new IntPtr(messagePtr), ref messageSize);
 
             var message = new InfoQueueMessage();
             message.__MarshalFrom(ref *(InfoQueueMessage.__Native*)messagePtr);

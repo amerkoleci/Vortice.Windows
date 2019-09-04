@@ -432,6 +432,8 @@
     <map field="D3D12_DESCRIPTOR_HEAP_DESC::NumDescriptors" name="DescriptorCount"/>
 
     <map struct="D3D12_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true" />
+
+    <map method="ID3D12InfoQueue::GetMessageW" name="GetMessage" />
     <map method="ID3D12InfoQueue::GetMessageW?" visibility="internal"/>
     <map param="ID3D12InfoQueue::GetMessageW?::pMessage" type="void" attribute="in"/>
     <map method="ID3D12InfoQueue::GetStorageFilter" visibility="internal"/>

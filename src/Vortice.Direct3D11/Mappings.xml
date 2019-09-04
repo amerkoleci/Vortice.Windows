@@ -424,6 +424,8 @@
     <map field="D3D11_SUBRESOURCE_DATA::SysMemSlicePitch" name="SlicePitch" />
 
     <map struct="D3D11_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true"   />
+
+    <map method="ID3D11InfoQueue::GetMessageW" name="GetMessage" />
     <map method="ID3D11InfoQueue::GetMessageW?" visibility="internal"/>
     <map param="ID3D11InfoQueue::GetMessageW?::pMessage" type="void" attribute="in"/>
     <map method="ID3D11InfoQueue::GetStorageFilter" visibility="internal"/>
