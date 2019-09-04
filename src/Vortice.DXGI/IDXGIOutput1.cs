@@ -24,12 +24,5 @@ namespace Vortice.DXGI
 
             return result;
         }
-
-#if !WINDOWS_UWP
-        public IDXGIOutputDuplication DuplicateOutput(IUnknown device)
-        {
-            return DuplicateOutputPrivate(device);
-        }
-#endif
     }
 }

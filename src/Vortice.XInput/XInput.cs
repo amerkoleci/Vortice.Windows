@@ -14,6 +14,10 @@ namespace Vortice.XInput
 
         static XInput()
         {
+#if WINDOWS_UWP
+            s_xInput = new XInput14();
+            Version = XInputVersion.Version14;
+#else
             if (LoadLibrary("xinput1_4.dll") != IntPtr.Zero)
             {
                 s_xInput = new XInput14();
@@ -29,6 +33,7 @@ namespace Vortice.XInput
                 s_xInput = new XInput910();
                 Version = XInputVersion.Version910;
             }
+#endif
         }
 
         /// <summary>
@@ -144,7 +149,9 @@ namespace Vortice.XInput
         }
 
 
+#if !WINDOWS_UWP
         [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string lpFileName);
+#endif
     }
 }

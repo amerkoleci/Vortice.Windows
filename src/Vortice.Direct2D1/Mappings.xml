@@ -13,7 +13,21 @@
            output="WIC"
            attach="true" />
   <include file="dcommon.h" attach="true"/>
-  <include file="d2derr.h" attach="true" />
+  <ifdef name="DESKTOP">
+    <include file="d2derr.h" attach="true" />
+  </ifdef>
+  <ifdef name="UWP">
+    <include file="d2derr.h" attach="true">
+      <pre>
+        #undef WINAPI_FAMILY
+        #define WINAPI_FAMILY WINAPI_FAMILY_DESKTOP_APP
+      </pre>
+      <post>
+        #undef WINAPI_FAMILY
+        #define WINAPI_FAMILY WINAPI_FAMILY_APP
+      </post>
+    </include>
+  </ifdef>
   <include file="d2d1.h" attach="true" />
   <include file="d2d1_1.h" attach="true" />
   <include file="d2d1_2.h" attach="true" />

@@ -17,7 +17,7 @@ namespace Vortice.DXGI
         /// <returns>Overlay color space support flags.</returns>
         public OverlayColorSpaceSupportFlags CheckOverlayColorSpaceSupport(Format format, ColorSpaceType colorSpace, IUnknown concernedDevice)
         {
-            return CheckOverlayColorSpaceSupportPrivate(format, colorSpace, concernedDevice);
+            return CheckOverlayColorSpaceSupport_(format, colorSpace, concernedDevice);
         }
 #endif
     }

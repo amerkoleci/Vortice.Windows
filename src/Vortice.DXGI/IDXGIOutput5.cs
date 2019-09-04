@@ -8,9 +8,9 @@ namespace Vortice.DXGI
     public partial class IDXGIOutput5
     {
 #if !WINDOWS_UWP
-        public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, Format[] supportedFormats)
+        public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, params Format[] supportedFormats)
         {
-            return DuplicateOutput1Private(device, 0, supportedFormats.Length, supportedFormats);
+            return DuplicateOutput1_(device, 0, supportedFormats.Length, supportedFormats);
         }
 #endif
     }

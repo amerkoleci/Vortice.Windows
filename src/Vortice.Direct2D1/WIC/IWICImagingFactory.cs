@@ -3,7 +3,7 @@
 
 using System;
 using System.IO;
-using Vortice.DirectX;
+using SharpGen.Runtime;
 using Vortice.Win32;
 
 namespace Vortice.WIC
@@ -14,7 +14,7 @@ namespace Vortice.WIC
         {
             ComUtilities.CreateComInstance(
                 WICImagingFactoryClsid,
-                ComUtilities.CLSCTX.ClsctxInprocServer,
+                ComContext.InprocServer,
                 typeof(IWICImagingFactory).GUID,
                 this);
         }

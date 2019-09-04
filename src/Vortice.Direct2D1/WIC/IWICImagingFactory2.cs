@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using Vortice.DirectX;
+using SharpGen.Runtime;
 
 namespace Vortice.WIC
 {
@@ -11,7 +12,7 @@ namespace Vortice.WIC
         {
             ComUtilities.CreateComInstance(
                 WICImagingFactoryClsid,
-                ComUtilities.CLSCTX.ClsctxInprocServer,
+                ComContext.InprocServer,
                 typeof(IWICImagingFactory2).GUID,
                 this);
         }

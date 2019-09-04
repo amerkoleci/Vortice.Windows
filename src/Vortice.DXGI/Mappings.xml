@@ -173,13 +173,6 @@
     <!-- IDXGIFactory7 -->
     <map param="IDXGIFactory7::RegisterAdaptersChangedEvent::pdwCookie" return="true"/>
 
-    <!-- IDXGIFactoryMedia  -->
-    <map method="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle" visibility="private" />
-    <map param="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
-
-    <map method="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle" visibility="private" />
-    <map param="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
-
     <!-- IDXGISwapChain -->
     <map method="IDXGISwapChain::GetFrameStatistics" hresult="true" check="false" property="false" name="GetFrameStatistics"/>
     <map method="IDXGISwapChain::Present" hresult="true" check="false" visibility="public" />
@@ -234,20 +227,6 @@
     <!-- IDXGIOutput1 -->
     <map method="IDXGIOutput1::FindClosestMatchingMode1" visibility="private" />
     <map method="IDXGIOutput1::GetDisplayModeList1" visibility="private" />
-    <map method="IDXGIOutput1::DuplicateOutput" visibility="private" name="DuplicateOutputPrivate" />
-    <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" attribute="out" return="true"/>
-
-    <!-- IDXGIOutput3 -->
-    <map method="IDXGIOutput3::CheckOverlaySupport" visibility="private" name="CheckOverlaySupportPrivate" />
-    <map param="IDXGIOutput3::CheckOverlaySupport::pFlags" type="DXGI_OVERLAY_SUPPORT_FLAG" attribute="out" return="true"/>
-
-    <!-- IDXGIOutput4 -->
-    <map method="IDXGIOutput4::CheckOverlayColorSpaceSupport" visibility="private" name="CheckOverlayColorSpaceSupportPrivate" />
-    <map param="IDXGIOutput4::CheckOverlayColorSpaceSupport::pFlags" type="DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG" attribute="out" return="true"/>
-
-    <!-- IDXGIOutput5 -->
-    <map method="IDXGIOutput5::DuplicateOutput1" visibility="private" name="DuplicateOutput1Private" />
-    <map param="IDXGIOutput5::DuplicateOutput1::ppOutputDuplication" attribute="out" return="true"/>
 
     <!-- IDXGIOutput6 -->
     <map param="IDXGIOutput6::CheckHardwareCompositionSupport::pFlags" type="DXGI_HARDWARE_COMPOSITION_SUPPORT_FLAGS" attribute="out" return="true"/>
@@ -279,6 +258,41 @@
 
     <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
 
+    <ifdef name="DESKTOP">
+      <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" attribute="out" return="true"/>
 
+      <map method="IDXGIOutput3::CheckOverlaySupport" visibility="private" name="CheckOverlaySupport_" />
+      <map param="IDXGIOutput3::CheckOverlaySupport::pFlags" type="DXGI_OVERLAY_SUPPORT_FLAG" attribute="out" return="true"/>
+
+      <!-- IDXGIOutput4 -->
+      <map method="IDXGIOutput4::CheckOverlayColorSpaceSupport" visibility="private" name="CheckOverlayColorSpaceSupport_" />
+      <map param="IDXGIOutput4::CheckOverlayColorSpaceSupport::pFlags" type="DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG" attribute="out" return="true"/>
+
+      <!-- IDXGIOutput5 -->
+      <map method="IDXGIOutput5::DuplicateOutput1" visibility="private" name="DuplicateOutput1_" />
+      <map param="IDXGIOutput5::DuplicateOutput1::ppOutputDuplication" attribute="out" return="true"/>
+
+      <!-- IDXGIFactoryMedia  -->
+      <map method="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle" visibility="private" />
+      <map param="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
+      <map method="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle" visibility="private" />
+      <map param="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
+    </ifdef>
+
+    <ifdef name="UWP">
+      <map method="IDXGIOutput1::DuplicateOutput" visibility="private"/>
+      <map method="IDXGIOutput3::CheckOverlaySupport" visibility="private"/>
+      <map method="IDXGIOutput5::DuplicateOutput1" visibility="private"/>
+      <map method="IIDXGIOutput4::CheckOverlayColorSpaceSupport" visibility="private"/>
+      <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" type="void"/>
+      <map param="IDXGIOutput5::DuplicateOutput1::ppOutputDuplication" type="void"/>
+      <map param="IDXGIOutput4::CheckOverlayColorSpaceSupport::pFlags" type="void"/>
+      <map param="IDXGIOutput3::CheckOverlaySupport::pFlags" type="void"/>
+      <map method="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle" visibility="private" />
+      <map param="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle::ppSwapChain" type="void"/>
+      <map method="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle" visibility="private" />
+      <map param="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle::ppSwapChain" type="void"/>
+    </ifdef>
+    
   </mapping>
 </config>

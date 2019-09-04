@@ -13,6 +13,7 @@ namespace Vortice.DXGI
         public static readonly Guid Dxgi = new Guid("25cddaa4-b1c6-47e1-ac3e-98875b5a2e2a");
         public static readonly Guid App = new Guid("06cd6e01-4219-4ebd-8709-27ed23360c62");
 
+#if !WINDOWS_UWP
         /// <summary>
         /// Try to create new instance of <see cref="IDXGIFactory"/>.
         /// </summary>
@@ -30,6 +31,7 @@ namespace Vortice.DXGI
             factory = null;
             return result;
         }
+#endif
 
         /// <summary>
         /// Try to create new instance of <see cref="IDXGIFactory1"/>.

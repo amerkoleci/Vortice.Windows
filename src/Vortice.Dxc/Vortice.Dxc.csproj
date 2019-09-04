@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>7.3</LangVersion>
     <Description>A .NET wrapper for Microsoft's DirectXShaderCompiler.</Description>
     <RootNamespace>Vortice.Dxc</RootNamespace>
   </PropertyGroup>

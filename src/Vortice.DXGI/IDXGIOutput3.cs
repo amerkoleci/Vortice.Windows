@@ -16,7 +16,7 @@ namespace Vortice.DXGI
         /// <returns>Overlay support flags.</returns>
         public OverlaySupportFlags CheckOverlaySupport(Format format, IUnknown concernedDevice)
         {
-            return CheckOverlaySupportPrivate(format, concernedDevice);
+            return CheckOverlaySupport_(format, concernedDevice);
         }
 #endif
     }

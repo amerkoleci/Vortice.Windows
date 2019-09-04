@@ -6,6 +6,13 @@
 
   <sdk name="WindowsSdk" version="10.0.18362.0" />
   <sdk name="StdLib" />
+  
+  <ifdef name="UWP">
+    <include-prolog>
+      #undef WINAPI_FAMILY
+      #define WINAPI_FAMILY WINAPI_FAMILY_APP
+    </include-prolog>    
+  </ifdef>
 
   <include file="d3dcommon.h"
            namespace="Vortice.DirectX.Direct3D"
@@ -290,5 +297,11 @@
     <map enum-item="WAVE_FORMAT_GSM610" name-tmp="DefaultGsm610" />
 
     <map enum-item="AudioCategory_(.*)" name="$1"/>
+
+    <map method=".*::GetTextMetricsW" name="GetTextMetrics" />
+    <map method=".*::PreloadTextW" name="PreloadText" />
+    <map method=".*::GetMessageW" name="GetMessage" />
+    <map method=".*::DrawTextW" name="DrawText" />
+    <map method=".*::GetGlyphIndicesW" name="GetGlyphIndices" />
   </mapping>
 </config>
