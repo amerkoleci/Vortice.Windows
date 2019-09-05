@@ -35,6 +35,8 @@
     <const from-macro="D3D12_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE" class="Vortice.Direct3D12.ID3D12GraphicsCommandList" type="int" name="ViewportAndScissorRectObjectCountPerPipeline" />
     <const from-macro="D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES" class="Vortice.Direct3D12.ResourceBarrier" type="int" name="AllSubResources" />
 
+    <const from-macro="D3D12_RAYTRACING_MAX_ATTRIBUTE_SIZE_IN_BYTES" class="Vortice.Direct3D12.RaytracingShaderConfig" type="int" name="RaytracingMaxAttributeSizeInBytes" />
+
     <define enum="Vortice.Direct3D12.Shader" sizeof="1" />
   </extension>
 
@@ -496,6 +498,11 @@
 
     <map struct="D3D12_BLEND_DESC" marshalto="true"/>
 
+    <remove field="D3D12_STATE_SUBOBJECT::.*"/>
+
+    <map struct="D3D12_STATE_OBJECT_DESC" name="StateObjectDescription" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_STATE_OBJECT_DESC::.*"/>
+
     <!-- D3D12_RENDER_TARGET_BLEND_DESC struct -->
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendEnable" name="IsBlendEnabled" />
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::SrcBlend" name="SourceBlend" />
@@ -524,8 +531,6 @@
     <remove field="D3D12_COMMAND_SIGNATURE_DESC::.*"/>
 
     <map enum="D3D12_STATE_SUBOBJECT_TYPE" name="StateSubObjectType" />
-    <map struct="D3D12_STATE_SUBOBJECT" name="StateSubObject" />
-    <map field="D3D12_STATE_SUBOBJECT::pDesc" name="Description"/>
 
     <map struct="D3D12_DISCARD_REGION" visibility="internal"/>
 

@@ -37,12 +37,13 @@ namespace Vortice.Direct3D12.Debug
 
         internal void __MarshalTo(ref __Native @ref)
         {
-            @ref.AllowList = default(InfoQueueFilterDescription.__Native);
+            @ref.AllowList = default;
             if (AllowList != null)
             {
                 AllowList.__MarshalTo(ref @ref.AllowList);
             }
-            @ref.DenyList = default(InfoQueueFilterDescription.__Native);
+
+            @ref.DenyList = default;
             if (DenyList != null)
             {
                 DenyList.__MarshalTo(ref @ref.DenyList);
