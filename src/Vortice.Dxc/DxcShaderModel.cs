@@ -48,5 +48,22 @@ namespace Vortice.Dxc
         {
             return !(left == right);
         }
+
+        /// <inheritdoc/>
+		public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = Major.GetHashCode();
+                hashCode = (hashCode * 397) ^ Minor.GetHashCode();
+                return hashCode;
+            }
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"Major={Major}, Minor={Minor}";
+        }
     }
 }

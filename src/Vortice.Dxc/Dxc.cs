@@ -447,10 +447,12 @@ namespace Vortice.Dxc
             }
         }
 
+        private static readonly NativeLibrary s_dxilLib;
         private static readonly NativeLibrary s_dxCompilerLib;
 
         static Dxc()
         {
+            s_dxilLib = new NativeLibrary("dxil.dll");
             s_dxCompilerLib = new NativeLibrary("dxcompiler.dll");
             DxcCreateInstanceFn = s_dxCompilerLib.LoadFunction< DxcCreateInstanceFn>("DxcCreateInstance");
         }

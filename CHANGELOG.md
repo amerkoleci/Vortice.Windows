@@ -8,6 +8,7 @@ Release:     1.3.0 (September 2019)
 KEY CHANGES:
 - Multiplatform support: targets netstandard2.0 and uap10.0.16299.
 - Improvements in Direct3D12 raytracing API, StateObject and StateSubObject.
+- Fixes #22 - Load dxil.dll first before dxcompiler.dll.
 
 -----------------------------------------------
 Release:     1.2.0 (September 2019)

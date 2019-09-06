@@ -169,95 +169,95 @@ namespace Vortice.Dxc
          * spelling, find their definitions, etc. However, the specific kind
          * of the declaration is not reported.
          */
-        DxcCursor_UnexposedDecl = 1,
+        UnexposedDecl = 1,
         /** \brief A C or C++ struct. */
-        DxcCursor_StructDecl = 2,
+        StructDecl = 2,
         /** \brief A C or C++ union. */
-        DxcCursor_UnionDecl = 3,
+        UnionDecl = 3,
         /** \brief A C++ class. */
-        DxcCursor_ClassDecl = 4,
+        ClassDecl = 4,
         /** \brief An enumeration. */
-        DxcCursor_EnumDecl = 5,
+        EnumDecl = 5,
         /**
          * \brief A field (in C) or non-static data member (in C++) in a
          * struct, union, or C++ class.
          */
-        DxcCursor_FieldDecl = 6,
+        FieldDecl = 6,
         /** \brief An enumerator constant. */
-        DxcCursor_EnumConstantDecl = 7,
+        EnumConstantDecl = 7,
         /** \brief A function. */
-        DxcCursor_FunctionDecl = 8,
+        FunctionDecl = 8,
         /** \brief A variable. */
-        DxcCursor_VarDecl = 9,
+        VarDecl = 9,
         /** \brief A function or method parameter. */
-        DxcCursor_ParmDecl = 10,
+        ParmDecl = 10,
         /** \brief An Objective-C \@interface. */
-        DxcCursor_ObjCInterfaceDecl = 11,
+        ObjCInterfaceDecl = 11,
         /** \brief An Objective-C \@interface for a category. */
-        DxcCursor_ObjCCategoryDecl = 12,
+        ObjCCategoryDecl = 12,
         /** \brief An Objective-C \@protocol declaration. */
-        DxcCursor_ObjCProtocolDecl = 13,
+        ObjCProtocolDecl = 13,
         /** \brief An Objective-C \@property declaration. */
-        DxcCursor_ObjCPropertyDecl = 14,
+        ObjCPropertyDecl = 14,
         /** \brief An Objective-C instance variable. */
-        DxcCursor_ObjCIvarDecl = 15,
+        ObjCIvarDecl = 15,
         /** \brief An Objective-C instance method. */
-        DxcCursor_ObjCInstanceMethodDecl = 16,
+        ObjCInstanceMethodDecl = 16,
         /** \brief An Objective-C class method. */
-        DxcCursor_ObjCClassMethodDecl = 17,
+        ObjCClassMethodDecl = 17,
         /** \brief An Objective-C \@implementation. */
-        DxcCursor_ObjCImplementationDecl = 18,
+        ObjCImplementationDecl = 18,
         /** \brief An Objective-C \@implementation for a category. */
-        DxcCursor_ObjCCategoryImplDecl = 19,
+        ObjCCategoryImplDecl = 19,
         /** \brief A typedef */
-        DxcCursor_TypedefDecl = 20,
+        TypedefDecl = 20,
         /** \brief A C++ class method. */
-        DxcCursor_CXXMethod = 21,
+        CXXMethod = 21,
         /** \brief A C++ namespace. */
-        DxcCursor_Namespace = 22,
+        Namespace = 22,
         /** \brief A linkage specification, e.g. 'extern "C"'. */
-        DxcCursor_LinkageSpec = 23,
+        LinkageSpec = 23,
         /** \brief A C++ constructor. */
-        DxcCursor_Constructor = 24,
+        Constructor = 24,
         /** \brief A C++ destructor. */
-        DxcCursor_Destructor = 25,
+        Destructor = 25,
         /** \brief A C++ conversion function. */
-        DxcCursor_ConversionFunction = 26,
+        ConversionFunction = 26,
         /** \brief A C++ template type parameter. */
-        DxcCursor_TemplateTypeParameter = 27,
+        TemplateTypeParameter = 27,
         /** \brief A C++ non-type template parameter. */
-        DxcCursor_NonTypeTemplateParameter = 28,
+        NonTypeTemplateParameter = 28,
         /** \brief A C++ template template parameter. */
-        DxcCursor_TemplateTemplateParameter = 29,
+        TemplateTemplateParameter = 29,
         /** \brief A C++ function template. */
-        DxcCursor_FunctionTemplate = 30,
+        FunctionTemplate = 30,
         /** \brief A C++ class template. */
-        DxcCursor_ClassTemplate = 31,
+        ClassTemplate = 31,
         /** \brief A C++ class template partial specialization. */
-        DxcCursor_ClassTemplatePartialSpecialization = 32,
+        ClassTemplatePartialSpecialization = 32,
         /** \brief A C++ namespace alias declaration. */
-        DxcCursor_NamespaceAlias = 33,
+        NamespaceAlias = 33,
         /** \brief A C++ using directive. */
-        DxcCursor_UsingDirective = 34,
+        UsingDirective = 34,
         /** \brief A C++ using declaration. */
-        DxcCursor_UsingDeclaration = 35,
+        UsingDeclaration = 35,
         /** \brief A C++ alias declaration */
-        DxcCursor_TypeAliasDecl = 36,
+        TypeAliasDecl = 36,
         /** \brief An Objective-C \@synthesize definition. */
-        DxcCursor_ObjCSynthesizeDecl = 37,
+        ObjCSynthesizeDecl = 37,
         /** \brief An Objective-C \@dynamic definition. */
-        DxcCursor_ObjCDynamicDecl = 38,
+        ObjCDynamicDecl = 38,
         /** \brief An access specifier. */
-        DxcCursor_CXXAccessSpecifier = 39,
+        CXXAccessSpecifier = 39,
 
-        DxcCursor_FirstDecl = DxcCursor_UnexposedDecl,
-        DxcCursor_LastDecl = DxcCursor_CXXAccessSpecifier,
+        FirstDecl = UnexposedDecl,
+        LastDecl = CXXAccessSpecifier,
 
         /* References */
-        DxcCursor_FirstRef = 40, /* Decl references */
-        DxcCursor_ObjCSuperClassRef = 40,
-        DxcCursor_ObjCProtocolRef = 41,
-        DxcCursor_ObjCClassRef = 42,
+        FirstRef = 40, /* Decl references */
+        ObjCSuperClassRef = 40,
+        ObjCProtocolRef = 41,
+        ObjCClassRef = 42,
         /**
          * \brief A reference to a type declaration.
          *
@@ -269,26 +269,26 @@ namespace Vortice.Dxc
          * size_type size;
          * \endcode
          *
-         * The typedef is a declaration of size_type (DxcCursor_TypedefDecl),
+         * The typedef is a declaration of size_type (TypedefDecl),
          * while the type of the variable "size" is referenced. The cursor
          * referenced by the type of size is the typedef for size_type.
          */
-        DxcCursor_TypeRef = 43,
-        DxcCursor_CXXBaseSpecifier = 44,
+        TypeRef = 43,
+        CXXBaseSpecifier = 44,
         /** 
          * \brief A reference to a class template, function template, template
          * template parameter, or class template partial specialization.
          */
-        DxcCursor_TemplateRef = 45,
+        TemplateRef = 45,
         /**
          * \brief A reference to a namespace or namespace alias.
          */
-        DxcCursor_NamespaceRef = 46,
+        NamespaceRef = 46,
         /**
          * \brief A reference to a member of a struct, union, or class that occurs in 
          * some non-expression context, e.g., a designated initializer.
          */
-        DxcCursor_MemberRef = 47,
+        MemberRef = 47,
         /**
          * \brief A reference to a labeled statement.
          *
@@ -304,7 +304,7 @@ namespace Vortice.Dxc
          *
          * A label reference cursor refers to a label statement.
          */
-        DxcCursor_LabelRef = 48,
+        LabelRef = 48,
 
         /// <summary>
         /// A reference to a set of overloaded functions or function templates
@@ -314,26 +314,26 @@ namespace Vortice.Dxc
         /// An overloaded declaration reference cursor occurs in C++ templates where
         /// a dependent name refers to a function.
         /// </remarks>
-        DxcCursor_OverloadedDeclRef = 49,
+        OverloadedDeclRef = 49,
 
         /**
          * \brief A reference to a variable that occurs in some non-expression 
          * context, e.g., a C++ lambda capture list.
          */
-        DxcCursor_VariableRef = 50,
+        VariableRef = 50,
 
-        DxcCursor_LastRef = DxcCursor_VariableRef,
+        LastRef = VariableRef,
 
         /* Error conditions */
-        DxcCursor_FirstInvalid = 70,
-        DxcCursor_InvalidFile = 70,
-        DxcCursor_NoDeclFound = 71,
-        DxcCursor_NotImplemented = 72,
-        DxcCursor_InvalidCode = 73,
-        DxcCursor_LastInvalid = DxcCursor_InvalidCode,
+        FirstInvalid = 70,
+        InvalidFile = 70,
+        NoDeclFound = 71,
+        NotImplemented = 72,
+        InvalidCode = 73,
+        LastInvalid = InvalidCode,
 
         /* Expressions */
-        DxcCursor_FirstExpr = 100,
+        FirstExpr = 100,
 
         /**
          * \brief An expression whose specific kind is not exposed via this
@@ -344,104 +344,104 @@ namespace Vortice.Dxc
          * spelling, children, etc. However, the specific kind of the
          * expression is not reported.
          */
-        DxcCursor_UnexposedExpr = 100,
+        UnexposedExpr = 100,
 
         /**
          * \brief An expression that refers to some value declaration, such
          * as a function, varible, or enumerator.
          */
-        DxcCursor_DeclRefExpr = 101,
+        DeclRefExpr = 101,
 
         /**
          * \brief An expression that refers to a member of a struct, union,
          * class, Objective-C class, etc.
          */
-        DxcCursor_MemberRefExpr = 102,
+        MemberRefExpr = 102,
 
         /** \brief An expression that calls a function. */
-        DxcCursor_CallExpr = 103,
+        CallExpr = 103,
 
         /** \brief An expression that sends a message to an Objective-C
          object or class. */
-        DxcCursor_ObjCMessageExpr = 104,
+        ObjCMessageExpr = 104,
 
         /** \brief An expression that represents a block literal. */
-        DxcCursor_BlockExpr = 105,
+        BlockExpr = 105,
 
         /** \brief An integer literal.
          */
-        DxcCursor_IntegerLiteral = 106,
+        IntegerLiteral = 106,
 
         /** \brief A floating point number literal.
          */
-        DxcCursor_FloatingLiteral = 107,
+        FloatingLiteral = 107,
 
         /** \brief An imaginary number literal.
          */
-        DxcCursor_ImaginaryLiteral = 108,
+        ImaginaryLiteral = 108,
 
         /** \brief A string literal.
          */
-        DxcCursor_StringLiteral = 109,
+        StringLiteral = 109,
 
         /** \brief A character literal.
          */
-        DxcCursor_CharacterLiteral = 110,
+        CharacterLiteral = 110,
 
         /** \brief A parenthesized expression, e.g. "(1)".
          *
          * This AST node is only formed if full location information is requested.
          */
-        DxcCursor_ParenExpr = 111,
+        ParenExpr = 111,
 
         /** \brief This represents the unary-expression's (except sizeof and
          * alignof).
          */
-        DxcCursor_UnaryOperator = 112,
+        UnaryOperator = 112,
 
         /** \brief [C99 6.5.2.1] Array Subscripting.
          */
-        DxcCursor_ArraySubscriptExpr = 113,
+        ArraySubscriptExpr = 113,
 
         /** \brief A builtin binary operation expression such as "x + y" or
          * "x <= y".
          */
-        DxcCursor_BinaryOperator = 114,
+        BinaryOperator = 114,
 
         /** \brief Compound assignment such as "+=".
          */
-        DxcCursor_CompoundAssignOperator = 115,
+        CompoundAssignOperator = 115,
 
         /** \brief The ?: ternary operator.
          */
-        DxcCursor_ConditionalOperator = 116,
+        ConditionalOperator = 116,
 
         /** \brief An explicit cast in C (C99 6.5.4) or a C-style cast in C++
          * (C++ [expr.cast]), which uses the syntax (Type)expr.
          *
          * For example: (int)f.
          */
-        DxcCursor_CStyleCastExpr = 117,
+        CStyleCastExpr = 117,
 
         /** \brief [C99 6.5.2.5]
          */
-        DxcCursor_CompoundLiteralExpr = 118,
+        CompoundLiteralExpr = 118,
 
         /** \brief Describes an C or C++ initializer list.
          */
-        DxcCursor_InitListExpr = 119,
+        InitListExpr = 119,
 
         /** \brief The GNU address of label extension, representing &&label.
          */
-        DxcCursor_AddrLabelExpr = 120,
+        AddrLabelExpr = 120,
 
         /** \brief This is the GNU Statement Expression extension: ({int X=4; X;})
          */
-        DxcCursor_StmtExpr = 121,
+        StmtExpr = 121,
 
         /** \brief Represents a C11 generic selection.
          */
-        DxcCursor_GenericSelectionExpr = 122,
+        GenericSelectionExpr = 122,
 
         /** \brief Implements the GNU __null extension, which is a name for a null
          * pointer constant that has integral type (e.g., int or long) and is the same
@@ -451,23 +451,24 @@ namespace Vortice.Dxc
          * NULL as __null in C++ rather than using 0 (which is an integer that may not
          * match the size of a pointer).
          */
-        DxcCursor_GNUNullExpr = 123,
+        GNUNullExpr = 123,
 
         /** \brief C++'s static_cast<> expression.
          */
-        DxcCursor_CXXStaticCastExpr = 124,
+        CXXStaticCastExpr = 124,
 
         /** \brief C++'s dynamic_cast<> expression.
          */
-        DxcCursor_CXXDynamicCastExpr = 125,
+        CXXDynamicCastExpr = 125,
 
         /** \brief C++'s reinterpret_cast<> expression.
          */
-        DxcCursor_CXXReinterpretCastExpr = 126,
+        CXXReinterpretCastExpr = 126,
 
-        /** \brief C++'s const_cast<> expression.
-         */
-        DxcCursor_CXXConstCastExpr = 127,
+        /// <summary>
+        /// C++'s const_cast<> expression.
+        /// </summary>
+        CXXConstCastExpr = 127,
 
         /** \brief Represents an explicit C++ type conversion that uses "functional"
          * notion (C++ [expr.type.conv]).
@@ -477,60 +478,60 @@ namespace Vortice.Dxc
          *   x = int(0.5);
          * \endcode
          */
-        DxcCursor_CXXFunctionalCastExpr = 128,
+        CXXFunctionalCastExpr = 128,
 
         /** \brief A C++ typeid expression (C++ [expr.typeid]).
          */
-        DxcCursor_CXXTypeidExpr = 129,
+        CXXTypeidExpr = 129,
 
         /** \brief [C++ 2.13.5] C++ Boolean Literal.
          */
-        DxcCursor_CXXBoolLiteralExpr = 130,
+        CXXBoolLiteralExpr = 130,
 
         /** \brief [C++0x 2.14.7] C++ Pointer Literal.
          */
-        DxcCursor_CXXNullPtrLiteralExpr = 131,
+        CXXNullPtrLiteralExpr = 131,
 
         /** \brief Represents the "this" expression in C++
          */
-        DxcCursor_CXXThisExpr = 132,
+        CXXThisExpr = 132,
 
         /** \brief [C++ 15] C++ Throw Expression.
          *
          * This handles 'throw' and 'throw' assignment-expression. When
          * assignment-expression isn't present, Op will be null.
          */
-        DxcCursor_CXXThrowExpr = 133,
+        CXXThrowExpr = 133,
 
         /** \brief A new expression for memory allocation and constructor calls, e.g:
          * "new CXXNewExpr(foo)".
          */
-        DxcCursor_CXXNewExpr = 134,
+        CXXNewExpr = 134,
 
         /** \brief A delete expression for memory deallocation and destructor calls,
          * e.g. "delete[] pArray".
          */
-        DxcCursor_CXXDeleteExpr = 135,
+        CXXDeleteExpr = 135,
 
         /** \brief A unary expression.
          */
-        DxcCursor_UnaryExpr = 136,
+        UnaryExpr = 136,
 
         /** \brief An Objective-C string literal i.e. @"foo".
          */
-        DxcCursor_ObjCStringLiteral = 137,
+        ObjCStringLiteral = 137,
 
         /** \brief An Objective-C \@encode expression.
          */
-        DxcCursor_ObjCEncodeExpr = 138,
+        ObjCEncodeExpr = 138,
 
         /** \brief An Objective-C \@selector expression.
          */
-        DxcCursor_ObjCSelectorExpr = 139,
+        ObjCSelectorExpr = 139,
 
         /** \brief An Objective-C \@protocol expression.
          */
-        DxcCursor_ObjCProtocolExpr = 140,
+        ObjCProtocolExpr = 140,
 
         /** \brief An Objective-C "bridged" cast expression, which casts between
          * Objective-C pointers and C pointers, transferring ownership in the process.
@@ -539,61 +540,40 @@ namespace Vortice.Dxc
          *   NSString *str = (__bridge_transfer NSString *)CFCreateString();
          * \endcode
          */
-        DxcCursor_ObjCBridgedCastExpr = 141,
+        ObjCBridgedCastExpr = 141,
 
-        /** \brief Represents a C++0x pack expansion that produces a sequence of
-         * expressions.
-         *
-         * A pack expansion expression contains a pattern (which itself is an
-         * expression) followed by an ellipsis. For example:
-         *
-         * \code
-         * template<typename F, typename ...Types>
-         * void forward(F f, Types &&...args) {
-         *  f(static_cast<Types&&>(args)...);
-         * }
-         * \endcode
-         */
-        DxcCursor_PackExpansionExpr = 142,
+        /// <summary>
+        /// Represents a C++0x pack expansion that produces a sequence of expressions.
+        /// 
+        /// A pack expansion expression contains a pattern (which itself is an
+        /// expression) followed by an ellipsis.
+        /// </summary>
+        PackExpansionExpr = 142,
 
-        /** \brief Represents an expression that computes the length of a parameter
-         * pack.
-         *
-         * \code
-         * template<typename ...Types>
-         * struct count {
-         *   static const unsigned value = sizeof...(Types);
-         * };
-         * \endcode
-         */
-        DxcCursor_SizeOfPackExpr = 143,
+        /// <summary>
+        /// Represents an expression that computes the length of a parameter pack.
+        /// </summary>
+        SizeOfPackExpr = 143,
 
-        /* \brief Represents a C++ lambda expression that produces a local function
-         * object.
-         *
-         * \code
-         * void abssort(float *x, unsigned N) {
-         *   std::sort(x, x + N,
-         *             [](float a, float b) {
-         *               return std::abs(a) < std::abs(b);
-         *             });
-         * }
-         * \endcode
-         */
-        DxcCursor_LambdaExpr = 144,
+        /// <summary>
+        /// brief Represents a C++ lambda expression that produces a local function object.
+        /// </summary>
+        LambdaExpr = 144,
 
-        /** \brief Objective-c Boolean Literal.
-         */
-        DxcCursor_ObjCBoolLiteralExpr = 145,
+        /// <summary>
+        /// Objective-c Boolean Literal.
+        /// </summary>
+        ObjCBoolLiteralExpr = 145,
 
-        /** \brief Represents the "self" expression in a ObjC method.
-         */
-        DxcCursor_ObjCSelfExpr = 146,
+        /// <summary>
+        /// Represents the "self" expression in a ObjC method.
+        /// </summary>
+        ObjCSelfExpr = 146,
 
-        DxcCursor_LastExpr = DxcCursor_ObjCSelfExpr,
+        LastExpr = ObjCSelfExpr,
 
         /* Statements */
-        DxcCursor_FirstStmt = 200,
+        FirstStmt = 200,
         /**
          * \brief A statement whose specific kind is not exposed via this
          * interface.
@@ -603,7 +583,7 @@ namespace Vortice.Dxc
          * children, etc. However, the specific kind of the statement is not
          * reported.
          */
-        DxcCursor_UnexposedStmt = 200,
+        UnexposedStmt = 200,
 
         /** \brief A labelled statement in a function. 
          *
@@ -616,140 +596,147 @@ namespace Vortice.Dxc
          * \endcode
          *
          */
-        DxcCursor_LabelStmt = 201,
+        LabelStmt = 201,
 
         /** \brief A group of statements like { stmt stmt }.
          *
          * This cursor kind is used to describe compound statements, e.g. function
          * bodies.
          */
-        DxcCursor_CompoundStmt = 202,
+        CompoundStmt = 202,
 
         /** \brief A case statement.
          */
-        DxcCursor_CaseStmt = 203,
+        CaseStmt = 203,
 
         /** \brief A default statement.
          */
-        DxcCursor_DefaultStmt = 204,
+        DefaultStmt = 204,
 
         /** \brief An if statement
          */
-        DxcCursor_IfStmt = 205,
+        IfStmt = 205,
 
         /** \brief A switch statement.
          */
-        DxcCursor_SwitchStmt = 206,
+        SwitchStmt = 206,
 
         /** \brief A while statement.
          */
-        DxcCursor_WhileStmt = 207,
+        WhileStmt = 207,
 
-        /** \brief A do statement.
-         */
-        DxcCursor_DoStmt = 208,
+        /// <summary>
+        /// A do statement.
+        /// </summary>
+        DoStmt = 208,
 
-        /** \brief A for statement.
-         */
-        DxcCursor_ForStmt = 209,
+        /// <summary>
+        /// A for statement.
+        /// </summary>
+        ForStmt = 209,
 
-        /** \brief A goto statement.
-         */
-        DxcCursor_GotoStmt = 210,
+        /// <summary>
+        /// A goto statement.
+        /// </summary>
+        GotoStmt = 210,
 
-        /** \brief An indirect goto statement.
-         */
-        DxcCursor_IndirectGotoStmt = 211,
+        /// <summary>
+        /// An indirect goto statement.
+        /// </summary>
+        IndirectGotoStmt = 211,
 
-        /** \brief A continue statement.
-         */
-        DxcCursor_ContinueStmt = 212,
+        /// <summary>
+        /// A continue statement.
+        /// </summary>
+        ContinueStmt = 212,
 
-        /** \brief A break statement.
-         */
-        DxcCursor_BreakStmt = 213,
+        /// <summary>
+        /// A break statement.
+        /// </summary>
+        BreakStmt = 213,
 
-        /** \brief A return statement.
-         */
-        DxcCursor_ReturnStmt = 214,
+        /// <summary>
+        /// A return statement.
+        /// </summary>
+        ReturnStmt = 214,
 
         /** \brief A GCC inline assembly statement extension.
          */
-        DxcCursor_GCCAsmStmt = 215,
-        DxcCursor_AsmStmt = DxcCursor_GCCAsmStmt,
+        GCCAsmStmt = 215,
+        AsmStmt = GCCAsmStmt,
 
         /** \brief Objective-C's overall \@try-\@catch-\@finally statement.
          */
-        DxcCursor_ObjCAtTryStmt = 216,
+        ObjCAtTryStmt = 216,
 
         /** \brief Objective-C's \@catch statement.
          */
-        DxcCursor_ObjCAtCatchStmt = 217,
+        ObjCAtCatchStmt = 217,
 
         /** \brief Objective-C's \@finally statement.
          */
-        DxcCursor_ObjCAtFinallyStmt = 218,
+        ObjCAtFinallyStmt = 218,
 
         /** \brief Objective-C's \@throw statement.
          */
-        DxcCursor_ObjCAtThrowStmt = 219,
+        ObjCAtThrowStmt = 219,
 
         /** \brief Objective-C's \@synchronized statement.
          */
-        DxcCursor_ObjCAtSynchronizedStmt = 220,
+        ObjCAtSynchronizedStmt = 220,
 
         /** \brief Objective-C's autorelease pool statement.
          */
-        DxcCursor_ObjCAutoreleasePoolStmt = 221,
+        ObjCAutoreleasePoolStmt = 221,
 
         /** \brief Objective-C's collection statement.
          */
-        DxcCursor_ObjCForCollectionStmt = 222,
+        ObjCForCollectionStmt = 222,
 
         /** \brief C++'s catch statement.
          */
-        DxcCursor_CXXCatchStmt = 223,
+        CXXCatchStmt = 223,
 
         /** \brief C++'s try statement.
          */
-        DxcCursor_CXXTryStmt = 224,
+        CXXTryStmt = 224,
 
         /** \brief C++'s for (* : *) statement.
          */
-        DxcCursor_CXXForRangeStmt = 225,
+        CXXForRangeStmt = 225,
 
         /** \brief Windows Structured Exception Handling's try statement.
          */
-        DxcCursor_SEHTryStmt = 226,
+        SEHTryStmt = 226,
 
         /** \brief Windows Structured Exception Handling's except statement.
          */
-        DxcCursor_SEHExceptStmt = 227,
+        SEHExceptStmt = 227,
 
         /** \brief Windows Structured Exception Handling's finally statement.
          */
-        DxcCursor_SEHFinallyStmt = 228,
+        SEHFinallyStmt = 228,
 
         /** \brief A MS inline assembly statement extension.
          */
-        DxcCursor_MSAsmStmt = 229,
+        MSAsmStmt = 229,
 
         /** \brief The null satement ";": C99 6.8.3p3.
          *
          * This cursor kind is used to describe the null statement.
          */
-        DxcCursor_NullStmt = 230,
+        NullStmt = 230,
 
         /** \brief Adaptor class for mixing declarations with statements and
          * expressions.
          */
-        DxcCursor_DeclStmt = 231,
+        DeclStmt = 231,
 
         /** \brief OpenMP parallel directive.
          */
-        DxcCursor_OMPParallelDirective = 232,
+        OMPParallelDirective = 232,
 
-        DxcCursor_LastStmt = DxcCursor_OMPParallelDirective,
+        LastStmt = OMPParallelDirective,
 
         /**
          * \brief Cursor that represents the translation unit itself.
@@ -757,42 +744,42 @@ namespace Vortice.Dxc
          * The translation unit cursor exists primarily to act as the root
          * cursor for traversing the contents of a translation unit.
          */
-        DxcCursor_TranslationUnit = 300,
+        TranslationUnit = 300,
 
         /* Attributes */
-        DxcCursor_FirstAttr = 400,
+        FirstAttr = 400,
         /**
          * \brief An attribute whose specific kind is not exposed via this
          * interface.
          */
-        DxcCursor_UnexposedAttr = 400,
+        UnexposedAttr = 400,
 
-        DxcCursor_IBActionAttr = 401,
-        DxcCursor_IBOutletAttr = 402,
-        DxcCursor_IBOutletCollectionAttr = 403,
-        DxcCursor_CXXFinalAttr = 404,
-        DxcCursor_CXXOverrideAttr = 405,
-        DxcCursor_AnnotateAttr = 406,
-        DxcCursor_AsmLabelAttr = 407,
-        DxcCursor_PackedAttr = 408,
-        DxcCursor_LastAttr = DxcCursor_PackedAttr,
+        IBActionAttr = 401,
+        IBOutletAttr = 402,
+        IBOutletCollectionAttr = 403,
+        CXXFinalAttr = 404,
+        CXXOverrideAttr = 405,
+        AnnotateAttr = 406,
+        AsmLabelAttr = 407,
+        PackedAttr = 408,
+        LastAttr = PackedAttr,
 
         /* Preprocessing */
-        DxcCursor_PreprocessingDirective = 500,
-        DxcCursor_MacroDefinition = 501,
-        DxcCursor_MacroExpansion = 502,
-        DxcCursor_MacroInstantiation = DxcCursor_MacroExpansion,
-        DxcCursor_InclusionDirective = 503,
-        DxcCursor_FirstPreprocessing = DxcCursor_PreprocessingDirective,
-        DxcCursor_LastPreprocessing = DxcCursor_InclusionDirective,
+        PreprocessingDirective = 500,
+        MacroDefinition = 501,
+        MacroExpansion = 502,
+        MacroInstantiation = MacroExpansion,
+        InclusionDirective = 503,
+        FirstPreprocessing = PreprocessingDirective,
+        LastPreprocessing = InclusionDirective,
 
         /* Extra Declarations */
         /**
          * \brief A module import declaration.
          */
-        DxcCursor_ModuleImportDecl = 600,
-        DxcCursor_FirstExtraDecl = DxcCursor_ModuleImportDecl,
-        DxcCursor_LastExtraDecl = DxcCursor_ModuleImportDecl
+        ModuleImportDecl = 600,
+        FirstExtraDecl = ModuleImportDecl,
+        LastExtraDecl = ModuleImportDecl
     }
 
     /// <summary>
