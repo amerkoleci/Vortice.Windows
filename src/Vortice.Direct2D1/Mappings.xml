@@ -9,25 +9,12 @@
 
   <include file="d2dbasetypes.h" attach="true"/>
   <include file="wincodec.h"
-           namespace="Vortice.WIC" 
+           namespace="Vortice.WIC"
            output="WIC"
            attach="true" />
   <include file="dcommon.h" attach="true"/>
-  <ifdef name="DESKTOP">
-    <include file="d2derr.h" attach="true" />
-  </ifdef>
-  <ifdef name="UWP">
-    <include file="d2derr.h" attach="true">
-      <pre>
-        #undef WINAPI_FAMILY
-        #define WINAPI_FAMILY WINAPI_FAMILY_DESKTOP_APP
-      </pre>
-      <post>
-        #undef WINAPI_FAMILY
-        #define WINAPI_FAMILY WINAPI_FAMILY_APP
-      </post>
-    </include>
-  </ifdef>
+  <include file="d2derr.h" attach="true" />
+
   <include file="d2d1.h" attach="true" />
   <include file="d2d1_1.h" attach="true" />
   <include file="d2d1_2.h" attach="true" />
@@ -38,10 +25,10 @@
   <include file="DWrite_1.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
   <include file="DWrite_2.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
   <include file="DWrite_3.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
-  
+
   <extension>
     <create class="Vortice.WIC.WIC" visibility="public static"/>
-    
+
     <create class="Vortice.WIC.PixelFormat" visibility="public sealed"/>
     <const from-guid="GUID_WICPixel(Format.*)" class="Vortice.WIC.PixelFormat" type="System.Guid" name="$1">new System.Guid("$1")</const>
     <const from-guid="CLSID_WICImagingFactory" class="Vortice.WIC.IWICImagingFactory" type="System.Guid" name="WICImagingFactoryClsid">new System.Guid("$1")</const>
@@ -57,7 +44,7 @@
 
     <create class="Vortice.WIC.ResultCode" visibility="public"/>
     <const from-macro="WINCODEC_ERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.WIC.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    
+
     <create class="Vortice.DirectWrite.DWrite" visibility="public static" />
     <create class="D2D1" visibility="public static" />
 
@@ -68,7 +55,7 @@
   <bindings>
     <bind from="UINT32" to="System.Int32" />
     <bind from="DWORD" to="System.UInt32" />
-    
+
     <bind from="D2D_SIZE_U" to="System.Drawing.Size" />
     <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
     <bind from="D2D_POINT_2U" to="System.Drawing.Point" />
@@ -211,15 +198,15 @@
     <map enum-item="WICRawRotationCapability(.*)" name="$1"/>
     <map enum-item="WICBitmapEncoder(.*)" name="$1"/>
     <map enum-item="WICBitmapEncoderCache(.*)" name="$1"/>
-    
+
     <map enum="WICBitmapLockFlags" flags="true" none="true"/>
     <remove enum-item=".*_FORCE_DWORD" />
     <remove enum-item=".*_FORCE_UINT" />
-    
+
     <!-- DWRITE enums -->
     <map enum="DWRITE(.+)" name-tmp="$1" />
     <map enum-item="DWRITE_GLYPH_ORIENTATION_ANGLE_(\d+)_DEGREES" name="Degrees$1"/>
-    
+
     <!-- d2d1 enums -->
     <map enum="D2D1(.*)" name-tmp="$1" />
     <map enum-item="D2D1_FEATURE_LEVEL_(.*)" name="Level_$1" />
@@ -339,7 +326,7 @@
     <map param="ID2D1DeviceContext::GetImageLocalBounds::localBounds" return="true"/>
     <map param="ID2D1DeviceContext::GetImageWorldBounds::worldBounds" return="true"/>
     <map param="ID2D1DeviceContext::GetGlyphRunWorldBounds::bounds" return="true"/>
-    
+
     <map method="ID2D1DeviceContext::GetPrimitiveBlend" property="false"/>
     <map method="ID2D1DeviceContext::SetPrimitiveBlend" property="false"/>
     <map method="ID2D1DeviceContext::GetRenderingControls" property="false"/>
@@ -349,7 +336,7 @@
     <map method="ID2D1DeviceContext::GetTarget" property="false"/>
     <map method="ID2D1DeviceContext::SetTarget" property="false"/>
     <map param="ID2D1DeviceContext::GetTarget::image" return="true" />
-    
+
     <map method="ID2D1DeviceContext::GetUnitMode" property="false"/>
     <map method="ID2D1DeviceContext::SetUnitMode" property="false"/>
 
@@ -390,11 +377,11 @@
     <map param="ID2D1Geometry::GetBounds::bounds" return="true" />
     <map param="ID2D1Geometry::GetWidenedBounds::bounds" return="true" />
     <map param="ID2D1Geometry::StrokeContainsPoint::contains" return="true" />
-    
+
     <!--IWICStream-->
     <map method="IWICStream::InitializeFrom.*" visibility="internal"/>
     <map param="IWICStream::InitializeFromMemory::pbBuffer" type="void" attribute="in"/>
-    
+
     <!--IWICBitmapLock-->
     <map method="IWICBitmapLock::GetDataPointer" visibility="internal"/>
     <map param="IWICBitmapLock::GetDataPointer::ppbData" attribute="out" type="void" return="true"/>
@@ -413,7 +400,7 @@
     <map method="IWICBitmapFrameEncode::SetPixelFormat" property="false"/>
     <map method="IWICBitmapFrameEncode::SetPalette" property="false"/>
     <map method="IWICBitmapFrameEncode::SetThumbnail" property="false"/>
-    
+
     <!--IWICBitmap -->
     <map method="IWICBitmap::Lock" visibility="internal"/>
     <map param="IWICBitmap::Lock::ppILock" return="true"/>
@@ -447,7 +434,7 @@
     <map param="IDWriteFactory::CreateGlyphRunAnalysis::glyphRunAnalysis" attribute="out" return="true"/>
     <map method="IDWriteFactory::((Unr|R)egisterFont(File|Collection)Loader)" visibility="internal" name="$1_" />
     <map param="IDWriteFactory::GetSystemFontCollection::fontCollection" return="true" />
-    
+
     <!-- IDWriteFactory1 -->
     <map param="IDWriteFactory1::GetEudcFontCollection::fontCollection" return="true" />
     <map param="IDWriteFactory1::CreateCustomRenderingParams::renderingParams" attribute="out" return="true"/>
@@ -456,13 +443,13 @@
     <map param="IDWriteFactory2::CreateFontFallbackBuilder::fontFallbackBuilder" return="true" />
     <map param="IDWriteFactory2::CreateGlyphRunAnalysis::glyphRunAnalysis" return="true" />
     <map param="IDWriteFactory2::TranslateColorGlyphRun::colorLayers" return="true" />
-    
+
     <!-- IDWriteTextFormat -->
     <map method="IDWriteTextFormat::GetFontFamilyName" visibility="internal" />
     <map method="IDWriteTextFormat::GetLocaleName" visibility="internal" />
     <map method="IDWriteTextFormat::GetFontFamilyNameLength" visibility="internal" property="false" />
     <map method="IDWriteTextFormat::GetLocaleNameLength" visibility="internal" property="false" />
-    
+
     <!-- IDWriteFont -->
     <map param="IDWriteFont::CreateFontFace::fontFace" attribute="out" return="true" />
 
@@ -500,10 +487,10 @@
     <map param="IDWriteGdiInterop1::CreateFontFaceFromHdc::fontFace" return="true" />
     <map param="IDWriteGdiInterop1::GetFontSignature::fontSignature" return="true" />
     <map param="IDWriteGdiInterop1::CreateFontFromLOGFONT::font" return="true" />
-    
+
     <!-- IDWriteAsyncResult -->
     <map method="IDWriteAsyncResult::GetResult" check="false"/>
-    
+
     <!-- IWICBitmapFrameEncode -->
     <map method="IWICBitmapFrameEncode::SetPixelFormat" property="false"/>
 
@@ -535,7 +522,7 @@
     <map param="ID2D1Factory::CreateDxgiSurfaceRenderTarget::renderTarget" attribute="out" return="true"/>
 
     <map param="ID2D1Factory::CreateEllipseGeometry::ellipseGeometry" attribute="out" return="true"/>
-    
+
     <map method="ID2D1Factory::CreateGeometryGroup" visibility="private" />
 
     <map param="ID2D1Factory::CreateHwndRenderTarget::renderTargetProperties" attribute="in value" />
@@ -569,7 +556,7 @@
 
     <map method="ID2D1Factory1::CreateStrokeStyle" visibility="private" />
     <map param="ID2D1Factory1::CreateStrokeStyle::strokeStyle" attribute="out" return="true"/>
-    
+
     <!-- ID2D1RenderTarget -->
     <map param="ID2D1RenderTarget::CreateBitmap::bitmap" attribute="out" return="true"/>
     <map param="ID2D1RenderTarget::CreateBitmapBrush::bitmapBrush" attribute="out" return="true"/>
@@ -584,7 +571,7 @@
 
     <map method="ID2D1RenderTarget::CreateLinearGradientBrush" visibility="private" />
     <map param="ID2D1RenderTarget::CreateLinearGradientBrush::linearGradientBrush" attribute="out" return="true"/>
-    
+
     <map param="ID2D1RenderTarget::CreateMesh::mesh" attribute="out" return="true"/>
 
     <map method="ID2D1RenderTarget::CreateRadialGradientBrush" visibility="private" />
@@ -614,7 +601,7 @@
     <map function="D2D1CreateFactory" hresult="true" check="false" visibility="internal" />
     <map param="D2D1CreateFactory.*?::ppIFactory" attribute="out" />
     <map function="D2D1ComputeMaximumScaleFactor" dll='"d2d1.dll"' group="Vortice.Direct2D1.D2D1" />
-    
+
     <map function="DWriteCreateFactory" dll='"dwrite.dll"' group="Vortice.DirectWrite.DWrite" visibility="internal" hresult="true" check="false" />
     <map param="DWriteCreateFactory::factory" attribute="out" type="void" />
   </mapping>

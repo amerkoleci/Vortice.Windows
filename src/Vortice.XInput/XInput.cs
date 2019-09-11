@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Vortice.XInput
@@ -12,12 +13,91 @@ namespace Vortice.XInput
 
         public static readonly XInputVersion Version;
 
+        private static unsafe bool IsWindows7
+        {
+            get
+            {
+                var osvi = new RTL_OSVERSIONINFOEX
+                {
+                    dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEX)
+                };
+                var result = RtlGetVersion(ref osvi);
+                Debug.Assert(result == 0);
+                var WindowsVersion = new Version(osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.dwBuildNumber);
+                return WindowsVersion.Major == 6 && WindowsVersion.Minor == 1;
+            }
+        }
+
+        private static int s_isInAppContainer = -1;
+        private static bool IsInAppContainer
+        {
+            // This actually checks whether code is running in a modern app. 
+            // Currently this is the only situation where we run in app container.
+            // If we want to distinguish the two cases in future,
+            // EnvironmentHelpers.IsAppContainerProcess in desktop code shows how to check for the AC token.
+            get
+            {
+                if (s_isInAppContainer != -1)
+                    return s_isInAppContainer == 1;
+
+                if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || IsWindows7)
+                {
+                    s_isInAppContainer = 0;
+                    return false;
+                }
+
+                byte[] buffer = Array.Empty<byte>();
+                uint bufferSize = 0;
+                try
+                {
+                    int result = GetCurrentApplicationUserModelId(ref bufferSize, buffer);
+                    switch (result)
+                    {
+                        case 15703: // APPMODEL_ERROR_NO_APPLICATION
+                            s_isInAppContainer = 0;
+                            break;
+                        case 0:     // ERROR_SUCCESS
+                        case 122:   // ERROR_INSUFFICIENT_BUFFER
+                                    // Success is actually insufficent buffer as we're really only looking for
+                                    // not NO_APPLICATION and we're not actually giving a buffer here. The
+                                    // API will always return NO_APPLICATION if we're not running under a
+                                    // WinRT process, no matter what size the buffer is.
+                            s_isInAppContainer = 1;
+                            break;
+                        default:
+                            throw new InvalidOperationException($"Failed to get AppId, result was {result}.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    // We could catch this here, being friendly with older portable surface area should we
+                    // desire to use this method elsewhere.
+                    if (e.GetType().FullName.Equals("System.EntryPointNotFoundException", StringComparison.Ordinal))
+                    {
+                        // API doesn't exist, likely pre Win8
+                        s_isInAppContainer = 0;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return s_isInAppContainer == 1;
+            }
+        }
+
+        private static bool IsNetNative => RuntimeInformation.FrameworkDescription.StartsWith(".NET Native", StringComparison.OrdinalIgnoreCase);
+
+        private static bool IsUAP => IsInAppContainer || IsNetNative;
+
         static XInput()
         {
-#if WINDOWS_UWP
-            s_xInput = new XInput14();
-            Version = XInputVersion.Version14;
-#else
+            if (IsUAP)
+            {
+                s_xInput = new XInput14();
+                Version = XInputVersion.Version14;
+            }
             if (LoadLibrary("xinput1_4.dll") != IntPtr.Zero)
             {
                 s_xInput = new XInput14();
@@ -33,7 +113,6 @@ namespace Vortice.XInput
                 s_xInput = new XInput910();
                 Version = XInputVersion.Version910;
             }
-#endif
         }
 
         /// <summary>
@@ -149,9 +228,26 @@ namespace Vortice.XInput
         }
 
 
-#if !WINDOWS_UWP
-        [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+        #region PINVOKE
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string lpFileName);
-#endif
+
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, byte[] applicationUserModelId);
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private unsafe struct RTL_OSVERSIONINFOEX
+        {
+            internal int dwOSVersionInfoSize;
+            internal int dwMajorVersion;
+            internal int dwMinorVersion;
+            internal int dwBuildNumber;
+            internal uint dwPlatformId;
+            internal fixed char szCSDVersion[128];
+        }
+
+        [DllImport("ntdll.dll", ExactSpelling = true)]
+        private static extern int RtlGetVersion(ref RTL_OSVERSIONINFOEX lpVersionInformation);
+        #endregion
     }
 }

@@ -8,7 +8,7 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIInfoQueue
     {
-        public unsafe InfoQueueMessage GetMessage(Guid producer, ulong messageIndex)
+        public unsafe InfoQueueMessage GetMessage(Guid producer, long messageIndex)
         {
             PointerSize messageSize = 0;
             GetMessage(producer, messageIndex, IntPtr.Zero, ref messageSize);

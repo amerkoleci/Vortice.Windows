@@ -38,8 +38,6 @@
   </extension>
 
   <bindings>
-    <bind from="UINT32" to="System.Int32" />
-    <bind from="LUID" to="System.Int64"/>
     <bind from="DXGI_RGB" to="Vortice.Mathematics.Color3" />
     <bind from="DXGI_RGBA" to="Vortice.Mathematics.Color4" />
     <bind from="DXGI_MATRIX_3X2_F" to="System.Numerics.Matrix3x2" />
@@ -258,41 +256,24 @@
 
     <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
 
-    <ifdef name="DESKTOP">
-      <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" attribute="out" return="true"/>
+    <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" attribute="out" return="true"/>
 
-      <map method="IDXGIOutput3::CheckOverlaySupport" visibility="private" name="CheckOverlaySupport_" />
-      <map param="IDXGIOutput3::CheckOverlaySupport::pFlags" type="DXGI_OVERLAY_SUPPORT_FLAG" attribute="out" return="true"/>
+    <map method="IDXGIOutput3::CheckOverlaySupport" visibility="private" name="CheckOverlaySupport_" />
+    <map param="IDXGIOutput3::CheckOverlaySupport::pFlags" type="DXGI_OVERLAY_SUPPORT_FLAG" attribute="out" return="true"/>
 
-      <!-- IDXGIOutput4 -->
-      <map method="IDXGIOutput4::CheckOverlayColorSpaceSupport" visibility="private" name="CheckOverlayColorSpaceSupport_" />
-      <map param="IDXGIOutput4::CheckOverlayColorSpaceSupport::pFlags" type="DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG" attribute="out" return="true"/>
+    <!-- IDXGIOutput4 -->
+    <map method="IDXGIOutput4::CheckOverlayColorSpaceSupport" visibility="private" name="CheckOverlayColorSpaceSupport_" />
+    <map param="IDXGIOutput4::CheckOverlayColorSpaceSupport::pFlags" type="DXGI_OVERLAY_COLOR_SPACE_SUPPORT_FLAG" attribute="out" return="true"/>
 
-      <!-- IDXGIOutput5 -->
-      <map method="IDXGIOutput5::DuplicateOutput1" visibility="private" name="DuplicateOutput1_" />
-      <map param="IDXGIOutput5::DuplicateOutput1::ppOutputDuplication" attribute="out" return="true"/>
+    <!-- IDXGIOutput5 -->
+    <map method="IDXGIOutput5::DuplicateOutput1" visibility="private" name="DuplicateOutput1_" />
+    <map param="IDXGIOutput5::DuplicateOutput1::ppOutputDuplication" attribute="out" return="true"/>
 
-      <!-- IDXGIFactoryMedia  -->
-      <map method="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle" visibility="private" />
-      <map param="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
-      <map method="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle" visibility="private" />
-      <map param="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
-    </ifdef>
+    <!-- IDXGIFactoryMedia  -->
+    <map method="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle" visibility="private" />
+    <map param="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
+    <map method="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle" visibility="private" />
+    <map param="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
 
-    <ifdef name="UWP">
-      <map method="IDXGIOutput1::DuplicateOutput" visibility="private"/>
-      <map method="IDXGIOutput3::CheckOverlaySupport" visibility="private"/>
-      <map method="IDXGIOutput5::DuplicateOutput1" visibility="private"/>
-      <map method="IIDXGIOutput4::CheckOverlayColorSpaceSupport" visibility="private"/>
-      <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" type="void"/>
-      <map param="IDXGIOutput5::DuplicateOutput1::ppOutputDuplication" type="void"/>
-      <map param="IDXGIOutput4::CheckOverlayColorSpaceSupport::pFlags" type="void"/>
-      <map param="IDXGIOutput3::CheckOverlaySupport::pFlags" type="void"/>
-      <map method="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle" visibility="private" />
-      <map param="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle::ppSwapChain" type="void"/>
-      <map method="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle" visibility="private" />
-      <map param="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle::ppSwapChain" type="void"/>
-    </ifdef>
-    
   </mapping>
 </config>

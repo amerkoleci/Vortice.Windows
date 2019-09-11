@@ -22,10 +22,6 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/amerkoleci/Vortice.Windows</PackageProjectUrl>
-    
-    <!-- SharpGen properties. -->
-    <SharpGenMacros Condition="$(TargetFramework.StartsWith('uap'))">$(SharpGenMacros);UWP</SharpGenMacros>
-    <SharpGenMacros Condition="$(TargetFramework.StartsWith('net'))">$(SharpGenMacros);DESKTOP</SharpGenMacros>
   </PropertyGroup>
 
   <PropertyGroup>

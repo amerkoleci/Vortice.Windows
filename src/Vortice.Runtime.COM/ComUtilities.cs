@@ -31,61 +31,66 @@ namespace SharpGen.Runtime
 
     public static class ComUtilities
     {
-#if WINDOWS_UWP
-        [StructLayout(LayoutKind.Sequential)]
-        private struct MultiQueryInterface
-        {
-            public IntPtr InterfaceIID;
-            public IntPtr IUnknownPointer;
-            public Result ResultCode;
-        }
-
-        [DllImport("api-ms-win-core-com-l1-1-0.dll", ExactSpelling = true, EntryPoint = "CoCreateInstanceFromApp", PreserveSig = true)]
-        private static extern Result CoCreateInstanceFromApp([In, MarshalAs(UnmanagedType.LPStruct)] Guid rclsid, 
-            IntPtr pUnkOuter, 
-            ComContext dwClsContext, 
-            IntPtr reserved,
-            int countMultiQuery,
-            ref MultiQueryInterface query);
-
-        public unsafe static void CreateComInstance(Guid classGuid, ComContext context, Guid interfaceGuid, ComObject comObject)
-        {
-            var localQuery = new MultiQueryInterface()
-            {
-                InterfaceIID = new IntPtr(&interfaceGuid),
-                IUnknownPointer = IntPtr.Zero,
-                ResultCode = 0,
-            };
-
-            var result = CoCreateInstanceFromApp(classGuid, IntPtr.Zero, context, IntPtr.Zero, 1, ref localQuery);
-            result.CheckError();
-            localQuery.ResultCode.CheckError();
-            comObject.NativePointer = localQuery.IUnknownPointer;
-        }
-
-        public unsafe static bool TryCreateComInstance(Guid classGuid, ComContext context, Guid riid, ComObject comObject)
-        {
-            var localQuery = new MultiQueryInterface()
-            {
-                InterfaceIID = new IntPtr(&riid),
-                IUnknownPointer = IntPtr.Zero,
-                ResultCode = 0,
-            };
-
-            var result = CoCreateInstanceFromApp(classGuid, IntPtr.Zero, context, IntPtr.Zero, 1, ref localQuery);
-            comObject.NativePointer = localQuery.IUnknownPointer;
-            return result.Success && localQuery.ResultCode.Success;
-        }
-
-#else
         static ComUtilities()
         {
-            if (CoInitializeEx(IntPtr.Zero, COINIT_APARTMENTTHREADED) == RPC_E_CHANGED_MODE)
+            if (!PlatformDetection.IsUAP)
             {
-                CoInitializeEx(IntPtr.Zero, COINIT_MULTITHREADED);
+                if (CoInitializeEx(IntPtr.Zero, COINIT_APARTMENTTHREADED) == RPC_E_CHANGED_MODE)
+                {
+                    CoInitializeEx(IntPtr.Zero, COINIT_MULTITHREADED);
+                }
             }
         }
 
+        
+        public unsafe static void CreateComInstance(Guid classGuid, ComContext context, Guid interfaceGuid, ComObject comObject)
+        {
+            if (!PlatformDetection.IsUAP)
+            {
+                var result = CoCreateInstance(classGuid, IntPtr.Zero, context, interfaceGuid, out IntPtr pointer);
+                result.CheckError();
+                comObject.NativePointer = pointer;
+            }
+            else
+            {
+                var localQuery = new MultiQueryInterface()
+                {
+                    InterfaceIID = new IntPtr(&interfaceGuid),
+                    IUnknownPointer = IntPtr.Zero,
+                    ResultCode = 0,
+                };
+
+                var result = CoCreateInstanceFromApp(classGuid, IntPtr.Zero, context, IntPtr.Zero, 1, ref localQuery);
+                result.CheckError();
+                localQuery.ResultCode.CheckError();
+                comObject.NativePointer = localQuery.IUnknownPointer;
+            }
+        }
+
+        public static unsafe bool TryCreateComInstance(Guid classGuid, ComContext context, Guid interfaceGuid, ComObject comObject)
+        {
+            if (!PlatformDetection.IsUAP)
+            {
+                var result = CoCreateInstance(classGuid, IntPtr.Zero, context, interfaceGuid, out IntPtr pointer);
+                comObject.NativePointer = pointer;
+                return result.Success;
+            }
+            else
+            {
+                var localQuery = new MultiQueryInterface()
+                {
+                    InterfaceIID = new IntPtr(&interfaceGuid),
+                    IUnknownPointer = IntPtr.Zero,
+                    ResultCode = 0,
+                };
+
+                var result = CoCreateInstanceFromApp(classGuid, IntPtr.Zero, context, IntPtr.Zero, 1, ref localQuery);
+                comObject.NativePointer = localQuery.IUnknownPointer;
+                return result.Success && localQuery.ResultCode.Success;
+            }
+        }
+
+        // WIN32
         private const uint RPC_E_CHANGED_MODE = 0x80010106;
         private const uint COINIT_MULTITHREADED = 0x0;
         private const uint COINIT_APARTMENTTHREADED = 0x2;
@@ -97,19 +102,21 @@ namespace SharpGen.Runtime
         [DllImport("ole32.dll", ExactSpelling = true, EntryPoint = "CoCreateInstance", PreserveSig = true)]
         private static extern Result CoCreateInstance([In, MarshalAs(UnmanagedType.LPStruct)] Guid rclsid, IntPtr pUnkOuter, ComContext dwClsContext, [In, MarshalAs(UnmanagedType.LPStruct)] Guid riid, out IntPtr comObject);
 
-        public static void CreateComInstance(Guid classGuid, ComContext context, Guid interfaceGuid, ComObject comObject)
+        // UWP
+        [StructLayout(LayoutKind.Sequential)]
+        private struct MultiQueryInterface
         {
-            var result = CoCreateInstance(classGuid, IntPtr.Zero, context, interfaceGuid, out IntPtr pointer);
-            result.CheckError();
-            comObject.NativePointer = pointer;
+            public IntPtr InterfaceIID;
+            public IntPtr IUnknownPointer;
+            public Result ResultCode;
         }
 
-        public static bool TryCreateComInstance(Guid classGuid, ComContext context, Guid interfaceGuid, ComObject comObject)
-        {
-            var result = CoCreateInstance(classGuid, IntPtr.Zero, context, interfaceGuid, out IntPtr pointer);
-            comObject.NativePointer = pointer;
-            return result.Success;
-        }
-#endif
+        [DllImport("api-ms-win-core-com-l1-1-0.dll", ExactSpelling = true, EntryPoint = "CoCreateInstanceFromApp", PreserveSig = true)]
+        private static extern Result CoCreateInstanceFromApp([In, MarshalAs(UnmanagedType.LPStruct)] Guid rclsid,
+            IntPtr pUnkOuter,
+            ComContext dwClsContext,
+            IntPtr reserved,
+            int countMultiQuery,
+            ref MultiQueryInterface query);
     }
 }

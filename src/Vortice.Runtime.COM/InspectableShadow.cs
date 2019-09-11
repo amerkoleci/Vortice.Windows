@@ -74,7 +74,6 @@ namespace SharpGen.Runtime
             //virtual HRESULT STDMETHODCALLTYPE GetRuntimeClassName( 
             //    /* [out] */ __RPC__deref_out_opt HSTRING *className) = 0;
 
-            /// <unmanaged>HRESULT STDMETHODCALLTYPE GetRuntimeClassName([out] __RPC__deref_out_opt HSTRING *className)/unmanaged>	
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private unsafe delegate int GetRuntimeClassNameDelegate(IntPtr thisPtr, IntPtr* className);
             private unsafe static int GetRuntimeClassName(IntPtr thisPtr, IntPtr* className)
@@ -98,7 +97,7 @@ namespace SharpGen.Runtime
 
             //virtual HRESULT STDMETHODCALLTYPE GetTrustLevel( 
             //    /* [out] */ __RPC__out TrustLevel *trustLevel) = 0;
-            enum TrustLevel
+            private enum TrustLevel
             {
                 BaseTrust = 0,
                 PartialTrust = (BaseTrust + 1),
