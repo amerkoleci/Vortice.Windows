@@ -34,7 +34,8 @@ namespace Vortice.Direct3D12
 
             internal void __MarshalFree()
             {
-                if (Union.pGeometryDescs != IntPtr.Zero)
+                if (Type == RaytracingAccelerationStructureType.BottomLevel
+                    && Union.pGeometryDescs != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(Union.pGeometryDescs);
                 }
