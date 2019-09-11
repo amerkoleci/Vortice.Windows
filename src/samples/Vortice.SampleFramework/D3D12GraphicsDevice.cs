@@ -38,7 +38,7 @@ namespace Vortice
         private readonly ID3D12Resource _vertexBuffer;
 
         private readonly ID3D12Fence _d3d12Fence;
-        private long _fenceValue;
+        private ulong _fenceValue;
         private readonly AutoResetEvent _fenceEvent;
         private int _frameIndex;
 
@@ -196,7 +196,7 @@ namespace Vortice
             _vertexBuffer = _d3d12Device.CreateCommittedResource(
                 new HeapProperties(HeapType.Upload),
                 HeapFlags.None,
-                ResourceDescription.Buffer(vertexBufferSize),
+                ResourceDescription.Buffer((ulong)vertexBufferSize),
                 ResourceStates.GenericRead);
 
             var triangleVertices = new Vertex[]

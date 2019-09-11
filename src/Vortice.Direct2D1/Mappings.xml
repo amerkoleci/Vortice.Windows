@@ -66,9 +66,7 @@
   </extension>
 
   <bindings>
-    <bind from="UINT16" to="System.Int16" />
     <bind from="UINT32" to="System.Int32" />
-    <bind from="UINT64" to="System.Int64" />
     <bind from="DWORD" to="System.UInt32" />
     
     <bind from="D2D_SIZE_U" to="System.Drawing.Size" />

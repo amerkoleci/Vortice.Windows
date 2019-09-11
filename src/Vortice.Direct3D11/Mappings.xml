@@ -57,9 +57,7 @@
   </extension>
 
   <bindings>
-    <bind from="UINT16" to="System.Int16" />
     <bind from="UINT32" to="System.Int32" />
-    <bind from="UINT64" to="System.Int64" />
     <bind from="LUID" to="System.Int64"/>
     <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />

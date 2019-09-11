@@ -8,6 +8,10 @@ using Vortice.DirectX;
 
 namespace Vortice.Direct3D12
 {
+    /// <summary>
+    /// Defines the inputs for a raytracing acceleration structure build operation.
+    /// This is used by <see cref="ID3D12GraphicsCommandList4.BuildRaytracingAccelerationStructure(BuildRaytracingAccelerationStructureDescription)"/> and <see cref="ID3D12Device5.GetRaytracingAccelerationStructurePrebuildInfo(BuildRaytracingAccelerationStructureInputs)"/>.
+    /// </summary>
     public partial class BuildRaytracingAccelerationStructureInputs
     {
         public RaytracingAccelerationStructureType Type { get; set; }

@@ -11,7 +11,7 @@ namespace Vortice.Direct3D12
         /// <summary>
         /// Asynchronously makes objects resident for the device.
         /// </summary>
-        public Result EnqueueMakeResident(ResidencyFlags flags, ID3D12Pageable[] objects, ID3D12Fence fenceToSignal, long fenceValueToSignal)
+        public Result EnqueueMakeResident(ResidencyFlags flags, ID3D12Pageable[] objects, ID3D12Fence fenceToSignal, ulong fenceValueToSignal)
         {
             return EnqueueMakeResident(flags, objects?.Length ?? 0, objects, fenceToSignal, fenceValueToSignal);
         }

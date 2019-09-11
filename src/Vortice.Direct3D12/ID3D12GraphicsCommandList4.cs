@@ -14,11 +14,20 @@ namespace Vortice.Direct3D12
             BeginRenderPass(renderTargets.Length, renderTargets, depthStencil, flags);
         }
 
+        /// <summary>
+        /// Performs a raytracing acceleration structure build on the GPU and optionally outputs post-build information immediately after the build.
+        /// </summary>
+        /// <param name="description">Description of the acceleration structure to build.</param>
         public void BuildRaytracingAccelerationStructure(BuildRaytracingAccelerationStructureDescription description)
         {
             BuildRaytracingAccelerationStructure(ref description, 0, null);
         }
 
+        /// <summary>
+        /// Performs a raytracing acceleration structure build on the GPU and optionally outputs post-build information immediately after the build.
+        /// </summary>
+        /// <param name="description">Description of the acceleration structure to build.</param>
+        /// <param name="postbuildInfoDescriptions">Array of descriptions for post-build info to generate describing properties of the acceleration structure that was built.</param>
         public void BuildRaytracingAccelerationStructure(BuildRaytracingAccelerationStructureDescription description, RaytracingAccelerationStructurePostbuildInfoDescription[] postbuildInfoDescriptions)
         {
             BuildRaytracingAccelerationStructure(ref description, postbuildInfoDescriptions.Length, postbuildInfoDescriptions);
@@ -46,7 +55,7 @@ namespace Vortice.Direct3D12
 
         public void EmitRaytracingAccelerationStructurePostbuildInfo(
             RaytracingAccelerationStructurePostbuildInfoDescription description,
-            long[] sourceAccelerationStructureData)
+            ulong[] sourceAccelerationStructureData)
         {
             EmitRaytracingAccelerationStructurePostbuildInfo(description, sourceAccelerationStructureData.Length, sourceAccelerationStructureData);
         }

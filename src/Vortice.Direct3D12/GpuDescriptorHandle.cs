@@ -9,7 +9,7 @@ namespace Vortice.Direct3D12
     public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
     {
         /// <summary>
-        ///   Adds an offset to a descriptor handle
+        /// Adds an offset to a descriptor handle.
         /// </summary>
         /// <param name = "left">Initial descriptor handle</param>
         /// <param name = "right">Offset to apply, use <see cref="ID3D12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType)"/> with the relevant heap type.</param>
@@ -18,7 +18,21 @@ namespace Vortice.Direct3D12
         {
             return new GpuDescriptorHandle()
             {
-                Ptr = left.Ptr + (long)right
+                Ptr = left.Ptr + (ulong)right
+            };
+        }
+
+        /// <summary>
+        /// Adds an offset to a descriptor handle.
+        /// </summary>
+        /// <param name = "left">Initial descriptor handle</param>
+        /// <param name = "right">Offset to apply, use <see cref="ID3D12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType)"/> with the relevant heap type.</param>
+        /// <returns>Offsetted descriptor handle</returns>
+        public static GpuDescriptorHandle operator +(GpuDescriptorHandle left, uint right)
+        {
+            return new GpuDescriptorHandle()
+            {
+                Ptr = left.Ptr + right
             };
         }
 
@@ -28,7 +42,7 @@ namespace Vortice.Direct3D12
         /// <param name = "left">Initial descriptor handle</param>
         /// <param name = "right">Offset to apply, use <see cref="ID3D12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType)"/> with the relevant heap type.</param>
         /// <returns>Offsetted descriptor handle</returns>
-        public static GpuDescriptorHandle operator +(GpuDescriptorHandle left, long right)
+        public static GpuDescriptorHandle operator +(GpuDescriptorHandle left, ulong right)
         {
             return new GpuDescriptorHandle()
             {

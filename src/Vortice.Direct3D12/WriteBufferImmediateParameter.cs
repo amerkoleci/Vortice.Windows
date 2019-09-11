@@ -13,7 +13,7 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="dest">The GPU virtual address at which to write the value. The address must be aligned to a 32-bit (4-byte) boundary.</param>
         /// <param name="value">The 32-bit value to write.</param>
-        public WriteBufferImmediateParameter(long dest, int value)
+        public WriteBufferImmediateParameter(ulong dest, int value)
         {
             Dest = dest;
             Value = value;
