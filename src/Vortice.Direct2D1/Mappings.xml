@@ -53,9 +53,6 @@
   </extension>
 
   <bindings>
-    <bind from="UINT32" to="System.Int32" />
-    <bind from="DWORD" to="System.UInt32" />
-
     <bind from="D2D_SIZE_U" to="System.Drawing.Size" />
     <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
     <bind from="D2D_POINT_2U" to="System.Drawing.Point" />

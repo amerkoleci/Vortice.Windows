@@ -1,13 +1,13 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
 using SharpGen.Runtime;
 
 namespace Vortice.DXGI
 {
     public partial class IDXGIOutput4
     {
-#if !WINDOWS_UWP
         /// <summary>
         /// Checks for overlay color space support.
         /// </summary>
@@ -17,8 +17,12 @@ namespace Vortice.DXGI
         /// <returns>Overlay color space support flags.</returns>
         public OverlayColorSpaceSupportFlags CheckOverlayColorSpaceSupport(Format format, ColorSpaceType colorSpace, IUnknown concernedDevice)
         {
+            if (PlatformDetection.IsUAP)
+            {
+                throw new NotSupportedException();
+            }
+
             return CheckOverlayColorSpaceSupport_(format, colorSpace, concernedDevice);
         }
-#endif
     }
 }

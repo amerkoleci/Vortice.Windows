@@ -1,13 +1,13 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
 using SharpGen.Runtime;
 
 namespace Vortice.DXGI
 {
     public partial class IDXGIOutput3
     {
-#if !WINDOWS_UWP
         /// <summary>
         /// Checks for overlay support.
         /// </summary>
@@ -16,8 +16,12 @@ namespace Vortice.DXGI
         /// <returns>Overlay support flags.</returns>
         public OverlaySupportFlags CheckOverlaySupport(Format format, IUnknown concernedDevice)
         {
+            if (PlatformDetection.IsUAP)
+            {
+                throw new NotSupportedException();
+            }
+
             return CheckOverlaySupport_(format, concernedDevice);
         }
-#endif
     }
 }
