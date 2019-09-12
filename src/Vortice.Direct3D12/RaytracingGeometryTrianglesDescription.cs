@@ -34,8 +34,8 @@ namespace Vortice.Direct3D12
             in GpuVirtualAddressAndStride vertexBuffer,
             Format vertexFormat,
             int vertexCount,
-            ulong transform3x4 = 0,
-            ulong indexBuffer = 0,
+            long transform3x4 = 0,
+            long indexBuffer = 0,
             Format indexFormat = Format.Unknown,
             int indexCount = 0)
         {

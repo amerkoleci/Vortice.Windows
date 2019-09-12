@@ -7,7 +7,7 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11Device5
     {
-        public ID3D11Fence CreateFence(ulong initialValue, FenceFlags flags = FenceFlags.None)
+        public ID3D11Fence CreateFence(long initialValue, FenceFlags flags = FenceFlags.None)
         {
             return CreateFence(initialValue, flags, typeof(ID3D11Fence).GUID);
         }

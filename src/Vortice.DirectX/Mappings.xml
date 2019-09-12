@@ -90,7 +90,8 @@
     <bind from="UINT32" to="System.Int32" />
     <bind from="UINT64" to="System.Int64" />
     <bind from="UINT" to="System.Int32" />
-    <bind from="DWORD" to="System.UInt32" />
+    <bind from="WORD" to="System.Int16" />
+    <bind from="DWORD" to="System.Int32" />
     <bind from="LUID" to="System.Int64"/>
     <bind from="HWND" to="System.IntPtr"/>
     <bind from="HDC" to="System.IntPtr"/>

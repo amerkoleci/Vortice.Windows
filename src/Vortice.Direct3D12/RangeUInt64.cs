@@ -18,7 +18,7 @@ namespace Vortice.Direct3D12
         /// <remarks>
         /// End is one-past-the-end. When Begin equals End, the range is empty. The size of the range is (End - Begin).
         /// </remarks>
-        public RangeUInt64(ulong begin, ulong end)
+        public RangeUInt64(long begin, long end)
         {
             Begin = begin;
             End = end;

@@ -76,7 +76,7 @@ namespace Vortice.WIC
         public IWICBitmapDecoder CreateDecoderFromFilename(string fileName, Guid? guidVendor, FileAccess desiredAccess, DecodeOptions metadataOptions)
         {
             var nativeAccess = desiredAccess.ToNative();
-            return CreateDecoderFromFilename_(fileName, guidVendor, (uint)nativeAccess, metadataOptions);
+            return CreateDecoderFromFilename_(fileName, guidVendor, (int)nativeAccess, metadataOptions);
         }
     }
 }

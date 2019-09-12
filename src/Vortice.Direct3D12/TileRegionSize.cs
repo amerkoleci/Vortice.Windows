@@ -25,11 +25,11 @@ namespace Vortice.Direct3D12
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="depth"></param>
-        public TileRegionSize(int width, ushort height, ushort depth)
+        public TileRegionSize(int width, short height, short depth)
         {
             Width = width >= 1 ? width : 1;
-            Height = height >= 1 ? height : (ushort)1;
-            Depth = depth >= 1 ? depth : (ushort)1;
+            Height = height >= 1 ? height : (short)1;
+            Depth = depth >= 1 ? depth : (short)1;
             NumTiles = Width * Height * Depth;
             UseBox = true;
         }

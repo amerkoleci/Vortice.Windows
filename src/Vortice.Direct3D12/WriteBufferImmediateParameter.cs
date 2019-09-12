@@ -11,11 +11,11 @@ namespace Vortice.Direct3D12
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteBufferImmediateParameter"/> struct.
         /// </summary>
-        /// <param name="dest">The GPU virtual address at which to write the value. The address must be aligned to a 32-bit (4-byte) boundary.</param>
+        /// <param name="destination">The GPU virtual address at which to write the value. The address must be aligned to a 32-bit (4-byte) boundary.</param>
         /// <param name="value">The 32-bit value to write.</param>
-        public WriteBufferImmediateParameter(ulong dest, int value)
+        public WriteBufferImmediateParameter(long destination, int value)
         {
-            Dest = dest;
+            Dest = destination;
             Value = value;
         }
     }

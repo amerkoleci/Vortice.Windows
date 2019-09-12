@@ -7,7 +7,7 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Fence
     {
-        public void SetEventOnCompletion(ulong value, EventWaitHandle waitHandle)
+        public void SetEventOnCompletion(long value, EventWaitHandle waitHandle)
         {
             SetEventOnCompletion(value, waitHandle.SafeWaitHandle.DangerousGetHandle());
         }

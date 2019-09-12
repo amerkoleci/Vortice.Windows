@@ -21,7 +21,7 @@ namespace Vortice.WIC
         {
             DisposeStreamProxy();
             NativeFileAccess desiredAccess = access.ToNative();
-            InitializeFromFilename(fileName, (uint)desiredAccess);
+            InitializeFromFilename(fileName, (int)desiredAccess);
         }
 
         public void Initialize(IStream comStream)
@@ -42,7 +42,7 @@ namespace Vortice.WIC
             DisposeStreamProxy();
             fixed (void* dataPtr = &data[0])
             {
-                InitializeFromMemory(new IntPtr(dataPtr), (uint)data.Length);
+                InitializeFromMemory(new IntPtr(dataPtr), data.Length);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Vortice.WIC
             {
                 fixed (void* dataPtr = data)
                 {
-                    InitializeFromMemory(new IntPtr(dataPtr), (uint)(data.Length * sizeof(T)));
+                    InitializeFromMemory(new IntPtr(dataPtr), data.Length * sizeof(T));
                 }
             }
         }
@@ -65,7 +65,7 @@ namespace Vortice.WIC
             {
                 fixed (void* dataPtr = data)
                 {
-                    InitializeFromMemory(new IntPtr(dataPtr), (uint)(data.Length * sizeof(T)));
+                    InitializeFromMemory(new IntPtr(dataPtr), data.Length * sizeof(T));
                 }
             }
         }

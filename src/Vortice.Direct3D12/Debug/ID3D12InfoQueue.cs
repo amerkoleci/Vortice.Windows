@@ -8,7 +8,7 @@ namespace Vortice.Direct3D12.Debug
 {
     public partial class ID3D12InfoQueue
     {
-        public unsafe Message GetMessage(ulong messageIndex)
+        public unsafe Message GetMessage(long messageIndex)
         {
             PointerSize messageSize = 0;
             GetMessage(messageIndex, IntPtr.Zero, ref messageSize);
