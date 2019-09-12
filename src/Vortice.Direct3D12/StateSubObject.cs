@@ -134,7 +134,7 @@ namespace Vortice.Direct3D12
                 MemoryHelpers.CopyMemory(
                     Description,
                     (IntPtr)Unsafe.AsPointer(ref nativeDescription),
-                    sizeof(IndirectArgumentDescription));
+                    sizeof(HitGroupDescription.__Native));
             }
         }
     }
