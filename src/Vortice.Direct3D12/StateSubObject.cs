@@ -15,10 +15,6 @@ namespace Vortice.Direct3D12
     /// </summary>
     public partial struct StateSubObject
     {
-        public readonly StateSubObjectType Type;
-
-        public readonly IntPtr Description;
-
         public StateSubObject(StateObjectConfig config)
         {
             Type = StateSubObjectType.StateObjectConfig;
@@ -61,45 +57,73 @@ namespace Vortice.Direct3D12
 
         public StateSubObject(DxilLibraryDescription libraryDescription)
         {
-            // TODO: Marshal DxilLibraryDescription
             Type = StateSubObjectType.DxilLibrary;
             unsafe
             {
-                Description = Marshal.AllocHGlobal(Unsafe.SizeOf<DxilLibraryDescription>());
-                Unsafe.WriteUnaligned(Description.ToPointer(), libraryDescription);
+                var nativeDescription = new DxilLibraryDescription.__Native();
+                libraryDescription.__MarshalTo(ref nativeDescription);
+
+                Description = Marshal.AllocHGlobal(Unsafe.SizeOf<DxilLibraryDescription.__Native>());
+                MemoryHelpers.CopyMemory(
+                   Description,
+                   (IntPtr)Unsafe.AsPointer(ref nativeDescription),
+                   sizeof(DxilLibraryDescription.__Native));
+
+                libraryDescription.__MarshalFree(ref nativeDescription);
             }
         }
 
         public StateSubObject(ExistingCollectionDescription existingCollectionDescription)
         {
-            // TODO: Marshal ExistingCollectionDescription
             Type = StateSubObjectType.ExistingCollection;
             unsafe
             {
-                Description = Marshal.AllocHGlobal(Unsafe.SizeOf<ExistingCollectionDescription>());
-                Unsafe.WriteUnaligned(Description.ToPointer(), existingCollectionDescription);
+                var nativeDescription = new ExistingCollectionDescription.__Native();
+                existingCollectionDescription.__MarshalTo(ref nativeDescription);
+
+                Description = Marshal.AllocHGlobal(Unsafe.SizeOf<ExistingCollectionDescription.__Native>());
+                MemoryHelpers.CopyMemory(
+                   Description,
+                   (IntPtr)Unsafe.AsPointer(ref nativeDescription),
+                   sizeof(ExistingCollectionDescription.__Native));
+
+                existingCollectionDescription.__MarshalFree(ref nativeDescription);
             }
         }
 
         public StateSubObject(SubObjectToExportsAssociation subObjectToExportsAssociation)
         {
-            // TODO: Marshal SubObjectToExportsAssociation
             Type = StateSubObjectType.SubObjectToExportsAssociation;
             unsafe
             {
-                Description = Marshal.AllocHGlobal(Unsafe.SizeOf<SubObjectToExportsAssociation>());
-                Unsafe.WriteUnaligned(Description.ToPointer(), subObjectToExportsAssociation);
+                var nativeDescription = new SubObjectToExportsAssociation.__Native();
+                subObjectToExportsAssociation.__MarshalTo(ref nativeDescription);
+
+                Description = Marshal.AllocHGlobal(Unsafe.SizeOf<SubObjectToExportsAssociation.__Native>());
+                MemoryHelpers.CopyMemory(
+                   Description,
+                   (IntPtr)Unsafe.AsPointer(ref nativeDescription),
+                   sizeof(SubObjectToExportsAssociation.__Native));
+
+                subObjectToExportsAssociation.__MarshalFree(ref nativeDescription);
             }
         }
 
         public StateSubObject(DxilSubObjectToExportsAssociation subObjectToExportsAssociation)
         {
-            // TODO: Marshal DxilSubObjectToExportsAssociation
             Type = StateSubObjectType.DxilSubObjectToExportsAssociation;
             unsafe
             {
-                Description = Marshal.AllocHGlobal(Unsafe.SizeOf<DxilSubObjectToExportsAssociation>());
-                Unsafe.WriteUnaligned(Description.ToPointer(), subObjectToExportsAssociation);
+                var nativeDescription = new DxilSubObjectToExportsAssociation.__Native();
+                subObjectToExportsAssociation.__MarshalTo(ref nativeDescription);
+
+                Description = Marshal.AllocHGlobal(Unsafe.SizeOf<DxilSubObjectToExportsAssociation.__Native>());
+                MemoryHelpers.CopyMemory(
+                   Description,
+                   (IntPtr)Unsafe.AsPointer(ref nativeDescription),
+                   sizeof(DxilSubObjectToExportsAssociation.__Native));
+
+                subObjectToExportsAssociation.__MarshalFree(ref nativeDescription);
             }
         }
 
@@ -135,6 +159,15 @@ namespace Vortice.Direct3D12
                     Description,
                     (IntPtr)Unsafe.AsPointer(ref nativeDescription),
                     sizeof(HitGroupDescription.__Native));
+                hitGroupDescription.__MarshalFree(ref nativeDescription);
+            }
+        }
+
+        internal unsafe void __MarshalFree()
+        {
+            if (Description != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(Description);
             }
         }
     }

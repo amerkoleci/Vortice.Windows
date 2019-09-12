@@ -35,10 +35,6 @@ namespace Vortice.Direct3D12
             CachedPSO.__MarshalFree(ref @ref.CachedPSO);
         }
 
-        internal void __MarshalFrom(ref __Native @ref)
-        {
-        }
-
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
             @ref.RootSignature = CppObject.ToCallbackPtr<ID3D12RootSignature>(RootSignature);

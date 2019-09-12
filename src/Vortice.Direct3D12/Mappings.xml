@@ -499,11 +499,23 @@
     <remove field="D3D12_COMPUTE_PIPELINE_STATE_DESC::.*"/>
 
     <map struct="D3D12_BLEND_DESC" marshalto="true"/>
-
-    <remove field="D3D12_STATE_SUBOBJECT::.*"/>
-
+    <map struct="D3D12_STATE_SUBOBJECT" marshalto="true"/>
+    <map field="D3D12_STATE_SUBOBJECT::pDesc" name="Description" />
+    
     <map struct="D3D12_STATE_OBJECT_DESC" name="StateObjectDescription" struct-to-class="true" marshal="true" />
     <remove field="D3D12_STATE_OBJECT_DESC::.*"/>
+
+    <map struct="D3D12_DXIL_LIBRARY_DESC" name="DxilLibraryDescription" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_DXIL_LIBRARY_DESC::.*"/>
+
+    <map struct="D3D12_SUBOBJECT_TO_EXPORTS_ASSOCIATION" name="SubObjectToExportsAssociation" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_SUBOBJECT_TO_EXPORTS_ASSOCIATION::.*"/>
+
+    <map struct="D3D12_DXIL_SUBOBJECT_TO_EXPORTS_ASSOCIATION" name="DxilSubObjectToExportsAssociation" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_DXIL_SUBOBJECT_TO_EXPORTS_ASSOCIATION::.*"/>
+
+    <map struct="D3D12_EXISTING_COLLECTION_DESC" name="ExistingCollectionDescription" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_EXISTING_COLLECTION_DESC::.*"/>
 
     <!-- D3D12_RENDER_TARGET_BLEND_DESC struct -->
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendEnable" name="IsBlendEnabled" />
