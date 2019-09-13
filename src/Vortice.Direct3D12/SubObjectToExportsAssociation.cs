@@ -32,14 +32,17 @@ namespace Vortice.Direct3D12
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal unsafe struct __Native
         {
-            public IntPtr pSubobjectToAssociate;
+            public StateSubObject.__Native pSubobjectToAssociate;
             public int NumExports;
             public IntPtr* pExports;
         }
 
         internal unsafe void __MarshalFree(ref __Native @ref)
         {
-            SubObjectToAssociate.__MarshalFree();
+            if (SubObjectToAssociate != null)
+            {
+                SubObjectToAssociate.__MarshalFree(ref @ref.pSubobjectToAssociate);
+            }
 
             if (@ref.NumExports > 0)
             {
@@ -54,7 +57,11 @@ namespace Vortice.Direct3D12
 
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
-            //SubObjectToAssociate.__MarshalTo(ref @ref.psu);
+            if (SubObjectToAssociate != null)
+            {
+                SubObjectToAssociate.__MarshalTo(ref @ref.pSubobjectToAssociate);
+            }
+
             @ref.NumExports = Exports?.Length ?? 0;
             if (@ref.NumExports > 0)
             {

@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Vortice.DirectX;
 
@@ -10,8 +11,10 @@ namespace Vortice.Direct3D12
     /// <summary>
     /// Describes a DXIL library state subobject that can be included in a state object.
     /// </summary>
-    public partial class DxilLibraryDescription
+    public partial class DxilLibraryDescription : IStateSubObjectDescription, IStateSubObjectDescriptionMarshal
     {
+        StateSubObjectType IStateSubObjectDescription.SubObjectType => StateSubObjectType.DxilLibrary;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DxilLibraryDescription"/> class.
         /// </summary>
@@ -42,51 +45,58 @@ namespace Vortice.Direct3D12
             public ExportDescription.__Native* pExports;
         }
 
-        internal unsafe void __MarshalFree(ref __Native @ref)
+        unsafe void IStateSubObjectDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
         {
-            DxilLibrary.__MarshalFree(ref @ref.DXILLibrary);
+            ref __Native nativeLibrary = ref Unsafe.AsRef<__Native>(pDesc.ToPointer());
+            DxilLibrary.__MarshalFree(ref nativeLibrary.DXILLibrary);
 
-            if (@ref.pExports != null)
+            if (nativeLibrary.pExports != null)
             {
-                for (int i = 0; i < @ref.NumExports; i++)
+                for (int i = 0; i < nativeLibrary.NumExports; i++)
                 {
-                    Exports[i].__MarshalFree(ref @ref.pExports[i]);
+                    Exports[i].__MarshalFree(ref nativeLibrary.pExports[i]);
                 }
 
-                Marshal.FreeHGlobal((IntPtr)@ref.pExports);
+                Marshal.FreeHGlobal((IntPtr)nativeLibrary.pExports);
             }
         }
 
-        internal unsafe void __MarshalFrom(ref __Native @ref)
+        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc()
         {
-            DxilLibrary = new ShaderBytecode();
-            DxilLibrary.__MarshalFrom(ref @ref.DXILLibrary);
-            if (@ref.NumExports > 0)
-            {
-                Exports = new ExportDescription[@ref.NumExports];
-                for (var i = 0; i < @ref.NumExports; i++)
-                {
-                    Exports[i] = new ExportDescription();
-                    Exports[i].__MarshalFrom(ref @ref.pExports[i]);
-                }
-            }
-        }
+            __Native* native = (__Native*)Interop.Alloc<__Native>(1);
 
-        internal unsafe void __MarshalTo(ref __Native @ref)
-        {
-            DxilLibrary.__MarshalTo(ref @ref.DXILLibrary);
-            @ref.NumExports = Exports?.Length ?? 0;
-            if (@ref.NumExports > 0)
+            DxilLibrary.__MarshalTo(ref native->DXILLibrary);
+            native->NumExports = Exports?.Length ?? 0;
+            if (native->NumExports > 0)
             {
-                var nativeExports = (ExportDescription.__Native*)Interop.Alloc<ExportDescription.__Native>(@ref.NumExports);
-                for (int i = 0; i < @ref.NumExports; i++)
+                var nativeExports = (ExportDescription.__Native*)Interop.Alloc<ExportDescription.__Native>(native->NumExports);
+                for (int i = 0; i < native->NumExports; i++)
                 {
                     Exports[i].__MarshalTo(ref nativeExports[i]);
                 }
 
-                @ref.pExports = nativeExports;
+                native->pExports = nativeExports;
             }
+
+            return (IntPtr)native;
         }
+
+
+
+        //internal unsafe void __MarshalFrom(ref __Native @ref)
+        //{
+        //    DxilLibrary = new ShaderBytecode();
+        //    DxilLibrary.__MarshalFrom(ref @ref.DXILLibrary);
+        //    if (@ref.NumExports > 0)
+        //    {
+        //        Exports = new ExportDescription[@ref.NumExports];
+        //        for (var i = 0; i < @ref.NumExports; i++)
+        //        {
+        //            Exports[i] = new ExportDescription();
+        //            Exports[i].__MarshalFrom(ref @ref.pExports[i]);
+        //        }
+        //    }
+        //}
         #endregion
     }
 }

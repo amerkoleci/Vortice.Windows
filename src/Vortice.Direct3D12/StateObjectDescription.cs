@@ -34,19 +34,19 @@ namespace Vortice.Direct3D12
         {
             public StateObjectType Type;
             public int NumSubobjects;
-            public IntPtr pSubobjects;
+            public StateSubObject.__Native* pSubobjects;
         }
 
         internal unsafe void __MarshalFree(ref __Native @ref)
         {
-            if (@ref.pSubobjects != null)
+            if (@ref.NumSubobjects > 0)
             {
                 for (int i = 0; i < @ref.NumSubobjects; i++)
                 {
-                    Marshal.FreeHGlobal(SubObjects[i].Description);
+                    SubObjects[i].__MarshalFree(ref @ref.pSubobjects[i]);
                 }
 
-                Marshal.FreeHGlobal(@ref.pSubobjects);
+                Marshal.FreeHGlobal((IntPtr)@ref.pSubobjects);
             }
         }
 
@@ -56,7 +56,13 @@ namespace Vortice.Direct3D12
             @ref.NumSubobjects = SubObjects?.Length ?? 0;
             if (@ref.NumSubobjects > 0)
             {
-                @ref.pSubobjects = Interop.AllocToPointer(SubObjects);
+                var nativeSubObjects = (StateSubObject.__Native*)Interop.Alloc<StateSubObject.__Native>(@ref.NumSubobjects);
+                for (int i = 0; i < @ref.NumSubobjects; i++)
+                {
+                    SubObjects[i].__MarshalTo(ref nativeSubObjects[i]);
+                }
+
+                @ref.pSubobjects = nativeSubObjects;
             }
         }
         #endregion

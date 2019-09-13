@@ -499,8 +499,9 @@
     <remove field="D3D12_COMPUTE_PIPELINE_STATE_DESC::.*"/>
 
     <map struct="D3D12_BLEND_DESC" marshalto="true"/>
-    <map struct="D3D12_STATE_SUBOBJECT" marshalto="true"/>
-    <map field="D3D12_STATE_SUBOBJECT::pDesc" name="Description" />
+    
+    <map struct="D3D12_STATE_SUBOBJECT" name="StateSubObject" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_STATE_SUBOBJECT::.*"/>
     
     <map struct="D3D12_STATE_OBJECT_DESC" name="StateObjectDescription" struct-to-class="true" marshal="true" />
     <remove field="D3D12_STATE_OBJECT_DESC::.*"/>
