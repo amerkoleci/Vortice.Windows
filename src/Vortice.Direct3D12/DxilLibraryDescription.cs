@@ -45,25 +45,9 @@ namespace Vortice.Direct3D12
             public ExportDescription.__Native* pExports;
         }
 
-        unsafe void IStateSubObjectDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
-        {
-            ref __Native nativeLibrary = ref Unsafe.AsRef<__Native>(pDesc.ToPointer());
-            DxilLibrary.__MarshalFree(ref nativeLibrary.DXILLibrary);
-
-            if (nativeLibrary.pExports != null)
-            {
-                for (int i = 0; i < nativeLibrary.NumExports; i++)
-                {
-                    Exports[i].__MarshalFree(ref nativeLibrary.pExports[i]);
-                }
-
-                Marshal.FreeHGlobal((IntPtr)nativeLibrary.pExports);
-            }
-        }
-
         unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc()
         {
-            __Native* native = (__Native*)Interop.Alloc<__Native>(1);
+            __Native* native = (__Native*)Marshal.AllocHGlobal(sizeof(__Native));
 
             DxilLibrary.__MarshalTo(ref native->DXILLibrary);
             native->NumExports = Exports?.Length ?? 0;
@@ -81,22 +65,23 @@ namespace Vortice.Direct3D12
             return (IntPtr)native;
         }
 
+        unsafe void IStateSubObjectDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
+        {
+            ref __Native nativeLibrary = ref Unsafe.AsRef<__Native>(pDesc.ToPointer());
+            DxilLibrary.__MarshalFree(ref nativeLibrary.DXILLibrary);
 
+            if (nativeLibrary.pExports != null)
+            {
+                for (int i = 0; i < nativeLibrary.NumExports; i++)
+                {
+                    Exports[i].__MarshalFree(ref nativeLibrary.pExports[i]);
+                }
 
-        //internal unsafe void __MarshalFrom(ref __Native @ref)
-        //{
-        //    DxilLibrary = new ShaderBytecode();
-        //    DxilLibrary.__MarshalFrom(ref @ref.DXILLibrary);
-        //    if (@ref.NumExports > 0)
-        //    {
-        //        Exports = new ExportDescription[@ref.NumExports];
-        //        for (var i = 0; i < @ref.NumExports; i++)
-        //        {
-        //            Exports[i] = new ExportDescription();
-        //            Exports[i].__MarshalFrom(ref @ref.pExports[i]);
-        //        }
-        //    }
-        //}
+                Marshal.FreeHGlobal((IntPtr)nativeLibrary.pExports);
+            }
+
+            Marshal.FreeHGlobal(pDesc);
+        }
         #endregion
     }
 }

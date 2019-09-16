@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using Vortice.DirectX;
@@ -11,8 +12,10 @@ namespace Vortice.Direct3D12
     /// <summary>
     /// A state subobject describing an existing collection that can be included in a state object.
     /// </summary>
-    public partial class ExistingCollectionDescription
+    public partial class ExistingCollectionDescription : IStateSubObjectDescription, IStateSubObjectDescriptionMarshal
     {
+        StateSubObjectType IStateSubObjectDescription.SubObjectType => StateSubObjectType.ExistingCollection;
+
         public ExistingCollectionDescription(ID3D12StateObject existingCollection, params ExportDescription[] exports)
         {
             ExistingCollection = existingCollection;
@@ -38,35 +41,42 @@ namespace Vortice.Direct3D12
             public ExportDescription.__Native* pExports;
         }
 
-        internal unsafe void __MarshalFree(ref __Native @ref)
+        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc()
         {
-            GC.KeepAlive(ExistingCollection);
+            __Native* native = (__Native*)Marshal.AllocHGlobal(sizeof(__Native));
 
-            if (@ref.NumExports > 0)
+            native->pExistingCollection = CppObject.ToCallbackPtr<ID3D12StateObject>(ExistingCollection);
+            native->NumExports = Exports?.Length ?? 0;
+            if (native->NumExports > 0)
             {
-                for (int i = 0; i < @ref.NumExports; i++)
-                {
-                    Exports[i].__MarshalFree(ref @ref.pExports[i]);
-                }
-
-                Marshal.FreeHGlobal((IntPtr)@ref.pExports);
-            }
-        }
-
-        internal unsafe void __MarshalTo(ref __Native @ref)
-        {
-            @ref.pExistingCollection = CppObject.ToCallbackPtr<ID3D12StateObject>(ExistingCollection);
-            @ref.NumExports = Exports?.Length ?? 0;
-            if (@ref.NumExports > 0)
-            {
-                var nativeExports = (ExportDescription.__Native*)Interop.Alloc<ExportDescription.__Native>(@ref.NumExports);
-                for (int i = 0; i < @ref.NumExports; i++)
+                var nativeExports = (ExportDescription.__Native*)Interop.Alloc<ExportDescription.__Native>(native->NumExports);
+                for (int i = 0; i < native->NumExports; i++)
                 {
                     Exports[i].__MarshalTo(ref nativeExports[i]);
                 }
 
-                @ref.pExports = nativeExports;
+                native->pExports = nativeExports;
             }
+
+            return (IntPtr)native;
+        }
+
+        unsafe void IStateSubObjectDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
+        {
+            GC.KeepAlive(ExistingCollection);
+            ref __Native nativeLibrary = ref Unsafe.AsRef<__Native>(pDesc.ToPointer());
+
+            if (nativeLibrary.pExports != null)
+            {
+                for (int i = 0; i < nativeLibrary.NumExports; i++)
+                {
+                    Exports[i].__MarshalFree(ref nativeLibrary.pExports[i]);
+                }
+
+                Marshal.FreeHGlobal((IntPtr)nativeLibrary.pExports);
+            }
+
+            Marshal.FreeHGlobal(pDesc);
         }
         #endregion
     }

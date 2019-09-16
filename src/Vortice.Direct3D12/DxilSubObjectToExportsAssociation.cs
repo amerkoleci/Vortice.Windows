@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Vortice.Direct3D12
@@ -9,8 +10,10 @@ namespace Vortice.Direct3D12
     /// <summary>
     /// This subobject is unsupported in the current release.
     /// </summary>
-    public partial class DxilSubObjectToExportsAssociation
+    public partial class DxilSubObjectToExportsAssociation : IStateSubObjectDescription, IStateSubObjectDescriptionMarshal
     {
+        StateSubObjectType IStateSubObjectDescription.SubObjectType => StateSubObjectType.DxilSubObjectToExportsAssociation;
+
         public DxilSubObjectToExportsAssociation(string subObjectToAssociate, params string[] exports)
         {
             SubObjectToAssociate = subObjectToAssociate;
@@ -36,35 +39,42 @@ namespace Vortice.Direct3D12
             public IntPtr* pExports;
         }
 
-        internal unsafe void __MarshalFree(ref __Native @ref)
+
+        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc()
         {
-            Marshal.FreeHGlobal(@ref.pSubobjectToAssociate);
-
-            if (@ref.NumExports > 0)
+            __Native* native = (__Native*)Marshal.AllocHGlobal(sizeof(__Native));
+            native->pSubobjectToAssociate = Marshal.StringToHGlobalUni(SubObjectToAssociate);
+            native->NumExports = Exports?.Length ?? 0;
+            if (native->NumExports > 0)
             {
-                for (int i = 0; i < @ref.NumExports; i++)
-                {
-                    Marshal.FreeHGlobal(@ref.pExports[i]);
-                }
-
-                Marshal.FreeHGlobal(new IntPtr(@ref.pExports));
-            }
-        }
-
-        internal unsafe void __MarshalTo(ref __Native @ref)
-        {
-            @ref.pSubobjectToAssociate = Marshal.StringToHGlobalUni(SubObjectToAssociate);
-            @ref.NumExports = Exports?.Length ?? 0;
-            if (@ref.NumExports > 0)
-            {
-                var nativeExports = (IntPtr*)Marshal.AllocHGlobal(IntPtr.Size * @ref.NumExports);
-                for (int i = 0; i < @ref.NumExports; i++)
+                var nativeExports = (IntPtr*)Marshal.AllocHGlobal(IntPtr.Size * native->NumExports);
+                for (int i = 0; i < native->NumExports; i++)
                 {
                     nativeExports[i] = Marshal.StringToHGlobalUni(Exports[i]);
                 }
 
-                @ref.pExports = nativeExports;
+                native->pExports = nativeExports;
             }
+
+            return (IntPtr)native;
+        }
+
+        unsafe void IStateSubObjectDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
+        {
+            ref __Native native = ref Unsafe.AsRef<__Native>(pDesc.ToPointer());
+            Marshal.FreeHGlobal(native.pSubobjectToAssociate);
+
+            if (native.NumExports > 0)
+            {
+                for (int i = 0; i < native.NumExports; i++)
+                {
+                    Marshal.FreeHGlobal(native.pExports[i]);
+                }
+
+                Marshal.FreeHGlobal(new IntPtr(native.pExports));
+            }
+
+            Marshal.FreeHGlobal(pDesc);
         }
         #endregion
     }
