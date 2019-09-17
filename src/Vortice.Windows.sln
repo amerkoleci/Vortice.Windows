@@ -35,6 +35,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc", "Vortice.Dxc\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI", "Vortice.DXGI\Vortice.DXGI.csproj", "{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XAudio2", "Vortice.XAudio2\Vortice.XAudio2.csproj", "{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Multimedia", "Vortice.Multimedia\Vortice.Multimedia.csproj", "{8B819A20-F08E-4329-9183-235A58ED0024}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +93,14 @@ Global
 		{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B819A20-F08E-4329-9183-235A58ED0024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B819A20-F08E-4329-9183-235A58ED0024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B819A20-F08E-4329-9183-235A58ED0024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B819A20-F08E-4329-9183-235A58ED0024}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

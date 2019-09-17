@@ -5,9 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using SharpGen.Runtime;
 
-namespace Vortice.DirectX.Multimedia
+namespace Vortice.Multimedia
 {
     /// <summary>
     /// Summary description for WaveFormatEncoding.

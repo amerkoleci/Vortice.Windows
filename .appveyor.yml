@@ -44,6 +44,8 @@ before_package:
 - cmd: msbuild /t:pack /p:VersionSuffix="%VORTICE_VERSION_SUFFIX%" /p:Configuration=Release Vortice.D3DCompiler/Vortice.D3DCompiler.csproj
 - cmd: msbuild /t:pack /p:VersionSuffix="%VORTICE_VERSION_SUFFIX%" /p:Configuration=Release Vortice.XInput/Vortice.XInput.csproj
 - cmd: msbuild /t:pack /p:VersionSuffix="%VORTICE_VERSION_SUFFIX%" /p:Configuration=Release Vortice.Dxc/Vortice.Dxc.csproj
+- cmd: msbuild /t:pack /p:VersionSuffix="%VORTICE_VERSION_SUFFIX%" /p:Configuration=Release Vortice.Multimedia/Vortice.Multimedia.csproj
+- cmd: msbuild /t:pack /p:VersionSuffix="%VORTICE_VERSION_SUFFIX%" /p:Configuration=Release Vortice.XAudio2/Vortice.XAudio2.csproj
   
 artifacts:
 - path: bin\Release\Packages\*.nupkg

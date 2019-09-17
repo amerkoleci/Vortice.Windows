@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-multimedia" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.Multimedia</assembly>
+  <namespace>Vortice.Multimedia</namespace>
+
+  <sdk name="WindowsSdk" version="10.0.18362.0" />
+  <sdk name="StdLib" />
+
+  <include-prolog>
+    // Use unicode
+    #define UNICODE
+
+    // for SAL annotations
+    #define _PREFAST_
+
+    // To force GUID to be declared
+    #define INITGUID
+
+    #define _ALLOW_KEYWORD_MACROS
+
+    // Wrap all declspec for code-gen
+    #define __declspec(x) __attribute__((annotate(#x)))
+  </include-prolog>
+  <include file="windows.h" />
+
+  <include file="hidusage.h" namespace="Vortice.Multimedia" output="Multimedia" attach="true">
+    <post>
+      // Additionnals HID_USAGE_PAGES*
+      #define HID_USAGE_PAGE_MEDICAL  0x40
+      #define HID_USAGE_PAGE_MONITOR_PAGE0 0x80
+      #define HID_USAGE_PAGE_MONITOR_PAGE1 0x81
+      #define HID_USAGE_PAGE_MONITOR_PAGE2 0x82
+      #define HID_USAGE_PAGE_MONITOR_PAGE3 0x83
+      #define HID_USAGE_PAGE_POWER_PAGE0 0x84
+      #define HID_USAGE_PAGE_POWER_PAGE1 0x85
+      #define HID_USAGE_PAGE_POWER_PAGE2 0x86
+      #define HID_USAGE_PAGE_POWER_PAGE3 0x87
+      #define HID_USAGE_PAGE_BARCODE 0x8C
+      #define HID_USAGE_PAGE_SCALE 0x8D
+      #define HID_USAGE_PAGE_MSR 0x8E
+
+      // The Usage typedef doesn't exist when compiling for STORE_APP so we define it here
+      #define USAGE USHORT
+    </post>
+  </include>
+
+  <!-- Include mmreg.h before audiodefs.h in order to avoid redefinition problem -->
+  <include file="mmreg.h" namespace="Vortice.Multimedia" output="Multimedia" attach="true">
+    <pre>
+      #define NOMMIDS           1
+      #define NONEWWAVE         1
+      #define NONEWRIFF         1
+      #define NOJPEGDIB         1
+      #define NONEWIC           1
+      #define NOBITMAP          1
+      #define WAVE_FORMAT_PCM   1
+    </pre>
+  </include>
+
+  <include file="audiosessiontypes.h" namespace="Vortice.Multimedia" output="Multimedia" attach="true" />
+  
+  <extension>
+    <define struct="Vortice.DirectX.Multimedia.WaveFormat" sizeof="18" marshal="true" />
+    <define struct="Vortice.DirectX.Multimedia.WaveFormatExtensible" sizeof="18" marshal="true" custom-new="true"/>
+
+    <!-- audiosessiontypes.h -->
+    <create-cpp enum="AUDCLNT_STREAMFLAGS" macro="AUDCLNT_STREAMFLAGS_.*" />
+    <create-cpp enum="AUDCLNT_SESSIONFLAGS" macro="AUDCLNT_SESSIONFLAGS_.*" />
+
+    <create-cpp enum="SPEAKER_FLAGS" macro="SPEAKER_.*" />
+    <create-cpp enum="HID_USAGE_PAGE" macro="HID_USAGE_PAGE_.*" />
+    <create-cpp enum="HID_USAGE_ID" macro="HID_USAGE_[^P].*" />
+    <!--<create-cpp enum="WAVE_FORMAT_ENCODING" macro="WAVE_FORMAT_(.*)" />-->
+  </extension>
+
+  <bindings>
+    <bind from="unsigned short" to="System.UInt16" />
+    <bind from="WAVEFORMATEX" to="Vortice.Multimedia.WaveFormat" />
+    <bind from="tWAVEFORMATEX" to="Vortice.Multimedia.WaveFormat" />
+    <bind from="WAVEFORMATEXTENSIBLE" to="Vortice.Multimedia.WaveFormatExtensible" />
+  </bindings>
+
+  <naming>
+    <short name="(R(\d).*)$">$1</short>
+    <short name="(B(\d).*)$">$1</short>
+    <short name="(G(\d).*)$">$1</short>
+    <short name="(A(\d).*)$">$1</short>
+    <short name="(X(\d).*)$">$1</short>
+    <short name="(BC(\d).*)$">$1</short>
+    <short name="(AYUV)$">$1</short>
+    <short name="(YUY2)$">$1</short>
+    <short name="(NV\d+)$">$1</short>
+    <short name="(AI\d+)$">$1</short>
+    <short name="(IA\d+)$">$1</short>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="SRC">Source</short>
+    <short name="CROSSPROCESS">CrossProcess</short>
+    <short name="LOOPBACK">LoopBack</short>
+    <short name="EVENTCALLBACK">EventCallback</short>
+    <short name="NOPERSIST">NoPersist</short>
+    <short name="RATEADJUST">RateAdjust</short>
+    <short name="AUTOCONVERTPCM">AutoConvertPCM</short>
+    <short name="EXPIREWHENUNOWNED">ExpireWhenUnowned</short>
+    <short name="HIDEWHENEXPIRED">HideWhenExpired</short>
+  </naming>
+
+  <mapping>
+    <!-- audiosessiontypes.h -->
+    <map enum="AUDCLNT_SHAREMODE" name="AudioClientShareMode" />
+    <map enum-item="AudioSessionState(.*)" name="$1"/>
+
+    <map enum="AUDCLNT_STREAMFLAGS" name="AudioClientStreamFlags" flags="true" none="true"/>
+    <map enum="AUDCLNT_SESSIONFLAGS" name="AudioClientSessionFlags" flags="true" none="true"/>
+    <map enum-item="AudioCategory_(.*)" name="$1"/>
+
+    <map enum="SPEAKER_FLAGS" name="Speakers" flags="true" none="true"/>
+    <map enum-item="SPEAKER_2POINT1" name="TwoPointOne" />
+    <map enum-item="SPEAKER_4POINT1" name="FourPointOne" />
+    <map enum-item="SPEAKER_5POINT1" name="FivePointOne" />
+    <map enum-item="SPEAKER_7POINT1" name="SevenPointOne" />
+    <map enum-item="SPEAKER_5POINT1_SURROUND" name="FivePointOneSurround" />
+    <map enum-item="SPEAKER_7POINT1_SURROUND" name="SevenPointOneSurround" />
+
+    <!-- class Vortice.Multimedia.UsagePage -->
+    <map enum="HID_USAGE_PAGE" name="UsagePage" type="short"/>
+    <map enum-item="HID_USAGE_PAGE_(.*)" name-tmp="$1" naming="noexpand"/>
+
+    <!-- class Vortice.Multimedia.UsageId -->
+    <map enum="HID_USAGE_ID" name="UsageId" type="short"/>
+    <map enum-item="HID_USAGE_([^P].*)" name-tmp="$1" naming="noexpand"/>
+
+    <!-- class Vortice.Multimedia.WaveFormatEncoding-->
+    <!--<map enum="WAVE_FORMAT_ENCODING" name="WaveFormatEncoding" type="short"/>-->
+    <map enum-item="WAVE_FORMAT_(.*)" name-tmp="$1" naming="noexpand" />
+    <map enum-item="WAVE_FORMAT_([0-9].*)" name-tmp="Tag$1" />
+    <map enum-item="WAVE_FORMAT_GSM610" name-tmp="DefaultGsm610" />
+  </mapping>
+</config>

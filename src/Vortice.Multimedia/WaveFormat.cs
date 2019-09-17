@@ -8,9 +8,8 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using SharpGen.Runtime;
 
-namespace Vortice.DirectX.Multimedia
+namespace Vortice.Multimedia
 {
     /// <summary>
     /// Represents a Wave file format
