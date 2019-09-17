@@ -492,6 +492,7 @@
     <map method="IWICBitmapFrameEncode::SetPixelFormat" property="false"/>
 
     <!-- IWICBitmapEncoder -->
+    <map method="IWICBitmapEncoder::Initialize" visibility="internal" name="Initialize_" />
     <map param="IWICBitmapEncoder::CreateNewFrame::ppIFrameEncode" attribute="out" return="true"/>
 
     <!-- WIC functions -->
@@ -504,10 +505,12 @@
 
     <!-- IWICImagingFactory -->
     <remove method="IWICImagingFactory::CreateComponentEnumerator" />
-    <map method="IWICImagingFactory::CreateBitmap" visibility="private" name="CreateBitmapPrivate" />
+    <map method="IWICImagingFactory::CreateBitmap" visibility="private" name="CreateBitmap_" />
     <map param="IWICImagingFactory::Create.*::pp.*" attribute="out" return="true"/>
     <map method="IWICImagingFactory::CreateDecoderFromFilename" visibility="private" name="CreateDecoderFromFilename_" />
-
+    <map method="IWICImagingFactory::CreateStream" visibility="private" name="CreateStream_" />
+    <map method="IWICImagingFactory::CreateEncoder" visibility="private" name="CreateEncoder_" />
+    
     <!-- ID2D1Factory -->
     <map param="ID2D1Factory::CreateDCRenderTarget::renderTargetProperties" attribute="in value" />
     <map param="ID2D1Factory::CreateDCRenderTarget::dcRenderTarget" attribute="out" return="true"/>

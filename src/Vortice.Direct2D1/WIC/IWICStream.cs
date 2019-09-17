@@ -20,16 +20,25 @@ namespace Vortice.WIC
         public void Initialize(string fileName, FileAccess access)
         {
             DisposeStreamProxy();
-            NativeFileAccess desiredAccess = access.ToNative();
+
+            var desiredAccess = access.ToNative();
             InitializeFromFilename(fileName, (int)desiredAccess);
         }
 
+        /// <summary>
+        /// Initialize the <see cref="IWICStream"/> from another stream. Access rights are inherited from the underlying stream
+        /// </summary>
+        /// <param name="comStream"></param>
         public void Initialize(IStream comStream)
         {
             DisposeStreamProxy();
             InitializeFromIStream(comStream);
         }
 
+        /// <summary>
+        /// Initialize the <see cref="IWICStream"/> from another stream. Access rights are inherited from the underlying stream
+        /// </summary>
+        /// <param name="stream">The initialize stream.</param>
         public void Initialize(Stream stream)
         {
             DisposeStreamProxy();
@@ -37,6 +46,10 @@ namespace Vortice.WIC
             InitializeFromIStream(_streamProxy);
         }
 
+        /// <summary>
+        /// Initialize the stream from given data.
+        /// </summary>
+        /// <param name="data">Data to initialize with.</param>
         public unsafe void Initialize(byte[] data)
         {
             DisposeStreamProxy();
@@ -46,6 +59,10 @@ namespace Vortice.WIC
             }
         }
 
+        /// <summary>
+        /// Initialize the stream from given data.
+        /// </summary>
+        /// <param name="data">Data to initialize with.</param>
         public void Initialize<T>(ReadOnlySpan<T> data) where T : unmanaged
         {
             DisposeStreamProxy();
@@ -58,6 +75,11 @@ namespace Vortice.WIC
             }
         }
 
+        /// <summary>
+        /// Initialize the stream from given data.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">Data to initialize with.</param>
         public void Initialize<T>(T[] data) where T : unmanaged
         {
             DisposeStreamProxy();

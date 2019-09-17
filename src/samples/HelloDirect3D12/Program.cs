@@ -63,17 +63,13 @@ namespace HelloDirect3D11
             if (File.Exists(fileName))
                 File.Delete(fileName);
 
-            using (var stream = wicFactory.CreateStream())
+            using (var stream = wicFactory.CreateStream(fileName, FileAccess.Write))
             {
-                stream.Initialize(fileName, FileAccess.Write);
-
                 // Initialize a Jpeg encoder with this stream
-                using (var encoder = wicFactory.CreateEncoder(ContainerFormat.Jpeg))
+                using (var encoder = wicFactory.CreateEncoder(ContainerFormat.Jpeg, stream))
                 {
-                    encoder.Initialize(stream);
-
                     // Create a Frame encoder
-                    var props = new SharpGen.Runtime.Win32.PropertyBag(IntPtr.Zero);
+                    var props = new SharpGen.Runtime.Win32.PropertyBag();
                     var bitmapFrameEncode = encoder.CreateNewFrame(props);
                     bitmapFrameEncode.Initialize(null);
                     bitmapFrameEncode.SetSize(width, height);

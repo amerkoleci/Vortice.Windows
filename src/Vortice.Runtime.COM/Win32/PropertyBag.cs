@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 namespace SharpGen.Runtime.Win32
@@ -30,6 +31,14 @@ namespace SharpGen.Runtime.Win32
     public class PropertyBag : ComObject
     {
         private IPropertyBag2 nativePropertyBag;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyBag"/> class.
+        /// </summary>
+        public PropertyBag()
+            : base(IntPtr.Zero)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyBag"/> class.
@@ -62,8 +71,7 @@ namespace SharpGen.Runtime.Win32
             get
             {
                 CheckIfInitialized();
-                int propertyCount;
-                nativePropertyBag.CountProperties(out propertyCount);
+                nativePropertyBag.CountProperties(out var propertyCount);
                 return propertyCount;
             }
         }
@@ -79,9 +87,7 @@ namespace SharpGen.Runtime.Win32
                 var keys = new List<string>();
                 for (int i = 0; i < Count; i++)
                 {
-                    PROPBAG2 propbag2;
-                    int temp;
-                    nativePropertyBag.GetPropertyInfo(i, 1, out propbag2, out temp);
+                    nativePropertyBag.GetPropertyInfo(i, 1, out PROPBAG2 propbag2, out int temp);
                     keys.Add(propbag2.Name);
                 }
                 return keys.ToArray();
@@ -96,13 +102,18 @@ namespace SharpGen.Runtime.Win32
         public object Get(string name)
         {
             CheckIfInitialized();
-            object value;
-            var propbag2 = new PROPBAG2() {Name = name};
-            Result error;
+            var propbag2 = new PROPBAG2()
+            {
+                Name = name
+            };
+
             // Gets the property
-            var result = nativePropertyBag.Read(1, ref propbag2, IntPtr.Zero, out value, out error);
+            var result = nativePropertyBag.Read(1, ref propbag2, IntPtr.Zero, out object value, out Result error);
             if (result.Failure || error.Failure)
-                throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Property with name [{0}] is not valid for this instance", name));
+            {
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Property with name [{0}] is not valid for this instance", name));
+            }
+
             propbag2.Dispose();
             return value;
         }
@@ -117,7 +128,7 @@ namespace SharpGen.Runtime.Win32
         public T1 Get<T1, T2>(PropertyBagKey<T1, T2> propertyKey)
         {
             var value = Get(propertyKey.Name);
-            return (T1) Convert.ChangeType(value, typeof (T1));
+            return (T1)Convert.ChangeType(value, typeof(T1));
         }
 
         /// <summary>
@@ -131,7 +142,7 @@ namespace SharpGen.Runtime.Win32
             // In order to set a property in the property bag
             // we need to convert the value to the destination type
             var previousValue = Get(name);
-            value = Convert.ChangeType(value, previousValue==null?value.GetType() : previousValue.GetType());
+            value = Convert.ChangeType(value, previousValue == null ? value.GetType() : previousValue.GetType());
 
             // Set the property
             var propbag2 = new PROPBAG2() { Name = name };
@@ -147,7 +158,7 @@ namespace SharpGen.Runtime.Win32
         /// <typeparam name="T2">The marshaling type of this property.</typeparam>
         /// <param name="propertyKey">The property key.</param>
         /// <param name="value">The value.</param>
-        public void Set<T1,T2>(PropertyBagKey<T1,T2> propertyKey, T1 value)
+        public void Set<T1, T2>(PropertyBagKey<T1, T2> propertyKey, T1 value)
         {
             Set(propertyKey.Name, value);
         }
@@ -186,7 +197,7 @@ namespace SharpGen.Runtime.Win32
                 }
             }
         }
-        
+
         [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("22F55882-280B-11D0-A8A9-00A0C90C2004")]
         private interface IPropertyBag2
         {

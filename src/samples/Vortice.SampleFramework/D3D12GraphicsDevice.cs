@@ -94,6 +94,14 @@ namespace Vortice
                 }
             }
 
+            // Check raytracing support.
+            var featureOptions5 = _d3d12Device.Options5;
+            if (featureOptions5.RaytracingTier != RaytracingTier.NotSupported)
+            {
+                //var d3d12Device5 = _d3d12Device.QueryInterfaceOrNull<ID3D12Device5>();
+                //d3d12Device5.CreateStateObject(new StateObjectDescription(StateObjectType.Collection));
+            }
+
             // Create Command queue.
             _d3d12CommandQueue = _d3d12Device.CreateCommandQueue(CommandListType.Direct);
 
