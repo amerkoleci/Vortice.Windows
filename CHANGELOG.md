@@ -9,6 +9,8 @@ KEY CHANGES:
 - Improvements in Direct3D12 raytracing API, StateObject and StateSubObject.
 - Fixes #22 - Load dxil.dll first before dxcompiler.dll.
 - Improvements in Direct3D12 raytracing API and structures.
+- New: Vortice.Multimedia separation for lightweight logic.
+- New: XAudio2 support.
 
 -----------------------------------------------
 Release:     1.2.0 (September 2019)

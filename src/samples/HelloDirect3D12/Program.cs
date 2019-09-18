@@ -11,6 +11,7 @@ using Vortice.WIC;
 using Vortice.DirectWrite;
 using Vortice.Mathematics;
 using Vortice.Dxc;
+using System.Numerics;
 
 namespace HelloDirect3D11
 {
@@ -24,15 +25,8 @@ namespace HelloDirect3D11
             }
         }
 
-        private static void TestDxc()
-        {
-            var library = Dxc.CreateDxcLibrary();
-        }
-
         public static void Main()
         {
-            TestDxc();
-
             var wicFactory = new IWICImagingFactory();
             D2D1.D2D1CreateFactory(out ID2D1Factory d2dFactory);
 
@@ -81,9 +75,30 @@ namespace HelloDirect3D11
                 }
             }
 
+            /*using(var stream = File.OpenRead(fileName))
+            {
+                GetTextureDimensions(wicFactory, stream);
+            }*/
+
             using (var app = new TestApplication())
             {
                 app.Run();
+            }
+        }
+
+        public static Size GetTextureDimensions(IWICImagingFactory factory, Stream stream)
+        {
+            IWICStream wicStream = factory.CreateStream();
+            wicStream.Initialize(stream);
+
+            using (IWICBitmapDecoder decoder = factory.CreateDecoderFromStream(wicStream, DecodeOptions.CacheOnDemand))
+            {
+                var frame = decoder.GetFrame(0);
+                using (frame)
+                {
+                    stream.Seek(0, SeekOrigin.Begin);
+                    return frame.Size;
+                }
             }
         }
     }

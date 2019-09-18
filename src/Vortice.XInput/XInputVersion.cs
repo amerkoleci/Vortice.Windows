@@ -4,7 +4,7 @@
 namespace Vortice.XInput
 {
     /// <summary>
-    /// Describes the user index.
+    /// Describes the library version.
     /// </summary>
     public enum XInputVersion
     {

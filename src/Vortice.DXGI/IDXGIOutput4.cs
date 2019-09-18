@@ -19,7 +19,7 @@ namespace Vortice.DXGI
         {
             if (PlatformDetection.IsUAP)
             {
-                throw new NotSupportedException();
+                throw new NotSupportedException("IDXGIOutput4.CheckOverlayColorSpaceSupport is not supported on UAP platform");
             }
 
             return CheckOverlayColorSpaceSupport_(format, colorSpace, concernedDevice);
