@@ -405,6 +405,9 @@
     <map param="IWICBitmap::Lock::prcLock" type="void" attribute="in"/>
     <map method="IWICBitmap::SetPalette" property="false"/>
 
+    <!-- IWICBitmapDecoder -->
+    <map param="IWICBitmapDecoder::GetFrame::ppIBitmapFrame" attribute="out" return="true" />
+
     <!-- TODO: Handle DXGI_JPEG_AC_HUFFMAN_TABLE -->
     <remove method="IWICJpegFrameDecode::GetAcHuffmanTable" />
     <remove method="IWICJpegFrameDecode::GetDcHuffmanTable" />
@@ -510,6 +513,7 @@
     <map method="IWICImagingFactory::CreateDecoderFromFilename" visibility="private" name="CreateDecoderFromFilename_" />
     <map method="IWICImagingFactory::CreateStream" visibility="private" name="CreateStream_" />
     <map method="IWICImagingFactory::CreateEncoder" visibility="private" name="CreateEncoder_" />
+    <map method="IWICImagingFactory::CreateDecoderFromStream" visibility="private" name="CreateDecoderFromStream_" />
     
     <!-- ID2D1Factory -->
     <map param="ID2D1Factory::CreateDCRenderTarget::renderTargetProperties" attribute="in value" />

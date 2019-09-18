@@ -10,7 +10,7 @@ namespace Vortice.WIC
     public partial class IWICBitmapEncoder
     {
         internal IWICImagingFactory _factory;
-        internal IWICStream _wicStream;
+        private IWICStream _wicStream;
 
         /// <summary>
         /// Initializes the encoder with the provided stream.
@@ -36,7 +36,7 @@ namespace Vortice.WIC
             Initialize_(_wicStream, cacheOption);
         }
 
-        protected override unsafe void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
 

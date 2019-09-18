@@ -83,43 +83,61 @@ namespace Vortice.WIC
 
         public IWICBitmapEncoder CreateEncoder(Guid guidContainerFormat)
         {
-            return CreateEncoder_(guidContainerFormat, null);
+            var encoder = CreateEncoder_(guidContainerFormat, null);
+            encoder._factory = this;
+            return encoder;
         }
 
         public IWICBitmapEncoder CreateEncoder(ContainerFormat format, Guid? guidVendor = null)
         {
+            IWICBitmapEncoder encoder;
             switch (format)
             {
                 case ContainerFormat.Bmp:
-                    return CreateEncoder_(ContainerFormatGuids.Bmp, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Bmp, guidVendor);
+                    break;
                 case ContainerFormat.Png:
-                    return CreateEncoder_(ContainerFormatGuids.Png, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Png, guidVendor);
+                    break;
                 case ContainerFormat.Ico:
-                    return CreateEncoder_(ContainerFormatGuids.Ico, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Ico, guidVendor);
+                    break;
                 case ContainerFormat.Jpeg:
-                    return CreateEncoder_(ContainerFormatGuids.Jpeg, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Jpeg, guidVendor);
+                    break;
                 case ContainerFormat.Tiff:
-                    return CreateEncoder_(ContainerFormatGuids.Tiff, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Tiff, guidVendor);
+                    break;
                 case ContainerFormat.Gif:
-                    return CreateEncoder_(ContainerFormatGuids.Gif, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Gif, guidVendor);
+                    break;
                 case ContainerFormat.Wmp:
-                    return CreateEncoder_(ContainerFormatGuids.Wmp, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Wmp, guidVendor);
+                    break;
                 case ContainerFormat.Dds:
-                    return CreateEncoder_(ContainerFormatGuids.Dds, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Dds, guidVendor);
+                    break;
                 case ContainerFormat.Adng:
-                    return CreateEncoder_(ContainerFormatGuids.Adng, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Adng, guidVendor);
+                    break;
                 case ContainerFormat.Heif:
-                    return CreateEncoder_(ContainerFormatGuids.Heif, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Heif, guidVendor);
+                    break;
                 case ContainerFormat.Webp:
-                    return CreateEncoder_(ContainerFormatGuids.Webp, guidVendor);
+                    encoder = CreateEncoder_(ContainerFormatGuids.Webp, guidVendor);
+                    break;
                 default:
                     return null;
             }
+
+            encoder._factory = this;
+            return encoder;
         }
 
         public IWICBitmapEncoder CreateEncoder(Guid guidContainerFormat, IStream stream, BitmapEncoderCacheOption cacheOption = BitmapEncoderCacheOption.NoCache)
         {
             var encoder = CreateEncoder_(guidContainerFormat, null);
+            encoder._factory = this;
             encoder.Initialize(stream, cacheOption);
             return encoder;
         }
@@ -141,6 +159,7 @@ namespace Vortice.WIC
         public IWICBitmapEncoder CreateEncoder(Guid guidContainerFormat, Stream stream, BitmapEncoderCacheOption cacheOption = BitmapEncoderCacheOption.NoCache)
         {
             var encoder = CreateEncoder_(guidContainerFormat, null);
+            encoder._factory = this;
             encoder.Initialize(stream, cacheOption);
             return encoder;
         }
@@ -157,6 +176,32 @@ namespace Vortice.WIC
             var encoder = CreateEncoder(format, guidVendor);
             encoder.Initialize(stream, cacheOption);
             return encoder;
+        }
+
+        public IWICBitmapDecoder CreateDecoderFromStream(IStream stream, DecodeOptions metadataOptions = DecodeOptions.CacheOnDemand)
+        {
+            return CreateDecoderFromStream_(stream, null, metadataOptions);
+        }
+
+        public IWICBitmapDecoder CreateDecoderFromStream(IStream stream, Guid vendor, DecodeOptions metadataOptions = DecodeOptions.CacheOnDemand)
+        {
+            return CreateDecoderFromStream_(stream, vendor, metadataOptions);
+        }
+
+        public IWICBitmapDecoder CreateDecoderFromStream(Stream stream, DecodeOptions metadataOptions = DecodeOptions.CacheOnDemand)
+        {
+            var wicStream = CreateStream(stream);
+            var decoder = CreateDecoderFromStream_(wicStream, null, metadataOptions);
+            decoder._wicStream = wicStream;
+            return decoder;
+        }
+
+        public IWICBitmapDecoder CreateDecoderFromStream(Stream stream, Guid vendor, DecodeOptions metadataOptions = DecodeOptions.CacheOnDemand)
+        {
+            var wicStream = CreateStream(stream);
+            var decoder = CreateDecoderFromStream_(wicStream, vendor, metadataOptions);
+            decoder._wicStream = wicStream;
+            return decoder;
         }
 
         public IWICBitmapDecoder CreateDecoderFromFilename(string fileName, DecodeOptions metadataOptions)
