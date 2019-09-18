@@ -20,6 +20,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace SharpGen.Runtime.Win32
@@ -27,12 +28,12 @@ namespace SharpGen.Runtime.Win32
     [Guid("0000000c-0000-0000-C000-000000000046")]
     public class ComStreamProxy : CallbackBase, IStream
     {
-        private Stream sourceStream;
-        byte[] tempBuffer = new byte[0x1000];
+        private Stream _sourceStream;
+        private readonly byte[] _tempBuffer = new byte[0x1000];
 
         public ComStreamProxy(Stream sourceStream)
         {
-            this.sourceStream = sourceStream;
+            _sourceStream = sourceStream;
         }
 
         public unsafe uint Read(IntPtr buffer, uint numberOfBytesToRead)
@@ -41,11 +42,17 @@ namespace SharpGen.Runtime.Win32
 
             while (numberOfBytesToRead > 0)
             {
-                uint countRead = (uint)Math.Min(numberOfBytesToRead, tempBuffer.Length);
-                uint count = (uint)sourceStream.Read(tempBuffer, 0, (int)countRead);
+                uint countRead = Math.Min(numberOfBytesToRead, (uint)_tempBuffer.Length);
+                uint count = (uint)_sourceStream.Read(_tempBuffer, 0, (int)countRead);
                 if (count == 0)
+                {
                     return totalRead;
-                MemoryHelpers.Write(new IntPtr(totalRead + (byte*)buffer), new Span<byte>(tempBuffer), (int)count);
+                }
+
+                Unsafe.CopyBlockUnaligned(
+                    totalRead + (byte*)buffer, 
+                    Unsafe.AsPointer(ref _tempBuffer[0]), 
+                    count);
                 numberOfBytesToRead -= count;
                 totalRead += count;
             }
@@ -58,39 +65,39 @@ namespace SharpGen.Runtime.Win32
 
             while (numberOfBytesToWrite > 0)
             {
-                uint countWrite = (uint)Math.Min(numberOfBytesToWrite, tempBuffer.Length);
-                MemoryHelpers.Read(new IntPtr(totalWrite + (byte*)buffer), new ReadOnlySpan<byte>(tempBuffer), (int)countWrite);
-                sourceStream.Write(tempBuffer, 0, (int)countWrite);
+                uint countWrite = (uint)Math.Min(numberOfBytesToWrite, _tempBuffer.Length);
+                MemoryHelpers.Read(new IntPtr(totalWrite + (byte*)buffer), new ReadOnlySpan<byte>(_tempBuffer), (int)countWrite);
+                _sourceStream.Write(_tempBuffer, 0, (int)countWrite);
                 numberOfBytesToWrite -= countWrite;
                 totalWrite += countWrite;
             }
             return totalWrite;
         }
 
-        public ulong Seek(long offset, SeekOrigin origin)
+        public long Seek(long offset, SeekOrigin origin)
         {
-            return (ulong)sourceStream.Seek(offset, origin);
+            return _sourceStream.Seek(offset, origin);
         }
 
-        public void SetSize(ulong newSize)
+        public void SetSize(long newSize)
         {
         }
 
-        public unsafe ulong CopyTo(IStream streamDest, ulong numberOfBytesToCopy, out ulong bytesWritten)
+        public unsafe long CopyTo(IStream streamDest, long numberOfBytesToCopy, out long bytesWritten)
         {
             bytesWritten = 0;
 
-            fixed (void* pBuffer = tempBuffer)
+            fixed (void* pBuffer = _tempBuffer)
             {
                 while (numberOfBytesToCopy > 0)
                 {
-                    int countCopy = (int)Math.Min((long)numberOfBytesToCopy, tempBuffer.Length);
-                    int count = sourceStream.Read(tempBuffer, 0, countCopy);
+                    int countCopy = (int)Math.Min(numberOfBytesToCopy, _tempBuffer.Length);
+                    int count = _sourceStream.Read(_tempBuffer, 0, countCopy);
                     if (count == 0)
                         break;
                     streamDest.Write((IntPtr)pBuffer, (uint)count);
-                    numberOfBytesToCopy -= (ulong)count;
-                    bytesWritten += (ulong)count;
+                    numberOfBytesToCopy -= count;
+                    bytesWritten += count;
                 }
             }
             return bytesWritten;
@@ -98,7 +105,7 @@ namespace SharpGen.Runtime.Win32
 
         public void Commit(CommitFlags commitFlags)
         {
-            sourceStream.Flush();
+            _sourceStream.Flush();
         }
 
         public void Revert()
@@ -106,39 +113,39 @@ namespace SharpGen.Runtime.Win32
             throw new NotImplementedException();
         }
 
-        public void LockRegion(ulong offset, ulong numberOfBytesToLock, LockType dwLockType)
+        public void LockRegion(long offset, long numberOfBytesToLock, LockType dwLockType)
         {
             throw new NotImplementedException();
         }
 
-        public void UnlockRegion(ulong offset, ulong numberOfBytesToLock, LockType dwLockType)
+        public void UnlockRegion(long offset, long numberOfBytesToLock, LockType dwLockType)
         {
             throw new NotImplementedException();
         }
 
         public StorageStatistics GetStatistics(StorageStatisticsFlags storageStatisticsFlags)
         {
-            long length = sourceStream.Length;
+            long length = _sourceStream.Length;
             if (length == 0)
                 length = 0x7fffffff;
 
             return new StorageStatistics
-                {
-                    Type = 2, // IStream
-                    CbSize = (ulong)length,
-                    GrfLocksSupported = 2, // exclusive
-                    GrfMode = 0x00000002, // read-write
-                };
+            {
+                Type = 2, // IStream
+                CbSize = length,
+                GrfLocksSupported = 2, // exclusive
+                GrfMode = 0x00000002, // read-write
+            };
         }
 
         public IStream Clone()
         {
-            return new ComStreamProxy(sourceStream);
+            return new ComStreamProxy(_sourceStream);
         }
 
         protected override void Dispose(bool disposing)
         {
-            sourceStream = null;
+            _sourceStream = null;
             base.Dispose(disposing);
         }
     }
