@@ -10,6 +10,7 @@ namespace Vortice.Dxc
     public static class DxcCompiler
     {
         public static readonly IDxcLibrary Library = Dxc.CreateDxcLibrary();
+        public static IDxcIncludeHandler DefaultIncludeHandler = Library.CreateIncludeHandler();
 
         public static IDxcOperationResult Compile(
             DxcShaderStage shaderStage,
@@ -116,11 +117,6 @@ namespace Vortice.Dxc
                 arguments.Add($"all");
             }
 
-            if (include == null)
-            {
-                include = Library.CreateIncludeHandler();
-            }
-
             var compiler = Dxc.CreateDxcCompiler();
             return compiler.Compile(
                 Dxc.CreateBlobForText(Library, source),
@@ -131,7 +127,7 @@ namespace Vortice.Dxc
                 arguments.Count,
                 defines,
                 defines != null ? defines.Length : 0,
-                include
+                include ?? DefaultIncludeHandler
                 );
         }
 

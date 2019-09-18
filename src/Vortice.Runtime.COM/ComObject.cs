@@ -82,8 +82,7 @@ namespace SharpGen.Runtime
         /// <unmanaged-short>IUnknown::QueryInterface</unmanaged-short>
         public virtual T QueryInterface<T>() where T : ComObject
         {
-            IntPtr parentPtr;
-            var result = this.QueryInterface(typeof(T).GetTypeInfo().GUID, out parentPtr);
+            var result = QueryInterface(typeof(T).GetTypeInfo().GUID, out IntPtr parentPtr);
             result.CheckError();
             return FromPointer<T>(parentPtr);
         }
@@ -156,9 +155,8 @@ namespace SharpGen.Runtime
             }
 
             var guid = typeof(T).GetTypeInfo().GUID;
-            IntPtr pointerT;
-            var result = (Result)Marshal.QueryInterface(comPointer, ref guid, out pointerT);
-            return (result.Failure) ? null : FromPointer<T>(pointerT);
+            var result = (Result)Marshal.QueryInterface(comPointer, ref guid, out IntPtr pointerPtr);
+            return (result.Failure) ? null : FromPointer<T>(pointerPtr);
         }
 
         ///<summary>
@@ -181,8 +179,7 @@ namespace SharpGen.Runtime
         ///<returns></returns>
         protected void QueryInterfaceFrom<T>(T fromObject) where T : ComObject
         {
-            IntPtr parentPtr;
-            fromObject.QueryInterface(this.GetType().GetTypeInfo().GUID, out parentPtr);
+            fromObject.QueryInterface(GetType().GetTypeInfo().GUID, out IntPtr parentPtr);
             NativePointer = parentPtr;
         }
 
