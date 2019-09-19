@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Vortice.DirectX;
 
@@ -56,10 +57,18 @@ namespace Vortice.Direct3D12
             @ref.NumSubobjects = SubObjects?.Length ?? 0;
             if (@ref.NumSubobjects > 0)
             {
+                var subObjectLookup = new Dictionary<StateSubObject, IntPtr>();
                 var nativeSubObjects = (StateSubObject.__Native*)Interop.Alloc<StateSubObject.__Native>(@ref.NumSubobjects);
+
+                // Create lookup table first
                 for (int i = 0; i < @ref.NumSubobjects; i++)
                 {
-                    SubObjects[i].__MarshalTo(ref nativeSubObjects[i]);
+                    subObjectLookup.Add(SubObjects[i], new IntPtr(&nativeSubObjects[i]));
+                }
+
+                for (int i = 0; i < @ref.NumSubobjects; i++)
+                {
+                    SubObjects[i].__MarshalTo(ref nativeSubObjects[i], subObjectLookup);
                 }
 
                 @ref.pSubobjects = nativeSubObjects;

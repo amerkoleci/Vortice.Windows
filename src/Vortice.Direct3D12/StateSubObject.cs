@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Vortice.Direct3D12
@@ -37,12 +38,12 @@ namespace Vortice.Direct3D12
             }
         }
 
-        internal unsafe void __MarshalTo(ref __Native @ref)
+        internal unsafe void __MarshalTo(ref __Native @ref, Dictionary<StateSubObject, IntPtr> subObjectLookup)
         {
             @ref.Type = Type;
             if (Description is IStateSubObjectDescriptionMarshal descriptionMarshal)
             {
-                @ref.pDesc = descriptionMarshal.__MarshalAlloc();
+                @ref.pDesc = descriptionMarshal.__MarshalAlloc(subObjectLookup);
             }
         }
         #endregion

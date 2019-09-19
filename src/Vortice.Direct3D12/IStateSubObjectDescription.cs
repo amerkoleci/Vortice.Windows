@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 
 namespace Vortice.Direct3D12
 {
@@ -12,7 +13,7 @@ namespace Vortice.Direct3D12
 
     internal interface IStateSubObjectDescriptionMarshal
     {
-        IntPtr __MarshalAlloc();
+        IntPtr __MarshalAlloc(Dictionary<StateSubObject, IntPtr> subObjectLookup);
         void __MarshalFree(ref IntPtr pDesc);
     }
 }

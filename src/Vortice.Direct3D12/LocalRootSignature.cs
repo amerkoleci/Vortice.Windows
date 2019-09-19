@@ -2,10 +2,10 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
-using Vortice.DirectX;
 
 namespace Vortice.Direct3D12
 {
@@ -26,7 +26,7 @@ namespace Vortice.Direct3D12
         }
 
         #region Marshal
-        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc()
+        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc(Dictionary<StateSubObject, IntPtr> subObjectLookup)
         {
             __Native* native = (__Native*)Marshal.AllocHGlobal(sizeof(__Native));
             native->RootSignature = CppObject.ToCallbackPtr<ID3D12RootSignature>(RootSignature);

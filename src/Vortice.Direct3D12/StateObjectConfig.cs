@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -24,7 +25,7 @@ namespace Vortice.Direct3D12
         }
 
         #region Marshal
-        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc()
+        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc(Dictionary<StateSubObject, IntPtr> subObjectLookup)
         {
             var description = Marshal.AllocHGlobal(sizeof(StateObjectConfig));
             Unsafe.WriteUnaligned(description.ToPointer(), this);

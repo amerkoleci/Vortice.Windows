@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Vortice.DirectX;
@@ -35,16 +36,21 @@ namespace Vortice.Direct3D12
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal unsafe struct __Native
         {
-            public StateSubObject.__Native pSubobjectToAssociate;
+            public StateSubObject.__Native* pSubobjectToAssociate;
             public int NumExports;
             public IntPtr* pExports;
         }
 
-        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc()
+        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc(Dictionary<StateSubObject, IntPtr> subObjectLookup)
         {
             __Native* native = (__Native*)Marshal.AllocHGlobal(sizeof(__Native));
 
-            SubObjectToAssociate?.__MarshalTo(ref native->pSubobjectToAssociate);
+            if (subObjectLookup.ContainsKey(SubObjectToAssociate) == false)
+            {
+                throw new InvalidOperationException("Associated StateSubObject must be a reference to an element of the array in StateObjectDescription");
+            }
+
+            native->pSubobjectToAssociate = (StateSubObject.__Native*)subObjectLookup[SubObjectToAssociate].ToPointer();
 
             native->NumExports = Exports?.Length ?? 0;
             if (native->NumExports > 0)
@@ -64,7 +70,8 @@ namespace Vortice.Direct3D12
         unsafe void IStateSubObjectDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
         {
             ref __Native native = ref Unsafe.AsRef<__Native>(pDesc.ToPointer());
-            SubObjectToAssociate?.__MarshalFree(ref native.pSubobjectToAssociate);
+            // native->pSubobjectToAssociate will be freed in StateObjectDescription
+            native.pSubobjectToAssociate = null;
 
             if (native.NumExports > 0)
             {
