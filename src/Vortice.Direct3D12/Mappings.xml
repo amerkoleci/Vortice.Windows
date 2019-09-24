@@ -696,8 +696,10 @@
     <map method="ID3D12GraphicsCommandList::ClearRenderTargetView" visibility="private"/>
     <map param="ID3D12GraphicsCommandList::ClearRenderTargetView::ColorRGBA" type="VORTICE_COLOR4" override-native-type="true"/>
     <map method="ID3D12GraphicsCommandList::ClearDepthStencilView" visibility="private"/>
-    <map method="ID3D12GraphicsCommandList::RSSetViewports" rawptr="true"/>
-    <map method="ID3D12GraphicsCommandList::RSSetScissorRects" rawptr="true"/>
+    <map method="ID3D12GraphicsCommandList::RSSetViewports" visibility="internal"/>
+    <map param="ID3D12GraphicsCommandList::RSSetViewports::pViewports" type="void" />
+    <map method="ID3D12GraphicsCommandList::RSSetScissorRects" visibility="internal"/>
+    <map param="ID3D12GraphicsCommandList::RSSetScissorRects::pRects" type="void" />
     <map method="ID3D12GraphicsCommandList::IASetVertexBuffers" visibility="private" />
     <map param="ID3D12GraphicsCommandList::IASetVertexBuffers::pViews" attribute="in" type="void"/>
 

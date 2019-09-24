@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
@@ -11,48 +12,6 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11DeviceContext
     {
-        public unsafe void RSSetViewport(Viewport viewport)
-        {
-            RSSetViewports(1, new IntPtr(&viewport));
-        }
-
-        public unsafe void RSSetViewports(params Viewport[] viewports)
-        {
-            fixed (void* pViewPorts = viewports)
-            {
-                RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
-            }
-        }
-
-        public unsafe void RSSetViewports(Span<Viewport> viewports)
-        {
-            fixed (Viewport* pViewPorts = viewports)
-            {
-                RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
-            }
-        }
-
-        public unsafe void RSSetScissorRect(Rect rectangle)
-        {
-            RSSetScissorRects(1, new IntPtr(&rectangle));
-        }
-
-        public unsafe void RSSetScissorRects(params Rect[] rectangles)
-        {
-            fixed (void* pRects = rectangles)
-            {
-                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
-            }
-        }
-
-        public unsafe void RSSetScissorRects(Span<Rect> rectangles)
-        {
-            fixed (Rect* pRects = rectangles)
-            {
-                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
-            }
-        }
-
         public unsafe void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)
         {
             var renderTargetViewPtr = renderTargetView.NativePointer;
@@ -214,6 +173,60 @@ namespace Vortice.Direct3D11
             return blendState;
         }
 
+        #region Viewport
+        public unsafe void RSSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f)
+        {
+            var viewport = new Viewport(x, y, width, height, minDepth, maxDepth);
+            RSSetViewports(1, new IntPtr(&viewport));
+        }
+
+        public unsafe void RSSetViewport(Viewport viewport)
+        {
+            RSSetViewports(1, new IntPtr(&viewport));
+        }
+
+        public unsafe void RSSetViewports(params Viewport[] viewports)
+        {
+            fixed (void* pViewPorts = viewports)
+            {
+                RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
+            }
+        }
+
+        public unsafe void RSSetViewports(int count, Viewport[] viewports)
+        {
+            fixed (void* pViewPorts = viewports)
+            {
+                RSSetViewports(count, (IntPtr)pViewPorts);
+            }
+        }
+
+        public unsafe void RSSetViewports(Span<Viewport> viewports)
+        {
+            fixed (Viewport* pViewPorts = viewports)
+            {
+                RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
+            }
+        }
+
+        public unsafe void RSSetViewport<T>(T viewport) where T : struct
+        {
+            RSSetViewports(1, (IntPtr)Unsafe.AsPointer(ref viewport));
+        }
+
+        public unsafe void RSSetViewports<T>(T[] viewports) where T : struct
+        {
+            RSSetViewports(viewports.Length, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+        }
+
+        public unsafe void RSSetViewports<T>(Span<T> viewports) where T : unmanaged
+        {
+            fixed (void* pViewPorts = viewports)
+            {
+                RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
+            }
+        }
+
         public unsafe Viewport RSGetViewport()
         {
             int numViewports = 1;
@@ -234,7 +247,6 @@ namespace Vortice.Direct3D11
             RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
         }
 
-
         public unsafe void RSGetViewports(int count, Viewport[] viewports)
         {
             RSGetViewports(ref count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
@@ -246,6 +258,117 @@ namespace Vortice.Direct3D11
             {
                 int numViewports = viewports.Length;
                 RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
+            }
+        }
+
+        public unsafe void RSGetViewports<T>(int count, T[] viewports) where T : struct
+        {
+#if DEBUG
+            if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+            }
+#endif
+
+            RSGetViewports(ref count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+        }
+
+        public unsafe void RSGetViewports<T>(Span<T> viewports) where T : unmanaged
+        {
+#if DEBUG
+            if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+            }
+#endif
+
+            fixed (void* viewportsPtr = viewports)
+            {
+                int numViewports = viewports.Length;
+                RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
+            }
+        }
+
+        /// <summary>
+        /// Get the array of viewports bound  to the rasterizer stage.
+        /// </summary>
+        /// <typeparam name="T">An array of viewports,  must be size of <see cref="Viewport"/>.</typeparam>
+        /// <param name="viewports"></param>
+        public unsafe void RSGetViewports<T>(T[] viewports) where T : struct
+        {
+#if DEBUG
+            if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+            }
+#endif
+
+            int numViewports = viewports.Length;
+            void* pBuffer = Unsafe.AsPointer(ref viewports[0]);
+            RSGetViewports(ref numViewports, (IntPtr)pBuffer);
+        }
+
+        /// <summary>	
+        /// Get the array of viewports bound  to the rasterizer stage.	
+        /// </summary>	
+        /// <returns>An array of viewports, must be size of <see cref="Viewport"/></returns>
+        public T[] RSGetViewports<T>() where T : struct
+        {
+#if DEBUG
+            if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}");
+            }
+#endif
+            int numViewports = 0;
+            RSGetViewports(ref numViewports, IntPtr.Zero);
+            var viewports = new T[numViewports];
+            RSGetViewports(viewports);
+            return viewports;
+        }
+        #endregion
+
+        #region ScissorRect
+        public unsafe void RSSetScissorRect(Rectangle rectangle)
+        {
+            var rect = Rect.Create(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            RSSetScissorRects(1, new IntPtr(&rect));
+        }
+
+        public unsafe void RSSetScissorRect(Rect rectangle)
+        {
+            RSSetScissorRects(1, new IntPtr(&rectangle));
+        }
+
+        public unsafe void RSSetScissorRects(params Rect[] rectangles)
+        {
+            fixed (void* pRects = rectangles)
+            {
+                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
+            }
+        }
+
+        public unsafe void RSSetScissorRects(int count, Rect[] rectangles)
+        {
+            fixed (void* pRects = rectangles)
+            {
+                RSSetScissorRects(count, (IntPtr)pRects);
+            }
+        }
+
+        public unsafe void RSSetScissorRects(Span<Rect> rectangles)
+        {
+            fixed (Rect* pRects = rectangles)
+            {
+                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
+            }
+        }
+
+        public unsafe void RSSetScissorRects(int count, Span<Rect> rectangles)
+        {
+            fixed (Rect* pRects = rectangles)
+            {
+                RSSetScissorRects(count, (IntPtr)pRects);
             }
         }
 
@@ -272,7 +395,8 @@ namespace Vortice.Direct3D11
         public unsafe void RSGetScissorRects(int count, Rect[] rects)
         {
             RSGetScissorRects(ref count, (IntPtr)Unsafe.AsPointer(ref rects[0]));
-        }
+        } 
+        #endregion
 
         /// <summary>
         /// Set the target output buffers for the stream-output stage of the pipeline.

@@ -5,6 +5,7 @@ using System;
 using Vortice.Mathematics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Drawing;
 
 namespace Vortice.Direct3D12
 {
@@ -109,6 +110,13 @@ namespace Vortice.Direct3D12
             }
         }
 
+        #region Viewport
+        public unsafe void RSSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f)
+        {
+            var viewport = new Viewport(x, y, width, height, minDepth, maxDepth);
+            RSSetViewports(1, new IntPtr(&viewport));
+        }
+
         public unsafe void RSSetViewport(Viewport viewport)
         {
             RSSetViewports(1, new IntPtr(&viewport));
@@ -125,6 +133,14 @@ namespace Vortice.Direct3D12
             }
         }
 
+        public unsafe void RSSetViewports(int count, Viewport[] viewports)
+        {
+            fixed (void* pViewPorts = viewports)
+            {
+                RSSetViewports(count, (IntPtr)pViewPorts);
+            }
+        }
+
         public unsafe void RSSetViewports(Span<Viewport> viewports)
         {
             fixed (Viewport* pViewPorts = viewports)
@@ -133,19 +149,63 @@ namespace Vortice.Direct3D12
             }
         }
 
+        public unsafe void RSSetViewports(int count, Span<Viewport> viewports)
+        {
+            fixed (Viewport* pViewPorts = viewports)
+            {
+                RSSetViewports(count, (IntPtr)pViewPorts);
+            }
+        }
+
+        public unsafe void RSSetViewport<T>(T viewport) where T : struct
+        {
+            RSSetViewports(1, (IntPtr)Unsafe.AsPointer(ref viewport));
+        }
+
+        public unsafe void RSSetViewports<T>(T[] viewports) where T : struct
+        {
+            RSSetViewports(viewports.Length, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+        }
+
+        public unsafe void RSSetViewports<T>(int count, T[] viewports) where T : struct
+        {
+            RSSetViewports(count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+        }
+
+        public unsafe void RSSetViewports<T>(int count, Span<T> viewports) where T : unmanaged
+        {
+            fixed (void* pViewPorts = viewports)
+            {
+                RSSetViewports(count, (IntPtr)pViewPorts);
+            }
+        }
+        #endregion
+
+        #region ScissorRect
+        public unsafe void RSSetScissorRect(Rectangle rectangle)
+        {
+            var rect = Rect.Create(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            RSSetScissorRects(1, new IntPtr(&rect));
+        }
+
         public unsafe void RSSetScissorRect(Rect rectangle)
         {
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public void RSSetScissorRects(params Rect[] rectangles)
+        public unsafe void RSSetScissorRects(params Rect[] rectangles)
         {
-            unsafe
+            fixed (void* pRects = rectangles)
             {
-                fixed (void* pRects = rectangles)
-                {
-                    RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
-                }
+                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
+            }
+        }
+
+        public unsafe void RSSetScissorRects(int count, Rect[] rectangles)
+        {
+            fixed (void* pRects = rectangles)
+            {
+                RSSetScissorRects(count, (IntPtr)pRects);
             }
         }
 
@@ -156,6 +216,15 @@ namespace Vortice.Direct3D12
                 RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
             }
         }
+
+        public unsafe void RSSetScissorRects(int count, Span<Rect> rectangles)
+        {
+            fixed (Rect* pRects = rectangles)
+            {
+                RSSetScissorRects(count, (IntPtr)pRects);
+            }
+        }
+        #endregion
 
         public unsafe void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
         {
