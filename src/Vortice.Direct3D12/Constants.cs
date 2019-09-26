@@ -22,7 +22,7 @@ namespace Vortice.Direct3D12
 
         public const int CommonShader_Constant_Buffer_HW_Slot_Count = 15;
 
-        public const int CommonShader_Constant_Buffer_PARTInputAssemblerL_UPDATE_EXTENTS_BYTE_ALIGNMENT = 16;
+        public const int CommonShader_Constant_Buffer_Partial_UPDATE_EXTENTS_BYTE_ALIGNMENT = 16;
 
         public const int CommonShader_Constant_Buffer_Register_ComponentS = 4;
 
@@ -34,15 +34,15 @@ namespace Vortice.Direct3D12
 
         public const int CommonShader_FLOWCONTROL_NESTING_LIMIT = 64;
 
-        public const int CommonShader_ImmedInputAssemblerte_Constant_Buffer_Register_ComponentS = 4;
+        public const int CommonShader_Immediate_Constant_Buffer_Register_ComponentS = 4;
 
-        public const int CommonShader_ImmedInputAssemblerte_Constant_Buffer_Register_Count = 1;
+        public const int CommonShader_Immediate_Constant_Buffer_Register_Count = 1;
 
-        public const int CommonShader_ImmedInputAssemblerte_Constant_Buffer_Register_READS_PER_INST = 1;
+        public const int CommonShader_Immediate_Constant_Buffer_Register_READS_PER_INST = 1;
 
-        public const int CommonShader_ImmedInputAssemblerte_Constant_Buffer_Register_READ_PORTS = 1;
+        public const int CommonShader_Immediate_Constant_Buffer_Register_READ_PORTS = 1;
 
-        public const int CommonShader_ImmedInputAssemblerte_VALUE_Component_Bit_Count = 32;
+        public const int CommonShader_Immediate_VALUE_Component_Bit_Count = 32;
 
         public const int CommonShader_Input_Resource_Register_ComponentS = 1;
 
@@ -209,45 +209,43 @@ namespace Vortice.Direct3D12
         public const float Default_BLEND_FACTOR_GREEN = 1.0f;
         public const float Default_BLEND_FACTOR_RED = 1.0f;
         public const float Default_Border_Color_Component = 0.0f;
-        public const int DefaultDepthBInputAssemblers = 0;
-        public const float DefaultDepthBInputAssemblersClamp = 0.0f;
+        public const int DefaultDepthBias = 0;
+        public const float DefaultDepthBiasClamp = 0.0f;
         public const int Default_Max_ANISOTROPY = 16;
 
-        public const float Default_MIP_LOD_BInputAssemblerS = 0.0f;
-        public const int Default_MSAA_Resource_PLACEMENT_ALIGNMENT = 4194304;
+        public const float DefaultMipLodBias = 0.0f;
+        public const int DefaultMsaaResourcePlacementAlignment = 4194304;
 
-        public const int Default_RENDER_TARGET_ARRAY_Index = 0;
+        public const int DefaultRenderTargetArrayIndex = 0;
 
-        public const int Default_Resource_PLACEMENT_ALIGNMENT = 65536;
+        public const int DefaultResourcePlacementAlignment = 65536;
 
-        public const int Default_SAMPLE_MASK = unchecked((int)0xffffffff);
+        public const int DefaultSampleMas = unchecked((int)0xffffffff);
 
-        public const int Default_SCISSOR_ENDX = 0;
+        public const int DefaultScissorEndX = 0;
+        public const int DefaultScissorEndY = 0;
 
-        public const int Default_SCISSOR_ENDY = 0;
+        public const int DefaultScissorStartX = 0;
+        public const int DefaultScissorStartY = 0;
 
-        public const int Default_SCISSOR_STARTX = 0;
-
-        public const int Default_SCISSOR_STARTY = 0;
-
-        public const float DefaultSlopeScaledDepthBInputAssemblers = 0.0f;
+        public const float DefaultSlopeScaledDepthBias = 0.0f;
         public const byte DefaultStencilReadMask = 0xff;
         public const byte DefaultStencilWriteMask = 0xff;
 
-        public const int Default_STENCIL_REFERENCE = 0;
+        public const int DefaultStencilReference = 0;
 
 
-        public const int Default_Viewport_AND_SCISSORRECT_Index = 0;
+        public const int DefaultViewportAndScissorRectIndex = 0;
 
-        public const int Default_Viewport_HEIGHT = 0;
+        public const int DefaultViewportHeight = 0;
 
-        public const float Default_Viewport_Max_Depth = 0.0f;
-        public const float Default_Viewport_Min_Depth = 0.0f;
-        public const int Default_Viewport_TopLeftX = 0;
+        public const float DefaultViewportMaxDepth = 0.0f;
+        public const float DefaultViewportMinDepth = 0.0f;
+        public const int DefaultViewportTopLeftX = 0;
 
-        public const int Default_Viewport_TopLeftY = 0;
+        public const int DefaultViewportTopLeftY = 0;
 
-        public const int Default_Viewport_Width = 0;
+        public const int DefaultViewportWidth = 0;
 
         public const int DescriptorRangeOffsetAppend = unchecked((int)0xffffffff);
 
@@ -467,16 +465,16 @@ namespace Vortice.Direct3D12
         public const float LinearGamma = 1.0f;
         public const int MajorVersion = 12;
 
-        public const float Max_Border_Color_Component = 1.0f;
-        public const float Max_Depth = 1.0f;
+        public const float MaxBorderColorComponent = 1.0f;
+        public const float MaxDepth = 1.0f;
         public const int MaxLiveStaticSamplers = 2032;
 
-        public const int Max_MaxAnisotropy = 16;
+        public const int MaxMaxAnisotropy = 16;
 
-        public const int Max_MULTISAMPLE_SAMPLE_Count = 32;
+        public const int MaxMultisampleSampleCount = 32;
 
-        public const float Max_POSITION_VALUE = float.MaxValue;
-        public const int Max_ROOT_COST = 64;
+        public const float MaxPositionValue = float.MaxValue;
+        public const int MaxRootCost = 64;
 
         public const int Max_SHADER_VISIBLE_DESCRIPTOR_HEAP_SIZE_TIER_1 = 1000000;
 
@@ -486,21 +484,21 @@ namespace Vortice.Direct3D12
 
         public const int Max_TEXTURE_DIMENSION_2_TO_EXP = 17;
 
-        public const int Max_VIEW_INSTANCE_Count = 4;
+        public const int MaxViewInstanceCount = 4;
 
-        public const int Minor_Version = 0;
+        public const int MinorVersion = 0;
 
-        public const float Min_Border_Color_Component = 0.0f;
-        public const float Min_Depth = 0.0f;
-        public const int Min_MaxAnisotropy = 0;
+        public const float MinBorderColorComponent = 0.0f;
+        public const float MinDepth = 0.0f;
+        public const int MinMaxAnisotropy = 0;
 
-        public const float MIP_LOD_BInputAssemblerS_Max = 15.99f;
-        public const float MIP_LOD_BInputAssemblerS_Min = -16.0f;
+        public const float MipLodBiasMax = 15.99f;
+        public const float MipLodBiasMin = -16.0f;
         public const int MIP_LOD_FRACTIONAL_Bit_Count = 8;
 
         public const int MIP_LOD_RANGE_Bit_Count = 8;
 
-        public const float MULTISAMPLE_ANTInputAssemblerLInputAssemblerS_LINE_Width = 1.4f;
+        public const float MultisampleAntialiasLineWidth = 1.4f;
         public const int NONSAMPLE_FETCH_OUT_OF_RANGE_ACCESS_RESULT = 0;
 
         public const int PackedTile = unchecked((int)0xffffffff);
@@ -597,11 +595,11 @@ namespace Vortice.Direct3D12
 
         public const int REQ_GeometryShader_INVOCATION_32Bit_OUTPUT_Component_LIMIT = 1024;
 
-        public const int REQ_ImmedInputAssemblerte_Constant_Buffer_Element_Count = 4096;
+        public const int RequestImmediateConstantBufferElementCount = 4096;
 
-        public const int REQ_MaxAnisotropy = 16;
+        public const int RequestMaxAnisotropy = 16;
 
-        public const int REQ_MIP_LEVELS = 15;
+        public const int RequestMipLevels = 15;
 
         public const int REQ_MULTI_Element_Structure_SIZE_IN_BYTES = 2048;
 
@@ -676,13 +674,11 @@ namespace Vortice.Direct3D12
 
         public const int SO_STREAM_Count = 4;
 
-        public const int SPEC_DATE_DAY = 14;
-
-        public const int SPEC_DATE_MONTH = 11;
-
-        public const int SPEC_DATE_YEAR = 2014;
-
+        public const int SpecDateDay = 14;
+        public const int SpecDateMonth = 11;
+        public const int SpecDateYes = 2014;
         public const float SpecVersion = 1.16f;
+
         public const float SrgbGamme = 2.2f;
         public const float SrgbToFloatDenoMinator1 = 12.92f;
         public const float SrgbToFloatDenoMinator2 = 1.055f;
@@ -758,34 +754,28 @@ namespace Vortice.Direct3D12
 
         public const int VIDEO_PROCESS_STEREO_VIEWS = 2;
 
-        public const int Viewport_AND_SCISSORRECT_Max_Index = 15;
-
+        public const int ViewportAndScissorRectMaxIndex = 15;
         public const int ViewportAndScissorRectObjectCountPerPipeline = 16;
+        public const int ViewportBoundsMax = 32767;
+        public const int ViewportBoundsMin = -32768;
 
-        public const int Viewport_Bounds_Max = 32767;
+        public const int VertexShaderInputRegisterComponents = 4;
 
-        public const int Viewport_Bounds_Min = -32768;
+        public const int VertexShaderInputRegisterComponentBitCount = 32;
 
-        public const int VertexShader_Input_Register_ComponentS = 4;
+        public const int VertexShaderInputRegisterCount = 32;
 
-        public const int VertexShader_Input_Register_Component_Bit_Count = 32;
+        public const int VertexShaderInputRegisterReadsPerInstances = 2;
 
-        public const int VertexShader_Input_Register_Count = 32;
+        public const int VertexShaderInputRegisterReadPorts = 1;
 
-        public const int VertexShader_Input_Register_READS_PER_INST = 2;
+        public const int VertexShaderOutputRegisterComponent = 4;
 
-        public const int VertexShader_Input_Register_READ_PORTS = 1;
+        public const int VertexShaderOutputRegisterComponentBitCount = 32;
+        public const int VertexShaderOutputRegisterCount = 32;
 
-        public const int VertexShader_OUTPUT_Register_ComponentS = 4;
-
-        public const int VertexShader_OUTPUT_Register_Component_Bit_Count = 32;
-
-        public const int VertexShader_OUTPUT_Register_Count = 32;
-
-        public const int WHQL_CONTEXT_Count_FOR_Resource_LIMIT = 10;
-
-        public const int WHQL_DRAWIndexED_Index_Count_2_TO_EXP = 25;
-
-        public const int WHQL_DRAW_Vertex_Count_2_TO_EXP = 25;
+        public const int WHQLContextCountForResourceLimit = 10;
+        public const int WHQLDrawIndexedIndexCount2ToExp = 25;
+        public const int WHQLDrawVertexCount2ToExp = 25;
     }
 }
