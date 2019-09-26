@@ -679,7 +679,7 @@ namespace Vortice.Direct3D12
         public const int SpecDateYes = 2014;
         public const float SpecVersion = 1.16f;
 
-        public const float SrgbGamme = 2.2f;
+        public const float SrgbGamma = 2.2f;
         public const float SrgbToFloatDenoMinator1 = 12.92f;
         public const float SrgbToFloatDenoMinator2 = 1.055f;
         public const float SrgbToFloatExponent = 2.4f;
