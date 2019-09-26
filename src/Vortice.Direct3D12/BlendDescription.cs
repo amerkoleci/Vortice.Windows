@@ -51,7 +51,7 @@ namespace Vortice.Direct3D12
             AlphaToCoverageEnable = false;
             IndependentBlendEnable = false;
 
-            for (var i = 0; i < SimultaneousRenderTargetCount; i++)
+            for (var i = 0; i < D3D12.SimultaneousRenderTargetCount; i++)
             {
                 RenderTarget[i].IsLogicOperationEnabled = false;
                 RenderTarget[i].SourceBlend = sourceBlend;

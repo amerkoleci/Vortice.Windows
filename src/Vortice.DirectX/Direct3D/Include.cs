@@ -4,7 +4,7 @@
 using System.IO;
 using SharpGen.Runtime;
 
-namespace Vortice.DirectX.Direct3D
+namespace Vortice.Direct3D
 {
     [Shadow(typeof(IncludeShadow))]
     public partial interface Include

@@ -83,7 +83,7 @@ namespace Vortice.Direct3D12
             ID3D12Resource resource,
             ResourceStates stateBefore,
             ResourceStates stateAfter,
-            int subresource = AllSubResources,
+            int subresource = D3D12.ResourceBarrierAllSubResources,
             ResourceBarrierFlags flags = ResourceBarrierFlags.None)
         {
             return new ResourceBarrier(

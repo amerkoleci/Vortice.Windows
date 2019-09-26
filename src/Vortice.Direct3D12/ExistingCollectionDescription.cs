@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
-using Vortice.DirectX;
 
 namespace Vortice.Direct3D12
 {

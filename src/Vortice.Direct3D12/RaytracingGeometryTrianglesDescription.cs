@@ -22,7 +22,7 @@ namespace Vortice.Direct3D12
         /// <param name="transform3x4">
         /// Address of a 3x4 affine transform matrix in row-major layout to be applied to the vertices in the VertexBuffer during an acceleration structure build. The contents of VertexBuffer are not modified. If a 2D vertex format is used, the transformation is applied with the third vertex component assumed to be zero.
         /// If Transform3x4 is 0 the vertices will not be transformed. Using Transform3x4 may result in increased computation and/or memory requirements for the acceleration structure build.
-        /// The memory pointed to must be in state <see cref="ResourceStates.NonPixelShaderResource"/>. The address must be aligned to 16 bytes, defined as <see cref="RaytracingTransform3x4ByteAlignment"/>.
+        /// The memory pointed to must be in state <see cref="ResourceStates.NonPixelShaderResource"/>. The address must be aligned to 16 bytes, defined as <see cref="D3D12.RaytracingTransform3x4ByteAlignment"/>.
         /// </param>
         /// <param name="indexBuffer"></param>
         /// <param name="indexFormat">

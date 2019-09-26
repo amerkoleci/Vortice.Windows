@@ -2,10 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Drawing;
-using SharpGen.Runtime;
-using Vortice.DirectX.Direct3D;
-using Vortice.DXGI;
 
 namespace Vortice.Direct3D12
 {

@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using Vortice.DirectX.Direct3D;
+using Vortice.Direct3D;
 
 namespace Vortice.Direct3D12
 {

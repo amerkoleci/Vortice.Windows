@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
-using Vortice.DirectX.Direct3D;
+using Vortice.Direct3D;
 
 namespace Vortice.D3DCompiler
 {

@@ -5,7 +5,7 @@ using System;
 using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
-using Vortice.DirectX.Direct3D;
+using Vortice.Direct3D;
 
 namespace Vortice.Direct3D12
 {

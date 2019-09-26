@@ -21,7 +21,7 @@ namespace Vortice.Direct3D12
             int numDescriptors,
             int baseShaderRegister,
             int registerSpace = 0,
-            int offsetInDescriptorsFromTableStart = DescriptorRange.Append,
+            int offsetInDescriptorsFromTableStart = D3D12.DescriptorRangeOffsetAppend,
             DescriptorRangeFlags flags = DescriptorRangeFlags.None)
         {
             RangeType = rangeType;

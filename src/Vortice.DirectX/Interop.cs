@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
-namespace Vortice.DirectX
+namespace Vortice
 {
     public static unsafe class Interop
     {

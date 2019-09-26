@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RootNamespace>Vortice.DirectX</RootNamespace>
+    <RootNamespace>Vortice</RootNamespace>
     <Description>Core DirectX library.</Description>
   </PropertyGroup>
   <ItemGroup>

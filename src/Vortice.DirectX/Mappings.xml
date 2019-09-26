@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-directx" xmlns="urn:SharpGen.Config">
   <assembly>Vortice.DirectX</assembly>
-  <namespace>Vortice.DirectX</namespace>
+  <namespace>Vortice</namespace>
   <depends>Vortice.Runtime.COM</depends>
 
   <sdk name="WindowsSdk" version="10.0.18362.0" />
   <sdk name="StdLib" />
 
   <include file="d3dcommon.h"
-           namespace="Vortice.DirectX.Direct3D"
+           namespace="Vortice.Direct3D"
            attach="true"
            output="Direct3D" />
 
@@ -33,7 +33,7 @@
     <define struct="System.Numerics.Matrix3x2" sizeof="24" />
     <define struct="System.Numerics.Matrix4x4" sizeof="64" />
 
-    <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.DirectX.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
+    <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
   </extension>
 

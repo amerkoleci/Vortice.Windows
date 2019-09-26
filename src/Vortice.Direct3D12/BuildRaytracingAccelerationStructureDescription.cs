@@ -13,7 +13,7 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="destinationAccelerationStructureData">
         /// Location to store resulting acceleration structure. <see cref="ID3D12Device5.GetRaytracingAccelerationStructurePrebuildInfo(BuildRaytracingAccelerationStructureInputs)"/> reports the amount of memory required for the result here given a set of acceleration structure build parameters.
-        /// The address must be aligned to 256 bytes, defined as <see cref="RaytracingAccelerationStructureByteAlignment"/>.
+        /// The address must be aligned to 256 bytes, defined as <see cref="D3D12.RaytracingAccelerationStructureByteAlignment"/>.
         /// The memory pointed to must be in state <see cref="ResourceStates.RaytracingAccelerationStructure"/>.
         /// </param>
         /// <param name="inputs">Description of the input data for the acceleration structure build. This is data is stored in a separate structure because it is also used with <see cref="ID3D12Device5.GetRaytracingAccelerationStructurePrebuildInfo(BuildRaytracingAccelerationStructureInputs)"/>.</param>

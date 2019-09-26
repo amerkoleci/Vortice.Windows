@@ -34,8 +34,8 @@ namespace Vortice.Direct3D12
             DepthWriteMask = depthWriteEnable ? DepthWriteMask.All : DepthWriteMask.Zero;
             DepthFunc = ComparisonFunction.Less;
             StencilEnable = false;
-            StencilReadMask = DepthStencilDescription.DefaultStencilReadMask;
-            StencilWriteMask = DepthStencilDescription.DefaultStencilWriteMask;
+            StencilReadMask = D3D12.DefaultStencilReadMask;
+            StencilWriteMask = D3D12.DefaultStencilWriteMask;
             FrontFace = DepthStencilOperationDescription.Default;
             BackFace = DepthStencilOperationDescription.Default;
             DepthBoundsTestEnable = false;

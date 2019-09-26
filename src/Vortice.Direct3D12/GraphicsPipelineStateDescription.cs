@@ -42,7 +42,7 @@ namespace Vortice.Direct3D12
 
         public Format[] RenderTargetFormats
         {
-            get => _RTVFormats ?? (_RTVFormats = new Format[BlendDescription.SimultaneousRenderTargetCount]);
+            get => _RTVFormats ?? (_RTVFormats = new Format[D3D12.SimultaneousRenderTargetCount]);
             set => _RTVFormats = value;
         }
 
@@ -121,7 +121,7 @@ namespace Vortice.Direct3D12
             @ref.PrimitiveTopologyType = PrimitiveTopologyType;
             if (RenderTargetFormats.Length > 0)
             {
-                @ref.NumRenderTargets = Math.Min(RenderTargetFormats.Length, BlendDescription.SimultaneousRenderTargetCount);
+                @ref.NumRenderTargets = Math.Min(RenderTargetFormats.Length, D3D12.SimultaneousRenderTargetCount);
                 MemoryHelpers.CopyMemory(
                     (IntPtr)Unsafe.AsPointer(ref @ref.RenderTargetFormats),
                     (IntPtr)Unsafe.AsPointer(ref RenderTargetFormats[0]),

@@ -3,7 +3,7 @@
 
 using System;
 using Vortice.DXGI;
-using Vortice.DirectX.Direct3D;
+using Vortice.Direct3D;
 using SharpGen.Runtime;
 
 namespace Vortice.Direct3D11

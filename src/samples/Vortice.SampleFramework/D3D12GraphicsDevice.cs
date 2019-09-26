@@ -8,7 +8,7 @@ using System.Threading;
 using Vortice.Direct3D12;
 using Vortice.Direct3D12.Debug;
 using Vortice.DXGI;
-using Vortice.DirectX.Direct3D;
+using Vortice.Direct3D;
 using SharpGen.Runtime;
 using static Vortice.Direct3D12.D3D12;
 using static Vortice.DXGI.DXGI;

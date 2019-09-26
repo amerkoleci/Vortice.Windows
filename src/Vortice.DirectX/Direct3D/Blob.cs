@@ -5,7 +5,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectX.Direct3D
+namespace Vortice.Direct3D
 {
     public partial class Blob
     {

@@ -38,9 +38,9 @@ namespace Vortice.Direct3D12
             CullMode = cullMode;
             FillMode = fillMode;
             FrontCounterClockwise = false;
-            DepthBias = DefaultDepthBias;
-            DepthBiasClamp = DefaultDepthBiasClamp;
-            SlopeScaledDepthBias = DefaultSlopeScaledDepthBias;
+            DepthBias = D3D12.DefaultDepthBias;
+            DepthBiasClamp = D3D12.DefaultDepthBiasClamp;
+            SlopeScaledDepthBias = D3D12.DefaultSlopeScaledDepthBias;
             DepthClipEnable = true;
             MultisampleEnable = false;
             AntialiasedLineEnable = false;

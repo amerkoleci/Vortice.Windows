@@ -3,7 +3,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Vortice.DirectX.Direct3D;
+using Vortice.Direct3D;
 
 namespace Vortice.Direct3D11
 {

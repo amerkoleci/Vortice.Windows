@@ -8,7 +8,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
-namespace Vortice.DirectX.Direct3D
+namespace Vortice.Direct3D
 {
     /// <summary>
     /// Shadow callback for <see cref="Include"/>.

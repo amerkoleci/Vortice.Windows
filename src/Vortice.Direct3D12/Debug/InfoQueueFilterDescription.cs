@@ -3,7 +3,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Vortice.DirectX;
 
 namespace Vortice.Direct3D12.Debug
 {
