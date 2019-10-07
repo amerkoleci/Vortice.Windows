@@ -9,6 +9,20 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11Device
     {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (ImmediateContext__ != null)
+                {
+                    ImmediateContext__.Dispose();
+                    ImmediateContext__ = null;
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
         public unsafe T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
         {
             T featureSupport = default;

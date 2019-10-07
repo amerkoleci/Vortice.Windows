@@ -16,7 +16,15 @@ namespace Vortice.Direct3D11
             FeatureLevel[] featureLevels,
             out ID3D11Device device)
         {
-            return D3D11CreateDevice(adapter, driverType, flags, featureLevels, out device, out var featureLevel, out var immediateContext);
+            ID3D11DeviceContext context = null;
+            try
+            {
+                return D3D11CreateDevice(adapter, driverType, flags, featureLevels, out device, out var featureLevel, out context);
+            }
+            finally
+            {
+                context?.Dispose();
+            }
         }
 
         public static Result D3D11CreateDevice(IDXGIAdapter adapter,
@@ -91,6 +99,126 @@ namespace Vortice.Direct3D11
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Check if a feature level is supported by a primary adapter.
+        /// </summary>
+        /// <param name="featureLevel">The feature level.</param>
+        /// <returns><c>true</c> if the primary adapter is supporting this feature level; otherwise, <c>false</c>.</returns>
+        public static bool IsSupportedFeatureLevel(FeatureLevel featureLevel)
+        {
+            ID3D11Device device = null;
+            ID3D11DeviceContext context = null;
+
+            try
+            {
+                var result = D3D11CreateDevice(
+                    null,
+                    DriverType.Hardware,
+                    IntPtr.Zero,
+                    0,
+                    new[] { featureLevel }, 1,
+                    SdkVersion, 
+                    out device, out var outputLevel, out context);
+                return result.Success && outputLevel == featureLevel;
+            }
+            finally
+            {
+                context?.Dispose();
+                device?.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Check if a feature level is supported by a particular adapter.
+        /// </summary>
+        /// <param name="adapter">The adapter.</param>
+        /// <param name="featureLevel">The feature level.</param>
+        /// <returns><c>true</c> if the specified adapter is supporting this feature level; otherwise, <c>false</c>.</returns>
+        public static bool IsSupportedFeatureLevel(IDXGIAdapter adapter, FeatureLevel featureLevel)
+        {
+            ID3D11Device device = null;
+            ID3D11DeviceContext context = null;
+
+            try
+            {
+                var result = D3D11CreateDevice(
+                    adapter,
+                    DriverType.Unknown,
+                    IntPtr.Zero,
+                    0,
+                    new[] { featureLevel }, 1,
+                    SdkVersion,
+                    out device, out var outputLevel, out context);
+                return result.Success && outputLevel == featureLevel;
+            }
+            finally
+            {
+                context?.Dispose();
+                device?.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Gets the highest supported hardware feature level of the primary adapter.
+        /// </summary>
+        /// <returns>The highest supported hardware feature level.</returns>
+        public static FeatureLevel GetSupportedFeatureLevel()
+        {
+            var featureLevel = FeatureLevel.Level_9_1;
+            ID3D11Device device = null;
+            ID3D11DeviceContext context = null;
+
+            try
+            {
+                D3D11CreateDevice(
+                    null,
+                    DriverType.Hardware,
+                    IntPtr.Zero,
+                    0,
+                    null, 0,
+                    SdkVersion,
+                    out device, out featureLevel, out context);
+            }
+            finally
+            {
+                context?.Dispose();
+                device?.Dispose();
+            }
+
+            return featureLevel;
+        }
+
+        /// <summary>
+        /// Gets the highest supported hardware feature level of the primary adapter.
+        /// </summary>
+        /// <param name="adapter">The <see cref="IDXGIAdapter"/>.</param>
+        /// <returns>The highest supported hardware feature level.</returns>
+        public static FeatureLevel GetSupportedFeatureLevel(IDXGIAdapter adapter)
+        {
+            var featureLevel = FeatureLevel.Level_9_1;
+            ID3D11Device device = null;
+            ID3D11DeviceContext context = null;
+
+            try
+            {
+                D3D11CreateDevice(
+                    adapter,
+                    DriverType.Unknown,
+                    IntPtr.Zero,
+                    0,
+                    null, 0,
+                    SdkVersion,
+                    out device, out featureLevel, out context);
+            }
+            finally
+            {
+                context?.Dispose();
+                device?.Dispose();
+            }
+
+            return featureLevel;
         }
     }
 }
