@@ -180,7 +180,9 @@
     <map method="IDXGISwapChain::SetFullscreenState" hresult="true" check="false" visibility="private" />
     <map method="IDXGISwapChain::GetBuffer" hresult="true" check="false" visibility="private" />
     <map method="IDXGISwapChain::ResizeTarget" hresult="true" check="false" visibility="private"  />
-
+    <map method="IDXGISwapChain::GetContainingOutput" property="false"  />
+    <map param="IDXGISwapChain::GetContainingOutput::ppOutput" return="true"/>
+    
     <!-- IDXGISwapChain1 -->
     <map method="IDXGISwapChain1::GetHwnd" property="false" visibility="private" hresult="true" check="false"  />
     <map method="IDXGISwapChain1::GetCoreWindow" property="false" visibility="private" hresult="true" check="false"  />
