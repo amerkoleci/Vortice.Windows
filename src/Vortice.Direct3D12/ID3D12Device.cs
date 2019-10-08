@@ -14,19 +14,6 @@ namespace Vortice.Direct3D12
         private const int GENERIC_ALL = 0x10000000;
         private RootSignatureVersion? _highestRootSignatureVersion;
 
-        public static bool IsSupported(IUnknown adapter, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
-        {
-            try
-            {
-                return D3D12.D3D12CreateDeviceNoDevice(adapter, minFeatureLevel).Success;
-            }
-            catch (DllNotFoundException)
-            {
-                // On pre Windows 10 d3d12.dll is not present and therefore not supported.
-                return false;
-            }
-        }
-
         public unsafe RootSignatureVersion HighestRootSignatureVersion
         {
             get
@@ -64,19 +51,25 @@ namespace Vortice.Direct3D12
             return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), sizeof(T)).Success;
         }
 
-        public unsafe Result CheckMaxSupportedFeatureLevel(FeatureLevel[] featureLevels, out FeatureLevel maxSupportedFeatureLevel)
+        public FeatureLevel CheckMaxSupportedFeatureLevel() => CheckMaxSupportedFeatureLevel(D3D12.FeatureLevels);
+
+        public unsafe FeatureLevel CheckMaxSupportedFeatureLevel(FeatureLevel[] featureLevels)
         {
             fixed (FeatureLevel* levelsPtr = &featureLevels[0])
             {
                 var featureData = new FeatureDataFeatureLevels
                 {
                     NumFeatureLevels = featureLevels.Length,
-                    PFeatureLevelsRequested = new IntPtr(levelsPtr)
+                    PFeatureLevelsRequested = new IntPtr(levelsPtr),
+                    MaxSupportedFeatureLevel = FeatureLevel.Level_11_0
                 };
 
-                var result = CheckFeatureSupport(Feature.FeatureLevels, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataFeatureLevels>());
-                maxSupportedFeatureLevel = featureData.MaxSupportedFeatureLevel;
-                return result;
+                if (CheckFeatureSupport(Feature.FeatureLevels, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataFeatureLevels>()).Success)
+                {
+                    return featureData.MaxSupportedFeatureLevel;
+                }
+
+                return FeatureLevel.Level_11_0;
             }
         }
 

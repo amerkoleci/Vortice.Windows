@@ -47,7 +47,7 @@ namespace Vortice
 
         public static bool IsSupported()
         {
-            return ID3D12Device.IsSupported(null, FeatureLevel.Level_11_0);
+            return D3D12.IsSupported(FeatureLevel.Level_11_0);
         }
 
         public D3D12GraphicsDevice(bool validation, Window window)
@@ -63,6 +63,7 @@ namespace Vortice
                 && D3D12GetDebugInterface<ID3D12Debug>(out var debug).Success)
             {
                 debug.EnableDebugLayer();
+                debug.Dispose();
             }
             else
             {

@@ -177,11 +177,11 @@ namespace Vortice.Direct3D12
         public const int DomainShaderInputControlPointRegisterCount = 32;
         public const int DomainShaderInputControlPointRegisterReadsPerInstance = 2;
         public const int DomainShaderInputControlPointRegisterReadPorts = 1;
-        public const int DomainShaderInputDomain_PointRegisterComponents = 3;
-        public const int DomainShaderInputDomain_PointRegisterComponentBitCount = 32;
-        public const int DomainShaderInputDomain_PointRegisterCount = 1;
-        public const int DomainShaderInputDomain_PointRegisterReadsPerInstance = 2;
-        public const int DomainShaderInputDomain_PointRegisterReadPorts = 1;
+        public const int DomainShaderInputDomainPointRegisterComponents = 3;
+        public const int DomainShaderInputDomainPointRegisterComponentBitCount = 32;
+        public const int DomainShaderInputDomainPointRegisterCount = 1;
+        public const int DomainShaderInputDomainPointRegisterReadsPerInstance = 2;
+        public const int DomainShaderInputDomainPointRegisterReadPorts = 1;
         public const int DomainShaderInputPatchConstantRegisterComponents = 4;
         public const int DomainShaderInputPatchConstantRegisterComponentBitCount = 32;
         public const int DomainShaderInputPatchConstantRegisterCount = 32;
