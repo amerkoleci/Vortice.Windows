@@ -35,6 +35,7 @@
     <bind from="D3D12_VIEWPORT" to="Vortice.Mathematics.Viewport"/>
     <bind from="D3D12_CPU_DESCRIPTOR_HANDLE" to="Vortice.Direct3D12.CpuDescriptorHandle" />
     <bind from="D3D12_REGISTER_COMPONENT_MASK_FLAG" to="Vortice.Direct3D12.Shader.RegisterComponentMaskFlags" />
+    <bind from="VORTICE_MATRIX3X4" to="Vortice.Direct3D12.Matrix3x4" />
   </bindings>
 
   <naming>
@@ -533,6 +534,8 @@
     <map enum="D3D12_STATE_SUBOBJECT_TYPE" name="StateSubObjectType" />
 
     <map struct="D3D12_DISCARD_REGION" visibility="internal"/>
+
+    <map field="D3D12_RAYTRACING_INSTANCE_DESC::Transform" type="VORTICE_MATRIX3X4" array="" override-native-type="true" />
 
     <!-- ID3D12Object methods -->
     <map method="ID3D12Object::GetPrivateData" visibility="public" hresult="true" check="false"/>
