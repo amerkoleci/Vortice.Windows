@@ -375,6 +375,7 @@
     <map enum="D3D11_STENCIL_OP" name="StencilOperation" />
     
     <map enum="D3D11_BIND_FLAG" name="BindFlags" />
+    <map enum="D3D11_MAP" name="MapMode" />
     <map enum="D3D11_MAP_FLAG" name="MapFlags" />
     <map enum="D3D11_FENCE_FLAG" name="FenceFlags" />
     <map enum="D3D11_VDOV_DIMENSION" name="VideoDecoderOutputViewDimension" />
@@ -400,9 +401,14 @@
     <map method=".*::(.*)Desc1" name="$1Description1" />
     <map method=".*::(.*)Desc2" name="$1Description2" />
 
+    <map field="D3D11_MAPPED_SUBRESOURCE::pData" name="DataPointer" />
+
+    <!-- D3D11_BUFFER_DESC -->
     <map field="D3D11_BUFFER_DESC::BindFlags" type="D3D11_BIND_FLAG" />
     <map field="D3D11_BUFFER_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
     <map field="D3D11_BUFFER_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_BUFFER_DESC::ByteWidth" name="SizeInBytes" />
+    
     <map field="D3D11_TEXTURE1D_DESC::BindFlags" type="D3D11_BIND_FLAG" />
     <map field="D3D11_TEXTURE1D_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
     <map field="D3D11_TEXTURE1D_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
@@ -450,7 +456,6 @@
     <map enum-item="D3D11_BLEND_OP_REV_SUBTRACT" name="ReverseSubtract"/>
     <map struct="D3D11_BLEND_DESC" marshalto="true"/>
     
-
     <map struct="D3D11_DEPTH_STENCILOP_DESC" name="DepthStencilOperationDescription" />
 
     <map field="D3D11_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
@@ -472,6 +477,8 @@
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
     <map method="ID3D11DeviceChild::GetPrivateData" visibility="public" hresult="true" check="false"/>
     <map method="ID3D11DeviceChild::SetPrivateData" visibility="public" hresult="true" check="false"/>
+
+    <map method="ID3D11Resource::GetType" name="GetDimension" />
 
     <!-- ID3D11Device methods -->
     <map method="ID3D(\d+)Device[123]?::GetImmediateContext[123]?" persist="true"/>
@@ -593,7 +600,7 @@
     <map param="ID3D11Fence::CreateSharedHandle::pHandle" attribute="out" return="true"/>
 
     <!-- ID3D11DeviceContext -->
-    <map method="ID3D11DeviceContext::GetType" property="false" name="GetContextType" />
+    <map method="ID3D11DeviceContext::GetType" name="GetContextType" />
     <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
     <map param="ID3D11DeviceContext::Map::MapFlags" type="D3D11_MAP_FLAG" />
     <map method="ID3D11DeviceContext::FinishCommandList" visibility="internal" name="FinishCommandListInternal" hresult="true" check="false" />

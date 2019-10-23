@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using SharpGen.Runtime;
 using Vortice.Direct3D;
 
 namespace Vortice.Direct3D11
@@ -35,6 +36,33 @@ namespace Vortice.Direct3D11
             return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), sizeof(T)).Success;
         }
 
+        /// <summary>
+        /// Check if this device is supporting threading.
+        /// </summary>
+        /// <param name="supportsConcurrentResources">Support concurrent resources.</param>
+        /// <param name="supportsCommandLists">Support command lists.</param>
+        /// <returns>
+        /// A <see cref="SResult"/> object describing the result of the operation.
+        /// </returns>
+        public unsafe Result CheckThreadingSupport(out bool supportsConcurrentResources, out bool supportsCommandLists)
+        {
+            var support = default(FeatureDataThreading);
+            var result = CheckFeatureSupport(Feature.Threading, new IntPtr(&support), Unsafe.SizeOf<FeatureDataThreading>());
+
+            if (result.Failure)
+            {
+                supportsConcurrentResources = false;
+                supportsCommandLists = false;
+            }
+            else
+            {
+                supportsConcurrentResources = support.DriverConcurrentCreates;
+                supportsCommandLists = support.DriverCommandLists;
+            }
+
+            return result;
+        }
+
         public ID3D11DeviceContext CreateDeferredContext()
         {
             return CreateDeferredContext(0);
@@ -47,20 +75,16 @@ namespace Vortice.Direct3D11
 
         public unsafe ID3D11Buffer CreateBuffer<T>(ref T data, BufferDescription description) where T : unmanaged
         {
-            if (description.ByteWidth == 0)
-            {
-                description.ByteWidth = sizeof(T);
-            }
+            if (description.SizeInBytes == 0)
+                description.SizeInBytes = sizeof(T);
 
             return CreateBuffer(description, new SubresourceData((IntPtr)Unsafe.AsPointer(ref data)));
         }
 
         public unsafe ID3D11Buffer CreateBuffer<T>(T[] data, BufferDescription description) where T : unmanaged
         {
-            if (description.ByteWidth == 0)
-            {
-                description.ByteWidth = sizeof(T) * data.Length;
-            }
+            if (description.SizeInBytes == 0)
+                description.SizeInBytes = sizeof(T) * data.Length;
 
             return CreateBuffer(description, new SubresourceData((IntPtr)Unsafe.AsPointer(ref data[0])));
         }

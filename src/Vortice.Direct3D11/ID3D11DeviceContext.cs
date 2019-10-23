@@ -7,11 +7,14 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using Vortice.Mathematics;
+using Vortice.DXGI;
 
 namespace Vortice.Direct3D11
 {
     public partial class ID3D11DeviceContext
     {
+        private bool? _supportsCommandLists;
+
         public unsafe void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)
         {
             var renderTargetViewPtr = renderTargetView.NativePointer;
@@ -395,7 +398,7 @@ namespace Vortice.Direct3D11
         public unsafe void RSGetScissorRects(int count, Rect[] rects)
         {
             RSGetScissorRects(ref count, (IntPtr)Unsafe.AsPointer(ref rects[0]));
-        } 
+        }
         #endregion
 
         /// <summary>
@@ -961,6 +964,241 @@ namespace Vortice.Direct3D11
         public void CSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
         {
             CSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+        #endregion
+
+        #region Map
+        /// <summary>
+        /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
+        /// </summary>
+        /// <param name="resource">The resource.</param>
+        /// <param name="mipSlice">The mip slice.</param>
+        /// <param name="arraySlice">The array slice.</param>
+        /// <param name="mode">The mode.</param>
+        /// <param name="flags">The flags.</param>
+        /// <param name="mipSize">Size of the selected miplevel.</param>
+        public MappedSubresource Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int mipSize)
+        {
+            int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
+            return Map(resource, subresource, mode, flags);
+        }
+        #endregion
+
+        #region UpdateSubresource
+        /// <summary>
+        /// Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <typeparam name="T">Type of the data to upload</typeparam>
+        /// <param name="value">A reference to the data to upload.</param>
+        /// <param name="resource">The destination resource.</param>
+        /// <param name="subresource">The destination subresource.</param>
+        /// <param name="rowPitch">The row pitch.</param>
+        /// <param name="depthPitch">The depth pitch.</param>
+        /// <param name="region">The region</param>
+        public unsafe void UpdateSubresource<T>(ref T value, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : struct
+        {
+            UpdateSubresource(resource, subresource, region, (IntPtr)Unsafe.AsPointer(ref value), rowPitch, depthPitch);
+        }
+
+        /// <summary>
+        /// Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <typeparam name="T">Type of the data to upload</typeparam>
+        /// <param name="data">A reference to the data to upload.</param>
+        /// <param name="resource">The destination resource.</param>
+        /// <param name="subresource">The destination subresource.</param>
+        /// <param name="rowPitch">The row pitch.</param>
+        /// <param name="depthPitch">The depth pitch.</param>
+        /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
+        public unsafe void UpdateSubresource<T>(T[] data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : struct
+        {
+            UpdateSubresource(resource, subresource, region, (IntPtr)Unsafe.AsPointer(ref data[0]), rowPitch, depthPitch);
+        }
+
+        /// <summary>
+        /// Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <typeparam name="T">Type of the data to upload</typeparam>
+        /// <param name="data">A reference to the data to upload.</param>
+        /// <param name="resource">The destination resource.</param>
+        /// <param name="subresource">The destination subresource.</param>
+        /// <param name="rowPitch">The row pitch.</param>
+        /// <param name="depthPitch">The depth pitch.</param>
+        /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
+        public unsafe void UpdateSubresource<T>(Span<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+        {
+            fixed (void* dataPtr = data)
+            {
+                UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
+            }
+        }
+
+        /// <summary>
+        /// Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <param name="source">The source data.</param>
+        /// <param name="resource">The destination resource.</param>
+        /// <param name="subresource">The destination subresource.</param>
+        public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, int subresource = 0)
+        {
+            UpdateSubresource(resource, subresource, null, source.DataPointer, source.RowPitch, source.DepthPitch);
+        }
+
+        /// <summary>
+        /// Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <param name="source">The source data.</param>
+        /// <param name="resource">The destination resource.</param>
+        /// <param name="subresource">The destination subresource.</param>
+        /// <param name="region">The destination region within the resource.</param>
+        public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, int subresource, Box region)
+        {
+            UpdateSubresource(resource, subresource, region, source.DataPointer, source.RowPitch, source.DepthPitch);
+        }
+
+        /// <summary>
+        /// Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <typeparam name="T">Type of the data to upload</typeparam>
+        /// <param name="value">A reference to the data to upload.</param>
+        /// <param name="resource">The destination resource.</param>
+        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+        /// <param name="subresource">The destination subresource.</param>
+        /// <param name="rowPitch">The row pitch.</param>
+        /// <param name="depthPitch">The depth pitch.</param>
+        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+        /// <remarks>
+        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+        /// </remarks>
+        public void UpdateSubresourceSafe<T>(ref T value, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : struct
+        {
+            unsafe
+            {
+                UpdateSubresourceSafe(resource, subresource, null, (IntPtr)Unsafe.AsPointer(ref value), rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
+            }
+        }
+
+        /// <summary>
+        /// Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <typeparam name="T">Type of the data to upload</typeparam>
+        /// <param name="data">A reference to the data to upload.</param>
+        /// <param name="resource">The destination resource.</param>
+        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+        /// <param name="subresource">The destination subresource.</param>
+        /// <param name="rowPitch">The row pitch.</param>
+        /// <param name="depthPitch">The depth pitch.</param>
+        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+        /// <remarks>
+        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+        /// </remarks>
+        public void UpdateSubresourceSafe<T>(T[] data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : struct
+        {
+            unsafe
+            {
+                UpdateSubresourceSafe(resource, subresource, null, (IntPtr)Unsafe.AsPointer(ref data[0]), rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
+            }
+        }
+
+        /// <summary>
+        /// Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <typeparam name="T">Type of the data to upload</typeparam>
+        /// <param name="data">A reference to the data to upload.</param>
+        /// <param name="resource">The destination resource.</param>
+        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+        /// <param name="subresource">The destination subresource.</param>
+        /// <param name="rowPitch">The row pitch.</param>
+        /// <param name="depthPitch">The depth pitch.</param>
+        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+        /// <remarks>
+        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+        /// </remarks>
+        public unsafe void UpdateSubresourceSafe<T>(Span<T> data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
+        {
+            fixed (void* dataPtr = data)
+            {
+                UpdateSubresourceSafe(resource, subresource, null, (IntPtr)dataPtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
+            }
+        }
+
+        /// <summary>
+        ///   Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <param name = "source">The source data.</param>
+        /// <param name = "resource">The destination resource.</param>
+        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+        /// <param name = "subresource">The destination subresource.</param>
+        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+        /// <remarks>
+        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+        /// </remarks>
+        public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, bool isCompressedResource = false)
+        {
+            UpdateSubresourceSafe(resource, subresource, null, source.DataPointer, source.RowPitch, source.DepthPitch, srcBytesPerElement, isCompressedResource);
+        }
+
+        /// <summary>
+        /// Copies data from the CPU to to a non-mappable subresource region.
+        /// </summary>
+        /// <param name = "source">The source data.</param>
+        /// <param name = "resource">The destination resource.</param>
+        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+        /// <param name = "subresource">The destination subresource.</param>
+        /// <param name = "region">The destination region within the resource.</param>
+        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+        /// <remarks>
+        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+        /// </remarks>
+        public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, int srcBytesPerElement, int subresource, Box region, bool isCompressedResource = false)
+        {
+            UpdateSubresourceSafe(resource, subresource, region, source.DataPointer, source.RowPitch, source.DepthPitch, srcBytesPerElement, isCompressedResource);
+        }
+
+        internal unsafe bool UpdateSubresourceSafe(
+            ID3D11Resource dstResource, int dstSubresource, Box? dstBox,
+            IntPtr pSrcData, int srcRowPitch, int srcDepthPitch, int srcBytesPerElement, bool isCompressedResource)
+        {
+
+            bool needWorkaround = false;
+
+            // Check thread support just once as it won't change during the life of this instance.
+            if (!_supportsCommandLists.HasValue)
+            {
+                Device.CheckThreadingSupport(out var supportsConcurrentResources, out var supportsCommandLists);
+                _supportsCommandLists = supportsCommandLists;
+            }
+
+            if (dstBox.HasValue)
+            {
+                if (ContextType == DeviceContextType.Deferred)
+                {
+                    // If this deferred context doesn't support command list, we need to perform the workaround
+                    needWorkaround = !_supportsCommandLists.Value;
+                }
+            }
+
+            // Adjust the pSrcData pointer if needed
+            IntPtr pAdjustedSrcData = pSrcData;
+            if (needWorkaround)
+            {
+                var alignedBox = dstBox.Value;
+
+                // convert from pixels to blocks
+                if (isCompressedResource)
+                {
+                    alignedBox.Left /= 4;
+                    alignedBox.Right /= 4;
+                    alignedBox.Top /= 4;
+                    alignedBox.Bottom /= 4;
+                }
+
+                pAdjustedSrcData = (IntPtr)(((byte*)pSrcData) - (alignedBox.Front * srcDepthPitch) - (alignedBox.Top * srcRowPitch) - (alignedBox.Left * srcBytesPerElement));
+            }
+
+            UpdateSubresource(dstResource, dstSubresource, dstBox, pAdjustedSrcData, srcRowPitch, srcDepthPitch);
+
+            return needWorkaround;
         }
         #endregion
     }

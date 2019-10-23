@@ -218,7 +218,8 @@
     <map param="IDXGIDevice::CreateSurface::Usage" type="DXGI_USAGE_ENUM" />
     <map param="IDXGIDevice::CreateSurface::ppSurface" attribute="out" return="true"/>
     <map method="IDXGIDevice::QueryResourceResidency" visibility="private" hresult="true" check="false"/>
-
+    <map method="IDXGIDevice::GetAdapter" persist="true"/>
+    
     <!-- IDXGIOutput -->
     <map method="IDXGIOutput::FindClosestMatchingMode" visibility="private" />
     <map method="IDXGIOutput::GetDisplayModeList" visibility="private" />

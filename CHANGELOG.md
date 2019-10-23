@@ -6,6 +6,12 @@ Current Release:    1.3.0 (September 2019)
 Release:     1.4.0 (October 2019)
 -----------------------------------------------
 KEY CHANGES:
+- Update dependencies.
+- Correctly map D3D12_RAYTRACING_INSTANCE_DESC::Transform (using Matrix3x4).
+- Direct3D12 API improvements.
+- Persist IDXGIDevice::GetAdapter and handle Dispose.
+- Direct3D11 API improvements (ID3D11DeviceContext) etc.
+- MappedSubresource added AsSpan methods.
 
 -----------------------------------------------
 Release:     1.3.0 (September 2019)
