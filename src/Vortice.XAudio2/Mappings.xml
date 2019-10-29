@@ -52,6 +52,7 @@
     <const from-macro="XAUDIO2_LOOP_INFINITE" type="int" cpp-type="int" name="LoopInfinite" class="Vortice.IXAudio2.AudioBuffer" visibility="public const" />
     <const from-macro="XAUDIO2_DEFAULT_CHANNELS" type="int" cpp-type="int" name="DefaultChannels" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_DEFAULT_SAMPLERATE" type="int" cpp-type="int" name="DefaultSampleRate" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_VOICE_NOSAMPLESPLAYED" type="int" cpp-type="int" name="NoSamplesPlayed" class="Vortice.XAudio2.IXAudio2SourceVoice" visibility="private const" />
 
     <create class="ResultCode" visibility="public"/>
     <const from-macro="XAUDIO2_E_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.XAudio2.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
@@ -94,6 +95,8 @@
     <map struct="XAUDIO2_EFFECT_CHAIN" visibility="internal" />
     <map field="XAUDIO2_EFFECT_CHAIN::pEffectDescriptors" name="EffectDescriptorPointer" />
     <map field="XAUDIO2_EFFECT_CHAIN::pEffectDescriptors" visibility="internal" />
+
+    <map field="XAUDIO2_VOICE_STATE::pCurrentBufferContext" name="Context" />
 
     <!-- IXAudio2 -->
     <map method="IXAudio2::.*" custom-vtbl="true"/>

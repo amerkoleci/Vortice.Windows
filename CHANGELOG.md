@@ -12,6 +12,7 @@ KEY CHANGES:
 - Persist IDXGIDevice::GetAdapter and handle Dispose.
 - Direct3D11 API improvements (ID3D11DeviceContext) etc.
 - MappedSubresource added AsSpan methods.
+- IXAudio2SourceVoice - Add StateNoSamplesPlayed.
 
 -----------------------------------------------
 Release:     1.3.0 (September 2019)

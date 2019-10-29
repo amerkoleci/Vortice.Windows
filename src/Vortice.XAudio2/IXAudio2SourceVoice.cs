@@ -2,17 +2,20 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using SharpGen.Runtime;
-using Vortice.Multimedia;
 
 namespace Vortice.XAudio2
 {
     public partial class IXAudio2SourceVoice
     {
         /// <summary>
-        /// Gets the state.
+        /// Gets the voice state.
         /// </summary>
         public VoiceState State => GetState(0);
+
+        /// <summary>
+        /// Gets the voice state without samples played.
+        /// </summary>
+        public VoiceState StateNoSamplesPlayed => GetState(NoSamplesPlayed);
 
         /// <summary>
         /// Gets or Sets the frequency adjustment ratio of the voice.
