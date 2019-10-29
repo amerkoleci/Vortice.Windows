@@ -44,5 +44,8 @@ Nightly packages can be download by adding the NuGet feed "https://ci.appveyor.c
 ```
 
 ## Samples
-Direct3D12 DXR samples by @CAMongrel [D3D12SampleRaytracerSharp](https://github.com/CAMongrel/D3D12SampleRaytracerSharp)
+Direct3D12 DXR samples by @CAMongrel [D3D12SampleRaytracerSharp](https://github.com/CAMongrel/D3D12SampleRaytracerSharp).
+
+## Sponsors
+To further help development of thoose bindings consider [sponsoring](https://github.com/sponsors/amerkoleci) my profile in order to allow faster issue track and new features to be implemented.
 
