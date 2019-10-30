@@ -96,8 +96,16 @@
     <map struct="XAUDIO2_EFFECT_CHAIN" visibility="internal" />
     <map field="XAUDIO2_EFFECT_CHAIN::pEffectDescriptors" name="EffectDescriptorPointer" />
     <map field="XAUDIO2_EFFECT_CHAIN::pEffectDescriptors" visibility="internal" />
-
     <map field="XAUDIO2_VOICE_STATE::pCurrentBufferContext" name="Context" />
+
+    <!-- XAUDIO2_SEND_DESCRIPTOR -->
+    <map struct="XAUDIO2_SEND_DESCRIPTOR" name="VoiceSendDescriptor" />
+
+    <!-- XAUDIO2_VOICE_SENDS -->
+    <map struct="XAUDIO2_VOICE_SENDS" name="VoiceSendDescriptors" visibility="internal" />
+    <map struct="XAUDIO2_VOICE_SENDS" name="VoiceSendDescriptors" />
+    <map field="XAUDIO2_VOICE_SENDS::pSends" name="SendPointer" />
+    <map field="XAUDIO2_VOICE_SENDS::pSends" visibility="internal" />
 
     <!-- IXAudio2 -->
     <map method="IXAudio2::.*" custom-vtbl="true"/>
@@ -115,12 +123,14 @@
     <map interface="IXAudio2.*Callback" callback="true" callback-dual="false" />
 
     <!-- IXAudio2Voice -->
-    <map method="IXAudio2Voice::SetOutputVoices" visibility="internal" />
+    <map method="IXAudio2Voice::SetOutputVoices" visibility="internal" property="false"/>
     <map method="IXAudio2Voice::GetEffectParameters" visibility="internal" />
     <map method="IXAudio2Voice::SetEffectParameters" visibility="internal" />
-    <map method="IXAudio2Voice::GetEffectState" name="IsEffectEnabled"/>
+    <map param="IXAudio2Voice::GetEffectState::pEnabled" attribute="out" return="true" />
     <map method="IXAudio2Voice::SetEffectChain" visibility="internal" property="false" />
-    <map method="IXAudio2Voice::GetVoiceDetails" property="false"/>
+    <map method="IXAudio2Voice::GetVoiceDetails" visibility="private" property="false"/>
+    <map method="IXAudio2Voice::GetVolume" visibility="private" property="false"/>
+    <map param="IXAudio2Voice::GetFilterParameters::pParameters" attribute="out" return="true" />
     
     <!-- IXAudio2MasteringVoice -->
     <map method="IXAudio2MasteringVoice::GetChannelMask" property="false"/>
