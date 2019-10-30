@@ -78,6 +78,7 @@
 
     <!-- Structs -->
     <map struct="XAUDIO2_(.*)" name-tmp="$1" />
+    <map struct="XAUDIO2_.*" pack="4" />
     <map struct="XAUDIO2FX_(.*)" name-tmp="$1" />
 
     <!-- XAUDIO2_BUFFER -->
