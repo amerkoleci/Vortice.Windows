@@ -19,6 +19,14 @@ namespace Vortice
             }
         }
 
+        public static void Write<T>(IntPtr destination, ref T value) where T : unmanaged
+        {
+            unsafe
+            {
+                Unsafe.CopyBlockUnaligned((void*)destination, Unsafe.AsPointer(ref value), (uint)(sizeof(T)));
+            }
+        }
+
         public static void Write<T>(IntPtr destination, T[] values) where T : unmanaged
         {
             MemoryHelpers.Write(destination, new Span<T>(values), values.Length);

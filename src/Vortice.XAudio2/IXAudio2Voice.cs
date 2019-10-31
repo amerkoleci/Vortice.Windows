@@ -2,6 +2,8 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
+using SharpGen.Runtime;
 
 namespace Vortice.XAudio2
 {
@@ -37,8 +39,8 @@ namespace Vortice.XAudio2
                 // Handle 2.7 version changes here
                 if (Version == XAudio2Version.Version27)
                 {
-                    details.InputSampleRate = details.InputChannels;
-                    details.InputChannels = details.ActiveFlags;
+                    details.InputSampleRate = details.InputChannelCount;
+                    details.InputChannelCount = details.ActiveFlags;
                     details.ActiveFlags = 0;
                 }
 
@@ -63,6 +65,37 @@ namespace Vortice.XAudio2
         public void SetChannelVolumes(int channels, float[] volumes)
         {
             SetChannelVolumes(channels, volumes, 0);
+        }
+
+        /// <summary>	
+        /// Replaces the effect chain of the voice.	
+        /// </summary>	
+        /// <param name="effectDescriptors">
+        /// An array of <see cref="EffectDescriptor"/> that describes the new effect chain to use. 
+        /// If null is passed, the current effect chain is removed. If array is non null, its length must be at least of 1.
+        /// </param>
+        public void SetEffectChain(params EffectDescriptor[] effectDescriptors)
+        {
+            unsafe
+            {
+                if (effectDescriptors != null)
+                {
+                    var tempSendDescriptor = new EffectChain();
+                    var effectDescriptorNatives = new EffectDescriptor.__Native[effectDescriptors.Length];
+                    for (int i = 0; i < effectDescriptorNatives.Length; i++)
+                        effectDescriptors[i].__MarshalTo(ref effectDescriptorNatives[i]);
+                    tempSendDescriptor.EffectCount = effectDescriptorNatives.Length;
+                    fixed (void* pEffectDescriptors = &effectDescriptorNatives[0])
+                    {
+                        tempSendDescriptor.EffectDescriptorPointer = (IntPtr)pEffectDescriptors;
+                        SetEffectChain(tempSendDescriptor);
+                    }
+                }
+                else
+                {
+                    SetEffectChain((EffectChain?)null);
+                }
+            }
         }
 
         /// <summary>	
@@ -162,6 +195,97 @@ namespace Vortice.XAudio2
         public void SetOutputMatrix(int sourceChannels, int destinationChannels, float[] levelMatrix, int operationSet)
         {
             SetOutputMatrix(null, sourceChannels, destinationChannels, levelMatrix, operationSet);
+        }
+
+        /// <summary>	
+        /// Enables the effect at a given position in the effect chain of the voice.	
+        /// </summary>	
+        /// <param name="effectIndex">Zero-based index of an effect in the effect chain of the voice.</param>
+        public void EnableEffect(int effectIndex) => EnableEffect(effectIndex, 0);
+
+        /// <summary>	
+        /// Disables the effect at a given position in the effect chain of the voice.	
+        /// </summary>	
+        /// <param name="effectIndex">Zero-based index of an effect in the effect chain of the voice.</param>
+        public void DisableEffect(int effectIndex) => DisableEffect(effectIndex, 0);
+
+        /// <summary>	
+        /// Sets parameters for a given effect in the voice's effect chain.
+        /// </summary>	
+        /// <param name="effectIndex">[in]  Zero-based index of an effect within the voice's effect chain. </param>
+        /// <returns>Returns the current values of the effect-specific parameters.</returns>
+        public unsafe T GetEffectParameters<T>(int effectIndex) where T : struct
+        {
+            var effectParameter = default(T);
+            byte* pEffectParameter = stackalloc byte[Unsafe.SizeOf<T>()];
+            GetEffectParameters(effectIndex, (IntPtr)pEffectParameter, Unsafe.SizeOf<T>());
+            Unsafe.Copy(ref effectParameter, pEffectParameter);
+            return effectParameter;
+        }
+
+        /// <summary>	
+        /// Returns the current effect-specific parameters of a given effect in the voice's effect chain.	
+        /// </summary>	
+        /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
+        /// <param name="effectParameters">Returns the current values of the effect-specific parameters.</param>
+        /// <returns>No documentation.</returns>
+        public unsafe void GetEffectParameters(int effectIndex, byte[] effectParameters)
+        {
+            fixed (void* pEffectParameter = &effectParameters[0])
+            {
+                GetEffectParameters(effectIndex, (IntPtr)pEffectParameter, effectParameters.Length);
+            }
+        }
+
+        /// <summary>	
+        /// Sets parameters for a given effect in the voice's effect chain.
+        /// </summary>	
+        /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
+        /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
+        public void SetEffectParameters(int effectIndex, byte[] effectParameter)
+        {
+            SetEffectParameters(effectIndex, effectParameter, 0);
+        }
+
+        /// <summary>	
+        /// Sets parameters for a given effect in the voice's effect chain.
+        /// </summary>	
+        /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
+        /// <param name="effectParameter">The the current values of the effect-specific parameters.</param>
+        /// <param name="operationSet">Identifies this call as part of a deferred batch.</param>
+        public void SetEffectParameters(int effectIndex, byte[] effectParameter, int operationSet)
+        {
+            unsafe
+            {
+                fixed (void* pEffectParameter = &effectParameter[0])
+                    SetEffectParameters(effectIndex, (IntPtr)pEffectParameter, effectParameter.Length, operationSet);
+            }
+        }
+
+        /// <summary>	
+        /// Sets parameters for a given effect in the voice's effect chain.
+        /// </summary>	
+        /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
+        /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
+        public void SetEffectParameters<T>(int effectIndex, T effectParameter) where T : struct
+        {
+            SetEffectParameters<T>(effectIndex, effectParameter, 0);
+        }
+
+        /// <summary>	
+        /// Sets parameters for a given effect in the voice's effect chain.
+        /// </summary>	
+        /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
+        /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
+        /// <param name="operationSet">Identifies this call as part of a deferred batch.</param>
+        public void SetEffectParameters<T>(int effectIndex, T effectParameter, int operationSet) where T : struct
+        {
+            unsafe
+            {
+                byte* pEffectParameter = stackalloc byte[Unsafe.SizeOf<T>()];
+                Unsafe.CopyBlockUnaligned(pEffectParameter, Unsafe.AsPointer(ref effectParameter), (uint)(Unsafe.SizeOf<T>()));
+                SetEffectParameters(effectIndex, (IntPtr)pEffectParameter, Unsafe.SizeOf<T>(), operationSet);
+            }
         }
     }
 }

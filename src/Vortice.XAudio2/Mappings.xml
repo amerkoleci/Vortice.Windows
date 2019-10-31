@@ -98,6 +98,15 @@
     <map field="XAUDIO2_EFFECT_CHAIN::pEffectDescriptors" visibility="internal" />
     <map field="XAUDIO2_VOICE_STATE::pCurrentBufferContext" name="Context" />
 
+    <!-- XAUDIO2_EFFECT_DESCRIPTOR -->
+    <map struct="XAUDIO2_EFFECT_DESCRIPTOR" native="true" struct-to-class="true" marshal="false" new="false" marshalto="true" />
+    <map field="XAUDIO2_EFFECT_DESCRIPTOR::OutputChannels" name="OutputChannelCount" />
+    <map field="XAUDIO2_EFFECT_DESCRIPTOR::pEffect" name="EffectPointer" />
+    <map field="XAUDIO2_EFFECT_DESCRIPTOR::pEffect" visibility="internal" />
+
+    <!-- XAUDIO2_VOICE_DETAILS -->
+    <map field="XAUDIO2_VOICE_DETAILS::InputChannels" name="InputChannelCount" />
+
     <!-- XAUDIO2_SEND_DESCRIPTOR -->
     <map struct="XAUDIO2_SEND_DESCRIPTOR" name="VoiceSendDescriptor" />
 
@@ -106,6 +115,12 @@
     <map struct="XAUDIO2_VOICE_SENDS" name="VoiceSendDescriptors" />
     <map field="XAUDIO2_VOICE_SENDS::pSends" name="SendPointer" />
     <map field="XAUDIO2_VOICE_SENDS::pSends" visibility="internal" />
+
+    <!-- XAUDIO2FX_VOLUMEMETER_LEVELS -->
+    <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pPeakLevels" name="PeakLevelPointer" />
+    <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pPeakLevels" visibility="internal" />
+    <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pRMSLevels" name="RmsLevelsPointer" />
+    <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pRMSLevels" visibility="internal" />
 
     <!-- IXAudio2 -->
     <map method="IXAudio2::.*" custom-vtbl="true"/>
@@ -133,7 +148,7 @@
     <map param="IXAudio2Voice::GetFilterParameters::pParameters" attribute="out" return="true" />
     
     <!-- IXAudio2MasteringVoice -->
-    <map method="IXAudio2MasteringVoice::GetChannelMask" property="false"/>
+    <map method="IXAudio2MasteringVoice::GetChannelMask" visibility="private" property="false"/>
     
     <!-- IXAudio2SourceVoice -->
     <map method="IXAudio2SourceVoice::SetSourceSampleRate" property="false"/>
@@ -143,7 +158,8 @@
     <map method="IXAudio2SourceVoice::GetState" visibility="internal" />
     <map param="IXAudio2SourceVoice::GetState::pVoiceState" return="true" />
     <map method="IXAudio2SourceVoice::GetFrequencyRatio" visibility="internal" />
-    
+
+    <remove interface="IXAudio2Extension"/>
     <remove function="XAudio2CreateWithVersionInfo"/>
   </mapping>
 </config>
