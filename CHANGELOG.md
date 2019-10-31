@@ -13,6 +13,7 @@ KEY CHANGES:
 - Direct3D11 API improvements (ID3D11DeviceContext) etc.
 - MappedSubresource added AsSpan methods.
 - IXAudio2SourceVoice - Add StateNoSamplesPlayed.
+- [X3DAudio](https://docs.microsoft.com/it-it/windows/win32/xaudio2/x3daudio) support added.
 
 -----------------------------------------------
 Release:     1.3.0 (September 2019)
