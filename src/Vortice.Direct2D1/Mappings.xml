@@ -18,8 +18,13 @@
   <include file="d2d1.h" attach="true" />
   <include file="d2d1_1.h" attach="true" />
   <include file="d2d1_2.h" attach="true" />
+  <include file="d2d1_3.h" attach="true" />
   <include file="d2d1effects.h" attach="true" />
+  <include file="d2d1effects_1.h" attach="true" />
+  <include file="d2d1effects_2.h" attach="true" />
   <include file="d2d1effectauthor.h" attach="true" />
+  <include file="d2d1effectauthor_1.h" attach="true" />
+  <include file="d2d1svg.h" attach="true" />
 
   <include file="DWrite.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
   <include file="DWrite_1.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
@@ -279,7 +284,38 @@
     <map enum="D2D1_TILE_PROP" name="TileProperties"/>
     <map enum="D2D1_TURBULENCE_PROP" name="TurbulenceProperties"/>
     <map enum="D2D1_OPACITYMETADATA_PROP" name="OpacityMetadataProperties"/>
+    
+    <map enum="D2D1_YCBCR_CHROMA_SUBSAMPLING" name="YCbCrChromaSubSampling" />
+    <map enum-item="D2D1_YCBCR_CHROMA_SUBSAMPLING_420" name-tmp="Both" />
+    <map enum-item="D2D1_YCBCR_CHROMA_SUBSAMPLING_422" name-tmp="Horizontal" />
+    <map enum-item="D2D1_YCBCR_CHROMA_SUBSAMPLING_444" name-tmp="None" />
+    <map enum-item="D2D1_YCBCR_CHROMA_SUBSAMPLING_440" name-tmp="Vertical" />
+    <map enum="D2D1_YCBCR_INTERPOLATION_MODE" name="YCbCrInterpolationMode"/>
     <map enum="D2D1_YCBCR_PROP" name="YCbCrProperties"/>
+
+    <map enum="D2D1_CHROMAKEY_PROP" name="ChromakeyProperties"/>
+    <map enum="D2D1_CONTRAST_PROP" name="ContrastProperties"/>
+    <map enum="D2D1_EDGEDETECTION_MODE" name="EdgeDetectionMode"/>
+    <map enum="D2D1_EDGEDETECTION_PROP" name="EdgeDetectionProperties"/>
+    <map enum="D2D1_EMBOSS_PROP" name="EmbossProperties"/>
+    <map enum="D2D1_EXPOSURE_PROP" name="ExposureProperties"/>
+    <map enum="D2D1_HDRTONEMAP_DISPLAY_MODE" name="HDRToneMapDisplayMode"/>
+    <map enum="D2D1_HDRTONEMAP_PROP" name="HDRToneMapProperties"/>
+    <map enum="D2D1_HIGHLIGHTSANDSHADOWS_INPUT_GAMMA" name="HighlightsAndShadowsInputGamma"/>
+    <map enum="D2D1_HIGHLIGHTSANDSHADOWS_PROP" name="HighlightsAndShadowsProperties"/>
+    <map enum="D2D1_HUETORGB_INPUT_COLOR_SPACE" name="HueToRGBInputColorSpace"/>
+    <map enum="D2D1_HUETORGB_PROP" name="HueToRGBProperties"/>
+    <map enum="D2D1_LOOKUPTABLE3D_PROP" name="LookupTable3DProperties"/>
+    <map enum="D2D1_POSTERIZE_PROP" name="PosterizeProperties"/>
+    <map enum="D2D1_RGBTOHUE_OUTPUT_COLOR_SPACE" name="RGBToHueOutputColorSpace"/>
+    <map enum="D2D1_RGBTOHUE_PROP" name="RGBToHueProperties"/>
+    <map enum="D2D1_SEPIA_PROP" name="SepiaProperties"/>
+    <map enum="D2D1_SHARPEN_PROP" name="SharpenProperties"/>
+    <map enum="D2D1_STRAIGHTEN_PROP" name="StraightenProperties"/>
+    <map enum="D2D1_STRAIGHTEN_SCALE_MODE" name="StraightenModeProperties"/>
+    <map enum="D2D1_TEMPERATUREANDTINT_PROP" name="TemperatureAndTintProperties"/>
+    <map enum="D2D1_VIGNETTE_PROP" name="VignetteProperties"/>
+    <map enum="D2D1_WHITELEVELADJUSTMENT_PROP" name="WhiteLevelAdjustmentProperties"/>
 
     <map enum="D2D1_.*_OPTIONS1?" flags="true"/>
 
@@ -598,6 +634,7 @@
     <map interface="ID2D(\d+).*Sink2?" callback="true" callback-dual="true" callback-visibility="internal" />
     <map interface="ID2D(\d+).*Sink3?" callback="true" callback-dual="true" callback-visibility="internal" />
     <map interface="ID2D(\d+).*Sink4?" callback="true" callback-dual="true" callback-visibility="internal" />
+    <map interface="ID2D(\d+).*Sink5?" callback="true" callback-dual="true" callback-visibility="internal" />
 
     <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.WIC.WIC" visibility="internal" />
 
