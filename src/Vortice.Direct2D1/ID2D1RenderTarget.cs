@@ -42,7 +42,7 @@ namespace Vortice.Direct2D1
 
         public ID2D1LinearGradientBrush CreateLinearGradientBrush(LinearGradientBrushProperties linearGradientBrushProperties, BrushProperties brushProperties, ID2D1GradientStopCollection gradientStopCollection)
         {
-            return CreateLinearGradientBrush(linearGradientBrushProperties, brushProperties, gradientStopCollection);
+            return CreateLinearGradientBrush(linearGradientBrushProperties, (BrushProperties?)brushProperties, gradientStopCollection);
         }
 
         public ID2D1RadialGradientBrush CreateRadialGradientBrush(RadialGradientBrushProperties radialGradientBrushProperties, ID2D1GradientStopCollection gradientStopCollection)
