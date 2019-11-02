@@ -55,6 +55,12 @@
 
     <define struct="Vortice.Gdi.LogFont" sizeof="32"/>
     <define struct="Vortice.Gdi.FontSignature" sizeof="24" />
+    
+    <create class="Vortice.Direct2D1.EffectGuids" visibility="public sealed"/>
+    <const from-guid="CLSID_D2D12DAffineTransform" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="AffineTransform2D">new System.Guid("$1")</const>
+    <const from-guid="CLSID_D2D13DPerspectiveTransform" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="PerspectiveTransform3D">new System.Guid("$1")</const>
+    <const from-guid="CLSID_D2D13DTransform" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="Transform3D">new System.Guid("$1")</const>
+    <const from-guid="CLSID_D2D1(.*)" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
   </extension>
 
   <bindings>
@@ -222,9 +228,9 @@
     <map enum-item="D2D1_FEATURE_LEVEL_DEFAULT" name="Default" />
 
     <map enum="D2D1_2DAFFINETRANSFORM_INTERPOLATION_MODE" name="AffineTransform2DInterpolationMode"/>
-    <map enum="D2D1_2DAFFINETRANSFORM_PROP" name="AffineTransform2DProperty"/>
+    <map enum="D2D1_2DAFFINETRANSFORM_PROP" name="AffineTransform2DProperties"/>
     <map enum="D2D1_3DPERSPECTIVETRANSFORM_INTERPOLATION_MODE" name="PerspectiveTransform3DInteroplationMode"/>
-    <map enum="D2D1_3DPERSPECTIVETRANSFORM_PROP" name="PerspectiveTransform3DProperty"/>
+    <map enum="D2D1_3DPERSPECTIVETRANSFORM_PROP" name="PerspectiveTransform3DProperties"/>
     <map enum="D2D1_3DTRANSFORM_INTERPOLATION_MODE" name="Transform3DInterpolationMode"/>
     <map enum="D2D1_3DTRANSFORM_PROP" name="Transform3DProperties"/>
     <map enum="D2D1_ARITHMETICCOMPOSITE_PROP" name="ArithmeticCompositeProperties"/>
@@ -242,15 +248,13 @@
     <map enum="D2D1_COLORMATRIX_ALPHA_MODE" name="ColorMatrixAlphaMode"/>
     <map enum="D2D1_COLORMATRIX_PROP" name="ColorMatrixProperties"/>
     <map enum="D2D1_COMPOSITE_PROP" name="CompositeProperties"/>
-    <map enum="D2D1_CONVOLVEMATRIX_PROP" name="ConvoleMatrixProperties"/>
-    <map enum="D2D1_CONVOLVEMATRIX_SCALE_MODE" name="ConvoleMatrixScaleMode"/>
+    <map enum="D2D1_CONVOLVEMATRIX_PROP" name="ConvolveMatrixProperties"/>
+    <map enum="D2D1_CONVOLVEMATRIX_SCALE_MODE" name="ConvolveMatrixScaleMode"/>
     <map enum="D2D1_CROP_PROP" name="CropProperties"/>
     <map enum="D2D1_DIRECTIONALBLUR_OPTIMIZATION" name="DirectionalBlurOptimization"/>
     <map enum="D2D1_DIRECTIONALBLUR_PROP" name="DirectionalBlurProperties"/>
     <map enum="D2D1_DISCRETETRANSFER_PROP" name="DiscreteTransferProperties"/>
     <map enum="D2D1_DISPLACEMENTMAP_PROP" name="DisplacementMapProperties"/>
-    <map enum="D2D1_DISPLACEMENTMAP_X_CHANNEL_SELECT" name="DisplacementMapSelectChannelX"/>
-    <map enum="D2D1_DISPLACEMENTMAP_Y_CHANNEL_SELECT" name="DisplacementMapSelectChannelY"/>
     <map enum="D2D1_DISTANTDIFFUSE_PROP" name="DistantDiffuseProperties"/>
     <map enum="D2D1_DISTANTDIFFUSE_SCALE_MODE" name="DistantDiffuseScaleMode"/>
     <map enum="D2D1_DISTANTSPECULAR_PROP" name="DistantSpecularProperties"/>
@@ -279,6 +283,7 @@
     <map enum="D2D1_SPOTDIFFUSE_SCALE_MODE" name="SpotDiffuseScaleMode"/>
     <map enum="D2D1_SPOTSPECULAR_PROP" name="SpotSpecularProperties"/>
     <map enum="D2D1_SPOTSPECULAR_SCALE_MODE" name="SpotSpecularScaleMode"/>
+    <map enum="D2D1_PROPERTY" name="Property"/>
     <map enum="D2D1_SUBPROPERTY" name="SubProperty"/>
     <map enum="D2D1_TABLETRANSFER_PROP" name="TableTransferProperties"/>
     <map enum="D2D1_TILE_PROP" name="TileProperties"/>
@@ -316,6 +321,9 @@
     <map enum="D2D1_TEMPERATUREANDTINT_PROP" name="TemperatureAndTintProperties"/>
     <map enum="D2D1_VIGNETTE_PROP" name="VignetteProperties"/>
     <map enum="D2D1_WHITELEVELADJUSTMENT_PROP" name="WhiteLevelAdjustmentProperties"/>
+    <map enum="D2D1_OPACITY_PROP" name="OpacityProperties"/>
+    <map enum="D2D1_TINT_PROP" name="TintProperties"/>
+    <map enum="D2D1_CROSSFADE_PROP" name="CrossFadeProperties"/>
 
     <map enum="D2D1_.*_OPTIONS1?" flags="true"/>
 
@@ -441,6 +449,10 @@
     <map param="ID2D1Geometry::GetWidenedBounds::bounds" return="true" />
     <map param="ID2D1Geometry::StrokeContainsPoint::contains" return="true" />
 
+    <!-- ID2D1Properties -->
+    <map param="ID2D1Properties::GetValue::data" type="void"/>
+    <map param="ID2D1Properties::SetValue::data" type="void"/>
+    
     <!--IWICStream-->
     <map method="IWICStream::InitializeFrom.*" visibility="internal"/>
     <map param="IWICStream::InitializeFromMemory::pbBuffer" type="void" attribute="in"/>
@@ -482,7 +494,7 @@
     <remove method="IWICJpegFrameEncode::GetDcHuffmanTable" />
     <remove method="IWICJpegFrameEncode::GetQuantizationTable" />
 
-    <!-- IDWriteFontFace -->
+    <!-- IDWriteFactory -->
     <map param="IDWriteFactory::CreateCustomFontCollection::fontCollection" attribute="out" return="true"/>
     <map param="IDWriteFactory::CreateFontFileReference::fontFile" attribute="out" return="true"/>
     <map param="IDWriteFactory::CreateCustomFontFileReference::fontFile" attribute="out" return="true"/>
@@ -500,7 +512,8 @@
     <map param="IDWriteFactory::CreateGlyphRunAnalysis::glyphRunAnalysis" attribute="out" return="true"/>
     <map method="IDWriteFactory::((Unr|R)egisterFont(File|Collection)Loader)" visibility="internal" name="$1_" />
     <map param="IDWriteFactory::GetSystemFontCollection::fontCollection" return="true" />
-
+    <map param="IDWriteFactory::CreateTextLayout::stringLength" relation="const(text.Length+1)"/>
+    
     <!-- IDWriteFactory1 -->
     <map param="IDWriteFactory1::GetEudcFontCollection::fontCollection" return="true" />
     <map param="IDWriteFactory1::CreateCustomRenderingParams::renderingParams" attribute="out" return="true"/>
@@ -515,7 +528,10 @@
     <map method="IDWriteTextFormat::GetLocaleName" visibility="internal" />
     <map method="IDWriteTextFormat::GetFontFamilyNameLength" visibility="internal" property="false" />
     <map method="IDWriteTextFormat::GetLocaleNameLength" visibility="internal" property="false" />
-
+    
+    <!-- IDWriteTextLayout -->
+    <map method="IDWriteTextLayout::GetLineMetrics" visibility="internal" hresult="true" check="false"/>
+    
     <!-- IDWriteFont -->
     <map param="IDWriteFont::CreateFontFace::fontFace" attribute="out" return="true" />
 
@@ -528,7 +544,8 @@
     <map param="IDWriteFontFace::GetRecommendedRenderingMode::renderingMode" return="true" />
     <map method="IDWriteFontFace::TryGetFontTable" visibility="internal" />
     <map method="IDWriteFontFace::GetType" name="GetFaceType" />
-
+    <map param="IDWriteFontFace::GetGlyphRunOutline::glyphCount" relation="length(glyphIndices)" />
+    
     <!-- IDWriteFontCollection -->
     <map param="IDWriteFontCollection::FindFamilyName::exists" return="true" />
     <map param="IDWriteFontCollection::GetFontFamily::fontFamily" return="true" />
@@ -553,6 +570,13 @@
     <map param="IDWriteGdiInterop1::CreateFontFaceFromHdc::fontFace" return="true" />
     <map param="IDWriteGdiInterop1::GetFontSignature::fontSignature" return="true" />
     <map param="IDWriteGdiInterop1::CreateFontFromLOGFONT::font" return="true" />
+    
+    <!-- IDWriteLocalizedStrings -->
+    <map param="IDWriteLocalizedStrings::FindLocaleName::exists" attribute="out" return="true"/>
+    <map param="IDWriteLocalizedStrings::GetLocaleNameLength::length" attribute="out" return="true"/>
+    <map param="IDWriteLocalizedStrings::GetStringLength::length" attribute="out" return="true"/>
+    <map method="IDWriteLocalizedStrings::GetString" visibility="internal"/>
+    <map method="IDWriteLocalizedStrings::GetLocaleName" visibility="internal"/>
 
     <!-- IDWriteAsyncResult -->
     <map method="IDWriteAsyncResult::GetResult" check="false"/>
@@ -590,6 +614,12 @@
     <map method="IWICImagingFactory::CreateEncoder" visibility="private" name="CreateEncoder_" />
     <map method="IWICImagingFactory::CreateDecoderFromStream" visibility="private" name="CreateDecoderFromStream_" />
     
+    <!-- IWICImagingFactory2 -->
+    <map param="IWICImagingFactory2::CreateImageEncoder::ppWICImageEncoder" attribute="out" return="true"/>
+    
+    <!-- IWICMetadataQueryReader -->
+    <map param="IWICMetadataQueryReader::GetMetadataByName::pvarValue" type="VARIANT" attribute="out" return="true"/>
+    
     <!-- ID2D1Factory -->
     <map param="ID2D1Factory::CreateDCRenderTarget::renderTargetProperties" attribute="in value" />
     <map param="ID2D1Factory::CreateDCRenderTarget::dcRenderTarget" attribute="out" return="true"/>
@@ -625,7 +655,7 @@
     <map param="ID2D1Factory::CreateWicBitmapRenderTarget::renderTargetProperties" attribute="in value" />
     <map param="ID2D1Factory::CreateWicBitmapRenderTarget::renderTarget" attribute="out" return="true"/>
 
-    <!-- ID2D1Factory -->
+    <!-- ID2D1Factory1 -->
     <map param="ID2D1Factory1::CreateDevice::d2dDevice" attribute="out" return="true"/>
     <map method="ID2D1Factory1::CreateDrawingStateBlock" visibility="private" />
     <map param="ID2D1Factory1::CreateDrawingStateBlock::drawingStateBlock" attribute="out" return="true"/>
