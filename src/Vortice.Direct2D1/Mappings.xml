@@ -401,6 +401,30 @@
     <map param="ID2D1EffectContext::FindVertexBuffer::buffer" return="true"/>
     <map param="ID2D1EffectContext::GetMaximumSupportedFeatureLevel::maximumSupportedFeatureLevel" return="true"/>
 
+    <!-- ID2D1EffectImpl -->
+    <map interface="ID2D1EffectImpl" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
+    <map method="ID2D1EffectImpl::SetGraph" property="false"/>
+    
+    <!-- ID2D1TransformNode -->
+    <map interface="ID2D1TransformNode" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
+    <map method="ID2D1TransformNode::GetInputCount" property="false"/>
+    
+    <!-- ID2D1Transform -->
+    <map interface="ID2D1Transform" callback="true" callback-dual="true" callback-visibility="public"/>
+    <map param="ID2D1Transform::MapInputRectsToOutputRect::inputRectCount" relation="length(inputRects)" />
+    <map param="ID2D1Transform::MapOutputRectToInputRects::inputRectsCount" relation="length(inputRects)" />
+
+    <!-- ID2D1DrawTransform -->
+    <map interface="ID2D1DrawTransform" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
+    <map method="ID2D1DrawTransform::SetDrawInfo" property="false"/>
+
+    <!-- ID2D1TransformGraph -->
+    <map method="ID2D1TransformGraph::Set.*" property="false"/>
+    
+    <!-- ID2D1DrawInfo -->
+    <map method="ID2D1DrawInfo::SetPixelShaderConstantBuffer" visibility="internal"/>
+    <map param="ID2D1DrawInfo::SetPixelShaderConstantBuffer::buffer" type="void"/>
+    
     <!-- ID2D1Bitmap1 -->
     <map param="ID2D1Bitmap1::Map::mappedRect" return="true"/>
 
@@ -611,6 +635,9 @@
 
     <map method="ID2D1Factory1::CreateStrokeStyle" visibility="private" />
     <map param="ID2D1Factory1::CreateStrokeStyle::strokeStyle" attribute="out" return="true"/>
+    
+    <map param="ID2D1Factory1::RegisterEffectFromString::bindingsCount" relation="length(bindings)" />
+    <map param="ID2D1Factory1::RegisterEffectFromStream::bindingsCount" relation="length(bindings)" />
 
     <!-- ID2D1RenderTarget -->
     <map param="ID2D1RenderTarget::CreateBitmap::bitmap" attribute="out" return="true"/>
