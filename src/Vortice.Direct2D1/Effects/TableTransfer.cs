@@ -1,0 +1,60 @@
+﻿using System;
+using System.Numerics;
+
+namespace Vortice.Direct2D1.Effects
+{
+    using Props = TableTransferProperties;
+    public class TableTransfer : ID2D1Effect
+    {
+        public TableTransfer(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        {
+            deviceContext.CreateEffect(EffectGuids.TableTransfer, this);
+        }
+
+        public Vector2 RedTable
+        {
+            set => SetValue((int)Props.RedTable, value);
+            get => GetVector2Value((int)Props.RedTable);
+        }
+        public bool RedDisable
+        {
+            set => SetValue((int)Props.RedDisable, value);
+            get => GetBoolValue((int)Props.RedDisable);
+        }
+        public Vector2 GreenTable
+        {
+            set => SetValue((int)Props.GreenTable, value);
+            get => GetVector2Value((int)Props.GreenTable);
+        }
+        public bool GreenDisable
+        {
+            set => SetValue((int)Props.GreenDisable, value);
+            get => GetBoolValue((int)Props.GreenDisable);
+        }
+        public Vector2 BlueTable
+        {
+            set => SetValue((int)Props.BlueTable, value);
+            get => GetVector2Value((int)Props.BlueTable);
+        }
+        public bool BlueDisable
+        {
+            set => SetValue((int)Props.BlueDisable, value);
+            get => GetBoolValue((int)Props.BlueDisable);
+        }
+        public Vector2 AlphaTable
+        {
+            set => SetValue((int)Props.AlphaTable, value);
+            get => GetVector2Value((int)Props.AlphaTable);
+        }
+        public bool AlphaDisable
+        {
+            set => SetValue((int)Props.AlphaDisable, value);
+            get => GetBoolValue((int)Props.AlphaDisable);
+        }
+        public bool ClampOutput
+        {
+            set => SetValue((int)Props.ClampOutput, value);
+            get => GetBoolValue((int)Props.ClampOutput);
+        }
+    }
+}

@@ -110,5 +110,19 @@ namespace Vortice.Direct2D1
         {
             GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, requiredInputRects, inputDescriptions.Length);
         }
+        public ID2D1Effect CreateEffect(Guid effectId)
+        {
+            var effect = new ID2D1Effect(IntPtr.Zero);
+            CreateEffect(effectId, effect);
+            if (effect.NativePointer == IntPtr.Zero)
+            {
+                effect.Dispose();
+                return null;
+            }
+            else
+            {
+                return effect;
+            }
+        }
     }
 }
