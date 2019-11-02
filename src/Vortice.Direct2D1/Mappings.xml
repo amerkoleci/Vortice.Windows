@@ -332,7 +332,13 @@
 
     <!-- dwrite structs -->
     <map struct="DWRITE(.+)" name-tmp="$1" />
-
+    
+    <map struct="DWRITE_GLYPH_RUN" native="true" struct-to-class="true" marshal="true" new="false" />
+    <remove field="DWRITE_GLYPH_RUN::fontFace"/>
+    <remove field="DWRITE_GLYPH_RUN::glyphIndices"/>
+    <remove field="DWRITE_GLYPH_RUN::glyphAdvances"/>
+    <remove field="DWRITE_GLYPH_RUN::glyphOffsets"/>
+    
     <!-- d2d1 structs -->
     <map struct="D2D1(.*)" name-tmp="$1" />
     <map field="D2D1_BLEND_DESCRIPTION::blendFactor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
@@ -526,7 +532,16 @@
 
     <!-- IDWriteAsyncResult -->
     <map method="IDWriteAsyncResult::GetResult" check="false"/>
+    
+    <!-- IDWritePixelSnapping -->
+    <map interface="IDWritePixelSnapping" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true"/>
 
+    <!-- IDWriteTextRenderer -->
+    <map interface="IDWriteTextRenderer" callback="true" callback-dual="true" callback-visibility="internal"/>
+
+    <!-- IDWriteTextRenderer1 -->
+    <map interface="IDWriteTextRenderer1" callback="true" callback-dual="true" callback-visibility="internal"/>
+    
     <!-- IWICBitmapFrameEncode -->
     <map method="IWICBitmapFrameEncode::SetPixelFormat" property="false"/>
 
