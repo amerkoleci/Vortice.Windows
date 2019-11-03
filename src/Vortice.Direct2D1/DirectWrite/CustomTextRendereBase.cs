@@ -4,9 +4,9 @@ using System.Numerics;
 using System.Text;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
-using Vortice.DirectWrite;
+using Vortice.Direct2D1;
 
-namespace Vortice.Direct2D1.DirectWrite
+namespace Vortice.DirectWrite
 {
     public abstract class CustomTextRendereBase : CallbackBase, IDWriteTextRenderer
     {
