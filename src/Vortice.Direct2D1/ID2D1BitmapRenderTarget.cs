@@ -5,26 +5,26 @@ using SharpGen.Runtime;
 
 namespace Vortice.Direct2D1
 {
-    public partial class ID2D1Bitmap1
+    public partial class ID2D1BitmapRenderTarget
     {
         /// <inheritdoc/>
         protected override unsafe void Dispose(bool disposing)
         {
             if (disposing)
             {
-                ReleaseColorContext();
+                ReleaseBitmap();
             }
 
             base.Dispose(disposing);
         }
 
-        private void ReleaseColorContext()
+        private void ReleaseBitmap()
         {
-            if (ColorContext__ != null)
+            if (Bitmap__ != null)
             {
                 // Don't use Dispose() in order to avoid circular references
-                ((IUnknown)ColorContext__).Release();
-                ColorContext__ = null;
+                ((IUnknown)Bitmap__).Release();
+                Bitmap__ = null;
             }
         }
     }

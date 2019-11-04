@@ -438,7 +438,13 @@
     
     <!-- ID2D1Bitmap1 -->
     <map param="ID2D1Bitmap1::Map::mappedRect" return="true"/>
-
+    <map method="ID2D1Bitmap1::GetColorContext" persist="true"/>
+    <map method="ID2D1Bitmap1::GetSurface" property="false"/>
+    <map param="ID2D1Bitmap1::GetSurface::dxgiSurface" return="true" />
+    
+    <!-- ID2D1BitmapRenderTarget -->
+    <map method="ID2D1BitmapRenderTarget::GetBitmap" persist="true"/>
+    
     <!-- ID2D1GdiInteropRenderTarget -->
     <map param="ID2D1GdiInteropRenderTarget::GetDC::hdc" return="true" />
 
@@ -678,18 +684,18 @@
     <map param="ID2D1RenderTarget::CreateBitmapFromWicBitmap::bitmap" attribute="out" return="true"/>
     <map param="ID2D1RenderTarget::CreateCompatibleRenderTarget::bitmapRenderTarget" attribute="out" return="true"/>
 
-    <map method="ID2D1RenderTarget::CreateGradientStopCollection" visibility="private" />
+    <map method="ID2D1RenderTarget::CreateGradientStopCollection" visibility="private" name="CreateGradientStopCollection_" />
     <map param="ID2D1RenderTarget::CreateGradientStopCollection::gradientStopCollection" attribute="out" return="true"/>
 
     <map param="ID2D1RenderTarget::CreateLayer::size" default="null" />
     <map param="ID2D1RenderTarget::CreateLayer::layer" attribute="out" return="true"/>
 
-    <map method="ID2D1RenderTarget::CreateLinearGradientBrush" visibility="private" />
+    <map method="ID2D1RenderTarget::CreateLinearGradientBrush" visibility="private" name="CreateLinearGradientBrush_" />
     <map param="ID2D1RenderTarget::CreateLinearGradientBrush::linearGradientBrush" attribute="out" return="true"/>
 
     <map param="ID2D1RenderTarget::CreateMesh::mesh" attribute="out" return="true"/>
 
-    <map method="ID2D1RenderTarget::CreateRadialGradientBrush" visibility="private" />
+    <map method="ID2D1RenderTarget::CreateRadialGradientBrush" visibility="private" name="CreateRadialGradientBrush_" />
     <map param="ID2D1RenderTarget::CreateRadialGradientBrush::radialGradientBrush" attribute="out" return="true"/>
 
     <map method="ID2D1RenderTarget::CreateSharedBitmap" visibility="private" />

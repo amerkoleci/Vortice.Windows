@@ -27,32 +27,32 @@ namespace Vortice.Direct2D1
 
         public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops)
         {
-            return CreateGradientStopCollection(gradientStops, gradientStops.Length, Gamma.StandardRgb, ExtendMode.Clamp);
+            return CreateGradientStopCollection_(gradientStops, gradientStops.Length, Gamma.StandardRgb, ExtendMode.Clamp);
         }
 
         public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops, Gamma colorInterpolationGamma, ExtendMode extendMode)
         {
-            return CreateGradientStopCollection(gradientStops, gradientStops.Length, colorInterpolationGamma, extendMode);
+            return CreateGradientStopCollection_(gradientStops, gradientStops.Length, colorInterpolationGamma, extendMode);
         }
 
         public ID2D1LinearGradientBrush CreateLinearGradientBrush(LinearGradientBrushProperties linearGradientBrushProperties, ID2D1GradientStopCollection gradientStopCollection)
         {
-            return CreateLinearGradientBrush(linearGradientBrushProperties, null, gradientStopCollection);
+            return CreateLinearGradientBrush_(linearGradientBrushProperties, null, gradientStopCollection);
         }
 
         public ID2D1LinearGradientBrush CreateLinearGradientBrush(LinearGradientBrushProperties linearGradientBrushProperties, BrushProperties brushProperties, ID2D1GradientStopCollection gradientStopCollection)
         {
-            return CreateLinearGradientBrush(linearGradientBrushProperties, (BrushProperties?)brushProperties, gradientStopCollection);
+            return CreateLinearGradientBrush_(linearGradientBrushProperties, brushProperties, gradientStopCollection);
         }
 
         public ID2D1RadialGradientBrush CreateRadialGradientBrush(RadialGradientBrushProperties radialGradientBrushProperties, ID2D1GradientStopCollection gradientStopCollection)
         {
-            return CreateRadialGradientBrush(ref radialGradientBrushProperties, null, gradientStopCollection);
+            return CreateRadialGradientBrush_(ref radialGradientBrushProperties, null, gradientStopCollection);
         }
 
         public ID2D1RadialGradientBrush CreateRadialGradientBrush(RadialGradientBrushProperties radialGradientBrushProperties, BrushProperties brushProperties, ID2D1GradientStopCollection gradientStopCollection)
         {
-            return CreateRadialGradientBrush(ref radialGradientBrushProperties, brushProperties, gradientStopCollection);
+            return CreateRadialGradientBrush_(ref radialGradientBrushProperties, brushProperties, gradientStopCollection);
         }
 
         public ID2D1Bitmap CreateSharedBitmap(ID2D1Bitmap bitmap, BitmapProperties? bitmapProperties)
