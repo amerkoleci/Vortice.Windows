@@ -12,12 +12,12 @@ namespace Vortice.DirectWrite
         public IDWriteColorGlyphRunEnumerator TranslateColorGlyphRun(
             float baselineOriginX, 
             float baselineOriginY,
-            ref GlyphRun glyphRun)
+            GlyphRun glyphRun)
         {
             return TranslateColorGlyphRun(
                 baselineOriginX,
                 baselineOriginY,
-                ref glyphRun,
+                glyphRun,
                 null,
                 MeasuringMode.Natural,
                 null,
