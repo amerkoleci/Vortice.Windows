@@ -137,17 +137,32 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, byte[] shaderBytecode)
+        /// <summary>
+        /// Create an input-layout object to describe the input-buffer data for the input-assembler stage.
+        /// </summary>
+        /// <param name="inputElements">An array of the input-assembler stage input data types; each type is described by an element description</param>
+        /// <param name="shaderBytecode">A pointer to the compiled shader. The compiled shader code contains a input signature which is validated against the array of elements.</param>
+        /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
+        public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, byte[] shaderBytecode)
         {
-            fixed (void* pBuffer = shaderBytecode)
+            unsafe
             {
-                return CreateInputLayout(inputElements, inputElements.Length, (IntPtr)pBuffer, shaderBytecode.Length);
+                fixed (void* pBuffer = shaderBytecode)
+                {
+                    return CreateInputLayout(inputElements, inputElements.Length, (IntPtr)pBuffer, shaderBytecode.Length);
+                }
             }
         }
 
+        /// <summary>
+        /// Create an input-layout object to describe the input-buffer data for the input-assembler stage.
+        /// </summary>
+        /// <param name="inputElements">An array of the input-assembler stage input data types; each type is described by an element description</param>
+        /// <param name="blob">A pointer to the compiled shader. The compiled shader code contains a input signature which is validated against the array of elements.</param>
+        /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
         public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, Blob blob)
         {
-            return CreateInputLayout(inputElements, inputElements.Length, blob.BufferPointer, blob.BufferPointer);
+            return CreateInputLayout(inputElements, inputElements.Length, blob.BufferPointer, blob.BufferSize);
         }
 
         /// <summary>
