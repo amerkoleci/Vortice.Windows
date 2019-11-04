@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Amer Koleci and contributors.
+// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime.Win32;
@@ -12,6 +15,13 @@ namespace Vortice.DirectWrite
         public float[] GlyphAdvances { get; set; }
         public GlyphOffset[] GlyphOffsets { get; set; }
 
+        public void Dispose()
+        {
+            FontFace?.Dispose();
+            FontFace = null;
+        }
+
+        #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal partial struct __Native
         {
@@ -99,10 +109,11 @@ namespace Vortice.DirectWrite
             {
                 @ref.GlyphIndices = Marshal.AllocHGlobal(GlyphIndices.Length * sizeof(short));
                 if (GlyphCount > 0)
-                    Unsafe.CopyBlock(
-                        @ref.GlyphIndices.ToPointer(),
+                {
+                    Unsafe.CopyBlock(@ref.GlyphIndices.ToPointer(),
                         Unsafe.AsPointer(ref GlyphIndices[0]),
                         (uint)(sizeof(short) * GlyphCount));
+                }
 
             }
 
@@ -110,28 +121,24 @@ namespace Vortice.DirectWrite
             {
                 @ref.GlyphAdvances = Marshal.AllocHGlobal(GlyphAdvances.Length * sizeof(float));
                 if (GlyphCount > 0)
-                    Unsafe.CopyBlock(
-                        @ref.GlyphAdvances.ToPointer(),
+                {
+                    Unsafe.CopyBlock(@ref.GlyphAdvances.ToPointer(),
                         Unsafe.AsPointer(ref GlyphAdvances[0]),
                         (uint)(sizeof(float) * GlyphCount));
+                }
             }
 
             if (GlyphOffsets != null)
             {
                 @ref.GlyphOffsets = Marshal.AllocHGlobal(GlyphOffsets.Length * sizeof(GlyphOffset));
                 if (GlyphCount > 0)
-                    Unsafe.CopyBlock(
-                        @ref.GlyphOffsets.ToPointer(),
+                {
+                    Unsafe.CopyBlock(@ref.GlyphOffsets.ToPointer(), 
                         Unsafe.AsPointer(ref GlyphOffsets[0]),
                         (uint)(sizeof(GlyphOffset) * GlyphCount));
+                }
             }
-
         }
-
-        public void Dispose()
-        {
-            FontFace?.Dispose();
-            FontFace = null;
-        }
+        #endregion Marshal
     }
 }

@@ -2,16 +2,15 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Numerics;
-using Vortice.DirectWrite;
 using System.Collections.Generic;
+using Vortice.DirectWrite;
 
 namespace Vortice.Direct2D1
 {
     public partial class ID2D1Factory1
     {
-        private Dictionary<Guid, CustomEffectFactory> customEffectFactories = new Dictionary<Guid, CustomEffectFactory>();
-        
+        private readonly Dictionary<Guid, CustomEffectFactory> _customEffectFactories = new Dictionary<Guid, CustomEffectFactory>();
+
         public new ID2D1DrawingStateBlock1 CreateDrawingStateBlock()
         {
             return CreateDrawingStateBlock(null, null);
@@ -46,29 +45,29 @@ namespace Vortice.Direct2D1
             return guids;
         }
 
-        public void RegisterEffect<T>() where T : ID2D1EffectImpl,new()
+        public void RegisterEffect<T>() where T : ID2D1EffectImpl, new()
         {
-            lock (customEffectFactories)
+            lock (_customEffectFactories)
             {
                 var effectGuid = typeof(T).GUID;
-                if (customEffectFactories.ContainsKey(effectGuid))
+                if (_customEffectFactories.ContainsKey(effectGuid))
                     return;
 
                 var factory = new CustomEffectFactory(typeof(T), () => new T());
-                customEffectFactories.Add(effectGuid, factory);
+                _customEffectFactories.Add(effectGuid, factory);
                 RegisterEffectFromString(effectGuid, factory.GetXML(), factory.GetBindings(), factory.Callback);
             }
         }
 
         public void UnregisterEffect<T>() where T : ID2D1EffectImpl, new()
         {
-            lock (customEffectFactories)
+            lock (_customEffectFactories)
             {
                 var effectGuid = typeof(T).GUID;
-                if (!customEffectFactories.ContainsKey(effectGuid))
+                if (!_customEffectFactories.ContainsKey(effectGuid))
                     return;
 
-                customEffectFactories.Remove(effectGuid);
+                _customEffectFactories.Remove(effectGuid);
                 UnregisterEffect(effectGuid);
             }
         }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Amer Koleci and contributors.
+// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
@@ -6,7 +9,7 @@ using Vortice.Mathematics;
 
 namespace Vortice.Direct2D1
 {
-    class ID2D1TransformShadow : ID2D1TransformNodeShadow
+    internal class ID2D1TransformShadow : ID2D1TransformNodeShadow
     {
         protected unsafe class ID2D1TransformVtbl : ID2D1TransformNodeVtbl
         {

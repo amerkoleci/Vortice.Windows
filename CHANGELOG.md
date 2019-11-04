@@ -14,6 +14,7 @@ KEY CHANGES:
 - MappedSubresource added AsSpan methods.
 - IXAudio2SourceVoice - Add StateNoSamplesPlayed.
 - [X3DAudio](https://docs.microsoft.com/it-it/windows/win32/xaudio2/x3daudio) support added.
+- Direct2D1 bindings improvements, thanks to [manju-summoner](https://github.com/manju-summoner)
 
 -----------------------------------------------
 Release:     1.3.0 (September 2019)

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// Copyright (c) Amer Koleci and contributors.
+// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+
+using System;
 
 namespace Vortice.Direct2D1
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class CustomEffectAttribute : Attribute
     {
-        public string DisplayName { get; }
-        public string Description { get; }
-        public string Category { get; }
-        public string Author { get; }
-        public string[] Inputs { get; }
         public CustomEffectAttribute(string[] inputs, string displayName = null, string description = null, string category = null, string author = null)
         {
             Inputs = inputs;
@@ -20,6 +16,7 @@ namespace Vortice.Direct2D1
             Category = category;
             Author = author;
         }
+
         public CustomEffectAttribute(int inputCount, string displayName = null, string description = null, string category = null, string author = null)
         {
             Inputs = new string[inputCount];
@@ -33,5 +30,10 @@ namespace Vortice.Direct2D1
             Author = author;
         }
 
+        public string DisplayName { get; }
+        public string Description { get; }
+        public string Category { get; }
+        public string Author { get; }
+        public string[] Inputs { get; }
     }
 }

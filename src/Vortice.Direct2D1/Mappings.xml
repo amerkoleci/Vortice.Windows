@@ -430,6 +430,9 @@
     <map method="ID2D1TransformGraph::Set.*" property="false"/>
     
     <!-- ID2D1DrawInfo -->
+    <map method="ID2D1DrawInfo::SetVertexShaderConstantBuffer" visibility="internal"/>
+    <map param="ID2D1DrawInfo::SetVertexShaderConstantBuffer::buffer" type="void"/>
+    
     <map method="ID2D1DrawInfo::SetPixelShaderConstantBuffer" visibility="internal"/>
     <map param="ID2D1DrawInfo::SetPixelShaderConstantBuffer::buffer" type="void"/>
     

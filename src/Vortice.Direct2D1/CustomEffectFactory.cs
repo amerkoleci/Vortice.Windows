@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Amer Koleci and contributors.
+// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Reflection;
@@ -13,56 +16,58 @@ namespace Vortice.Direct2D1
     {
         public FunctionCallback Callback { protected set; get; }
 
-        Type effectType;
-        Func<ID2D1EffectImpl> createID2D1EffectImplFunc;
-        CreateCustomEffectDelegate createEffect;
-        PropertyNativeBase[] propertyNatives;
+        private readonly Type _effectType;
+        private Func<ID2D1EffectImpl> _createID2D1EffectImplFunc;
+        private readonly CreateCustomEffectDelegate _createEffect;
+        private readonly PropertyNativeBase[] _propertyNatives;
 
         public CustomEffectFactory(Type effectType, Func<ID2D1EffectImpl> createID2D1EffectImplFunc)
         {
-            this.effectType = effectType;
-            this.createID2D1EffectImplFunc = createID2D1EffectImplFunc;
+            _effectType = effectType;
+            _createID2D1EffectImplFunc = createID2D1EffectImplFunc;
 
-            createEffect = new CreateCustomEffectDelegate(CreateCustomEffectImpl);
-            Callback = new FunctionCallback(Marshal.GetFunctionPointerForDelegate(createEffect));
+            _createEffect = new CreateCustomEffectDelegate(CreateCustomEffectImpl);
+            Callback = new FunctionCallback(Marshal.GetFunctionPointerForDelegate(_createEffect));
 
-            propertyNatives = GetPropertyNatives().ToArray();
+            _propertyNatives = GetPropertyNatives().ToArray();
         }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate int CreateCustomEffectDelegate(out IntPtr nativeCustomEffectPtr);
+
         private int CreateCustomEffectImpl(out IntPtr nativeCustomEffectPtr)
         {
             nativeCustomEffectPtr = IntPtr.Zero;
             try
             {
-                var customEffect = createID2D1EffectImplFunc();
+                var customEffect = _createID2D1EffectImplFunc();
                 nativeCustomEffectPtr = CppObject.ToCallbackPtr<ID2D1EffectImpl>(customEffect);
             }
-            catch (SharpGenException e)
+            catch (SharpGenException ex)
             {
-                return e.HResult;
+                return ex.HResult;
             }
+
             return Result.Ok.Code;
         }
 
-        IEnumerable<PropertyNativeBase> GetPropertyNatives()
+        private IEnumerable<PropertyNativeBase> GetPropertyNatives()
         {
-            return effectType.GetTypeInfo()
-                             .DeclaredProperties
-                             .Select(x => (property: x, attribute: x.GetCustomAttribute<CustomEffectPropertyAttribute>()))
-                             .Where(x => x.attribute != null)
-                             .OrderBy(x => x.attribute.Order)
-                             .Select(x => PropertyNative<int>.Create(x.property));
+            return _effectType.GetTypeInfo()
+                .DeclaredProperties
+                .Select(x => (property: x, attribute: x.GetCustomAttribute<CustomEffectPropertyAttribute>()))
+                .Where(x => x.attribute != null)
+                .OrderBy(x => x.attribute.Order)
+                .Select(x => PropertyNative<int>.Create(x.property));
         }
 
         public string GetXML()
         {
-            var attribute = effectType.GetCustomAttribute<CustomEffectAttribute>();
+            var attribute = _effectType.GetCustomAttribute<CustomEffectAttribute>();
             string xml =
                 $"<?xml version='1.0'?>" +
                 $"<Effect>" +
-                $"<Property name='DisplayName' type='string' value='{attribute?.DisplayName ?? effectType.Name}'/>" +
+                $"<Property name='DisplayName' type='string' value='{attribute?.DisplayName ?? _effectType.Name}'/>" +
                 $"<Property name='Author' type='string' value='{attribute?.Author ?? string.Empty}'/>" +
                 $"<Property name='Category' type='string' value='{attribute?.Category ?? string.Empty}'/>" +
                 $"<Property name='Description' type='string' value='{attribute?.Description ?? string.Empty}'/>";
@@ -77,7 +82,8 @@ namespace Vortice.Direct2D1
             {
                 xml += "<Inputs/>";
             }
-            foreach (var property in propertyNatives)
+
+            foreach (var property in _propertyNatives)
             {
                 xml += $"<Property name='{property.PropertyInfo.Name}' type='{property.PropertyType.ToString("G").ToLower()}'>";
                 xml += $"<Property name='DisplayName' type='string' value='{property.PropertyInfo.Name}'/>";
@@ -89,20 +95,21 @@ namespace Vortice.Direct2D1
         }
         public PropertyBinding[] GetBindings()
         {
-            var list = new List<PropertyBinding>();
-            foreach(var property in propertyNatives)
+            var bindings = new PropertyBinding[_propertyNatives.Length];
+            for (var i = 0; i < _propertyNatives.Length; i++)
             {
-                list.Add(new PropertyBinding()
+                bindings[i] = new PropertyBinding()
                 {
-                    GetFunction = property.GetterPointer,
-                    SetFunction = property.SetterPointer,
-                    PropertyName = property.PropertyInfo.Name
-                });
+                    GetFunction = _propertyNatives[i].GetterPointer,
+                    SetFunction = _propertyNatives[i].SetterPointer,
+                    PropertyName = _propertyNatives[i].PropertyInfo.Name
+                };
             }
-            return list.ToArray();
+
+            return bindings;
         }
 
-        abstract class PropertyNativeBase
+        private abstract class PropertyNativeBase
         {
             public PropertyType PropertyType { get; }
             public PropertyInfo PropertyInfo { get; }
@@ -114,16 +121,18 @@ namespace Vortice.Direct2D1
             protected SetterDelegate setterDelegate;
             protected GetterDelegate getterDelegate;
             public IntPtr GetterPointer;
-            public IntPtr SetterPointer; 
+            public IntPtr SetterPointer;
+
             public PropertyNativeBase(PropertyInfo propertyInfo, PropertyType propertyType)
             {
                 PropertyType = propertyType;
                 PropertyInfo = propertyInfo;
             }
         }
-        class PropertyNative<U> : PropertyNativeBase where U: unmanaged
+
+        private class PropertyNative<U> : PropertyNativeBase where U : unmanaged
         {
-            PropertyNative(PropertyInfo propertyInfo,PropertyType propertyType):base(propertyInfo,propertyType)
+            private PropertyNative(PropertyInfo propertyInfo, PropertyType propertyType) : base(propertyInfo, propertyType)
             {
                 if (propertyInfo.CanWrite)
                 {
@@ -136,6 +145,7 @@ namespace Vortice.Direct2D1
                     GetterPointer = Marshal.GetFunctionPointerForDelegate(getterDelegate);
                 }
             }
+
             public static PropertyNativeBase Create(PropertyInfo propertyInfo)
             {
                 var type = propertyInfo.PropertyType;
@@ -172,7 +182,8 @@ namespace Vortice.Direct2D1
                 else
                     return null;
             }
-            unsafe int SetterImpl(IntPtr thisPtr,IntPtr dataPtr,int dataSize)
+
+            private int SetterImpl(IntPtr thisPtr, IntPtr dataPtr, int dataSize)
             {
                 if (dataPtr == IntPtr.Zero)
                     return Result.Ok.Code;
@@ -183,9 +194,10 @@ namespace Vortice.Direct2D1
                 var value = Marshal.PtrToStructure<U>(dataPtr);
                 PropertyInfo.SetValue(callback, value);
 
-                return SharpGen.Runtime.Result.Ok.Code;
+                return Result.Ok.Code;
             }
-            int GetterImpl(IntPtr thisPtr,IntPtr dataPtr,int datasize,out int actualSize)
+
+            private int GetterImpl(IntPtr thisPtr, IntPtr dataPtr, int datasize, out int actualSize)
             {
                 actualSize = Marshal.SizeOf<U>();
                 if (dataPtr == IntPtr.Zero)
@@ -200,9 +212,12 @@ namespace Vortice.Direct2D1
                 return Result.Ok.Code;
             }
 
-            unsafe ID2D1EffectImplShadow ToShadow(IntPtr ptr)
+            private ID2D1EffectImplShadow ToShadow(IntPtr ptr)
             {
-                return (ID2D1EffectImplShadow)GCHandle.FromIntPtr(*(((IntPtr*)ptr) + 1)).Target;
+                unsafe
+                {
+                    return (ID2D1EffectImplShadow)GCHandle.FromIntPtr(*(((IntPtr*)ptr) + 1)).Target;
+                }
             }
         }
     }
