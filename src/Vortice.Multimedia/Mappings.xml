@@ -60,8 +60,8 @@
   <include file="audiosessiontypes.h" namespace="Vortice.Multimedia" output="Multimedia" attach="true" />
   
   <extension>
-    <define struct="Vortice.DirectX.Multimedia.WaveFormat" sizeof="18" marshal="true" />
-    <define struct="Vortice.DirectX.Multimedia.WaveFormatExtensible" sizeof="18" marshal="true" custom-new="true"/>
+    <define struct="Vortice.Multimedia.WaveFormat" sizeof="18" marshal="true" />
+    <define struct="Vortice.Multimedia.WaveFormatExtensible" sizeof="18" marshal="true" custom-new="true"/>
 
     <!-- audiosessiontypes.h -->
     <create-cpp enum="AUDCLNT_STREAMFLAGS" macro="AUDCLNT_STREAMFLAGS_.*" />
