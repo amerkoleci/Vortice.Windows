@@ -10,10 +10,10 @@ namespace Vortice.Direct2D1.Effects
         {
             deviceContext.CreateEffect(EffectGuids.Histogram, this);
         }
-        public int NumBins
+        public uint NumBins
         {
             set => SetValue((int)Props.NumBins, value);
-            get => GetIntValue((int)Props.NumBins);
+            get => GetUintValue((int)Props.NumBins);
         }
         public ChannelSelector ChannelSelect
         {
@@ -22,10 +22,10 @@ namespace Vortice.Direct2D1.Effects
         }
         public unsafe void GetHistogramOutput(float[] output)
         {
-            var numBins = NumBins;
+            var numBins = (int)NumBins;
             if (output.Length < numBins)
                 throw new ArgumentException();
-            GetValue((int)Props.HistogramOutput, PropertyType.Array, new IntPtr(Unsafe.AsPointer(ref output[0])), sizeof(float) * numBins);
+            GetValue((int)Props.HistogramOutput, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref output[0])), sizeof(float) * numBins);
         }
 
     }

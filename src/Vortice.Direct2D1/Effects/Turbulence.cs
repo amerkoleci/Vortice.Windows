@@ -26,15 +26,15 @@ namespace Vortice.Direct2D1.Effects
             set => SetValue((int)Props.BaseFrequency, value);
             get => GetVector2Value((int)Props.BaseFrequency);
         }
-        public int NumOctaves
+        public uint NumOctaves
         {
             set => SetValue((int)Props.NumOctaves, value);
-            get => GetIntValue((int)Props.NumOctaves);
+            get => GetUintValue((int)Props.NumOctaves);
         }
-        public int Seed
+        public uint Seed
         {
             set => SetValue((int)Props.Seed, value);
-            get => GetIntValue((int)Props.Seed);
+            get => GetUintValue((int)Props.Seed);
         }
         public TurbulenceNoise Noise
         {

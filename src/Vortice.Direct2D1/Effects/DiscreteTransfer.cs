@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct2D1.Effects
 {
@@ -10,25 +10,74 @@ namespace Vortice.Direct2D1.Effects
         {
             deviceContext.CreateEffect(EffectGuids.DiscreteTransfer, this);
         }
-        public Vector2 RedTable
+
+        int redTableSize = 2;
+        int greenTableSize = 2;
+        int blueTableSize = 2;
+        int alphaTableSize = 2;
+        public unsafe float[] RedTable
         {
-            set => SetValue((int)Props.RedTable, value);
-            get => GetVector2Value((int)Props.RedTable);
+            set
+            {
+                redTableSize = value.Length;
+                if (redTableSize == 0)
+                    throw new ArgumentException();
+                SetValue((int)Props.RedTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * redTableSize);
+            }
+            get
+            {
+                var table = new float[redTableSize];
+                GetValue((int)Props.RedTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * redTableSize);
+                return table;
+            }
         }
-        public Vector2 GreenTable
+        public unsafe float[] GreenTable
         {
-            set => SetValue((int)Props.GreenTable, value);
-            get => GetVector2Value((int)Props.GreenTable);
+            set
+            {
+                greenTableSize = value.Length;
+                if (greenTableSize == 0)
+                    throw new ArgumentException();
+                SetValue((int)Props.GreenTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * greenTableSize);
+            }
+            get
+            {
+                var table = new float[greenTableSize];
+                GetValue((int)Props.GreenTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * greenTableSize);
+                return table;
+            }
         }
-        public Vector2 BlueTable
+        public unsafe float[] BlueTable
         {
-            set => SetValue((int)Props.BlueTable, value);
-            get => GetVector2Value((int)Props.BlueTable);
+            set
+            {
+                blueTableSize = value.Length;
+                if (blueTableSize == 0)
+                    throw new ArgumentException();
+                SetValue((int)Props.BlueTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * blueTableSize);
+            }
+            get
+            {
+                var table = new float[blueTableSize];
+                GetValue((int)Props.BlueTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * blueTableSize);
+                return table;
+            }
         }
-        public Vector2 AlphaTable
+        public unsafe float[] AlphaTable
         {
-            set => SetValue((int)Props.AlphaTable, value);
-            get => GetVector2Value((int)Props.AlphaTable);
+            set
+            {
+                alphaTableSize = value.Length;
+                if (alphaTableSize == 0)
+                    throw new ArgumentException();
+                SetValue((int)Props.AlphaTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * alphaTableSize);
+            }
+            get
+            {
+                var table = new float[alphaTableSize];
+                GetValue((int)Props.AlphaTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * alphaTableSize);
+                return table;
+            }
         }
         public bool RedDisable
         {

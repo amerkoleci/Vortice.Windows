@@ -9,20 +9,20 @@ namespace Vortice.Direct2D1.Effects
         {
             deviceContext.CreateEffect(EffectGuids.Posterize, this);
         }
-        public int RedValueCount
+        public uint RedValueCount
         {
             set => SetValue((int)Props.RedValueCount, value);
-            get => GetIntValue((int)Props.RedValueCount);
+            get => GetUintValue((int)Props.RedValueCount);
         }
-        public int GreenValueCount
+        public uint GreenValueCount
         {
             set => SetValue((int)Props.GreenValueCount, value);
-            get => GetIntValue((int)Props.GreenValueCount);
+            get => GetUintValue((int)Props.GreenValueCount);
         }
-        public int BlueValueCount
+        public uint BlueValueCount
         {
             set => SetValue((int)Props.BlueValueCount, value);
-            get => GetIntValue((int)Props.BlueValueCount);
+            get => GetUintValue((int)Props.BlueValueCount);
         }
     }
 }

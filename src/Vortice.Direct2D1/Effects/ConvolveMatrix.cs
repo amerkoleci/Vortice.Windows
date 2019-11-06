@@ -21,28 +21,30 @@ namespace Vortice.Direct2D1.Effects
             set => SetValue((int)Props.ScaleMode, value);
             get => GetEnumValue<ConvolveMatrixScaleMode>((int)Props.ScaleMode);
         }
-        public int KernelSizeX
+        public uint KernelSizeX
         {
             set => SetValue((int)Props.KernelSizeX, value);
-            get => GetIntValue((int)Props.KernelSizeX);
+            get => GetUintValue((int)Props.KernelSizeX);
         }
-        public int KernelSizeY
+        public uint KernelSizeY
         {
             set => SetValue((int)Props.KernelSizeY, value);
-            get => GetIntValue((int)Props.KernelSizeY);
+            get => GetUintValue((int)Props.KernelSizeY);
         }
         public unsafe float[] KernelMatrix
         {
             set
             {
-                if (value.Length != 9)
+                var size = (int)(KernelSizeX * KernelSizeY);
+                if (value.Length != size)
                     throw new ArgumentException();
-                SetValue((int)Props.KernelMatrix, PropertyType.Array, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * 9);
+                SetValue((int)Props.KernelMatrix, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * size);
             }
             get
             {
-                var value = new float[9];
-                GetValue((int)Props.KernelMatrix, PropertyType.Array, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * 9);
+                var size = (int)(KernelSizeX * KernelSizeY);
+                var value = new float[size];
+                GetValue((int)Props.KernelMatrix, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * size);
                 return value;
             }
         }

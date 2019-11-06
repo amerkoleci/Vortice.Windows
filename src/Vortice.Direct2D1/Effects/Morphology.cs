@@ -14,15 +14,15 @@ namespace Vortice.Direct2D1.Effects
             set => SetValue((int)Props.Mode, value);
             get => GetEnumValue<MorphologyMode>((int)Props.Mode);
         }
-        public int Width
+        public uint Width
         {
             set => SetValue((int)Props.Width, value);
-            get => GetIntValue((int)Props.Width);
+            get => GetUintValue((int)Props.Width);
         }
-        public int Height
+        public uint Height
         {
             set => SetValue((int)Props.Height, value);
-            get => GetIntValue((int)Props.Height);
+            get => GetUintValue((int)Props.Height);
         }
     }
 }
