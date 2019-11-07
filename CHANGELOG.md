@@ -1,6 +1,11 @@
 # Changelog
 
-Current Release:    1.3.0 (September 2019)
+Current Release:    1.4.0 (November 2019)
+
+-----------------------------------------------
+Release:     1.5.0 (November 2019)
+-----------------------------------------------
+KEY CHANGES:
 
 -----------------------------------------------
 Release:     1.4.0 (November 2019)
