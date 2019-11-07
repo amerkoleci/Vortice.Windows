@@ -6,106 +6,120 @@ using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = TableTransferProperties;
-    public class TableTransfer : ID2D1Effect
+    public sealed class TableTransfer : ID2D1Effect
     {
-        public TableTransfer(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        private int _redTableSize = 2;
+        private int _greenTableSize = 2;
+        private int _blueTableSize = 2;
+        private int _alphaTableSize = 2;
+
+        public TableTransfer(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.TableTransfer))
         {
-            deviceContext.CreateEffect(EffectGuids.TableTransfer, this);
         }
 
-        int redTableSize = 2;
-        int greenTableSize = 2;
-        int blueTableSize = 2;
-        int alphaTableSize = 2;
+        public TableTransfer(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.TableTransfer))
+        {
+        }
+
+        
         public unsafe float[] RedTable
         {
-            set
-            {
-                redTableSize = value.Length;
-                if (redTableSize == 0)
-                    throw new ArgumentException();
-                SetValue((int)Props.RedTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * redTableSize);
-            }
             get
             {
-                var table = new float[redTableSize];
-                GetValue((int)Props.RedTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * redTableSize);
+                var table = new float[_redTableSize];
+                GetValue((int)TableTransferProperties.RedTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * _redTableSize);
                 return table;
             }
+            set
+            {
+                if (value.Length == 0)
+                    throw new ArgumentException($"{nameof(RedTable)} length must be greather than 0");
+                _redTableSize = value.Length;
+                SetValue((int)TableTransferProperties.RedTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * _redTableSize);
+            }
         }
+
         public bool RedDisable
         {
-            set => SetValue((int)Props.RedDisable, value);
-            get => GetBoolValue((int)Props.RedDisable);
+            get => GetBoolValue((int)TableTransferProperties.RedDisable);
+            set => SetValue((int)TableTransferProperties.RedDisable, value);
         }
+
         public unsafe float[] GreenTable
         {
-            set
-            {
-                greenTableSize = value.Length;
-                if (greenTableSize == 0)
-                    throw new ArgumentException();
-                SetValue((int)Props.GreenTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * greenTableSize);
-            }
             get
             {
-                var table = new float[greenTableSize];
-                GetValue((int)Props.GreenTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * greenTableSize);
+                var table = new float[_greenTableSize];
+                GetValue((int)TableTransferProperties.GreenTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * _greenTableSize);
                 return table;
             }
+            set
+            {
+                if (value.Length == 0)
+                    throw new ArgumentException($"{nameof(GreenTable)} length must be greather than 0");
+                _greenTableSize = value.Length;
+                SetValue((int)TableTransferProperties.GreenTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * _greenTableSize);
+            }
         }
+
         public bool GreenDisable
         {
-            set => SetValue((int)Props.GreenDisable, value);
-            get => GetBoolValue((int)Props.GreenDisable);
+            get => GetBoolValue((int)TableTransferProperties.GreenDisable);
+            set => SetValue((int)TableTransferProperties.GreenDisable, value);
         }
+
         public unsafe float[] BlueTable
         {
-            set
-            {
-                blueTableSize = value.Length;
-                if (blueTableSize == 0)
-                    throw new ArgumentException();
-                SetValue((int)Props.BlueTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * blueTableSize);
-            }
             get
             {
-                var table = new float[blueTableSize];
-                GetValue((int)Props.BlueTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * blueTableSize);
+                var table = new float[_blueTableSize];
+                GetValue((int)TableTransferProperties.BlueTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * _blueTableSize);
                 return table;
             }
+            set
+            {
+                if (value.Length == 0)
+                    throw new ArgumentException($"{nameof(BlueTable)} length must be greather than 0");
+                _blueTableSize = value.Length;
+                SetValue((int)TableTransferProperties.BlueTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * _blueTableSize);
+            }
         }
+
         public bool BlueDisable
         {
-            set => SetValue((int)Props.BlueDisable, value);
-            get => GetBoolValue((int)Props.BlueDisable);
+            get => GetBoolValue((int)TableTransferProperties.BlueDisable);
+            set => SetValue((int)TableTransferProperties.BlueDisable, value);
         }
+
         public unsafe float[] AlphaTable
         {
-            set
-            {
-                alphaTableSize = value.Length;
-                if (alphaTableSize == 0)
-                    throw new ArgumentException();
-                SetValue((int)Props.AlphaTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * alphaTableSize);
-            }
             get
             {
-                var table = new float[alphaTableSize];
-                GetValue((int)Props.AlphaTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * alphaTableSize);
+                var table = new float[_alphaTableSize];
+                GetValue((int)TableTransferProperties.AlphaTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * _alphaTableSize);
                 return table;
             }
+            set
+            {
+                if (value.Length == 0)
+                    throw new ArgumentException($"{nameof(AlphaTable)} length must be greather than 0");
+                _alphaTableSize = value.Length;
+                SetValue((int)TableTransferProperties.AlphaTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * _alphaTableSize);
+            }
         }
+
         public bool AlphaDisable
         {
-            set => SetValue((int)Props.AlphaDisable, value);
-            get => GetBoolValue((int)Props.AlphaDisable);
+            get => GetBoolValue((int)TableTransferProperties.AlphaDisable);
+            set => SetValue((int)TableTransferProperties.AlphaDisable, value);
         }
+
         public bool ClampOutput
         {
-            set => SetValue((int)Props.ClampOutput, value);
-            get => GetBoolValue((int)Props.ClampOutput);
+            get => GetBoolValue((int)TableTransferProperties.ClampOutput);
+            set => SetValue((int)TableTransferProperties.ClampOutput, value);
         }
     }
 }

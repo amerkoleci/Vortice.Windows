@@ -1,15 +1,18 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    public class Unpremultiply : ID2D1Effect
+    public sealed class Unpremultiply : ID2D1Effect
     {
-        public Unpremultiply(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Unpremultiply(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.UnPremultiply))
         {
-            deviceContext.CreateEffect(EffectGuids.UnPremultiply, this);
+        }
+
+        public Unpremultiply(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.UnPremultiply))
+        {
         }
     }
 }

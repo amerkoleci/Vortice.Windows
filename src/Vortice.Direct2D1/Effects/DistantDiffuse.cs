@@ -1,53 +1,62 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = DistantDiffuseProperties;
-    public class DistantDiffuse : ID2D1Effect
+    public sealed class DistantDiffuse : ID2D1Effect
     {
-        public DistantDiffuse(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public DistantDiffuse(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.DistantDiffuse))
         {
-            deviceContext.CreateEffect(EffectGuids.DistantDiffuse, this);
+        }
+
+        public DistantDiffuse(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.DistantDiffuse))
+        {
         }
 
         public float Azimuth
         {
-            set => SetValue((int)Props.Azimuth, value);
-            get => GetFloatValue((int)Props.Azimuth);
+            set => SetValue((int)DistantDiffuseProperties.Azimuth, value);
+            get => GetFloatValue((int)DistantDiffuseProperties.Azimuth);
         }
+
         public float Elevation
         {
-            set => SetValue((int)Props.Elevation, value);
-            get => GetFloatValue((int)Props.Elevation);
+            set => SetValue((int)DistantDiffuseProperties.Elevation, value);
+            get => GetFloatValue((int)DistantDiffuseProperties.Elevation);
         }
+
         public float DiffuseConstant
         {
-            set => SetValue((int)Props.DiffuseConstant, value);
-            get => GetFloatValue((int)Props.DiffuseConstant);
+            set => SetValue((int)DistantDiffuseProperties.DiffuseConstant, value);
+            get => GetFloatValue((int)DistantDiffuseProperties.DiffuseConstant);
         }
+
         public float SurfaceScale
         {
-            set => SetValue((int)Props.SurfaceScale, value);
-            get => GetFloatValue((int)Props.SurfaceScale);
+            set => SetValue((int)DistantDiffuseProperties.SurfaceScale, value);
+            get => GetFloatValue((int)DistantDiffuseProperties.SurfaceScale);
         }
+
         public Vector3 Color
         {
-            set => SetValue((int)Props.Color, value);
-            get => GetVector3Value((int)Props.Color);
+            set => SetValue((int)DistantDiffuseProperties.Color, value);
+            get => GetVector3Value((int)DistantDiffuseProperties.Color);
         }
+
         public Vector2 KernelUnitLength
         {
-            set => SetValue((int)Props.KernelUnitLength, value);
-            get => GetVector2Value((int)Props.KernelUnitLength);
+            set => SetValue((int)DistantDiffuseProperties.KernelUnitLength, value);
+            get => GetVector2Value((int)DistantDiffuseProperties.KernelUnitLength);
         }
+
         public DistantDiffuseScaleMode ScaleMode
         {
-            set => SetValue((int)Props.ScaleMode, value);
-            get => GetEnumValue<DistantDiffuseScaleMode>((int)Props.ScaleMode);
+            set => SetValue((int)DistantDiffuseProperties.ScaleMode, value);
+            get => GetEnumValue<DistantDiffuseScaleMode>((int)DistantDiffuseProperties.ScaleMode);
         }
     }
 }

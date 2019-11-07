@@ -1,37 +1,42 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = DirectionalBlurProperties;
-    public class DirectionalBlur : ID2D1Effect
+    public sealed class DirectionalBlur : ID2D1Effect
     {
-        public DirectionalBlur(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public DirectionalBlur(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.DirectionalBlur))
         {
-            deviceContext.CreateEffect(EffectGuids.DirectionalBlur, this);
         }
+
+        public DirectionalBlur(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.DirectionalBlur))
+        {
+        }
+
         public float StandardDeviation
         {
-            set => SetValue((int)Props.StandardDeviation, value);
-            get => GetFloatValue((int)Props.StandardDeviation);
+            set => SetValue((int)DirectionalBlurProperties.StandardDeviation, value);
+            get => GetFloatValue((int)DirectionalBlurProperties.StandardDeviation);
 
         }
         public float Angle
         {
-            set => SetValue((int)Props.Angle, value);
-            get => GetFloatValue((int)Props.Angle);
+            set => SetValue((int)DirectionalBlurProperties.Angle, value);
+            get => GetFloatValue((int)DirectionalBlurProperties.Angle);
         }
+
         public DirectionalBlurOptimization Optimization
         {
-            set => SetValue((int)Props.Optimization, value);
-            get => GetEnumValue<DirectionalBlurOptimization>((int)Props.Optimization);
+            set => SetValue((int)DirectionalBlurProperties.Optimization, value);
+            get => GetEnumValue<DirectionalBlurOptimization>((int)DirectionalBlurProperties.Optimization);
         }
+
         public BorderMode BorderMode
         {
-            set => SetValue((int)Props.BorderMode, value);
-            get => GetEnumValue<BorderMode>((int)Props.BorderMode);
+            set => SetValue((int)DirectionalBlurProperties.BorderMode, value);
+            get => GetEnumValue<BorderMode>((int)DirectionalBlurProperties.BorderMode);
         }
     }
 }

@@ -1,53 +1,62 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = TurbulenceProperties;
-    public class Turbulence : ID2D1Effect
+    public sealed class Turbulence : ID2D1Effect
     {
-        public Turbulence(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Turbulence(ID2D1DeviceContext context)
+           : base(context.CreateEffect(EffectGuids.Turbulence))
         {
-            deviceContext.CreateEffect(EffectGuids.Turbulence, this);
+        }
+
+        public Turbulence(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Turbulence))
+        {
         }
 
         public Vector2 Offset
         {
-            set => SetValue((int)Props.Offset, value);
-            get => GetVector2Value((int)Props.Offset);
+            set => SetValue((int)TurbulenceProperties.Offset, value);
+            get => GetVector2Value((int)TurbulenceProperties.Offset);
         }
+
         public Vector2 Size
         {
-            set => SetValue((int)Props.Size, value);
-            get => GetVector2Value((int)Props.Size);
+            set => SetValue((int)TurbulenceProperties.Size, value);
+            get => GetVector2Value((int)TurbulenceProperties.Size);
         }
+
         public Vector2 BaseFrequency
         {
-            set => SetValue((int)Props.BaseFrequency, value);
-            get => GetVector2Value((int)Props.BaseFrequency);
+            set => SetValue((int)TurbulenceProperties.BaseFrequency, value);
+            get => GetVector2Value((int)TurbulenceProperties.BaseFrequency);
         }
-        public uint NumOctaves
+
+        public int NumOctaves
         {
-            set => SetValue((int)Props.NumOctaves, value);
-            get => GetUintValue((int)Props.NumOctaves);
+            set => SetValue((int)TurbulenceProperties.NumOctaves, value);
+            get => GetIntValue((int)TurbulenceProperties.NumOctaves);
         }
-        public uint Seed
+
+        public int Seed
         {
-            set => SetValue((int)Props.Seed, value);
-            get => GetUintValue((int)Props.Seed);
+            set => SetValue((int)TurbulenceProperties.Seed, value);
+            get => GetIntValue((int)TurbulenceProperties.Seed);
         }
+
         public TurbulenceNoise Noise
         {
-            set => SetValue((int)Props.Noise, value);
-            get => GetEnumValue<TurbulenceNoise>((int)Props.Noise);
+            set => SetValue((int)TurbulenceProperties.Noise, value);
+            get => GetEnumValue<TurbulenceNoise>((int)TurbulenceProperties.Noise);
         }
+
         public bool Stitchable
         {
-            set => SetValue((int)Props.Stitchable, value);
-            get => GetBoolValue((int)Props.Stitchable);
+            set => SetValue((int)TurbulenceProperties.Stitchable, value);
+            get => GetBoolValue((int)TurbulenceProperties.Stitchable);
         }
     }
 }

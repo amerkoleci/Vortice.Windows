@@ -6,11 +6,16 @@ using System;
 namespace Vortice.Direct2D1.Effects
 {
     using Props = HDRToneMapProperties;
-    public class HdrToneMap : ID2D1Effect
+    public sealed class HdrToneMap : ID2D1Effect
     {
-        public HdrToneMap(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public HdrToneMap(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.HdrToneMap))
         {
-            deviceContext.CreateEffect(EffectGuids.HdrToneMap, this);
+        }
+
+        public HdrToneMap(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.HdrToneMap))
+        {
         }
 
         public float InputMaxLuminance

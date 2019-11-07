@@ -1,82 +1,96 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = LinearTransferProperties;
-    public class LinearTransfer : ID2D1Effect
+    public sealed class LinearTransfer : ID2D1Effect
     {
-        public LinearTransfer(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public LinearTransfer(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.LinearTransfer))
         {
-            deviceContext.CreateEffect(EffectGuids.LinearTransfer, this);
+        }
+
+        public LinearTransfer(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.LinearTransfer))
+        {
         }
 
         public float RedYIntercept
         {
-            set => SetValue((int)Props.RedYIntercept, value);
-            get => GetFloatValue((int)Props.RedYIntercept);
+            get => GetFloatValue((int)LinearTransferProperties.RedYIntercept);
+            set => SetValue((int)LinearTransferProperties.RedYIntercept, value);
         }
+
         public float RedSlope
         {
-            set => SetValue((int)Props.RedSlope, value);
-            get => GetFloatValue((int)Props.RedSlope);
+            get => GetFloatValue((int)LinearTransferProperties.RedSlope);
+            set => SetValue((int)LinearTransferProperties.RedSlope, value);
         }
+
         public bool RedDisable
         {
-            set => SetValue((int)Props.RedDisable, value);
-            get => GetBoolValue((int)Props.RedDisable);
+            get => GetBoolValue((int)LinearTransferProperties.RedDisable);
+            set => SetValue((int)LinearTransferProperties.RedDisable, value);
         }
+
         public float GreenYIntercept
         {
-            set => SetValue((int)Props.GreenYIntercept, value);
-            get => GetFloatValue((int)Props.GreenYIntercept);
+            get => GetFloatValue((int)LinearTransferProperties.GreenYIntercept);
+            set => SetValue((int)LinearTransferProperties.GreenYIntercept, value);
         }
+
         public float GreenSlope
         {
-            set => SetValue((int)Props.GreenSlope, value);
-            get => GetFloatValue((int)Props.GreenSlope);
+            get => GetFloatValue((int)LinearTransferProperties.GreenSlope);
+            set => SetValue((int)LinearTransferProperties.GreenSlope, value);
         }
+
         public bool GreenDisable
         {
-            set => SetValue((int)Props.GreenDisable, value);
-            get => GetBoolValue((int)Props.GreenDisable);
+            get => GetBoolValue((int)LinearTransferProperties.GreenDisable);
+            set => SetValue((int)LinearTransferProperties.GreenDisable, value);
         }
+
         public float BlueYIntercept
         {
-            set => SetValue((int)Props.BlueYIntercept, value);
-            get => GetFloatValue((int)Props.BlueYIntercept);
+            get => GetFloatValue((int)LinearTransferProperties.BlueYIntercept);
+            set => SetValue((int)LinearTransferProperties.BlueYIntercept, value);
         }
+
         public float BlueSlope
         {
-            set => SetValue((int)Props.BlueSlope, value);
-            get => GetFloatValue((int)Props.BlueSlope);
+            get => GetFloatValue((int)LinearTransferProperties.BlueSlope);
+            set => SetValue((int)LinearTransferProperties.BlueSlope, value);
         }
+
         public bool BlueDisable
         {
-            set => SetValue((int)Props.BlueDisable, value);
-            get => GetBoolValue((int)Props.BlueDisable);
+            get => GetBoolValue((int)LinearTransferProperties.BlueDisable);
+            set => SetValue((int)LinearTransferProperties.BlueDisable, value);
         }
+
         public float AlphaYIntercept
         {
-            set => SetValue((int)Props.AlphaYIntercept, value);
-            get => GetFloatValue((int)Props.AlphaYIntercept);
+            get => GetFloatValue((int)LinearTransferProperties.AlphaYIntercept);
+            set => SetValue((int)LinearTransferProperties.AlphaYIntercept, value);
         }
+
         public float AlphaSlope
         {
-            set => SetValue((int)Props.AlphaSlope, value);
-            get => GetFloatValue((int)Props.AlphaSlope);
+            get => GetFloatValue((int)LinearTransferProperties.AlphaSlope);
+            set => SetValue((int)LinearTransferProperties.AlphaSlope, value);
         }
+
         public bool AlphaDisable
         {
-            set => SetValue((int)Props.AlphaDisable, value);
-            get => GetBoolValue((int)Props.AlphaDisable);
+            get => GetBoolValue((int)LinearTransferProperties.AlphaDisable);
+            set => SetValue((int)LinearTransferProperties.AlphaDisable, value);
         }
+
         public bool ClampOutput
         {
-            set => SetValue((int)Props.ClampOutput, value);
-            get => GetBoolValue((int)Props.ClampOutput);
+            get => GetBoolValue((int)LinearTransferProperties.ClampOutput);
+            set => SetValue((int)LinearTransferProperties.ClampOutput, value);
         }
     }
 }

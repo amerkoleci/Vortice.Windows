@@ -5,11 +5,16 @@ using System;
 
 namespace Vortice.Direct2D1.Effects
 {
-    public class AlphaMask : ID2D1Effect
+    public sealed class AlphaMask : ID2D1Effect
     {
-        public AlphaMask(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public AlphaMask(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.AlphaMask))
         {
-            deviceContext.CreateEffect(EffectGuids.AlphaMask, this);
+        }
+
+        public AlphaMask(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.AlphaMask))
+        {
         }
     }
 }

@@ -1,33 +1,38 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = YCbCrProperties;
-    public class YCbCr : ID2D1Effect
+    public sealed class YCbCr : ID2D1Effect
     {
-        public YCbCr(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public YCbCr(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.YCbCr))
         {
-            deviceContext.CreateEffect(EffectGuids.YCbCr, this);
+        }
+
+        public YCbCr(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.YCbCr))
+        {
         }
 
         public YCbCrChromaSubSampling ChromaSubsampling
         {
-            set => SetValue((int)Props.ChromaSubsampling, value);
-            get => GetEnumValue<YCbCrChromaSubSampling>((int)Props.ChromaSubsampling);
+            set => SetValue((int)YCbCrProperties.ChromaSubsampling, value);
+            get => GetEnumValue<YCbCrChromaSubSampling>((int)YCbCrProperties.ChromaSubsampling);
         }
+
         public Matrix3x2 TransformMatrix
         {
-            set => SetValue((int)Props.TransformMatrix, value);
-            get => GetMatrix3x2Value((int)Props.TransformMatrix);
+            set => SetValue((int)YCbCrProperties.TransformMatrix, value);
+            get => GetMatrix3x2Value((int)YCbCrProperties.TransformMatrix);
         }
+
         public YCbCrInterpolationMode InterpolationMode
         {
-            set => SetValue((int)Props.InterpolationMode, value);
-            get => GetEnumValue<YCbCrInterpolationMode>((int)Props.InterpolationMode);
+            set => SetValue((int)YCbCrProperties.InterpolationMode, value);
+            get => GetEnumValue<YCbCrInterpolationMode>((int)YCbCrProperties.InterpolationMode);
         }
     }
 }

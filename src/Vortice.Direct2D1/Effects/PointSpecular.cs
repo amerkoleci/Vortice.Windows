@@ -1,52 +1,62 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = PointSpecularProperties;
-    public class PointSpecular : ID2D1Effect
+    public sealed class PointSpecular : ID2D1Effect
     {
-        public PointSpecular(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public PointSpecular(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.PointSpecular))
         {
-            deviceContext.CreateEffect(EffectGuids.PointSpecular, this);
         }
+
+        public PointSpecular(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.PointSpecular))
+        {
+        }
+
         public Vector3 LightPosition
         {
-            set => SetValue((int)Props.LightPosition, value);
-            get => GetVector3Value((int)Props.LightPosition);
+            get => GetVector3Value((int)PointSpecularProperties.LightPosition);
+            set => SetValue((int)PointSpecularProperties.LightPosition, value);
         }
+
         public float SpecularExponent
         {
-            set => SetValue((int)Props.SpecularExponent, value);
-            get => GetFloatValue((int)Props.SpecularExponent);
+            get => GetFloatValue((int)PointSpecularProperties.SpecularExponent);
+            set => SetValue((int)PointSpecularProperties.SpecularExponent, value);
         }
+
         public float SpecularConstant
         {
-            set => SetValue((int)Props.SpecularConstant, value);
-            get => GetFloatValue((int)Props.SpecularConstant);
+            get => GetFloatValue((int)PointSpecularProperties.SpecularConstant);
+            set => SetValue((int)PointSpecularProperties.SpecularConstant, value);
         }
+
         public float SurfaceScale
         {
-            set => SetValue((int)Props.SurfaceScale, value);
-            get => GetFloatValue((int)Props.SurfaceScale);
+            get => GetFloatValue((int)PointSpecularProperties.SurfaceScale);
+            set => SetValue((int)PointSpecularProperties.SurfaceScale, value);
         }
+
         public Vector3 Color
         {
-            set => SetValue((int)Props.Color, value);
-            get => GetVector3Value((int)Props.Color);
+            get => GetVector3Value((int)PointSpecularProperties.Color);
+            set => SetValue((int)PointSpecularProperties.Color, value);
         }
+
         public Vector2 KernelUnitLength
         {
-            set => SetValue((int)Props.KernelUnitLength, value);
-            get => GetVector2Value((int)Props.KernelUnitLength);
+            get => GetVector2Value((int)PointSpecularProperties.KernelUnitLength);
+            set => SetValue((int)PointSpecularProperties.KernelUnitLength, value);
         }
+
         public PointSpecularScaleMode ScaleMode
         {
-            set => SetValue((int)Props.ScaleMode, value);
-            get => GetEnumValue<PointSpecularScaleMode>((int)Props.ScaleMode);
+            get => GetEnumValue<PointSpecularScaleMode>((int)PointSpecularProperties.ScaleMode);
+            set => SetValue((int)PointSpecularProperties.ScaleMode, value);
         }
     }
 }

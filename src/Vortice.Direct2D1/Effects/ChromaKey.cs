@@ -1,41 +1,44 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = ChromakeyProperties;
-    public class ChromaKey : ID2D1Effect
+    public sealed class ChromaKey : ID2D1Effect
     {
-        public ChromaKey(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public ChromaKey(ID2D1DeviceContext context)
+           : base(context.CreateEffect(EffectGuids.ChromaKey))
         {
-            deviceContext.CreateEffect(EffectGuids.ChromaKey, this);
+        }
+
+        public ChromaKey(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.ChromaKey))
+        {
         }
 
         public Vector3 Color
         {
-            set => SetValue((int)Props.Color, value);
-            get => GetVector3Value((int)Props.Color);
+            set => SetValue((int)ChromakeyProperties.Color, value);
+            get => GetVector3Value((int)ChromakeyProperties.Color);
         }
 
         public float Tolerance
         {
-            set => SetValue((int)Props.Tolerance, value);
-            get => GetFloatValue((int)Props.Tolerance);
+            set => SetValue((int)ChromakeyProperties.Tolerance, value);
+            get => GetFloatValue((int)ChromakeyProperties.Tolerance);
         }
 
         public bool InvertAlpha
         {
-            set => SetValue((int)Props.InverseErtAlpha, value);
-            get => GetBoolValue((int)Props.InverseErtAlpha);
+            set => SetValue((int)ChromakeyProperties.InverseErtAlpha, value);
+            get => GetBoolValue((int)ChromakeyProperties.InverseErtAlpha);
         }
 
         public bool Feather
         {
-            set => SetValue((int)Props.Feather, value);
-            get => GetBoolValue((int)Props.Feather);
+            set => SetValue((int)ChromakeyProperties.Feather, value);
+            get => GetBoolValue((int)ChromakeyProperties.Feather);
         }
     }
 }

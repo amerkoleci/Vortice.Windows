@@ -1,22 +1,24 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = HueToRGBProperties;
-    public class HueToRgb : ID2D1Effect
+    public sealed class HueToRgb : ID2D1Effect
     {
-        public HueToRgb(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public HueToRgb(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.HueToRgb))
         {
-            deviceContext.CreateEffect(EffectGuids.HueToRgb, this);
+        }
+
+        public HueToRgb(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.HueToRgb))
+        {
         }
 
         public HueToRGBInputColorSpace InputColorSpace
         {
-            set => SetValue((int)Props.InputColorSpace, value);
-            get => GetEnumValue<HueToRGBInputColorSpace>((int)Props.InputColorSpace);
+            get => GetEnumValue<HueToRGBInputColorSpace>((int)HueToRGBProperties.InputColorSpace);
+            set => SetValue((int)HueToRGBProperties.InputColorSpace, value);
         }
     }
 }

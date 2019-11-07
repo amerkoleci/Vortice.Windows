@@ -1,26 +1,30 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = EmbossProperties;
-    public class Emboss : ID2D1Effect
+    public sealed class Emboss : ID2D1Effect
     {
-        public Emboss(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Emboss(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.Emboss))
         {
-            deviceContext.CreateEffect(EffectGuids.Emboss, this);
         }
+
+        public Emboss(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Emboss))
+        {
+        }
+
         public float Height
         {
-            set => SetValue((int)Props.Height, value);
-            get => GetFloatValue((int)Props.Height);
+            get => GetFloatValue((int)EmbossProperties.Height);
+            set => SetValue((int)EmbossProperties.Height, value);
         }
+
         public float Direction
         {
-            set => SetValue((int)Props.Direction, value);
-            get => GetFloatValue((int)Props.Direction);
+            get => GetFloatValue((int)EmbossProperties.Direction);
+            set => SetValue((int)EmbossProperties.Direction, value);
         }
     }
 }

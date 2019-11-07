@@ -1,31 +1,36 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = MorphologyProperties;
-    public class Morphology : ID2D1Effect
+    public sealed class Morphology : ID2D1Effect
     {
-        public Morphology(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Morphology(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.Morphology))
         {
-            deviceContext.CreateEffect(EffectGuids.Morphology, this);
         }
+
+        public Morphology(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Morphology))
+        {
+        }
+
         public MorphologyMode Mode
         {
-            set => SetValue((int)Props.Mode, value);
-            get => GetEnumValue<MorphologyMode>((int)Props.Mode);
+            get => GetEnumValue<MorphologyMode>((int)MorphologyProperties.Mode);
+            set => SetValue((int)MorphologyProperties.Mode, value);
         }
-        public uint Width
+
+        public int Width
         {
-            set => SetValue((int)Props.Width, value);
-            get => GetUintValue((int)Props.Width);
+            get => GetIntValue((int)MorphologyProperties.Width);
+            set => SetValue((int)MorphologyProperties.Width, value);
         }
-        public uint Height
+
+        public int Height
         {
-            set => SetValue((int)Props.Height, value);
-            get => GetUintValue((int)Props.Height);
+            get => GetIntValue((int)MorphologyProperties.Height);
+            set => SetValue((int)MorphologyProperties.Height, value);
         }
     }
 }

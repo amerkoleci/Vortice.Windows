@@ -1,48 +1,54 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = ColorManagementProperties;
     public class ColorManagement : ID2D1Effect
     {
-        public ColorManagement(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public ColorManagement(ID2D1DeviceContext context)
+           : base(context.CreateEffect(EffectGuids.ColorManagement))
         {
-            deviceContext.CreateEffect(EffectGuids.ColorManagement, this);
+        }
+
+        public ColorManagement(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.ColorManagement))
+        {
         }
 
         public ID2D1ColorContext SourceColorContext
         {
-            set => SetValue((int)Props.SourceColorContext, value);
-            get => GetIUnknownValue<ID2D1ColorContext>((int)Props.SourceColorContext);
-        }
-        public ColorManagementRenderingIntent SourceRenderingIntent
-        {
-            set => SetValue((int)Props.SourceRenderingIntent, value);
-            get => GetEnumValue<ColorManagementRenderingIntent>((int)Props.SourceRenderingIntent);
-        }
-        public ID2D1ColorContext DestinationColorContext
-        {
-            set => SetValue((int)Props.DestinationInationColorContext, value);
-            get => GetIUnknownValue<ID2D1ColorContext>((int)Props.DestinationInationColorContext);
-        }
-        public ColorManagementRenderingIntent DestinationRenderingIntent
-        {
-            set => SetValue((int)Props.DestinationInationRenderingIntent, value);
-            get => GetEnumValue<ColorManagementRenderingIntent>((int)Props.DestinationInationRenderingIntent);
-        }
-        public ColorManagementAlphaMode AlphaMode
-        {
-            set => SetValue((int)Props.AlphaMode, value);
-            get => GetEnumValue<ColorManagementAlphaMode>((int)Props.AlphaMode);
-        }
-        public ColormanagementQuality Quality
-        {
-            set => SetValue((int)Props.Quality, value);
-            get => GetEnumValue<ColormanagementQuality>((int)Props.Quality);
+            set => SetValue((int)ColorManagementProperties.SourceColorContext, value);
+            get => GetIUnknownValue<ID2D1ColorContext>((int)ColorManagementProperties.SourceColorContext);
         }
 
+        public ColorManagementRenderingIntent SourceRenderingIntent
+        {
+            set => SetValue((int)ColorManagementProperties.SourceRenderingIntent, value);
+            get => GetEnumValue<ColorManagementRenderingIntent>((int)ColorManagementProperties.SourceRenderingIntent);
+        }
+
+        public ID2D1ColorContext DestinationColorContext
+        {
+            set => SetValue((int)ColorManagementProperties.DestinationInationColorContext, value);
+            get => GetIUnknownValue<ID2D1ColorContext>((int)ColorManagementProperties.DestinationInationColorContext);
+        }
+
+        public ColorManagementRenderingIntent DestinationRenderingIntent
+        {
+            set => SetValue((int)ColorManagementProperties.DestinationInationRenderingIntent, value);
+            get => GetEnumValue<ColorManagementRenderingIntent>((int)ColorManagementProperties.DestinationInationRenderingIntent);
+        }
+
+        public ColorManagementAlphaMode AlphaMode
+        {
+            set => SetValue((int)ColorManagementProperties.AlphaMode, value);
+            get => GetEnumValue<ColorManagementAlphaMode>((int)ColorManagementProperties.AlphaMode);
+        }
+
+        public ColormanagementQuality Quality
+        {
+            set => SetValue((int)ColorManagementProperties.Quality, value);
+            get => GetEnumValue<ColormanagementQuality>((int)ColorManagementProperties.Quality);
+        }
     }
 }

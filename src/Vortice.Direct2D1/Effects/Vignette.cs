@@ -1,32 +1,38 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = VignetteProperties;
-    public class Vignette : ID2D1Effect
+    public sealed class Vignette : ID2D1Effect
     {
-        public Vignette(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Vignette(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.Vignette))
         {
-            deviceContext.CreateEffect(EffectGuids.Vignette, this);
         }
+
+        public Vignette(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Vignette))
+        {
+        }
+
         public Vector3 Color
         {
-            set => SetValue((int)Props.Color, value);
-            get => GetVector3Value((int)Props.Color);
+            get => GetVector3Value((int)VignetteProperties.Color);
+            set => SetValue((int)VignetteProperties.Color, value);
         }
+
         public float TransitionSize
         {
-            set => SetValue((int)Props.TransitionSize, value);
-            get => GetFloatValue((int)Props.TransitionSize);
+            get => GetFloatValue((int)VignetteProperties.TransitionSize);
+            set => SetValue((int)VignetteProperties.TransitionSize, value);
         }
+
         public float Strength
         {
-            set => SetValue((int)Props.Strength, value);
-            get => GetFloatValue((int)Props.Strength);
+            get => GetFloatValue((int)VignetteProperties.Strength);
+            set => SetValue((int)VignetteProperties.Strength, value);
         }
 
     }

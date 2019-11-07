@@ -1,43 +1,50 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = ScaleProperties;
-    public class Scale : ID2D1Effect
+    public sealed class Scale : ID2D1Effect
     {
-        public Scale(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Scale(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.Scale))
         {
-            deviceContext.CreateEffect(EffectGuids.Scale, this);
+        }
+
+        public Scale(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Scale))
+        {
         }
 
         public Vector2 Value
         {
-            set => SetValue((int)Props.Scale, value);
-            get => GetVector2Value((int)Props.Scale);
+            set => SetValue((int)ScaleProperties.Scale, value);
+            get => GetVector2Value((int)ScaleProperties.Scale);
         }
+
         public Vector2 CenterPoint
         {
-            set => SetValue((int)Props.CenterPoint, value);
-            get => GetVector2Value((int)Props.CenterPoint);
+            set => SetValue((int)ScaleProperties.CenterPoint, value);
+            get => GetVector2Value((int)ScaleProperties.CenterPoint);
         }
+
         public BorderMode BorderMode
         {
-            set => SetValue((int)Props.BorderMode, value);
-            get => GetEnumValue<BorderMode>((int)Props.BorderMode);
+            set => SetValue((int)ScaleProperties.BorderMode, value);
+            get => GetEnumValue<BorderMode>((int)ScaleProperties.BorderMode);
         }
+
         public float Sharpness
         {
-            set => SetValue((int)Props.Sharpness, value);
-            get => GetFloatValue((int)Props.Sharpness);
+            set => SetValue((int)ScaleProperties.Sharpness, value);
+            get => GetFloatValue((int)ScaleProperties.Sharpness);
         }
+
         public ScaleInterpolationMode InterpolationMode
         {
-            set => SetValue((int)Props.InterpolationMode, value);
-            get => GetEnumValue<ScaleInterpolationMode>((int)Props.InterpolationMode);
+            set => SetValue((int)ScaleProperties.InterpolationMode, value);
+            get => GetEnumValue<ScaleInterpolationMode>((int)ScaleProperties.InterpolationMode);
         }
     }
 }

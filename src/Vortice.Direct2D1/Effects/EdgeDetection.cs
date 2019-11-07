@@ -1,41 +1,48 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = EdgeDetectionProperties;
-    public class EdgeDetection : ID2D1Effect
+    public sealed class EdgeDetection : ID2D1Effect
     {
-        public EdgeDetection(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public EdgeDetection(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.EdgeDetection))
         {
-            deviceContext.CreateEffect(EffectGuids.EdgeDetection, this);
         }
+
+        public EdgeDetection(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.EdgeDetection))
+        {
+        }
+
         public float Strength
         {
-            set => SetValue((int)Props.Strength, value);
-            get => GetFloatValue((int)Props.Strength);
+            get => GetFloatValue((int)EdgeDetectionProperties.Strength);
+            set => SetValue((int)EdgeDetectionProperties.Strength, value);
         }
+
         public float BlurRadius
         {
-            set => SetValue((int)Props.BlurRadius, value);
-            get => GetFloatValue((int)Props.BlurRadius);
+            get => GetFloatValue((int)EdgeDetectionProperties.BlurRadius);
+            set => SetValue((int)EdgeDetectionProperties.BlurRadius, value);
         }
+
         public EdgeDetectionMode Mode
         {
-            set => SetValue((int)Props.Mode, value);
-            get => GetEnumValue<EdgeDetectionMode>((int)Props.Mode);
+            get => GetEnumValue<EdgeDetectionMode>((int)EdgeDetectionProperties.Mode);
+            set => SetValue((int)EdgeDetectionProperties.Mode, value);
         }
+
         public bool OverlayEdges
         {
-            set => SetValue((int)Props.OverlayEdges, value);
-            get => GetBoolValue((int)Props.OverlayEdges);
+            get => GetBoolValue((int)EdgeDetectionProperties.OverlayEdges);
+            set => SetValue((int)EdgeDetectionProperties.OverlayEdges, value);
         }
+
         public AlphaMode AlphaMode
         {
-            set => SetValue((int)Props.AlphaMode, value);
-            get => GetEnumValue<AlphaMode>((int)Props.AlphaMode);
+            get => GetEnumValue<AlphaMode>((int)EdgeDetectionProperties.AlphaMode);
+            set => SetValue((int)EdgeDetectionProperties.AlphaMode, value);
         }
     }
 }

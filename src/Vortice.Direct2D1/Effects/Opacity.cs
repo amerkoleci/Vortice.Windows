@@ -1,21 +1,24 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = OpacityProperties;
-    public class Opacity : ID2D1Effect
+    public sealed class Opacity : ID2D1Effect
     {
-        public Opacity(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Opacity(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.Opacity))
         {
-            deviceContext.CreateEffect(EffectGuids.Opacity, this);
         }
+
+        public Opacity(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Opacity))
+        {
+        }
+
         public float Value
         {
-            set => SetValue((int)Props.Opacity, value);
-            get => GetFloatValue((int)Props.Opacity);
+            get => GetFloatValue((int)OpacityProperties.Opacity);
+            set => SetValue((int)OpacityProperties.Opacity, value);
         }
     }
 }

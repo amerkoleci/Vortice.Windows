@@ -3,7 +3,7 @@
 Current Release:    1.3.0 (September 2019)
 
 -----------------------------------------------
-Release:     1.4.0 (October 2019)
+Release:     1.4.0 (November 2019)
 -----------------------------------------------
 KEY CHANGES:
 - Update dependencies.
@@ -15,6 +15,7 @@ KEY CHANGES:
 - IXAudio2SourceVoice - Add StateNoSamplesPlayed.
 - [X3DAudio](https://docs.microsoft.com/it-it/windows/win32/xaudio2/x3daudio) support added.
 - Direct2D1 bindings improvements, thanks to [manju-summoner](https://github.com/manju-summoner)
+- Direct2D1 builtin effects support.
 
 -----------------------------------------------
 Release:     1.3.0 (September 2019)

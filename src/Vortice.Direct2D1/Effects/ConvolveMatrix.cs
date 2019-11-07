@@ -7,79 +7,97 @@ using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = ConvolveMatrixProperties;
-    public class ConvolveMatrix : ID2D1Effect
+    public sealed class ConvolveMatrix : ID2D1Effect
     {
-        public ConvolveMatrix(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public ConvolveMatrix(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.ConvolveMatrix))
         {
-            deviceContext.CreateEffect(EffectGuids.ConvolveMatrix, this);
         }
+
+        public ConvolveMatrix(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.ConvolveMatrix))
+        {
+        }
+
         public float KernelUnitLehgth
         {
-            set => SetValue((int)Props.KernelUnitLength, value);
-            get => GetFloatValue((int)Props.KernelUnitLength);
+            set => SetValue((int)ConvolveMatrixProperties.KernelUnitLength, value);
+            get => GetFloatValue((int)ConvolveMatrixProperties.KernelUnitLength);
         }
+
         public ConvolveMatrixScaleMode ScaleMode
         {
-            set => SetValue((int)Props.ScaleMode, value);
-            get => GetEnumValue<ConvolveMatrixScaleMode>((int)Props.ScaleMode);
+            set => SetValue((int)ConvolveMatrixProperties.ScaleMode, value);
+            get => GetEnumValue<ConvolveMatrixScaleMode>((int)ConvolveMatrixProperties.ScaleMode);
         }
-        public uint KernelSizeX
+
+        public int KernelSizeX
         {
-            set => SetValue((int)Props.KernelSizeX, value);
-            get => GetUintValue((int)Props.KernelSizeX);
+            set => SetValue((int)ConvolveMatrixProperties.KernelSizeX, value);
+            get => GetIntValue((int)ConvolveMatrixProperties.KernelSizeX);
         }
-        public uint KernelSizeY
+
+        public int KernelSizeY
         {
-            set => SetValue((int)Props.KernelSizeY, value);
-            get => GetUintValue((int)Props.KernelSizeY);
+            set => SetValue((int)ConvolveMatrixProperties.KernelSizeY, value);
+            get => GetIntValue((int)ConvolveMatrixProperties.KernelSizeY);
         }
+
         public unsafe float[] KernelMatrix
         {
-            set
-            {
-                var size = (int)(KernelSizeX * KernelSizeY);
-                if (value.Length != size)
-                    throw new ArgumentException();
-                SetValue((int)Props.KernelMatrix, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * size);
-            }
             get
             {
-                var size = (int)(KernelSizeX * KernelSizeY);
+                var size = KernelSizeX * KernelSizeY;
                 var value = new float[size];
-                GetValue((int)Props.KernelMatrix, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * size);
+                GetValue((int)ConvolveMatrixProperties.KernelMatrix, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * size);
                 return value;
             }
+            set
+            {
+                var size = KernelSizeX * KernelSizeY;
+                if (value.Length != size)
+                {
+                    throw new ArgumentException();
+                }
+
+                SetValue((int)ConvolveMatrixProperties.KernelMatrix, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * size);
+            }
         }
+
         public float Divisor
         {
-            set => SetValue((int)Props.Divisor, value);
-            get => GetFloatValue((int)Props.Divisor);
+            set => SetValue((int)ConvolveMatrixProperties.Divisor, value);
+            get => GetFloatValue((int)ConvolveMatrixProperties.Divisor);
         }
+
         public float Bias
         {
-            set => SetValue((int)Props.Bias, value);
-            get => GetFloatValue((int)Props.Bias);
+            set => SetValue((int)ConvolveMatrixProperties.Bias, value);
+            get => GetFloatValue((int)ConvolveMatrixProperties.Bias);
         }
+
         public Vector2 KernelOffset
         {
-            set => SetValue((int)Props.KernelOffset, value);
-            get => GetVector2Value((int)Props.KernelOffset);
+            set => SetValue((int)ConvolveMatrixProperties.KernelOffset, value);
+            get => GetVector2Value((int)ConvolveMatrixProperties.KernelOffset);
         }
+
         public bool PreserveAlpha
         {
-            set => SetValue((int)Props.PreserveAlpha, value);
-            get => GetBoolValue((int)Props.PreserveAlpha);
+            set => SetValue((int)ConvolveMatrixProperties.PreserveAlpha, value);
+            get => GetBoolValue((int)ConvolveMatrixProperties.PreserveAlpha);
         }
+
         public BorderMode BorderMode
         {
-            set => SetValue((int)Props.BorderMode, value);
-            get => GetEnumValue<BorderMode>((int)Props.BorderMode);
+            set => SetValue((int)ConvolveMatrixProperties.BorderMode, value);
+            get => GetEnumValue<BorderMode>((int)ConvolveMatrixProperties.BorderMode);
         }
+
         public bool ClampOutput
         {
-            set => SetValue((int)Props.ClampOutput, value);
-            get => GetBoolValue((int)Props.ClampOutput);
+            set => SetValue((int)ConvolveMatrixProperties.ClampOutput, value);
+            get => GetBoolValue((int)ConvolveMatrixProperties.ClampOutput);
         }
     }
 }

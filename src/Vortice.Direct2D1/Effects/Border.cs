@@ -1,27 +1,30 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = BorderProperties;
-    public class Border : ID2D1Effect
+    public sealed class Border : ID2D1Effect
     {
-        public Border(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Border(ID2D1DeviceContext context)
+           : base(context.CreateEffect(EffectGuids.Border))
         {
-            deviceContext.CreateEffect(EffectGuids.Border, this);
+        }
+
+        public Border(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Border))
+        {
         }
 
         public BorderEdgeMode EdgeModeX
         {
-            set => SetValue((int)Props.EdgeModeX, value);
-            get => GetEnumValue<BorderEdgeMode>((int)Props.EdgeModeX);
+            set => SetValue((int)BorderProperties.EdgeModeX, value);
+            get => GetEnumValue<BorderEdgeMode>((int)BorderProperties.EdgeModeX);
         }
+
         public BorderEdgeMode EdgeModeY
         {
-            set => SetValue((int)Props.EdgeModeY, value);
-            get => GetEnumValue<BorderEdgeMode>((int)Props.EdgeModeY);
+            set => SetValue((int)BorderProperties.EdgeModeY, value);
+            get => GetEnumValue<BorderEdgeMode>((int)BorderProperties.EdgeModeY);
         }
     }
 }

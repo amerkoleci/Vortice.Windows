@@ -1,27 +1,30 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = LookupTable3DProperties;
-    public class LookupTable3D : ID2D1Effect
+    public sealed class LookupTable3D : ID2D1Effect
     {
-        public LookupTable3D(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public LookupTable3D(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.LookupTable3D))
         {
-            deviceContext.CreateEffect(EffectGuids.LookupTable3D, this);
+        }
+
+        public LookupTable3D(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.LookupTable3D))
+        {
         }
 
         public ID2D1LookupTable3D LUT
         {
-            set => SetValue((int)Props.Lut, value);
-            get => GetIUnknownValue<ID2D1LookupTable3D>((int)Props.Lut);
+            get => GetIUnknownValue<ID2D1LookupTable3D>((int)LookupTable3DProperties.Lut);
+            set => SetValue((int)LookupTable3DProperties.Lut, value);
         }
+
         public AlphaMode AlphaMode
         {
-            set => SetValue((int)Props.AlphaMode, value);
-            get => GetEnumValue<AlphaMode>((int)Props.Lut);
+            get => GetEnumValue<AlphaMode>((int)LookupTable3DProperties.Lut);
+            set => SetValue((int)LookupTable3DProperties.AlphaMode, value);
         }
     }
 }

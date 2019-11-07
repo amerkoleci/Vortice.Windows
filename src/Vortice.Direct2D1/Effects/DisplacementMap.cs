@@ -1,31 +1,36 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = DisplacementMapProperties;
-    public class DisplacementMap : ID2D1Effect
+    public sealed class DisplacementMap : ID2D1Effect
     {
-        public DisplacementMap(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public DisplacementMap(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.DisplacementMap))
         {
-            deviceContext.CreateEffect(EffectGuids.DisplacementMap, this);
         }
+
+        public DisplacementMap(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.DisplacementMap))
+        {
+        }
+
         public float Scale
         {
-            set => SetValue((int)Props.Scale, value);
-            get => GetFloatValue((int)Props.Scale);
+            set => SetValue((int)DisplacementMapProperties.Scale, value);
+            get => GetFloatValue((int)DisplacementMapProperties.Scale);
         }
+
         public ChannelSelector XChannelSelect
         {
-            set => SetValue((int)Props.XChannelSelect, value);
-            get => GetEnumValue<ChannelSelector>((int)Props.XChannelSelect);
+            set => SetValue((int)DisplacementMapProperties.XChannelSelect, value);
+            get => GetEnumValue<ChannelSelector>((int)DisplacementMapProperties.XChannelSelect);
         }
+
         public ChannelSelector YChannelSelect
         {
-            set => SetValue((int)Props.YChannelSelect, value);
-            get => GetEnumValue<ChannelSelector>((int)Props.YChannelSelect);
+            set => SetValue((int)DisplacementMapProperties.YChannelSelect, value);
+            get => GetEnumValue<ChannelSelector>((int)DisplacementMapProperties.YChannelSelect);
         }
     }
 }

@@ -1,31 +1,36 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = DpiCompensationProperties;
-    public class DpiCompensation : ID2D1Effect
+    public sealed class DpiCompensation : ID2D1Effect
     {
-        public DpiCompensation(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public DpiCompensation(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.DpiCompensation))
         {
-            deviceContext.CreateEffect(EffectGuids.DpiCompensation, this);
         }
+
+        public DpiCompensation(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.DpiCompensation))
+        {
+        }
+
         public DpiCompensationInterpolationMode InterpolationMode
         {
-            set => SetValue((int)Props.InterpolationMode, value);
-            get => GetEnumValue<DpiCompensationInterpolationMode>((int)Props.InterpolationMode);
+            get => GetEnumValue<DpiCompensationInterpolationMode>((int)DpiCompensationProperties.InterpolationMode);
+            set => SetValue((int)DpiCompensationProperties.InterpolationMode, value);
         }
+
         public BorderMode BorderMode
         {
-            set => SetValue((int)Props.BorderMode, value);
-            get => GetEnumValue<BorderMode>((int)Props.BorderMode);
+            get => GetEnumValue<BorderMode>((int)DpiCompensationProperties.BorderMode);
+            set => SetValue((int)DpiCompensationProperties.BorderMode, value);
         }
+
         public float InputDpi
         {
-            set => SetValue((int)Props.InputDpi, value);
-            get => GetFloatValue((int)Props.InputDpi);
+            get => GetFloatValue((int)DpiCompensationProperties.InputDpi);
+            set => SetValue((int)DpiCompensationProperties.InputDpi, value);
         }
     }
 }

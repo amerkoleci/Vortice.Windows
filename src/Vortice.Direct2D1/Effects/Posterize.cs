@@ -1,31 +1,36 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = PosterizeProperties;
-    public class Posterize : ID2D1Effect
+    public sealed class Posterize : ID2D1Effect
     {
-        public Posterize(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Posterize(ID2D1DeviceContext context)
+           : base(context.CreateEffect(EffectGuids.Posterize))
         {
-            deviceContext.CreateEffect(EffectGuids.Posterize, this);
         }
-        public uint RedValueCount
+
+        public Posterize(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Posterize))
         {
-            set => SetValue((int)Props.RedValueCount, value);
-            get => GetUintValue((int)Props.RedValueCount);
         }
-        public uint GreenValueCount
+
+        public int RedValueCount
         {
-            set => SetValue((int)Props.GreenValueCount, value);
-            get => GetUintValue((int)Props.GreenValueCount);
+            set => SetValue((int)PosterizeProperties.RedValueCount, value);
+            get => GetIntValue((int)PosterizeProperties.RedValueCount);
         }
-        public uint BlueValueCount
+
+        public int GreenValueCount
         {
-            set => SetValue((int)Props.BlueValueCount, value);
-            get => GetUintValue((int)Props.BlueValueCount);
+            set => SetValue((int)PosterizeProperties.GreenValueCount, value);
+            get => GetIntValue((int)PosterizeProperties.GreenValueCount);
+        }
+
+        public int BlueValueCount
+        {
+            set => SetValue((int)PosterizeProperties.BlueValueCount, value);
+            get => GetIntValue((int)PosterizeProperties.BlueValueCount);
         }
     }
 }

@@ -1,34 +1,36 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = GaussianBlurProperties;
-    public class GaussianBlur : ID2D1Effect
+    public sealed class GaussianBlur : ID2D1Effect
     {
-        public GaussianBlur(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public GaussianBlur(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.GaussianBlur))
         {
-            deviceContext.CreateEffect(EffectGuids.GaussianBlur, this);
+        }
+
+        public GaussianBlur(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.GaussianBlur))
+        {
         }
 
         public float StandardDeviation
         {
-            set => SetValue((int)Props.StandardDeviation, value);
-            get => GetFloatValue((int)Props.StandardDeviation);
+            get => GetFloatValue((int)GaussianBlurProperties.StandardDeviation);
+            set => SetValue((int)GaussianBlurProperties.StandardDeviation, value);
         }
 
         public GaussianBlurOptimization Optimization
         {
-            set => SetValue((int)Props.Optimization, value);
-            get => GetEnumValue<GaussianBlurOptimization>((int)Props.Optimization);
+            get => GetEnumValue<GaussianBlurOptimization>((int)GaussianBlurProperties.Optimization);
+            set => SetValue((int)GaussianBlurProperties.Optimization, value);
         }
 
         public BorderMode BorderMode
         {
-            set => SetValue((int)Props.BorderMode, value);
-            get => GetEnumValue<BorderMode>((int)Props.BorderMode);
+            get => GetEnumValue<BorderMode>((int)GaussianBlurProperties.BorderMode);
+            set => SetValue((int)GaussianBlurProperties.BorderMode, value);
         }
     }
 }

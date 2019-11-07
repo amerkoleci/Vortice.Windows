@@ -1,28 +1,30 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = ColorMatrixProperties;
     public class ColorMatrix : ID2D1Effect
     {
-        public ColorMatrix(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public ColorMatrix(ID2D1DeviceContext context)
+           : base(context.CreateEffect(EffectGuids.ColorMatrix))
         {
-            deviceContext.CreateEffect(EffectGuids.ColorMatrix, this);
         }
+
+        public ColorMatrix(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.ColorMatrix))
+        {
+        }
+
         public RawMatrix5x4 Matrix
         {
-            set => SetValue((int)Props.ColorMatrix, value);
-            get => GetMatrix5x4Value((int)Props.ColorMatrix);
+            set => SetValue((int)ColorMatrixProperties.ColorMatrix, value);
+            get => GetMatrix5x4Value((int)ColorMatrixProperties.ColorMatrix);
         }
 
         public ColorMatrixAlphaMode AlphaMode
         {
-            set => SetValue((int)Props.AlphaMode, value);
-            get => GetEnumValue<ColorMatrixAlphaMode>((int)Props.AlphaMode);
+            set => SetValue((int)ColorMatrixProperties.AlphaMode, value);
+            get => GetEnumValue<ColorMatrixAlphaMode>((int)ColorMatrixProperties.AlphaMode);
         }
-
     }
 }

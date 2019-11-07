@@ -1,17 +1,21 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
     using Props = SaturationProperties;
-    public class Saturation : ID2D1Effect
+    public sealed class Saturation : ID2D1Effect
     {
-        public Saturation(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Saturation(ID2D1DeviceContext context)
+            : base(context.CreateEffect(EffectGuids.Saturation))
         {
-            deviceContext.CreateEffect(EffectGuids.Saturation, this);
         }
+
+        public Saturation(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Saturation))
+        {
+        }
+
         public float Value
         {
             set => SetValue((int)Props.Saturation, value);

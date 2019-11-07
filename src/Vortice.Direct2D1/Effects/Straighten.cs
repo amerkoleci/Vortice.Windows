@@ -1,31 +1,36 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = StraightenProperties;
-    public class Straighten : ID2D1Effect
+    public sealed class Straighten : ID2D1Effect
     {
-        public Straighten(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Straighten(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.Straighten))
         {
-            deviceContext.CreateEffect(EffectGuids.Straighten, this);
         }
+
+        public Straighten(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Straighten))
+        {
+        }
+
         public float Angle
         {
-            set => SetValue((int)Props.Angle, value);
-            get => GetFloatValue((int)Props.Angle);
+            get => GetFloatValue((int)StraightenProperties.Angle);
+            set => SetValue((int)StraightenProperties.Angle, value);
         }
+
         public bool MaintainSize
         {
-            set => SetValue((int)Props.MaintainSize, value);
-            get => GetBoolValue((int)Props.MaintainSize);
+            get => GetBoolValue((int)StraightenProperties.MaintainSize);
+            set => SetValue((int)StraightenProperties.MaintainSize, value);
         }
+
         public StraightenModeProperties ScaleMode
         {
-            set => SetValue((int)Props.ScaleMode, value);
-            get => GetEnumValue<StraightenModeProperties>((int)Props.ScaleMode);
+            get => GetEnumValue<StraightenModeProperties>((int)StraightenProperties.ScaleMode);
+            set => SetValue((int)StraightenProperties.ScaleMode, value);
         }
 
     }

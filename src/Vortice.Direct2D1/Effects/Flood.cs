@@ -1,22 +1,26 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 
 namespace Vortice.Direct2D1.Effects
 {
-    using Props = FloodProperties;
-    public class Flood : ID2D1Effect
+    public sealed class Flood : ID2D1Effect
     {
-        public Flood(ID2D1DeviceContext deviceContext) : base(IntPtr.Zero)
+        public Flood(ID2D1DeviceContext context)
+             : base(context.CreateEffect(EffectGuids.Flood))
         {
-            deviceContext.CreateEffect(EffectGuids.Flood, this);
         }
+
+        public Flood(ID2D1EffectContext context)
+            : base(context.CreateEffect(EffectGuids.Flood))
+        {
+        }
+
         public Vector4 Color
         {
-            set => SetValue((int)Props.Color, value);
-            get => GetVector4Value((int)Props.Color);
+            get => GetVector4Value((int)FloodProperties.Color);
+            set => SetValue((int)FloodProperties.Color, value);
         }
     }
 }
