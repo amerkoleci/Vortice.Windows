@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class TemperatureAndTint : ID2D1Effect
     {
         public TemperatureAndTint(ID2D1DeviceContext context)
-            : base(context.CreateEffect(EffectGuids.TemperatureTint))
+            : base(context.CreateEffect_(EffectGuids.TemperatureTint))
         {
         }
 

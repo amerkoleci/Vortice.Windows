@@ -364,7 +364,7 @@
     <map param="ID2D1DeviceContext::CreateColorContextFromFilename::colorContext" return="true" />
     <map param="ID2D1DeviceContext::CreateColorContextFromWicColorContext::colorContext" return="true" />
     <map param="ID2D1DeviceContext::CreateCommandList::commandList" return="true" />
-    <map method="ID2D1DeviceContext::CreateEffect" visibility="internal"/>
+    <map method="ID2D1DeviceContext::CreateEffect" name="CreateEffect_" visibility="internal"/>
     <map param="ID2D1DeviceContext::CreateEffect::effect" return="true" type="void" />
     <map param="ID2D1DeviceContext::CreateGradientStopCollection::gradientStopCollection1" return="true" />
     <map param="ID2D1DeviceContext::CreateImageBrush::imageBrush" return="true" />

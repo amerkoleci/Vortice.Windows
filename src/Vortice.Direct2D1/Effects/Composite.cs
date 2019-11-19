@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Composite : ID2D1Effect
     {
         public Composite(ID2D1DeviceContext context)
-            : base(context.CreateEffect(EffectGuids.Composite))
+            : base(context.CreateEffect_(EffectGuids.Composite))
         {
         }
 

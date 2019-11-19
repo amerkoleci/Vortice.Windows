@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class HighlightsAndShadows : ID2D1Effect
     {
         public HighlightsAndShadows(ID2D1DeviceContext context)
-            : base(context.CreateEffect(EffectGuids.HighlightsShadows))
+            : base(context.CreateEffect_(EffectGuids.HighlightsShadows))
         {
         }
 
