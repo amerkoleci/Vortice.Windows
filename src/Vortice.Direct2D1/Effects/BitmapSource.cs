@@ -9,7 +9,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class BitmapSource : ID2D1Effect
     {
         public BitmapSource(ID2D1DeviceContext context)
-            : base(context.CreateEffect(EffectGuids.BitmapSource))
+            : base(context.CreateEffect_(EffectGuids.BitmapSource))
         {
         }
 

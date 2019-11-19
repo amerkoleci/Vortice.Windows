@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
 using System.Numerics;
 using Vortice.Mathematics;
 
@@ -107,6 +108,19 @@ namespace Vortice.Direct2D1
         public void GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, RectF renderImageRectangle, EffectInputDescription[] inputDescriptions, RectF[] requiredInputRects)
         {
             GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, requiredInputRects, inputDescriptions.Length);
+        }
+
+        public ID2D1Effect CreateEffect(Guid effectGuid)
+        {
+            var effectPtr = CreateEffect_(effectGuid);
+            if (effectPtr == IntPtr.Zero)
+            {
+                return null;
+            }
+            else
+            {
+                return new ID2D1Effect(effectPtr);
+            }
         }
     }
 }

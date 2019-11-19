@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Tile : ID2D1Effect
     {
         public Tile(ID2D1DeviceContext context)
-             : base(context.CreateEffect(EffectGuids.Tile))
+             : base(context.CreateEffect_(EffectGuids.Tile))
         {
         }
 

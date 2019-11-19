@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public class ColorManagement : ID2D1Effect
     {
         public ColorManagement(ID2D1DeviceContext context)
-           : base(context.CreateEffect(EffectGuids.ColorManagement))
+           : base(context.CreateEffect_(EffectGuids.ColorManagement))
         {
         }
 

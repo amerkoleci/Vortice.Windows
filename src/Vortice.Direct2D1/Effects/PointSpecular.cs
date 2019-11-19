@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class PointSpecular : ID2D1Effect
     {
         public PointSpecular(ID2D1DeviceContext context)
-             : base(context.CreateEffect(EffectGuids.PointSpecular))
+             : base(context.CreateEffect_(EffectGuids.PointSpecular))
         {
         }
 
