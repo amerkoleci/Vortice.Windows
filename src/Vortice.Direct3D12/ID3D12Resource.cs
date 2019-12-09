@@ -26,6 +26,21 @@ namespace Vortice.Direct3D12
             }
         }
 
+        /// <summary>
+        /// Calculates a subresource index for a texture.
+        /// </summary>
+        /// <param name="mipSlice">The zero-based index for the mipmap level to address; 0 indicates the first, most detailed mipmap level.</param>
+        /// <param name="arraySlice">The zero-based index for the array level to address; always use 0 for volume (3D) textures.</param>
+        /// <param name="planeSlice">The zero-based index for the plane level to address.</param>
+        /// <param name="mipLevels">The number of mipmap levels in the resource.</param>
+        /// <param name="arraySize">The number of elements in the array.</param>
+        /// <returns>The index.</returns>
+        public static int CalculateSubResourceIndex(int mipSlice, int arraySlice, int planeSlice, int mipLevels, int arraySize)
+        {
+            return mipSlice + arraySlice * mipLevels + planeSlice * mipLevels * arraySize;
+        }
+
+
         public unsafe void WriteToSubresource<T>(
             int destinationSubresource,
             Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
