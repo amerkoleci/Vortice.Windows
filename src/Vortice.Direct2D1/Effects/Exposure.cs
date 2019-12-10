@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Exposure : ID2D1Effect
     {
         public Exposure(ID2D1DeviceContext context)
-             : base(context.CreateEffect(EffectGuids.Exposure))
+             : base(context.CreateEffect_(EffectGuids.Exposure))
         {
         }
 

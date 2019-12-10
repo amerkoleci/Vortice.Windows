@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public class SpotSpecular : ID2D1Effect
     {
         public SpotSpecular(ID2D1DeviceContext context)
-           : base(context.CreateEffect(EffectGuids.SpotSpecular))
+           : base(context.CreateEffect_(EffectGuids.SpotSpecular))
         {
         }
 

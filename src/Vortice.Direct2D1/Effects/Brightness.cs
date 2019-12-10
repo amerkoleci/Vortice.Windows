@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Brightness : ID2D1Effect
     {
         public Brightness(ID2D1DeviceContext context)
-           : base(context.CreateEffect(EffectGuids.Brightness))
+           : base(context.CreateEffect_(EffectGuids.Brightness))
         {
         }
 

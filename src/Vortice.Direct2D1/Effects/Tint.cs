@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Tint : ID2D1Effect
     {
         public Tint(ID2D1DeviceContext context) 
-            : base(context.CreateEffect(EffectGuids.Tint))
+            : base(context.CreateEffect_(EffectGuids.Tint))
         {
         }
 

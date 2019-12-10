@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class PerspectiveTransform3D : ID2D1Effect
     {
         public PerspectiveTransform3D(ID2D1DeviceContext context)
-             : base(context.CreateEffect(EffectGuids.PerspectiveTransform3D))
+             : base(context.CreateEffect_(EffectGuids.PerspectiveTransform3D))
         {
         }
 

@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class CrossFade : ID2D1Effect
     {
         public CrossFade(ID2D1DeviceContext context)
-            : base(context.CreateEffect(EffectGuids.CrossFade))
+            : base(context.CreateEffect_(EffectGuids.CrossFade))
         {
         }
 

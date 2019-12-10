@@ -10,7 +10,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class ConvolveMatrix : ID2D1Effect
     {
         public ConvolveMatrix(ID2D1DeviceContext context)
-            : base(context.CreateEffect(EffectGuids.ConvolveMatrix))
+            : base(context.CreateEffect_(EffectGuids.ConvolveMatrix))
         {
         }
 

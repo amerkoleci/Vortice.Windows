@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public class Sepia : ID2D1Effect
     {
         public Sepia(ID2D1DeviceContext context)
-           : base(context.CreateEffect(EffectGuids.Sepia))
+           : base(context.CreateEffect_(EffectGuids.Sepia))
         {
         }
 
