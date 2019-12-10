@@ -12,14 +12,13 @@ namespace Vortice.Direct3D11
         /// </summary>
         /// <param name="mipSlice">A zero-based index for the mipmap level to address; 0 indicates the first, most detailed mipmap level.</param>
         /// <param name="arraySlice">The zero-based index for the array level to address; always use 0 for volume (3D) textures.</param>
-        /// <param name="mipLevel">Number of mipmap levels in the resource.</param>
+        /// <param name="mipLevels">Number of mipmap levels in the resource.</param>
         /// <returns>
-        /// The index which equals MipSlice + (ArraySlice * MipLevels).
+        /// The index which equals mipSlice + (arraySlice * mipLevels).
         /// </returns>
-        /// <unmanaged>D3D11CalcSubresource</unmanaged>
-        public static int CalculateSubResourceIndex(int mipSlice, int arraySlice, int mipLevel)
+        public static int CalculateSubResourceIndex(int mipSlice, int arraySlice, int mipLevels)
         {
-            return (mipLevel * arraySlice) + mipSlice;
+            return (mipLevels * arraySlice) + mipSlice;
         }
 
         /// <summary>

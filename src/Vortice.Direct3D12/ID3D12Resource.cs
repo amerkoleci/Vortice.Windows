@@ -34,7 +34,9 @@ namespace Vortice.Direct3D12
         /// <param name="planeSlice">The zero-based index for the plane level to address.</param>
         /// <param name="mipLevels">The number of mipmap levels in the resource.</param>
         /// <param name="arraySize">The number of elements in the array.</param>
-        /// <returns>The index.</returns>
+        /// <returns>
+        /// The index which equals mipSlice + arraySlice * mipLevels + planeSlice * mipLevels * arraySize.
+        /// </returns>
         public static int CalculateSubResourceIndex(int mipSlice, int arraySlice, int planeSlice, int mipLevels, int arraySize)
         {
             return mipSlice + arraySlice * mipLevels + planeSlice * mipLevels * arraySize;
