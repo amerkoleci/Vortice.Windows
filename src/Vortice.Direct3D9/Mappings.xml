@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-direct3d9" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.Direct3D9</assembly>
+  <namespace>Vortice.Direct3D9</namespace>
+  <depends>Vortice.DirectX</depends>
+
+  <sdk name="StdLib" />
+  <sdk name="WindowsSdk" version="10.0.18362.0" />
+
+  <include file="windows.h" />
+  <include file="d3d9types.h" namespace="Vortice.Direct3D9" attach="true"/>
+  <include file="d3d9caps.h" namespace="Vortice.Direct3D9" attach="true"/>
+  <include file="d3d9.h" namespace="Vortice.Direct3D9" attach="true">
+    <post>
+      #define D3DCLEAR_ALL D3DCLEAR_STENCIL | D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER
+      #define D3DLOCK_DONOTCOPYDATA D3DPV_DONOTCOPYDATA
+      #define D3DVERTEXTEXTURESAMPLERMAPSAMPLER D3DDMAPSAMPLER
+
+      // Redefine D3DS_.* enum items in order to use WORLD, WORLD1...etc.
+      #define D3DTS2_VIEW             D3DTS_VIEW
+      #define D3DTS2_PROJECTION       D3DTS_PROJECTION
+      #define D3DTS2_WORLD            D3DTS_WORLD
+      #define D3DTS2_WORLD1           D3DTS_WORLD1
+      #define D3DTS2_WORLD2           D3DTS_WORLD2
+      #define D3DTS2_WORLD3           D3DTS_WORLD3
+      #define D3DTS2_TEXTURE0         D3DTS_TEXTURE0
+      #define D3DTS2_TEXTURE1         D3DTS_TEXTURE1
+      #define D3DTS2_TEXTURE2         D3DTS_TEXTURE2
+      #define D3DTS2_TEXTURE3         D3DTS_TEXTURE3
+      #define D3DTS2_TEXTURE4         D3DTS_TEXTURE4
+      #define D3DTS2_TEXTURE5         D3DTS_TEXTURE5
+      #define D3DTS2_TEXTURE6         D3DTS_TEXTURE6
+      #define D3DTS2_TEXTURE7         D3DTS_TEXTURE7
+    </post>
+  </include>
+
+  <extension>
+    <create class="D3D9" visibility="public static" />
+    <create class="D3DX9" visibility="internal static" />
+
+    <const from-macro="D3D_SDK_VERSION" class="Vortice.Direct3D9.D3D9" type="int" name="SdkVersion" />
+    <const from-macro="D3DX_VERSION" class="Vortice.Direct3D9.D3DX9" type="int" name="Version" />
+    <const from-macro="D3DX_SDK_VERSION" class="Vortice.Direct3D9.D3DX9" type="int" name="SdkVersion" />
+
+    <define struct="Vortice.Direct3D9.PaletteEntry" sizeof="4" />
+  </extension>
+
+  <bindings>
+    <bind from="D3DMATRIX" to="System.Numerics.Matrix4x4" />
+    <bind from="PALETTEENTRY" to="Vortice.Direct3D9.PaletteEntry"/>
+    <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
+    <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
+  </bindings>
+
+  <naming>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTORS">Descriptors</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="TOPLEFT">TopLeft</short>
+    <short name="UINT32">UInt32</short>
+    <short name="UINT64">UInt64</short>
+    <short name="IUNKNOWN">IUnknown</short>
+    <short name="RECTANGLE">Rectangle</short>
+    <short name="RECTS">Rectangles</short>
+    <short name="RECT">Rectangle</short>
+    <short name="POINT">Point</short>
+    <short name="POINTS">Points</short>
+    <short name="TRIANGLE">Triangle</short>
+    <short name="TRIANGLES">Triangles</short>
+    <short name="LIST">List</short>
+    <short name="ADJACENCY">Adjacency</short>
+    <short name="ADJ">Adjacency</short>
+    <short name="STRIP">Strip</short>
+    <short name="SRV">ShaderResourceView</short>
+    <short name="DSV">DepthStencilView</short>
+    <short name="RTV">RenderTargetView</short>
+    <short name="UAVS">UnorderedAccessViews</short>
+    <short name="UAV">UnorderedAccessView</short>
+    <short name="TEXTURE">Texture</short>
+    <short name="TEXT">Text</short>
+    <short name="CUBE">Cube</short>
+    <short name="TEX">Texture</short>
+    <short name="1D">1D</short>
+    <short name="2D">2D</short>
+    <short name="3D">3D</short>
+    <short name="MS">Multisampled</short>
+    <short name="RW">RW</short>
+    <short name="ARRAYSIZE">ArraySize</short>
+    <short name="ARRAYSLICE">ArraySlice</short>
+    <short name="ARRAYS">Arrays</short>
+    <short name="ARRAY">Array</short>
+    <short name="BUFFERS">Buffers</short>
+    <short name="BUFFER">Buffer</short>
+    <short name="BUFFEREX">BufferExtended</short>
+    <short name="CBV">ConstantBufferView</short>
+    <short name="CBUFFER">ConstantBuffer</short>
+    <short name="TBUFFER">TextureBuffer</short>
+    <short name="VDOV">VideoDecoderOutputView</short>
+    <short name="VPIV">VideoProcessorInputView</short>
+    <short name="VPOV">VideoProcessorOutputView</short>
+    <short name="SUBRESOURCE">Subresource</short>
+    <short name="FOOTPRINT">FootPrint</short>
+    <short name="IA">InputAssembler</short>
+    <short name="SRC">Source</short>
+    <short name="DST">Destination</short>
+    <short name="DEST">Destination</short>
+    <short name="INV">Inverse</short>
+    <short name="INVALID">Invalid</short>
+  </naming>
+
+  <mapping>
+    <map enum="D3D(\d+)(.*)" name-tmp="$2" />
+
+    <map enum="D3DDISPLAYROTATION" name="DisplayRotation" flags="false" none="false"/>
+    <map enum-item="D3DDISPLAYROTATION_IDENTITY" name="Identity"/>
+    <map enum-item="D3DDISPLAYROTATION_90" name="Rotation90"/>
+    <map enum-item="D3DDISPLAYROTATION_180" name="Rotation180"/>
+    <map enum-item="D3DDISPLAYROTATION_270" name="Rotation270"/>
+
+    <map enum="D3DMULTISAMPLE_TYPE" name="MultisampleType" flags="false" none="false"/>
+    <map enum-item="D3DMULTISAMPLE_NONE" name="None"/>
+    <map enum-item="D3DMULTISAMPLE_NONMASKABLE" name="NonMaskable"/>
+    <map enum-item="D3DMULTISAMPLE_2_SAMPLES" name="TwoSamples"/>
+    <map enum-item="D3DMULTISAMPLE_3_SAMPLES" name="ThreeSamples"/>
+    <map enum-item="D3DMULTISAMPLE_4_SAMPLES" name="FourSamples"/>
+    <map enum-item="D3DMULTISAMPLE_5_SAMPLES" name="FiveSamples"/>
+    <map enum-item="D3DMULTISAMPLE_6_SAMPLES" name="SixSamples"/>
+    <map enum-item="D3DMULTISAMPLE_7_SAMPLES" name="SevenSamples"/>
+    <map enum-item="D3DMULTISAMPLE_8_SAMPLES" name="EightSamples"/>
+    <map enum-item="D3DMULTISAMPLE_9_SAMPLES" name="NineSamples"/>
+    <map enum-item="D3DMULTISAMPLE_10_SAMPLES" name="TenSamples"/>
+    <map enum-item="D3DMULTISAMPLE_11_SAMPLES" name="ElevenSamples"/>
+    <map enum-item="D3DMULTISAMPLE_12_SAMPLES" name="TwelveSamples"/>
+    <map enum-item="D3DMULTISAMPLE_13_SAMPLES" name="ThirteenSamples"/>
+    <map enum-item="D3DMULTISAMPLE_14_SAMPLES" name="FourteenSamples"/>
+    <map enum-item="D3DMULTISAMPLE_15_SAMPLES" name="FifteenSamples"/>
+    <map enum-item="D3DMULTISAMPLE_16_SAMPLES" name="SixteenSamples"/>
+    
+    <map method="IDirect3DSwapChain9::Present" visibility="internal" hresult="true" check="false" />
+    <map param="IDirect3DSwapChain9::Present::pSourceRect" type="void" attribute="in optional" />
+    <map param="IDirect3DSwapChain9::Present::pDestRect" type="void" attribute="inout optional" />
+    <map param="IDirect3DSwapChain9::Present::pDirtyRegion" type="void" attribute="in" />
+    
+    <map method="IDirect3DDevice9::Present" visibility="internal" hresult="true" check="false" />
+    <map param="IDirect3DDevice9::Present::pSourceRect" type="void" attribute="in" />
+    <map param="IDirect3DDevice9::Present::pDestRect" type="void" attribute="in" />
+    <map param="IDirect3DDevice9::Present::pDirtyRegion" type="void" attribute="in" />
+
+    <map method="IDirect3DDevice9Ex::PresentEx" visibility="internal" hresult="true" check="false" />
+    <map param="IDirect3DDevice9Ex::PresentEx::pSourceRect" type="void" />
+    <map param="IDirect3DDevice9Ex::PresentEx::pDestRect" type="void" />
+    <map param="IDirect3DDevice9Ex::PresentEx::pDirtyRegion" type="void" attribute="in" />
+
+    <map function="D3D9(.*)" name-tmp="$1" dll='"d3d9.dll"' group="Vortice.Direct3D9.D3D9" />
+    <map function="Direct3D(.*)" name-tmp="$1" dll='"d3d9.dll"' group="Vortice.Direct3D9.D3D9" />
+    
+    <remove function="D3DX.*" />
+    <remove function="D3DPERF.*" />
+  </mapping>
+</config>

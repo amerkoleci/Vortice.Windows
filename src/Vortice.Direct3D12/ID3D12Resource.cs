@@ -42,7 +42,6 @@ namespace Vortice.Direct3D12
             return mipSlice + arraySlice * mipLevels + planeSlice * mipLevels * arraySize;
         }
 
-
         public unsafe void WriteToSubresource<T>(
             int destinationSubresource,
             Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged

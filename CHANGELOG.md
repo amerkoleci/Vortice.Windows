@@ -3,9 +3,11 @@
 Current Release:    1.4.0 (November 2019)
 
 -----------------------------------------------
-Release:     1.5.0 (November 2019)
+Release:     1.5.0 (December 2019)
 -----------------------------------------------
 KEY CHANGES:
+- Update dependencies.
+- Direct3D9 support.
 
 -----------------------------------------------
 Release:     1.4.0 (November 2019)
