@@ -46,6 +46,7 @@
   </extension>
 
   <bindings>
+    <bind from="D3DVECTOR" to="System.Numerics.Vector3" />
     <bind from="D3DMATRIX" to="System.Numerics.Matrix4x4" />
     <bind from="PALETTEENTRY" to="Vortice.Direct3D9.PaletteEntry"/>
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
@@ -110,6 +111,7 @@
   </naming>
 
   <mapping>
+    <!-- Enums -->
     <map enum="D3D(\d+)(.*)" name-tmp="$2" />
 
     <map enum="D3DDISPLAYROTATION" name="DisplayRotation" flags="false" none="false"/>
@@ -136,7 +138,35 @@
     <map enum-item="D3DMULTISAMPLE_14_SAMPLES" name="FourteenSamples"/>
     <map enum-item="D3DMULTISAMPLE_15_SAMPLES" name="FifteenSamples"/>
     <map enum-item="D3DMULTISAMPLE_16_SAMPLES" name="SixteenSamples"/>
+
+    <map enum="D3DBLEND" name="Blend" flags="false" none="false"/>
+    <map enum-item="D3DBLEND_ZERO" name="Zero"/>
+    <map enum-item="D3DBLEND_ONE" name="One"/>
+    <map enum-item="D3DBLEND_SRCCOLOR" name="SourceColor"/>
+    <map enum-item="D3DBLEND_INVSRCCOLOR" name="InverseSourceColor"/>
+    <map enum-item="D3DBLEND_SRCALPHA" name="SourceAlpha"/>
+    <map enum-item="D3DBLEND_INVSRCALPHA" name="InverseSourceAlpha"/>
+    <map enum-item="D3DBLEND_DESTALPHA" name="DestinationAlpha"/>
+    <map enum-item="D3DBLEND_INVDESTALPHA" name="InverseDestinationAlpha"/>
+    <map enum-item="D3DBLEND_DESTCOLOR" name="DestinationColor"/>
+    <map enum-item="D3DBLEND_INVDESTCOLOR" name="InverseDestinationColor"/>
+    <map enum-item="D3DBLEND_SRCALPHASAT" name="SourceAlphaSaturated"/>
+    <map enum-item="D3DBLEND_BOTHINVSRCALPHA" name="BothInverseSourceAlpha"/>
+    <map enum-item="D3DBLEND_BLENDFACTOR" name="BlendFactor"/>
+    <map enum-item="D3DBLEND_INVBLENDFACTOR" name="InverseBlendFactor"/>
+    <map enum-item="D3DBLEND_SRCCOLOR2" name="SourceColor2"/>
+    <map enum-item="D3DBLEND_INVSRCCOLOR2" name="InverseSourceColor2"/>
+
+    <map enum="D3DBLENDOP" name="BlendOperation" flags="false" none="false"/>
+    <map enum-item="D3DBLENDOP_ADD" name="Add"/>
+    <map enum-item="D3DBLENDOP_SUBTRACT" name="Subtract"/>
+    <map enum-item="D3DBLENDOP_REVSUBTRACT" name="ReverseSubtract"/>
+    <map enum-item="D3DBLENDOP_MIN" name="Minimum"/>
+    <map enum-item="D3DBLENDOP_MAX" name="Maximum"/>
     
+    <!-- Structures -->
+    <map struct="D3D(.*)" name-tmp="$1" />
+
     <map method="IDirect3DSwapChain9::Present" visibility="internal" hresult="true" check="false" />
     <map param="IDirect3DSwapChain9::Present::pSourceRect" type="void" attribute="in optional" />
     <map param="IDirect3DSwapChain9::Present::pDestRect" type="void" attribute="inout optional" />
