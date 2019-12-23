@@ -20,13 +20,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D11", "samples\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D12", "samples\HelloDirect3D12\HelloDirect3D12.csproj", "{2246B81E-ED94-4DAD-8336-782CEDCD1795}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{97711777-AD19-4282-B4D6-34972AEC5567}"
-	ProjectSection(SolutionItems) = preProject
-		Directory.Build.props = Directory.Build.props
-		global.json = global.json
-		nuget.config = nuget.config
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Runtime.COM", "Vortice.Runtime.COM\Vortice.Runtime.COM.csproj", "{FA74F205-F0B1-49F4-887C-70895AA1A01C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XInput", "Vortice.XInput\Vortice.XInput.csproj", "{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}"

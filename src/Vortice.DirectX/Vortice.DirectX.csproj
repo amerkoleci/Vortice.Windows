@@ -9,7 +9,7 @@
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="Vortice.Mathematics" Version="1.1.0" />
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.6.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.0" />
     <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenVersion)" />
     <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
   </ItemGroup>
