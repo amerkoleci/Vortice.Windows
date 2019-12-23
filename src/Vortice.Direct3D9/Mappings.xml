@@ -166,7 +166,16 @@
     
     <!-- Structures -->
     <map struct="D3D(.*)" name-tmp="$1" />
-
+    <remove struct="D3D_OMAC" />
+    <remove struct="D3DAES_CTR_IV" />
+    <remove struct="D3DENCRYPTED_BLOCK_INFO" />
+    <remove struct="D3DRANGE" />
+    <remove struct="D3DMEMORYPRESSURE" />
+    <remove struct="D3DCOMPOSERECTDESC" />
+    <remove struct="D3DCOMPOSERECTDESTINATION" />
+    <remove struct="D3DOVERLAYCAPS" />
+    <remove struct="D3DCONTENTPROTECTIONCAPS" />
+    
     <map method="IDirect3DSwapChain9::Present" visibility="internal" hresult="true" check="false" />
     <map param="IDirect3DSwapChain9::Present::pSourceRect" type="void" attribute="in optional" />
     <map param="IDirect3DSwapChain9::Present::pDestRect" type="void" attribute="inout optional" />
