@@ -25,7 +25,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SharpGenVersion>1.2.0</SharpGenVersion>
+    <SharpGenVersion>1.2.1</SharpGenVersion>
   </PropertyGroup>
 
   <ItemGroup>
