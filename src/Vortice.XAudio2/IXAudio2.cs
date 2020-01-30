@@ -14,32 +14,20 @@ namespace Vortice.XAudio2
         private static Guid CLSID_XAudio27_Debug = new Guid("db05ea35-0329-4d4b-a53a-6dead03d3852");
         private static Guid IID_IXAudio27 = new Guid("8bcf1f58-9fe7-4583-8ac6-e2adc465c8bb");
 
-        private readonly EngineCallbackImpl _engineCallbackImpl;
+        private readonly EngineCallback _engineCallback;
 
         /// <summary>
         /// Get the running version.
         /// </summary>
         public XAudio2Version Version { get; }
 
-        #region Events
-        /// <summary>	
-        /// Called by XAudio2 just before an audio processing pass begins.	
-        /// </summary>	
-        public event EventHandler ProcessingPassStart;
-
-        /// <summary>	
-        /// Called by XAudio2 just after an audio processing pass ends.	
-        /// </summary>	
-        public event EventHandler ProcessingPassEnd;
-
-        /// <summary>
-        /// Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.
-        /// </summary>
-        public event EventHandler<ErrorEventArgs> CriticalError;
-        #endregion Events
-
         public IXAudio2()
             : this(XAudio2Version.Default)
+        {
+        }
+
+        public IXAudio2(EngineCallback engineCallback)
+            : this(XAudio2Version.Default, engineCallback)
         {
         }
 
@@ -49,7 +37,16 @@ namespace Vortice.XAudio2
         {
         }
 
-        public IXAudio2(XAudio2Flags flags, ProcessorSpecifier processorSpecifier, XAudio2Version requestedVersion = XAudio2Version.Default)
+        public IXAudio2(XAudio2Version requestedVersion, EngineCallback engineCallback)
+            : this(XAudio2Flags.None, ProcessorSpecifier.Processor1, requestedVersion, engineCallback)
+        {
+        }
+
+        public IXAudio2(
+            XAudio2Flags flags,
+            ProcessorSpecifier processorSpecifier,
+            XAudio2Version requestedVersion = XAudio2Version.Default,
+            EngineCallback engineCallback = null)
             : base(IntPtr.Zero)
         {
             var tryVersions = requestedVersion == XAudio2Version.Default
@@ -110,23 +107,23 @@ namespace Vortice.XAudio2
             IXAudio2Voice.Version = Version;
 
             // Register engine callback
-            _engineCallbackImpl = new EngineCallbackImpl(this);
-            RegisterForCallbacks(_engineCallbackImpl);
+            _engineCallback = engineCallback;
+            if (engineCallback != null)
+            {
+                RegisterForCallbacks(engineCallback);
+            }
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (_engineCallbackImpl != null)
+            if (_engineCallback != null)
             {
-                UnregisterForCallbacks(_engineCallbackImpl);
+                UnregisterForCallbacks(_engineCallback);
             }
 
             if (disposing)
             {
-                if (_engineCallbackImpl != null)
-                {
-                    _engineCallbackImpl.Dispose();
-                }
+                _engineCallback?.Dispose();
             }
 
             base.Dispose(disposing);
@@ -324,35 +321,6 @@ namespace Vortice.XAudio2
         //    deviceDetailsRef.__MarshalFrom(ref _Native);
         //    result.CheckError();
         //}
-        #endregion
-
-        #region Callback
-        private class EngineCallbackImpl : CallbackBase, IXAudio2EngineCallback
-        {
-            public IXAudio2 XAudio2 { get; }
-
-            public EngineCallbackImpl(IXAudio2 xAudio2)
-            {
-                XAudio2 = xAudio2;
-            }
-
-            public void OnProcessingPassStart()
-            {
-                XAudio2.ProcessingPassStart?.Invoke(this, EventArgs.Empty);
-            }
-
-            public void OnProcessingPassEnd()
-            {
-                XAudio2.ProcessingPassEnd?.Invoke(this, EventArgs.Empty);
-            }
-
-            public void OnCriticalError(Result error)
-            {
-                XAudio2.CriticalError?.Invoke(this, new ErrorEventArgs(error));
-            }
-
-            ShadowContainer ICallbackable.Shadow { get; set; }
-        }
         #endregion
     }
 }

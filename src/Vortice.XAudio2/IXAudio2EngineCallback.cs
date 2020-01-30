@@ -10,28 +10,14 @@ namespace Vortice.XAudio2
     [Shadow(typeof(IXAudio2EngineCallbackShadow))]
     internal partial interface IXAudio2EngineCallback
     {
-        /// <summary>	
-        /// Called by XAudio2 just before an audio processing pass begins.	
-        /// </summary>	
         void OnProcessingPassStart();
-
-        /// <summary>	
-        /// Called by XAudio2 just after an audio processing pass ends.	
-        /// </summary>	
         void OnProcessingPassEnd();
-
-        /// <summary>	
-        /// Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.	
-        /// </summary>	
-        /// <param name="error"> Error code returned by XAudio2. </param>
         void OnCriticalError(Result error);
     }
 
     internal class IXAudio2EngineCallbackShadow : CppObjectShadow
     {
-        private static readonly VTable _vTable = new VTable();
-
-        protected override CppObjectVtbl Vtbl => _vTable;
+        protected override CppObjectVtbl Vtbl => new VTable();
 
         private class VTable : CppObjectVtbl
         {
