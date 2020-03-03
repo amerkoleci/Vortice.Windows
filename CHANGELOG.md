@@ -1,6 +1,19 @@
 # Changelog
 
-Current Release:    1.4.0 (November 2019)
+Current Release:    1.5.0 (December 2019)
+
+-----------------------------------------------
+Release:     1.6.0 (March 2020)
+-----------------------------------------------
+KEY CHANGES:
+- Direct3D11 helpers for creating Texture1D, Texture2D, Texture3D etc.
+
+-----------------------------------------------
+Release:     1.5.0 (December 2019)
+-----------------------------------------------
+KEY CHANGES:
+- Update dependencies.
+- Direct3D9 support.
 
 -----------------------------------------------
 Release:     1.5.0 (December 2019)

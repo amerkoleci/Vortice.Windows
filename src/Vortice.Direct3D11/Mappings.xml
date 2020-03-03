@@ -472,6 +472,17 @@
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::DestBlendAlpha" name="DestinationBlendAlpha" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendOpAlpha" name="BlendOperationAlpha" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1::LogicOpEnable" name="IsLogicOperationEnabled"/>
+
+    <map field="D3D11_BUFFER_UAV::Flags" type="D3D11_BUFFER_UAV_FLAG" />
+    <map field="D3D11_BUFFEREX_SRV::Flags" type="D3D11_BUFFEREX_SRV_FLAG" />
+
+    <map field="D3D11_QUERY_DESC::Query" name="QueryType" />
+    <map field="D3D11_QUERY_DESC::MiscFlags" type="D3D11_QUERY_MISC_FLAG" />
+
+    <map field="D3D11_QUERY_DESC1::Query" name="QueryType" />
+    <map field="D3D11_QUERY_DESC1::MiscFlags" type="D3D11_QUERY_MISC_FLAG" />
+
+    <map field="D3D11_COUNTER_DESC::Counter" name="CounterKind" />
     
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
