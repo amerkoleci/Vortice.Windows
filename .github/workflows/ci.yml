@@ -19,7 +19,7 @@ jobs:
       uses: aarnott/nbgv@master
 
     - name: Pack
-      run: dotnet pack src -c Release
+      run: dotnet pack src --configuration Release --output build/packages
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v1
@@ -30,4 +30,4 @@ jobs:
     - name: Publish to NuGet
       shell: bash
       if: github.event_name == 'push'
-      run: dotnet nuget push bin/Release/Packages/**/*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}}
+      run: dotnet nuget push build/packages/**/*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}}

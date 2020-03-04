@@ -4,8 +4,7 @@
     <RepositoryRootDirectory>$(MSBuildThisFileDirectory)</RepositoryRootDirectory>
     <BinDir>$(RepositoryRootDirectory)bin</BinDir>
     <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
-    <PackageOutputPath>$(BinDir)\$(Configuration)\Packages</PackageOutputPath>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
