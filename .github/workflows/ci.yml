@@ -25,7 +25,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: Packages
-        path: bin/Release/Packages
+        path: build/packages
 
     - name: Publish to NuGet
       shell: bash
