@@ -61,6 +61,7 @@
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
     <bind from="D3D11_VIEWPORT" to="Vortice.Mathematics.Viewport"/>
+    <bind from="D3D11_BOX" to="Vortice.Mathematics.Box"/>
     <bind from="D3D11_REGISTER_COMPONENT_MASK_FLAG" to="Vortice.Direct3D11.Shader.RegisterComponentMaskFlags" />
   </bindings>
 

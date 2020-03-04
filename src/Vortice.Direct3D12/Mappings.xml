@@ -32,6 +32,7 @@
     <bind from="D3D12_GPU_VIRTUAL_ADDRESS" to="System.Int64" />
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
+    <bind from="D3D12_BOX" to="Vortice.Mathematics.Box"/>
     <bind from="D3D12_VIEWPORT" to="Vortice.Mathematics.Viewport"/>
     <bind from="D3D12_CPU_DESCRIPTOR_HANDLE" to="Vortice.Direct3D12.CpuDescriptorHandle" />
     <bind from="D3D12_REGISTER_COMPONENT_MASK_FLAG" to="Vortice.Direct3D12.Shader.RegisterComponentMaskFlags" />
@@ -533,6 +534,7 @@
 
     <map enum="D3D12_STATE_SUBOBJECT_TYPE" name="StateSubObjectType" />
 
+    <map struct="D3D12_BOX" visibility="internal"/>
     <map struct="D3D12_DISCARD_REGION" visibility="internal"/>
 
     <map field="D3D12_RAYTRACING_INSTANCE_DESC::Transform" type="VORTICE_MATRIX3X4" array="" override-native-type="true" />

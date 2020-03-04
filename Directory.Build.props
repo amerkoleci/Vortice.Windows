@@ -6,7 +6,6 @@
     <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
     <PackageOutputPath>$(BinDir)\$(Configuration)\Packages</PackageOutputPath>
     <LangVersion>7.3</LangVersion>
-    <VersionPrefix>1.6.0</VersionPrefix>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
@@ -18,17 +17,19 @@
     <PackageTags>Vortice.Windows Vortice Graphics gamedev Direct3D DirectX Core Standard Game Direct3D11 Direct3D12 XAudio2 XInput Dxc</PackageTags>
     <Company>Amer Koleci</Company>
     <Authors>Amer Koleci</Authors>
-    <Copyright>Copyright © 2019 Amer Koleci and contributors.</Copyright>
+    <Copyright>Copyright © 2019-2020 Amer Koleci and contributors.</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/amerkoleci/Vortice.Windows</PackageProjectUrl>
-  </PropertyGroup>
 
-  <PropertyGroup>
+    <!-- Packages versions -->
+    <NerdbankGitVersioningVersion>3.1.51-beta</NerdbankGitVersioningVersion>
     <SharpGenVersion>1.2.1</SharpGenVersion>
+    <VorticeMathematicsVersion>1.2.6-beta-gc462ea5d63</VorticeMathematicsVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="$(NerdbankGitVersioningVersion)" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
   </ItemGroup>
 </Project>

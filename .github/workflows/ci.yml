@@ -1,0 +1,33 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.100
+
+    - name: Version
+      uses: aarnott/nbgv@master
+
+    - name: Pack
+      run: dotnet pack src -c Release
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: Packages
+        path: bin/Release/Packages
+
+    - name: Publish to NuGet
+      shell: bash
+      if: github.event_name == 'push'
+      run: dotnet nuget push bin/Release/Packages/*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}}

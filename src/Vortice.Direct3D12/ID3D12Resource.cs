@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12
 {
@@ -55,12 +56,12 @@ namespace Vortice.Direct3D12
         }
 
         public unsafe void WriteToSubresource<T>(
-            int destinationSubresource, Box destinationBox,
+            int destinationSubresource, in Offset3D destinationOffset, in Extent3D destinationExtent,
             Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
             fixed (void* dataPtr = sourceData)
             {
-                WriteToSubresource(destinationSubresource, destinationBox,
+                WriteToSubresource(destinationSubresource, new Box(destinationOffset, destinationExtent),
                     (IntPtr)dataPtr, sourceRowPitch, srcDepthPitch
                     );
             }
