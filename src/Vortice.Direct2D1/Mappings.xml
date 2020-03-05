@@ -67,7 +67,7 @@
     <bind from="D2D_SIZE_U" to="System.Drawing.Size" />
     <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
     <bind from="D2D_POINT_2U" to="System.Drawing.Point" />
-    <bind from="D2D_POINT_2F" to="System.Numerics.Vector2" />
+    <bind from="D2D_POINT_2F" to="System.Drawing.PointF" />
     <bind from="D2D_RECT_U" to="Vortice.Mathematics.Rect" />
     <bind from="D2D_RECT_F" to="Vortice.Mathematics.RectF" />
     <bind from="D2D_VECTOR_2F" to="System.Numerics.Vector2" />

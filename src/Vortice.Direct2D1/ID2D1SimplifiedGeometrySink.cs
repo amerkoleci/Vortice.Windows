@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.Numerics;
+using System.Drawing;
 using SharpGen.Runtime;
 
 namespace Vortice.Direct2D1
@@ -36,13 +36,13 @@ namespace Vortice.Direct2D1
         /// </remarks>	
         /// <param name="startPoint">The point at which to begin the new figure.</param>
         /// <param name="figureBegin">Whether the new figure should be hollow or filled.</param>
-        void BeginFigure(Vector2 startPoint, FigureBegin figureBegin);
+        void BeginFigure(PointF startPoint, FigureBegin figureBegin);
 
         /// <summary>	
         ///  Creates a sequence of lines using the specified points and adds them to the geometry sink.	
         /// </summary>	
         /// <param name="ointsRef">A pointer to an array of one or more points that describe the lines to draw. A line is drawn from the geometry sink's current point (the end point of the last segment drawn or the location specified by {{BeginFigure}}) to the first point in the array. if the array contains additional points, a line is drawn from the first point to the second point in the array, from the second point to the third point, and so on.   </param>
-        void AddLines(Vector2[] ointsRef);
+        void AddLines(PointF[] ointsRef);
 
         /// <summary>	
         /// Creates a sequence of cubic Bezier curves and adds them to the geometry sink. 	

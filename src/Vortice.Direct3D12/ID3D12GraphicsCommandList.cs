@@ -49,16 +49,24 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color4 colorRGBA, params Rect[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color)
         {
-            if (rectangles.Length == 0)
-            {
-                ClearRenderTargetView(renderTargetView, colorRGBA, 0, null);
-            }
-            else
-            {
-                ClearRenderTargetView(renderTargetView, colorRGBA, rectangles.Length, rectangles);
-            }
+            ClearRenderTargetView(renderTargetView, new Color4(color), 0, null);
+        }
+
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color, Rect[] rectangles)
+        {
+            ClearRenderTargetView(renderTargetView, new Color4(color), rectangles.Length, rectangles);
+        }
+
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color4 color)
+        {
+            ClearRenderTargetView(renderTargetView, color, 0, null);
+        }
+
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color4 color, Rect[] rectangles)
+        {
+            ClearRenderTargetView(renderTargetView, color, rectangles.Length, rectangles);
         }
 
         public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil)
@@ -80,17 +88,28 @@ namespace Vortice.Direct3D12
             GpuDescriptorHandle viewGpuHandleInCurrentHeap,
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
-            in Color4 clearValue,
-            params Rect[] rectangles)
+            in Color4 clearValue)
         {
-            if (rectangles.Length == 0)
-            {
-                ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, 0, null);
-            }
-            else
-            {
-                ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
-            }
+            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, 0, null);
+        }
+
+        public unsafe void ClearUnorderedAccessView(
+            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
+            CpuDescriptorHandle viewCpuHandle,
+            ID3D12Resource resource,
+            in Color4 clearValue,
+            Rect[] rectangles)
+        {
+            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
+        }
+
+        public unsafe void ClearUnorderedAccessView(
+            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
+            CpuDescriptorHandle viewCpuHandle,
+            ID3D12Resource resource,
+            in Int4 clearValue)
+        {
+            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, 0, null);
         }
 
         public unsafe void ClearUnorderedAccessView(
@@ -98,16 +117,14 @@ namespace Vortice.Direct3D12
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
             in Int4 clearValue,
-            params Rect[] rectangles)
+            Rect[] rectangles)
         {
-            if (rectangles.Length == 0)
-            {
-                ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, 0, null);
-            }
-            else
-            {
-                ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
-            }
+            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
+        }
+
+        public void OMSetBlendFactor(System.Drawing.Color blendFactor)
+        {
+            OMSetBlendFactor(new Color4(blendFactor));
         }
 
         #region Viewport

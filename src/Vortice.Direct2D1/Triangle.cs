@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.Numerics;
+using System.Drawing;
 
 namespace Vortice.Direct2D1
 {
@@ -16,7 +16,7 @@ namespace Vortice.Direct2D1
         /// <param name="point1">The first vertex of a triangle.</param>
         /// <param name="point2">The second vertex of a triangle.</param>
         /// <param name="point3">The third vertex of a triangle.</param>
-        public Triangle(in Vector2 point1, in Vector2 point2, in Vector2 point3)
+        public Triangle(in PointF point1, in PointF point2, in PointF point3)
         {
             Point1 = point1;
             Point2 = point2;

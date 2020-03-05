@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Numerics;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
@@ -33,9 +33,9 @@ namespace Vortice.Direct2D1
             }
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-            private delegate void AddLineDelegate(IntPtr thisPtr, Vector2 point);
+            private delegate void AddLineDelegate(IntPtr thisPtr, PointF point);
 
-            private static void AddLineImpl(IntPtr thisPtr, Vector2 point)
+            private static void AddLineImpl(IntPtr thisPtr, PointF point)
             {
                 var shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
                 var callback = (ID2D1GeometrySink)shadow.Callback;

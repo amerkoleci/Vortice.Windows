@@ -33,6 +33,21 @@ namespace Vortice.Direct3D12
         /// The format of the commonly cleared color follows the same validation rules as a view/ descriptor creation. 
         /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
         /// </param>
+        /// <param name="color">Specifies a RGBA clear color.</param>
+        public ClearValue(Format format, System.Drawing.Color color)
+        {
+            Format = format;
+            Color = new Color4(color);
+            DepthStencil = default;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DepthStencilValue"/> struct.
+        /// </summary>
+        /// <param name="format">
+        /// The format of the commonly cleared color follows the same validation rules as a view/ descriptor creation. 
+        /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
+        /// </param>
         /// <param name="depthStencil">Specifies depth and stencil clear value.</param>
         public ClearValue(Format format, DepthStencilValue depthStencil)
         {

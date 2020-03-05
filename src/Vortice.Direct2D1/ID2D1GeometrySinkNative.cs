@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.Numerics;
+using System.Drawing;
 
 namespace Vortice.Direct2D1
 {
     internal partial class ID2D1GeometrySinkNative
     {
-        public void AddLine(Vector2 point) => AddLine_(point);
+        public void AddLine(PointF point) => AddLine_(point);
 
         public void AddBezier(BezierSegment bezier) => AddBezier_(ref bezier);
 

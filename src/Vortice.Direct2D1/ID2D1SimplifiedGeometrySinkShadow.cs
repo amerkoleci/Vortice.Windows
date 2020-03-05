@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
-using System.Numerics;
+using System.Drawing;
 
 namespace Vortice.Direct2D1
 {
@@ -55,9 +55,9 @@ namespace Vortice.Direct2D1
             }
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-            private delegate void BeginFigureDelegate(IntPtr thisPtr, Vector2 startPoint, FigureBegin figureBegin);
+            private delegate void BeginFigureDelegate(IntPtr thisPtr, PointF startPoint, FigureBegin figureBegin);
 
-            private static void BeginFigureImpl(IntPtr thisPtr, Vector2 startPoint, FigureBegin figureBegin)
+            private static void BeginFigureImpl(IntPtr thisPtr, PointF startPoint, FigureBegin figureBegin)
             {
                 var shadow = ToShadow<ID2D1SimplifiedGeometrySinkShadow>(thisPtr);
                 var callback = (ID2D1SimplifiedGeometrySink)shadow.Callback;
@@ -70,7 +70,7 @@ namespace Vortice.Direct2D1
             {
                 var shadow = ToShadow<ID2D1SimplifiedGeometrySinkShadow>(thisPtr);
                 var callback = (ID2D1SimplifiedGeometrySink)shadow.Callback;
-                var managedPoints = new Vector2[pointsCount];
+                var managedPoints = new PointF[pointsCount];
                 MemoryHelpers.Read(points, managedPoints, 0, pointsCount);
                 callback.AddLines(managedPoints);
             }

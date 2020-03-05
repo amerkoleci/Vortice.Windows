@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System.Drawing;
 using System.Numerics;
 using Vortice.DirectWrite;
 using Vortice.WIC;
@@ -23,6 +24,16 @@ namespace Vortice.Direct2D1
             {
                 SetDpi(value.X, value.Y);
             }
+        }
+
+        public void Clear(System.Drawing.Color clearColor)
+        {
+            Clear(new Color4(clearColor));
+        }
+
+        public ID2D1SolidColorBrush CreateSolidColorBrush(System.Drawing.Color color, BrushProperties? brushProperties = null)
+        {
+            return CreateSolidColorBrush(new Color4(color), brushProperties);
         }
 
         public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops)
@@ -150,7 +161,7 @@ namespace Vortice.Direct2D1
         /// <param name="point0">The start point of the line, in device-independent pixels. </param>
         /// <param name="point1">The end point of the line, in device-independent pixels. </param>
         /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the line's stroke. </param>
-        public void DrawLine(Vector2 point0, Vector2 point1, ID2D1Brush brush)
+        public void DrawLine(PointF point0, PointF point1, ID2D1Brush brush)
         {
             DrawLine(point0, point1, brush, 1.0f, null);
         }
@@ -162,7 +173,7 @@ namespace Vortice.Direct2D1
         /// <param name="point1">The end point of the line, in device-independent pixels. </param>
         /// <param name="brush">The brush used to paint the line's stroke. </param>
         /// <param name="strokeWidth">A value greater than or equal to 0.0f that specifies the width of the stroke. If this parameter isn't specified, it defaults to 1.0f.  The stroke is centered on the line. </param>
-        public void DrawLine(Vector2 point0, Vector2 point1, ID2D1Brush brush, float strokeWidth)
+        public void DrawLine(in PointF point0, in PointF point1, ID2D1Brush brush, float strokeWidth)
         {
             DrawLine(point0, point1, brush, strokeWidth, null);
         }
@@ -172,8 +183,31 @@ namespace Vortice.Direct2D1
         /// </summary>
         /// <param name="rect">The dimensions of the rectangle to draw, in device-independent pixels. </param>
         /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke. </param>
-        public void DrawRectangle(RectF rect, ID2D1Brush brush)
+        public void DrawRectangle(in RectF rect, ID2D1Brush brush)
         {
+            DrawRectangle(rect, brush, 1.0f, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of a rectangle that has the specified dimensions and stroke style.
+        /// </summary>
+        /// <param name="rectangle">The dimensions of the rectangle to draw, in device-independent pixels.</param>
+        /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke.</param>
+        /// <param name="strokeWidth">A value greater than or equal to 0.0f that specifies the width of the rectangle's stroke. The stroke is centered on the rectangle's outline.</param>
+        public void DrawRectangle(in RectangleF rectangle, ID2D1Brush brush, float strokeWidth)
+        {
+            RectF rect = rectangle;
+            DrawRectangle(rect, brush, strokeWidth, null);
+        }
+
+        /// <summary>	
+        /// Draws the outline of a rectangle that has the specified dimensions. 
+        /// </summary>
+        /// <param name="rectangle">The dimensions of the rectangle to draw, in device-independent pixels. </param>
+        /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke. </param>
+        public void DrawRectangle(in RectangleF rectangle, ID2D1Brush brush)
+        {
+            RectF rect = rectangle;
             DrawRectangle(rect, brush, 1.0f, null);
         }
 
@@ -186,6 +220,12 @@ namespace Vortice.Direct2D1
         public void DrawRectangle(RectF rect, ID2D1Brush brush, float strokeWidth)
         {
             DrawRectangle(rect, brush, strokeWidth, null);
+        }
+
+        public void FillRectangle(RectangleF rectangle, ID2D1Brush brush)
+        {
+            RectF rect = rectangle;
+            FillRectangle(rect, brush);
         }
 
         /// <summary>	
@@ -275,7 +315,7 @@ namespace Vortice.Direct2D1
         /// <param name="origin">The point, described in device-independent pixels, at which the upper-left corner of the text described by textLayout is drawn. </param>
         /// <param name="textLayout">The formatted text to draw. Any drawing effects that do not inherit from <see cref="ID2D1Resource" /> are ignored. If there are drawing effects that inherit from <see cref="ID2D1Resource"/> that are not brushes, this method fails and the render target is put in an error state.  </param>
         /// <param name="defaultForegroundBrush">The <see cref="ID2D1Brush"/> used to paint any text in textLayout that does not already have a brush associated with it as a drawing effect (specified by the <see cref="IDWriteTextLayout.SetDrawingEffect(IUnknown, TextRange)"/> method).</param>
-        public void DrawTextLayout(Vector2 origin, IDWriteTextLayout textLayout, ID2D1Brush defaultForegroundBrush)
+        public void DrawTextLayout(PointF origin, IDWriteTextLayout textLayout, ID2D1Brush defaultForegroundBrush)
         {
             DrawTextLayout(origin, textLayout, defaultForegroundBrush, DrawTextOptions.None);
         }

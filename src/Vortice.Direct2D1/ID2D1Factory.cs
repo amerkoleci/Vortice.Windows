@@ -32,6 +32,15 @@ namespace Vortice.Direct2D1
             return geometryGroup;
         }
 
+        public ID2D1RectangleGeometry CreateRectangleGeometry(System.Drawing.RectangleF rectangle)
+        {
+            unsafe
+            {
+                RectF rectF = rectangle;
+                return CreateRectangleGeometry(new IntPtr(&rectF));
+            }
+        }
+
         public ID2D1RectangleGeometry CreateRectangleGeometry(RectF rectangle)
         {
             unsafe

@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Drawing;
 using System.Numerics;
 using Vortice.Mathematics;
 
@@ -14,19 +15,25 @@ namespace Vortice.Direct2D1
             DrawBitmap(bitmap, null, opacity, interpolationMode, null, null);
         }
 
-        public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, Matrix4x4 perspectiveTransformRef)
+        public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, in Matrix4x4 perspectiveTransform)
         {
-            DrawBitmap(bitmap, null, opacity, interpolationMode, null, perspectiveTransformRef);
+            DrawBitmap(bitmap, null, opacity, interpolationMode, null, perspectiveTransform);
         }
 
-        public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, RectF sourceRectangle, Matrix4x4 perspectiveTransformRef)
+        public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, in RectF sourceRectangle, in Matrix4x4 perspectiveTransform)
         {
-            DrawBitmap(bitmap, null, opacity, interpolationMode, sourceRectangle, perspectiveTransformRef);
+            DrawBitmap(bitmap, null, opacity, interpolationMode, sourceRectangle, perspectiveTransform);
+        }
+
+        public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, in RectangleF sourceRectangle, in Matrix4x4 perspectiveTransform)
+        {
+            RectF sourceRect = sourceRectangle;
+            DrawBitmap(bitmap, null, opacity, interpolationMode, sourceRect, perspectiveTransform);
         }
 
         public void DrawImage(
             ID2D1Image image,
-            Vector2 targetOffset,
+            in PointF targetOffset,
             InterpolationMode interpolationMode = InterpolationMode.Linear,
             CompositeMode compositeMode = CompositeMode.SourceOver)
         {
@@ -43,7 +50,7 @@ namespace Vortice.Direct2D1
 
         public void DrawImage(
             ID2D1Effect effect,
-            Vector2 targetOffset,
+            in PointF targetOffset,
             InterpolationMode interpolationMode = InterpolationMode.Linear,
             CompositeMode compositeMode = CompositeMode.SourceOver)
         {

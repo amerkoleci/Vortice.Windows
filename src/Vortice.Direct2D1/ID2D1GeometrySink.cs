@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.Numerics;
+using System.Drawing;
 using SharpGen.Runtime;
 
 namespace Vortice.Direct2D1
@@ -13,7 +13,7 @@ namespace Vortice.Direct2D1
         /// Creates a line segment between the current point and the specified end point and adds it to the geometry sink. 	
         /// </summary>	
         /// <param name="point">The end point of the line to draw.</param>
-        void AddLine(Vector2 point);
+        void AddLine(PointF point);
 
         /// <summary>	
         ///  Creates  a cubic Bezier curve between the current point and the specified endpoint.	

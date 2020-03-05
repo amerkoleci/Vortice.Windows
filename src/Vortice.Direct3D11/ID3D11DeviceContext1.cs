@@ -27,6 +27,24 @@ namespace Vortice.Direct3D11
             }
         }
 
+        public void ClearView(ID3D11View view, System.Drawing.Color color)
+        {
+            ClearView(view, new Color4(color));
+        }
+
+        public unsafe void ClearView(ID3D11View view, System.Drawing.Color color, Rect[] rects)
+        {
+            ClearView(view, new Color4(color), (IntPtr)Unsafe.AsPointer(ref rects[0]), rects.Length);
+        }
+
+        public unsafe void ClearView(ID3D11View view, System.Drawing.Color color, ReadOnlySpan<Rect> rects)
+        {
+            fixed (Rect* pRects = rects)
+            {
+                ClearView(view, new Color4(color), (IntPtr)pRects, rects.Length);
+            }
+        }
+
         public unsafe void DiscardView1(ID3D11View view, Rect[] rects)
         {
             DiscardView1(view, (IntPtr)Unsafe.AsPointer(ref rects[0]), rects.Length);

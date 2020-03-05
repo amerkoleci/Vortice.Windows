@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.Numerics;
+using System.Drawing;
 
 namespace Vortice.Direct2D1
 {
@@ -16,7 +16,7 @@ namespace Vortice.Direct2D1
         /// <param name="point1">The first control point for the Bezier segment.</param>
         /// <param name="point2">The second control point for the Bezier segment.</param>
         /// <param name="point3">The end point for the Bezier segment.</param>
-        public BezierSegment(Vector2 point1, Vector2 point2, Vector2 point3)
+        public BezierSegment(PointF point1, PointF point2, PointF point3)
         {
             Point1 = point1;
             Point2 = point2;

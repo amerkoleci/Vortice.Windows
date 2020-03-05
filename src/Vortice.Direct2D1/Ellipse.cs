@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.Numerics;
+using System.Drawing;
 
 namespace Vortice.Direct2D1
 {
@@ -16,7 +16,7 @@ namespace Vortice.Direct2D1
         /// <param name="point">The center point of the ellipse.</param>
         /// <param name="radiusX">The X-radius of the ellipse.</param>
         /// <param name="radiusY">The Y-radius of the ellipse.</param>
-        public Ellipse(Vector2 point, float radiusX, float radiusY)
+        public Ellipse(PointF point, float radiusX, float radiusY)
         {
             Point = point;
             RadiusX = radiusX;

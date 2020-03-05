@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System.Drawing;
-using System.Numerics;
 
 namespace Vortice.Direct2D1
 {
@@ -19,7 +18,7 @@ namespace Vortice.Direct2D1
         /// <param name="rotationAngle">A value that specifies how many degrees in the clockwise direction the ellipse is rotated relative to the current coordinate system.</param>
         /// <param name="sweepDirection">A value that specifies whether the arc sweep is clockwise or counterclockwise.</param>
         /// <param name="arcSize">A value that specifies whether the given arc is larger than 180 degrees.</param>
-        public ArcSegment(Vector2 point, SizeF size, float rotationAngle, SweepDirection sweepDirection, ArcSize arcSize)
+        public ArcSegment(PointF point, SizeF size, float rotationAngle, SweepDirection sweepDirection, ArcSize arcSize)
         {
             Point = point;
             Size = size;

@@ -22,5 +22,18 @@ namespace Vortice.Direct2D1
             RadiusX = radiusX;
             RadiusY = radiusY;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoundedRectangle"/> struct.
+        /// </summary>
+        /// <param name="rect">The coordinates of the rectangle.</param>
+        /// <param name="radiusX">The x-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
+        /// <param name="radiusY">The y-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
+        public RoundedRectangle(System.Drawing.RectangleF rect, float radiusX, float radiusY)
+        {
+            Rect = rect;
+            RadiusX = radiusX;
+            RadiusY = radiusY;
+        }
     }
 }

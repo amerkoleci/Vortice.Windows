@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.Numerics;
+using System.Drawing;
 
 namespace Vortice.Direct2D1
 {
@@ -9,9 +9,9 @@ namespace Vortice.Direct2D1
     {
         public void AddBeziers(BezierSegment[] beziers) => AddBeziers_(beziers, beziers.Length);
 
-        public void AddLines(Vector2[] points) => AddLines_(points, points.Length);
+        public void AddLines(PointF[] points) => AddLines_(points, points.Length);
 
-        public void BeginFigure(Vector2 startPoint, FigureBegin figureBegin) => BeginFigure_(startPoint, figureBegin);
+        public void BeginFigure(PointF startPoint, FigureBegin figureBegin) => BeginFigure_(startPoint, figureBegin);
 
         public void Close() => Close_();
 

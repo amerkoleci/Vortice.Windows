@@ -15,6 +15,21 @@ namespace Vortice.Direct3D11
     {
         private bool? _supportsCommandLists;
 
+        public void ClearRenderTargetView(ID3D11RenderTargetView renderTargetView, System.Drawing.Color color)
+        {
+            ClearRenderTargetView(renderTargetView, new Color4(color));
+        }
+
+        public void OMSetBlendState(ID3D11BlendState blendState, System.Drawing.Color blendFactor)
+        {
+            OMSetBlendState(blendState, new Color4(blendFactor));
+        }
+
+        public void OMSetBlendState(ID3D11BlendState blendState, System.Drawing.Color blendFactor, int sampleMask)
+        {
+            OMSetBlendState(blendState, new Color4(blendFactor), sampleMask);
+        }
+
         public unsafe void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)
         {
             var renderTargetViewPtr = renderTargetView.NativePointer;
