@@ -30,4 +30,4 @@ jobs:
     - name: Publish to NuGet
       shell: bash
       if: github.event_name == 'push'
-      run: dotnet nuget push build/packages/**/*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}}
+      run: dotnet nuget push build/packages/**/*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}} --no-symbols true
