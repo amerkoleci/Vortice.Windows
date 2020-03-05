@@ -316,15 +316,14 @@ namespace Vortice.Dxc
         /// </remarks>
         OverloadedDeclRef = 49,
 
-        /**
-         * \brief A reference to a variable that occurs in some non-expression 
-         * context, e.g., a C++ lambda capture list.
-         */
+        /// <summary>
+        /// A reference to a variable that occurs in some non-expression 
+        /// context, e.g., a C++ lambda capture list.
+        /// </summary>
         VariableRef = 50,
 
         LastRef = VariableRef,
 
-        /* Error conditions */
         FirstInvalid = 70,
         InvalidFile = 70,
         NoDeclFound = 71,
@@ -332,156 +331,169 @@ namespace Vortice.Dxc
         InvalidCode = 73,
         LastInvalid = InvalidCode,
 
-        /* Expressions */
         FirstExpr = 100,
-
-        /**
-         * \brief An expression whose specific kind is not exposed via this
-         * interface.
-         *
-         * Unexposed expressions have the same operations as any other kind
-         * of expression; one can extract their location information,
-         * spelling, children, etc. However, the specific kind of the
-         * expression is not reported.
-         */
+        /// <summary>
+        /// An expression whose specific kind is not exposed via this
+        /// interface.
+        /// 
+        /// Unexposed expressions have the same operations as any other kind
+        /// of expression; one can extract their location information,
+        /// spelling, children, etc. However, the specific kind of the
+        /// expression is not reported.
+        /// </summary>
         UnexposedExpr = 100,
 
-        /**
-         * \brief An expression that refers to some value declaration, such
-         * as a function, varible, or enumerator.
-         */
+        /// <summary>
+        /// brief An expression that refers to some value declaration, such as a function, varible, or enumerator.
+        /// </summary>
         DeclRefExpr = 101,
 
-        /**
-         * \brief An expression that refers to a member of a struct, union,
-         * class, Objective-C class, etc.
-         */
+        /// <summary>
+        /// An expression that refers to a member of a struct, union, class, Objective-C class, etc.
+        /// </summary>
         MemberRefExpr = 102,
 
-        /** \brief An expression that calls a function. */
+        /// <summary>
+        /// An expression that calls a function.
+        /// </summary>
         CallExpr = 103,
 
-        /** \brief An expression that sends a message to an Objective-C
-         object or class. */
+        /// <summary>
+        /// An expression that sends a message to an Objective-C object or class.
+        /// </summary>
         ObjCMessageExpr = 104,
 
-        /** \brief An expression that represents a block literal. */
+        /// <summary>
+        /// An expression that represents a block literal.
+        /// </summary>
         BlockExpr = 105,
 
-        /** \brief An integer literal.
-         */
+        /// <summary>
+        /// An integer literal.
+        /// </summary>
         IntegerLiteral = 106,
 
-        /** \brief A floating point number literal.
-         */
+        /// <summary>
+        /// A floating point number literal.
+        /// </summary>
         FloatingLiteral = 107,
 
-        /** \brief An imaginary number literal.
-         */
+        /// <summary>
+        /// An imaginary number literal.
+        /// </summary>
         ImaginaryLiteral = 108,
 
-        /** \brief A string literal.
-         */
+        /// <summary>
+        /// A string literal.
+        /// </summary>
         StringLiteral = 109,
 
-        /** \brief A character literal.
-         */
+        /// <summary>
+        /// A character literal.
+        /// </summary>
         CharacterLiteral = 110,
 
-        /** \brief A parenthesized expression, e.g. "(1)".
-         *
-         * This AST node is only formed if full location information is requested.
-         */
+        /// <summary>
+        /// A parenthesized expression, e.g. "(1)".
+        /// 
+        /// This AST node is only formed if full location information is requested.
+        /// </summary>
         ParenExpr = 111,
 
-        /** \brief This represents the unary-expression's (except sizeof and
-         * alignof).
-         */
+        /// <summary>
+        /// This represents the unary-expression's (except sizeof and alignof).
+        /// </summary>
         UnaryOperator = 112,
 
-        /** \brief [C99 6.5.2.1] Array Subscripting.
-         */
+        /// <summary>
+        /// [C99 6.5.2.1] Array Subscripting.
+        /// </summary>
         ArraySubscriptExpr = 113,
 
-        /** \brief A builtin binary operation expression such as "x + y" or
-         * "x <= y".
-         */
+        /// <summary>
+        /// A builtin binary operation expression such as "x + y" or "x <= y".
+        /// </summary>
         BinaryOperator = 114,
 
-        /** \brief Compound assignment such as "+=".
-         */
+        /// <summary>
+        /// Compound assignment such as "+=".
+        /// </summary>
         CompoundAssignOperator = 115,
 
-        /** \brief The ?: ternary operator.
-         */
+        /// <summary>
+        /// The ?: ternary operator.
+        /// </summary>
         ConditionalOperator = 116,
 
-        /** \brief An explicit cast in C (C99 6.5.4) or a C-style cast in C++
-         * (C++ [expr.cast]), which uses the syntax (Type)expr.
-         *
-         * For example: (int)f.
-         */
+        /// <summary>
+        /// An explicit cast in C (C99 6.5.4) or a C-style cast in C++ (C++ [expr.cast]), which uses the syntax (Type)expr.
+        /// </summary>
         CStyleCastExpr = 117,
 
-        /** \brief [C99 6.5.2.5]
-         */
+        /// <summary>
+        /// [C99 6.5.2.5]
+        /// </summary>
         CompoundLiteralExpr = 118,
 
-        /** \brief Describes an C or C++ initializer list.
-         */
+        /// <summary>
+        /// Describes an C or C++ initializer list.
+        /// </summary>
         InitListExpr = 119,
 
-        /** \brief The GNU address of label extension, representing &&label.
-         */
+        /// <summary>
+        /// The GNU address of label extension, representing a label.
+        /// </summary>
         AddrLabelExpr = 120,
 
-        /** \brief This is the GNU Statement Expression extension: ({int X=4; X;})
-         */
+        /// <summary>
+        /// This is the GNU Statement Expression extension: ({int X=4; X;})
+        /// </summary>
         StmtExpr = 121,
 
-        /** \brief Represents a C11 generic selection.
-         */
+        /// <summary>
+        /// Represents a C11 generic selection.
+        /// </summary>
         GenericSelectionExpr = 122,
 
-        /** \brief Implements the GNU __null extension, which is a name for a null
-         * pointer constant that has integral type (e.g., int or long) and is the same
-         * size and alignment as a pointer.
-         *
-         * The __null extension is typically only used by system headers, which define
-         * NULL as __null in C++ rather than using 0 (which is an integer that may not
-         * match the size of a pointer).
-         */
+        /// <summary>
+        /// Implements the GNU __null extension, which is a name for a null
+        /// pointer constant that has integral type (e.g., int or long) and is the same
+        /// size and alignment as a pointer.
+        /// 
+        /// The __null extension is typically only used by system headers, which define
+        /// NULL as __null in C++ rather than using 0 (which is an integer that may not
+        /// match the size of a pointer).
+        /// </summary>
         GNUNullExpr = 123,
 
-        /** \brief C++'s static_cast<> expression.
-         */
+        /// <summary>
+        /// C++'s static_cast expression.
+        /// </summary>
         CXXStaticCastExpr = 124,
 
-        /** \brief C++'s dynamic_cast<> expression.
-         */
+        /// <summary>
+        /// C++'s dynamic_cast expression.
+        /// </summary>
         CXXDynamicCastExpr = 125,
 
-        /** \brief C++'s reinterpret_cast<> expression.
+        /** \brief C++'s reinterpret_cast expression.
          */
         CXXReinterpretCastExpr = 126,
 
         /// <summary>
-        /// C++'s const_cast<> expression.
+        /// C++'s const_cast expression.
         /// </summary>
         CXXConstCastExpr = 127,
 
-        /** \brief Represents an explicit C++ type conversion that uses "functional"
-         * notion (C++ [expr.type.conv]).
-         *
-         * Example:
-         * \code
-         *   x = int(0.5);
-         * \endcode
-         */
+        /// <summary>
+        /// Represents an explicit C++ type conversion that uses "functional"
+        /// notion (C++ [expr.type.conv]).
+        /// </summary>
         CXXFunctionalCastExpr = 128,
 
-        /** \brief A C++ typeid expression (C++ [expr.typeid]).
-         */
+        /// <summary>
+        /// A C++ typeid expression (C++ [expr.typeid]).
+        /// </summary>
         CXXTypeidExpr = 129,
 
         /** \brief [C++ 2.13.5] C++ Boolean Literal.
