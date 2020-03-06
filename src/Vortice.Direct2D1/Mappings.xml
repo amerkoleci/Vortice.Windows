@@ -25,7 +25,10 @@
   <include file="d2d1effectauthor.h" attach="true" />
   <include file="d2d1effectauthor_1.h" attach="true" />
   <include file="d2d1svg.h" attach="true" />
-
+  <include file="winerror.h">
+    <attach>D2DERR_(.*)</attach>
+  </include>
+  
   <include file="DWrite.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
   <include file="DWrite_1.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
   <include file="DWrite_2.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
@@ -61,6 +64,9 @@
     <const from-guid="CLSID_D2D13DPerspectiveTransform" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="PerspectiveTransform3D">new System.Guid("$1")</const>
     <const from-guid="CLSID_D2D13DTransform" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="Transform3D">new System.Guid("$1")</const>
     <const from-guid="CLSID_D2D1(.*)" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+  
+    <create class="ResultCode" visibility="public"/>
+    <const from-macro="D2DERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct2D1.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
   </extension>
 
   <bindings>
