@@ -9,19 +9,15 @@
 
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)native\win-x64\xaudio2_9redist.dll">
+      <PackagePath>runtimes\win-x64\native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PackagePath>runtimes/win-x64/native</PackagePath>
-      <Pack>true</Pack>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)native\win-x86\xaudio2_9redist.dll">
+      <PackagePath>runtimes\win-x86\native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PackagePath>runtimes/win-x86/native</PackagePath>
-      <Pack>true</Pack>
     </Content>
-    <Content Include="build\net40\Vortice.XAudio2.targets">
-      <PackagePath>build/net40/Vortice.XAudio2.targets</PackagePath>
-      <Pack>true</Pack>
-    </Content>
+    
+    <Content Include="Vortice.XAudio2.targets" PackagePath="build" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +25,6 @@
     <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
     <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenVersion)" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
-    <PackageReference Include="NativeLibraryLoader" Version="1.0.12" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vortice.Multimedia\Vortice.Multimedia.csproj" />

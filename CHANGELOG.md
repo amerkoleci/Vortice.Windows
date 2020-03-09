@@ -11,6 +11,8 @@ KEY CHANGES:
 - [ENH] Usage of standard types from System.Drawing.*
 - [ENH] Include winerror result codes for Direct2D1.
 - [FIX] Various Direct3D11 issues.
+- [ENH] Use XAudio2 Redist to support Windows7 and remove XAudio 2.7 and 2.8 logic (https://docs.microsoft.com/en-us/windows/win32/xaudio2/xaudio2-redistributable).
+- [ENH] Merge X3DAudio in XAudio2 in addition to new XAudio redist.
 
 -----------------------------------------------
 Release:     1.5.0 (December 2019)

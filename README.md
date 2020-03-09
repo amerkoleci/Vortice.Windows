@@ -9,7 +9,7 @@
 This project was born as [SharpDX](https://github.com/sharpdx/SharpDX) was recently inactive and the aim is to have .net standard 2.0 API and usage
 of modern stuff like Unsafe and SharpGen.Runtime.
 
-The API as still experimental and may change between release, make sure to take look at [CHANGELOG](https://github.com/amerkoleci/Vortice.Windows/blob/master/CHANGELOG.md)
+The API may change between release, make sure to take look at [CHANGELOG](https://github.com/amerkoleci/Vortice.Windows/blob/master/CHANGELOG.md)
 
 ## Credits
 

@@ -3,8 +3,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using NativeLibraryLoader;
-using SharpGen.Runtime;
 using Vortice.Multimedia;
 
 namespace Vortice.XAudio2

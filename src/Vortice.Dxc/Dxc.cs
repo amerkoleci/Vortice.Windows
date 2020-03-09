@@ -454,7 +454,7 @@ namespace Vortice.Dxc
         {
             s_dxilLib = new NativeLibrary("dxil.dll");
             s_dxCompilerLib = new NativeLibrary("dxcompiler.dll");
-            DxcCreateInstanceFn = s_dxCompilerLib.LoadFunction< DxcCreateInstanceFn>("DxcCreateInstance");
+            DxcCreateInstanceFn = s_dxCompilerLib.LoadFunction<DxcCreateInstanceFn>("DxcCreateInstance");
         }
 
         public static DxcCreateInstanceFn DxcCreateInstanceFn;
@@ -463,11 +463,5 @@ namespace Vortice.Dxc
         {
             return DxcCreateInstanceFn(ref clsid, ref iid, out instance);
         }
-
-        [DllImport("kernel32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = true, CharSet = CharSet.Unicode, ExactSpelling = true)]
-        private static extern IntPtr LoadLibraryW([MarshalAs(UnmanagedType.LPWStr)] string fileName);
-
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true)]
-        private static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
     }
 }

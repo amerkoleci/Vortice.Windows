@@ -2,7 +2,8 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using NativeLibraryLoader;
+using System.IO;
+using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using Vortice.Multimedia;
 
@@ -10,9 +11,9 @@ namespace Vortice.XAudio2
 {
     internal static unsafe class XAudio2Native
     {
-        private static readonly NativeLibrary s_xaudioLibrary = LoadXAudio2();
+        private static readonly IntPtr s_xaudioLibrary = LoadXAudio2();
 
-        private static NativeLibrary LoadXAudio2()
+        private static IntPtr LoadXAudio2()
         {
             if (PlatformDetection.IsUAP)
             {
@@ -21,17 +22,47 @@ namespace Vortice.XAudio2
                 s_CreateAudioVolumeMeter = XAudio29.CreateAudioVolumeMeter;
                 s_X3DAudioInitialize = XAudio29.X3DAudioInitialize;
                 s_X3DAudioCalculate = XAudio29.X3DAudioCalculate;
-                return null;
+                return IntPtr.Zero;
             }
             else
             {
-                var nativeLibrary = new NativeLibrary("xaudio2_9redist.dll");
-                s_XAudio2CreateCallback = s_xaudioLibrary.LoadFunction<XAudio2CreateDelegate>("XAudio2Create");
-                s_CreateAudioReverb = s_xaudioLibrary.LoadFunction<CreateAudioReverbDelegate>("CreateAudioReverb");
-                s_CreateAudioVolumeMeter = s_xaudioLibrary.LoadFunction<CreateAudioVolumeMeterDelegate>("CreateAudioVolumeMeter");
-                s_X3DAudioInitialize = s_xaudioLibrary.LoadFunction<X3DAudioInitializeDelegate>("X3DAudioInitialize");
-                s_X3DAudioCalculate = s_xaudioLibrary.LoadFunction<X3DAudioCalculateDelegate>("X3DAudioCalculate");
-                return nativeLibrary;
+                var nativeLib = IntPtr.Zero;
+                var rid = Environment.Is64BitProcess ? "win-x64" : "win-x86";
+                var assemblyLocation = Path.GetDirectoryName(typeof(XAudio2Native).Assembly.Location) ?? "./";
+
+                if (nativeLib == IntPtr.Zero)
+                    nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "native", rid, "xaudio2_9redist.dll"));
+
+                if (nativeLib == IntPtr.Zero)
+                {
+                    if (Environment.Is64BitProcess)
+                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "x64/xaudio2_9redist.dll"));
+                    else
+                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "x86/xaudio2_9redist.dll"));
+
+                    if (nativeLib == IntPtr.Zero)
+                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "../../runtimes", rid, "native/xaudio2_9redist.dll"));
+
+                    if (nativeLib == IntPtr.Zero)
+                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "runtimes", rid, "native/xaudio2_9redist.dll"));
+
+                    // Last try from executable folder.
+                    if (nativeLib == IntPtr.Zero)
+                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "xaudio2_9redist.dll"));
+                }
+
+                if (nativeLib == IntPtr.Zero)
+                {
+                    throw new PlatformNotSupportedException("Cannot load native libraries on this platform: " + RuntimeInformation.OSDescription);
+                }
+
+                s_XAudio2CreateCallback = LoadFunction<XAudio2CreateDelegate>(nativeLib, "XAudio2Create");
+                s_CreateAudioReverb = LoadFunction<CreateAudioReverbDelegate>(nativeLib, "CreateAudioReverb");
+                s_CreateAudioVolumeMeter = LoadFunction<CreateAudioVolumeMeterDelegate>(nativeLib, "CreateAudioVolumeMeter");
+                s_X3DAudioInitialize = LoadFunction<X3DAudioInitializeDelegate>(nativeLib, "X3DAudioInitialize");
+                s_X3DAudioCalculate = LoadFunction<X3DAudioCalculateDelegate>(nativeLib, "X3DAudioCalculate");
+                return nativeLib;
+
             }
         }
 
@@ -115,5 +146,22 @@ namespace Vortice.XAudio2
         private static CreateAudioVolumeMeterDelegate s_CreateAudioVolumeMeter;
         private static X3DAudioInitializeDelegate s_X3DAudioInitialize;
         private static X3DAudioCalculateDelegate s_X3DAudioCalculate;
+
+        private static T LoadFunction<T>(IntPtr module, string name)
+        {
+            IntPtr functionPtr = GetProcAddress(module, name);
+            if (functionPtr == IntPtr.Zero)
+            {
+                throw new InvalidOperationException($"No function was found with the name {name}.");
+            }
+
+            return Marshal.GetDelegateForFunctionPointer<T>(functionPtr);
+        }
+
+        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern IntPtr LoadLibraryW(string lpszLib);
+
+        [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+        private static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
     }
 }
