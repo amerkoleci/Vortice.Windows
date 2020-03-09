@@ -45,16 +45,53 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe void DiscardView1(ID3D11View view, Rect[] rects)
+        /// <summary>
+        /// Discards the specified elements in a resource view from the device context.
+        /// </summary>
+        /// <param name="view">
+        /// An instance of <see cref="ID3D11View"/> for the resource view to discard. 
+        /// The resource that underlies the view must have been created with usage <see cref="Usage.Default"/> or <see cref="Usage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
+        /// if the debug layer is enabled, the runtime returns an error message.
+        /// </param>
+        public void DiscardView1(ID3D11View view)
         {
-            DiscardView1(view, (IntPtr)Unsafe.AsPointer(ref rects[0]), rects.Length);
+            DiscardView1(view, IntPtr.Zero, 0);
         }
 
-        public unsafe void DiscardView1(ID3D11View view, ReadOnlySpan<Rect> rects)
+        /// <summary>
+        /// Discards the specified elements in a resource view from the device context.
+        /// </summary>
+        /// <param name="view">
+        /// An instance of <see cref="ID3D11View"/> for the resource view to discard. 
+        /// The resource that underlies the view must have been created with usage <see cref="Usage.Default"/> or <see cref="Usage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
+        /// if the debug layer is enabled, the runtime returns an error message.
+        /// </param>
+        /// <param name="rects">An array of <see cref="Rect"/> structures for the rectangles in the resource view to discard.</param>
+        public void DiscardView1(ID3D11View view, Rect[] rects)
         {
-            fixed (Rect* pRects = rects)
+            unsafe
             {
-                DiscardView1(view, (IntPtr)pRects, rects.Length);
+                DiscardView1(view, (IntPtr)Unsafe.AsPointer(ref rects[0]), rects.Length);
+            }
+        }
+
+        /// <summary>
+        /// Discards the specified elements in a resource view from the device context.
+        /// </summary>
+        /// <param name="view">
+        /// An instance of <see cref="ID3D11View"/> for the resource view to discard. 
+        /// The resource that underlies the view must have been created with usage <see cref="Usage.Default"/> or <see cref="Usage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
+        /// if the debug layer is enabled, the runtime returns an error message.
+        /// </param>
+        /// <param name="rects">An <see cref="ReadOnlySpan{Rect}"/> for the rectangles in the resource view to discard.</param>
+        public void DiscardView1(ID3D11View view, ReadOnlySpan<Rect> rects)
+        {
+            unsafe
+            {
+                fixed (Rect* pRects = rects)
+                {
+                    DiscardView1(view, (IntPtr)pRects, rects.Length);
+                }
             }
         }
 
