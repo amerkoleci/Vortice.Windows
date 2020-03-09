@@ -6,7 +6,11 @@ Current Release:    1.5.0 (December 2019)
 Release:     1.6.0 (March 2020)
 -----------------------------------------------
 KEY CHANGES:
-- Direct3D11 helpers for creating Texture1D, Texture2D, Texture3D etc.
+- [FIX] DXGIGetDebugInterface1 is part of dxgi.dll and not dxgidebug.dll
+- [ENH] Direct3D11 helpers for creating Texture1D, Texture2D, Texture3D etc.
+- [ENH] Usage of standard types from System.Drawing.*
+- [ENH] Include winerror result codes for Direct2D1.
+- [FIX] Various Direct3D11 issues.
 
 -----------------------------------------------
 Release:     1.5.0 (December 2019)

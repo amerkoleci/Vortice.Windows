@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using NativeLibraryLoader;
 using SharpGen.Runtime;
 using Vortice.Multimedia;
 
@@ -10,101 +11,44 @@ namespace Vortice.XAudio2
 {
     public partial class IXAudio2
     {
-        private static Guid CLSID_XAudio27 = new Guid("5a508685-a254-4fba-9b82-9a24b00306af");
-        private static Guid CLSID_XAudio27_Debug = new Guid("db05ea35-0329-4d4b-a53a-6dead03d3852");
-        private static Guid IID_IXAudio27 = new Guid("8bcf1f58-9fe7-4583-8ac6-e2adc465c8bb");
-
         private readonly EngineCallback _engineCallback;
+        private static readonly NativeLibrary s_xaudioLibrary = LoadXAudio2();
+        private unsafe delegate int XAudio2CreateDelegate(void* arg0, int arg1, int arg2);
 
-        /// <summary>
-        /// Get the running version.
-        /// </summary>
-        public XAudio2Version Version { get; }
+        private static NativeLibrary LoadXAudio2()
+        {
+            if (PlatformDetection.IsUAP)
+            {
+                return new NativeLibrary("xaudio2_9.dll");
+            }
+
+            return new NativeLibrary("xaudio2_9redist.dll");
+        }
 
         public IXAudio2()
-            : this(XAudio2Version.Default)
+            : this(XAudio2Flags.None, ProcessorSpecifier.Processor1, null)
         {
         }
 
         public IXAudio2(EngineCallback engineCallback)
-            : this(XAudio2Version.Default, engineCallback)
-        {
-        }
-
-
-        public IXAudio2(XAudio2Version requestedVersion)
-            : this(XAudio2Flags.None, ProcessorSpecifier.Processor1, requestedVersion)
-        {
-        }
-
-        public IXAudio2(XAudio2Version requestedVersion, EngineCallback engineCallback)
-            : this(XAudio2Flags.None, ProcessorSpecifier.Processor1, requestedVersion, engineCallback)
+            : this(XAudio2Flags.None, ProcessorSpecifier.Processor1, engineCallback)
         {
         }
 
         public IXAudio2(
             XAudio2Flags flags,
             ProcessorSpecifier processorSpecifier,
-            XAudio2Version requestedVersion = XAudio2Version.Default,
             EngineCallback engineCallback = null)
             : base(IntPtr.Zero)
         {
-            var tryVersions = requestedVersion == XAudio2Version.Default
-                ? new[] { XAudio2Version.Version29, XAudio2Version.Version28, XAudio2Version.Version27 }
-                : new[] { requestedVersion };
-
-            foreach (var tryVersion in tryVersions)
+            if (PlatformDetection.IsUAP)
             {
-                switch (tryVersion)
-                {
-                    case XAudio2Version.Version27:
-                        if (PlatformDetection.IsUAP)
-                        {
-                            throw new NotSupportedException("XAudio 2.7 is not supported on UAP platform");
-                        }
-
-                        Guid clsid = ((int)flags == 1) ? CLSID_XAudio27_Debug : CLSID_XAudio27;
-                        if ((requestedVersion == XAudio2Version.Default || requestedVersion == XAudio2Version.Version27)
-                            && ComUtilities.TryCreateComInstance(clsid, ComContext.InprocServer, IID_IXAudio27, this))
-                        {
-                            SetupVtblFor27();
-                            // Initialize XAudio2
-                            Initialize(0, processorSpecifier);
-                            Version = XAudio2Version.Version27;
-                        }
-                        break;
-                    case XAudio2Version.Version28:
-                        try
-                        {
-                            NativePointer = XAudio28.XAudio2Create(0, processorSpecifier);
-                            Version = XAudio2Version.Version28;
-                        }
-                        catch (DllNotFoundException) { }
-                        break;
-                    case XAudio2Version.Version29:
-                        try
-                        {
-                            NativePointer = XAudio29.XAudio2Create(0, processorSpecifier);
-                            Version = XAudio2Version.Version29;
-                        }
-                        catch (DllNotFoundException) { }
-                        break;
-                }
-
-                // Early exit if we found a requestedVersion
-                if (Version != XAudio2Version.Default)
-                {
-                    break;
-                }
+                NativePointer = XAudio29.XAudio2Create(0, processorSpecifier);
             }
-
-            if (Version == XAudio2Version.Default)
+            else
             {
-                var versionStr = requestedVersion == XAudio2Version.Default ? "2.7, 2.8 or 2.9" : requestedVersion.ToString();
-                throw new DllNotFoundException($"Unable to find XAudio2 dlls for requested versions [{versionStr}], not installed on this machine");
+                NativePointer = XAudio2CreateWithCallback(0, processorSpecifier);
             }
-
-            IXAudio2Voice.Version = Version;
 
             // Register engine callback
             _engineCallback = engineCallback;
@@ -134,14 +78,7 @@ namespace Vortice.XAudio2
             int inputSampleRate = DefaultSampleRate,
             AudioStreamCategory category = AudioStreamCategory.GameEffects)
         {
-            if (Version == XAudio2Version.Version27)
-            {
-                return CreateMasteringVoice27(inputChannels, inputSampleRate, 0, 0, null);
-            }
-            else
-            {
-                return CreateMasteringVoice(inputChannels, inputSampleRate, 0, null, null, category);
-            }
+            return CreateMasteringVoice(inputChannels, inputSampleRate, 0, null, null, category);
         }
 
         public unsafe IXAudio2SourceVoice CreateSourceVoice(
@@ -256,71 +193,13 @@ namespace Vortice.XAudio2
             CommitChanges(0);
         }
 
-        #region Version 2.7
-        private void CheckVersion27()
+        private static unsafe IntPtr XAudio2CreateWithCallback(int flags, ProcessorSpecifier processorSpecifier)
         {
-            if (Version != XAudio2Version.Version27)
-            {
-                throw new InvalidOperationException("This method is only valid on the XAudio 2.7 requestedVersion [Current is: " + Version + "]");
-            }
-        }
-
-        private void CheckNotVersion27()
-        {
-            if (Version == XAudio2Version.Version27)
-            {
-                throw new InvalidOperationException("This method is only valid on version greather than XAudio 2.7 [Current is: " + Version + "]");
-            }
-        }
-
-        /// <summary>
-        /// Setups the VTBL for XAudio 2.7. The 2.7 verions had 3 methods starting at VTBL[3]:
-        /// - GetDeviceCount
-        /// - GetDeviceDetails
-        /// - Initialize
-        /// </summary>
-        private void SetupVtblFor27()
-        {
-            RegisterForCallbacks__vtbl_index += 3;
-            UnregisterForCallbacks__vtbl_index += 3;
-            CreateSourceVoice__vtbl_index += 3;
-            CreateSubmixVoice__vtbl_index += 3;
-            CreateMasteringVoice__vtbl_index += 3;
-            StartEngine__vtbl_index += 3;
-            StopEngine__vtbl_index += 3;
-            CommitChanges__vtbl_index += 3;
-            GetPerformanceData__vtbl_index += 3;
-            SetDebugConfiguration__vtbl_index += 3;
-        }
-
-        private unsafe void Initialize(int flags, ProcessorSpecifier xAudio2Processor)
-        {
-            var result = (Result)LocalInterop.CalliInitialize(_nativePointer, (int)flags, (int)xAudio2Processor, *(*(void***)_nativePointer + 5));
-            result.CheckError();
-        }
-
-        private unsafe IXAudio2MasteringVoice CreateMasteringVoice27(int inputChannels, int inputSampleRate, int flags, int deviceIndex, EffectChain? effectChainRef)
-        {
+            var XAudio2CreateCallback = s_xaudioLibrary.LoadFunction<XAudio2CreateDelegate>("XAudio2Create");
             var nativePtr = IntPtr.Zero;
-            EffectChain effectChain;
-            if (effectChainRef.HasValue)
-            {
-                effectChain = effectChainRef.Value;
-            }
-
-            Result result = LocalInterop.CalliCreateMasteringVoice(_nativePointer, (void*)&nativePtr, inputChannels, inputSampleRate, flags, deviceIndex, effectChainRef.HasValue ? ((void*)(&effectChain)) : ((void*)IntPtr.Zero), *(*(void***)_nativePointer + 10));
+            Result result = XAudio2CreateCallback(&nativePtr, flags, (int)processorSpecifier);
             result.CheckError();
-            return new IXAudio2MasteringVoice(nativePtr);
+            return nativePtr;
         }
-
-        //private unsafe void GetDeviceDetails(int index, out DeviceDetails deviceDetailsRef)
-        //{
-        //    DeviceDetails.__Native _Native = default(DeviceDetails.__Native);
-        //    Result result = LocalInterop.CalliGetDeviceDetails(this._nativePointer, index, &_Native, *(*(void***)this._nativePointer + 4));
-        //    deviceDetailsRef = default(DeviceDetails);
-        //    deviceDetailsRef.__MarshalFrom(ref _Native);
-        //    result.CheckError();
-        //}
-        #endregion
     }
 }

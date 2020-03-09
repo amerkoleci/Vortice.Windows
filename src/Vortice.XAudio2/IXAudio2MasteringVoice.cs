@@ -12,11 +12,6 @@ namespace Vortice.XAudio2
         {
             get
             {
-                if (Version == XAudio2Version.Version27)
-                {
-                    return 0;
-                }
-
                 GetChannelMask(out var mask);
                 return mask;
             }

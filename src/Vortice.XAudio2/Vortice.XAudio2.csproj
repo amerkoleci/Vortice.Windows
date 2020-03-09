@@ -6,10 +6,29 @@
     <RootNamespace>Vortice.XAudio2</RootNamespace>
     <Description>XAudio2 bindings.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)native\win-x64\xaudio2_9redist.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="$(MSBuildThisFileDirectory)native\win-x86\xaudio2_9redist.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackagePath>runtimes/win-x86/native</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+    <Content Include="build\net40\Vortice.XAudio2.targets">
+      <PackagePath>build/net40/Vortice.XAudio2.targets</PackagePath>
+      <Pack>true</Pack>
+    </Content>
+  </ItemGroup>
+
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
     <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenVersion)" />
+    <PackageReference Include="NativeLibraryLoader" Version="1.0.12" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vortice.Multimedia\Vortice.Multimedia.csproj" />

@@ -9,8 +9,6 @@ namespace Vortice.XAudio2
 {
     public partial class IXAudio2Voice
     {
-        public static XAudio2Version Version { get; internal set; }
-
         /// <summary>	
         /// Gets or Sets the overall volume level for the voice.	
         /// </summary>	
@@ -35,15 +33,6 @@ namespace Vortice.XAudio2
             get
             {
                 GetVoiceDetails(out var details);
-
-                // Handle 2.7 version changes here
-                if (Version == XAudio2Version.Version27)
-                {
-                    details.InputSampleRate = details.InputChannelCount;
-                    details.InputChannelCount = details.ActiveFlags;
-                    details.ActiveFlags = 0;
-                }
-
                 return details;
             }
         }
