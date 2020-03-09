@@ -32,8 +32,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XAudio2", "Vortice.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Multimedia", "Vortice.Multimedia\Vortice.Multimedia.csproj", "{8B819A20-F08E-4329-9183-235A58ED0024}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.X3DAudio", "Vortice.X3DAudio\Vortice.X3DAudio.csproj", "{D94DD478-7552-4964-B13D-1271B32E85F5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D9", "Vortice.Direct3D9\Vortice.Direct3D9.csproj", "{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}"
 EndProject
 Global
@@ -98,10 +96,6 @@ Global
 		{8B819A20-F08E-4329-9183-235A58ED0024}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B819A20-F08E-4329-9183-235A58ED0024}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B819A20-F08E-4329-9183-235A58ED0024}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D94DD478-7552-4964-B13D-1271B32E85F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D94DD478-7552-4964-B13D-1271B32E85F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D94DD478-7552-4964-B13D-1271B32E85F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D94DD478-7552-4964-B13D-1271B32E85F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}.Release|Any CPU.ActiveCfg = Release|Any CPU

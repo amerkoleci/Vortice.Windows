@@ -10,6 +10,7 @@
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include</include-dir>
 
   <include file="xaudio2.h" attach="true" />
+  <include file="x3daudioredist.h" attach="true" output="X3DAudio" />
 
   <extension>
     <define struct="System.Drawing.Point" sizeof="8" />
@@ -56,10 +57,15 @@
 
     <create class="ResultCode" visibility="public"/>
     <const from-macro="XAUDIO2_E_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.XAudio2.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+
+    <define struct="Vortice.XAudio2.X3DAudioHandle" sizeof="20" />
+    <create-cpp enum="X3DAudioCalculateFlags" macro="X3DAUDIO_CALCULATE_.*" />
   </extension>
 
   <bindings>
     <bind from="UINT32" to="System.Int32" />
+    <bind from="X3DAUDIOHANDLE" to="Vortice.XAudio2.X3DAudioHandle" />
+    <bind from="X3DAUDIO_VECTOR" to="System.Numerics.Vector3"/>
   </bindings>
 
   <mapping>
@@ -161,5 +167,35 @@
 
     <remove interface="IXAudio2Extension"/>
     <remove function="XAudio2CreateWithVersionInfo"/>
+
+    <!-- X3DAudio -->
+    <!-- Enums -->
+    <map enum="X3DAUDIO(.*)" name-tmp="$1" />
+    <map enum="X3DAudioCalculateFlags" name="CalculateFlags" flags="true"/>
+    <map enum-item="X3DAUDIO_CALCULATE_(.*)" name-tmp="$1" />
+    <map enum-item="X3DAUDIO_CALCULATE_ZEROCENTER" name="ZeroCenter"/>
+
+    <!-- Structs -->
+    <map struct="X3DAUDIO(.*)" name-tmp="$1" />
+    <map field="X3DAUDIO_.*::p([A-Z].*)" name-tmp="$1Pointer" visibility="internal"/>
+
+    <map struct="X3DAUDIO_DISTANCE_CURVE" visibility="internal"/>
+    <map struct="X3DAUDIO_DISTANCE_CURVE_POINT" name="CurvePoint"/>
+    <map field="X3DAUDIO_DISTANCE_CURVE_POINT::DSPSetting" name="DspSetting"/>
+
+    <!-- X3DAUDIO_CONE -->
+    <map field="X3DAUDIO_CONE::InnerLPF" name="InnerLpf"/>
+    <map field="X3DAUDIO_CONE::OuterLPF" name="OuterLpf"/>
+    <map struct="X3DAUDIO_EMITTER" native="true" struct-to-class="true" marshal="true"/>
+    <map struct="X3DAUDIO_LISTENER" native="true" struct-to-class="true" marshal="true"/>
+
+    <map struct="X3DAUDIO_DSP_SETTINGS" native="true" struct-to-class="true" marshal="true"/>
+    <map field="X3DAUDIO_DSP_SETTINGS::SrcChannelCount" name="SourceChannelCount" visibility="public readonly"/>
+    <map field="X3DAUDIO_DSP_SETTINGS::DstChannelCount" name="DestinationChannelCount" visibility="public readonly"/>
+
+    <map field=".*::LFE(.*)" name="Lfe$1"/>
+    <map field=".*::LPF(.*)" name="Lpf$1"/>
+
+    <remove function="X3DAudio.*"/>
   </mapping>
 </config>

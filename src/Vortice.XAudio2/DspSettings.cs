@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
-namespace Vortice.X3DAudio
+namespace Vortice.XAudio2
 {
     /// <summary>
     /// Receives the results from a call to <see cref="X3DAudio.Calculate(Listener, Emitter, CalculateFlags, int, int)"/>.

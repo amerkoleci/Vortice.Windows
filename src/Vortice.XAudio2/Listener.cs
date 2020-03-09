@@ -5,9 +5,8 @@ using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Vortice.Multimedia;
 
-namespace Vortice.X3DAudio
+namespace Vortice.XAudio2
 {
     /// <summary>
     /// Defines a point of 3D audio reception.

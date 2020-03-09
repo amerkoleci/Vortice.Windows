@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Vortice.X3DAudio
+namespace Vortice.XAudio2
 {
     [StructLayout(LayoutKind.Explicit, Size = 20)]
     internal struct X3DAudioHandle

@@ -12,18 +12,6 @@ namespace Vortice.XAudio2
     public partial class IXAudio2
     {
         private readonly EngineCallback _engineCallback;
-        private static readonly NativeLibrary s_xaudioLibrary = LoadXAudio2();
-        private unsafe delegate int XAudio2CreateDelegate(void* arg0, int arg1, int arg2);
-
-        private static NativeLibrary LoadXAudio2()
-        {
-            if (PlatformDetection.IsUAP)
-            {
-                return new NativeLibrary("xaudio2_9.dll");
-            }
-
-            return new NativeLibrary("xaudio2_9redist.dll");
-        }
 
         public IXAudio2()
             : this(XAudio2Flags.None, ProcessorSpecifier.Processor1, null)
@@ -41,14 +29,7 @@ namespace Vortice.XAudio2
             EngineCallback engineCallback = null)
             : base(IntPtr.Zero)
         {
-            if (PlatformDetection.IsUAP)
-            {
-                NativePointer = XAudio29.XAudio2Create(0, processorSpecifier);
-            }
-            else
-            {
-                NativePointer = XAudio2CreateWithCallback(0, processorSpecifier);
-            }
+            NativePointer = XAudio2Native.XAudio2Create(0, processorSpecifier);
 
             // Register engine callback
             _engineCallback = engineCallback;
@@ -191,15 +172,6 @@ namespace Vortice.XAudio2
         public void CommitChanges()
         {
             CommitChanges(0);
-        }
-
-        private static unsafe IntPtr XAudio2CreateWithCallback(int flags, ProcessorSpecifier processorSpecifier)
-        {
-            var XAudio2CreateCallback = s_xaudioLibrary.LoadFunction<XAudio2CreateDelegate>("XAudio2Create");
-            var nativePtr = IntPtr.Zero;
-            Result result = XAudio2CreateCallback(&nativePtr, flags, (int)processorSpecifier);
-            result.CheckError();
-            return nativePtr;
         }
     }
 }

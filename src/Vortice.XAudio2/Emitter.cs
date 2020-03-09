@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
-namespace Vortice.X3DAudio
+namespace Vortice.XAudio2
 {
     /// <summary>
     /// Defines a single-point or multiple-point 3D audio source that is used with an arbitrary number of sound channels.

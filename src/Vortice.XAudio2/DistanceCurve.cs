@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
-namespace Vortice.X3DAudio
+namespace Vortice.XAudio2
 {
     internal partial struct DistanceCurve
     {

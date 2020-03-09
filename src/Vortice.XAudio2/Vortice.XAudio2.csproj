@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>Vortice.XAudio2</RootNamespace>
-    <Description>XAudio2 bindings.</Description>
+    <Description>XAudio2 and X3DAudio bindings</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,6 +28,7 @@
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
     <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenVersion)" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
     <PackageReference Include="NativeLibraryLoader" Version="1.0.12" />
   </ItemGroup>
   <ItemGroup>
