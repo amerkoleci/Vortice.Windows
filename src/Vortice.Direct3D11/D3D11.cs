@@ -16,15 +16,7 @@ namespace Vortice.Direct3D11
             FeatureLevel[] featureLevels,
             out ID3D11Device device)
         {
-            ID3D11DeviceContext context = null;
-            try
-            {
-                return D3D11CreateDevice(adapter, driverType, flags, featureLevels, out device, out var featureLevel, out context);
-            }
-            finally
-            {
-                context?.Dispose();
-            }
+            return D3D11CreateDevice(adapter, driverType, flags, featureLevels, out device, out var featureLevel, out var context);
         }
 
         public static Result D3D11CreateDevice(IDXGIAdapter adapter,
