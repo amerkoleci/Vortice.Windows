@@ -31,7 +31,7 @@
     <create-cpp enum="XAUDIO2_PLAY_FLAGS" macro="XAUDIO2_PLAY_.*" />
     <create-cpp enum="XAUDIO2_LOG_TYPE" macro="XAUDIO2_LOG_.*" />
     <create-cpp enum="XAUDIO2_BUFFER_FLAGS" macro="XAUDIO2_END_OF_STREAM" />
-    <create-cpp enum="XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER" macro="Processor[0-9]+|XAUDIO2_ANY_PROCESSOR|XAUDIO2_DEFAULT_PROCESSOR" />
+    <create-cpp enum="XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER" macro="Processor[0-9]+|XAUDIO2_ANY_PROCESSOR|XAUDIO2_DEFAULT_PROCESSOR|XAUDIO2_USE_DEFAULT_PROCESSOR" />
     <const from-guid="CLSID_XAudio2.*" class="Vortice.XAudio2.IXAudio2" type="System.Guid">new System.Guid("$1")</const>
     <const from-guid="IID_IXAudio2" class="Vortice.XAudio2.IXAudio2" type="System.Guid">new System.Guid("$1")</const>
 
@@ -74,6 +74,7 @@
     <map enum="XAUDIO2_LOG_TYPE" flags="true" />
     <map enum="XAUDIO2_FLAGS" name="XAudio2Flags" />
     <map enum="XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER" name="ProcessorSpecifier"/>
+    <map enum-item="XAUDIO2_USE_DEFAULT_PROCESSOR" name="UseDefaultProcessor" />
     <map enum-item="XAUDIO2_ANY_PROCESSOR" name="AnyProcessor" />
     <map enum-item="XAUDIO2_DEFAULT_PROCESSOR" name="DefaultProcessor" />
     <map enum-item="XAUDIO2_VOICE_NOPITCH" name="NoPitch"/>

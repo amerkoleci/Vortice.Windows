@@ -3,37 +3,49 @@
 
 using System;
 using System.Runtime.InteropServices;
+using SharpGen.Runtime;
 using Vortice.Multimedia;
 
 namespace Vortice.XAudio2
 {
     public partial class IXAudio2
     {
-        private readonly EngineCallback _engineCallback;
+        private readonly EngineCallbackImpl _engineCallback;
 
-        public IXAudio2()
-            : this(XAudio2Flags.None, ProcessorSpecifier.Processor1, null)
-        {
-        }
+        #region Events
+        /// <summary>	
+        /// Called by XAudio2 just before an audio processing pass begins.	
+        /// </summary>	
+        public event EventHandler ProcessingPassStart;
 
-        public IXAudio2(EngineCallback engineCallback)
-            : this(XAudio2Flags.None, ProcessorSpecifier.Processor1, engineCallback)
-        {
-        }
+        /// <summary>	
+        /// Called by XAudio2 just after an audio processing pass ends.	
+        /// </summary>	
+        public event EventHandler ProcessingPassEnd;
 
+        /// <summary>
+        /// Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.
+        /// </summary>
+        public event EventHandler<ErrorEventArgs> CriticalError;
+        #endregion Events
+
+        /// <summary>
+        /// Create new instance of <see cref="IXAudio2"/> class.
+        /// </summary>
+        /// <param name="processorSpecifier"></param>
+        /// <param name="registerCallback">Whether to register for callback, uses native RegisterForCallbacks.</param>
         public IXAudio2(
-            XAudio2Flags flags,
-            ProcessorSpecifier processorSpecifier,
-            EngineCallback engineCallback = null)
+            ProcessorSpecifier processorSpecifier = ProcessorSpecifier.UseDefaultProcessor,
+            bool registerCallback = true)
             : base(IntPtr.Zero)
         {
             NativePointer = XAudio2Native.XAudio2Create(0, processorSpecifier);
 
             // Register engine callback
-            _engineCallback = engineCallback;
-            if (engineCallback != null)
+            if (registerCallback)
             {
-                RegisterForCallbacks(engineCallback);
+                _engineCallback = new EngineCallbackImpl(this);
+                RegisterForCallbacks(_engineCallback);
             }
         }
 
@@ -171,5 +183,35 @@ namespace Vortice.XAudio2
         {
             CommitChanges(0);
         }
+
+
+        #region Callback
+        private class EngineCallbackImpl : CallbackBase, IXAudio2EngineCallback
+        {
+            public IXAudio2 XAudio2 { get; }
+
+            public EngineCallbackImpl(IXAudio2 xAudio2)
+            {
+                XAudio2 = xAudio2;
+            }
+
+            public void OnProcessingPassStart()
+            {
+                XAudio2.ProcessingPassStart?.Invoke(this, EventArgs.Empty);
+            }
+
+            public void OnProcessingPassEnd()
+            {
+                XAudio2.ProcessingPassEnd?.Invoke(this, EventArgs.Empty);
+            }
+
+            public void OnCriticalError(Result error)
+            {
+                XAudio2.CriticalError?.Invoke(this, new ErrorEventArgs(error));
+            }
+
+            ShadowContainer ICallbackable.Shadow { get; set; }
+        }
+        #endregion
     }
 }
