@@ -411,7 +411,7 @@ namespace Vortice.Dxc
         ArraySubscriptExpr = 113,
 
         /// <summary>
-        /// A builtin binary operation expression such as "x + y" or "x <= y".
+        /// A builtin binary operation expression such as "x + y" or "x &lt;= y".
         /// </summary>
         BinaryOperator = 114,
 

@@ -21,7 +21,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
     <!-- Packages versions -->
-    <NerdbankGitVersioningVersion>3.1.51-beta</NerdbankGitVersioningVersion>
+    <NerdbankGitVersioningVersion>3.1.71</NerdbankGitVersioningVersion>
     <SharpGenVersion>1.2.1</SharpGenVersion>
     <VorticeMathematicsVersion>1.2.9-beta-gb76f715981</VorticeMathematicsVersion>
   </PropertyGroup>

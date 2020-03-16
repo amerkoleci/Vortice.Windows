@@ -3,32 +3,43 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using SharpGen.Runtime;
 
 namespace Vortice.DXGI
 {
     public partial class IDXGIAdapter
     {
-        public IDXGIOutput[] EnumOutputs()
+        private ReadOnlyCollection<IDXGIOutput> _outputs;
+
+        public ReadOnlyCollection<IDXGIOutput> Outputs
         {
-            var outputs = new List<IDXGIOutput>();
-            while (true)
+            get
             {
-                var result = EnumOutputs(outputs.Count, out var output);
-                if (result == ResultCode.NotFound || output == null)
+                if (_outputs == null)
                 {
-                    break;
+                    var outputs = new List<IDXGIOutput>();
+                    while (true)
+                    {
+                        var result = EnumOutputs(outputs.Count, out var output);
+                        if (result == ResultCode.NotFound || output == null)
+                        {
+                            break;
+                        }
+
+                        outputs.Add(output);
+                    }
+
+                    _outputs = new ReadOnlyCollection<IDXGIOutput>(outputs);
                 }
 
-                outputs.Add(output);
+                return _outputs;
             }
-
-            return outputs.ToArray();
         }
 
         public bool CheckInterfaceSupport<T>() where T : ComObject
         {
-            return CheckInterfaceSupport(typeof(T), out var userModeVersion);
+            return CheckInterfaceSupport(typeof(T), out _);
         }
 
         public bool CheckInterfaceSupport<T>(out long userModeVersion) where T : ComObject
@@ -39,6 +50,29 @@ namespace Vortice.DXGI
         public bool CheckInterfaceSupport(Type type, out long userModeDriverVersion)
         {
             return CheckInterfaceSupport(type.GUID, out userModeDriverVersion).Success;
+        }
+
+        /// <inheritdoc/>
+        protected override unsafe void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ReleaseOutputs();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private void ReleaseOutputs()
+        {
+            if (_outputs == null)
+                return;
+
+            var outputsCount = _outputs.Count;
+            for (var i = 0; i < outputsCount; i++)
+            {
+                _outputs[i].Release();
+            }
         }
     }
 }

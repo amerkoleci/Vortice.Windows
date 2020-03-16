@@ -36,7 +36,7 @@ namespace Vortice.DXGI
             IUnknown deviceOrCommandQueue,
             IntPtr hwnd,
             SwapChainDescription1 description,
-            SwapChainFullscreenDescription? fullscreenDescription,
+            SwapChainFullscreenDescription? fullscreenDescription = null,
             IDXGIOutput restrictToOutput = null)
         {
             if (deviceOrCommandQueue == null)
