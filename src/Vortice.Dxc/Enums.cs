@@ -496,53 +496,64 @@ namespace Vortice.Dxc
         /// </summary>
         CXXTypeidExpr = 129,
 
-        /** \brief [C++ 2.13.5] C++ Boolean Literal.
-         */
+        /// <summary>
+        /// [C++ 2.13.5] C++ Boolean Literal.
+        /// </summary>
         CXXBoolLiteralExpr = 130,
 
-        /** \brief [C++0x 2.14.7] C++ Pointer Literal.
-         */
+        /// <summary>
+        /// [C++0x 2.14.7] C++ Pointer Literal.
+        /// </summary>
         CXXNullPtrLiteralExpr = 131,
 
-        /** \brief Represents the "this" expression in C++
-         */
+        /// <summary>
+        /// Represents the "this" expression in C++
+        /// </summary>
         CXXThisExpr = 132,
 
-        /** \brief [C++ 15] C++ Throw Expression.
-         *
-         * This handles 'throw' and 'throw' assignment-expression. When
-         * assignment-expression isn't present, Op will be null.
-         */
+        /// <summary>
+        /// [C++ 15] C++ Throw Expression.
+        /// 
+        /// This handles 'throw' and 'throw' assignment-expression. When
+        /// assignment-expression isn't present, Op will be null.
+        /// </summary>
         CXXThrowExpr = 133,
 
-        /** \brief A new expression for memory allocation and constructor calls, e.g:
-         * "new CXXNewExpr(foo)".
-         */
+        /// <summary>
+        /// A new expression for memory allocation and constructor calls, e.g:
+        /// "new CXXNewExpr(foo)".
+        /// </summary>
         CXXNewExpr = 134,
 
-        /** \brief A delete expression for memory deallocation and destructor calls,
-         * e.g. "delete[] pArray".
-         */
+        /// <summary>
+        /// A delete expression for memory deallocation and destructor calls,
+        /// e.g. "delete[] pArray".
+        /// </summary>
         CXXDeleteExpr = 135,
 
-        /** \brief A unary expression.
-         */
+        /// <summary>
+        /// A unary expression.
+        /// </summary>
         UnaryExpr = 136,
 
-        /** \brief An Objective-C string literal i.e. @"foo".
-         */
+        /// <summary>
+        /// An Objective-C string literal i.e. @"foo".
+        /// </summary>
         ObjCStringLiteral = 137,
 
-        /** \brief An Objective-C \@encode expression.
-         */
+        /// <summary>
+        /// An Objective-C \@encode expression.
+        /// </summary>
         ObjCEncodeExpr = 138,
 
-        /** \brief An Objective-C \@selector expression.
-         */
+        /// <summary>
+        /// An Objective-C \@selector expression.
+        /// </summary>
         ObjCSelectorExpr = 139,
 
-        /** \brief An Objective-C \@protocol expression.
-         */
+        /// <summary>
+        /// An Objective-C \@protocol expression.
+        /// </summary>
         ObjCProtocolExpr = 140,
 
         /** \brief An Objective-C "bridged" cast expression, which casts between
@@ -610,31 +621,36 @@ namespace Vortice.Dxc
          */
         LabelStmt = 201,
 
-        /** \brief A group of statements like { stmt stmt }.
-         *
-         * This cursor kind is used to describe compound statements, e.g. function
-         * bodies.
-         */
+        /// <summary>
+        /// A group of statements like { stmt stmt }.
+        /// 
+        /// This cursor kind is used to describe compound statements, e.g. function bodies.
+        /// </summary>
         CompoundStmt = 202,
 
-        /** \brief A case statement.
-         */
+        /// <summary>
+        /// A case statement.
+        /// </summary>
         CaseStmt = 203,
 
-        /** \brief A default statement.
-         */
+        /// <summary>
+        /// A default statement.
+        /// </summary>
         DefaultStmt = 204,
 
-        /** \brief An if statement
-         */
+        /// <summary>
+        /// An if statement
+        /// </summary>
         IfStmt = 205,
 
-        /** \brief A switch statement.
-         */
+        /// <summary>
+        /// A switch statement.
+        /// </summary>
         SwitchStmt = 206,
 
-        /** \brief A while statement.
-         */
+        /// <summary>
+        /// A while statement.
+        /// </summary>
         WhileStmt = 207,
 
         /// <summary>
@@ -672,98 +688,115 @@ namespace Vortice.Dxc
         /// </summary>
         ReturnStmt = 214,
 
-        /** \brief A GCC inline assembly statement extension.
-         */
+        /// <summary>
+        /// A GCC inline assembly statement extension.
+        /// </summary>
         GCCAsmStmt = 215,
         AsmStmt = GCCAsmStmt,
 
-        /** \brief Objective-C's overall \@try-\@catch-\@finally statement.
-         */
+        /// <summary>
+        /// Objective-C's overall @try-@catch-@finally statement.
+        /// </summary>
         ObjCAtTryStmt = 216,
 
-        /** \brief Objective-C's \@catch statement.
-         */
+        /// <summary>
+        /// Objective-C's \@catch statement.
+        /// </summary>
         ObjCAtCatchStmt = 217,
 
-        /** \brief Objective-C's \@finally statement.
-         */
+        /// <summary>
+        /// Objective-C's \@finally statement.
+        /// </summary>
         ObjCAtFinallyStmt = 218,
 
-        /** \brief Objective-C's \@throw statement.
-         */
+        /// <summary>
+        /// Objective-C's \@throw statement.
+        /// </summary>
         ObjCAtThrowStmt = 219,
 
-        /** \brief Objective-C's \@synchronized statement.
-         */
+        /// <summary>
+        /// Objective-C's \@synchronized statement.
+        /// </summary>
         ObjCAtSynchronizedStmt = 220,
 
-        /** \brief Objective-C's autorelease pool statement.
-         */
+        /// <summary>
+        /// Objective-C's autorelease pool statement.
+        /// </summary>
         ObjCAutoreleasePoolStmt = 221,
 
-        /** \brief Objective-C's collection statement.
-         */
+        /// <summary>
+        /// Objective-C's collection statement.
+        /// </summary>
         ObjCForCollectionStmt = 222,
 
-        /** \brief C++'s catch statement.
-         */
+        /// <summary>
+        /// C++'s catch statement.
+        /// </summary>
         CXXCatchStmt = 223,
 
-        /** \brief C++'s try statement.
-         */
+        /// <summary>
+        /// C++'s try statement.
+        /// </summary>
         CXXTryStmt = 224,
 
-        /** \brief C++'s for (* : *) statement.
-         */
+        /// <summary>
+        /// C++'s for (* : *) statement.
+        /// </summary>
         CXXForRangeStmt = 225,
 
-        /** \brief Windows Structured Exception Handling's try statement.
-         */
+        /// <summary>
+        /// Windows Structured Exception Handling's try statement.
+        /// </summary>
         SEHTryStmt = 226,
 
-        /** \brief Windows Structured Exception Handling's except statement.
-         */
+        /// <summary>
+        /// Windows Structured Exception Handling's except statement.
+        /// </summary>
         SEHExceptStmt = 227,
 
-        /** \brief Windows Structured Exception Handling's finally statement.
-         */
+        /// <summary>
+        /// Windows Structured Exception Handling's finally statement.
+        /// </summary>
         SEHFinallyStmt = 228,
 
-        /** \brief A MS inline assembly statement extension.
-         */
+        /// <summary>
+        /// A MS inline assembly statement extension.
+        /// </summary>
         MSAsmStmt = 229,
 
-        /** \brief The null satement ";": C99 6.8.3p3.
-         *
-         * This cursor kind is used to describe the null statement.
-         */
+        /// <summary>
+        /// The null satement ";": C99 6.8.3p3.
+        /// 
+        /// This cursor kind is used to describe the null statement.
+        /// </summary>
         NullStmt = 230,
 
-        /** \brief Adaptor class for mixing declarations with statements and
-         * expressions.
-         */
+        /// <summary>
+        /// Adaptor class for mixing declarations with statements and
+        /// expressions.
+        /// </summary>
         DeclStmt = 231,
 
-        /** \brief OpenMP parallel directive.
-         */
+        /// <summary>
+        /// OpenMP parallel directive.
+        /// </summary>
         OMPParallelDirective = 232,
 
         LastStmt = OMPParallelDirective,
 
-        /**
-         * \brief Cursor that represents the translation unit itself.
-         *
-         * The translation unit cursor exists primarily to act as the root
-         * cursor for traversing the contents of a translation unit.
-         */
+        /// <summary>
+        /// Cursor that represents the translation unit itself.
+        /// 
+        /// The translation unit cursor exists primarily to act as the root
+        /// cursor for traversing the contents of a translation unit.
+        /// </summary>
         TranslationUnit = 300,
 
         /* Attributes */
         FirstAttr = 400,
-        /**
-         * \brief An attribute whose specific kind is not exposed via this
-         * interface.
-         */
+        /// <summary>
+        /// An attribute whose specific kind is not exposed via this interface.
+        /// </summary>
         UnexposedAttr = 400,
 
         IBActionAttr = 401,
@@ -776,7 +809,6 @@ namespace Vortice.Dxc
         PackedAttr = 408,
         LastAttr = PackedAttr,
 
-        /* Preprocessing */
         PreprocessingDirective = 500,
         MacroDefinition = 501,
         MacroExpansion = 502,
@@ -785,10 +817,9 @@ namespace Vortice.Dxc
         FirstPreprocessing = PreprocessingDirective,
         LastPreprocessing = InclusionDirective,
 
-        /* Extra Declarations */
-        /**
-         * \brief A module import declaration.
-         */
+        /// <summary>
+        /// A module import declaration.
+        /// </summary>
         ModuleImportDecl = 600,
         FirstExtraDecl = ModuleImportDecl,
         LastExtraDecl = ModuleImportDecl

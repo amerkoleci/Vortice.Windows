@@ -9,48 +9,43 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIFactory2
     {
-        public IDXGISwapChain1 CreateSwapChainForComposition(IUnknown device, SwapChainDescription1 description)
+        public IDXGISwapChain1 CreateSwapChainForComposition(IUnknown deviceOrCommandQueue, SwapChainDescription1 description, IDXGIOutput restrictToOutput = null)
         {
-            return CreateSwapChainForComposition(device, ref description, null);
+            if (deviceOrCommandQueue == null)
+                throw new ArgumentNullException(nameof(deviceOrCommandQueue), $"Null not allowed for {nameof(deviceOrCommandQueue)}");
+
+            return CreateSwapChainForComposition(deviceOrCommandQueue, ref description, restrictToOutput);
         }
 
-        public IDXGISwapChain1 CreateSwapChainForComposition(IUnknown device, SwapChainDescription1 description, IDXGIOutput restrictToOutput)
+        public IDXGISwapChain1 CreateSwapChainForCoreWindow(
+            IUnknown deviceOrCommandQueue, 
+            IUnknown window, 
+            SwapChainDescription1 description, 
+            IDXGIOutput restrictToOutput = null)
         {
-            return CreateSwapChainForComposition(device, ref description, restrictToOutput);
-        }
+            if (deviceOrCommandQueue == null)
+                throw new ArgumentNullException(nameof(deviceOrCommandQueue), $"Null not allowed for {nameof(deviceOrCommandQueue)}");
 
-        public IDXGISwapChain1 CreateSwapChainForCoreWindow(IUnknown device, IUnknown window, SwapChainDescription1 description)
-        {
-            return CreateSwapChainForCoreWindow(device, window, ref description, null);
-        }
+            if (window == null)
+                throw new ArgumentNullException(nameof(window), $"Null not allowed for {nameof(window)}");
 
-        public IDXGISwapChain1 CreateSwapChainForCoreWindow(IUnknown device, IUnknown window, SwapChainDescription1 description, IDXGIOutput restrictToOutput)
-        {
-            return CreateSwapChainForCoreWindow(device, window, ref description, restrictToOutput);
-        }
-
-        public IDXGISwapChain1 CreateSwapChainForHwnd(IUnknown device, IntPtr hwnd, SwapChainDescription1 description)
-        {
-            return CreateSwapChainForHwnd(device, hwnd, ref description, null, null);
-        }
-
-        public IDXGISwapChain1 CreateSwapChainForHwnd(
-            IUnknown device,
-            IntPtr hwnd,
-            SwapChainDescription1 description,
-            SwapChainFullscreenDescription fullscreenDescription)
-        {
-            return CreateSwapChainForHwnd(device, hwnd, ref description, fullscreenDescription, null);
+            return CreateSwapChainForCoreWindow(deviceOrCommandQueue, window, ref description, restrictToOutput);
         }
 
         public IDXGISwapChain1 CreateSwapChainForHwnd(
-            IUnknown device,
+            IUnknown deviceOrCommandQueue,
             IntPtr hwnd,
             SwapChainDescription1 description,
-            SwapChainFullscreenDescription fullscreenDescription,
-            IDXGIOutput restrictToOutput)
+            SwapChainFullscreenDescription? fullscreenDescription,
+            IDXGIOutput restrictToOutput = null)
         {
-            return CreateSwapChainForHwnd(device, hwnd, ref description, fullscreenDescription, restrictToOutput);
+            if (deviceOrCommandQueue == null)
+                throw new ArgumentNullException(nameof(deviceOrCommandQueue), $"Null not allowed for {nameof(deviceOrCommandQueue)}");
+
+            if (hwnd == IntPtr.Zero)
+                throw new ArgumentNullException(nameof(hwnd), "Invalid window handle");
+
+            return CreateSwapChainForHwnd(deviceOrCommandQueue, hwnd, ref description, fullscreenDescription, restrictToOutput);
         }
 
         public int RegisterOcclusionStatusEvent(EventWaitHandle waitHandle)
