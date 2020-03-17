@@ -9,6 +9,8 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11DeviceChild
     {
+        internal bool shouldNotDisposeDevice = false;
+
         /// <summary>
         /// Gets or sets the debug-name for this object.
         /// </summary>
@@ -64,9 +66,12 @@ namespace Vortice.Direct3D11
         {
             if (Device__ != null)
             {
-                // Don't use Dispose() in order to avoid circular references with DeviceContext
-                ((IUnknown)Device__).Release();
-                Device__ = null;
+                // Only call Dispose() when it is created by accessing ID3D11DeviceChild.Device.
+                if (!shouldNotDisposeDevice)
+                {
+                    Device__.Dispose();
+                    Device__ = null;
+                }
             }
         }
     }

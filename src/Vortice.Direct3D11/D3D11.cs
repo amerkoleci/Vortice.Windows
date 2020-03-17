@@ -53,8 +53,8 @@ namespace Vortice.Direct3D11
 
             if (immediateContext != null)
             {
-                device.AddRef();
                 device.ImmediateContext__ = immediateContext;
+                immediateContext.shouldNotDisposeDevice = true;
                 immediateContext.Device__ = device;
             }
 
@@ -85,8 +85,8 @@ namespace Vortice.Direct3D11
 
             if (immediateContext != null)
             {
-                device.AddRef();
                 device.ImmediateContext__ = immediateContext;
+                immediateContext.shouldNotDisposeDevice = true;
                 immediateContext.Device__ = device;
             }
 
