@@ -11,6 +11,27 @@ namespace Vortice.Direct3D11
     {
         internal bool shouldNotDisposeDevice = false;
 
+        protected internal ID3D11Device Device__;
+        public ID3D11Device Device
+        {
+            get
+            {
+                if (Device__ == null)
+                {
+                    GetDeviceInternal(out Device__);
+
+                    // Manually set ImmediateContext.Device__ to avoid circular loop.
+                    var immediateContext = Device__.ImmediateContext;
+                    if (immediateContext != null)
+                    {
+                        immediateContext.shouldNotDisposeDevice = true;
+                        immediateContext.Device__ = Device__;
+                    }
+                }
+                return Device__;
+            }
+        }
+
         /// <summary>
         /// Gets or sets the debug-name for this object.
         /// </summary>

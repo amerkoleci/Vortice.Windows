@@ -486,7 +486,7 @@
     <map field="D3D11_COUNTER_DESC::Counter" name="CounterKind" />
     
     <!-- ID3D11DeviceChild methods -->
-    <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
+    <map method="ID3D11DeviceChild::GetDevice" visibility="private" name="GetDeviceInternal"/>
     <map method="ID3D11DeviceChild::GetPrivateData" visibility="public" hresult="true" check="false"/>
     <map method="ID3D11DeviceChild::SetPrivateData" visibility="public" hresult="true" check="false"/>
 
