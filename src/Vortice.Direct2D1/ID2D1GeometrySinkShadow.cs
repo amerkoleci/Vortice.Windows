@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Drawing;
+using Vortice.Mathematics;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 

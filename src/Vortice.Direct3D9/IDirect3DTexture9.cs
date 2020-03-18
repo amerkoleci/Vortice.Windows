@@ -21,23 +21,12 @@ namespace Vortice.Direct3D9
         /// Adds a dirty region to a texture resource.
         /// </summary>
         /// <param name="dirtyRect">The dirty rectangle.</param>
-        public void AddDirtyRect(Rect dirtyRect)
+        public void AddDirtyRect(in Rectangle dirtyRect)
         {
             unsafe
             {
-                AddDirtyRect(new IntPtr(&dirtyRect));
-            }
-        }
-
-        /// <summary>
-        /// Adds a dirty region to a texture resource.
-        /// </summary>
-        /// <param name="dirtyRect">The dirty rectangle.</param>
-        public void AddDirtyRect(ref Rect dirtyRect)
-        {
-            unsafe
-            {
-                AddDirtyRect((IntPtr)Unsafe.AsPointer(ref dirtyRect));
+                RawRect rawRect = dirtyRect;
+                AddDirtyRect(new IntPtr(&rawRect));
             }
         }
 
@@ -49,7 +38,7 @@ namespace Vortice.Direct3D9
         /// <returns>A <see cref="DataRectangle"/> describing the region locked.</returns>
         public DataRectangle LockRect(int level, LockFlags flags)
         {
-            LockRect(level, out LockedRectangle lockedRect, IntPtr.Zero, flags);
+            LockRect(level, out var lockedRect, IntPtr.Zero, flags);
             return new DataRectangle(lockedRect.PBits, lockedRect.Pitch);
         }
 
@@ -60,11 +49,12 @@ namespace Vortice.Direct3D9
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="flags">The flags.</param>
         /// <returns>A <see cref="DataRectangle"/> describing the region locked.</returns>
-        public DataRectangle LockRect(int level, Rect rectangle, LockFlags flags)
+        public DataRectangle LockRect(int level, in Rectangle rectangle, LockFlags flags)
         {
             unsafe
             {
-                LockRect(level, out LockedRectangle lockedRect, new IntPtr(&rectangle), flags);
+                RawRect rawRect = rectangle;
+                LockRect(level, out var lockedRect, new IntPtr(&rawRect), flags);
                 return new DataRectangle(lockedRect.PBits, lockedRect.Pitch);
             }
         }

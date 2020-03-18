@@ -91,7 +91,7 @@
     <bind from="PALETTEENTRY" to="Vortice.Direct3D9.PaletteEntry"/>
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
-    <bind from="D3DRECT" to="Vortice.Mathematics.Rect" />
+    <bind from="D3DRECT" to="Vortice.RawRect" />
     <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
   </bindings>
 

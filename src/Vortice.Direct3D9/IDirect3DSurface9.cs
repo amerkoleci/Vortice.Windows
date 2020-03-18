@@ -19,7 +19,7 @@ namespace Vortice.Direct3D9
         /// <returns>The parent container texture.</returns>
         public T GetContainer<T>(Guid guid) where T : ComObject
         {
-            GetContainer(guid, out IntPtr containerPtr);
+            GetContainer(guid, out var containerPtr);
             return FromPointer<T>(containerPtr);
         }
 
@@ -30,7 +30,7 @@ namespace Vortice.Direct3D9
         /// <returns>A pointer to the locked region</returns>
         public DataRectangle LockRect(LockFlags flags)
         {
-            LockRect(out LockedRectangle lockedRect, IntPtr.Zero, flags);
+            LockRect(out var lockedRect, IntPtr.Zero, flags);
             return new DataRectangle(lockedRect.PBits, lockedRect.Pitch);
         }
 
@@ -40,11 +40,12 @@ namespace Vortice.Direct3D9
         /// <param name="rect">The rectangle to lock.</param>
         /// <param name="flags">The type of lock to perform.</param>
         /// <returns>A pointer to the locked region</returns>
-        public DataRectangle LockRect(Rect rect, LockFlags flags)
+        public DataRectangle LockRect(in Rectangle rect, LockFlags flags)
         {
             unsafe
             {
-                LockRect(out LockedRectangle lockedRect, new IntPtr(&rect), flags);
+                RawRect rawRect = rect;
+                LockRect(out var lockedRect, new IntPtr(&rawRect), flags);
                 return new DataRectangle(lockedRect.PBits, lockedRect.Pitch);
             }
         }

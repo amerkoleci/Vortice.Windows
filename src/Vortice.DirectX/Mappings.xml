@@ -13,26 +13,35 @@
            output="Direct3D" />
 
   <extension>
-    <define struct="System.Drawing.Point" sizeof="8" />
-    <define struct="System.Drawing.PointF" sizeof="8" />
-    <define struct="System.Drawing.Size" sizeof="8" />
-    <define struct="System.Drawing.SizeF" sizeof="8" />
-    <define struct="System.Drawing.Rectangle" sizeof="16" />
-    <define struct="System.Drawing.RectangleF" sizeof="16" />
+    <define struct="Vortice.RawRect" sizeof="16" />
+    <define struct="Vortice.RawRectF" sizeof="16" />
+
+    <!-- System.Numerics types -->
     <define struct="System.Numerics.Vector2" sizeof="8" />
     <define struct="System.Numerics.Vector3" sizeof="12" />
     <define struct="System.Numerics.Vector4" sizeof="16" />
+    <define struct="System.Numerics.Quaternion" sizeof="16" />
+    <define struct="System.Numerics.Matrix3x2" sizeof="24" />
+    <define struct="System.Numerics.Matrix4x4" sizeof="64" />
+    <define struct="System.Numerics.Plane" sizeof="16" />
+    
     <!-- Vortice.Mathematics types -->
+    <define struct="Vortice.Mathematics.Point" sizeof="8" />
+    <define struct="Vortice.Mathematics.PointF" sizeof="8" />
+    <define struct="Vortice.Mathematics.Size" sizeof="8" />
+    <define struct="Vortice.Mathematics.SizeF" sizeof="8" />
+    <define struct="Vortice.Mathematics.Rectangle" sizeof="16" />
+    <define struct="Vortice.Mathematics.RectangleF" sizeof="16" />
     <define struct="Vortice.Mathematics.Color3" sizeof="12" />
     <define struct="Vortice.Mathematics.Color4" sizeof="16" />
     <define struct="Vortice.Mathematics.Int3" sizeof="12" />
     <define struct="Vortice.Mathematics.Int4" sizeof="16" />
-    <define struct="Vortice.Mathematics.Rect" sizeof="16" />
-    <define struct="Vortice.Mathematics.RectF" sizeof="16" />
     <define struct="Vortice.Mathematics.Viewport" sizeof="24" />
     <define struct="Vortice.Mathematics.Box" sizeof="24" />
-    <define struct="System.Numerics.Matrix3x2" sizeof="24" />
-    <define struct="System.Numerics.Matrix4x4" sizeof="64" />
+    <define struct="Vortice.Mathematics.Matrix3x3" sizeof="36" />
+    <define struct="Vortice.Mathematics.Matrix3x4" sizeof="48" />
+    <define struct="Vortice.Mathematics.Matrix4x3" sizeof="48" />
+    <define struct="Vortice.Mathematics.Matrix5x4" sizeof="80" />
 
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
@@ -52,9 +61,9 @@
     <bind from="HPALETTE" to="System.IntPtr"/>
     <bind from="HMONITOR" to="System.IntPtr"/>
 
-    <bind from="POINT" to="System.Drawing.Point" />
-    <bind from="SIZE" to="System.Drawing.Size" />
-    <bind from="RECT" to="Vortice.Mathematics.Rect" />
+    <bind from="POINT" to="Vortice.Mathematics.Point" />
+    <bind from="SIZE" to="Vortice.Mathematics.Size" />
+    <bind from="RECT" to="Vortice.RawRect" />
     <bind from="D3DCOLORVALUE" to="Vortice.Mathematics.Color4" />
   </bindings>
 

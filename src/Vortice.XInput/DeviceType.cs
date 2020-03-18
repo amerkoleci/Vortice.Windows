@@ -6,7 +6,6 @@ namespace Vortice.XInput
     /// <summary>
     /// Describes Device types available in <see cref="Capabilities"/>.
     /// </summary>
-    /// <remarks>
     public enum DeviceType : byte
     {
         /// <summary>

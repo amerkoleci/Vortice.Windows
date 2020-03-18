@@ -52,7 +52,7 @@ namespace Vortice.Direct3D12
             int dstX, int dstY,
             ID3D12Resource srcResource,
             int srcSubresource, 
-            Rect srcRect,
+            RawRect srcRect,
             Format format, 
             ResolveMode resolveMode = ResolveMode.Decompress)
         {

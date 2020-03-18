@@ -70,21 +70,21 @@
   </extension>
 
   <bindings>
-    <bind from="D2D_SIZE_U" to="System.Drawing.Size" />
-    <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
-    <bind from="D2D_POINT_2U" to="System.Drawing.Point" />
-    <bind from="D2D_POINT_2F" to="System.Drawing.PointF" />
-    <bind from="D2D_RECT_U" to="Vortice.Mathematics.Rect" />
-    <bind from="D2D_RECT_F" to="Vortice.Mathematics.RectF" />
+    <bind from="D2D_SIZE_U" to="Vortice.Mathematics.Size" />
+    <bind from="D2D_SIZE_F" to="Vortice.Mathematics.SizeF" />
+    <bind from="D2D_POINT_2U" to="Vortice.Mathematics.Point" />
+    <bind from="D2D_POINT_2F" to="Vortice.Mathematics.PointF" />
+    <bind from="D2D_RECT_U" to="Vortice.RawRect" />
+    <bind from="D2D_RECT_F" to="Vortice.RawRectF" />
     <bind from="D2D_VECTOR_2F" to="System.Numerics.Vector2" />
     <bind from="D2D_VECTOR_3F" to="System.Numerics.Vector3" />
     <bind from="D2D_VECTOR_4F" to="System.Numerics.Vector4" />
     <bind from="DWRITE_MATRIX" to="System.Numerics.Matrix3x2" />
     <bind from="D2D_MATRIX_3X2_F" to="System.Numerics.Matrix3x2" />
-    <bind from="D2D_MATRIX_4X3_F" to="Vortice.Direct2D1.Matrix4x3" />
+    <bind from="D2D_MATRIX_4X3_F" to="Vortice.Mathematics.Matrix4x3" />
     <bind from="D2D_MATRIX_4X4_F" to="System.Numerics.Matrix4x4" />
-    <bind from="D2D_MATRIX_5X4_F" to="Vortice.Direct2D1.Matrix5x4" />
-    <bind from="WICRect" to="System.Drawing.RectangleF"/>
+    <bind from="D2D_MATRIX_5X4_F" to="Vortice.Mathematics.Matrix5x4" />
+    <bind from="WICRect" to="Vortice.Mathematics.Rectangle"/>
     <bind from="HBITMAP" to="System.IntPtr"/>
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>

@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Drawing;
 using System.Numerics;
 using Vortice.Mathematics;
 
@@ -29,9 +28,10 @@ namespace Vortice.Direct2D1
             CopyFromBitmap(destinationPoint, sourceBitmap, null);
         }
 
-        public void CopyFromBitmap(Point destinationPoint, ID2D1Bitmap sourceBitmap, Rect sourceArea)
+        public void CopyFromBitmap(Point destinationPoint, ID2D1Bitmap sourceBitmap, Rectangle sourceArea)
         {
-            CopyFromBitmap(destinationPoint, sourceBitmap, sourceArea);
+            RawRect rawSourceArea = sourceArea;
+            CopyFromBitmap(destinationPoint, sourceBitmap, rawSourceArea);
         }
 
         public void CopyFromMemory(IntPtr pointer, int pitch)
@@ -63,27 +63,30 @@ namespace Vortice.Direct2D1
             }
         }
 
-        public unsafe void CopyFromMemory(Rect destinationArea, byte[] data, int pitch)
+        public unsafe void CopyFromMemory(Rectangle destinationArea, byte[] data, int pitch)
         {
             fixed (void* dataPtr = &data[0])
             {
-                CopyFromMemory(destinationArea, new IntPtr(dataPtr), pitch);
+                RawRect rawDestinationArea = destinationArea;
+                CopyFromMemory(rawDestinationArea, new IntPtr(dataPtr), pitch);
             }
         }
 
-        public unsafe void CopyFromMemory<T>(Rect destinationArea, T[] data, int pitch) where T : unmanaged
+        public unsafe void CopyFromMemory<T>(Rectangle destinationArea, T[] data, int pitch) where T : unmanaged
         {
             fixed (void* dataPtr = data)
             {
+                RawRect rawDestinationArea = destinationArea;
                 CopyFromMemory(destinationArea, (IntPtr)dataPtr, pitch);
             }
         }
 
-        public unsafe void CopyFromMemory<T>(Rect destinationArea, Span<T> data, int pitch) where T : unmanaged
+        public unsafe void CopyFromMemory<T>(Rectangle destinationArea, Span<T> data, int pitch) where T : unmanaged
         {
             fixed (void* dataPtr = data)
             {
-                CopyFromMemory(destinationArea, new IntPtr(dataPtr), pitch);
+                RawRect rawDestinationArea = destinationArea;
+                CopyFromMemory(rawDestinationArea, new IntPtr(dataPtr), pitch);
             }
         }
 
@@ -97,9 +100,10 @@ namespace Vortice.Direct2D1
             CopyFromRenderTarget(destinationPoint, renderTarget, null);
         }
 
-        public void CopyFromRenderTarget(Point destinationPoint, ID2D1RenderTarget renderTarget, Rect sourceArea)
+        public void CopyFromRenderTarget(Point destinationPoint, ID2D1RenderTarget renderTarget, Rectangle sourceArea)
         {
-            CopyFromRenderTarget(destinationPoint, renderTarget, sourceArea);
+            RawRect rawSourceArea = sourceArea;
+            CopyFromRenderTarget(destinationPoint, renderTarget, rawSourceArea);
         }
     }
 }

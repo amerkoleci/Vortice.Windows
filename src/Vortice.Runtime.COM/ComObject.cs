@@ -196,9 +196,9 @@ namespace SharpGen.Runtime
             if (NativePointer != IntPtr.Zero)
             {
                 // If object is disposed by the finalizer, emits a warning
-                if(!disposing && Configuration.EnableTrackingReleaseOnFinalizer)
+                if (!disposing && Configuration.EnableTrackingReleaseOnFinalizer)
                 {
-                    if(!Configuration.EnableReleaseOnFinalizer)
+                    if (!Configuration.EnableReleaseOnFinalizer)
                     {
                         var objectReference = ObjectTracker.Find(this);
                         LogMemoryLeakWarning?.Invoke(string.Format("Warning: Live ComObject [0x{0:X}], potential memory leak: {1}", NativePointer.ToInt64(), objectReference));
@@ -227,26 +227,19 @@ namespace SharpGen.Runtime
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
             if (obj is ComObject comObject)
                 return (NativePointer == comObject.NativePointer);
             return false;
         }
 
-        public override int GetHashCode()
-        {
-            return NativePointer.GetHashCode();
-        }
+        public override int GetHashCode() => NativePointer.GetHashCode();
 
-        public static bool operator ==(ComObject left, ComObject right)
-        {
-            return Equals(left, right);
-        }
+        public static bool operator ==(ComObject left, ComObject right) => Equals(left, right);
 
-        public static bool operator !=(ComObject left, ComObject right)
-        {
-            return !Equals(left, right);
-        }
+        public static bool operator !=(ComObject left, ComObject right) => !Equals(left, right);
     }
 }

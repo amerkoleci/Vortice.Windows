@@ -16,7 +16,7 @@ namespace Vortice.Direct2D1
         /// <param name="rect">The coordinates of the rectangle.</param>
         /// <param name="radiusX">The x-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
         /// <param name="radiusY">The y-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
-        public RoundedRectangle(RectF rect, float radiusX, float radiusY)
+        public RoundedRectangle(RawRectF rect, float radiusX, float radiusY)
         {
             Rect = rect;
             RadiusX = radiusX;
@@ -29,7 +29,7 @@ namespace Vortice.Direct2D1
         /// <param name="rect">The coordinates of the rectangle.</param>
         /// <param name="radiusX">The x-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
         /// <param name="radiusY">The y-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
-        public RoundedRectangle(System.Drawing.RectangleF rect, float radiusX, float radiusY)
+        public RoundedRectangle(RectangleF rect, float radiusX, float radiusY)
         {
             Rect = rect;
             RadiusX = radiusX;

@@ -2,12 +2,10 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using Vortice.Mathematics;
-using Vortice.DXGI;
 
 namespace Vortice.Direct3D11
 {
@@ -347,18 +345,18 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region ScissorRect
-        public unsafe void RSSetScissorRect(Rectangle rectangle)
+        public unsafe void RSSetScissorRect(in Rectangle rectangle)
         {
-            var rect = Rect.Create(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-            RSSetScissorRects(1, new IntPtr(&rect));
+            RawRect rawRect = rectangle;
+            RSSetScissorRects(1, new IntPtr(&rawRect));
         }
 
-        public unsafe void RSSetScissorRect(Rect rectangle)
+        public unsafe void RSSetScissorRect(RawRect rectangle)
         {
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public unsafe void RSSetScissorRects(params Rect[] rectangles)
+        public unsafe void RSSetScissorRects(params RawRect[] rectangles)
         {
             fixed (void* pRects = rectangles)
             {
@@ -366,7 +364,7 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe void RSSetScissorRects(int count, Rect[] rectangles)
+        public unsafe void RSSetScissorRects(int count, RawRect[] rectangles)
         {
             fixed (void* pRects = rectangles)
             {
@@ -374,43 +372,43 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe void RSSetScissorRects(Span<Rect> rectangles)
+        public unsafe void RSSetScissorRects(Span<RawRect> rectangles)
         {
-            fixed (Rect* pRects = rectangles)
+            fixed (RawRect* pRects = rectangles)
             {
                 RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
             }
         }
 
-        public unsafe void RSSetScissorRects(int count, Span<Rect> rectangles)
+        public unsafe void RSSetScissorRects(int count, Span<RawRect> rectangles)
         {
-            fixed (Rect* pRects = rectangles)
+            fixed (RawRect* pRects = rectangles)
             {
                 RSSetScissorRects(count, (IntPtr)pRects);
             }
         }
 
-        public unsafe Rect RSGetScissorRect()
+        public unsafe RawRect RSGetScissorRect()
         {
             int numRects = 1;
-            var rect = new Rect();
+            var rect = new RawRect();
             RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rect));
             return rect;
         }
 
-        public unsafe void RSGetScissorRect(ref Rect rect)
+        public unsafe void RSGetScissorRect(ref RawRect rect)
         {
             int numRects = 1;
             RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rect));
         }
 
-        public unsafe void RSGetScissorRects(Rect[] rects)
+        public unsafe void RSGetScissorRects(RawRect[] rects)
         {
             int numRects = rects.Length;
             RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rects[0]));
         }
 
-        public unsafe void RSGetScissorRects(int count, Rect[] rects)
+        public unsafe void RSGetScissorRects(int count, RawRect[] rects)
         {
             RSGetScissorRects(ref count, (IntPtr)Unsafe.AsPointer(ref rects[0]));
         }

@@ -10,7 +10,7 @@ namespace Vortice.XInput
     {
         /// <summary>
         /// Index of the signed-in gamer associated with the device. 
-        /// Can be a value in the range 0-<see cref="UserIndex.Max"/> ? 1.
+        /// Can be a value in the range 0-4 ? 1.
         /// </summary>
         Gamepad,
         /// <summary>

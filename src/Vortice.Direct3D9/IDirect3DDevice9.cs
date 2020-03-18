@@ -101,7 +101,7 @@ namespace Vortice.Direct3D9
         /// <param name="zdepth">The value that will be used to fill the cleared depth buffer.</param>
         /// <param name="stencil">The value that will be used to fill the cleared stencil buffer.</param>
         /// <param name="rectangles">The areas on the surfaces that will be cleared.</param>
-        public void Clear(ClearFlags clearFlags, Color color, float zdepth, int stencil, Rect[] rectangles)
+        public void Clear(ClearFlags clearFlags, Color color, float zdepth, int stencil, RawRect[] rectangles)
         {
             Clear_(rectangles == null ? 0 : rectangles.Length, rectangles, clearFlags, Helpers.ToBgra(color), zdepth, stencil);
         }
@@ -114,7 +114,7 @@ namespace Vortice.Direct3D9
         /// <param name="zdepth">The value that will be used to fill the cleared depth buffer.</param>
         /// <param name="stencil">The value that will be used to fill the cleared stencil buffer.</param>
         /// <param name="rectangles">The areas on the surfaces that will be cleared.</param>
-        public void Clear(ClearFlags clearFlags, System.Drawing.Color color, float zdepth, int stencil, Rect[] rectangles)
+        public void Clear(ClearFlags clearFlags, System.Drawing.Color color, float zdepth, int stencil, RawRect[] rectangles)
         {
             Clear_(rectangles == null ? 0 : rectangles.Length, rectangles, clearFlags, Helpers.ToBgra(color), zdepth, stencil);
         }
@@ -158,7 +158,7 @@ namespace Vortice.Direct3D9
         /// </summary>
         /// <param name="point">The point.</param>
         /// <param name="immediate">Whether to immediate update.</param>
-        public void SetCursorPosition(System.Drawing.Point point, bool immediate)
+        public void SetCursorPosition(Point point, bool immediate)
         {
             SetCursorPosition(point.X, point.Y, immediate ? 1 : 0);
         }
@@ -703,7 +703,7 @@ namespace Vortice.Direct3D9
         /// <param name="sourceRectangle">The area of the back buffer that should be presented.</param>
         /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
         /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
-        public Result Present(Rect sourceRectangle, Rect destinationRectangle)
+        public Result Present(Rectangle sourceRectangle, Rectangle destinationRectangle)
         {
             return Present(sourceRectangle, destinationRectangle, IntPtr.Zero);
         }
@@ -716,11 +716,13 @@ namespace Vortice.Direct3D9
         /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
         /// <param name="windowOverride">The destination window whose client area is taken as the target for this presentation.</param>
         /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
-        public Result Present(Rect sourceRectangle, Rect destinationRectangle, IntPtr windowOverride)
+        public Result Present(Rectangle sourceRectangle, Rectangle destinationRectangle, IntPtr windowOverride)
         {
             unsafe
             {
-                return Present(new IntPtr(&sourceRectangle), new IntPtr(&destinationRectangle), windowOverride, IntPtr.Zero);
+                RawRect rawSourceRectangle = sourceRectangle;
+                RawRect rawDestinationRectangle = destinationRectangle;
+                return Present(new IntPtr(&rawSourceRectangle), new IntPtr(&rawDestinationRectangle), windowOverride, IntPtr.Zero);
             }
         }
     }

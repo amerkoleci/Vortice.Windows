@@ -5,7 +5,6 @@ using System;
 using Vortice.Mathematics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using System.Drawing;
 
 namespace Vortice.Direct3D12
 {
@@ -54,7 +53,7 @@ namespace Vortice.Direct3D12
             ClearRenderTargetView(renderTargetView, new Color4(color), 0, null);
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color, Rect[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color, RawRect[] rectangles)
         {
             ClearRenderTargetView(renderTargetView, new Color4(color), rectangles.Length, rectangles);
         }
@@ -64,7 +63,7 @@ namespace Vortice.Direct3D12
             ClearRenderTargetView(renderTargetView, color, 0, null);
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color4 color, Rect[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color4 color, RawRect[] rectangles)
         {
             ClearRenderTargetView(renderTargetView, color, rectangles.Length, rectangles);
         }
@@ -79,7 +78,7 @@ namespace Vortice.Direct3D12
             ClearFlags clearFlags,
             float depth,
             byte stencil,
-            params Rect[] rectangles)
+            RawRect[] rectangles)
         {
             ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, rectangles.Length, rectangles);
         }
@@ -98,7 +97,7 @@ namespace Vortice.Direct3D12
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
             in Color4 clearValue,
-            Rect[] rectangles)
+            RawRect[] rectangles)
         {
             ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
         }
@@ -117,7 +116,7 @@ namespace Vortice.Direct3D12
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
             in Int4 clearValue,
-            Rect[] rectangles)
+            RawRect[] rectangles)
         {
             ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
         }
@@ -201,16 +200,16 @@ namespace Vortice.Direct3D12
         #region ScissorRect
         public unsafe void RSSetScissorRect(Rectangle rectangle)
         {
-            var rect = Rect.Create(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            RawRect rect = rectangle;
             RSSetScissorRects(1, new IntPtr(&rect));
         }
 
-        public unsafe void RSSetScissorRect(Rect rectangle)
+        public unsafe void RSSetScissorRect(RawRect rectangle)
         {
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public unsafe void RSSetScissorRects(params Rect[] rectangles)
+        public unsafe void RSSetScissorRects(params RawRect[] rectangles)
         {
             fixed (void* pRects = rectangles)
             {
@@ -218,7 +217,7 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public unsafe void RSSetScissorRects(int count, Rect[] rectangles)
+        public unsafe void RSSetScissorRects(int count, RawRect[] rectangles)
         {
             fixed (void* pRects = rectangles)
             {
@@ -226,17 +225,17 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public unsafe void RSSetScissorRects(Span<Rect> rectangles)
+        public unsafe void RSSetScissorRects(Span<RawRect> rectangles)
         {
-            fixed (Rect* pRects = rectangles)
+            fixed (RawRect* pRects = rectangles)
             {
                 RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
             }
         }
 
-        public unsafe void RSSetScissorRects(int count, Span<Rect> rectangles)
+        public unsafe void RSSetScissorRects(int count, Span<RawRect> rectangles)
         {
-            fixed (Rect* pRects = rectangles)
+            fixed (RawRect* pRects = rectangles)
             {
                 RSSetScissorRects(count, (IntPtr)pRects);
             }
@@ -303,7 +302,6 @@ namespace Vortice.Direct3D12
                 if (handle != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(handle);
-                    handle = IntPtr.Zero;
                 }
             }
         }
@@ -321,7 +319,6 @@ namespace Vortice.Direct3D12
                 if (handle != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(handle);
-                    handle = IntPtr.Zero;
                 }
             }
         }
@@ -377,7 +374,7 @@ namespace Vortice.Direct3D12
         /// <param name="rects">An array of  rectangles in the resource to discard. If null, DiscardResource discards the entire resource.</param>
         /// <param name="firstSubresource">Index of the first subresource in the resource to discard.</param>
         /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
-        public unsafe void DiscardResource(ID3D12Resource resource, Rect[] rects, int firstSubresource, int numSubresources)
+        public unsafe void DiscardResource(ID3D12Resource resource, RawRect[] rects, int firstSubresource, int numSubresources)
         {
             DiscardResource(resource, new DiscardRegion
             {

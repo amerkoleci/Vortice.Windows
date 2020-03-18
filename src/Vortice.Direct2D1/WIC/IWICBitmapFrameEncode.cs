@@ -2,11 +2,8 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.IO;
-using Vortice.Win32;
-using SharpGen.Runtime.Win32;
 using System.Runtime.CompilerServices;
-using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice.WIC
 {

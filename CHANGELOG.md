@@ -6,6 +6,8 @@ Current Release:    1.5.0 (December 2019)
 Release:     1.6.0 (March 2020)
 -----------------------------------------------
 KEY CHANGES:
+- [BREAKING CHANGE] Switch to use Point, PointF, Size, SizeF, Rectangle and RectangleF from Vortice.Mathematics
+- [ENH] Point, PointF, Size, SizeF, Rectangle and RectangleF supports conversion to System.Drawing types.
 - [FIX] DXGIGetDebugInterface1 is part of dxgi.dll and not dxgidebug.dll
 - [ENH] Direct3D11 helpers for creating Texture1D, Texture2D, Texture3D etc.
 - [ENH] Usage of standard types from System.Drawing.*

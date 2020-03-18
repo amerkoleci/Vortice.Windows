@@ -21,16 +21,16 @@ namespace Vortice.Direct2D1
             }
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-            private delegate int MapOutputRectToInputRectsDelegate(IntPtr thisObject, Rect* outputRect, Rect* pInputRects, int inputRectsCount);
-            private static unsafe int MapOutputRectToInputRects(IntPtr thisObject, Rect* outputRect, Rect* pInputRects, int inputRectsCount)
+            private delegate int MapOutputRectToInputRectsDelegate(IntPtr thisObject, RawRect* outputRect, RawRect* pInputRects, int inputRectsCount);
+            private static unsafe int MapOutputRectToInputRects(IntPtr thisObject, RawRect* outputRect, RawRect* pInputRects, int inputRectsCount)
             {
                 try
                 {
-                    var inputRects = new Rect[inputRectsCount];
+                    var inputRects = new RawRect[inputRectsCount];
                     Unsafe.CopyBlock(
                         Unsafe.AsPointer(ref inputRects[0]),
                         pInputRects,
-                        (uint)(sizeof(Rect) * inputRectsCount));
+                        (uint)(sizeof(RawRect) * inputRectsCount));
 
                     ID2D1Transform @this = (ID2D1Transform)ToShadow<ID2D1TransformShadow>(thisObject).Callback;
                     @this.MapOutputRectToInputRects(*outputRect, inputRects);
@@ -38,7 +38,7 @@ namespace Vortice.Direct2D1
                     Unsafe.CopyBlock(
                         pInputRects,
                         Unsafe.AsPointer(ref inputRects[0]),
-                        (uint)(sizeof(Rect) * inputRectsCount));
+                        (uint)(sizeof(RawRect) * inputRectsCount));
 
                     return Result.Ok.Code;
                 }
@@ -48,23 +48,23 @@ namespace Vortice.Direct2D1
                 }
             }
 
-            [UnmanagedFunctionPointerAttribute(CallingConvention.StdCall)]
-            private delegate int MapInputRectsToOutputRectDelegate(IntPtr thisObject, void* pInputRects, void* pInputOpaqueSubRects, int inputRectCount, Rect* outputRect, Rect* outputOpaqueSubRect);
-            private static unsafe int MapInputRectsToOutputRect(IntPtr thisObject, void* pInputRects, void* pInputOpaqueSubRects, int inputRectCount, Rect* outputRect, Rect* outputOpaqueSubRect)
+            [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+            private delegate int MapInputRectsToOutputRectDelegate(IntPtr thisObject, void* pInputRects, void* pInputOpaqueSubRects, int inputRectCount, RawRect* outputRect, RawRect* outputOpaqueSubRect);
+            private static unsafe int MapInputRectsToOutputRect(IntPtr thisObject, void* pInputRects, void* pInputOpaqueSubRects, int inputRectCount, RawRect* outputRect, RawRect* outputOpaqueSubRect)
             {
                 try
                 {
-                    var inputRects = new Rect[inputRectCount];
+                    var inputRects = new RawRect[inputRectCount];
                     Unsafe.CopyBlock(
                         Unsafe.AsPointer(ref inputRects[0]),
                         pInputRects,
-                        (uint)(sizeof(Rect) * inputRectCount));
+                        (uint)(sizeof(RawRect) * inputRectCount));
 
-                    var inputOpaqueSubRects = new Rect[inputRectCount];
+                    var inputOpaqueSubRects = new RawRect[inputRectCount];
                     Unsafe.CopyBlock(
                         Unsafe.AsPointer(ref inputOpaqueSubRects[0]),
                         pInputOpaqueSubRects,
-                        (uint)(sizeof(Rect) * inputRectCount));
+                        (uint)(sizeof(RawRect) * inputRectCount));
 
                     ID2D1Transform @this = (ID2D1Transform)ToShadow<ID2D1TransformShadow>(thisObject).Callback;
                     @this.MapInputRectsToOutputRect(inputRects, inputOpaqueSubRects, out *outputRect, out *outputOpaqueSubRect);
@@ -78,8 +78,8 @@ namespace Vortice.Direct2D1
             }
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-            private delegate int MapInvalidRectDelegate(IntPtr thisObject, int inputIndex, Rect* invalidInputRect, Rect* invalidOutputRect);
-            private static unsafe int MapInvalidRect(IntPtr thisObject, int inputIndex, Rect* invalidInputRect, Rect* invalidOutputRect)
+            private delegate int MapInvalidRectDelegate(IntPtr thisObject, int inputIndex, RawRect* invalidInputRect, RawRect* invalidOutputRect);
+            private static unsafe int MapInvalidRect(IntPtr thisObject, int inputIndex, RawRect* invalidInputRect, RawRect* invalidOutputRect)
             {
                 try
                 {

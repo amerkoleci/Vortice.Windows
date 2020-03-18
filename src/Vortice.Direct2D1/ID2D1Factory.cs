@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Drawing;
 using System.Numerics;
 using Vortice.DirectWrite;
 using Vortice.Mathematics;
@@ -32,20 +31,12 @@ namespace Vortice.Direct2D1
             return geometryGroup;
         }
 
-        public ID2D1RectangleGeometry CreateRectangleGeometry(System.Drawing.RectangleF rectangle)
+        public ID2D1RectangleGeometry CreateRectangleGeometry(RectangleF rectangle)
         {
             unsafe
             {
-                RectF rectF = rectangle;
-                return CreateRectangleGeometry(new IntPtr(&rectF));
-            }
-        }
-
-        public ID2D1RectangleGeometry CreateRectangleGeometry(RectF rectangle)
-        {
-            unsafe
-            {
-                return CreateRectangleGeometry(new IntPtr(&rectangle));
+                RawRectF rawRect = rectangle;
+                return CreateRectangleGeometry(new IntPtr(&rawRect));
             }
         }
 

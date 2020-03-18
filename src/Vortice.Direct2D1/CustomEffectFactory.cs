@@ -165,8 +165,10 @@ namespace Vortice.Direct2D1
                     return new PropertyNative<Color3>(propertyInfo, PropertyType.Vector3);
                 else if (type == typeof(Vector4))
                     return new PropertyNative<Vector4>(propertyInfo, PropertyType.Vector4);
-                else if (type == typeof(RectF))
-                    return new PropertyNative<RectF>(propertyInfo, PropertyType.Vector4);
+                else if (type == typeof(RawRectF))
+                    return new PropertyNative<RawRectF>(propertyInfo, PropertyType.Vector4);
+                else if (type == typeof(RectangleF))
+                    return new PropertyNative<RectangleF>(propertyInfo, PropertyType.Vector4);
                 else if (type == typeof(Color4))
                     return new PropertyNative<Color4>(propertyInfo, PropertyType.Vector4);
                 else if (type == typeof(Matrix3x2))
@@ -175,8 +177,8 @@ namespace Vortice.Direct2D1
                     return new PropertyNative<Matrix4x3>(propertyInfo, PropertyType.Matrix4x3);
                 else if (type == typeof(Matrix4x4))
                     return new PropertyNative<Matrix4x4>(propertyInfo, PropertyType.Matrix4x4);
-                else if (type == typeof(RawMatrix5x4))
-                    return new PropertyNative<RawMatrix5x4>(propertyInfo, PropertyType.Matrix5x4);
+                else if (type == typeof(Matrix5x4))
+                    return new PropertyNative<Matrix5x4>(propertyInfo, PropertyType.Matrix5x4);
                 else if (type.IsEnum)
                     return new PropertyNative<int>(propertyInfo, PropertyType.Enum);
                 else

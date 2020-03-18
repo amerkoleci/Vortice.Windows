@@ -1,17 +1,12 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Drawing;
 using System.IO;
 using Vortice;
 using Vortice.Direct2D1;
-using Vortice.DXGI;
-using Vortice.WIC;
 using Vortice.DirectWrite;
 using Vortice.Mathematics;
-using Vortice.Dxc;
-using System.Numerics;
+using Vortice.WIC;
 
 namespace HelloDirect3D11
 {
@@ -51,7 +46,7 @@ namespace HelloDirect3D11
             d2dRenderTarget.BeginDraw();
             d2dRenderTarget.Clear(new Color4(0.0f, 0.0f, 0.0f, 1.0f));
             d2dRenderTarget.FillGeometry(rectangleGeometry, solidColorBrush, null);
-            d2dRenderTarget.DrawText("Hello", textFormat, new Rect(0, 0, 120, 24), redSolidColorBrush);
+            d2dRenderTarget.DrawText("Hello", textFormat, new RectangleF(0, 0, 120, 24), redSolidColorBrush);
             d2dRenderTarget.EndDraw();
 
             if (File.Exists(fileName))

@@ -4,6 +4,7 @@
 using System;
 using System.Numerics;
 using SharpGen.Runtime;
+using Vortice.Mathematics;
 
 namespace Vortice.Direct2D1
 {
@@ -51,9 +52,9 @@ namespace Vortice.Direct2D1
             SetValue(index, PropertyType.Matrix4x4, new IntPtr(&value), sizeof(Matrix4x4));
         }
 
-        public unsafe void SetValue(int index, RawMatrix5x4 value)
+        public unsafe void SetValue(int index, Matrix5x4 value)
         {
-            SetValue(index, PropertyType.Matrix5x4, new IntPtr(&value), sizeof(RawMatrix5x4));
+            SetValue(index, PropertyType.Matrix5x4, new IntPtr(&value), sizeof(Matrix5x4));
         }
 
         public unsafe void SetValue(int index, string value)
@@ -82,6 +83,12 @@ namespace Vortice.Direct2D1
         public unsafe void SetValue(int index, Vector4 value)
         {
             SetValue(index, PropertyType.Vector4, new IntPtr(&value), sizeof(Vector4));
+        }
+
+        public unsafe void SetValue(int index, RectangleF value)
+        {
+            Vector4 vector = new Vector4(value.X, value.Y, value.Width, value.Height);
+            SetValue(index, PropertyType.Vector4, new IntPtr(&vector), sizeof(Vector4));
         }
 
         public unsafe void SetValue<T>(int index, T value) where T : unmanaged, Enum
@@ -144,10 +151,10 @@ namespace Vortice.Direct2D1
             return value;
         }
 
-        public unsafe RawMatrix5x4 GetMatrix5x4Value(int index)
+        public unsafe Matrix5x4 GetMatrix5x4Value(int index)
         {
-            RawMatrix5x4 value = default;
-            GetValue(index, PropertyType.Matrix5x4, new IntPtr(&value), sizeof(RawMatrix5x4));
+            Matrix5x4 value = default;
+            GetValue(index, PropertyType.Matrix5x4, new IntPtr(&value), sizeof(Matrix5x4));
             return value;
         }
 

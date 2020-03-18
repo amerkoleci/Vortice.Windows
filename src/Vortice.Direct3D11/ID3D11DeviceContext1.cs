@@ -14,14 +14,14 @@ namespace Vortice.Direct3D11
             ClearView(view, color);
         }
 
-        public unsafe void ClearView(ID3D11View view, Color4 color, Rect[] rects)
+        public unsafe void ClearView(ID3D11View view, Color4 color, RawRect[] rects)
         {
             ClearView(view, color, (IntPtr)Unsafe.AsPointer(ref rects[0]), rects.Length);
         }
 
-        public unsafe void ClearView(ID3D11View view, Color4 color, ReadOnlySpan<Rect> rects)
+        public unsafe void ClearView(ID3D11View view, Color4 color, ReadOnlySpan<RawRect> rects)
         {
-            fixed (Rect* pRects = rects)
+            fixed (RawRect* pRects = rects)
             {
                 ClearView(view, color, (IntPtr)pRects, rects.Length);
             }
@@ -32,14 +32,14 @@ namespace Vortice.Direct3D11
             ClearView(view, new Color4(color));
         }
 
-        public unsafe void ClearView(ID3D11View view, System.Drawing.Color color, Rect[] rects)
+        public unsafe void ClearView(ID3D11View view, System.Drawing.Color color, RawRect[] rects)
         {
             ClearView(view, new Color4(color), (IntPtr)Unsafe.AsPointer(ref rects[0]), rects.Length);
         }
 
-        public unsafe void ClearView(ID3D11View view, System.Drawing.Color color, ReadOnlySpan<Rect> rects)
+        public unsafe void ClearView(ID3D11View view, System.Drawing.Color color, ReadOnlySpan<RawRect> rects)
         {
-            fixed (Rect* pRects = rects)
+            fixed (RawRect* pRects = rects)
             {
                 ClearView(view, new Color4(color), (IntPtr)pRects, rects.Length);
             }
@@ -66,8 +66,8 @@ namespace Vortice.Direct3D11
         /// The resource that underlies the view must have been created with usage <see cref="Usage.Default"/> or <see cref="Usage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
         /// if the debug layer is enabled, the runtime returns an error message.
         /// </param>
-        /// <param name="rects">An array of <see cref="Rect"/> structures for the rectangles in the resource view to discard.</param>
-        public void DiscardView1(ID3D11View view, Rect[] rects)
+        /// <param name="rects">An array of <see cref="RawRect"/> structures for the rectangles in the resource view to discard.</param>
+        public void DiscardView1(ID3D11View view, RawRect[] rects)
         {
             unsafe
             {
@@ -83,12 +83,12 @@ namespace Vortice.Direct3D11
         /// The resource that underlies the view must have been created with usage <see cref="Usage.Default"/> or <see cref="Usage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
         /// if the debug layer is enabled, the runtime returns an error message.
         /// </param>
-        /// <param name="rects">An <see cref="ReadOnlySpan{Rect}"/> for the rectangles in the resource view to discard.</param>
-        public void DiscardView1(ID3D11View view, ReadOnlySpan<Rect> rects)
+        /// <param name="rects">An <see cref="ReadOnlySpan{RawRect}"/> for the rectangles in the resource view to discard.</param>
+        public void DiscardView1(ID3D11View view, ReadOnlySpan<RawRect> rects)
         {
             unsafe
             {
-                fixed (Rect* pRects = rects)
+                fixed (RawRect* pRects = rects)
                 {
                     DiscardView1(view, (IntPtr)pRects, rects.Length);
                 }

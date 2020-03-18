@@ -216,7 +216,7 @@ namespace Vortice.Dxc
     /// Common operation for a cursor include: getting the physical location in
     /// a source file where the cursor points, getting the name associated with a
     /// cursor, and retrieving cursors for any child nodes of a particular cursor.
-    /// <remarks>
+    /// </remarks>
     [ComImport]
     [Guid("1467b985-288d-4d2a-80c1-ef89c42c40bc")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]

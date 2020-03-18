@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
-using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice.Direct2D1
 {

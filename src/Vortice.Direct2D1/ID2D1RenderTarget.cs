@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.Drawing;
 using System.Numerics;
 using Vortice.DirectWrite;
 using Vortice.WIC;
@@ -108,9 +107,10 @@ namespace Vortice.Direct2D1
         /// <param name="opacity">A value between 0.0f and 1.0f, inclusive, that specifies an opacity value to apply to the bitmap; this value is multiplied against the alpha values of the bitmap's contents.  The default value is 1.0f. </param>
         /// <param name="interpolationMode">The interpolation mode to use if the bitmap is scaled or rotated by the drawing operation. The default value is <see cref="F:SharpDX.Direct2D1.BitmapInterpolationMode.Linear" />.  </param>
         /// <param name="sourceRectangle">The size and position, in device-independent pixels in the bitmap's coordinate space, of the area within the bitmap to be drawn; NULL to draw the entire bitmap.  </param>
-        public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, BitmapInterpolationMode interpolationMode, RectF sourceRectangle)
+        public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, BitmapInterpolationMode interpolationMode, RectangleF sourceRectangle)
         {
-            DrawBitmap(bitmap, null, opacity, interpolationMode, sourceRectangle);
+            RawRectF rawRect = sourceRectangle;
+            DrawBitmap(bitmap, null, opacity, interpolationMode, rawRect);
         }
 
         /// <summary>	
@@ -183,7 +183,7 @@ namespace Vortice.Direct2D1
         /// </summary>
         /// <param name="rect">The dimensions of the rectangle to draw, in device-independent pixels. </param>
         /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke. </param>
-        public void DrawRectangle(in RectF rect, ID2D1Brush brush)
+        public void DrawRectangle(in RawRectF rect, ID2D1Brush brush)
         {
             DrawRectangle(rect, brush, 1.0f, null);
         }
@@ -196,7 +196,7 @@ namespace Vortice.Direct2D1
         /// <param name="strokeWidth">A value greater than or equal to 0.0f that specifies the width of the rectangle's stroke. The stroke is centered on the rectangle's outline.</param>
         public void DrawRectangle(in RectangleF rectangle, ID2D1Brush brush, float strokeWidth)
         {
-            RectF rect = rectangle;
+            RawRectF rect = rectangle;
             DrawRectangle(rect, brush, strokeWidth, null);
         }
 
@@ -207,7 +207,7 @@ namespace Vortice.Direct2D1
         /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke. </param>
         public void DrawRectangle(in RectangleF rectangle, ID2D1Brush brush)
         {
-            RectF rect = rectangle;
+            RawRectF rect = rectangle;
             DrawRectangle(rect, brush, 1.0f, null);
         }
 
@@ -217,14 +217,14 @@ namespace Vortice.Direct2D1
         /// <param name="rect">The dimensions of the rectangle to draw, in device-independent pixels.</param>
         /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke.</param>
         /// <param name="strokeWidth">A value greater than or equal to 0.0f that specifies the width of the rectangle's stroke. The stroke is centered on the rectangle's outline.</param>
-        public void DrawRectangle(RectF rect, ID2D1Brush brush, float strokeWidth)
+        public void DrawRectangle(in RawRectF rect, ID2D1Brush brush, float strokeWidth)
         {
             DrawRectangle(rect, brush, strokeWidth, null);
         }
 
-        public void FillRectangle(RectangleF rectangle, ID2D1Brush brush)
+        public void FillRectangle(in RectangleF rectangle, ID2D1Brush brush)
         {
-            RectF rect = rectangle;
+            RawRectF rect = rectangle;
             FillRectangle(rect, brush);
         }
 
@@ -271,9 +271,10 @@ namespace Vortice.Direct2D1
         /// <param name="textFormat">An object that describes formatting details of the text to draw, such as the font, the font size, and flow direction.</param>
         /// <param name="layoutRect">The size and position of the area in which the text is drawn.  </param>
         /// <param name="defaultForegroundBrush">The brush used to paint the text. </param>
-        public void DrawText(string text, IDWriteTextFormat textFormat, RectF layoutRect, ID2D1Brush defaultForegroundBrush)
+        public void DrawText(string text, IDWriteTextFormat textFormat, RectangleF layoutRect, ID2D1Brush defaultForegroundBrush)
         {
-            DrawText(text, text.Length, textFormat, layoutRect, defaultForegroundBrush, DrawTextOptions.None, MeasuringMode.Natural);
+            RawRectF rawLayoutRect = layoutRect;
+            DrawText(text, text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, DrawTextOptions.None, MeasuringMode.Natural);
         }
 
         /// <summary>	
@@ -287,9 +288,10 @@ namespace Vortice.Direct2D1
         /// <param name="layoutRect">The size and position of the area in which the text is drawn.  </param>
         /// <param name="defaultForegroundBrush">The brush used to paint the text. </param>
         /// <param name="options">A value that indicates whether the text should be snapped to pixel boundaries and whether the text should be clipped to the layout rectangle. The default value is <see cref="F:SharpDX.Direct2D1.DrawTextOptions.None" />, which indicates that text should be snapped to pixel boundaries and it should not be clipped to the layout rectangle. </param>
-        public void DrawText(string text, IDWriteTextFormat textFormat, RectF layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options)
+        public void DrawText(string text, IDWriteTextFormat textFormat, RectangleF layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options)
         {
-            DrawText(text, text.Length, textFormat, layoutRect, defaultForegroundBrush, options, MeasuringMode.Natural);
+            RawRectF rawLayoutRect = layoutRect;
+            DrawText(text, text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, options, MeasuringMode.Natural);
         }
 
         /// <summary>	
@@ -304,9 +306,10 @@ namespace Vortice.Direct2D1
         /// <param name="defaultForegroundBrush">The brush used to paint the text. </param>
         /// <param name="options">A value that indicates whether the text should be snapped to pixel boundaries and whether the text should be clipped to the layout rectangle. The default value is <see cref="F:SharpDX.Direct2D1.DrawTextOptions.None" />, which indicates that text should be snapped to pixel boundaries and it should not be clipped to the layout rectangle. </param>
         /// <param name="measuringMode">A value that indicates how glyph metrics are used to measure text when it is formatted.  The default value is DWRITE_MEASURING_MODE_NATURAL.  </param>
-        public void DrawText(string text, IDWriteTextFormat textFormat, RectF layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options, MeasuringMode measuringMode)
+        public void DrawText(string text, IDWriteTextFormat textFormat, RectangleF layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options, MeasuringMode measuringMode)
         {
-            DrawText(text, text.Length, textFormat, layoutRect, defaultForegroundBrush, options, measuringMode);
+            RawRectF rawLayoutRect = layoutRect;
+            DrawText(text, text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, options, measuringMode);
         }
 
         /// <summary>	
@@ -322,7 +325,7 @@ namespace Vortice.Direct2D1
 
         public Result EndDraw()
         {
-            return EndDraw(out var tag1, out var tag2);
+            return EndDraw(out _, out _);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using Vortice.Mathematics;
+
 namespace Vortice.Direct2D1.Effects
 {
     public class ColorMatrix : ID2D1Effect
@@ -15,7 +17,7 @@ namespace Vortice.Direct2D1.Effects
         {
         }
 
-        public RawMatrix5x4 Matrix
+        public Matrix5x4 Matrix
         {
             set => SetValue((int)ColorMatrixProperties.ColorMatrix, value);
             get => GetMatrix5x4Value((int)ColorMatrixProperties.ColorMatrix);

@@ -60,7 +60,7 @@ namespace Vortice
 
             if (Width > 0 && Height > 0)
             {
-                var rect = new Rect(0, 0, Width, Height);
+                var rect = new RawRect(0, 0, Width, Height);
 
                 // Adjust according to window styles
                 AdjustWindowRectEx(
