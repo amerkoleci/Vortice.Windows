@@ -5,6 +5,7 @@ using System;
 using Vortice.DXGI;
 using Vortice.Direct3D;
 using SharpGen.Runtime;
+using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct3D11
 {
@@ -16,15 +17,13 @@ namespace Vortice.Direct3D11
             FeatureLevel[] featureLevels,
             out ID3D11Device device)
         {
-            ID3D11DeviceContext context = null;
-            try
-            {
-                return D3D11CreateDevice(adapter, driverType, flags, featureLevels, out device, out var featureLevel, out context);
-            }
-            finally
-            {
-                context?.Dispose();
-            }
+            return RawD3D11CreateDeviceNoContext(
+                adapter,
+                driverType,
+                flags,
+                featureLevels,
+                out device,
+                out _);
         }
 
         public static Result D3D11CreateDevice(IDXGIAdapter adapter,
@@ -105,29 +104,17 @@ namespace Vortice.Direct3D11
         /// Check if a feature level is supported by a primary adapter.
         /// </summary>
         /// <param name="featureLevel">The feature level.</param>
+        /// <param name="flags">The <see cref="DeviceCreationFlags"/> flags.</param>
         /// <returns><c>true</c> if the primary adapter is supporting this feature level; otherwise, <c>false</c>.</returns>
-        public static bool IsSupportedFeatureLevel(FeatureLevel featureLevel)
+        public static bool IsSupportedFeatureLevel(FeatureLevel featureLevel, DeviceCreationFlags flags = DeviceCreationFlags.None)
         {
-            ID3D11Device device = null;
-            ID3D11DeviceContext context = null;
-
-            try
-            {
-                var result = D3D11CreateDevice(
-                    null,
-                    DriverType.Hardware,
-                    IntPtr.Zero,
-                    0,
-                    new[] { featureLevel }, 1,
-                    SdkVersion, 
-                    out device, out var outputLevel, out context);
-                return result.Success && outputLevel == featureLevel;
-            }
-            finally
-            {
-                context?.Dispose();
-                device?.Dispose();
-            }
+            var result = RawD3D11CreateDeviceNoDeviceAndContext(
+                null,
+                DriverType.Hardware,
+                flags,
+                new[] { featureLevel },
+                out var outputLevel);
+            return result.Success && outputLevel == featureLevel;
         }
 
         /// <summary>
@@ -135,29 +122,23 @@ namespace Vortice.Direct3D11
         /// </summary>
         /// <param name="adapter">The adapter.</param>
         /// <param name="featureLevel">The feature level.</param>
+        /// <param name="flags">The <see cref="DeviceCreationFlags"/> flags.</param>
         /// <returns><c>true</c> if the specified adapter is supporting this feature level; otherwise, <c>false</c>.</returns>
-        public static bool IsSupportedFeatureLevel(IDXGIAdapter adapter, FeatureLevel featureLevel)
+        public static unsafe bool IsSupportedFeatureLevel(
+            IDXGIAdapter adapter,
+            FeatureLevel featureLevel,
+            DeviceCreationFlags flags = DeviceCreationFlags.None)
         {
-            ID3D11Device device = null;
-            ID3D11DeviceContext context = null;
+            if (adapter == null)
+                throw new ArgumentNullException(nameof(adapter), "Invalid adapter");
 
-            try
-            {
-                var result = D3D11CreateDevice(
-                    adapter,
-                    DriverType.Unknown,
-                    IntPtr.Zero,
-                    0,
-                    new[] { featureLevel }, 1,
-                    SdkVersion,
-                    out device, out var outputLevel, out context);
-                return result.Success && outputLevel == featureLevel;
-            }
-            finally
-            {
-                context?.Dispose();
-                device?.Dispose();
-            }
+            var result = RawD3D11CreateDeviceNoDeviceAndContext(
+                adapter,
+                DriverType.Unknown,
+                flags,
+                new[] { featureLevel },
+                out var outputLevel);
+            return result.Success && outputLevel == featureLevel;
         }
 
         /// <summary>
@@ -166,27 +147,12 @@ namespace Vortice.Direct3D11
         /// <returns>The highest supported hardware feature level.</returns>
         public static FeatureLevel GetSupportedFeatureLevel()
         {
-            var featureLevel = FeatureLevel.Level_9_1;
-            ID3D11Device device = null;
-            ID3D11DeviceContext context = null;
-
-            try
-            {
-                D3D11CreateDevice(
-                    null,
-                    DriverType.Hardware,
-                    IntPtr.Zero,
-                    0,
-                    null, 0,
-                    SdkVersion,
-                    out device, out featureLevel, out context);
-            }
-            finally
-            {
-                context?.Dispose();
-                device?.Dispose();
-            }
-
+            RawD3D11CreateDeviceNoDeviceAndContext(
+                null,
+                DriverType.Hardware,
+                DeviceCreationFlags.None,
+                null,
+                out var featureLevel);
             return featureLevel;
         }
 
@@ -197,28 +163,85 @@ namespace Vortice.Direct3D11
         /// <returns>The highest supported hardware feature level.</returns>
         public static FeatureLevel GetSupportedFeatureLevel(IDXGIAdapter adapter)
         {
-            var featureLevel = FeatureLevel.Level_9_1;
-            ID3D11Device device = null;
-            ID3D11DeviceContext context = null;
+            if (adapter == null)
+                throw new ArgumentNullException(nameof(adapter), "Invalid adapter");
 
-            try
-            {
-                D3D11CreateDevice(
-                    adapter,
-                    DriverType.Unknown,
-                    IntPtr.Zero,
-                    0,
-                    null, 0,
-                    SdkVersion,
-                    out device, out featureLevel, out context);
-            }
-            finally
-            {
-                context?.Dispose();
-                device?.Dispose();
-            }
-
+            RawD3D11CreateDeviceNoDeviceAndContext(
+                adapter,
+                DriverType.Unknown,
+                DeviceCreationFlags.None,
+                null,
+                out var featureLevel);
             return featureLevel;
         }
+
+        #region RawD3D11CreateDevice Methods
+        private static Result RawD3D11CreateDeviceNoContext(
+            IDXGIAdapter adapter,
+            DriverType driverType,
+            DeviceCreationFlags flags,
+            FeatureLevel[] featureLevels,
+            out ID3D11Device device,
+            out FeatureLevel featureLevel)
+        {
+            unsafe
+            {
+                device = default;
+                var adapterPtr = CppObject.ToCallbackPtr<IDXGIAdapter>(adapter);
+                fixed (void* featureLevelPtr = &featureLevel)
+                {
+                    var devicePtr = IntPtr.Zero;
+                    Result result = D3D11CreateDevice_(
+                        (void*)adapterPtr,
+                        (int)driverType,
+                        null,
+                        (int)flags,
+                        featureLevels != null && featureLevels.Length > 0 ? Unsafe.AsPointer(ref featureLevels[0]) : null,
+                        featureLevels?.Length ?? 0,
+                        SdkVersion,
+                        &devicePtr,
+                        featureLevelPtr,
+                        null);
+
+                    if (result.Success && devicePtr != IntPtr.Zero)
+                    {
+                        device = new ID3D11Device(devicePtr);
+                    }
+
+                    GC.KeepAlive(adapter);
+                    return result;
+                }
+            }
+        }
+
+        private static Result RawD3D11CreateDeviceNoDeviceAndContext(
+            IDXGIAdapter adapter,
+            DriverType driverType,
+            DeviceCreationFlags flags,
+            FeatureLevel[] featureLevels,
+            out FeatureLevel featureLevel)
+        {
+            unsafe
+            {
+                var adapterPtr = CppObject.ToCallbackPtr<IDXGIAdapter>(adapter);
+                fixed (void* featureLevelPtr = &featureLevel)
+                {
+                    Result result = D3D11CreateDevice_(
+                        (void*)adapterPtr,
+                        (int)driverType,
+                        null,
+                        (int)flags,
+                        featureLevels != null && featureLevels.Length > 0 ? Unsafe.AsPointer(ref featureLevels[0]) : null,
+                        featureLevels?.Length ?? 0,
+                        SdkVersion,
+                        null,
+                        featureLevelPtr,
+                        null);
+                    GC.KeepAlive(adapter);
+                    return result;
+                }
+            }
+        } 
+        #endregion
     }
 }

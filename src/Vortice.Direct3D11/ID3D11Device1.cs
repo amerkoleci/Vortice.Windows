@@ -9,6 +9,20 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11Device1
     {
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (ImmediateContext1__ != null)
+                {
+                    ImmediateContext1__.Dispose();
+                    ImmediateContext1__ = null;
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
         public ID3D11DeviceContext1 CreateDeferredContext1()
         {
             return CreateDeferredContext1(0);
