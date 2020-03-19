@@ -28,6 +28,14 @@ namespace Vortice.Direct3D11
             OMSetBlendState(blendState, new Color4(blendFactor), sampleMask);
         }
 
+        /// <summary>
+        /// Unsets the render targets.
+        /// </summary>
+        public void UnsetRenderTargets()
+        {
+            OMSetRenderTargets(0, IntPtr.Zero, null);
+        }
+
         public unsafe void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)
         {
             var renderTargetViewPtr = renderTargetView.NativePointer;
@@ -486,10 +494,13 @@ namespace Vortice.Direct3D11
             VSSetShader(vertexShader, classInstances, classInstancesCount);
         }
 
-        public unsafe void VSSetConstantBuffer(int startSlot, ID3D11Buffer constantBuffer)
+        public void VSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            VSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                VSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void VSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
@@ -497,10 +508,13 @@ namespace Vortice.Direct3D11
             VSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
-        public unsafe void VSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        public void VSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var samplerPtr = sampler.NativePointer;
-            VSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            unsafe
+            {
+                VSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void VSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
@@ -508,10 +522,13 @@ namespace Vortice.Direct3D11
             VSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
-        public unsafe void VSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        public void VSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var viewPtr = shaderResourceView.NativePointer;
-            VSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            unsafe
+            {
+                VSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void VSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
@@ -571,10 +588,13 @@ namespace Vortice.Direct3D11
             PSSetShader(pixelShader, classInstances, classInstancesCount);
         }
 
-        public unsafe void PSSetConstantBuffer(int startSlot, ID3D11Buffer constantBuffer)
+        public void PSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            PSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                PSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void PSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
@@ -582,10 +602,13 @@ namespace Vortice.Direct3D11
             PSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
-        public unsafe void PSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        public void PSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var samplerPtr = sampler.NativePointer;
-            PSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            unsafe
+            {
+                PSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void PSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
@@ -593,10 +616,13 @@ namespace Vortice.Direct3D11
             PSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
-        public unsafe void PSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        public void PSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var viewPtr = shaderResourceView.NativePointer;
-            PSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            unsafe
+            {
+                PSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void PSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
@@ -656,10 +682,13 @@ namespace Vortice.Direct3D11
             DSSetShader(domainShader, classInstances, classInstancesCount);
         }
 
-        public unsafe void DSSetConstantBuffers(int startSlot, ID3D11Buffer constantBuffer)
+        public void DSSetConstantBuffers(int slot, ID3D11Buffer constantBuffer)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            DSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                DSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void DSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
@@ -667,10 +696,13 @@ namespace Vortice.Direct3D11
             DSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
-        public unsafe void DSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        public void DSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var samplerPtr = sampler.NativePointer;
-            DSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            unsafe
+            {
+                DSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void DSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
@@ -678,10 +710,13 @@ namespace Vortice.Direct3D11
             DSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
-        public unsafe void DSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        public void DSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var viewPtr = shaderResourceView.NativePointer;
-            DSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            unsafe
+            {
+                DSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void DSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
@@ -741,10 +776,13 @@ namespace Vortice.Direct3D11
             HSSetShader(hullShader, classInstances, classInstancesCount);
         }
 
-        public unsafe void HSSetConstantBuffers(int startSlot, ID3D11Buffer constantBuffer)
+        public void HSSetConstantBuffers(int slot, ID3D11Buffer constantBuffer)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            HSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                HSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void HSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
@@ -752,10 +790,13 @@ namespace Vortice.Direct3D11
             HSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
-        public unsafe void HSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        public void HSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var samplerPtr = sampler.NativePointer;
-            HSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            unsafe
+            {
+                HSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void HSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
@@ -763,10 +804,13 @@ namespace Vortice.Direct3D11
             HSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
-        public unsafe void HSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        public void HSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var viewPtr = shaderResourceView.NativePointer;
-            HSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            unsafe
+            {
+                HSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void HSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
@@ -826,10 +870,13 @@ namespace Vortice.Direct3D11
             GSSetShader(geometryShader, classInstances, classInstancesCount);
         }
 
-        public unsafe void GSSetConstantBuffers(int startSlot, ID3D11Buffer constantBuffer)
+        public void GSSetConstantBuffers(int slot, ID3D11Buffer constantBuffer)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            GSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                GSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void GSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
@@ -837,10 +884,13 @@ namespace Vortice.Direct3D11
             GSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
-        public unsafe void GSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        public void GSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var samplerPtr = sampler.NativePointer;
-            GSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            unsafe
+            {
+                GSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void GSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
@@ -848,10 +898,13 @@ namespace Vortice.Direct3D11
             GSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
-        public unsafe void GSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        public void GSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var viewPtr = shaderResourceView.NativePointer;
-            GSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            unsafe
+            {
+                GSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void GSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
@@ -911,10 +964,13 @@ namespace Vortice.Direct3D11
             CSSetShader(computeShader, classInstances, classInstancesCount);
         }
 
-        public unsafe void CSSetConstantBuffers(int startSlot, ID3D11Buffer constantBuffer)
+        public void CSSetConstantBuffers(int slot, ID3D11Buffer constantBuffer)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            CSSetConstantBuffers(startSlot, 1, new IntPtr(&constantBufferPtr));
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                CSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void CSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
@@ -922,10 +978,13 @@ namespace Vortice.Direct3D11
             CSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
-        public unsafe void CSSetSampler(int startSlot, ID3D11SamplerState sampler)
+        public void CSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var samplerPtr = sampler.NativePointer;
-            CSSetSamplers(startSlot, 1, new IntPtr(&samplerPtr));
+            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            unsafe
+            {
+                CSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void CSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
@@ -933,10 +992,13 @@ namespace Vortice.Direct3D11
             CSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
-        public unsafe void CSSetShaderResource(int startSlot, ID3D11ShaderResourceView shaderResourceView)
+        public void CSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var viewPtr = shaderResourceView.NativePointer;
-            CSSetShaderResources(startSlot, 1, new IntPtr(&viewPtr));
+            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            unsafe
+            {
+                CSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+            }
         }
 
         public void CSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)

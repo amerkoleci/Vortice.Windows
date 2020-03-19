@@ -96,15 +96,15 @@ namespace Vortice.Direct3D11
         }
 
         #region VertexShader
-        public unsafe void VSSetConstantBuffer1(int startSlot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public void VSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            VSSetConstantBuffers1(startSlot,
-                1,
-                new IntPtr(&constantBufferPtr),
-                (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                (IntPtr)Unsafe.AsPointer(ref numConstants[0])
-                );
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                VSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
+                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+            }
         }
 
         public void VSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
@@ -114,15 +114,15 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region PixelShader
-        public unsafe void PSSetConstantBuffer1(int startSlot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public unsafe void PSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            PSSetConstantBuffers1(startSlot,
-                1,
-                new IntPtr(&constantBufferPtr),
-                (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                (IntPtr)Unsafe.AsPointer(ref numConstants[0])
-                );
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                PSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
+                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+            }
         }
 
         public void PSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
@@ -132,15 +132,15 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region DomainShader
-        public unsafe void DSSetConstantBuffer1(int startSlot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public void DSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            DSSetConstantBuffers1(startSlot,
-                1,
-                new IntPtr(&constantBufferPtr),
-                (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                (IntPtr)Unsafe.AsPointer(ref numConstants[0])
-                );
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                DSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
+                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+            }
         }
 
         public void DSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
@@ -150,15 +150,15 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region HullShader
-        public unsafe void HSSetConstantBuffer1(int startSlot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public void HSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            HSSetConstantBuffers1(startSlot,
-                1,
-                new IntPtr(&constantBufferPtr),
-                (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                (IntPtr)Unsafe.AsPointer(ref numConstants[0])
-                );
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                HSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
+                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+            }
         }
 
         public void HSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
@@ -168,15 +168,15 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region GeometryShader
-        public unsafe void GSSetConstantBuffer1(int startSlot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public void GSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            GSSetConstantBuffers1(startSlot,
-                1,
-                new IntPtr(&constantBufferPtr),
-                (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                (IntPtr)Unsafe.AsPointer(ref numConstants[0])
-                );
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                GSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
+                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+            }
         }
 
         public void GSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
@@ -185,16 +185,16 @@ namespace Vortice.Direct3D11
         }
         #endregion
 
-        #region CompueShader
-        public unsafe void CSSetConstantBuffer1(int startSlot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        #region ComputeShader
+        public void CSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var constantBufferPtr = constantBuffer.NativePointer;
-            CSSetConstantBuffers1(startSlot,
-                1,
-                new IntPtr(&constantBufferPtr),
-                (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                (IntPtr)Unsafe.AsPointer(ref numConstants[0])
-                );
+            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            unsafe
+            {
+                CSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
+                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+            }
         }
 
         public void CSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
