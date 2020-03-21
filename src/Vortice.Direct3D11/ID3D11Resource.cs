@@ -44,7 +44,7 @@ namespace Vortice.Direct3D11
         /// <returns>The resulting miplevel calulated for this instance with this mipSlice and arraySlice.</returns>
         public virtual int CalculateSubResourceIndex(int mipSlice, int arraySlice, out int mipSize)
         {
-            throw new NotImplementedException("This method is not implemented for this kind of resource");
+            throw new NotSupportedException("This method is not implemented for this kind of resource");
         }
     }
 }

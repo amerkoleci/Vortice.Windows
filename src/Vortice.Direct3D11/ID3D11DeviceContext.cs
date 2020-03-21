@@ -1042,7 +1042,34 @@ namespace Vortice.Direct3D11
         }
         #endregion
 
-        #region Map
+        #region Map/Unmap
+        /// <summary>
+        /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
+        /// </summary>
+        /// <param name="resource">The resource.</param>
+        /// <param name="mode">The mode.</param>
+        /// <param name="flags">The flags.</param>
+        public MappedSubresource Map(ID3D11Buffer resource, MapMode mode, MapFlags flags = MapFlags.None)
+        {
+            return Map(resource, 0, mode, flags);
+        }
+
+        /// <summary>
+        /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
+        /// </summary>
+        /// <param name="resource">The resource.</param>
+        /// <param name="mipSlice">The mip slice.</param>
+        /// <param name="arraySlice">The array slice.</param>
+        /// <param name="mode">The mode.</param>
+        /// <param name="flags">The flags.</param>
+        /// <param name="subresource">The mapped subresource index.</param>
+        /// <param name="mipSize">Size of the selected miplevel.</param>
+        public MappedSubresource Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int subresource, out int mipSize)
+        {
+            subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
+            return Map(resource, subresource, mode, flags);
+        }
+
         /// <summary>
         /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
         /// </summary>
@@ -1056,6 +1083,14 @@ namespace Vortice.Direct3D11
         {
             int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
             return Map(resource, subresource, mode, flags);
+        }
+
+        public void Unmap(ID3D11Buffer buffer) => Unmap(buffer, 0);
+
+        public void Unmap(ID3D11Resource resource, int mipSlice, int arraySlice)
+        {
+            int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out _);
+            Unmap(resource, subresource);
         }
         #endregion
 
