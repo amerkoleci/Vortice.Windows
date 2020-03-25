@@ -22,8 +22,12 @@
 
     <!-- Packages versions -->
     <NerdbankGitVersioningVersion>3.1.71</NerdbankGitVersioningVersion>
-    <SharpGenVersion>1.2.1</SharpGenVersion>
+    <SharpGenVersion>2.0.0-local</SharpGenVersion>
     <VorticeMathematicsVersion>1.2.1</VorticeMathematicsVersion>
+
+    <RestoreAdditionalProjectSources>$(RestoreAdditionalProjectSources);D:\Documents\NuGet</RestoreAdditionalProjectSources>
+
+    <SharpGenSdkAssemblyDirectory>D:\dev\SharpGenTools\SharpGenTools.Sdk\bin\Debug\</SharpGenSdkAssemblyDirectory>
   </PropertyGroup>
 
   <ItemGroup>

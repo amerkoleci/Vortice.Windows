@@ -20,7 +20,7 @@ namespace Vortice.DXGI
         /// <returns>Return the <see cref="Result"/>.</returns>
         public static Result CreateDXGIFactory<T>(out T factory) where T : IDXGIFactory
         {
-            if (PlatformDetection.IsUAP)
+            if (VorticePlatformDetection.IsUAP)
             {
                 throw new NotSupportedException();
             }

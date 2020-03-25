@@ -258,3 +258,8 @@ Session.vim
 
 .vscode
 launchSettings.json
+
+.idea/
+
+# CodeRush
+.cr/

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-visuals" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.Visuals</assembly>
+  <namespace>Vortice.Visuals</namespace>
+  <depends>Vortice.Direct2D1</depends>
+
+  <sdk name="WindowsSdk" version="10.0.18362.0" />
+  <sdk name="StdLib" />
+
+  <include file="uianimation.h" namespace="Vortice.Animation" attach="true" output="AnimationManager" />
+  <include file="dcomp.h" namespace="Vortice.DirectComposition" attach="true" output="DComp" />
+  <include file="dcompanimation.h" namespace="Vortice.DirectComposition" attach="true" output="DComp" />
+  <include file="dcomptypes.h" namespace="Vortice.DirectComposition" attach="true" output="DComp" />
+
+  <extension>
+    <create class="Vortice.Animation.AnimationManager" visibility="public static" />
+    <create class="Vortice.DirectComposition.DComp" visibility="public static" />
+
+    <create class="Vortice.DirectComposition.ResultCode" visibility="public"/>
+    <const from-macro="DCOMPOSITION_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DirectComposition.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+
+    <create class="Vortice.Animation.AnimationRepeat" visibility="public static" />
+    <const from-macro="UI_ANIMATION_REPEAT_(.*)" type="int" cpp-type="int" name="$1" class="Vortice.Animation.AnimationRepeat" visibility="public static readonly" />
+  </extension>
+
+  <bindings>
+    <bind from="D3DMATRIX" to="System.Numerics.Matrix4x4" />
+    <bind from="D2D1_2DAFFINETRANSFORM_INTERPOLATION_MODE" to="Vortice.Direct2D1.AffineTransform2DInterpolationMode" />
+    <bind from="__MIDL___MIDL_itf_UIAnimation_0000_0002_0003" to="System.IntPtr" />
+  </bindings>
+
+  <naming>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="TOPLEFT">TopLeft</short>
+    <short name="UINT32">UInt32</short>
+    <short name="UINT64">UInt64</short>
+    <short name="IUNKNOWN">IUnknown</short>
+    <short name="RECTANGLE">Rectangle</short>
+    <short name="RECTS">Rectangles</short>
+    <short name="RECT">Rectangle</short>
+    <short name="POINT">Point</short>
+    <short name="POINTS">Points</short>
+    <short name="TRIANGLE">Triangle</short>
+    <short name="LIST">List</short>
+    <short name="ADJACENCY">Adjacency</short>
+    <short name="ADJ">Adjacency</short>
+    <short name="STRIP">Strip</short>
+    <short name="SRV">ShaderResourceView</short>
+    <short name="DSV">DepthStencilView</short>
+    <short name="RTV">RenderTargetView</short>
+    <short name="UAVS">UnorderedAccessViews</short>
+    <short name="UAV">UnorderedAccessView</short>
+    <short name="TEXTURE">Texture</short>
+    <short name="TEXT">Text</short>
+    <short name="CUBE">Cube</short>
+    <short name="TEX">Texture</short>
+    <short name="1D">1D</short>
+    <short name="2D">2D</short>
+    <short name="3D">3D</short>
+    <short name="MS">Multisampled</short>
+    <short name="RW">RW</short>
+    <short name="ARRAYSIZE">ArraySize</short>
+    <short name="ARRAYSLICE">ArraySlice</short>
+    <short name="ARRAYS">Arrays</short>
+    <short name="ARRAY">Array</short>
+    <short name="BUFFERS">Buffers</short>
+    <short name="BUFFER">Buffer</short>
+    <short name="BUFFEREX">BufferExtended</short>
+    <short name="CBV">ConstantBufferView</short>
+    <short name="CBUFFER">ConstantBuffer</short>
+    <short name="TBUFFER">TextureBuffer</short>
+    <short name="VDOV">VideoDecoderOutputView</short>
+    <short name="VPIV">VideoProcessorInputView</short>
+    <short name="VPOV">VideoProcessorOutputView</short>
+    <short name="INVALIDPARAMETER">InvalidParameter</short>
+    <short name="OUTOFMEMORY">OutOfMemory</short>
+    <short name="NOTIMPLEMENTED">NotImplemented</short>
+    <short name="ACCESSDENIED">AccessDenied</short>
+    <short name="VALUEOVERFLOW">ValueOverflow</short>
+    <short name="WRONGSTATE">WrongState</short>
+    <short name="VALUEOUTOFRANGE">ValueOutOfRange</short>
+    <short name="UNKNOWNIMAGEFORMAT">UnknownImageFormat</short>
+    <short name="UNSUPPORTEDVERSION">UnsupportedVersion</short>
+    <short name="POINTER">Pointer</short>
+    <short name="POINTERS">Pointers</short>
+    <short name="NOPERSPECTIVE">NoPerspective</short>
+    <short name="POINTLIST">PointList</short>
+    <short name="LINELIST">LineList</short>
+    <short name="LINESTRIP">LineStrip</short>
+    <short name="TRIANGLELIST">TriangleList</short>
+    <short name="COMPUTESHADER">ComputeShader</short>
+    <short name="DEPTHSTENCIL">DepthStencil</short>
+    <short name="DEPTHSTENCILVIEW">DepthStencilView</short>
+    <short name="DOMAINSHADER">DomainShader</short>
+    <short name="GEOMETRYSHADER">GeometryShader</short>
+    <short name="HULLSHADER">HullShader</short>
+    <short name="MIN8FLOAT">Min8Float</short>
+    <short name="MIN10FLOAT">Min10Float</short>
+    <short name="MIN16FLOAT">Min16Float</short>
+    <short name="MIN12INT">Min12Int</short>
+    <short name="MIN16INT">Min16Int</short>
+    <short name="MIN16UINT">Min16UInt</short>
+    <short name="PIXELFRAGMENT">PixelFragment</short>
+    <short name="PIXELSHADER">PixelShader</short>
+    <short name="RENDERTARGETVIEW">RenderTargetView</short>
+    <short name="SAMPLER1D">Sampler1D</short>
+    <short name="SAMPLER2D">Sampler2D</short>
+    <short name="SAMPLER3D">Sampler3D</short>
+    <short name="SAMPLERCUBE">SamplerCube</short>
+    <short name="VERTEXFRAGMENT">VertexFragment</short>
+    <short name="VERTEXSHADER">VertexShader</short>
+    <short name="SRC">Source</short>
+    <short name="DST">Destination</short>
+    <short name="DEST">Destination</short>
+    <short name="INV">Inverse</short>
+  </naming>
+
+  <mapping>
+    <!-- DComp Enumerations -->
+    <map enum="DCOMPOSITION_(.*)" name-tmp="$1" />
+    <map enum="DCOMPOSITION_BACKFACE_VISIBILITY" name-tmp="BackFaceVisibility" />
+    <map enum-item="DCOMPOSITION_TRANSFORM_MODE_3D_TRANSFORM" name-tmp="Transform3D"/>
+    <map enum-item="DCOMPOSITION_TRANSFORM_MODE_3D_TRANSFORM_AND_VISIBILITY" name-tmp="Transform3DAndVisibility"/>
+    
+    <remove enum-item=".*_FORCE_DWORD" />
+    <remove enum-item=".*_FORCE_UINT" />
+
+    <!-- DComp Structures -->
+    <map struct="DCOMPOSITION(.*)" name-tmp="$1" />
+
+    <!-- DComp Interfaces -->
+    <map method="IDCompositionDevice2?::Create.*" visibility="internal" />
+    <map param="IDCompositionDevice2?::CreateAnimation::animation" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateEffectGroup::effectGroup" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateMatrixTransform::matrixTransform" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateMatrixTransform3D::matrixTransform3D" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateRectangleClip::clip" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateRotateTransform::rotateTransform" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateRotateTransform3D::rotateTransform3D" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateScaleTransform::scaleTransform" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateScaleTransform3D::scaleTransform3D" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateSkewTransform::skewTransform" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateSurface::surface" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateSurfaceFactory::surfaceFactory" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateTransform3DGroup::transform3DGroup" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateTransformGroup::transformGroup" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateTranslateTransform::translateTransform" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateTranslateTransform3D::translateTransform3D" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateVirtualSurface::(virtualS|s)urface" attribute="out fast" />
+    <map param="IDCompositionDevice2?::CreateVisual::visual" attribute="out fast" />
+
+    <map method="IDCompositionDevice3?::Create.*" visibility="internal" />
+    <map param="IDCompositionDevice3::CreateGaussianBlurEffect::gaussianBlurEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateBrightnessEffect::brightnessEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateColorMatrixEffect::colorMatrixEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateShadowEffect::shadowEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateHueRotationEffect::hueRotationEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateSaturationEffect::saturationEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateTurbulenceEffect::turbulenceEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateLinearTransferEffect::linearTransferEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateTableTransferEffect::tableTransferEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateCompositeEffect::compositeEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateBlendEffect::blendEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateArithmeticCompositeEffect::arithmeticCompositeEffect" attribute="out fast" />
+    <map param="IDCompositionDevice3::CreateAffineTransform2DEffect::affineTransform2dEffect" attribute="out fast" />
+
+    <map method="IDCompositionDesktopDevice::CreateTargetForHwnd" visibility="internal" />
+    <map param="IDCompositionDesktopDevice::CreateTargetForHwnd::target" return="true" />
+    <map param="IDCompositionDesktopDevice::CreateSurfaceFromHandle::surface" return="true" />
+    <map param="IDCompositionDesktopDevice::CreateSurfaceFromHwnd::surface" return="true" />
+
+    <map method="IDCompositionRectangleClip::.*" property="false" />
+    <map method="IDCompositionEffectGroup::SetOpacity.*" property="false" />
+    <map method="IDCompositionVisual::Set(Clip|Offset|Transform).*" property="false" />
+
+    <map method="IDCompositionSurfaceFactory::Create(Virtual)?Surface" visibility="internal" />
+    <map param="IDCompositionSurfaceFactory::Create(Virtual)?Surface::(virtualS|s)urface" attribute="out fast" />
+
+    <map method="IDComposition(Rotate|Translate|Scale|Skew|Matrix)Transform(3D)?::Set.*" property="false" />
+
+    <!-- DComp Functions -->
+    <map function="DComposition(.+)" name-tmp="$1" visibility="internal" />
+    <map function="DComposition.*" dll='"dcomp.dll"' group="Vortice.DirectComposition.DComp" />
+    <map function="DCompositionCreateSurfaceHandle" visibility="public" />
+
+
+    <!-- Animation Enumerations -->
+    <map enum="UI_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_(.*)" name-tmp="$1"/>
+
+    <map enum="UI_ANIMATION_DEPENDENCIES" flags="true"/>
+    <map enum-item="UI_ANIMATION_DEPENDENCY_(.*)" name-tmp="$1"/>
+
+    <map enum-item="UI_ANIMATION_IDLE_BEHAVIOR_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_MANAGER_(.*)" name-tmp="$1"/>
+
+    <map enum-item="UI_ANIMATION_MODE_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_PRIORITY_EFFECT_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_SCHEDULING_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_SLOPE_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_STORYBOARD_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_TIMER_CLIENT_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_UPDATE_(.*)" name-tmp="$1"/>
+
+    <!-- Animation Interfaces -->
+    <map interface="IUIAnimationInterpolator2?" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true" />
+    <map method="IUIAnimationInterpolator2?::.+" hresult="true" check="false" />
+    <map method="IUIAnimationInterpolator2?::GetDimension" property="false" />
+    <map method="IUIAnimationInterpolator2?::GetDuration" property="false" />
+    <map method="IUIAnimationInterpolator2?::GetFinalValue" property="false" />
+    <map method="IUIAnimationInterpolator2?::SetDuration" property="false" />
+    <map param="IUIAnimationInterpolator2::SetInitialValueAndVelocity::cDimension" relation="length(initialValue),length(initialVelocity)" />
+    <map param="IUIAnimationInterpolator2::GetFinalValue::cDimension" relation="length(value)" />
+    <map param="IUIAnimationInterpolator2::InterpolateValue::cDimension" relation="length(value)" />
+    <map param="IUIAnimationInterpolator2::InterpolateVelocity::cDimension" relation="length(velocity)" />
+    <map param="IUIAnimationInterpolator2::SetInitialValueAndVelocity::initialValue" attribute="out buffer fast" />
+    <map param="IUIAnimationInterpolator2::SetInitialValueAndVelocity::initialVelocity" attribute="out buffer fast" />
+    <map param="IUIAnimationInterpolator2::GetFinalValue::value" attribute="out buffer fast" />
+    <map param="IUIAnimationInterpolator2::InterpolateValue::value" attribute="out buffer fast" />
+    <map param="IUIAnimationInterpolator2::InterpolateVelocity::velocity" attribute="out buffer fast" />
+
+    <!-- IUIAnimationManager2? -->
+    <map method="IUIAnimationManager2?::CreateAnimationVariable" visibility="internal"/>
+    <map param="IUIAnimationManager2?::CreateAnimationVariable::variable" attribute="fast out"/>
+
+    <map method="IUIAnimationManager2?::CreateStoryboard" visibility="internal"/>
+    <map param="IUIAnimationManager2?::CreateStoryboard::storyboard" attribute="fast out"/>
+
+    <map param="IUIAnimationManager2?::Update::updateResult" return="true"/>
+
+    <map method="IUIAnimationManager2?::GetVariableFromTag" visibility="internal"/>
+    <map param="IUIAnimationManager2?::GetVariableFromTag::object" type="void"/>
+    <map param="IUIAnimationManager2?::GetVariableFromTag::variable" return="true"/>
+
+    <map method="IUIAnimationManager2?::GetStoryboardFromTag" visibility="internal"/>
+    <map param="IUIAnimationManager2?::GetStoryboardFromTag::object" type="void"/>
+    <map param="IUIAnimationManager2?::GetStoryboardFromTag::storyboard" return="true"/>
+
+    <!-- Don't generate properties for event handler setter -->
+    <map interface=".*Handler2?" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true" />
+    <map method=".*::Set.*Handler" property="false" />
+
+    <!-- Callback for Priority Comparison -->
+    <map interface="IUIAnimationPriorityComparison2?" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true" />
+    <map method="IUIAnimationPriorityComparison2?::HasPriority" type="HRESULT" check="false" />
+    <map method="IUIAnimationManager2?::Set.*Comparison" property="false" visibility="internal" />
+
+    <!-- IUIAnimationStoryboard -->
+    <map param="IUIAnimationStoryboard2?::AddKeyframeAtOffset::keyframe" return="true" />
+    <map param="IUIAnimationStoryboard2?::AddKeyframeAfterTransition::keyframe" return="true" />
+    <map param="IUIAnimationStoryboard2?::Schedule::schedulingResult" return="true" />
+
+    <map method="IUIAnimationStoryboard2?::SetTag" visibility="internal"/>
+    <map method="IUIAnimationStoryboard2?::GetTag" visibility="internal"/>
+    <map param="IUIAnimationStoryboard2?::SetTag::object" type="void"/>
+    <map param="IUIAnimationStoryboard2?::GetTag::object" type="void"/>
+
+    <map method="IUIAnimationStoryboard2::RepeatBetweenKeyframes" visibility="internal" />
+
+    <!-- IUIAnimationTransitionLibrary -->
+    <map method="IUIAnimationTransitionLibrary2?::Create(.*)Transition" name="$1"/>
+    <map method="IUIAnimationTransitionLibrary2?::Create(.*)Transition(.+)" name="$1$2"/>
+    <map param="IUIAnimationTransitionLibrary2?::.*::transition" return="true"/>
+
+    <!-- IUIAnimationTransitionFactory -->
+    <map param="IUIAnimationTransitionFactory2?::CreateTransition::transition" return="true" />
+
+    <!-- IUIAnimationVariable -->
+    <map method="IUIAnimationVariable2?::SetTag" visibility="internal"/>
+    <map method="IUIAnimationVariable2?::GetTag" visibility="internal"/>
+    <map param="IUIAnimationVariable2?::SetTag::object" type="void"/>
+    <map param="IUIAnimationVariable2?::GetTag::object" type="void"/>
+    
+    <map param="IUIAnimationVariable.*ChangeHandler2::On.*ValueChanged::cDimension" relation="length(newValue),length(previousValue)" />
+    
+    <map method="IUIAnimationTimer::IsEnabled" return="true" check="false" property="false" name="IsEnabled_" visibility="internal"/>
+    <map method="IUIAnimationTransition2?::IsDurationKnown" return="true" check="false" property="false" name="IsDurationKnown_" visibility="internal"/>
+
+  </mapping>
+</config>

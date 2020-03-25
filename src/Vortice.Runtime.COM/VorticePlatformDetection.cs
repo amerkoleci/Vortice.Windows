@@ -7,12 +7,12 @@ namespace SharpGen.Runtime
     /// <summary>
 	/// Provides methods to protect against invalid parameters.
 	/// </summary>
-    public static class PlatformDetection
+    public static class VorticePlatformDetection
     {
         private static int s_isInAppContainer = -1;
         public static readonly Version WindowsVersion;
 
-        static PlatformDetection()
+        static VorticePlatformDetection()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -76,19 +76,12 @@ namespace SharpGen.Runtime
                             throw new InvalidOperationException($"Failed to get AppId, result was {result}.");
                     }
                 }
-                catch (Exception e)
+                // We could catch this here, being friendly with older portable surface area should we
+                // desire to use this method elsewhere.
+                catch (Exception e) when (e.GetType().FullName.Equals("System.EntryPointNotFoundException", StringComparison.Ordinal))
                 {
-                    // We could catch this here, being friendly with older portable surface area should we
-                    // desire to use this method elsewhere.
-                    if (e.GetType().FullName.Equals("System.EntryPointNotFoundException", StringComparison.Ordinal))
-                    {
-                        // API doesn't exist, likely pre Win8
-                        s_isInAppContainer = 0;
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    // API doesn't exist, likely pre-Win8
+                    s_isInAppContainer = 0;
                 }
 
                 return s_isInAppContainer == 1;
