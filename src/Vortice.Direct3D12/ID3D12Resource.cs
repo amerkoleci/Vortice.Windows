@@ -56,7 +56,7 @@ namespace Vortice.Direct3D12
         }
 
         public unsafe void WriteToSubresource<T>(
-            int destinationSubresource, in Offset3D destinationOffset, in Extent3D destinationExtent,
+            int destinationSubresource, in Point3 destinationOffset, in Size3 destinationExtent,
             Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
             fixed (void* dataPtr = sourceData)
