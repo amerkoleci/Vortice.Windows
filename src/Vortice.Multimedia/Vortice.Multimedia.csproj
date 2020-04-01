@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="all" />
+    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />
   </ItemGroup>
   
