@@ -1,9 +1,14 @@
 # Changelog
 
-Current Release:    1.5.0 (December 2019)
+Current Release:    1.6.0 (April 2020)
 
 -----------------------------------------------
-Release:     1.6.0 (March 2020)
+Release:     1.7.0 (May 2020)
+-----------------------------------------------
+KEY CHANGES:
+
+-----------------------------------------------
+Release:     1.6.0 (April 2020)
 -----------------------------------------------
 KEY CHANGES:
 - [BREAKING CHANGE] Switch to use Point, PointF, Size, SizeF, Rectangle and RectangleF from Vortice.Mathematics
