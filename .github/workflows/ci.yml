@@ -1,6 +1,11 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+    - 'CHANGELOG.md'
+    - 'README.md'
+  pull_request:
 
 jobs:
   build:
@@ -13,7 +18,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.201
+        dotnet-version: 3.1.101
 
     - name: Version
       uses: aarnott/nbgv@master
