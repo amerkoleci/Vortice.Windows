@@ -33,19 +33,16 @@ namespace SharpGen.Runtime
     {
         static ComUtilities()
         {
-            if (!PlatformDetection.IsUAP)
+            if (CoInitializeEx(IntPtr.Zero, COINIT_APARTMENTTHREADED) == RPC_E_CHANGED_MODE)
             {
-                if (CoInitializeEx(IntPtr.Zero, COINIT_APARTMENTTHREADED) == RPC_E_CHANGED_MODE)
-                {
-                    CoInitializeEx(IntPtr.Zero, COINIT_MULTITHREADED);
-                }
+                CoInitializeEx(IntPtr.Zero, COINIT_MULTITHREADED);
             }
         }
 
-        
+
         public unsafe static void CreateComInstance(Guid classGuid, ComContext context, Guid interfaceGuid, ComObject comObject)
         {
-            if (!PlatformDetection.IsUAP)
+            if (!VorticePlatformDetection.IsUAP)
             {
                 var result = CoCreateInstance(classGuid, IntPtr.Zero, context, interfaceGuid, out IntPtr pointer);
                 result.CheckError();
@@ -69,7 +66,7 @@ namespace SharpGen.Runtime
 
         public static unsafe bool TryCreateComInstance(Guid classGuid, ComContext context, Guid interfaceGuid, ComObject comObject)
         {
-            if (!PlatformDetection.IsUAP)
+            if (!VorticePlatformDetection.IsUAP)
             {
                 var result = CoCreateInstance(classGuid, IntPtr.Zero, context, interfaceGuid, out IntPtr pointer);
                 comObject.NativePointer = pointer;

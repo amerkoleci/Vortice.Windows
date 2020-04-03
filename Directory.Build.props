@@ -21,12 +21,12 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
     <!-- Packages versions -->
-    <NerdbankGitVersioningVersion>3.1.71</NerdbankGitVersioningVersion>
+    <NerdbankGitVersioningVersion>3.1.74</NerdbankGitVersioningVersion>
     <SharpGenVersion>1.2.1</SharpGenVersion>
     <VorticeMathematicsVersion>1.2.3</VorticeMathematicsVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="$(NerdbankGitVersioningVersion)" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="$(NerdbankGitVersioningVersion)" PrivateAssets="all" />
   </ItemGroup>
 </Project>

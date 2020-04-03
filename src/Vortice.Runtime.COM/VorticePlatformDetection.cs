@@ -7,37 +7,15 @@ namespace SharpGen.Runtime
     /// <summary>
 	/// Provides methods to protect against invalid parameters.
 	/// </summary>
-    public static class PlatformDetection
+    public static class VorticePlatformDetection
     {
         private static int s_isInAppContainer = -1;
-        public static readonly Version WindowsVersion;
-
-        static PlatformDetection()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                var result = RtlGetVersionEx(out var osvi);
-                Debug.Assert(result == 0);
-                WindowsVersion = new Version(osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.dwBuildNumber);
-            }
-        }
 
         public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
-        public static bool IsWindows7 => WindowsVersion.Major == 6 && WindowsVersion.Minor == 1;
+        public static bool IsWindows7 => IsWindows && GetWindowsVersion() == 6 && GetWindowsMinorVersion() == 1;
 
-        public static bool IsWindows8x => WindowsVersion.Major == 6 && (WindowsVersion.Minor == 2 || WindowsVersion.Minor == 3);
-        public static bool IsWindows8xOrLater => WindowsVersion.Major >= 6 && WindowsVersion.Minor >= 2;
-
-        public static bool IsNetCore => RuntimeInformation.FrameworkDescription.StartsWith(".NET Core", StringComparison.OrdinalIgnoreCase);
-
-        public static bool IsNetNative => RuntimeInformation.FrameworkDescription.StartsWith(".NET Native", StringComparison.OrdinalIgnoreCase);
-
-        public static bool IsUAP => IsInAppContainer || IsNetNative;
-
-        public static bool IsWinRTSupported => IsWindows && !IsWindows7;
-
-        public static bool IsInAppContainer
+        public static bool IsUAP
         {
             // This actually checks whether code is running in a modern app. 
             // Currently this is the only situation where we run in app container.
@@ -62,6 +40,9 @@ namespace SharpGen.Runtime
                     switch (result)
                     {
                         case 15703: // APPMODEL_ERROR_NO_APPLICATION
+                        case 120:   // ERROR_CALL_NOT_IMPLEMENTED
+                                    // This function is not supported on this system.
+                                    // In example on Windows Nano Server
                             s_isInAppContainer = 0;
                             break;
                         case 0:     // ERROR_SUCCESS
@@ -95,25 +76,18 @@ namespace SharpGen.Runtime
             }
         }
 
-        // >= Windows 10 Anniversary Update
-        public static bool IsWindows10Version1607OrGreater =>
-            WindowsVersion.Major == 10 && WindowsVersion.Minor == 0 && WindowsVersion.Build >= 14393;
-
-        // >= Windows 10 Creators Update
-        public static bool IsWindows10Version1703OrGreater =>
-            WindowsVersion.Major == 10 && WindowsVersion.Minor == 0 && WindowsVersion.Build >= 15063;
-
-        // >= Windows 10 Fall Creators Update
-        public static bool IsWindows10Version1709OrGreater =>
-            WindowsVersion.Major == 10 && WindowsVersion.Minor == 0 && WindowsVersion.Build >= 16299;
-
-        // >= Windows 10 April 2018 Update
-        public static bool IsWindows10Version1803OrGreater =>
-            WindowsVersion.Major == 10 && WindowsVersion.Minor == 0 && WindowsVersion.Build >= 17134;
-
-        // >= Windows 10 May 2019 Update (19H1)
-        public static bool IsWindows10Version1903OrGreater =>
-            WindowsVersion.Major == 10 && WindowsVersion.Minor == 0 && WindowsVersion.Build >= 18362;
+        private static uint GetWindowsVersion()
+        {
+            var result = RtlGetVersionEx(out var osvi);
+            Debug.Assert(result == 0);
+            return osvi.dwMajorVersion;
+        }
+        private static uint GetWindowsMinorVersion()
+        {
+            var result = RtlGetVersionEx(out var osvi);
+            Debug.Assert(result == 0);
+            return osvi.dwMinorVersion;
+        }
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, byte[] applicationUserModelId);
@@ -123,7 +97,7 @@ namespace SharpGen.Runtime
 
         private static unsafe int RtlGetVersionEx(out RTL_OSVERSIONINFOEX osvi)
         {
-            osvi = new RTL_OSVERSIONINFOEX();
+            osvi = default;
             osvi.dwOSVersionInfoSize = (uint)sizeof(RTL_OSVERSIONINFOEX);
             return RtlGetVersion(ref osvi);
         }
@@ -132,9 +106,9 @@ namespace SharpGen.Runtime
         private unsafe struct RTL_OSVERSIONINFOEX
         {
             internal uint dwOSVersionInfoSize;
-            internal int dwMajorVersion;
-            internal int dwMinorVersion;
-            internal int dwBuildNumber;
+            internal uint dwMajorVersion;
+            internal uint dwMinorVersion;
+            internal uint dwBuildNumber;
             internal uint dwPlatformId;
             internal fixed char szCSDVersion[128];
         }

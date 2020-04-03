@@ -15,7 +15,7 @@ namespace Vortice.XAudio2
 
         private static IntPtr LoadXAudio2()
         {
-            if (PlatformDetection.IsUAP)
+            if (VorticePlatformDetection.IsUAP)
             {
                 s_XAudio2CreateCallback = XAudio29.XAudio2Create;
                 s_CreateAudioReverb = XAudio29.CreateAudioReverb;
