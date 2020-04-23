@@ -255,6 +255,8 @@
     <map function="DXGIGetDebugInterface1" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
     <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
 
+    <remove function="CreateDXGIFactory" />
+
     <map function="CreateDXGIFactory.*" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
     <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
 

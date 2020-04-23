@@ -7,6 +7,21 @@ namespace Vortice.DXGI
 {
     public partial class InfoQueueFilter
     {
+        public InfoQueueFilter()
+        {
+        }
+
+        public InfoQueueFilter(InfoQueueFilterDescription allowList)
+        {
+            AllowList = allowList;
+        }
+
+        public InfoQueueFilter(InfoQueueFilterDescription allowList, InfoQueueFilterDescription denyList)
+        {
+            AllowList = allowList;
+            DenyList = denyList;
+        }
+
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal struct __Native

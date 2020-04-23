@@ -14,29 +14,6 @@ namespace Vortice.DXGI
         public static readonly Guid App = new Guid("06cd6e01-4219-4ebd-8709-27ed23360c62");
 
         /// <summary>
-        /// Try to create new instance of <see cref="IDXGIFactory"/>.
-        /// </summary>
-        /// <param name="factory">The <see cref="IDXGIFactory"/> being created.</param>
-        /// <returns>Return the <see cref="Result"/>.</returns>
-        public static Result CreateDXGIFactory<T>(out T factory) where T : IDXGIFactory
-        {
-            if (VorticePlatformDetection.IsUAP)
-            {
-                throw new PlatformNotSupportedException();
-            }
-
-            var result = CreateDXGIFactory(typeof(T).GUID, out var nativePtr);
-            if (result.Success)
-            {
-                factory = CppObject.FromPointer<T>(nativePtr);
-                return result;
-            }
-
-            factory = null;
-            return result;
-        }
-
-        /// <summary>
         /// Try to create new instance of <see cref="IDXGIFactory1"/>.
         /// </summary>
         /// <param name="factory">The <see cref="IDXGIFactory1"/> being created.</param>
@@ -52,6 +29,21 @@ namespace Vortice.DXGI
 
             factory = null;
             return result;
+        }
+
+        /// <summary>
+        /// Try to create new instance of <see cref="IDXGIFactory1"/>.
+        /// </summary>
+        /// <returns>Return an instance of <see cref="IDXGIFactory1"/> or null if failed.</returns>
+        public static T CreateDXGIFactory1<T>() where T : IDXGIFactory1
+        {
+            var result = CreateDXGIFactory1(typeof(T).GUID, out var nativePtr);
+            if (result.Success)
+            {
+                return CppObject.FromPointer<T>(nativePtr);
+            }
+
+            return default;
         }
 
         /// <summary>
@@ -72,6 +64,23 @@ namespace Vortice.DXGI
 
             factory = null;
             return result;
+        }
+
+        /// <summary>
+        /// Try to create new instance of <see cref="IDXGIFactory2"/>.
+        /// </summary>
+        /// <param name="debug">Whether to enable debug callback.</param>
+        /// <returns>Return an instance of <see cref="IDXGIFactory2"/> or null if failed.</returns>
+        public static IDXGIFactory2 CreateDXGIFactory2<T>(bool debug) where T : IDXGIFactory2
+        {
+            int flags = debug ? CreateFactoryDebug : 0x00;
+            var result = CreateDXGIFactory2(flags, typeof(T).GUID, out var nativePtr);
+            if (result.Success)
+            {
+                return CppObject.FromPointer<T>(nativePtr);
+            }
+
+            return default;
         }
 
         /// <summary>
@@ -105,6 +114,29 @@ namespace Vortice.DXGI
         /// Gets debug interface for given type.
         /// </summary>
         /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
+        /// <returns>The <see cref="ComObject"/> to get.</returns>
+        public static ComObject DXGIGetDebugInterface<T>() where T : ComObject
+        {
+            try
+            {
+                var result = DXGIGetDebugInterface(typeof(T).GUID, out var nativePtr);
+                if (result.Failure)
+                {
+                    return default;
+                }
+
+                return CppObject.FromPointer<T>(nativePtr);
+            }
+            catch
+            {
+                return default;
+            }
+        }
+
+        /// <summary>
+        /// Gets debug interface for given type.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
         /// <param name="debugInterface">Instance of T.</param>
         /// <returns>The result code.</returns>
         public static Result DXGIGetDebugInterface1<T>(out T debugInterface) where T : ComObject
@@ -125,6 +157,29 @@ namespace Vortice.DXGI
             {
                 debugInterface = default;
                 return ResultCode.NotFound;
+            }
+        }
+
+        /// <summary>
+        /// Gets debug interface for given type.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
+        /// <returns>The <see cref="ComObject"/> to get.</returns>
+        public static T DXGIGetDebugInterface1<T>() where T : ComObject
+        {
+            try
+            {
+                var result = DXGIGetDebugInterface1(0, typeof(T).GUID, out var nativePtr);
+                if (result.Failure)
+                {
+                    return default;
+                }
+
+                return CppObject.FromPointer<T>(nativePtr);
+            }
+            catch
+            {
+                return default;
             }
         }
     }
