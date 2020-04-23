@@ -7,47 +7,15 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIFactory
     {
-        private ImmutableArray<IDXGIAdapter> _adapters;
-
-        public ImmutableArray<IDXGIAdapter> Adapters
+        public ImmutableArray<IDXGIAdapter> EnumAdapters()
         {
-            get
+            var adapters = ImmutableArray.CreateBuilder<IDXGIAdapter>();
+            for (int index = 0; EnumAdapters(index, out var adapter) != ResultCode.NotFound; ++index)
             {
-                // Release old ones.
-                ReleaseAdapters();
-
-                var newAdapters = ImmutableArray.CreateBuilder<IDXGIAdapter>();
-                for (int adapterIndex = 0; EnumAdapters(adapterIndex, out var adapter) != ResultCode.NotFound; ++adapterIndex)
-                {
-                    newAdapters.Add(adapter);
-                }
-
-                _adapters = newAdapters.ToImmutable();
-                return _adapters;
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override unsafe void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ReleaseAdapters();
+                adapters.Add(adapter);
             }
 
-            base.Dispose(disposing);
-        }
-
-        private void ReleaseAdapters()
-        {
-            if (_adapters.IsDefault)
-                return;
-
-            var adapterCount = _adapters.Length;
-            for (var i = 0; i < adapterCount; i++)
-            {
-                _adapters[i].Release();
-            }
+            return adapters.ToImmutable();
         }
     }
 }
