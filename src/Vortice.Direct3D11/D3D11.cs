@@ -175,6 +175,24 @@ namespace Vortice.Direct3D11
             return featureLevel;
         }
 
+        /// <summary>
+        /// Check for SDK Layer support.
+        /// </summary>
+        /// <returns>True if available, false otherwise.</returns>
+        public static bool SdkLayersAvailable()
+        {
+            unsafe
+            {
+                Result result = D3D11CreateDevice_(
+                        null, (int)DriverType.Null,
+                        null, (int)DeviceCreationFlags.Debug,
+                        null, 0,
+                        SdkVersion,
+                        null, null, null);
+                return result.Success;
+            }
+        }
+
         #region RawD3D11CreateDevice Methods
         private static Result RawD3D11CreateDeviceNoContext(
             IDXGIAdapter adapter,
@@ -241,7 +259,7 @@ namespace Vortice.Direct3D11
                     return result;
                 }
             }
-        } 
+        }
         #endregion
     }
 }
