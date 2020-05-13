@@ -5,10 +5,10 @@ using Vortice.DXGI;
 
 namespace Vortice.Direct3D12
 {
-    public partial struct ResourceDescription
+    public partial struct ResourceDescription1
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ResourceDescription"/> struct.
+        /// Initializes a new instance of the <see cref="ResourceDescription1"/> struct.
         /// </summary>
         /// <param name="dimension"></param>
         /// <param name="alignment"></param>
@@ -21,7 +21,10 @@ namespace Vortice.Direct3D12
         /// <param name="sampleQuality"></param>
         /// <param name="layout"></param>
         /// <param name="flags"></param>
-        public ResourceDescription(
+        /// <param name="samplerFeedbackMipRegionWidth"></param>
+        /// <param name="samplerFeedbackMipRegionHeight"></param>
+        /// <param name="samplerFeedbackMipRegionDepth"></param>
+        public ResourceDescription1(
             ResourceDimension dimension,
             long alignment,
             long width,
@@ -32,7 +35,10 @@ namespace Vortice.Direct3D12
             int sampleCount,
             int sampleQuality,
             TextureLayout layout,
-            ResourceFlags flags)
+            ResourceFlags flags,
+            int samplerFeedbackMipRegionWidth = 0,
+            int samplerFeedbackMipRegionHeight = 0,
+            int samplerFeedbackMipRegionDepth = 0)
         {
             Dimension = dimension;
             Alignment = alignment;
@@ -44,26 +50,27 @@ namespace Vortice.Direct3D12
             SampleDescription = new SampleDescription(sampleCount, sampleQuality);
             Layout = layout;
             Flags = flags;
+            SamplerFeedbackMipRegion = new MipRegion(samplerFeedbackMipRegionWidth, samplerFeedbackMipRegionHeight, samplerFeedbackMipRegionDepth);
         }
 
-        public static ResourceDescription Buffer(ResourceAllocationInfo resourceAllocInfo, ResourceFlags flags = ResourceFlags.None)
+        public static ResourceDescription1 Buffer(ResourceAllocationInfo resourceAllocInfo, ResourceFlags flags = ResourceFlags.None)
         {
-            return new ResourceDescription(
-                ResourceDimension.Buffer, 
-                resourceAllocInfo.Alignment, 
+            return new ResourceDescription1(
+                ResourceDimension.Buffer,
+                resourceAllocInfo.Alignment,
                 resourceAllocInfo.SizeInBytes,
-                1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
+                1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags, 0, 0, 0);
         }
 
-        public static ResourceDescription Buffer(
-            long width, 
-            ResourceFlags flags = ResourceFlags.None, 
+        public static ResourceDescription1 Buffer(
+            long width,
+            ResourceFlags flags = ResourceFlags.None,
             long alignment = 0)
         {
-            return new ResourceDescription(ResourceDimension.Buffer, alignment, width, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
+            return new ResourceDescription1(ResourceDimension.Buffer, alignment, width, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags, 0, 0, 0);
         }
 
-        public static ResourceDescription Texture1D(Format format,
+        public static ResourceDescription1 Texture1D(Format format,
             long width,
             short arraySize = 1,
             short mipLevels = 0,
@@ -71,10 +78,11 @@ namespace Vortice.Direct3D12
             TextureLayout layout = TextureLayout.Unknown,
             long alignment = 0)
         {
-            return new ResourceDescription(ResourceDimension.Texture1D, alignment, width, 1, arraySize, mipLevels, format, 1, 0, layout, flags);
+            return new ResourceDescription1(ResourceDimension.Texture1D, alignment, width, 1, arraySize,
+                mipLevels, format, 1, 0, layout, flags, 0, 0, 0);
         }
 
-        public static ResourceDescription Texture2D(Format format,
+        public static ResourceDescription1 Texture2D(Format format,
             long width,
             int height,
             short arraySize = 1,
@@ -83,12 +91,17 @@ namespace Vortice.Direct3D12
             int sampleQuality = 0,
             ResourceFlags flags = ResourceFlags.None,
             TextureLayout layout = TextureLayout.Unknown,
-            long alignment = 0)
+            long alignment = 0,
+            int samplerFeedbackMipRegionWidth = 0,
+            int samplerFeedbackMipRegionHeight = 0,
+            int samplerFeedbackMipRegionDepth = 0)
         {
-            return new ResourceDescription(ResourceDimension.Texture2D, alignment, width, height, arraySize, mipLevels, format, sampleCount, sampleQuality, layout, flags);
+            return new ResourceDescription1(ResourceDimension.Texture2D, alignment, width, height, arraySize,
+                mipLevels, format, sampleCount, sampleQuality, layout, flags,
+                samplerFeedbackMipRegionWidth, samplerFeedbackMipRegionHeight, samplerFeedbackMipRegionDepth);
         }
 
-        public static ResourceDescription Texture3D(Format format,
+        public static ResourceDescription1 Texture3D(Format format,
             long width,
             int height,
             short depth,
@@ -97,7 +110,8 @@ namespace Vortice.Direct3D12
             TextureLayout layout = TextureLayout.Unknown,
             long alignment = 0)
         {
-            return new ResourceDescription(ResourceDimension.Texture3D, alignment, width, height, depth, mipLevels, format, 1, 0, layout, flags);
+            return new ResourceDescription1(ResourceDimension.Texture3D, alignment, width, height, depth,
+                mipLevels, format, 1, 0, layout, flags, 0, 0, 0);
         }
 
         public int Depth => Dimension == ResourceDimension.Texture3D ? DepthOrArraySize : 1;

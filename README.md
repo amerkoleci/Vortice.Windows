@@ -24,7 +24,7 @@ SharpDX bindings where used for some platforms to understand how mapping work us
 In order to compile, make sure **no spaces** are present in the solution path otherwise SharpGen will fail to generate bindings and you need to install **Visual Studio 2019** with the components:
 
 - [x] Visual C++ Toolset Component
-- [x] Windows 10 - 1903 SDK (10.0.18362.0) Component
+- [x] Windows 10 - 2004 SDK (10.0.19041.0) Component
 - [x] .NET Core SDK
 
 ## Download

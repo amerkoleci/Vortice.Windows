@@ -75,8 +75,8 @@ namespace Vortice
                 throw new InvalidOperationException("Cannot create IDXGIFactory4");
             }
 
-            var adapters = DXGIFactory.Adapters1;
-            for (var i = 0; i < adapters.Count; i++)
+            var adapters = DXGIFactory.EnumAdapters1();
+            for (var i = 0; i < adapters.Length; i++)
             {
                 var adapter = adapters[i];
                 var desc = adapter.Description1;
@@ -94,6 +94,7 @@ namespace Vortice
                     break;
                 }
             }
+            Utilities.ReleaseIfNotDefault(adapters);
 
             // Check raytracing support.
             var featureOptions5 = _d3d12Device.Options5;

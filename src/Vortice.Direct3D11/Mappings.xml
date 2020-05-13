@@ -4,7 +4,7 @@
   <namespace>Vortice.Direct3D11</namespace>
   <depends>Vortice.DXGI</depends>
 
-  <sdk name="WindowsSdk" version="10.0.18362.0" />
+  <sdk name="WindowsSdk" version="10.0.19041.0" />
   <sdk name="StdLib" />
 
   <include-prolog>
@@ -63,6 +63,8 @@
     <bind from="D3D11_VIEWPORT" to="Vortice.Mathematics.Viewport"/>
     <bind from="D3D11_BOX" to="Vortice.Mathematics.Box"/>
     <bind from="D3D11_REGISTER_COMPONENT_MASK_FLAG" to="Vortice.Direct3D11.Shader.RegisterComponentMaskFlags" />
+    <bind from="ID3D12CommandQueue" to="SharpGen.Runtime.ComObject" />
+    <bind from="ID3D12Fence" to="SharpGen.Runtime.ComObject" />
   </bindings>
 
   <naming>

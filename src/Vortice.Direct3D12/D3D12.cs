@@ -22,7 +22,7 @@ namespace Vortice.Direct3D12
         public static readonly Guid TiledResourceTier4 = new Guid("c9c4725f-a81a-4f56-8c5b-c51039d694fb");
         public static readonly Guid MetaCommand = new Guid("C734C97E-8077-48C8-9FDC-D9D1DD31DD77");
         public static readonly Guid ComputeOnlyDevices = new Guid("50f7ab08-4b6d-4e14-89a5-5d16cd272594");
-        
+
         /// <summary>
         /// Gets the highest supported hardware feature level of the primary adapter.
         /// </summary>

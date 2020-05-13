@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
 using Vortice.Direct3D;
+using Vortice.DXGI;
 
 namespace Vortice.Direct3D12
 {
@@ -153,6 +154,11 @@ namespace Vortice.Direct3D12
             get => CheckFeatureSupport<FeatureDataD3D12Options6>(Feature.Options6);
         }
 
+        public FeatureDataD3D12Options7 Options7
+        {
+            get => CheckFeatureSupport<FeatureDataD3D12Options7>(Feature.Options7);
+        }
+
         public FeatureDataQueryMetaCommand QueryMetaCommand
         {
             get => CheckFeatureSupport<FeatureDataQueryMetaCommand>(Feature.QueryMetaCommand);
@@ -186,6 +192,23 @@ namespace Vortice.Direct3D12
             }
 
             return RootSignatureVersion.Version10;
+        }
+
+        public unsafe byte GetFormatPlaneCount(Format format)
+        {
+            var featureData = new FeatureDataFormatInfo
+            {
+                Format = format
+            };
+
+            if (CheckFeatureSupport(Feature.FormatInfo, 
+                new IntPtr(&featureData), 
+                Unsafe.SizeOf<FeatureDataFormatInfo>()).Failure)
+            {
+                return 0;
+            }
+
+            return featureData.PlaneCount;
         }
 
         public ID3D12Resource CreateCommittedResource(HeapProperties heapProperties,

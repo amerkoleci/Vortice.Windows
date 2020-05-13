@@ -5,7 +5,7 @@
   <depends>Vortice.DXGI</depends>
 
   <sdk name="StdLib" />
-  <sdk name="WindowsSdk" version="10.0.18362.0" />
+  <sdk name="WindowsSdk" version="10.0.19041.0" />
 
   <include file="d3d12.h" namespace="Vortice.Direct3D12" attach="true"/>
 
@@ -37,7 +37,7 @@
     <bind from="D3D12_VIEWPORT" to="Vortice.Mathematics.Viewport"/>
     <bind from="D3D12_CPU_DESCRIPTOR_HANDLE" to="Vortice.Direct3D12.CpuDescriptorHandle" />
     <bind from="D3D12_REGISTER_COMPONENT_MASK_FLAG" to="Vortice.Direct3D12.Shader.RegisterComponentMaskFlags" />
-    <bind from="VORTICE_MATRIX3X4" to="Vortice.Direct3D12.Matrix3x4" />
+    <bind from="VORTICE_MATRIX3X4" to="Vortice.Mathematics.Matrix3x4" />
     <bind from="D3D12_RAYTRACING_INSTANCE_DESC" to="Vortice.Direct3D12.RaytracingInstanceDescription" />
   </bindings>
 
@@ -333,6 +333,8 @@
     <map enum-item="D3D12_DSV_FLAG(.*)" name-tmp="$1"/>
     <map enum-item="D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER_(.*)" name-tmp="Tier$1"/>
     <map enum-item="D3D12_VIDEO_DECODE_TIER_(.*)" name="Tier$1"/>
+    <map enum-item="D3D12_MESH_SHADER_TIER_(.*)" name="Tier$1"/>
+    <map enum-item="D3D12_SAMPLER_FEEDBACK_TIER_(.*)" name="Tier$1"/>
 
     <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_UNDEFINED_SWIZZLE" name="UndefinedSwizzle64kb"/>
     <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_STANDARD_SWIZZLE" name="StandardSwizzle64kb"/>
@@ -343,6 +345,7 @@
     <map enum-item="D3D12_AXIS_SHADING_RATE_4X" name="Rate4x"/>
     <map enum-item="D3D12_DRED_VERSION_1_0" name="Version1_0"/>
     <map enum-item="D3D12_DRED_VERSION_1_1" name="Version1_1"/>
+    <map enum-item="D3D12_DRED_VERSION_1_2" name="Version1_2"/>
 
     <!-- D3D12_SHADING_RATE -->
     <map enum-item="D3D12_SHADING_RATE_1X1" name="Rate1x1"/>
@@ -369,6 +372,7 @@
     <map enum-item="D3D_SHADER_MODEL_6_3" name="Model63"/>
     <map enum-item="D3D_SHADER_MODEL_6_4" name="Model64"/>
     <map enum-item="D3D_SHADER_MODEL_6_5" name="Model65"/>
+    <map enum-item="D3D_SHADER_MODEL_6_6" name="Model66"/>
 
     <map enum="D3D12_RLDO_FLAGS" name="ReportLiveDeviceObjectFlags" />
     <map enum-item="D3D12_HEAP_SERIALIZATION_TIER_(.*)" name="Tier$1"/>
@@ -387,6 +391,7 @@
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS4" name="Options4"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS5" name="Options5"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS6" name="Options6"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS7" name="Options7"/>
 
     <map enum="D3D12_BLEND_OP" name="BlendOperation" />
     <map enum="D3D12_COMPARISON_FUNC" name="ComparisonFunction" />
@@ -656,6 +661,19 @@
     <map param="ID3D12Device5::CreateStateObject::ppStateObject" attribute="out" type="ID3D12StateObject" return="true"/>
     <map param="ID3D12Device5::GetRaytracingAccelerationStructurePrebuildInfo::pInfo" attribute="out" return="true"/>
 
+    <!-- ID3D12Device6 methods -->
+    <map param="ID3D12Device6::SetBackgroundProcessingMode::pbFurtherMeasurementsDesired" attribute="out" return="true"/>
+
+    <!-- ID3D12Device7 methods -->
+    <map method="ID3D12Device7::AddToStateObject" visibility="private"/>
+    <map param="ID3D12Device7::AddToStateObject::ppNewStateObject" attribute="out" type="ID3D12StateObject" return="true"/>
+    <map method="ID3D12Device7::CreateProtectedResourceSession1" visibility="private"/>
+    <map param="ID3D12Device7::CreateProtectedResourceSession1::ppSession" attribute="out" type="ID3D12ProtectedResourceSession1" return="true"/>
+
+    <!-- ID3D12Device8 -->
+    <map method="ID3D12Device8::CreateCommittedResource2" visibility="private" hresult="true" check="false" />
+    <map method="ID3D12Device8::CreatePlacedResource1" visibility="private" hresult="true" check="false" />
+    
     <!-- ID3D12Debug1 -->
     <map method="ID3D12Debug1::SetEnableGPUBasedValidation" property="false" />
     <map method="ID3D12Debug1::SetEnableSynchronizedCommandQueueValidation" property="false" />
