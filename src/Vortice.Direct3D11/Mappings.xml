@@ -4,8 +4,8 @@
   <namespace>Vortice.Direct3D11</namespace>
   <depends>Vortice.DXGI</depends>
 
-  <sdk name="WindowsSdk" version="10.0.19041.0" />
   <sdk name="StdLib" />
+  <sdk name="WindowsSdk" version="10.0.19041.0" />
 
   <include-prolog>
     #define D3D11_NO_HELPERS
@@ -18,7 +18,6 @@
   <include file="d3d11_4.h" namespace="Vortice.Direct3D11" attach="true"/>
   <include file="d3d11on12.h" namespace="Vortice.Direct3D11" attach="true"/>
   <include file="d3d11shader.h" namespace="Vortice.Direct3D11.Shader" attach="true" output="Shader" />
-
   <include file="d3d11sdklayers.h" namespace="Vortice.Direct3D11.Debug" attach="true" output="Debug" />
   
   <extension>
