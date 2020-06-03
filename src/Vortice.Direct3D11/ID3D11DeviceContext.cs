@@ -426,10 +426,10 @@ namespace Vortice.Direct3D11
         /// Set the target output buffers for the stream-output stage of the pipeline.
         /// </summary>
         /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
-        /// <param name="strides">Array of offsets to the output buffers from ppSOTargets, one offset for each buffer. The offset values must be in bytes.</param>
-        public void SOSetTargets(ID3D11Buffer[] targets, int[] strides = null)
+        /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
+        public void SOSetTargets(ID3D11Buffer[] targets, int[] offsets = null)
         {
-            SOSetTargets(targets.Length, targets, strides);
+            SOSetTargets(targets.Length, targets, offsets);
         }
 
         /// <summary>
@@ -437,8 +437,8 @@ namespace Vortice.Direct3D11
         /// </summary>
         /// <param name="buffersCount">The number of buffer to bind to the device. A maximum of four output buffers can be set. If less than four are defined by the call, the remaining buffer slots are set to null.</param>
         /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
-        /// <param name="strides">Array of offsets to the output buffers from ppSOTargets, one offset for each buffer. The offset values must be in bytes.</param>
-        public unsafe void SOSetTargets(int buffersCount, ID3D11Buffer[] targets, int[] strides = null)
+        /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
+        public unsafe void SOSetTargets(int buffersCount, ID3D11Buffer[] targets, int[] offsets = null)
         {
             var targetsPtr = stackalloc IntPtr[buffersCount];
             for (int i = 0; i < buffersCount; i++)
@@ -447,7 +447,7 @@ namespace Vortice.Direct3D11
             }
 
             SOSetTargets(buffersCount, (IntPtr)targetsPtr,
-                strides?.Length > 0 ? (IntPtr)Unsafe.AsPointer(ref strides[0]) : IntPtr.Zero
+                offsets?.Length > 0 ? (IntPtr)Unsafe.AsPointer(ref offsets[0]) : IntPtr.Zero
                 );
         }
 
