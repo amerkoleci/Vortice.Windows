@@ -638,15 +638,15 @@
     <map param="ID3D11DeviceContext::OMSetBlendState::SampleMask" default="-1"/>
     <map param="ID3D11DeviceContext::OMSetDepthStencilState::StencilRef" default="0"/>
     
-    <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="internal"/>
+    <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="public"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" attribute="in"/>
 
-    <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="internal"/>
+    <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="public"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void"/>
 
-    <map method="ID3D11DeviceContext::SOSetTargets" visibility="internal" />
+    <map method="ID3D11DeviceContext::SOSetTargets" visibility="public" />
     <map param="ID3D11DeviceContext::SOSetTargets::ppSOTargets" type="void" attribute="in"/>
     <map param="ID3D11DeviceContext::SOSetTargets::pOffsets" type="void" attribute="in"/>
 

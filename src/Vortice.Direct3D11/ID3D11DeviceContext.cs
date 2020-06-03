@@ -179,15 +179,21 @@ namespace Vortice.Direct3D11
             return GetData(data, (IntPtr)Unsafe.AsPointer(ref result), Unsafe.SizeOf<T>(), flags) == Result.Ok;
         }
 
+        public unsafe bool GetData<T>(ID3D11Asynchronous data, out T result) where T : unmanaged
+        {
+            result = default;
+            return GetData(data, (IntPtr)Unsafe.AsPointer(ref result), sizeof(T), AsyncGetDataFlags.None) == Result.Ok;
+        }
+
         public ID3D11BlendState OMGetBlendState()
         {
-            OMGetBlendState(out var blendState, out var blendFactor, out var sampleMask);
+            OMGetBlendState(out var blendState, out _, out _);
             return blendState;
         }
 
         public ID3D11BlendState OMGetBlendState(out Color4 blendFactor)
         {
-            OMGetBlendState(out var blendState, out blendFactor, out var sampleMask);
+            OMGetBlendState(out var blendState, out blendFactor, out _);
             return blendState;
         }
 
@@ -353,6 +359,12 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region ScissorRect
+        public unsafe void RSSetScissorRect(int x, int y, int width, int height)
+        {
+            RawRect rawRect = new RawRect(x, y, x + width, y + height);
+            RSSetScissorRects(1, new IntPtr(&rawRect));
+        }
+
         public unsafe void RSSetScissorRect(in Rectangle rectangle)
         {
             RawRect rawRect = rectangle;
@@ -449,6 +461,15 @@ namespace Vortice.Direct3D11
             SOSetTargets(buffersCount, (IntPtr)targetsPtr,
                 offsets?.Length > 0 ? (IntPtr)Unsafe.AsPointer(ref offsets[0]) : IntPtr.Zero
                 );
+        }
+
+
+        /// <summary>
+        /// Unsets the render targets.
+        /// </summary>
+        public void UnsetSOTargets()
+        {
+            SOSetTargets(0, IntPtr.Zero, IntPtr.Zero);
         }
 
         public unsafe void IASetVertexBuffers(int slot, VertexBufferView vertexBufferView)
