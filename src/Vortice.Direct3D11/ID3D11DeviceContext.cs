@@ -11,6 +11,23 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11DeviceContext
     {
+        /// <summary>
+        /// D3D11_KEEP_RENDER_TARGETS_AND_DEPTH_STENCIL
+        /// </summary>
+        public const int KeepRenderTargetsAndDepthStencil = -1;
+
+        /// <summary>
+        /// D3D11_KEEP_UNORDERED_ACCESS_VIEWS
+        /// </summary>
+        public const int KeepUnorderedAccessViews = -1;
+
+        private static readonly int[] s_NegativeOnes = new int[8]
+        {
+            KeepUnorderedAccessViews, KeepUnorderedAccessViews, KeepUnorderedAccessViews,
+            KeepUnorderedAccessViews, KeepUnorderedAccessViews, KeepUnorderedAccessViews,
+            KeepUnorderedAccessViews, KeepUnorderedAccessViews
+        };
+
         private bool? _supportsCommandLists;
 
         public void ClearRenderTargetView(ID3D11RenderTargetView renderTargetView, System.Drawing.Color color)
@@ -69,6 +86,30 @@ namespace Vortice.Direct3D11
             OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
         }
 
+        public unsafe void OMSetUnorderedAccessView(int startSlot, ID3D11UnorderedAccessView unorderedAccessView, int uavInitialCount = -1)
+        {
+            var unorderedAccessViewPtr = unorderedAccessView != null ? unorderedAccessView.NativePointer : IntPtr.Zero;
+
+            OMSetRenderTargetsAndUnorderedAccessViews(
+                KeepRenderTargetsAndDepthStencil, IntPtr.Zero, (ID3D11DepthStencilView)null,
+                startSlot, 1, new IntPtr(&unorderedAccessViewPtr), new IntPtr(&uavInitialCount)
+                );
+        }
+
+        public unsafe void OMSetUnorderedAccessViews(int uavStartSlot, int unorderedAccessViewCount, ID3D11UnorderedAccessView[] unorderedAccessViews)
+        {
+            var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViewCount];
+            for (int i = 0; i < unorderedAccessViewCount; i++)
+            {
+                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
+            }
+
+            OMSetRenderTargetsAndUnorderedAccessViews(
+                KeepRenderTargetsAndDepthStencil, IntPtr.Zero, (ID3D11DepthStencilView)null,
+                uavStartSlot, unorderedAccessViewCount, (IntPtr)unorderedAccessViewsPtr,
+                (IntPtr)Unsafe.AsPointer(ref s_NegativeOnes[0]));
+        }
+
         public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
             ID3D11RenderTargetView renderTargetView,
             ID3D11DepthStencilView depthStencilView,
@@ -98,7 +139,6 @@ namespace Vortice.Direct3D11
             int startSlot,
             ID3D11UnorderedAccessView[] unorderedAccessViews)
         {
-            // Marshal array.
             var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
             for (int i = 0; i < renderTargetViews.Length; i++)
             {
@@ -122,11 +162,24 @@ namespace Vortice.Direct3D11
         public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
             ID3D11RenderTargetView[] renderTargetViews,
             ID3D11DepthStencilView depthStencilView,
-            int startSlot,
+            int uavStartSlot,
             ID3D11UnorderedAccessView[] unorderedAccessViews,
             int[] uavInitialCounts)
         {
-            // Marshal array.
+            OMSetRenderTargetsAndUnorderedAccessViews(
+                renderTargetViews.Length, renderTargetViews, depthStencilView,
+                uavStartSlot, unorderedAccessViews.Length, unorderedAccessViews, uavInitialCounts
+                );
+        }
+
+        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+            int renderTargetViewsCount,
+            ID3D11RenderTargetView[] renderTargetViews,
+            ID3D11DepthStencilView depthStencilView,
+            int startSlot,
+            int unorderedAccessViewsCount,
+            ID3D11UnorderedAccessView[] unorderedAccessViews)
+        {
             var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
             for (int i = 0; i < renderTargetViews.Length; i++)
             {
@@ -139,9 +192,43 @@ namespace Vortice.Direct3D11
                 unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
             }
 
-            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr,
+            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount, 
+                (IntPtr)renderTargetViewsPtr,
                 depthStencilView,
-                startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
+                startSlot,
+                unorderedAccessViewsCount, 
+                (IntPtr)unorderedAccessViewsPtr,
+                (IntPtr)Unsafe.AsPointer(ref s_NegativeOnes[0])
+                );
+        }
+
+        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+            int renderTargetViewsCount,
+            ID3D11RenderTargetView[] renderTargetViews,
+            ID3D11DepthStencilView depthStencilView,
+            int startSlot,
+            int unorderedAccessViewsCount,
+            ID3D11UnorderedAccessView[] unorderedAccessViews,
+            int[] uavInitialCounts)
+        {
+            var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+            for (int i = 0; i < renderTargetViews.Length; i++)
+            {
+                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
+            }
+
+            var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+            for (int i = 0; i < unorderedAccessViews.Length; i++)
+            {
+                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
+            }
+
+            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
+                (IntPtr)renderTargetViewsPtr,
+                depthStencilView,
+                startSlot,
+                unorderedAccessViewsCount,
+                (IntPtr)unorderedAccessViewsPtr,
                 (IntPtr)Unsafe.AsPointer(ref uavInitialCounts[0]));
         }
 
@@ -985,7 +1072,7 @@ namespace Vortice.Direct3D11
             CSSetShader(computeShader, classInstances, classInstancesCount);
         }
 
-        public void CSSetConstantBuffers(int slot, ID3D11Buffer constantBuffer)
+        public void CSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
             var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
