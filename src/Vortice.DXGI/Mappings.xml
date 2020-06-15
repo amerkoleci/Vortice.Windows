@@ -19,6 +19,7 @@
   <include file="dxgi1_4.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi1_5.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi1_6.h" namespace="Vortice.DXGI" attach="true"/>
+  <include file="windows.ui.xaml.media.dxinterop.h" namespace="Vortice.DXGI" attach="true" />
 
   <extension>
 
@@ -182,7 +183,7 @@
     <map method="IDXGISwapChain::ResizeTarget" hresult="true" check="false" visibility="private"  />
     <map method="IDXGISwapChain::GetContainingOutput" property="false"  />
     <map param="IDXGISwapChain::GetContainingOutput::ppOutput" return="true"/>
-    
+
     <!-- IDXGISwapChain1 -->
     <map method="IDXGISwapChain1::GetHwnd" property="false" visibility="private" hresult="true" check="false"  />
     <map method="IDXGISwapChain1::GetCoreWindow" property="false" visibility="private" hresult="true" check="false"  />
@@ -219,7 +220,7 @@
     <map param="IDXGIDevice::CreateSurface::ppSurface" attribute="out" return="true"/>
     <map method="IDXGIDevice::QueryResourceResidency" visibility="private" hresult="true" check="false"/>
     <map method="IDXGIDevice::GetAdapter" persist="true"/>
-    
+
     <!-- IDXGIOutput -->
     <map method="IDXGIOutput::FindClosestMatchingMode" visibility="private" />
     <map method="IDXGIOutput::GetDisplayModeList" visibility="private" />
@@ -281,5 +282,37 @@
     <map method="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle" visibility="private" />
     <map param="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
 
+    <!-- ISurfaceImageSourceNative -->
+    <map method="ISurfaceImageSourceNative::SetDevice" property="false" />
+    <map method="ISurfaceImageSourceNative::BeginDraw" hresult="true" check="false"/>
+
+    <!-- IVirtualSurfaceUpdatesCallbackNative -->
+    <map method="IVirtualSurfaceUpdatesCallbackNative::UpdatesNeeded" hresult="true" check="false"/>
+
+    <!-- IVirtualSurfaceImageSourceNative -->
+    <map method="IVirtualSurfaceImageSourceNative::Invalidate" hresult="true" check="false"/>
+    <map method="IVirtualSurfaceImageSourceNative::Resize" hresult="true" check="false"/>
+    <map method="IVirtualSurfaceImageSourceNative::GetUpdateRectCount" visibility="internal" property="false" hresult="true" check="false"/>
+    <map method="IVirtualSurfaceImageSourceNative::GetUpdateRects" visibility="internal" hresult="true" check="false"/>
+
+    <!-- ISwapChainBackgroundPanelNative -->
+    <map method="ISwapChainBackgroundPanelNative::SetSwapChain" property="false" />
+    <map method="ISwapChainBackgroundPanelNative::SetSwapChain" hresult="true" check="false"/>
+
+    <!-- ISurfaceImageSourceNativeWithD2D -->
+    <map method="ISurfaceImageSourceNativeWithD2D::SetDevice" property="false" />
+    <map method="ISurfaceImageSourceNativeWithD2D::SetDevice" hresult="true" check="false"/>
+    <map method="ISurfaceImageSourceNativeWithD2D::BeginDraw" hresult="true" check="false"/>
+    <map method="ISurfaceImageSourceNativeWithD2D::EndDraw" hresult="true" check="false"/>
+    <map method="ISurfaceImageSourceNativeWithD2D::ResumeDraw" hresult="true" check="false"/>
+    <map method="ISurfaceImageSourceNativeWithD2D::SuspendDraw" hresult="true" check="false"/>
+
+    <!-- ISwapChainPanelNative -->
+    <map method="ISwapChainPanelNative::SetSwapChain" property="false" />
+    <map method="ISwapChainPanelNative::SetSwapChain" hresult="true" check="false"/>
+
+    <!-- ISwapChainPanelNative -->
+    <map method="ISwapChainPanelNative2::SetSwapChainHandle" property="false" />
+    <map method="ISwapChainPanelNative2::SetSwapChainHandle" hresult="true" check="false"/>
   </mapping>
 </config>

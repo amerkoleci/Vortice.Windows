@@ -6,6 +6,7 @@ Current Release:    1.6.0 (April 2020)
 Release:     1.7.0 (May 2020)
 -----------------------------------------------
 KEY CHANGES:
+- [ENH] DXGI: Expose types from windows.ui.xaml.media.dxinterop.h
 
 -----------------------------------------------
 Release:     1.6.0 (April 2020)
