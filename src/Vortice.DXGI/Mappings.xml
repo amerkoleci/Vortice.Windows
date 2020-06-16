@@ -130,6 +130,11 @@
 
     <!-- IDXGIObject -->
     <map method="IDXGIObject::GetParent" visibility="private" hresult="true" check="false"/>
+    <map method="IDXGIObject::GetPrivateData" visibility="public" hresult="true" check="false"/>
+    <map method="IDXGIObject::SetPrivateData" visibility="public" hresult="true" check="false"/>
+
+    <!-- IDXGIDeviceSubObject -->
+    <map method="IDXGIDeviceSubObject::GetDevice" visibility="private" hresult="true" check="false"/>
 
     <!-- IDXGIFactory -->
     <map method="IDXGIFactory::EnumAdapters" name="EnumAdapters" visibility="internal" check="false"/>
