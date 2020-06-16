@@ -200,6 +200,181 @@ namespace Vortice.D3DCompiler
                     Marshal.FreeHGlobal(shaderSourcePtr);
             }
         }
+
+        public static Result Compile(
+            byte[] shaderSource,
+            string entryPoint,
+            string sourceName,
+            string profile,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            if (shaderSource == null || shaderSource.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            unsafe
+            {
+                fixed (void* pData = &shaderSource[0])
+                {
+                    return Compile(
+                        (IntPtr)pData,
+                        shaderSource.Length,
+                        sourceName,
+                        null,
+                        null,
+                        entryPoint,
+                        profile,
+                        ShaderFlags.None,
+                        EffectFlags.None,
+                        out blob,
+                        out errorBlob);
+                }
+            }
+        }
+
+        public static Result Compile(
+            byte[] shaderSource,
+            ShaderMacro[] defines,
+            string entryPoint,
+            string sourceName,
+            string profile,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            if (shaderSource == null || shaderSource.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            unsafe
+            {
+                fixed (void* pData = &shaderSource[0])
+                {
+                    return Compile(
+                        (IntPtr)pData,
+                        shaderSource.Length,
+                        sourceName,
+                        defines,
+                        null,
+                        entryPoint,
+                        profile,
+                        ShaderFlags.None,
+                        EffectFlags.None,
+                        out blob,
+                        out errorBlob);
+                }
+            }
+        }
+
+        public static Result Compile(
+            byte[] shaderSource,
+            ShaderMacro[] defines,
+            Include include,
+            string entryPoint,
+            string sourceName,
+            string profile,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            if (shaderSource == null || shaderSource.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            unsafe
+            {
+                fixed (void* pData = &shaderSource[0])
+                {
+                    return Compile(
+                        (IntPtr)pData,
+                        shaderSource.Length,
+                        sourceName,
+                        defines,
+                        include,
+                        entryPoint,
+                        profile,
+                        ShaderFlags.None,
+                        EffectFlags.None,
+                        out blob,
+                        out errorBlob);
+                }
+            }
+        }
+
+        public static Result Compile(
+            byte[] shaderSource,
+            ShaderMacro[] defines,
+            Include include,
+            string entryPoint,
+            string sourceName,
+            string profile,
+            ShaderFlags shaderFlags,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            if (shaderSource == null || shaderSource.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            unsafe
+            {
+                fixed (void* pData = &shaderSource[0])
+                {
+                    return Compile(
+                        (IntPtr)pData,
+                        shaderSource.Length,
+                        sourceName,
+                        defines,
+                        include,
+                        entryPoint,
+                        profile,
+                        shaderFlags,
+                        EffectFlags.None,
+                        out blob,
+                        out errorBlob);
+                }
+            }
+        }
+
+        public static Result Compile(
+            byte[] shaderSource,
+            ShaderMacro[] defines,
+            Include include,
+            string entryPoint,
+            string sourceName,
+            string profile,
+            ShaderFlags shaderFlags,
+            EffectFlags effectFlags,
+            out Blob blob,
+            out Blob errorBlob)
+        {
+            if (shaderSource == null || shaderSource.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(shaderSource));
+            }
+
+            unsafe
+            {
+                fixed (void* pData = &shaderSource[0])
+                {
+                    return Compile(
+                        (IntPtr)pData,
+                        shaderSource.Length,
+                        sourceName,
+                        defines,
+                        include,
+                        entryPoint,
+                        profile,
+                        shaderFlags,
+                        effectFlags,
+                        out blob,
+                        out errorBlob);
+                }
+            }
+        }
         #endregion
 
         #region CompileFromFile

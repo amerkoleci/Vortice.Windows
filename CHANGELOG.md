@@ -10,6 +10,7 @@ KEY CHANGES:
 - [FIX] WIC: Crash with IWICBitmapLock.GetDataPointer, correctly handle different types
 - [FIX] Direct3D11: Fix OMSetRenderTargetsAndUnorderedAccessViews overloads and add KeepRenderTargetsAndDepthStencil and KeepUnorderedAccessViews support.
 - [ENH] DXGI: Improvements in API usage for IDXGIObject and IDXGIDeviceSubObject.
+- [ENH] D3D Legacy Compiler: Compile accepts byte[] as shader source.
 
 -----------------------------------------------
 Release:     1.6.0 (April 2020)
