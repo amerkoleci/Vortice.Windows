@@ -732,6 +732,9 @@
 
     <map method="ID3D11ShaderReflectionVariable::GetType" name="GetVariableType" />
     <map param="ID3D11ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
-
+    
+    <!-- ID3DUserDefinedAnnotation -->
+    <map method="ID3DUserDefinedAnnotation::SetMarker" property="false" />
+    
   </mapping>
 </config>

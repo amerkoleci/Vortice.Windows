@@ -8,9 +8,10 @@ Release:     1.7.0 (May 2020)
 KEY CHANGES:
 - [ENH] DXGI: Expose types from windows.ui.xaml.media.dxinterop.h
 - [FIX] WIC: Crash with IWICBitmapLock.GetDataPointer, correctly handle different types
-- [FIX] Direct3D11: Fix OMSetRenderTargetsAndUnorderedAccessViews overloads and add KeepRenderTargetsAndDepthStencil and KeepUnorderedAccessViews support.
+- [FIX] D3D11: Fix OMSetRenderTargetsAndUnorderedAccessViews overloads and add KeepRenderTargetsAndDepthStencil and KeepUnorderedAccessViews support.
 - [ENH] DXGI: Improvements in API usage for IDXGIObject and IDXGIDeviceSubObject.
 - [ENH] D3D Legacy Compiler: Compile accepts byte[] as shader source.
+- [FIX] D3D11: ID3DUserDefinedAnnotation::SetMarker don't map as property.
 
 -----------------------------------------------
 Release:     1.6.0 (April 2020)
