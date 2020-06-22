@@ -3,7 +3,6 @@
 
 using System;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct2D1.Effects
 {
@@ -49,7 +48,10 @@ namespace Vortice.Direct2D1.Effects
             {
                 var size = KernelSizeX * KernelSizeY;
                 var value = new float[size];
-                GetValue((int)ConvolveMatrixProperties.KernelMatrix, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * size);
+                fixed (void* valuePtr = &value[0])
+                {
+                    GetValue((int)ConvolveMatrixProperties.KernelMatrix, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * size);
+                }
                 return value;
             }
             set
@@ -60,7 +62,10 @@ namespace Vortice.Direct2D1.Effects
                     throw new ArgumentException();
                 }
 
-                SetValue((int)ConvolveMatrixProperties.KernelMatrix, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * size);
+                fixed (void* valuePtr = &value[0])
+                {
+                    SetValue((int)ConvolveMatrixProperties.KernelMatrix, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * size);
+                }
             }
         }
 

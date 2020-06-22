@@ -206,6 +206,7 @@ namespace Vortice.Direct3D11
             {
                 device = default;
                 var adapterPtr = CppObject.ToCallbackPtr<IDXGIAdapter>(adapter);
+                fixed (void* featureLevelsPtr = &featureLevels[0])
                 fixed (void* featureLevelPtr = &featureLevel)
                 {
                     var devicePtr = IntPtr.Zero;
@@ -214,7 +215,7 @@ namespace Vortice.Direct3D11
                         (int)driverType,
                         null,
                         (int)flags,
-                        featureLevels != null && featureLevels.Length > 0 ? Unsafe.AsPointer(ref featureLevels[0]) : null,
+                        featureLevels != null && featureLevels.Length > 0 ? featureLevelsPtr : null,
                         featureLevels?.Length ?? 0,
                         SdkVersion,
                         &devicePtr,
@@ -242,6 +243,7 @@ namespace Vortice.Direct3D11
             unsafe
             {
                 var adapterPtr = CppObject.ToCallbackPtr<IDXGIAdapter>(adapter);
+                fixed (void* featureLevelsPtr = &featureLevels[0])
                 fixed (void* featureLevelPtr = &featureLevel)
                 {
                     Result result = D3D11CreateDevice_(
@@ -249,7 +251,7 @@ namespace Vortice.Direct3D11
                         (int)driverType,
                         null,
                         (int)flags,
-                        featureLevels != null && featureLevels.Length > 0 ? Unsafe.AsPointer(ref featureLevels[0]) : null,
+                        featureLevels != null && featureLevels.Length > 0 ? featureLevelsPtr : null,
                         featureLevels?.Length ?? 0,
                         SdkVersion,
                         null,

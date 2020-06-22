@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct2D1.Effects
 {
@@ -38,7 +37,10 @@ namespace Vortice.Direct2D1.Effects
                 throw new ArgumentException();
             }
 
-            GetValue((int)HistogramProperties.HistogramOutput, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref output[0])), sizeof(float) * numBins);
+            fixed (void* outputPtr = &output[0])
+            {
+                GetValue((int)HistogramProperties.HistogramOutput, PropertyType.Blob, (IntPtr)outputPtr, sizeof(float) * numBins);
+            }
         }
     }
 }

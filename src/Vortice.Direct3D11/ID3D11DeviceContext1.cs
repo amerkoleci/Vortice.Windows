@@ -16,7 +16,10 @@ namespace Vortice.Direct3D11
 
         public unsafe void ClearView(ID3D11View view, Color4 color, RawRect[] rects)
         {
-            ClearView(view, color, (IntPtr)Unsafe.AsPointer(ref rects[0]), rects.Length);
+            fixed (RawRect* pRects = rects)
+            {
+                ClearView(view, color, (IntPtr)pRects, rects.Length);
+            }
         }
 
         public unsafe void ClearView(ID3D11View view, Color4 color, ReadOnlySpan<RawRect> rects)
@@ -34,7 +37,10 @@ namespace Vortice.Direct3D11
 
         public unsafe void ClearView(ID3D11View view, System.Drawing.Color color, RawRect[] rects)
         {
-            ClearView(view, new Color4(color), (IntPtr)Unsafe.AsPointer(ref rects[0]), rects.Length);
+            fixed (RawRect* pRects = rects)
+            {
+                ClearView(view, new Color4(color), (IntPtr)pRects, rects.Length);
+            }
         }
 
         public unsafe void ClearView(ID3D11View view, System.Drawing.Color color, ReadOnlySpan<RawRect> rects)
@@ -71,7 +77,10 @@ namespace Vortice.Direct3D11
         {
             unsafe
             {
-                DiscardView1(view, (IntPtr)Unsafe.AsPointer(ref rects[0]), rects.Length);
+                fixed (RawRect* pRects = rects)
+                {
+                    DiscardView1(view, (IntPtr)pRects, rects.Length);
+                }
             }
         }
 
@@ -101,9 +110,13 @@ namespace Vortice.Direct3D11
             var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
-                VSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+                fixed (void* firstConstantPtr = &firstConstant[0])
+                fixed (void* numConstantsPtr = &numConstants[0])
+                {
+                    VSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                        (IntPtr)firstConstantPtr,
+                        (IntPtr)numConstantsPtr);
+                }
             }
         }
 
@@ -119,9 +132,13 @@ namespace Vortice.Direct3D11
             var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
-                PSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+                fixed (void* firstConstantPtr = &firstConstant[0])
+                fixed (void* numConstantsPtr = &numConstants[0])
+                {
+                    PSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                        (IntPtr)firstConstantPtr,
+                        (IntPtr)numConstantsPtr);
+                }
             }
         }
 
@@ -137,9 +154,13 @@ namespace Vortice.Direct3D11
             var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
-                DSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+                fixed (void* firstConstantPtr = &firstConstant[0])
+                fixed (void* numConstantsPtr = &numConstants[0])
+                {
+                    DSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                        (IntPtr)firstConstantPtr,
+                        (IntPtr)numConstantsPtr);
+                }
             }
         }
 
@@ -155,9 +176,13 @@ namespace Vortice.Direct3D11
             var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
-                HSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+                fixed (void* firstConstantPtr = &firstConstant[0])
+                fixed (void* numConstantsPtr = &numConstants[0])
+                {
+                    HSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                        (IntPtr)firstConstantPtr,
+                        (IntPtr)numConstantsPtr);
+                }
             }
         }
 
@@ -173,9 +198,13 @@ namespace Vortice.Direct3D11
             var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
-                GSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+                fixed (void* firstConstantPtr = &firstConstant[0])
+                fixed (void* numConstantsPtr = &numConstants[0])
+                {
+                    GSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                        (IntPtr)firstConstantPtr,
+                        (IntPtr)numConstantsPtr);
+                }
             }
         }
 
@@ -191,9 +220,13 @@ namespace Vortice.Direct3D11
             var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
-                CSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                    (IntPtr)Unsafe.AsPointer(ref firstConstant[0]),
-                    (IntPtr)Unsafe.AsPointer(ref numConstants[0]));
+                fixed (void* firstConstantPtr = &firstConstant[0])
+                fixed (void* numConstantsPtr = &numConstants[0])
+                {
+                    CSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
+                        (IntPtr)firstConstantPtr,
+                        (IntPtr)numConstantsPtr);
+                }
             }
         }
 

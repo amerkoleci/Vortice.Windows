@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct2D1.Effects
 {
@@ -29,7 +28,10 @@ namespace Vortice.Direct2D1.Effects
             get
             {
                 var table = new float[_redTableSize];
-                GetValue((int)TableTransferProperties.RedTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * _redTableSize);
+                fixed (void* tablePtr = &table[0])
+                {
+                    GetValue((int)TableTransferProperties.RedTable, PropertyType.Blob, (IntPtr)tablePtr, sizeof(float) * _redTableSize);
+                }
                 return table;
             }
             set
@@ -37,7 +39,10 @@ namespace Vortice.Direct2D1.Effects
                 if (value.Length == 0)
                     throw new ArgumentException($"{nameof(RedTable)} length must be greather than 0");
                 _redTableSize = value.Length;
-                SetValue((int)TableTransferProperties.RedTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * _redTableSize);
+                fixed (void* valuePtr = &value[0])
+                {
+                    SetValue((int)TableTransferProperties.RedTable, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * _redTableSize);
+                }
             }
         }
 
@@ -52,7 +57,10 @@ namespace Vortice.Direct2D1.Effects
             get
             {
                 var table = new float[_greenTableSize];
-                GetValue((int)TableTransferProperties.GreenTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * _greenTableSize);
+                fixed (void* tablePtr = &table[0])
+                {
+                    GetValue((int)TableTransferProperties.GreenTable, PropertyType.Blob, (IntPtr)tablePtr, sizeof(float) * _greenTableSize);
+                }
                 return table;
             }
             set
@@ -60,7 +68,10 @@ namespace Vortice.Direct2D1.Effects
                 if (value.Length == 0)
                     throw new ArgumentException($"{nameof(GreenTable)} length must be greather than 0");
                 _greenTableSize = value.Length;
-                SetValue((int)TableTransferProperties.GreenTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * _greenTableSize);
+                fixed (void* valuePtr = &value[0])
+                {
+                    SetValue((int)TableTransferProperties.GreenTable, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * _greenTableSize);
+                }
             }
         }
 
@@ -75,7 +86,10 @@ namespace Vortice.Direct2D1.Effects
             get
             {
                 var table = new float[_blueTableSize];
-                GetValue((int)TableTransferProperties.BlueTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * _blueTableSize);
+                fixed (void* tablePtr = &table[0])
+                {
+                    GetValue((int)TableTransferProperties.BlueTable, PropertyType.Blob, (IntPtr)tablePtr, sizeof(float) * _blueTableSize);
+                }
                 return table;
             }
             set
@@ -83,7 +97,10 @@ namespace Vortice.Direct2D1.Effects
                 if (value.Length == 0)
                     throw new ArgumentException($"{nameof(BlueTable)} length must be greather than 0");
                 _blueTableSize = value.Length;
-                SetValue((int)TableTransferProperties.BlueTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * _blueTableSize);
+                fixed (void* valuePtr = &value[0])
+                {
+                    SetValue((int)TableTransferProperties.BlueTable, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * _blueTableSize);
+                }
             }
         }
 
@@ -98,7 +115,10 @@ namespace Vortice.Direct2D1.Effects
             get
             {
                 var table = new float[_alphaTableSize];
-                GetValue((int)TableTransferProperties.AlphaTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref table[0])), sizeof(float) * _alphaTableSize);
+                fixed (void* tablePtr = &table[0])
+                {
+                    GetValue((int)TableTransferProperties.AlphaTable, PropertyType.Blob, (IntPtr)tablePtr, sizeof(float) * _alphaTableSize);
+                }
                 return table;
             }
             set
@@ -106,7 +126,10 @@ namespace Vortice.Direct2D1.Effects
                 if (value.Length == 0)
                     throw new ArgumentException($"{nameof(AlphaTable)} length must be greather than 0");
                 _alphaTableSize = value.Length;
-                SetValue((int)TableTransferProperties.AlphaTable, PropertyType.Blob, new IntPtr(Unsafe.AsPointer(ref value[0])), sizeof(float) * _alphaTableSize);
+                fixed (void* valuePtr = &value[0])
+                {
+                    SetValue((int)TableTransferProperties.AlphaTable, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * _alphaTableSize);
+                }
             }
         }
 

@@ -229,7 +229,7 @@ namespace Vortice.Direct3D9
             unsafe
             {
                 T result = default;
-                GetRenderState(state, (IntPtr)Unsafe.AsPointer(ref result));
+                GetRenderState(state, new IntPtr(&result));
                 return result;
             }
         }

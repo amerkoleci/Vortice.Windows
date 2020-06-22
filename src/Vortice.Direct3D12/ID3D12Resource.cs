@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12
@@ -71,29 +70,38 @@ namespace Vortice.Direct3D12
             int destinationSubresource,
             T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
-            WriteToSubresource(
-                destinationSubresource, null,
-                (IntPtr)Unsafe.AsPointer(ref sourceData[0]), sourceRowPitch, srcDepthPitch
-                );
+            fixed (void* sourceDataPtr = &sourceData[0])
+            {
+                WriteToSubresource(
+                    destinationSubresource, null,
+                    (IntPtr)sourceDataPtr, sourceRowPitch, srcDepthPitch
+                    );
+            }
         }
 
         public unsafe void WriteToSubresource<T>(
             int destinationSubresource, Box destinationBox,
             T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
-            WriteToSubresource(
-                destinationSubresource, destinationBox,
-                (IntPtr)Unsafe.AsPointer(ref sourceData[0]), sourceRowPitch, srcDepthPitch
-                );
+            fixed (void* sourceDataPtr = &sourceData[0])
+            {
+                WriteToSubresource(
+                    destinationSubresource, destinationBox,
+                    (IntPtr)sourceDataPtr, sourceRowPitch, srcDepthPitch
+                    );
+            }
         }
 
         public unsafe void ReadFromSubresource<T>(
             T[] destination, int destinationRowPitch, int destinationDepthPitch,
             int sourceSubresource, Box? sourceBox = null) where T : unmanaged
         {
-            ReadFromSubresource(
-                (IntPtr)Unsafe.AsPointer(ref destination[0]), destinationRowPitch, destinationDepthPitch,
-                sourceSubresource, sourceBox);
+            fixed (void* destinationPtr = &destination[0])
+            {
+                ReadFromSubresource(
+                    (IntPtr)destinationPtr, destinationRowPitch, destinationDepthPitch,
+                    sourceSubresource, sourceBox);
+            }
         }
 
         public static int CalculateSubresource(int mipSlice, int arraySlice, int planeSlice, int mipLevels, int arraySize)

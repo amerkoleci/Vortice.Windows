@@ -36,10 +36,13 @@ namespace Vortice.XAudio2
             AudioDataPointer = MemoryHelpers.AllocateMemory(data.Length);
             unsafe
             {
-                Unsafe.CopyBlockUnaligned(
-                    AudioDataPointer.ToPointer(),
-                    Unsafe.AsPointer(ref data[0]),
-                    (uint)data.Length);
+                fixed (void* dataPtr = &data[0])
+                {
+                    Unsafe.CopyBlockUnaligned(
+                        AudioDataPointer.ToPointer(),
+                        dataPtr,
+                        (uint)data.Length);
+                }
             }
 
             _ownsBuffer = true;

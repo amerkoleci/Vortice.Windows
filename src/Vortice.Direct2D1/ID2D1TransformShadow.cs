@@ -27,20 +27,24 @@ namespace Vortice.Direct2D1
                 try
                 {
                     var inputRects = new RawRect[inputRectsCount];
-                    Unsafe.CopyBlock(
-                        Unsafe.AsPointer(ref inputRects[0]),
-                        pInputRects,
-                        (uint)(sizeof(RawRect) * inputRectsCount));
+                    fixed (void* rectsPtr = &inputRects[0])
+                    {
+                        Unsafe.CopyBlock(
+                            rectsPtr,
+                            pInputRects,
+                            (uint)(sizeof(RawRect) * inputRectsCount));
+                    
 
-                    ID2D1Transform @this = (ID2D1Transform)ToShadow<ID2D1TransformShadow>(thisObject).Callback;
-                    @this.MapOutputRectToInputRects(*outputRect, inputRects);
+                        ID2D1Transform @this = (ID2D1Transform)ToShadow<ID2D1TransformShadow>(thisObject).Callback;
+                        @this.MapOutputRectToInputRects(*outputRect, inputRects);
 
-                    Unsafe.CopyBlock(
-                        pInputRects,
-                        Unsafe.AsPointer(ref inputRects[0]),
-                        (uint)(sizeof(RawRect) * inputRectsCount));
+                        Unsafe.CopyBlock(
+                            pInputRects,
+                            rectsPtr,
+                            (uint)(sizeof(RawRect) * inputRectsCount));
 
-                    return Result.Ok.Code;
+                        return Result.Ok.Code;
+                    }
                 }
                 catch (Exception __exception__)
                 {
@@ -55,21 +59,27 @@ namespace Vortice.Direct2D1
                 try
                 {
                     var inputRects = new RawRect[inputRectCount];
-                    Unsafe.CopyBlock(
-                        Unsafe.AsPointer(ref inputRects[0]),
-                        pInputRects,
-                        (uint)(sizeof(RawRect) * inputRectCount));
+                    fixed (void* rectsPtr = &inputRects[0])
+                    {
+                        Unsafe.CopyBlock(
+                            rectsPtr,
+                            pInputRects,
+                            (uint)(sizeof(RawRect) * inputRectCount));
 
-                    var inputOpaqueSubRects = new RawRect[inputRectCount];
-                    Unsafe.CopyBlock(
-                        Unsafe.AsPointer(ref inputOpaqueSubRects[0]),
-                        pInputOpaqueSubRects,
-                        (uint)(sizeof(RawRect) * inputRectCount));
+                        var inputOpaqueSubRects = new RawRect[inputRectCount];
+                        fixed (void* opaqueSubRectsPtr = &inputOpaqueSubRects[0])
+                        {
+                            Unsafe.CopyBlock(
+                                opaqueSubRectsPtr,
+                                pInputOpaqueSubRects,
+                                (uint)(sizeof(RawRect) * inputRectCount));
 
-                    ID2D1Transform @this = (ID2D1Transform)ToShadow<ID2D1TransformShadow>(thisObject).Callback;
-                    @this.MapInputRectsToOutputRect(inputRects, inputOpaqueSubRects, out *outputRect, out *outputOpaqueSubRect);
+                            ID2D1Transform @this = (ID2D1Transform)ToShadow<ID2D1TransformShadow>(thisObject).Callback;
+                            @this.MapInputRectsToOutputRect(inputRects, inputOpaqueSubRects, out *outputRect, out *outputOpaqueSubRect);
 
-                    return Result.Ok.Code;
+                            return Result.Ok.Code;
+                        }
+                    }
                 }
                 catch (Exception __exception__)
                 {

@@ -122,10 +122,13 @@ namespace Vortice.Direct3D12
             if (RenderTargetFormats.Length > 0)
             {
                 @ref.NumRenderTargets = Math.Min(RenderTargetFormats.Length, D3D12.SimultaneousRenderTargetCount);
-                MemoryHelpers.CopyMemory(
-                    (IntPtr)Unsafe.AsPointer(ref @ref.RenderTargetFormats),
-                    (IntPtr)Unsafe.AsPointer(ref RenderTargetFormats[0]),
-                    @ref.NumRenderTargets * sizeof(Format));
+                fixed (void* renderTargetFormatsPtr = &RenderTargetFormats[0])
+                {
+                    MemoryHelpers.CopyMemory(
+                        (IntPtr)Unsafe.AsPointer(ref @ref.RenderTargetFormats),
+                        (IntPtr)renderTargetFormatsPtr,
+                        @ref.NumRenderTargets * sizeof(Format));
+                }
             }
             else
             {

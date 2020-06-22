@@ -49,10 +49,14 @@ namespace SharpGen.Runtime.Win32
                     return totalRead;
                 }
 
-                Unsafe.CopyBlockUnaligned(
-                    totalRead + (byte*)buffer, 
-                    Unsafe.AsPointer(ref _tempBuffer[0]), 
-                    count);
+
+                fixed (void* bufferPtr = &_tempBuffer[0])
+                {
+                    Unsafe.CopyBlockUnaligned(
+                        totalRead + (byte*)buffer, 
+                        bufferPtr,
+                        count);
+                }
                 numberOfBytesToRead -= count;
                 totalRead += count;
             }

@@ -18,16 +18,19 @@ namespace Vortice.Direct2D1
             }
         }
 
-        public unsafe T CheckFeatureSupport<T>(Feature feature) where T : struct
+        public unsafe T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
         {
             T featureSupport = default;
-            CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Unsafe.SizeOf<T>());
+            CheckFeatureSupport(feature, new IntPtr(&featureSupport), sizeof(T));
             return featureSupport;
         }
 
-        public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : struct
+        public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
         {
-            return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), Unsafe.SizeOf<T>()).Success;
+            fixed (void* featureSupportPtr = &featureSupport)
+            {
+                return CheckFeatureSupport(feature, (IntPtr)featureSupportPtr, sizeof(T)).Success;
+            }
         }
     }
 }
