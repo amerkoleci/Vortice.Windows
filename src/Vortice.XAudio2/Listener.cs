@@ -14,7 +14,7 @@ namespace Vortice.XAudio2
     public partial class Listener
     {
         /// <summary>
-        /// Reference to Cone data.
+        /// Cone data.
         /// </summary>
         public Cone? Cone;
 
@@ -26,7 +26,8 @@ namespace Vortice.XAudio2
             public Vector3 OrientTop;
             public Vector3 Position;
             public Vector3 Velocity;
-            public void* ConePointer;
+            public Cone* ConePointer;
+            public Cone Cone;
         }
 
         internal unsafe void __MarshalTo(ref __Native @ref)
@@ -41,8 +42,8 @@ namespace Vortice.XAudio2
             }
             else
             {
-                var coneValue = Cone.Value;
-                @ref.ConePointer = Unsafe.AsPointer(ref coneValue);
+                @ref.Cone = Cone.Value;
+                @ref.ConePointer = (Cone*)Unsafe.AsPointer(ref @ref.Cone);
             }
         }
     }
