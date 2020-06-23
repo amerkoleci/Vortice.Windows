@@ -27,13 +27,16 @@ namespace Vortice.Direct3D11
         public unsafe T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
         {
             T featureSupport = default;
-            CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), sizeof(T));
+            CheckFeatureSupport(feature, new IntPtr(&featureSupport), sizeof(T));
             return featureSupport;
         }
 
         public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
         {
-            return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), sizeof(T)).Success;
+            fixed (void* featureSupportPtr = &featureSupport)
+            {
+                return CheckFeatureSupport(feature, (IntPtr)featureSupportPtr, sizeof(T)).Success;
+            }
         }
 
         /// <summary>
@@ -78,7 +81,10 @@ namespace Vortice.Direct3D11
             if (description.SizeInBytes == 0)
                 description.SizeInBytes = sizeof(T);
 
-            return CreateBuffer(description, new SubresourceData((IntPtr)Unsafe.AsPointer(ref data)));
+            fixed (void* dataPtr = &data)
+            {
+                return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
+            }
         }
 
         public unsafe ID3D11Buffer CreateBuffer<T>(T[] data, BufferDescription description) where T : unmanaged
@@ -86,7 +92,10 @@ namespace Vortice.Direct3D11
             if (description.SizeInBytes == 0)
                 description.SizeInBytes = sizeof(T) * data.Length;
 
-            return CreateBuffer(description, new SubresourceData((IntPtr)Unsafe.AsPointer(ref data[0])));
+            fixed (void* dataPtr = &data[0])
+            {
+                return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
+            }
         }
 
         public unsafe ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)

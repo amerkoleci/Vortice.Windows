@@ -67,30 +67,39 @@ namespace Vortice.DirectWrite
             {
                 GlyphIndices = new short[@ref.GlyphCount];
                 if (@ref.GlyphCount > 0)
-                    Unsafe.CopyBlock(
-                        Unsafe.AsPointer(ref GlyphIndices[0]),
-                        @ref.GlyphIndices.ToPointer(),
-                        (uint)(sizeof(short) * @ref.GlyphCount));
+                    fixed (void* indicesPtr = &GlyphIndices[0])
+                    {
+                        Unsafe.CopyBlock(
+                            indicesPtr,
+                            @ref.GlyphIndices.ToPointer(),
+                            (uint)(sizeof(short) * @ref.GlyphCount));
+                    }
             }
 
             if (@ref.GlyphAdvances != IntPtr.Zero)
             {
                 GlyphAdvances = new float[@ref.GlyphCount];
                 if (@ref.GlyphCount > 0)
-                    Unsafe.CopyBlock(
-                        Unsafe.AsPointer(ref GlyphAdvances[0]),
-                        @ref.GlyphAdvances.ToPointer(),
-                        (uint)(sizeof(float) * @ref.GlyphCount));
+                    fixed (void* advancesPtr = &GlyphAdvances[0])
+                    {
+                        Unsafe.CopyBlock(
+                            advancesPtr,
+                            @ref.GlyphAdvances.ToPointer(),
+                            (uint)(sizeof(float) * @ref.GlyphCount));
+                    }
             }
 
             if (@ref.GlyphOffsets != IntPtr.Zero)
             {
                 GlyphOffsets = new GlyphOffset[@ref.GlyphCount];
                 if (@ref.GlyphCount > 0)
-                    Unsafe.CopyBlock(
-                        Unsafe.AsPointer(ref GlyphOffsets[0]),
-                        @ref.GlyphOffsets.ToPointer(),
-                        (uint)(sizeof(GlyphOffset) * @ref.GlyphCount));
+                    fixed (void* offsetsPtr = &GlyphOffsets[0])
+                    {
+                        Unsafe.CopyBlock(
+                            offsetsPtr,
+                            @ref.GlyphOffsets.ToPointer(),
+                            (uint)(sizeof(GlyphOffset) * @ref.GlyphCount));
+                    }
             }
         }
 
@@ -110,9 +119,12 @@ namespace Vortice.DirectWrite
                 @ref.GlyphIndices = Marshal.AllocHGlobal(GlyphIndices.Length * sizeof(short));
                 if (GlyphCount > 0)
                 {
-                    Unsafe.CopyBlock(@ref.GlyphIndices.ToPointer(),
-                        Unsafe.AsPointer(ref GlyphIndices[0]),
-                        (uint)(sizeof(short) * GlyphCount));
+                    fixed (void* glyphIndicesPtr = &GlyphIndices[0])
+                    {
+                        Unsafe.CopyBlock(@ref.GlyphIndices.ToPointer(),
+                            glyphIndicesPtr,
+                            (uint)(sizeof(short) * GlyphCount));
+                    }
                 }
 
             }
@@ -122,9 +134,12 @@ namespace Vortice.DirectWrite
                 @ref.GlyphAdvances = Marshal.AllocHGlobal(GlyphAdvances.Length * sizeof(float));
                 if (GlyphCount > 0)
                 {
-                    Unsafe.CopyBlock(@ref.GlyphAdvances.ToPointer(),
-                        Unsafe.AsPointer(ref GlyphAdvances[0]),
-                        (uint)(sizeof(float) * GlyphCount));
+                    fixed (void* glyphAdvancesPtr = &GlyphAdvances[0])
+                    {
+                        Unsafe.CopyBlock(@ref.GlyphAdvances.ToPointer(),
+                            glyphAdvancesPtr,
+                            (uint)(sizeof(float) * GlyphCount));
+                    }
                 }
             }
 
@@ -133,9 +148,12 @@ namespace Vortice.DirectWrite
                 @ref.GlyphOffsets = Marshal.AllocHGlobal(GlyphOffsets.Length * sizeof(GlyphOffset));
                 if (GlyphCount > 0)
                 {
-                    Unsafe.CopyBlock(@ref.GlyphOffsets.ToPointer(), 
-                        Unsafe.AsPointer(ref GlyphOffsets[0]),
-                        (uint)(sizeof(GlyphOffset) * GlyphCount));
+                    fixed (void* offsetsPtr = &GlyphOffsets[0])
+                    {
+                        Unsafe.CopyBlock(@ref.GlyphOffsets.ToPointer(), 
+                            offsetsPtr,
+                            (uint)(sizeof(GlyphOffset) * GlyphCount));
+                    }
                 }
             }
         }

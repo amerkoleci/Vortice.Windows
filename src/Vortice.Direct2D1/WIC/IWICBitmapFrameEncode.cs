@@ -47,14 +47,17 @@ namespace Vortice.WIC
             }
         }
 
-        public unsafe void WritePixels<T>(int lineCount, int stride, T[] pixelBuffer) where T : struct
+        public unsafe void WritePixels<T>(int lineCount, int stride, T[] pixelBuffer) where T : unmanaged
         {
             if ((lineCount * stride) > (Unsafe.SizeOf<T>() * pixelBuffer.Length))
             {
                 throw new ArgumentException("lineCount * stride must be <= to sizeof(pixelBuffer)");
             }
 
-            WritePixels(lineCount, stride, lineCount * stride, (IntPtr)Unsafe.AsPointer(ref pixelBuffer[0]));
+            fixed (void* pixelBufferPtr = &pixelBuffer[0])
+            {
+                WritePixels(lineCount, stride, lineCount * stride, (IntPtr)pixelBufferPtr);
+            }
         }
 
         /// <summary>

@@ -2,13 +2,16 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using SharpGen.Runtime;
+using System.Runtime.InteropServices;
 
 namespace Vortice.XAudio2
 {
     public partial class IXAudio2Voice
     {
+        private readonly List<IntPtr> _effectParameters = new List<IntPtr>();
+
         /// <summary>	
         /// Gets or Sets the overall volume level for the voice.	
         /// </summary>	
@@ -256,7 +259,7 @@ namespace Vortice.XAudio2
         /// </summary>	
         /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
         /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
-        public void SetEffectParameters<T>(int effectIndex, T effectParameter) where T : struct
+        public void SetEffectParameters<T>(int effectIndex, T effectParameter) where T : unmanaged
         {
             SetEffectParameters<T>(effectIndex, effectParameter, 0);
         }
@@ -267,14 +270,26 @@ namespace Vortice.XAudio2
         /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
         /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
         /// <param name="operationSet">Identifies this call as part of a deferred batch.</param>
-        public void SetEffectParameters<T>(int effectIndex, T effectParameter, int operationSet) where T : struct
+        public void SetEffectParameters<T>(int effectIndex, T effectParameter, int operationSet) where T : unmanaged
         {
             unsafe
             {
-                byte* pEffectParameter = stackalloc byte[Unsafe.SizeOf<T>()];
-                Unsafe.CopyBlockUnaligned(pEffectParameter, Unsafe.AsPointer(ref effectParameter), (uint)(Unsafe.SizeOf<T>()));
-                SetEffectParameters(effectIndex, (IntPtr)pEffectParameter, Unsafe.SizeOf<T>(), operationSet);
+                IntPtr effectParameterPtr = Marshal.AllocHGlobal(sizeof(T));
+                _effectParameters.Add(effectParameterPtr);
+                Unsafe.CopyBlockUnaligned(effectParameterPtr.ToPointer(), &effectParameter, (uint)sizeof(T));
+                SetEffectParameters(effectIndex, effectParameterPtr, sizeof(T), operationSet);
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            foreach (IntPtr ptr in _effectParameters)
+            {
+                Marshal.FreeHGlobal(ptr);
+            }
+            _effectParameters.Clear();
+
+            base.Dispose(disposing);
         }
     }
 }

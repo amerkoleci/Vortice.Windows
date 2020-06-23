@@ -173,19 +173,25 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public unsafe void RSSetViewport<T>(T viewport) where T : struct
+        public unsafe void RSSetViewport<T>(T viewport) where T : unmanaged
         {
-            RSSetViewports(1, (IntPtr)Unsafe.AsPointer(ref viewport));
+            RSSetViewports(1, new IntPtr(&viewport));
         }
 
-        public unsafe void RSSetViewports<T>(T[] viewports) where T : struct
+        public unsafe void RSSetViewports<T>(T[] viewports) where T : unmanaged
         {
-            RSSetViewports(viewports.Length, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+            fixed (void* viewportsPtr = &viewports[0])
+            {
+                RSSetViewports(viewports.Length, (IntPtr)viewportsPtr);
+            }
         }
 
-        public unsafe void RSSetViewports<T>(int count, T[] viewports) where T : struct
+        public unsafe void RSSetViewports<T>(int count, T[] viewports) where T : unmanaged
         {
-            RSSetViewports(count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+            fixed (void* viewportsPtr = &viewports[0])
+            {
+                RSSetViewports(count, (IntPtr)viewportsPtr);
+            }
         }
 
         public unsafe void RSSetViewports<T>(int count, Span<T> viewports) where T : unmanaged
@@ -376,13 +382,16 @@ namespace Vortice.Direct3D12
         /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
         public unsafe void DiscardResource(ID3D12Resource resource, RawRect[] rects, int firstSubresource, int numSubresources)
         {
-            DiscardResource(resource, new DiscardRegion
+            fixed (void* rectsPtr = &rects[0])
             {
-                NumRects = rects.Length,
-                PRects = (IntPtr)Unsafe.AsPointer(ref rects[0]),
-                FirstSubresource = firstSubresource,
-                NumSubresources = numSubresources
-            });
+                DiscardResource(resource, new DiscardRegion
+                {
+                    NumRects = rects.Length,
+                    PRects = (IntPtr)rectsPtr,
+                    FirstSubresource = firstSubresource,
+                    NumSubresources = numSubresources
+                });
+            }
         }
 
         public void Reset(ID3D12CommandAllocator commandAllocator)

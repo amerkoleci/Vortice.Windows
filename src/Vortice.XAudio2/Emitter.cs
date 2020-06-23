@@ -15,7 +15,7 @@ namespace Vortice.XAudio2
     public partial class Emitter
     {
         /// <summary>
-        /// Reference to Cone data.
+        /// Cone data.
         /// </summary>
         public Cone? Cone;
 
@@ -35,7 +35,7 @@ namespace Vortice.XAudio2
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         internal unsafe struct __Native
         {
-            public void* ConePointer;
+            public Cone* ConePointer;
             public Vector3 OrientFront;
             public Vector3 OrientTop;
             public Vector3 Position;
@@ -52,6 +52,7 @@ namespace Vortice.XAudio2
             public IntPtr ReverbCurvePointer;
             public float CurveDistanceScaler;
             public float DopplerScaler;
+            public Cone Cone;
 
             internal unsafe void __MarshalFree()
             {
@@ -107,8 +108,8 @@ namespace Vortice.XAudio2
             }
             else
             {
-                var coneValue = Cone.Value;
-                @ref.ConePointer = Unsafe.AsPointer(ref coneValue);
+                @ref.Cone = Cone.Value;
+                @ref.ConePointer = (Cone*)Unsafe.AsPointer(ref @ref.Cone);
             }
         }
     }

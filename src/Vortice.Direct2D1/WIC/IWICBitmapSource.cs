@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
 
 namespace Vortice.WIC
@@ -30,12 +29,18 @@ namespace Vortice.WIC
 
         public unsafe void CopyPixels(int stride, byte[] data)
         {
-            CopyPixels(IntPtr.Zero, stride, data.Length, (IntPtr)Unsafe.AsPointer(ref data[0]));
+            fixed (void* dataPtr = &data[0])
+            {
+                CopyPixels(IntPtr.Zero, stride, data.Length, (IntPtr)dataPtr);
+            }
         }
 
         public unsafe void CopyPixels(Rectangle rectangle, int stride, byte[] data)
         {
-            CopyPixels(new IntPtr(&rectangle), stride, data.Length, (IntPtr)Unsafe.AsPointer(ref data[0]));
+            fixed (void* dataPtr = &data[0])
+            {
+                CopyPixels(new IntPtr(&rectangle), stride, data.Length, (IntPtr)dataPtr);
+            }
         }
 
         public unsafe void CopyPixels<T>(int stride, T[] data) where T : unmanaged

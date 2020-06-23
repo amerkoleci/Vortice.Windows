@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
@@ -59,10 +58,13 @@ namespace Vortice.Direct3D12
             if (@ref.NumArgumentDescs > 0)
             {
                 @ref.pArgumentDescs = Interop.Alloc<IndirectArgumentDescription>(@ref.NumArgumentDescs);
-                MemoryHelpers.CopyMemory(
-                    @ref.pArgumentDescs,
-                    (IntPtr)Unsafe.AsPointer(ref IndirectArguments[0]),
-                    @ref.NumArgumentDescs * sizeof(IndirectArgumentDescription));
+                fixed (void* indirectArgumentsPtr = &IndirectArguments[0])
+                {
+                    MemoryHelpers.CopyMemory(
+                        @ref.pArgumentDescs,
+                        (IntPtr)indirectArgumentsPtr,
+                        @ref.NumArgumentDescs * sizeof(IndirectArgumentDescription));
+                }
             }
             @ref.NodeMask = NodeMask;
         }

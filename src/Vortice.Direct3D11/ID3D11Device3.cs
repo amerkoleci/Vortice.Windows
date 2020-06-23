@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D11
@@ -56,29 +55,38 @@ namespace Vortice.Direct3D11
             ID3D11Resource destinationResource, int destinationSubresource,
             T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
-            WriteToSubresource(
-                destinationResource, destinationSubresource, null,
-                (IntPtr)Unsafe.AsPointer(ref sourceData[0]), sourceRowPitch, srcDepthPitch
-                );
+            fixed (void* sourceDataPtr = &sourceData[0])
+            {
+                WriteToSubresource(
+                    destinationResource, destinationSubresource, null,
+                    (IntPtr)sourceDataPtr, sourceRowPitch, srcDepthPitch
+                    );
+            }
         }
 
         public unsafe void WriteToSubresource<T>(
             ID3D11Resource destinationResource, int destinationSubresource, Box destinationBox,
             T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
-            WriteToSubresource(
-                destinationResource, destinationSubresource, destinationBox,
-                (IntPtr)Unsafe.AsPointer(ref sourceData[0]), sourceRowPitch, srcDepthPitch
-                );
+             fixed (void* sourceDataPtr = &sourceData[0])
+            {
+                WriteToSubresource(
+                    destinationResource, destinationSubresource, destinationBox,
+                    (IntPtr)sourceDataPtr, sourceRowPitch, srcDepthPitch
+                    );
+            }
         }
 
         public unsafe void ReadFromSubresource<T>(
             T[] destination, int destinationRowPitch, int destinationDepthPitch,
             ID3D11Resource sourceResource, int sourceSubresource, Box? sourceBox = null) where T : unmanaged
         {
-            ReadFromSubresource(
-                (IntPtr)Unsafe.AsPointer(ref destination[0]), destinationRowPitch, destinationDepthPitch,
-                sourceResource, sourceSubresource, sourceBox);
+            fixed (void* destinationPtr = &destination[0])
+            {
+                ReadFromSubresource(
+                    (IntPtr)destinationPtr, destinationRowPitch, destinationDepthPitch,
+                    sourceResource, sourceSubresource, sourceBox);
+            }
         }
     }
 }

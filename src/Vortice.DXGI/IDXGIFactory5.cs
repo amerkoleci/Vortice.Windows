@@ -24,7 +24,10 @@ namespace Vortice.DXGI
 
         public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
         {
-            return CheckFeatureSupport(feature, (IntPtr)Unsafe.AsPointer(ref featureSupport), sizeof(T)).Success;
+            fixed (void* featureSupportPtr = &featureSupport)
+            {
+                return CheckFeatureSupport(feature, (IntPtr)featureSupportPtr, sizeof(T)).Success;
+            }
         }
     }
 }

@@ -43,13 +43,16 @@ namespace Vortice.Direct3D12
         public unsafe T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
         {
             T featureSupport = default;
-            CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), sizeof(T));
+            CheckFeatureSupport(feature, new IntPtr(&featureSupport), sizeof(T));
             return featureSupport;
         }
 
         public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
         {
-            return CheckFeatureSupport(feature, new IntPtr(Unsafe.AsPointer(ref featureSupport)), sizeof(T)).Success;
+            fixed (void* featureSupportPtr = &featureSupport)
+            {
+                return CheckFeatureSupport(feature, (IntPtr)featureSupportPtr, sizeof(T)).Success;
+            }
         }
 
         public FeatureLevel CheckMaxSupportedFeatureLevel() => CheckMaxSupportedFeatureLevel(D3D12.FeatureLevels);

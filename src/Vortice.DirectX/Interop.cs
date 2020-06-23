@@ -23,7 +23,10 @@ namespace Vortice
         {
             unsafe
             {
-                Unsafe.CopyBlockUnaligned((void*)destination, Unsafe.AsPointer(ref value), (uint)(sizeof(T)));
+                fixed (void* valuePtr = &value)
+                {
+                    Unsafe.CopyBlockUnaligned((void*)destination, valuePtr, (uint)(sizeof(T)));
+                }
             }
         }
 

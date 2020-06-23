@@ -104,10 +104,13 @@ namespace Vortice.Direct3D11
                 unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
             }
 
-            OMSetRenderTargetsAndUnorderedAccessViews(
-                KeepRenderTargetsAndDepthStencil, IntPtr.Zero, (ID3D11DepthStencilView)null,
-                uavStartSlot, unorderedAccessViewCount, (IntPtr)unorderedAccessViewsPtr,
-                (IntPtr)Unsafe.AsPointer(ref s_NegativeOnes[0]));
+            fixed (void* negativeOnesPtr = &s_NegativeOnes[0])
+            {
+                OMSetRenderTargetsAndUnorderedAccessViews(
+                    KeepRenderTargetsAndDepthStencil, IntPtr.Zero, (ID3D11DepthStencilView)null,
+                    uavStartSlot, unorderedAccessViewCount, (IntPtr)unorderedAccessViewsPtr,
+                    (IntPtr)negativeOnesPtr);
+            }
         }
 
         public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
@@ -192,14 +195,16 @@ namespace Vortice.Direct3D11
                 unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
             }
 
-            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount, 
-                (IntPtr)renderTargetViewsPtr,
-                depthStencilView,
-                startSlot,
-                unorderedAccessViewsCount, 
-                (IntPtr)unorderedAccessViewsPtr,
-                (IntPtr)Unsafe.AsPointer(ref s_NegativeOnes[0])
-                );
+            fixed (void* negativeOnesPtr = &s_NegativeOnes[0])
+            {
+                OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount, 
+                    (IntPtr)renderTargetViewsPtr,
+                    depthStencilView,
+                    startSlot,
+                    unorderedAccessViewsCount, 
+                    (IntPtr)unorderedAccessViewsPtr,
+                    (IntPtr)negativeOnesPtr);
+            }
         }
 
         public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
@@ -223,13 +228,16 @@ namespace Vortice.Direct3D11
                 unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
             }
 
-            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
-                (IntPtr)renderTargetViewsPtr,
-                depthStencilView,
-                startSlot,
-                unorderedAccessViewsCount,
-                (IntPtr)unorderedAccessViewsPtr,
-                (IntPtr)Unsafe.AsPointer(ref uavInitialCounts[0]));
+            fixed (void* negativeOnesPtr = &s_NegativeOnes[0])
+            {
+                OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount, 
+                    (IntPtr)renderTargetViewsPtr,
+                    depthStencilView,
+                    startSlot,
+                    unorderedAccessViewsCount, 
+                    (IntPtr)unorderedAccessViewsPtr,
+                    (IntPtr)negativeOnesPtr);
+            }
         }
 
         public ID3D11CommandList FinishCommandList(bool restoreState)
@@ -254,22 +262,28 @@ namespace Vortice.Direct3D11
             return GetData(data, IntPtr.Zero, 0, flags) == Result.Ok;
         }
 
-        public T GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags) where T : struct
+        public T GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags) where T : unmanaged
         {
             GetData(data, flags, out T result);
             return result;
         }
 
-        public unsafe bool GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags, out T result) where T : struct
+        public unsafe bool GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags, out T result) where T : unmanaged
         {
             result = default;
-            return GetData(data, (IntPtr)Unsafe.AsPointer(ref result), Unsafe.SizeOf<T>(), flags) == Result.Ok;
+            fixed (void* resultPtr = &result)
+            {
+                return GetData(data, (IntPtr)resultPtr, sizeof(T), flags) == Result.Ok;
+            }
         }
 
         public unsafe bool GetData<T>(ID3D11Asynchronous data, out T result) where T : unmanaged
         {
             result = default;
-            return GetData(data, (IntPtr)Unsafe.AsPointer(ref result), sizeof(T), AsyncGetDataFlags.None) == Result.Ok;
+            fixed (void* resultPtr = &result)
+            {
+                return GetData(data, (IntPtr)resultPtr, sizeof(T), AsyncGetDataFlags.None) == Result.Ok;
+            }
         }
 
         public ID3D11BlendState OMGetBlendState()
@@ -326,14 +340,17 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe void RSSetViewport<T>(T viewport) where T : struct
+        public unsafe void RSSetViewport<T>(T viewport) where T : unmanaged
         {
-            RSSetViewports(1, (IntPtr)Unsafe.AsPointer(ref viewport));
+            RSSetViewports(1, new IntPtr(&viewport));
         }
 
-        public unsafe void RSSetViewports<T>(T[] viewports) where T : struct
+        public unsafe void RSSetViewports<T>(T[] viewports) where T : unmanaged
         {
-            RSSetViewports(viewports.Length, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+            fixed (void* viewportsPtr = &viewports[0])
+            {
+                RSSetViewports(viewports.Length, (IntPtr)viewportsPtr);
+            }
         }
 
         public unsafe void RSSetViewports<T>(Span<T> viewports) where T : unmanaged
@@ -348,25 +365,34 @@ namespace Vortice.Direct3D11
         {
             int numViewports = 1;
             var viewport = new Viewport();
-            RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewport));
+            RSGetViewports(ref numViewports, new IntPtr(&viewport));
             return viewport;
         }
 
         public unsafe void RSGetViewport(ref Viewport viewport)
         {
             int numViewports = 1;
-            RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewport));
+            fixed (void* viewportPtr = &viewport)
+            {
+                RSGetViewports(ref numViewports, (IntPtr)viewportPtr);
+            }
         }
 
         public unsafe void RSGetViewports(Viewport[] viewports)
         {
             int numViewports = viewports.Length;
-            RSGetViewports(ref numViewports, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+            fixed (void* viewportsPtr = &viewports[0])
+            {
+                RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
+            }
         }
 
         public unsafe void RSGetViewports(int count, Viewport[] viewports)
         {
-            RSGetViewports(ref count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+            fixed (void* viewportsPtr = &viewports[0])
+            {
+                RSGetViewports(ref count, (IntPtr)viewportsPtr);
+            }
         }
 
         public unsafe void RSGetViewports(Span<Viewport> viewports)
@@ -378,7 +404,7 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe void RSGetViewports<T>(int count, T[] viewports) where T : struct
+        public unsafe void RSGetViewports<T>(int count, T[] viewports) where T : unmanaged
         {
 #if DEBUG
             if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
@@ -387,7 +413,10 @@ namespace Vortice.Direct3D11
             }
 #endif
 
-            RSGetViewports(ref count, (IntPtr)Unsafe.AsPointer(ref viewports[0]));
+            fixed (void* viewportsPtr = &viewports[0])
+            {
+                RSGetViewports(ref count, (IntPtr)viewportsPtr);
+            }
         }
 
         public unsafe void RSGetViewports<T>(Span<T> viewports) where T : unmanaged
@@ -411,7 +440,7 @@ namespace Vortice.Direct3D11
         /// </summary>
         /// <typeparam name="T">An array of viewports,  must be size of <see cref="Viewport"/>.</typeparam>
         /// <param name="viewports"></param>
-        public unsafe void RSGetViewports<T>(T[] viewports) where T : struct
+        public unsafe void RSGetViewports<T>(T[] viewports) where T : unmanaged
         {
 #if DEBUG
             if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
@@ -421,15 +450,17 @@ namespace Vortice.Direct3D11
 #endif
 
             int numViewports = viewports.Length;
-            void* pBuffer = Unsafe.AsPointer(ref viewports[0]);
-            RSGetViewports(ref numViewports, (IntPtr)pBuffer);
+            fixed (void* viewportsPtr = &viewports[0])
+            {
+                RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
+            }
         }
 
         /// <summary>	
         /// Get the array of viewports bound  to the rasterizer stage.	
         /// </summary>	
         /// <returns>An array of viewports, must be size of <see cref="Viewport"/></returns>
-        public T[] RSGetViewports<T>() where T : struct
+        public T[] RSGetViewports<T>() where T : unmanaged
         {
 #if DEBUG
             if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
@@ -499,25 +530,34 @@ namespace Vortice.Direct3D11
         {
             int numRects = 1;
             var rect = new RawRect();
-            RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rect));
+            RSGetScissorRects(ref numRects, new IntPtr(&rect));
             return rect;
         }
 
         public unsafe void RSGetScissorRect(ref RawRect rect)
         {
             int numRects = 1;
-            RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rect));
+            fixed (void* rectPtr = &rect)
+            {
+                RSGetScissorRects(ref numRects, (IntPtr)rectPtr);
+            }
         }
 
         public unsafe void RSGetScissorRects(RawRect[] rects)
         {
             int numRects = rects.Length;
-            RSGetScissorRects(ref numRects, (IntPtr)Unsafe.AsPointer(ref rects[0]));
+            fixed (void* rectsPtr = &rects[0])
+            {
+                RSGetScissorRects(ref numRects, (IntPtr)rectsPtr);
+            }
         }
 
         public unsafe void RSGetScissorRects(int count, RawRect[] rects)
         {
-            RSGetScissorRects(ref count, (IntPtr)Unsafe.AsPointer(ref rects[0]));
+            fixed (void* rectsPtr = &rects[0])
+            {
+                RSGetScissorRects(ref count, (IntPtr)rectsPtr);
+            }
         }
         #endregion
 
@@ -545,9 +585,12 @@ namespace Vortice.Direct3D11
                 targetsPtr[i] = targets[i] != null ? targets[i].NativePointer : IntPtr.Zero;
             }
 
-            SOSetTargets(buffersCount, (IntPtr)targetsPtr,
-                offsets?.Length > 0 ? (IntPtr)Unsafe.AsPointer(ref offsets[0]) : IntPtr.Zero
-                );
+            fixed (void* offsetsPtr = &offsets[0])
+            {
+                SOSetTargets(buffersCount, (IntPtr)targetsPtr,
+                    offsets?.Length > 0 ? (IntPtr)offsetsPtr : IntPtr.Zero
+                    );
+            }
         }
 
 
@@ -1213,9 +1256,12 @@ namespace Vortice.Direct3D11
         /// <param name="rowPitch">The row pitch.</param>
         /// <param name="depthPitch">The depth pitch.</param>
         /// <param name="region">The region</param>
-        public unsafe void UpdateSubresource<T>(ref T value, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : struct
+        public unsafe void UpdateSubresource<T>(ref T value, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
         {
-            UpdateSubresource(resource, subresource, region, (IntPtr)Unsafe.AsPointer(ref value), rowPitch, depthPitch);
+            fixed (void* valuePtr = &value)
+            {
+                UpdateSubresource(resource, subresource, region, (IntPtr)valuePtr, rowPitch, depthPitch);
+            }
         }
 
         /// <summary>
@@ -1228,9 +1274,12 @@ namespace Vortice.Direct3D11
         /// <param name="rowPitch">The row pitch.</param>
         /// <param name="depthPitch">The depth pitch.</param>
         /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
-        public unsafe void UpdateSubresource<T>(T[] data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : struct
+        public unsafe void UpdateSubresource<T>(T[] data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
         {
-            UpdateSubresource(resource, subresource, region, (IntPtr)Unsafe.AsPointer(ref data[0]), rowPitch, depthPitch);
+            fixed (void* dataPtr = &data[0])
+            {
+                UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
+            }
         }
 
         /// <summary>
@@ -1288,11 +1337,14 @@ namespace Vortice.Direct3D11
         /// <remarks>
         /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
         /// </remarks>
-        public void UpdateSubresourceSafe<T>(ref T value, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : struct
+        public void UpdateSubresourceSafe<T>(ref T value, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
         {
             unsafe
             {
-                UpdateSubresourceSafe(resource, subresource, null, (IntPtr)Unsafe.AsPointer(ref value), rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
+                fixed (void* valuePtr = &value)
+                {
+                    UpdateSubresourceSafe(resource, subresource, null, (IntPtr)valuePtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
+                }
             }
         }
 
@@ -1310,11 +1362,14 @@ namespace Vortice.Direct3D11
         /// <remarks>
         /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
         /// </remarks>
-        public void UpdateSubresourceSafe<T>(T[] data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : struct
+        public void UpdateSubresourceSafe<T>(T[] data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
         {
             unsafe
             {
-                UpdateSubresourceSafe(resource, subresource, null, (IntPtr)Unsafe.AsPointer(ref data[0]), rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
+                fixed (void* dataPtr = &data[0])
+                {
+                    UpdateSubresourceSafe(resource, subresource, null, (IntPtr)dataPtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
+                }
             }
         }
 
