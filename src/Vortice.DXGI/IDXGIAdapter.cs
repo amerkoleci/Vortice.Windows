@@ -10,31 +10,67 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIAdapter
     {
-        private ReadOnlyCollection<IDXGIOutput> _outputs;
-
-        public ReadOnlyCollection<IDXGIOutput> Outputs
+        /// <summary>
+        /// Get the number of available outputs from this adapter.
+        /// </summary>
+        /// <returns>The number of outputs</returns>
+        public virtual int GetOutputCount()
         {
-            get
+            int count = 0;
+            while (true)
             {
-                if (_outputs == null)
+                var result = EnumOutputs(count, out var output);
+                if (result == ResultCode.NotFound || output == null)
+                    break;
+
+                output.Dispose();
+                count++;
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// Get an instance of <see cref="IDXGIAdapter"/> or null if not found.
+        /// </summary>
+        /// <remarks>
+        /// Make sure to dispose the <see cref="IDXGIAdapter"/> instance.
+        /// </remarks>
+        /// <param name="index">The index to get from.</param>
+        /// <returns>Instance of <see cref="IDXGIAdapter"/> or null if not found.</returns>
+        public IDXGIOutput GetOutput(int index)
+        {
+            var result = EnumOutputs(index, out var adapter);
+            if (result.Failure)
+            {
+                return null;
+            }
+
+            return adapter;
+        }
+
+        /// <summary>
+        /// Enumerates all outputs from this adapter.
+        /// </summary>
+        /// <remarks>
+        /// Make sure to dispose the array instance, using <see cref="Utilities.Dispose{T}(T[])"/>
+        /// </remarks>
+        /// <returns>An array of <see cref="IDXGIOutput"/></returns>
+        public IDXGIOutput[] EnumOutputs()
+        {
+            var outputs = new List<IDXGIOutput>();
+            while (true)
+            {
+                var result = EnumOutputs(outputs.Count, out var output);
+                if (result == ResultCode.NotFound || output == null)
                 {
-                    var outputs = new List<IDXGIOutput>();
-                    while (true)
-                    {
-                        var result = EnumOutputs(outputs.Count, out var output);
-                        if (result == ResultCode.NotFound || output == null)
-                        {
-                            break;
-                        }
-
-                        outputs.Add(output);
-                    }
-
-                    _outputs = new ReadOnlyCollection<IDXGIOutput>(outputs);
+                    break;
                 }
 
-                return _outputs;
+                outputs.Add(output);
             }
+
+            return outputs.ToArray();
         }
 
         public bool CheckInterfaceSupport<T>() where T : ComObject
@@ -50,29 +86,6 @@ namespace Vortice.DXGI
         public bool CheckInterfaceSupport(Type type, out long userModeDriverVersion)
         {
             return CheckInterfaceSupport(type.GUID, out userModeDriverVersion).Success;
-        }
-
-        /// <inheritdoc/>
-        protected override unsafe void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ReleaseOutputs();
-            }
-
-            base.Dispose(disposing);
-        }
-
-        private void ReleaseOutputs()
-        {
-            if (_outputs == null)
-                return;
-
-            var outputsCount = _outputs.Count;
-            for (var i = 0; i < outputsCount; i++)
-            {
-                _outputs[i].Release();
-            }
         }
     }
 }

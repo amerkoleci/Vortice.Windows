@@ -94,7 +94,7 @@ namespace Vortice
                     break;
                 }
             }
-            Utilities.ReleaseIfNotDefault(adapters);
+            Utilities.Dispose(adapters);
 
             // Check raytracing support.
             var featureOptions5 = _d3d12Device.Options5;

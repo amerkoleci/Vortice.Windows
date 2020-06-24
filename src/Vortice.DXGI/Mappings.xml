@@ -137,7 +137,7 @@
     <map method="IDXGIDeviceSubObject::GetDevice" visibility="private" hresult="true" check="false"/>
 
     <!-- IDXGIFactory -->
-    <map method="IDXGIFactory::EnumAdapters" name="EnumAdapters" visibility="internal" check="false"/>
+    <map method="IDXGIFactory::EnumAdapters" name="EnumAdapters" hresult="true" check="false"/>
 
     <map param="IDXGIFactory::MakeWindowAssociation::Flags" type="DXGI_MWA_FLAGS" />
     <map param="IDXGIFactory::CreateSoftwareAdapter::ppAdapter" return="true" />
@@ -148,7 +148,7 @@
     <map param="IDXGIFactory::CreateSwapChain::ppSwapChain" return="true"/>
 
     <!-- IDXGIFactory1 -->
-    <map method="IDXGIFactory1::EnumAdapters1" name="EnumAdapters1" visibility="internal" check="false"/>
+    <map method="IDXGIFactory1::EnumAdapters1" name="EnumAdapters1" hresult="true" check="false"/>
 
     <!-- IDXGIFactory2 -->
     <map method="IDXGIFactory2::CreateSwapChainForComposition" visibility="private" />
@@ -172,7 +172,7 @@
     <map method="IDXGIFactory5::CheckFeatureSupport" check="false" visibility="private"/>
 
     <!-- IDXGIFactory6 -->
-    <map method="IDXGIFactory6::EnumAdapterByGpuPreference" name="EnumAdapterByGpuPreference" visibility="internal" check="false"/>
+    <map method="IDXGIFactory6::EnumAdapterByGpuPreference" name="EnumAdapterByGpuPreference" hresult="true" check="false"/>
 
     <!-- IDXGIFactory7 -->
     <map param="IDXGIFactory7::RegisterAdaptersChangedEvent::pdwCookie" return="true"/>
@@ -208,7 +208,7 @@
     <map param="IDXGISwapChain3::ResizeBuffers1::SwapChainFlags" type="DXGI_SWAP_CHAIN_FLAG" />
 
     <!-- IDXGIAdapter -->
-    <map method="IDXGIAdapter::EnumOutputs" visibility="internal" check="false"/>
+    <map method="IDXGIAdapter::EnumOutputs" hresult="true" check="false"/>
     <map method="IDXGIAdapter::CheckInterfaceSupport" visibility="public" check="false"/>
 
     <!-- IDXGIAdapter3 -->

@@ -12,29 +12,36 @@ namespace Vortice.DXGI
         /// Gets the default warp adapter.
         /// </summary>
         /// <returns>The warp adapter.</returns>
-        public T GetWarpAdapter<T>() where T : IDXGIAdapter
+        public Result EnumWarpAdapter<T>(out T adapter) where T : IDXGIAdapter
         {
-            if (EnumWarpAdapter(typeof(T).GUID, out IntPtr adapterPtr).Failure)
+            var result = EnumWarpAdapter(typeof(T).GUID, out var nativePtr);
+            if (result.Success)
             {
-                return default;
+                adapter = FromPointer<T>(nativePtr);
+                return result;
             }
 
-            return FromPointer<T>(adapterPtr);
+            adapter = null;
+            return result;
         }
 
         /// <summary>
         /// Gets the adapter for the specified LUID.
         /// </summary>
         /// <param name="adapterLuid">A unique value that identifies the adapter.</param>
-        /// <returns>The adapter.</returns>
-        public T GetAdapterByLuid<T>(long adapterLuid) where T : IDXGIAdapter
+        /// <param name="adapter">The adapter instance of <see cref="IDXGIAdapter"/>, make sure to dispose the instance.</param>
+        /// <returns>The <see cref="Result"/>.</returns>
+        public Result EnumAdapterByLuid<T>(long adapterLuid, out T adapter) where T : IDXGIAdapter
         {
-            if (EnumAdapterByLuid(adapterLuid, typeof(T).GUID, out IntPtr adapterPtr).Failure)
+            var result = EnumAdapterByLuid(adapterLuid, typeof(T).GUID, out var nativePtr);
+            if (result.Success)
             {
-                return default;
+                adapter = FromPointer<T>(nativePtr);
+                return result;
             }
 
-            return FromPointer<T>(adapterPtr);
+            adapter = null;
+            return result;
         }
     }
 }
