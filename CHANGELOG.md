@@ -12,6 +12,7 @@ KEY CHANGES:
 - [ENH] DXGI: Improvements in API usage for IDXGIObject and IDXGIDeviceSubObject.
 - [ENH] D3D Legacy Compiler: Compile accepts byte[] as shader source.
 - [FIX] D3D11: ID3DUserDefinedAnnotation::SetMarker don't map as property.
+- [ENH] DXGI: Remove dependency from System.Collections.Immutable and make API calls close to native.
 
 -----------------------------------------------
 Release:     1.6.0 (April 2020)
