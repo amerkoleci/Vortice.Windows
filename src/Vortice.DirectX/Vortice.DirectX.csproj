@@ -5,7 +5,15 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RootNamespace>Vortice</RootNamespace>
     <Description>Core DirectX library.</Description>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="Vortice.Mathematics" Version="$(VorticeMathematicsVersion)" />
