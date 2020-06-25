@@ -5,7 +5,15 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Description>A .NET wrapper for Microsoft's DirectXShaderCompiler.</Description>
     <RootNamespace>Vortice.Dxc</RootNamespace>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="NativeLibraryLoader" Version="1.0.12" />
