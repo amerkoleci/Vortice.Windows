@@ -20,7 +20,7 @@ namespace Vortice.DXGI
         /// <returns>Return the <see cref="Result"/>.</returns>
         public static Result CreateDXGIFactory1<T>(out T factory) where T : IDXGIFactory1
         {
-            var result = CreateDXGIFactory1(typeof(T).GUID, out var nativePtr);
+            Result result = CreateDXGIFactory1(typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
                 factory = CppObject.FromPointer<T>(nativePtr);
@@ -37,13 +37,13 @@ namespace Vortice.DXGI
         /// <returns>Return an instance of <see cref="IDXGIFactory1"/> or null if failed.</returns>
         public static T CreateDXGIFactory1<T>() where T : IDXGIFactory1
         {
-            var result = CreateDXGIFactory1(typeof(T).GUID, out var nativePtr);
-            if (result.Success)
+            Result result = CreateDXGIFactory1(typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
             {
-                return CppObject.FromPointer<T>(nativePtr);
+                return default;
             }
 
-            return default;
+            return CppObject.FromPointer<T>(nativePtr);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Vortice.DXGI
         public static Result CreateDXGIFactory2<T>(bool debug, out T factory) where T : IDXGIFactory2
         {
             int flags = debug ? CreateFactoryDebug : 0x00;
-            var result = CreateDXGIFactory2(flags, typeof(T).GUID, out var nativePtr);
+            Result result = CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
                 factory = CppObject.FromPointer<T>(nativePtr);
@@ -74,7 +74,7 @@ namespace Vortice.DXGI
         public static IDXGIFactory2 CreateDXGIFactory2<T>(bool debug) where T : IDXGIFactory2
         {
             int flags = debug ? CreateFactoryDebug : 0x00;
-            var result = CreateDXGIFactory2(flags, typeof(T).GUID, out var nativePtr);
+            Result result = CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
                 return CppObject.FromPointer<T>(nativePtr);
@@ -93,7 +93,7 @@ namespace Vortice.DXGI
         {
             try
             {
-                var result = DXGIGetDebugInterface(typeof(T).GUID, out var nativePtr);
+                Result result = DXGIGetDebugInterface(typeof(T).GUID, out IntPtr nativePtr);
                 if (result.Failure)
                 {
                     debugInterface = null;
@@ -119,7 +119,7 @@ namespace Vortice.DXGI
         {
             try
             {
-                var result = DXGIGetDebugInterface(typeof(T).GUID, out var nativePtr);
+                Result result = DXGIGetDebugInterface(typeof(T).GUID, out IntPtr nativePtr);
                 if (result.Failure)
                 {
                     return default;
@@ -143,7 +143,7 @@ namespace Vortice.DXGI
         {
             try
             {
-                var result = DXGIGetDebugInterface1(0, typeof(T).GUID, out var nativePtr);
+                Result result = DXGIGetDebugInterface1(0, typeof(T).GUID, out IntPtr nativePtr);
                 if (result.Failure)
                 {
                     debugInterface = null;
@@ -169,7 +169,7 @@ namespace Vortice.DXGI
         {
             try
             {
-                var result = DXGIGetDebugInterface1(0, typeof(T).GUID, out var nativePtr);
+                Result result = DXGIGetDebugInterface1(0, typeof(T).GUID, out IntPtr nativePtr);
                 if (result.Failure)
                 {
                     return default;

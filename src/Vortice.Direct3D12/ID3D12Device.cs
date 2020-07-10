@@ -26,7 +26,7 @@ namespace Vortice.Direct3D12
                         HighestVersion = RootSignatureVersion.Version11
                     };
 
-                    if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataRootSignature>()).Failure)
+                    if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), sizeof(FeatureDataRootSignature)).Failure)
                     {
                         _highestRootSignatureVersion = RootSignatureVersion.Version11;
                     }
@@ -204,9 +204,9 @@ namespace Vortice.Direct3D12
                 Format = format
             };
 
-            if (CheckFeatureSupport(Feature.FormatInfo, 
-                new IntPtr(&featureData), 
-                Unsafe.SizeOf<FeatureDataFormatInfo>()).Failure)
+            if (CheckFeatureSupport(Feature.FormatInfo,
+                new IntPtr(&featureData),
+                sizeof(FeatureDataFormatInfo)).Failure)
             {
                 return 0;
             }
@@ -214,70 +214,309 @@ namespace Vortice.Direct3D12
             return featureData.PlaneCount;
         }
 
+        #region CreateCommittedResource
         public ID3D12Resource CreateCommittedResource(HeapProperties heapProperties,
             HeapFlags heapFlags,
             ResourceDescription description,
             ResourceStates initialResourceState,
             ClearValue? optimizedClearValue = null)
         {
-            return CreateCommittedResource(
+            Result result = CreateCommittedResource(
                 ref heapProperties,
                 heapFlags,
                 ref description,
                 initialResourceState,
                 optimizedClearValue,
-                typeof(ID3D12Resource).GUID);
+                typeof(ID3D12Resource).GUID,
+                out IntPtr nativePtr);
+
+            if (result.Failure)
+                return default;
+
+            return new ID3D12Resource(nativePtr);
+        }
+
+        public T CreateCommittedResource<T>(HeapProperties heapProperties,
+            HeapFlags heapFlags,
+            ResourceDescription description,
+            ResourceStates initialResourceState,
+            ClearValue? optimizedClearValue = null) where T : ID3D12Resource
+        {
+            Result result = CreateCommittedResource(
+                ref heapProperties,
+                heapFlags,
+                ref description,
+                initialResourceState,
+                optimizedClearValue,
+                typeof(T).GUID,
+                out IntPtr nativePtr);
+
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
+        }
+
+        public Result CreateCommittedResource<T>(HeapProperties heapProperties, HeapFlags heapFlags, ResourceDescription description, ResourceStates initialResourceState, out T resource) where T : ID3D12Resource
+        {
+            Result result = CreateCommittedResource(
+                ref heapProperties,
+                heapFlags,
+                ref description,
+                initialResourceState,
+                null,
+                typeof(T).GUID,
+                out IntPtr nativePtr);
+
+            if (result.Failure)
+            {
+                resource = default;
+                return result;
+            }
+
+            resource = FromPointer<T>(nativePtr);
+            return result;
+        }
+
+        public Result CreateCommittedResource<T>(HeapProperties heapProperties,
+            HeapFlags heapFlags,
+            ResourceDescription description,
+            ResourceStates initialResourceState,
+            ClearValue? optimizedClearValue,
+            out T resource) where T : ID3D12Resource
+        {
+            Result result = CreateCommittedResource(
+                ref heapProperties,
+                heapFlags,
+                ref description,
+                initialResourceState,
+                optimizedClearValue,
+                typeof(T).GUID,
+                out IntPtr nativePtr);
+
+            if (result.Failure)
+            {
+                resource = default;
+                return result;
+            }
+
+            resource = FromPointer<T>(nativePtr);
+            return result;
+        }
+        #endregion
+
+        #region CreateCommandQueue
+        public ID3D12CommandQueue CreateCommandQueue(in CommandQueueDescription description)
+        {
+            Result result = CreateCommandQueue(description, typeof(ID3D12CommandQueue).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return new ID3D12CommandQueue(nativePtr);
         }
 
         public ID3D12CommandQueue CreateCommandQueue(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
         {
-            return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask), typeof(ID3D12CommandQueue).GUID);
+            return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask));
         }
 
         public ID3D12CommandQueue CreateCommandQueue(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
         {
-            return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask), typeof(ID3D12CommandQueue).GUID);
+            return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask));
         }
 
-        public ID3D12CommandQueue CreateCommandQueue(CommandQueueDescription description)
+        public Result CreateCommandQueue<T>(in CommandQueueDescription description, out T commandQueue) where T : ID3D12CommandQueue
         {
-            return CreateCommandQueue(description, typeof(ID3D12CommandQueue).GUID);
+            Result result = CreateCommandQueue(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                commandQueue = default;
+                return result;
+            }
+
+            commandQueue = FromPointer<T>(nativePtr);
+            return result;
         }
 
-        public ID3D12DescriptorHeap CreateDescriptorHeap(DescriptorHeapDescription description)
+        public T CreateCommandQueue<T>(in CommandQueueDescription description) where T : ID3D12CommandQueue
         {
-            return CreateDescriptorHeap(description, typeof(ID3D12DescriptorHeap).GUID);
+            Result result = CreateCommandQueue(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
+        public T CreateCommandQueue<T>(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
+        {
+            return CreateCommandQueue<T>(new CommandQueueDescription(type, priority, flags, nodeMask));
+        }
+
+        public T CreateCommandQueue<T>(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
+        {
+            return CreateCommandQueue<T>(new CommandQueueDescription(type, priority, flags, nodeMask));
+        }
+        #endregion
+
+        #region CreateDescriptorHeap
+        public ID3D12DescriptorHeap CreateDescriptorHeap(in DescriptorHeapDescription description)
+        {
+            Result result = CreateDescriptorHeap(description, typeof(ID3D12DescriptorHeap).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return new ID3D12DescriptorHeap(nativePtr);
+        }
+
+        public T CreateDescriptorHeap<T>(in DescriptorHeapDescription description) where T : ID3D12DescriptorHeap
+        {
+            Result result = CreateDescriptorHeap(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
+        }
+
+        public Result CreateDescriptorHeap<T>(in DescriptorHeapDescription description, out T descriptorHeap) where T : ID3D12DescriptorHeap
+        {
+            Result result = CreateDescriptorHeap(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                descriptorHeap = default;
+                return result;
+            }
+
+            descriptorHeap = FromPointer<T>(nativePtr);
+            return result;
+        }
+        #endregion
+
+        #region CreateCommandAllocator
         public ID3D12CommandAllocator CreateCommandAllocator(CommandListType type)
         {
-            return CreateCommandAllocator(type, typeof(ID3D12CommandAllocator).GUID);
+            Result result = CreateCommandAllocator(type, typeof(ID3D12CommandAllocator).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return new ID3D12CommandAllocator(nativePtr);
         }
 
-        public ID3D12GraphicsCommandList CreateCommandList(CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState = null)
+        public T CreateCommandAllocator<T>(CommandListType type) where T : ID3D12CommandAllocator
         {
-            return CreateCommandList(0, type, commandAllocator, initialState);
+            Result result = CreateCommandAllocator(type, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
+        public Result CreateCommandAllocator<T>(CommandListType type, out T commandAllocator) where T : ID3D12CommandAllocator
+        {
+            Result result = CreateCommandAllocator(type, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                commandAllocator = default;
+                return result;
+            }
+
+            commandAllocator = FromPointer<T>(nativePtr);
+            return result;
+        }
+        #endregion
+
+        #region CreateCommandList
         public ID3D12GraphicsCommandList CreateCommandList(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState = null)
         {
-            var nativePtr = CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(ID3D12GraphicsCommandList).GUID);
+            Result result = CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(ID3D12GraphicsCommandList).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
             return new ID3D12GraphicsCommandList(nativePtr);
         }
 
+        public T CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState = null) where T : ID3D12CommandList
+        {
+            Result result = CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
+        }
+
+        public Result CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState, out T commandList) where T : ID3D12CommandList
+        {
+            Result result = CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                commandList = default;
+                return result;
+            }
+
+            commandList = FromPointer<T>(nativePtr);
+            return result;
+        }
+        #endregion
+
+        #region CreateFence
         public ID3D12Fence CreateFence(long initialValue, FenceFlags flags = FenceFlags.None)
         {
-            return CreateFence(initialValue, flags, typeof(ID3D12Fence).GUID);
+            Result result = CreateFence(initialValue, flags, typeof(ID3D12Fence).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return new ID3D12Fence(nativePtr);
         }
 
-        public ID3D12Heap CreateHeap(HeapDescription description)
+        public T CreateFence<T>(long initialValue, FenceFlags flags = FenceFlags.None) where T : ID3D12Fence
         {
-            return CreateHeap(ref description, typeof(ID3D12Heap).GUID);
+            Result result = CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12RootSignature CreateRootSignature(int nodeMask, RootSignatureDescription description, RootSignatureVersion version)
+        public Result CreateFence<T>(long initialValue, FenceFlags flags, out T fence) where T : ID3D12Fence
         {
-            var result = D3D12.D3D12SerializeRootSignature(description, version, out var blob, out var errorBlob);
+            Result result = CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                fence = default;
+                return result;
+            }
+
+            fence = FromPointer<T>(nativePtr);
+            return result;
+        }
+        #endregion
+
+        #region CreateHeap
+        public T CreateHeap<T>(in HeapDescription description) where T : ID3D12Heap
+        {
+            Result result = CreateHeap(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
+        }
+
+        public Result CreateHeap<T>(in HeapDescription description, out T heap) where T : ID3D12Heap
+        {
+            Result result = CreateHeap(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                heap = default;
+                return result;
+            }
+
+            heap = FromPointer<T>(nativePtr);
+            return result;
+        }
+        #endregion
+
+        public T CreateRootSignature<T>(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
+        {
+            Result result = D3D12.D3D12SerializeRootSignature(description, version, out Blob blob, out Blob errorBlob);
             if (result.Failure)
             {
                 if (errorBlob != null)
@@ -290,7 +529,11 @@ namespace Vortice.Direct3D12
 
             try
             {
-                return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID);
+                result = CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr);
+                if (result.Failure)
+                    return default;
+
+                return FromPointer<T>(nativePtr);
             }
             finally
             {
@@ -299,14 +542,14 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public ID3D12RootSignature CreateRootSignature(RootSignatureDescription description, RootSignatureVersion version)
+        public ID3D12RootSignature CreateRootSignature(int nodeMask, in VersionedRootSignatureDescription description)
         {
-            return CreateRootSignature(0, description, version);
+            return CreateRootSignature<ID3D12RootSignature>(0, description);
         }
 
-        public ID3D12RootSignature CreateRootSignature(int nodeMask, VersionedRootSignatureDescription rootSignatureDescription)
+        public T CreateRootSignature<T>(int nodeMask, VersionedRootSignatureDescription rootSignatureDescription) where T : ID3D12RootSignature
         {
-            var result = Result.Ok;
+            Result result = Result.Ok;
             Blob signature = null;
             Blob errorBlob = null;
 
@@ -328,9 +571,9 @@ namespace Vortice.Direct3D12
                             if (desc_1_1.Parameters?.Length > 0)
                             {
                                 parameters_1_0 = new RootParameter[desc_1_1.Parameters.Length];
-                                for (var i = 0; i < parameters_1_0.Length; i++)
+                                for (int i = 0; i < parameters_1_0.Length; i++)
                                 {
-                                    var parameterShaderVisibility = desc_1_1.Parameters[i].ShaderVisibility;
+                                    ShaderVisibility parameterShaderVisibility = desc_1_1.Parameters[i].ShaderVisibility;
 
                                     switch (desc_1_1.Parameters[i].ParameterType)
                                     {
@@ -348,7 +591,7 @@ namespace Vortice.Direct3D12
                                             break;
 
                                         case RootParameterType.DescriptorTable:
-                                            var table_1_1 = desc_1_1.Parameters[i].DescriptorTable;
+                                            RootDescriptorTable1 table_1_1 = desc_1_1.Parameters[i].DescriptorTable;
                                             var ranges = new DescriptorRange[table_1_1.Ranges?.Length ?? 0];
 
                                             for (var x = 0; x < ranges.Length; x++)
@@ -390,7 +633,11 @@ namespace Vortice.Direct3D12
 
             try
             {
-                return CreateRootSignature(nodeMask, signature.BufferPointer, signature.BufferSize, typeof(ID3D12RootSignature).GUID);
+                result = CreateRootSignature(nodeMask, signature.BufferPointer, signature.BufferSize, typeof(T).GUID, out IntPtr nativePtr);
+                if (result.Failure)
+                    return default;
+
+                return FromPointer<T>(nativePtr);
             }
             finally
             {
@@ -399,44 +646,94 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public ID3D12RootSignature CreateRootSignature(VersionedRootSignatureDescription rootSignatureDescription)
+        public T CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature rootSignature) where T : ID3D12CommandSignature
         {
-            return CreateRootSignature(0, rootSignatureDescription);
+            Result result = CreateCommandSignature(description, rootSignature, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12CommandSignature CreateCommandSignature(CommandSignatureDescription description, ID3D12RootSignature rootSignature)
+        public T CreateComputePipelineState<T>(ComputePipelineStateDescription description) where T : ID3D12PipelineState
         {
-            return CreateCommandSignature(description, rootSignature, typeof(ID3D12CommandSignature).GUID);
+            Result result = CreateComputePipelineState(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12PipelineState CreateComputePipelineState(ComputePipelineStateDescription description)
+        public ID3D12PipelineState CreateComputePipelineStat(ComputePipelineStateDescription description)
         {
-            return CreateComputePipelineState(description, typeof(ID3D12PipelineState).GUID);
+            Result result = CreateComputePipelineState(description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return new ID3D12PipelineState(nativePtr);
+        }
+
+        public T CreateGraphicsPipelineState<T>(GraphicsPipelineStateDescription description) where T : ID3D12PipelineState
+        {
+            Result result = CreateGraphicsPipelineState(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
         public ID3D12PipelineState CreateGraphicsPipelineState(GraphicsPipelineStateDescription description)
         {
-            return CreateGraphicsPipelineState(description, typeof(ID3D12PipelineState).GUID);
+            Result result = CreateGraphicsPipelineState(description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return new ID3D12PipelineState(nativePtr);
         }
 
-        public ID3D12QueryHeap CreateQueryHeap(QueryHeapDescription description)
+        public T CreateQueryHeap<T>(QueryHeapDescription description) where T : ID3D12QueryHeap
         {
-            return CreateQueryHeap(description, typeof(ID3D12QueryHeap).GUID);
+            Result result = CreateQueryHeap(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12Resource CreatePlacedResource(
+        public Result CreateQueryHeap<T>(in QueryHeapDescription description, out T queryHeap) where T : ID3D12QueryHeap
+        {
+            Result result = CreateQueryHeap(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                queryHeap = default;
+                return result;
+            }
+
+            queryHeap = FromPointer<T>(nativePtr);
+            return result;
+        }
+
+        public T CreatePlacedResource<T>(
             ID3D12Heap heap,
             long heapOffset,
             ResourceDescription resourceDescription,
             ResourceStates initialState,
-            ClearValue? clearValue = null)
+            ClearValue? clearValue = null) where T : ID3D12Resource
         {
-            return CreatePlacedResource(heap, heapOffset, ref resourceDescription, initialState, clearValue, typeof(ID3D12Resource).GUID);
+            Result result = CreatePlacedResource(heap, heapOffset, ref resourceDescription, initialState, clearValue, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12Resource CreateReservedResource(ResourceDescription resourceDescription, ResourceStates initialState, ClearValue? clearValue = null)
+        public T CreateReservedResource<T>(ResourceDescription resourceDescription, ResourceStates initialState, ClearValue? clearValue = null) where T : ID3D12Resource
         {
-            return CreateReservedResource(ref resourceDescription, initialState, clearValue, typeof(ID3D12Resource).GUID);
+            Result result = CreateReservedResource(ref resourceDescription, initialState, clearValue, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
         public IntPtr CreateSharedHandle(ID3D12DeviceChild deviceChild, SecurityAttributes? attributes, string name)
@@ -452,7 +749,7 @@ namespace Vortice.Direct3D12
         /// <returns>Instance of <see cref="ID3D12Heap"/>, <see cref="ID3D12Resource"/> or <see cref="ID3D12Fence"/>.</returns>
         public T OpenSharedHandle<T>(IntPtr handle) where T : ComObject
         {
-            var result = OpenSharedHandle(handle, typeof(T).GUID, out var nativePtr);
+            Result result = OpenSharedHandle(handle, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
             {
                 return default;

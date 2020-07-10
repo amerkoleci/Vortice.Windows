@@ -22,7 +22,6 @@ namespace Vortice
 
         public readonly Window Window;
         public readonly IDXGIFactory4 DXGIFactory;
-        public readonly IDXGIAdapter1 DXGIAdapter;
         private readonly ID3D12Device _d3d12Device;
         private readonly ID3D12CommandQueue _d3d12CommandQueue;
         private readonly ID3D12DescriptorHeap _rtvHeap;
@@ -75,26 +74,23 @@ namespace Vortice
                 throw new InvalidOperationException("Cannot create IDXGIFactory4");
             }
 
-            var adapters = DXGIFactory.EnumAdapters1();
-            for (var i = 0; i < adapters.Length; i++)
+            for (int adapterIndex = 0; DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1 adapter).Success; adapterIndex++)
             {
-                var adapter = adapters[i];
-                var desc = adapter.Description1;
+                AdapterDescription1 desc = adapter.Description1;
 
                 // Don't select the Basic Render Driver adapter.
                 if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
                 {
+                    adapter.Release();
+
                     continue;
                 }
 
-                if (D3D12CreateDevice(adapter, FeatureLevel.Level_11_0, out var device).Success)
+                if (D3D12CreateDevice(adapter, FeatureLevel.Level_11_0, out _d3d12Device).Success)
                 {
-                    DXGIAdapter = adapter;
-                    _d3d12Device = device;
                     break;
                 }
             }
-            Utilities.Dispose(adapters);
 
             // Check raytracing support.
             var featureOptions5 = _d3d12Device.Options5;
@@ -198,7 +194,7 @@ namespace Vortice
 
             _pipelineState = _d3d12Device.CreateGraphicsPipelineState(psoDesc);
 
-            _commandList = _d3d12Device.CreateCommandList(CommandListType.Direct, _commandAllocator, _pipelineState);
+            _commandList = _d3d12Device.CreateCommandList(0, CommandListType.Direct, _commandAllocator, _pipelineState);
             _commandList.Close();
 
             var vertexBufferSize = 3 * Unsafe.SizeOf<Vertex>();
@@ -237,7 +233,7 @@ namespace Vortice
             DXGIFactory.Dispose();
         }
 
-        public bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null)
+        public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string frameName = null)
         {
             _commandAllocator.Reset();
             _commandList.Reset(_commandAllocator, _pipelineState);

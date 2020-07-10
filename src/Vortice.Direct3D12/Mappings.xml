@@ -569,47 +569,48 @@
     <map method="ID3D12Device::CheckFeatureSupport" visibility="internal" check="false"/>
     <map method="ID3D12Device::GetDeviceRemovedReason" check="false"/>
 
-    <map method="ID3D12Device::CreateCommittedResource" visibility="private"/>
-    <map param="ID3D12Device::CreateCommittedResource::ppvResource" attribute="out" type="ID3D12Resource" return="true"/>
+    <map method="ID3D12Device::CreateCommittedResource" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateCommittedResource::ppvResource" attribute="out" />
 
-    <map method="ID3D12Device::CreateCommandQueue" visibility="private"/>
-    <map param="ID3D12Device::CreateCommandQueue::ppCommandQueue" attribute="out" type="ID3D12CommandQueue" return="true"/>
+    <map method="ID3D12Device::CreateCommandQueue" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateCommandQueue::ppCommandQueue" attribute="out"/>
 
-    <map method="ID3D12Device::CreateDescriptorHeap" visibility="private"/>
-    <map param="ID3D12Device::CreateDescriptorHeap::ppvHeap" attribute="out" type="ID3D12DescriptorHeap" return="true"/>
+    <map method="ID3D12Device::CreateDescriptorHeap" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateDescriptorHeap::ppvHeap" attribute="out" />
 
-    <map method="ID3D12Device::CreateCommandAllocator" visibility="private"/>
-    <map param="ID3D12Device::CreateCommandAllocator::ppCommandAllocator" attribute="out" type="ID3D12CommandAllocator" return="true"/>
+    <map method="ID3D12Device::CreateCommandAllocator" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateCommandAllocator::ppCommandAllocator" attribute="out" />
 
-    <map method="ID3D12Device::CreateCommandList" visibility="private"/>
-    <map param="ID3D12Device::CreateCommandList::ppCommandList" attribute="out" return="true"/>
+    <map method="ID3D12Device::CreateCommandList" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateCommandList::ppCommandList" attribute="out" />
 
-    <map method="ID3D12Device::CreateFence" visibility="private"/>
-    <map param="ID3D12Device::CreateFence::ppFence" attribute="out" type="ID3D12Fence" return="true"/>
+    <map method="ID3D12Device::CreateFence" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateFence::ppFence" attribute="out" />
 
-    <map method="ID3D12Device::CreateHeap" visibility="private"/>
-    <map param="ID3D12Device::CreateHeap::ppvHeap" attribute="out" type="ID3D12Heap" return="true"/>
+    <map method="ID3D12Device::CreateHeap" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateHeap::pDesc" attribute="in value"/>
+    <map param="ID3D12Device::CreateHeap::ppvHeap" attribute="out" />
 
-    <map method="ID3D12Device::CreateRootSignature" visibility="private"/>
-    <map param="ID3D12Device::CreateRootSignature::ppvRootSignature" attribute="out" type="ID3D12RootSignature" return="true"/>
+    <map method="ID3D12Device::CreateRootSignature" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateRootSignature::ppvRootSignature" attribute="out" />
 
-    <map method="ID3D12Device::CreateCommandSignature" visibility="private"/>
-    <map param="ID3D12Device::CreateCommandSignature::ppvCommandSignature" attribute="out" type="ID3D12CommandSignature" return="true"/>
+    <map method="ID3D12Device::CreateCommandSignature" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateCommandSignature::ppvCommandSignature" attribute="out" />
 
-    <map method="ID3D12Device::CreateComputePipelineState" visibility="private"/>
-    <map param="ID3D12Device::CreateComputePipelineState::ppPipelineState" attribute="out" type ="ID3D12PipelineState" return="true"/>
+    <map method="ID3D12Device::CreateComputePipelineState" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateComputePipelineState::ppPipelineState" attribute="out" />
 
-    <map method="ID3D12Device::CreateGraphicsPipelineState" visibility="private"/>
-    <map param="ID3D12Device::CreateGraphicsPipelineState::ppPipelineState" attribute="out" type ="ID3D12PipelineState" return="true"/>
+    <map method="ID3D12Device::CreateGraphicsPipelineState" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateGraphicsPipelineState::ppPipelineState" attribute="out" />
 
-    <map method="ID3D12Device::CreateQueryHeap" visibility="private"/>
-    <map param="ID3D12Device::CreateQueryHeap::ppvHeap" attribute="out" type="ID3D12QueryHeap" return="true"/>
+    <map method="ID3D12Device::CreateQueryHeap" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateQueryHeap::ppvHeap" attribute="out" />
 
-    <map method="ID3D12Device::CreatePlacedResource" visibility="private"/>
-    <map param="ID3D12Device::CreatePlacedResource::ppvResource" attribute="out" type="ID3D12Resource" return="true"/>
+    <map method="ID3D12Device::CreatePlacedResource" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreatePlacedResource::ppvResource" attribute="out" />
 
-    <map method="ID3D12Device::CreateReservedResource" visibility="private"/>
-    <map param="ID3D12Device::CreateReservedResource::ppvResource" attribute="out" type="ID3D12Resource" return="true"/>
+    <map method="ID3D12Device::CreateReservedResource" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device::CreateReservedResource::ppvResource" attribute="out" />
 
     <map method="ID3D12Device::CreateSharedHandle" visibility="private" name="CreateSharedHandlePrivate"/>
     <map param="ID3D12Device::CreateSharedHandle::pHandle" attribute="out" return="true"/>
