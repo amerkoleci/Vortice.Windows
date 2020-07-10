@@ -384,6 +384,8 @@
     <map enum-item="D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES" name="Count"/>
 
     <map enum-item="D3D12_RAYTRACING_TIER_NOT_SUPPORTED" name="NotSupported"/>
+    <map enum-item="D3D12_MESH_SHADER_TIER_NOT_SUPPORTED" name="NotSupported"/>
+    <map enum-item="D3D12_SAMPLER_FEEDBACK_TIER_NOT_SUPPORTED" name="NotSupported"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS" name="Options"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS1" name="Options1"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS2" name="Options2"/>
