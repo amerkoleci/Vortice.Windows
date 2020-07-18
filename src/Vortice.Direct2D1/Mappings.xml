@@ -548,6 +548,10 @@
     
     <!-- IDWriteTextLayout -->
     <map method="IDWriteTextLayout::GetLineMetrics" visibility="internal" hresult="true" check="false"/>
+    <map method="IDWriteTextLayout::HitTestTextRange" hresult="true" check="false"/>
+
+    <!-- IDWriteTextLayout3 -->
+    <map method="IDWriteTextLayout3::GetLineMetrics" hresult="true" check="false"/>
     
     <!-- IDWriteFont -->
     <map param="IDWriteFont::CreateFontFace::fontFace" attribute="out" return="true" />
