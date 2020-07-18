@@ -529,7 +529,7 @@
     <map param="IDWriteFactory::CreateGlyphRunAnalysis::glyphRunAnalysis" attribute="out" return="true"/>
     <map method="IDWriteFactory::((Unr|R)egisterFont(File|Collection)Loader)" visibility="internal" name="$1_" />
     <map param="IDWriteFactory::GetSystemFontCollection::fontCollection" return="true" />
-    <map param="IDWriteFactory::CreateTextLayout::stringLength" relation="const(text.Length+1)"/>
+    <map param="IDWriteFactory::CreateTextLayout::stringLength" relation="const(text.Length)"/>
     
     <!-- IDWriteFactory1 -->
     <map param="IDWriteFactory1::GetEudcFontCollection::fontCollection" return="true" />
