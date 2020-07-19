@@ -104,7 +104,7 @@ namespace Vortice.DirectWrite
                     var shadow = ToShadow<IDWriteTextRenderer1Shadow>(thisObject);
                     var callback = (IDWriteTextRenderer1)shadow.Callback;
 
-                    var inlineObject = inlineObjectPtr == IntPtr.Zero ? null : new IDWriteInlineObject(inlineObjectPtr);
+                    var inlineObject = inlineObjectPtr == IntPtr.Zero ? null : new IDWriteInlineObjectNative(inlineObjectPtr);
                     var clientDrawingEffect = clientDrawingEffectPtr == IntPtr.Zero ? null : new ComObject(clientDrawingEffectPtr);
 
                     callback.DrawInlineObject(clientDrawingContext, originX, originY, orientationAngle, inlineObject, isSideways, isRightToLeft, clientDrawingEffect);
