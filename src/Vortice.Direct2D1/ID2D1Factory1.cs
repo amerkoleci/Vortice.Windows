@@ -38,7 +38,7 @@ namespace Vortice.Direct2D1
 
         public Guid[] GetRegisteredEffects()
         {
-            Guid[] guids = new Guid[0];
+            Guid[] guids = Array.Empty<Guid>();
             GetRegisteredEffects(guids, 0, out _, out var count);
             guids = new Guid[count];
             GetRegisteredEffects(guids, count, out _, out _);

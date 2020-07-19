@@ -167,7 +167,7 @@ namespace Vortice.Direct3D
 
             Debug.Assert(count >= 0);
             if (count == 0)
-                return new byte[0];
+                return Array.Empty<byte>();
 
             byte[] buffer = new byte[count];
             int bytesRead = 0;
