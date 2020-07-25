@@ -11,7 +11,7 @@ namespace Vortice.DirectWrite
     [Shadow(typeof(IDWriteFontCollectionLoaderShadow))]
     public partial interface IDWriteFontCollectionLoader
     {
-        IDWriteFontFileEnumerator CreateEnumeratorFromKey(IDWriteFactory factory, Span<byte> collectionKey);
+        IDWriteFontFileEnumerator CreateEnumeratorFromKey(IDWriteFactory factory, IntPtr collectionKey, int size);
     }
 
     internal class IDWriteFontCollectionLoaderShadow : ComObjectShadow
@@ -49,7 +49,7 @@ namespace Vortice.DirectWrite
                     var shadow = ToShadow<IDWriteFontCollectionLoaderShadow>(thisPtr);
                     var callback = (IDWriteFontCollectionLoader)shadow.Callback;
                     Debug.Assert(factory == shadow._factory.NativePointer);
-                    var enumerator = callback.CreateEnumeratorFromKey(shadow._factory, new Span<byte>(collectionKey.ToPointer(), collectionKeySize));
+                    var enumerator = callback.CreateEnumeratorFromKey(shadow._factory, collectionKey, collectionKeySize);
                     fontFileEnumerator = IDWriteFontFileEnumeratorShadow.ToIntPtr(enumerator);
                 }
                 catch (Exception exception)
