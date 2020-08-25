@@ -116,7 +116,7 @@ namespace Vortice.DirectWrite
                     callback.DrawInlineObject(clientDrawingContextPtr,
                                               originX,
                                               originY,
-                                              inlineObject == IntPtr.Zero ? null : new IDWriteInlineObject(inlineObject),
+                                              inlineObject == IntPtr.Zero ? null : new IDWriteInlineObjectNative(inlineObject),
                                               isSideways != 0,
                                               isRightToLeft != 0,
                                               clientDrawingEffectPtr == IntPtr.Zero ? null : (IUnknown)Marshal.GetObjectForIUnknown(clientDrawingEffectPtr));
