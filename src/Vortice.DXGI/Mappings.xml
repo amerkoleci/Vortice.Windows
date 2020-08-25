@@ -122,6 +122,8 @@
     <map struct="DXGI_PRESENT_PARAMETERS" native="true" marshal="true" marshalto="true"/>
     <map field="DXGI_PRESENT_PARAMETERS::.*" visibility="internal"/>
 
+    <map struct="DXGI_SHARED_RESOURCE" visibility="internal"/>
+
     <!--<map interface="IDXGI(.+)" name-tmp="$1" />-->
     <map method=".*::(.*)DescW?" name="$1Description" />
     <map method=".*::(.*)Desc1" name="$1Description1" />
@@ -220,8 +222,8 @@
     <map param="IDXGIDecodeSwapChain::PresentBuffer::Flags" type="DXGI_PRESENT_FLAGS" />
 
     <!-- IDXGIDevice -->
-    <map param="IDXGIDevice::CreateSurface::pDesc" attribute="in value" />
-    <map param="IDXGIDevice::CreateSurface::Usage" type="DXGI_USAGE_ENUM" />
+    <map method="IDXGIDevice::CreateSurface" visibility="internal" />
+    <map param="IDXGIDevice::CreateSurface::pDesc" attribute="in value optional" />
     <map param="IDXGIDevice::CreateSurface::ppSurface" attribute="out" return="true"/>
     <map method="IDXGIDevice::QueryResourceResidency" visibility="private" hresult="true" check="false"/>
     <map method="IDXGIDevice::GetAdapter" persist="true"/>

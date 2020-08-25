@@ -3,7 +3,7 @@
 Current Release:    1.6.0 (April 2020)
 
 -----------------------------------------------
-Release:     1.7.0 (May 2020)
+Release:     1.7.0 (September 2020)
 -----------------------------------------------
 KEY CHANGES:
 - [ENH] DXGI: Expose types from windows.ui.xaml.media.dxinterop.h
@@ -13,6 +13,7 @@ KEY CHANGES:
 - [ENH] D3D Legacy Compiler: Compile accepts byte[] as shader source.
 - [FIX] D3D11: ID3DUserDefinedAnnotation::SetMarker don't map as property.
 - [ENH] DXGI: Remove dependency from System.Collections.Immutable and make API calls close to native.
+- [FIX] DXGI: Fix IDXGIDevice.CreateSurface methods overload.
 
 -----------------------------------------------
 Release:     1.6.0 (April 2020)
