@@ -3,7 +3,7 @@
 Current Release:    1.7.37 (August 2020)
 
 -----------------------------------------------
-Release:     1.7.x (XXX 2020)
+Release:     1.8.x (XXX 2020)
 -----------------------------------------------
 KEY CHANGES:
 - [FIX] D3D11: ID3D11DeviceContext fix various calls and avoid usage of params that can lead memory allocation.
