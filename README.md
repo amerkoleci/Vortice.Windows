@@ -34,6 +34,10 @@ All packages are available as NuGet packages: [![NuGet](https://img.shields.io/n
 
 Nightly packages can be downloaded from NuGet as well.
 
+## Projects using Vortice.Windows
+
+- [Veldrid](https://github.com/mellinoe/veldrid)
+
 ## Samples
 - Direct3D12 DXR samples by [CAMongrel](https://github.com/CAMongrel) [D3D12SampleRaytracerSharp](https://github.com/CAMongrel/D3D12SampleRaytracerSharp).
 - Direct3D12 DXR raytracing samples ported from NVIDIA samples by [Jorgemagic](https://github.com/Jorgemagic/CSharpDirectXRaytracing)
