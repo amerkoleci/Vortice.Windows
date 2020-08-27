@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D11
@@ -105,18 +104,13 @@ namespace Vortice.Direct3D11
         }
 
         #region VertexShader
-        public void VSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public unsafe void VSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            fixed (void* firstConstantPtr = &firstConstant[0])
+            fixed (void* numConstantsPtr = &numConstants[0])
             {
-                fixed (void* firstConstantPtr = &firstConstant[0])
-                fixed (void* numConstantsPtr = &numConstants[0])
-                {
-                    VSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                        (IntPtr)firstConstantPtr,
-                        (IntPtr)numConstantsPtr);
-                }
+                VSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr), (IntPtr)firstConstantPtr, (IntPtr)numConstantsPtr);
             }
         }
 
@@ -129,16 +123,11 @@ namespace Vortice.Direct3D11
         #region PixelShader
         public unsafe void PSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            fixed (void* firstConstantPtr = &firstConstant[0])
+            fixed (void* numConstantsPtr = &numConstants[0])
             {
-                fixed (void* firstConstantPtr = &firstConstant[0])
-                fixed (void* numConstantsPtr = &numConstants[0])
-                {
-                    PSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                        (IntPtr)firstConstantPtr,
-                        (IntPtr)numConstantsPtr);
-                }
+                PSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr), (IntPtr)firstConstantPtr, (IntPtr)numConstantsPtr);
             }
         }
 
@@ -149,18 +138,13 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region DomainShader
-        public void DSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public unsafe void DSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            fixed (void* firstConstantPtr = &firstConstant[0])
+            fixed (void* numConstantsPtr = &numConstants[0])
             {
-                fixed (void* firstConstantPtr = &firstConstant[0])
-                fixed (void* numConstantsPtr = &numConstants[0])
-                {
-                    DSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                        (IntPtr)firstConstantPtr,
-                        (IntPtr)numConstantsPtr);
-                }
+                DSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr), (IntPtr)firstConstantPtr, (IntPtr)numConstantsPtr);
             }
         }
 
@@ -171,18 +155,13 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region HullShader
-        public void HSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public unsafe void HSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            fixed (void* firstConstantPtr = &firstConstant[0])
+            fixed (void* numConstantsPtr = &numConstants[0])
             {
-                fixed (void* firstConstantPtr = &firstConstant[0])
-                fixed (void* numConstantsPtr = &numConstants[0])
-                {
-                    HSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                        (IntPtr)firstConstantPtr,
-                        (IntPtr)numConstantsPtr);
-                }
+                HSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr), (IntPtr)firstConstantPtr, (IntPtr)numConstantsPtr);
             }
         }
 
@@ -193,18 +172,13 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region GeometryShader
-        public void GSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public unsafe void GSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            fixed (void* firstConstantPtr = &firstConstant[0])
+            fixed (void* numConstantsPtr = &numConstants[0])
             {
-                fixed (void* firstConstantPtr = &firstConstant[0])
-                fixed (void* numConstantsPtr = &numConstants[0])
-                {
-                    GSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                        (IntPtr)firstConstantPtr,
-                        (IntPtr)numConstantsPtr);
-                }
+                GSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr), (IntPtr)firstConstantPtr, (IntPtr)numConstantsPtr);
             }
         }
 
@@ -215,18 +189,13 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region ComputeShader
-        public void CSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
+        public unsafe void CSSetConstantBuffer1(int slot, ID3D11Buffer constantBuffer, int[] firstConstant, int[] numConstants)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            fixed (void* firstConstantPtr = &firstConstant[0])
+            fixed (void* numConstantsPtr = &numConstants[0])
             {
-                fixed (void* firstConstantPtr = &firstConstant[0])
-                fixed (void* numConstantsPtr = &numConstants[0])
-                {
-                    CSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr),
-                        (IntPtr)firstConstantPtr,
-                        (IntPtr)numConstantsPtr);
-                }
+                CSSetConstantBuffers1(slot, 1, new IntPtr(&nativePtr), (IntPtr)firstConstantPtr, (IntPtr)numConstantsPtr);
             }
         }
 

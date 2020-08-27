@@ -546,6 +546,8 @@
     <map struct="D3D12_BOX" visibility="internal"/>
     <map struct="D3D12_DISCARD_REGION" visibility="internal"/>
 
+    <map field="D3D11_FEATURE_DATA_SHADER_CACHE::SupportFlags" type="D3D11_SHADER_CACHE_SUPPORT_FLAGS" />
+
     <!-- ID3D12Object methods -->
     <map method="ID3D12Object::GetPrivateData" visibility="public" hresult="true" check="false"/>
     <map method="ID3D12Object::SetPrivateData" visibility="public" hresult="true" check="false"/>

@@ -5,6 +5,7 @@ using System;
 using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
 using Vortice.Direct3D;
+using Vortice.DXGI;
 
 namespace Vortice.Direct3D11
 {
@@ -45,12 +46,12 @@ namespace Vortice.Direct3D11
         /// <param name="supportsConcurrentResources">Support concurrent resources.</param>
         /// <param name="supportsCommandLists">Support command lists.</param>
         /// <returns>
-        /// A <see cref="SResult"/> object describing the result of the operation.
+        /// A <see cref="Result"/> object describing the result of the operation.
         /// </returns>
         public unsafe Result CheckThreadingSupport(out bool supportsConcurrentResources, out bool supportsCommandLists)
         {
             var support = default(FeatureDataThreading);
-            var result = CheckFeatureSupport(Feature.Threading, new IntPtr(&support), Unsafe.SizeOf<FeatureDataThreading>());
+            Result result = CheckFeatureSupport(Feature.Threading, new IntPtr(&support), Unsafe.SizeOf<FeatureDataThreading>());
 
             if (result.Failure)
             {
@@ -64,6 +65,90 @@ namespace Vortice.Direct3D11
             }
 
             return result;
+        }
+
+        public FeatureDataThreading CheckFeatureThreading()
+        {
+            return CheckFeatureSupport<FeatureDataThreading>(Feature.Threading);
+        }
+
+        public FeatureDataDoubles CheckFeatureDoubles()
+        {
+            return CheckFeatureSupport<FeatureDataDoubles>(Feature.Doubles);
+        }
+
+        public FeatureDataD3D11Options CheckFeatureOptions()
+        {
+            return CheckFeatureSupport<FeatureDataD3D11Options>(Feature.D3D11Options);
+        }
+
+        public FeatureDataArchitectureInfo CheckFeatureArchitectureInfo()
+        {
+            return CheckFeatureSupport<FeatureDataArchitectureInfo>(Feature.ArchitectureInfo);
+        }
+
+        public FeatureDataShaderMinPrecisionSupport CheckFeatureShaderMinPrecisionSupport()
+        {
+            return CheckFeatureSupport<FeatureDataShaderMinPrecisionSupport>(Feature.ShaderMinPrecisionSupport);
+        }
+
+        public FeatureDataD3D11Options1 CheckFeatureOptions1()
+        {
+            return CheckFeatureSupport<FeatureDataD3D11Options1>(Feature.D3D11Options1);
+        }
+
+        public FeatureDataD3D11Options2 CheckFeatureOptions2()
+        {
+            return CheckFeatureSupport<FeatureDataD3D11Options2>(Feature.D3D11Options2);
+        }
+
+        public FeatureDataD3D11Options3 CheckFeatureOptions3()
+        {
+            return CheckFeatureSupport<FeatureDataD3D11Options3>(Feature.D3D11Options3);
+        }
+
+        public FeatureDataD3D11Options4 CheckFeatureOptions4()
+        {
+            return CheckFeatureSupport<FeatureDataD3D11Options4>(Feature.D3D11Options4);
+        }
+
+        public FeatureDataD3D11Options5 CheckFeatureOptions5()
+        {
+            return CheckFeatureSupport<FeatureDataD3D11Options5>(Feature.D3D11Options5);
+        }
+
+        public FeatureDataGpuVirtualAddressSupport CheckFeatureGpuVirtualAddressSupport()
+        {
+            return CheckFeatureSupport<FeatureDataGpuVirtualAddressSupport>(Feature.GpuVirtualAddressSupport);
+        }
+
+        public FeatureDataShaderCache CheckFeatureShaderCache()
+        {
+            return CheckFeatureSupport<FeatureDataShaderCache>(Feature.ShaderCache);
+        }
+
+        public unsafe FormatSupport CheckFeatureFormatSupport(Format format)
+        {
+            FeatureDataFormatSupport support = default;
+            support.InFormat = format;
+            if (CheckFeatureSupport(Feature.FormatSupport, new IntPtr(&support), Unsafe.SizeOf<FeatureDataFormatSupport2>()).Failure)
+            {
+                return FormatSupport.None;
+            }
+
+            return support.OutFormatSupport;
+        }
+
+        public unsafe FormatSupport2 CheckFeatureFormatSupport2(Format format)
+        {
+            FeatureDataFormatSupport2 support = default;
+            support.InFormat = format;
+            if (CheckFeatureSupport(Feature.FormatSupport2, new IntPtr(&support), Unsafe.SizeOf<FeatureDataFormatSupport2>()).Failure)
+            {
+                return FormatSupport2.None;
+            }
+
+            return support.OutFormatSupport2;
         }
 
         public ID3D11DeviceContext CreateDeferredContext()
@@ -182,13 +267,33 @@ namespace Vortice.Direct3D11
         /// <returns>Instance of <see cref="ID3D11Resource"/>.</returns>
         public T OpenSharedResource<T>(IntPtr handle) where T : ID3D11Resource
         {
-            var result = OpenSharedResource(handle, typeof(T).GUID, out var nativePtr);
+            Result result = OpenSharedResource(handle, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
             {
                 return default;
             }
 
             return FromPointer<T>(nativePtr);
+        }
+
+        /// <summary>
+        /// Give a device access to a shared resource created on a different device.
+        /// </summary>
+        /// <typeparam name="T">Type of <see cref="ID3D11Resource"/> </typeparam>
+        /// <param name="handle">A handle to the resource to open.</param>
+        /// <param name="resource">Instance of <see cref="ID3D11Resource"/>.</param>
+        /// <returns>The operation result.</returns>
+        public Result OpenSharedResource<T>(IntPtr handle, out T resource) where T : ID3D11Resource
+        {
+            Result result = OpenSharedResource(handle, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Success)
+            {
+                resource = FromPointer<T>(nativePtr);
+                return result;
+            }
+
+            resource = default;
+            return result;
         }
     }
 }
