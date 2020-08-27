@@ -77,7 +77,18 @@ namespace Vortice.Direct3D11
 
         public unsafe void OMSetRenderTargets(ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
         {
-            var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+            IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+            for (int i = 0; i < renderTargetViews.Length; i++)
+            {
+                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
+            }
+
+            OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
+        }
+
+        public unsafe void OMSetRenderTargets(ReadOnlySpan<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
+        {
+            IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
             for (int i = 0; i < renderTargetViews.Length; i++)
             {
                 renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
@@ -88,7 +99,7 @@ namespace Vortice.Direct3D11
 
         public unsafe void OMSetUnorderedAccessView(int startSlot, ID3D11UnorderedAccessView unorderedAccessView, int uavInitialCount = -1)
         {
-            var unorderedAccessViewPtr = unorderedAccessView != null ? unorderedAccessView.NativePointer : IntPtr.Zero;
+            IntPtr unorderedAccessViewPtr = unorderedAccessView != null ? unorderedAccessView.NativePointer : IntPtr.Zero;
 
             OMSetRenderTargetsAndUnorderedAccessViews(
                 KeepRenderTargetsAndDepthStencil, IntPtr.Zero, (ID3D11DepthStencilView)null,
@@ -197,11 +208,11 @@ namespace Vortice.Direct3D11
 
             fixed (void* negativeOnesPtr = &s_NegativeOnes[0])
             {
-                OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount, 
+                OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
                     (IntPtr)renderTargetViewsPtr,
                     depthStencilView,
                     startSlot,
-                    unorderedAccessViewsCount, 
+                    unorderedAccessViewsCount,
                     (IntPtr)unorderedAccessViewsPtr,
                     (IntPtr)negativeOnesPtr);
             }
@@ -230,11 +241,11 @@ namespace Vortice.Direct3D11
 
             fixed (void* negativeOnesPtr = &s_NegativeOnes[0])
             {
-                OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount, 
+                OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
                     (IntPtr)renderTargetViewsPtr,
                     depthStencilView,
                     startSlot,
-                    unorderedAccessViewsCount, 
+                    unorderedAccessViewsCount,
                     (IntPtr)unorderedAccessViewsPtr,
                     (IntPtr)negativeOnesPtr);
             }
@@ -316,7 +327,7 @@ namespace Vortice.Direct3D11
             RSSetViewports(1, new IntPtr(&viewport));
         }
 
-        public unsafe void RSSetViewports(params Viewport[] viewports)
+        public unsafe void RSSetViewports(Viewport[] viewports)
         {
             fixed (void* pViewPorts = viewports)
             {
@@ -364,7 +375,7 @@ namespace Vortice.Direct3D11
         public unsafe Viewport RSGetViewport()
         {
             int numViewports = 1;
-            var viewport = new Viewport();
+            Viewport viewport = default;
             RSGetViewports(ref numViewports, new IntPtr(&viewport));
             return viewport;
         }
@@ -470,7 +481,7 @@ namespace Vortice.Direct3D11
 #endif
             int numViewports = 0;
             RSGetViewports(ref numViewports, IntPtr.Zero);
-            var viewports = new T[numViewports];
+            T[] viewports = new T[numViewports];
             RSGetViewports(viewports);
             return viewports;
         }
@@ -494,7 +505,7 @@ namespace Vortice.Direct3D11
             RSSetScissorRects(1, new IntPtr(&rectangle));
         }
 
-        public unsafe void RSSetScissorRects(params RawRect[] rectangles)
+        public unsafe void RSSetScissorRects(RawRect[] rectangles)
         {
             fixed (void* pRects = rectangles)
             {
@@ -604,13 +615,13 @@ namespace Vortice.Direct3D11
 
         public unsafe void IASetVertexBuffers(int slot, VertexBufferView vertexBufferView)
         {
-            var stride = vertexBufferView.Stride;
-            var offset = vertexBufferView.Offset;
-            var pVertexBuffers = vertexBufferView.Buffer == null ? IntPtr.Zero : vertexBufferView.Buffer.NativePointer;
+            int stride = vertexBufferView.Stride;
+            int offset = vertexBufferView.Offset;
+            IntPtr pVertexBuffers = vertexBufferView.Buffer == null ? IntPtr.Zero : vertexBufferView.Buffer.NativePointer;
             IASetVertexBuffers(slot, 1, new IntPtr(&pVertexBuffers), new IntPtr(&stride), new IntPtr(&offset));
         }
 
-        public unsafe void IASetVertexBuffers(int firstSlot, params VertexBufferView[] vertexBufferViews)
+        public unsafe void IASetVertexBuffers(int firstSlot, VertexBufferView[] vertexBufferViews)
         {
             IASetVertexBuffers(firstSlot, vertexBufferViews.Length, vertexBufferViews);
         }
@@ -618,8 +629,8 @@ namespace Vortice.Direct3D11
         public unsafe void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, VertexBufferView[] vertexBufferViews)
         {
             IntPtr* vertexBuffers = stackalloc IntPtr[vertexBufferViewsCount];
-            var strides = stackalloc int[vertexBufferViewsCount];
-            var offsets = stackalloc int[vertexBufferViewsCount];
+            int* strides = stackalloc int[vertexBufferViewsCount];
+            int* offsets = stackalloc int[vertexBufferViewsCount];
             for (int i = 0; i < vertexBufferViewsCount; i++)
             {
                 vertexBuffers[i] = (vertexBufferViews[i].Buffer == null) ? IntPtr.Zero : vertexBufferViews[i].Buffer.NativePointer;
@@ -647,63 +658,63 @@ namespace Vortice.Direct3D11
 
         public void VSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
                 VSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void VSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        public void VSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
         {
             VSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
         public void VSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
             unsafe
             {
                 VSSetSamplers(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void VSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        public void VSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
         {
             VSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
         public void VSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
             unsafe
             {
                 VSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void VSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        public void VSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
         {
             VSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
 
         public ID3D11VertexShader VSGetShader()
         {
-            var count = 0;
-            VSGetShader(out var shader, null, ref count);
+            int count = 0;
+            VSGetShader(out ID3D11VertexShader shader, null, ref count);
             return shader;
         }
 
         public ID3D11VertexShader VSGetShader(ID3D11ClassInstance[] classInstances)
         {
-            var count = classInstances.Length;
-            VSGetShader(out var shader, classInstances, ref count);
+            int count = classInstances.Length;
+            VSGetShader(out ID3D11VertexShader shader, classInstances, ref count);
             return shader;
         }
 
         public ID3D11VertexShader VSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
         {
-            VSGetShader(out var shader, classInstances, ref classInstancesCount);
+            VSGetShader(out ID3D11VertexShader shader, classInstances, ref classInstancesCount);
             return shader;
         }
 
@@ -741,63 +752,63 @@ namespace Vortice.Direct3D11
 
         public void PSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
                 PSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void PSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        public void PSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
         {
             PSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
         public void PSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
             unsafe
             {
                 PSSetSamplers(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void PSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        public void PSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
         {
             PSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
         public void PSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
             unsafe
             {
                 PSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void PSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        public void PSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
         {
             PSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
 
         public ID3D11PixelShader PSGetShader()
         {
-            var count = 0;
-            PSGetShader(out var shader, null, ref count);
+            int count = 0;
+            PSGetShader(out ID3D11PixelShader shader, null, ref count);
             return shader;
         }
 
         public ID3D11PixelShader PSGetShader(ID3D11ClassInstance[] classInstances)
         {
-            var count = classInstances.Length;
-            PSGetShader(out var shader, classInstances, ref count);
+            int count = classInstances.Length;
+            PSGetShader(out ID3D11PixelShader shader, classInstances, ref count);
             return shader;
         }
 
         public ID3D11PixelShader PSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
         {
-            PSGetShader(out var shader, classInstances, ref classInstancesCount);
+            PSGetShader(out ID3D11PixelShader shader, classInstances, ref classInstancesCount);
             return shader;
         }
 
@@ -833,65 +844,65 @@ namespace Vortice.Direct3D11
             DSSetShader(domainShader, classInstances, classInstancesCount);
         }
 
-        public void DSSetConstantBuffers(int slot, ID3D11Buffer constantBuffer)
+        public void DSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
                 DSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void DSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        public void DSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
         {
             DSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
         public void DSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
             unsafe
             {
                 DSSetSamplers(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void DSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        public void DSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
         {
             DSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
         public void DSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
             unsafe
             {
                 DSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void DSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        public void DSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
         {
             DSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
 
         public ID3D11DomainShader DSGetShader()
         {
-            var count = 0;
-            DSGetShader(out var shader, null, ref count);
+            int count = 0;
+            DSGetShader(out ID3D11DomainShader shader, null, ref count);
             return shader;
         }
 
         public ID3D11DomainShader DSGetShader(ID3D11ClassInstance[] classInstances)
         {
-            var count = classInstances.Length;
-            DSGetShader(out var shader, classInstances, ref count);
+            int count = classInstances.Length;
+            DSGetShader(out ID3D11DomainShader shader, classInstances, ref count);
             return shader;
         }
 
         public ID3D11DomainShader DSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
         {
-            DSGetShader(out var shader, classInstances, ref classInstancesCount);
+            DSGetShader(out ID3D11DomainShader shader, classInstances, ref classInstancesCount);
             return shader;
         }
 
@@ -927,65 +938,65 @@ namespace Vortice.Direct3D11
             HSSetShader(hullShader, classInstances, classInstancesCount);
         }
 
-        public void HSSetConstantBuffers(int slot, ID3D11Buffer constantBuffer)
+        public void HSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
                 HSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void HSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        public void HSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
         {
             HSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
         public void HSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
             unsafe
             {
                 HSSetSamplers(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void HSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        public void HSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
         {
             HSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
         public void HSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
             unsafe
             {
                 HSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void HSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        public void HSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
         {
             HSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
 
         public ID3D11HullShader HSGetShader()
         {
-            var count = 0;
-            HSGetShader(out var shader, null, ref count);
+            int count = 0;
+            HSGetShader(out ID3D11HullShader shader, null, ref count);
             return shader;
         }
 
         public ID3D11HullShader HSGetShader(ID3D11ClassInstance[] classInstances)
         {
-            var count = classInstances.Length;
-            HSGetShader(out var shader, classInstances, ref count);
+            int count = classInstances.Length;
+            HSGetShader(out ID3D11HullShader shader, classInstances, ref count);
             return shader;
         }
 
         public ID3D11HullShader HSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
         {
-            HSGetShader(out var shader, classInstances, ref classInstancesCount);
+            HSGetShader(out ID3D11HullShader shader, classInstances, ref classInstancesCount);
             return shader;
         }
 
@@ -1021,65 +1032,62 @@ namespace Vortice.Direct3D11
             GSSetShader(geometryShader, classInstances, classInstancesCount);
         }
 
-        public void GSSetConstantBuffers(int slot, ID3D11Buffer constantBuffer)
+        public void GSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
             unsafe
             {
                 GSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void GSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        public void GSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
         {
             GSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
-        public void GSSetSampler(int slot, ID3D11SamplerState sampler)
+        public unsafe void GSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
-            unsafe
-            {
-                GSSetSamplers(slot, 1, new IntPtr(&nativePtr));
-            }
+            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            GSSetSamplers(slot, 1, new IntPtr(&nativePtr));
         }
 
-        public void GSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        public void GSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
         {
             GSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
         public void GSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
             unsafe
             {
                 GSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
             }
         }
 
-        public void GSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        public void GSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
         {
             GSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
 
         public ID3D11GeometryShader GSGetShader()
         {
-            var count = 0;
-            GSGetShader(out var shader, null, ref count);
+            int count = 0;
+            GSGetShader(out ID3D11GeometryShader shader, null, ref count);
             return shader;
         }
 
         public ID3D11GeometryShader GSGetShader(ID3D11ClassInstance[] classInstances)
         {
-            var count = classInstances.Length;
-            GSGetShader(out var shader, classInstances, ref count);
+            int count = classInstances.Length;
+            GSGetShader(out ID3D11GeometryShader shader, classInstances, ref count);
             return shader;
         }
 
         public ID3D11GeometryShader GSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
         {
-            GSGetShader(out var shader, classInstances, ref classInstancesCount);
+            GSGetShader(out ID3D11GeometryShader shader, classInstances, ref classInstancesCount);
             return shader;
         }
 
@@ -1115,65 +1123,56 @@ namespace Vortice.Direct3D11
             CSSetShader(computeShader, classInstances, classInstancesCount);
         }
 
-        public void CSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
+        public unsafe void CSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
-            var nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
-            {
-                CSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
-            }
+            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+            CSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
         }
 
-        public void CSSetConstantBuffers(int startSlot, params ID3D11Buffer[] constantBuffers)
+        public void CSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
         {
             CSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
         }
 
-        public void CSSetSampler(int slot, ID3D11SamplerState sampler)
+        public unsafe void CSSetSampler(int slot, ID3D11SamplerState sampler)
         {
-            var nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
-            unsafe
-            {
-                CSSetSamplers(slot, 1, new IntPtr(&nativePtr));
-            }
+            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+            CSSetSamplers(slot, 1, new IntPtr(&nativePtr));
         }
 
-        public void CSSetSamplers(int startSlot, params ID3D11SamplerState[] samplers)
+        public void CSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
         {
             CSSetSamplers(startSlot, samplers.Length, samplers);
         }
 
-        public void CSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
+        public unsafe void CSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
         {
-            var nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
-            unsafe
-            {
-                CSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
-            }
+            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+            CSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
         }
 
-        public void CSSetShaderResources(int startSlot, params ID3D11ShaderResourceView[] shaderResourceViews)
+        public void CSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
         {
             CSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
         }
 
         public ID3D11ComputeShader CSGetShader()
         {
-            var count = 0;
-            CSGetShader(out var shader, null, ref count);
+            int count = 0;
+            CSGetShader(out ID3D11ComputeShader shader, null, ref count);
             return shader;
         }
 
         public ID3D11ComputeShader CSGetShader(ID3D11ClassInstance[] classInstances)
         {
-            var count = classInstances.Length;
-            CSGetShader(out var shader, classInstances, ref count);
+            int count = classInstances.Length;
+            CSGetShader(out ID3D11ComputeShader shader, classInstances, ref count);
             return shader;
         }
 
         public ID3D11ComputeShader CSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
         {
-            CSGetShader(out var shader, classInstances, ref classInstancesCount);
+            CSGetShader(out ID3D11ComputeShader shader, classInstances, ref classInstancesCount);
             return shader;
         }
 
