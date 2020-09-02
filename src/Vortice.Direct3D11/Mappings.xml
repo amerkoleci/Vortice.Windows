@@ -616,8 +616,8 @@
     <map method="ID3D11DeviceContext::GetType" name="GetContextType" />
     <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
     <map param="ID3D11DeviceContext::Map::MapFlags" type="D3D11_MAP_FLAG" />
-    <map method="ID3D11DeviceContext::FinishCommandList" visibility="internal" name="FinishCommandListInternal" hresult="true" check="false" />
-    <map param="ID3D11DeviceContext::FinishCommandList::ppCommandList" attribute="out fast" />
+    <map method="ID3D11DeviceContext::FinishCommandList" hresult="true" check="false" />
+    <!--<map param="ID3D11DeviceContext::FinishCommandList::ppCommandList" attribute="out fast" />-->
     <map param="ID3D11DeviceContext::ClearRenderTargetView::ColorRGBA" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" />
     <map method="ID3D11DeviceContext::ClearUnorderedAccessViewFloat" name="ClearUnorderedAccessView" />
     <map method="ID3D11DeviceContext::ClearUnorderedAccessViewUint" name="ClearUnorderedAccessView" />
@@ -643,6 +643,7 @@
 
     <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="public"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pDepthStencilView" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void"/>
 

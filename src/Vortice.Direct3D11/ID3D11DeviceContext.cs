@@ -102,8 +102,16 @@ namespace Vortice.Direct3D11
             IntPtr unorderedAccessViewPtr = unorderedAccessView != null ? unorderedAccessView.NativePointer : IntPtr.Zero;
 
             OMSetRenderTargetsAndUnorderedAccessViews(
-                KeepRenderTargetsAndDepthStencil, IntPtr.Zero, (ID3D11DepthStencilView)null,
+                KeepRenderTargetsAndDepthStencil, IntPtr.Zero, IntPtr.Zero,
                 startSlot, 1, new IntPtr(&unorderedAccessViewPtr), new IntPtr(&uavInitialCount)
+                );
+        }
+
+        public unsafe void OMResetUnorderedAccessView(int startSlot, int uavInitialCount = -1)
+        {
+            OMSetRenderTargetsAndUnorderedAccessViews(
+                KeepRenderTargetsAndDepthStencil, IntPtr.Zero, IntPtr.Zero,
+                startSlot, 1, IntPtr.Zero, new IntPtr(&uavInitialCount)
                 );
         }
 
@@ -118,7 +126,7 @@ namespace Vortice.Direct3D11
             fixed (void* negativeOnesPtr = &s_NegativeOnes[0])
             {
                 OMSetRenderTargetsAndUnorderedAccessViews(
-                    KeepRenderTargetsAndDepthStencil, IntPtr.Zero, (ID3D11DepthStencilView)null,
+                    KeepRenderTargetsAndDepthStencil, IntPtr.Zero, IntPtr.Zero,
                     uavStartSlot, unorderedAccessViewCount, (IntPtr)unorderedAccessViewsPtr,
                     (IntPtr)negativeOnesPtr);
             }
@@ -131,9 +139,9 @@ namespace Vortice.Direct3D11
             ID3D11UnorderedAccessView[] unorderedAccessViews)
         {
             // Marshal array.
-            var renderTargetViewsPtr = renderTargetView.NativePointer;
+            IntPtr renderTargetViewsPtr = renderTargetView.NativePointer;
 
-            var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+            IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
             int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
             for (int i = 0; i < unorderedAccessViews.Length; i++)
             {
@@ -142,7 +150,7 @@ namespace Vortice.Direct3D11
             }
 
             OMSetRenderTargetsAndUnorderedAccessViews(1, renderTargetViewsPtr,
-                depthStencilView,
+                depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
                 startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
                 (IntPtr)uavInitialCounts);
         }
@@ -168,7 +176,7 @@ namespace Vortice.Direct3D11
             }
 
             OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr,
-                depthStencilView,
+                depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
                 startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
                 (IntPtr)uavInitialCounts);
         }
@@ -210,7 +218,7 @@ namespace Vortice.Direct3D11
             {
                 OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
                     (IntPtr)renderTargetViewsPtr,
-                    depthStencilView,
+                    depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
                     startSlot,
                     unorderedAccessViewsCount,
                     (IntPtr)unorderedAccessViewsPtr,
@@ -243,7 +251,7 @@ namespace Vortice.Direct3D11
             {
                 OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
                     (IntPtr)renderTargetViewsPtr,
-                    depthStencilView,
+                    depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
                     startSlot,
                     unorderedAccessViewsCount,
                     (IntPtr)unorderedAccessViewsPtr,
@@ -253,14 +261,8 @@ namespace Vortice.Direct3D11
 
         public ID3D11CommandList FinishCommandList(bool restoreState)
         {
-            var result = new ID3D11CommandList();
-            FinishCommandListInternal(restoreState, result).CheckError();
+            FinishCommandList(restoreState, out ID3D11CommandList result).CheckError();
             return result;
-        }
-
-        public Result FinishCommandList(bool restoreState, ID3D11CommandList commandList)
-        {
-            return FinishCommandListInternal(restoreState, commandList);
         }
 
         public bool IsDataAvailable(ID3D11Asynchronous data)
@@ -656,6 +658,11 @@ namespace Vortice.Direct3D11
             VSSetShader(vertexShader, classInstances, classInstancesCount);
         }
 
+        public void VSUnsetConstantBuffer(int slot)
+        {
+            VSSetConstantBuffers(slot, 1, IntPtr.Zero);
+        }
+
         public void VSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
             IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
@@ -748,6 +755,11 @@ namespace Vortice.Direct3D11
         public void PSSetShader(ID3D11PixelShader pixelShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
         {
             PSSetShader(pixelShader, classInstances, classInstancesCount);
+        }
+
+        public void PSUnsetConstantBuffer(int slot)
+        {
+            PSSetConstantBuffers(slot, 1, IntPtr.Zero);
         }
 
         public void PSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
@@ -844,6 +856,11 @@ namespace Vortice.Direct3D11
             DSSetShader(domainShader, classInstances, classInstancesCount);
         }
 
+        public void DSUnsetConstantBuffer(int slot)
+        {
+            DSSetConstantBuffers(slot, 1, IntPtr.Zero);
+        }
+
         public void DSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
             IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
@@ -938,6 +955,11 @@ namespace Vortice.Direct3D11
             HSSetShader(hullShader, classInstances, classInstancesCount);
         }
 
+        public void HSUnsetConstantBuffer(int slot)
+        {
+            HSSetConstantBuffers(slot, 1, IntPtr.Zero);
+        }
+
         public void HSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
             IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
@@ -1030,6 +1052,11 @@ namespace Vortice.Direct3D11
         public void GSSetShader(ID3D11GeometryShader geometryShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
         {
             GSSetShader(geometryShader, classInstances, classInstancesCount);
+        }
+
+        public void GSUnsetConstantBuffer(int slot)
+        {
+            GSSetConstantBuffers(slot, 1, IntPtr.Zero);
         }
 
         public void GSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
@@ -1189,6 +1216,17 @@ namespace Vortice.Direct3D11
         public void CSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
         {
             CSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        }
+
+        public unsafe void CSSetUnorderedAccessView(int slot, ID3D11UnorderedAccessView unorderedAccessView, int uavInitialCount = -1)
+        {
+            IntPtr nativePtr = unorderedAccessView == null ? IntPtr.Zero : unorderedAccessView.NativePointer;
+            CSSetUnorderedAccessViews(slot, 1, new IntPtr(&nativePtr), new IntPtr(&uavInitialCount));
+        }
+
+        public unsafe void CSResetUnorderedAccessView(int slot, int uavInitialCount = -1)
+        {
+            CSSetUnorderedAccessViews(slot, 1, IntPtr.Zero, new IntPtr(&uavInitialCount));
         }
         #endregion
 

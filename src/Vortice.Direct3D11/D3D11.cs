@@ -32,7 +32,7 @@ namespace Vortice.Direct3D11
             out ID3D11Device device,
             out ID3D11DeviceContext immediateContext)
         {
-            return D3D11CreateDevice(adapter, driverType, flags, featureLevels, out device, out var featureLevel, out immediateContext);
+            return D3D11CreateDevice(adapter, driverType, flags, featureLevels, out device, out _, out immediateContext);
         }
 
         public static Result D3D11CreateDevice(IDXGIAdapter adapter,
@@ -43,7 +43,7 @@ namespace Vortice.Direct3D11
             out FeatureLevel featureLevel,
             out ID3D11DeviceContext immediateContext)
         {
-            var result = D3D11CreateDevice(adapter, driverType, IntPtr.Zero,
+            Result result = D3D11CreateDevice(adapter, driverType, IntPtr.Zero,
                 (int)flags,
                 featureLevels,
                 (featureLevels != null) ? featureLevels.Length : 0,
