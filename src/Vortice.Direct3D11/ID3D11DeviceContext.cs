@@ -107,7 +107,7 @@ namespace Vortice.Direct3D11
                 );
         }
 
-        public unsafe void OMResetUnorderedAccessView(int startSlot, int uavInitialCount = -1)
+        public unsafe void OMUnsetUnorderedAccessView(int startSlot, int uavInitialCount = -1)
         {
             OMSetRenderTargetsAndUnorderedAccessViews(
                 KeepRenderTargetsAndDepthStencil, IntPtr.Zero, IntPtr.Zero,
@@ -1150,6 +1150,11 @@ namespace Vortice.Direct3D11
             CSSetShader(computeShader, classInstances, classInstancesCount);
         }
 
+        public void CSUnsetConstantBuffer(int slot)
+        {
+            CSSetConstantBuffers(slot, 1, IntPtr.Zero);
+        }
+
         public unsafe void CSSetConstantBuffer(int slot, ID3D11Buffer constantBuffer)
         {
             IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
@@ -1224,7 +1229,7 @@ namespace Vortice.Direct3D11
             CSSetUnorderedAccessViews(slot, 1, new IntPtr(&nativePtr), new IntPtr(&uavInitialCount));
         }
 
-        public unsafe void CSResetUnorderedAccessView(int slot, int uavInitialCount = -1)
+        public unsafe void CSUnsetUnorderedAccessView(int slot, int uavInitialCount = -1)
         {
             CSSetUnorderedAccessViews(slot, 1, IntPtr.Zero, new IntPtr(&uavInitialCount));
         }
