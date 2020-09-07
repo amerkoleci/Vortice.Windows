@@ -78,13 +78,13 @@ namespace SharpGen.Runtime
 
         private static uint GetWindowsVersion()
         {
-            var result = RtlGetVersionEx(out var osvi);
+            var result = GetVersionExWEx(out var osvi);
             Debug.Assert(result == 0);
             return osvi.dwMajorVersion;
         }
         private static uint GetWindowsMinorVersion()
         {
-            var result = RtlGetVersionEx(out var osvi);
+            var result = GetVersionExWEx(out var osvi);
             Debug.Assert(result == 0);
             return osvi.dwMinorVersion;
         }
@@ -92,18 +92,18 @@ namespace SharpGen.Runtime
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, byte[] applicationUserModelId);
 
-        [DllImport("ntdll.dll", ExactSpelling = true)]
-        private static extern int RtlGetVersion(ref RTL_OSVERSIONINFOEX lpVersionInformation);
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern int GetVersionExW(ref OSVERSIONINFOEX lpVersionInformation);
 
-        private static unsafe int RtlGetVersionEx(out RTL_OSVERSIONINFOEX osvi)
+        private static unsafe int GetVersionExWEx(out OSVERSIONINFOEX osvi)
         {
             osvi = default;
-            osvi.dwOSVersionInfoSize = (uint)sizeof(RTL_OSVERSIONINFOEX);
-            return RtlGetVersion(ref osvi);
+            osvi.dwOSVersionInfoSize = (uint)sizeof(OSVERSIONINFOEX);
+            return GetVersionExW(ref osvi);
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private unsafe struct RTL_OSVERSIONINFOEX
+        private unsafe struct OSVERSIONINFOEX
         {
             internal uint dwOSVersionInfoSize;
             internal uint dwMajorVersion;

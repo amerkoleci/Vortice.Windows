@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+ï»¿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
@@ -17,11 +17,11 @@ namespace Vortice.XInput
         {
             get
             {
-                var osvi = new RTL_OSVERSIONINFOEX
+                var osvi = new OSVERSIONINFOEX
                 {
-                    dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEX)
+                    dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX)
                 };
-                var result = RtlGetVersion(ref osvi);
+                var result = GetVersionExW(ref osvi);
                 Debug.Assert(result == 0);
                 var WindowsVersion = new Version(osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.dwBuildNumber);
                 return WindowsVersion.Major == 6 && WindowsVersion.Minor == 1;
@@ -176,7 +176,7 @@ namespace Vortice.XInput
         /// <summary>
         /// Retrieves the battery type and charge status of a wireless controller.
         /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
+        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0â€“3. </param>
         /// <param name="batteryDeviceType">Type of the battery device.</param>
         /// <returns>Instance of <see cref="BatteryInformation"/>.</returns>
         public static BatteryInformation GetBatteryInformation(int userIndex, BatteryDeviceType batteryDeviceType)
@@ -188,7 +188,7 @@ namespace Vortice.XInput
         /// <summary>
         /// Retrieves the battery type and charge status of a wireless controller.
         /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
+        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0â€“3. </param>
         /// <param name="batteryDeviceType">Type of the battery device.</param>
         /// <param name="batteryInformation">The battery information.</param>
         /// <returns>True if succeed, false otherwise.</returns>
@@ -200,7 +200,7 @@ namespace Vortice.XInput
         /// <summary>
         /// Retrieves the capabilities and features of a connected controller.
         /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
+        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0â€“3. </param>
         /// <param name="deviceQueryType">Type of the device query.</param>
         /// <param name="capabilities">The capabilities of this controller.</param>
         /// <returns>True if the controller is connected and succeed, false otherwise.</returns>
@@ -212,7 +212,7 @@ namespace Vortice.XInput
         /// <summary>
         /// Retrieves a gamepad input event.
         /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
+        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0â€“3. </param>
         /// <param name="keystroke">The keystroke.</param>
         /// <returns>False if the controller is not connected and no new keys have been pressed, true otherwise.</returns>
         public static bool GetKeystroke(int userIndex, out Keystroke keystroke)
@@ -229,7 +229,7 @@ namespace Vortice.XInput
         private static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, byte[] applicationUserModelId);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private unsafe struct RTL_OSVERSIONINFOEX
+        private unsafe struct OSVERSIONINFOEX
         {
             internal int dwOSVersionInfoSize;
             internal int dwMajorVersion;
@@ -239,8 +239,8 @@ namespace Vortice.XInput
             internal fixed char szCSDVersion[128];
         }
 
-        [DllImport("ntdll.dll", ExactSpelling = true)]
-        private static extern int RtlGetVersion(ref RTL_OSVERSIONINFOEX lpVersionInformation);
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        private static extern int GetVersionExW(ref OSVERSIONINFOEX lpVersionInformation);
         #endregion
     }
 }
