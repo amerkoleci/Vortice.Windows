@@ -15,8 +15,8 @@ namespace Vortice
 
         private void PlatformConstruct()
         {
-            var x = 0;
-            var y = 0;
+            int x = 0;
+            int y = 0;
             WindowStyles style = 0;
             WindowExStyles styleEx = 0;
             const bool resizable = true;
@@ -34,8 +34,8 @@ namespace Vortice
             {
                 if (Width > 0 && Height > 0)
                 {
-                    var screenWidth = GetSystemMetrics(SystemMetrics.SM_CXSCREEN);
-                    var screenHeight = GetSystemMetrics(SystemMetrics.SM_CYSCREEN);
+                    int screenWidth = GetSystemMetrics(SystemMetrics.SM_CXSCREEN);
+                    int screenHeight = GetSystemMetrics(SystemMetrics.SM_CYSCREEN);
 
                     // Place the window in the middle of the screen.WS_EX_APPWINDOW
                     x = (screenWidth - Width) / 2;
@@ -77,7 +77,7 @@ namespace Vortice
                 x = y = windowWidth = windowHeight = CW_USEDEFAULT;
             }
 
-            var hwnd = CreateWindowEx(
+            Handle = CreateWindowEx(
                 (int)styleEx,
                 Application.WndClassName,
                 Title,
@@ -91,23 +91,22 @@ namespace Vortice
                 IntPtr.Zero,
                 IntPtr.Zero);
 
-            if (hwnd == IntPtr.Zero)
+            if (Handle == IntPtr.Zero)
             {
                 return;
             }
 
-            ShowWindow(hwnd, ShowWindowCommand.Normal);
-            Handle = hwnd;
+            ShowWindow(Handle, ShowWindowCommand.Normal);
             Width = windowWidth;
             Height = windowHeight;
         }
 
         public void Destroy()
         {
-            var hwnd = (IntPtr)Handle;
+            IntPtr hwnd = Handle;
             if (hwnd != IntPtr.Zero)
             {
-                var destroyHandle = hwnd;
+                IntPtr destroyHandle = hwnd;
                 Handle = IntPtr.Zero;
 
                 Debug.WriteLine($"[WIN32] - Destroying window: {destroyHandle}");

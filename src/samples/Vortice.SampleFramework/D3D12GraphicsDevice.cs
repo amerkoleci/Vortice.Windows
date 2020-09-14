@@ -18,16 +18,15 @@ namespace Vortice
 {
     public sealed class D3D12GraphicsDevice : IGraphicsDevice
     {
-        private const int FrameCount = 2;
+        private const int RenderLatency = 2;
 
         public readonly Window Window;
         public readonly IDXGIFactory4 DXGIFactory;
         private readonly ID3D12Device _d3d12Device;
-        private readonly ID3D12CommandQueue _d3d12CommandQueue;
         private readonly ID3D12DescriptorHeap _rtvHeap;
         private readonly int _rtvDescriptorSize;
         private readonly ID3D12Resource[] _renderTargets;
-        private readonly ID3D12CommandAllocator _commandAllocator;
+        private readonly ID3D12CommandAllocator[] _commandAllocators;
 
         private readonly ID3D12RootSignature _rootSignature;
         private readonly ID3D12PipelineState _pipelineState;
@@ -36,12 +35,15 @@ namespace Vortice
 
         private readonly ID3D12Resource _vertexBuffer;
 
-        private readonly ID3D12Fence _d3d12Fence;
-        private long _fenceValue;
-        private readonly AutoResetEvent _fenceEvent;
-        private int _frameIndex;
+        private readonly ID3D12Fence _frameFence;
+        private readonly AutoResetEvent _frameFenceEvent;
+        private long _frameCount;
+        private long _frameIndex;
+        private int _backbufferIndex;
 
         public ID3D12Device D3D12Device => _d3d12Device;
+        public ID3D12CommandQueue GraphicsQueue { get; }
+
         public IDXGISwapChain3 SwapChain { get; }
 
         public static bool IsSupported()
@@ -59,7 +61,7 @@ namespace Vortice
             Window = window;
 
             if (validation
-                && D3D12GetDebugInterface<ID3D12Debug>(out var debug).Success)
+                && D3D12GetDebugInterface(out ID3D12Debug debug).Success)
             {
                 debug.EnableDebugLayer();
                 debug.Dispose();
@@ -81,19 +83,21 @@ namespace Vortice
                 // Don't select the Basic Render Driver adapter.
                 if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
                 {
-                    adapter.Release();
+                    adapter.Dispose();
 
                     continue;
                 }
 
                 if (D3D12CreateDevice(adapter, FeatureLevel.Level_11_0, out _d3d12Device).Success)
                 {
+                    adapter.Dispose();
+
                     break;
                 }
             }
 
             // Check raytracing support.
-            var featureOptions5 = _d3d12Device.Options5;
+            FeatureDataD3D12Options5 featureOptions5 = _d3d12Device.Options5;
             if (featureOptions5.RaytracingTier != RaytracingTier.NotSupported)
             {
                 //var d3d12Device5 = _d3d12Device.QueryInterfaceOrNull<ID3D12Device5>();
@@ -101,11 +105,11 @@ namespace Vortice
             }
 
             // Create Command queue.
-            _d3d12CommandQueue = _d3d12Device.CreateCommandQueue(CommandListType.Direct);
+            GraphicsQueue = _d3d12Device.CreateCommandQueue(CommandListType.Direct);
 
-            var swapChainDesc = new SwapChainDescription1
+            SwapChainDescription1 swapChainDesc = new SwapChainDescription1
             {
-                BufferCount = FrameCount,
+                BufferCount = RenderLatency,
                 Width = window.Width,
                 Height = window.Height,
                 Format = Format.R8G8B8A8_UNorm,
@@ -114,23 +118,24 @@ namespace Vortice
                 SampleDescription = new SampleDescription(1, 0)
             };
 
-            var hwnd = (IntPtr)window.Handle;
-            var swapChain = DXGIFactory.CreateSwapChainForHwnd(_d3d12CommandQueue, hwnd, swapChainDesc);
-            DXGIFactory.MakeWindowAssociation(hwnd, WindowAssociationFlags.IgnoreAltEnter);
+            using(IDXGISwapChain1 swapChain = DXGIFactory.CreateSwapChainForHwnd(GraphicsQueue, window.Handle, swapChainDesc))
+            {
+                DXGIFactory.MakeWindowAssociation(window.Handle, WindowAssociationFlags.IgnoreAltEnter);
 
-            SwapChain = swapChain.QueryInterface<IDXGISwapChain3>();
-            _frameIndex = SwapChain.GetCurrentBackBufferIndex();
+                SwapChain =  swapChain.QueryInterface<IDXGISwapChain3>();
+                _backbufferIndex = SwapChain.GetCurrentBackBufferIndex();
+            }
 
-            _rtvHeap = _d3d12Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, FrameCount));
+            _rtvHeap = _d3d12Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
             _rtvDescriptorSize = _d3d12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.RenderTargetView);
 
             // Create frame resources.
             {
-                var rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
+                CpuDescriptorHandle rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
 
                 // Create a RTV for each frame.
-                _renderTargets = new ID3D12Resource[FrameCount];
-                for (var i = 0; i < FrameCount; i++)
+                _renderTargets = new ID3D12Resource[RenderLatency];
+                for (int i = 0; i < RenderLatency; i++)
                 {
                     _renderTargets[i] = SwapChain.GetBuffer<ID3D12Resource>(i);
                     _d3d12Device.CreateRenderTargetView(_renderTargets[i], null, rtvHandle);
@@ -138,13 +143,17 @@ namespace Vortice
                 }
             }
 
-            _commandAllocator = _d3d12Device.CreateCommandAllocator(CommandListType.Direct);
+            _commandAllocators = new ID3D12CommandAllocator[RenderLatency];
+            for (int i = 0; i < RenderLatency; i++)
+            {
+                _commandAllocators[i] = _d3d12Device.CreateCommandAllocator(CommandListType.Direct);
+            }
 
             //var highestShaderVersion = _d3d12Device.CheckHighestShaderModel(ShaderModel.Model60);
-            var highestRootSignatureVersion = _d3d12Device.CheckHighestRootSignatureVersion(RootSignatureVersion.Version11);
+            //var highestRootSignatureVersion = _d3d12Device.CheckHighestRootSignatureVersion(RootSignatureVersion.Version11);
             //var opts5 = _d3d12Device.CheckFeatureSupport<FeatureDataD3D12Options5>(SharpDirect3D12.Feature.Options5);
 
-            var rootSignatureDesc = new VersionedRootSignatureDescription(
+            VersionedRootSignatureDescription rootSignatureDesc = new VersionedRootSignatureDescription(
                 new RootSignatureDescription1(RootSignatureFlags.AllowInputAssemblerInputLayout)
                 );
 
@@ -170,13 +179,13 @@ namespace Vortice
             }
 ";
 
-            var inputElementDescs = new[]
+            InputElementDescription[] inputElementDescs = new[]
             {
                 new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
                 new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
             };
 
-            var psoDesc = new GraphicsPipelineStateDescription()
+            GraphicsPipelineStateDescription psoDesc = new GraphicsPipelineStateDescription()
             {
                 RootSignature = _rootSignature,
                 VertexShader = ShaderCompiler.Compile(shaderSource, ShaderStage.Vertex),
@@ -194,10 +203,10 @@ namespace Vortice
 
             _pipelineState = _d3d12Device.CreateGraphicsPipelineState(psoDesc);
 
-            _commandList = _d3d12Device.CreateCommandList(0, CommandListType.Direct, _commandAllocator, _pipelineState);
+            _commandList = _d3d12Device.CreateCommandList(0, CommandListType.Direct, _commandAllocators[0], _pipelineState);
             _commandList.Close();
 
-            var vertexBufferSize = 3 * Unsafe.SizeOf<Vertex>();
+            int vertexBufferSize = 3 * Unsafe.SizeOf<Vertex>();
 
             _vertexBuffer = _d3d12Device.CreateCommittedResource(
                 new HeapProperties(HeapType.Upload),
@@ -205,7 +214,7 @@ namespace Vortice
                 ResourceDescription.Buffer(vertexBufferSize),
                 ResourceStates.GenericRead);
 
-            var triangleVertices = new Vertex[]
+            Vertex[] triangleVertices = new Vertex[]
             {
                   new Vertex(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
                   new Vertex(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
@@ -214,29 +223,57 @@ namespace Vortice
 
             unsafe
             {
-                var bufferData = _vertexBuffer.Map(0);
-                var src = new ReadOnlySpan<Vertex>(triangleVertices);
+                IntPtr bufferData = _vertexBuffer.Map(0);
+                ReadOnlySpan<Vertex> src = new ReadOnlySpan<Vertex>(triangleVertices);
                 MemoryHelpers.CopyMemory(bufferData, src);
                 _vertexBuffer.Unmap(0);
             }
 
             // Create synchronization objects.
-            _d3d12Fence = _d3d12Device.CreateFence(0);
-            _fenceValue = 1;
-            _fenceEvent = new AutoResetEvent(false);
-            WaitForPreviousFrame();
+            _frameFence = _d3d12Device.CreateFence(0);
+            _frameFenceEvent = new AutoResetEvent(false);
         }
 
         public void Dispose()
         {
+            WaitIdle();
+
+            _vertexBuffer.Dispose();
+
+            for (int i = 0; i < RenderLatency; i++)
+            {
+                _commandAllocators[i].Dispose();
+                _renderTargets[i].Dispose();
+            }
+            _commandList.Dispose();
+
+            _rtvHeap.Dispose();
+            _pipelineState.Dispose();
+            _rootSignature.Dispose();
+            SwapChain.Dispose();
+            _frameFence.Dispose();
+            GraphicsQueue.Dispose();
             _d3d12Device.Dispose();
             DXGIFactory.Dispose();
+
+            if (DXGIGetDebugInterface1(out IDXGIDebug1 dxgiDebug).Success)
+            {
+                dxgiDebug.ReportLiveObjects(All, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
+                dxgiDebug.Dispose();
+            }
+        }
+
+        public void WaitIdle()
+        {
+            GraphicsQueue.Signal(_frameFence, ++_frameCount);
+            _frameFence.SetEventOnCompletion(_frameCount, _frameFenceEvent);
+            _frameFenceEvent.WaitOne();
         }
 
         public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string frameName = null)
         {
-            _commandAllocator.Reset();
-            _commandList.Reset(_commandAllocator, _pipelineState);
+            _commandAllocators[_frameIndex].Reset();
+            _commandList.Reset(_commandAllocators[_frameIndex], _pipelineState);
 
             // Set necessary state.
             _commandList.SetGraphicsRootSignature(_rootSignature);
@@ -244,13 +281,13 @@ namespace Vortice
             _commandList.RSSetScissorRect(new Rectangle(Window.Width, Window.Height));
 
             // Indicate that the back buffer will be used as a render target.
-            _commandList.ResourceBarrierTransition(_renderTargets[_frameIndex], ResourceStates.Present, ResourceStates.RenderTarget);
+            _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.Present, ResourceStates.RenderTarget);
 
             // Call callback.
             draw(Window.Width, Window.Height);
 
-            var rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
-            rtvHandle += _frameIndex * _rtvDescriptorSize;
+            CpuDescriptorHandle rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
+            rtvHandle += _backbufferIndex * _rtvDescriptorSize;
 
             _commandList.OMSetRenderTargets(rtvHandle);
 
@@ -259,50 +296,39 @@ namespace Vortice
             _commandList.ClearRenderTargetView(rtvHandle, clearColor);
 
             _commandList.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
-            var stride = Unsafe.SizeOf<Vertex>();
-            var vertexBufferSize = 3 * stride;
+            int stride = Unsafe.SizeOf<Vertex>();
+            int vertexBufferSize = 3 * stride;
             _commandList.IASetVertexBuffers(new VertexBufferView(_vertexBuffer.GPUVirtualAddress, vertexBufferSize, stride));
             _commandList.DrawInstanced(3, 1, 0, 0);
 
             // Indicate that the back buffer will now be used to present.
-            _commandList.ResourceBarrierTransition(_renderTargets[_frameIndex], ResourceStates.RenderTarget, ResourceStates.Present);
+            _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.RenderTarget, ResourceStates.Present);
             _commandList.Close();
 
             // Execute the command list.
-            _d3d12CommandQueue.ExecuteCommandList(_commandList);
+            GraphicsQueue.ExecuteCommandList(_commandList);
 
-            var result = SwapChain.Present(1, PresentFlags.None);
+            Result result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
                 && result.Code == DXGI.ResultCode.DeviceRemoved.Code)
             {
                 return false;
             }
 
-            WaitForPreviousFrame();
+            GraphicsQueue.Signal(_frameFence, ++_frameCount);
 
-            return true;
-        }
+            long GPUFrameCount = _frameFence.CompletedValue;
 
-        private void WaitForPreviousFrame()
-        {
-            // WAITING FOR THE FRAME TO COMPLETE BEFORE CONTINUING IS NOT BEST PRACTICE.
-            // This is code implemented as such for simplicity. The D3D12HelloFrameBuffering
-            // sample illustrates how to use fences for efficient resource usage and to
-            // maximize GPU utilization.
-
-            // Signal and increment the fence value.
-            var fenceValueToSignal = _fenceValue;
-            _d3d12CommandQueue.Signal(_d3d12Fence, fenceValueToSignal);
-            _fenceValue++;
-
-            // Wait until the previous frame is finished.
-            if (_d3d12Fence.CompletedValue < fenceValueToSignal)
+            if ((_frameCount - GPUFrameCount) >= RenderLatency)
             {
-                _d3d12Fence.SetEventOnCompletion(fenceValueToSignal, _fenceEvent);
-                _fenceEvent.WaitOne();
+                _frameFence.SetEventOnCompletion(GPUFrameCount + 1, _frameFenceEvent);
+                _frameFenceEvent.WaitOne();
             }
 
-            _frameIndex = SwapChain.GetCurrentBackBufferIndex();
+            _frameIndex = _frameCount % RenderLatency;
+            _backbufferIndex = SwapChain.GetCurrentBackBufferIndex();
+
+            return true;
         }
 
         private readonly struct Vertex
@@ -315,7 +341,6 @@ namespace Vortice
                 Position = position;
                 Color = color;
             }
-        };
-
+        }
     }
 }

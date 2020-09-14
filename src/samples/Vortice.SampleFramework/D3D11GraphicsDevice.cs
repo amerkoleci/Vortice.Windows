@@ -34,6 +34,7 @@ namespace Vortice
         public readonly Window Window;
         public readonly IDXGIFactory1 Factory;
         public readonly ID3D11Device Device;
+        public readonly IDXGIAdapter Adapter;
         public readonly FeatureLevel FeatureLevel;
         public readonly ID3D11DeviceContext DeviceContext;
         public readonly IDXGISwapChain SwapChain;
@@ -60,7 +61,7 @@ namespace Vortice
             }
 
             if (D3D11CreateDevice(
-                null,
+                IntPtr.Zero,
                 DriverType.Hardware,
                 creationFlags,
                 s_featureLevels,
@@ -76,7 +77,7 @@ namespace Vortice
                 {
                     // This will fail on Win 7 due to lack of 11.1, so re-try again without it
                     D3D11CreateDevice(
-                        null,
+                        IntPtr.Zero,
                         DriverType.Hardware,
                         creationFlags,
                         s_featureLevelsNoLevel11,
@@ -84,7 +85,14 @@ namespace Vortice
                 }
             }
 
-            var hwnd = (IntPtr)window.Handle;
+            using (IDXGIDevice dxgiDevice = Device.QueryInterface<IDXGIDevice>())
+            {
+                // Store a pointer to the DXGI adapter.
+                // This is for the case of no preferred DXGI adapter, or fallback to WARP.
+                dxgiDevice.GetAdapter(out Adapter).CheckError();
+            }
+
+            IntPtr hwnd = (IntPtr)window.Handle;
 
             var swapChainDescription = new SwapChainDescription()
             {
@@ -113,10 +121,17 @@ namespace Vortice
             DeviceContext.Dispose();
             Device.Dispose();
             SwapChain.Dispose();
+            Adapter.Dispose();
             Factory.Dispose();
+
+            if (DXGIGetDebugInterface1(out IDXGIDebug1 dxgiDebug).Success)
+            {
+                dxgiDebug.ReportLiveObjects(All, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
+                dxgiDebug.Dispose();
+            }
         }
 
-        public bool DrawFrame(Action<int, int> draw, [CallerMemberName]string frameName = null)
+        public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string frameName = null)
         {
             DeviceContext.RSSetViewport(new Viewport(Window.Width, Window.Height));
             var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);

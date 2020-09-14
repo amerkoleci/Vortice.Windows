@@ -9,13 +9,16 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12CommandQueue
     {
-        public unsafe void ExecuteCommandList(ID3D12CommandList commandList)
+        public void ExecuteCommandList(ID3D12CommandList commandList)
         {
-            var ptr = commandList.NativePointer;
-            ExecuteCommandLists(1, new IntPtr(&ptr));
+            unsafe
+            {
+                IntPtr ptr = commandList.NativePointer;
+                ExecuteCommandLists(1, new IntPtr(&ptr));
+            }
         }
 
-        public unsafe void ExecuteCommandLists(params ID3D12CommandList[] commandLists)
+        public unsafe void ExecuteCommandLists(ID3D12CommandList[] commandLists)
         {
             var commandListsPtr = (IntPtr*)0;
 
@@ -47,7 +50,7 @@ namespace Vortice.Direct3D12
 
         public void BeginEvent(string name)
         {
-            var handle = IntPtr.Zero;
+            IntPtr handle = IntPtr.Zero;
             try
             {
                 handle = Marshal.StringToHGlobalUni(name);
@@ -64,7 +67,7 @@ namespace Vortice.Direct3D12
 
         public void SetMarker(string name)
         {
-            var handle = IntPtr.Zero;
+            IntPtr handle = IntPtr.Zero;
             try
             {
                 handle = Marshal.StringToHGlobalUni(name);
@@ -80,12 +83,12 @@ namespace Vortice.Direct3D12
         }
 
         public void UpdateTileMappings(
-            ID3D12Resource resource, 
+            ID3D12Resource resource,
             TiledResourceCoordinate[] resourceRegionStartCoordinates,
             TileRegionSize[] resourceRegionSizes,
             ID3D12Heap heap,
-            TileRangeFlags[] rangeFlags, 
-            int[] heapRangeStartOffsets, 
+            TileRangeFlags[] rangeFlags,
+            int[] heapRangeStartOffsets,
             int[] rangeTileCounts,
             TileMappingFlags flags = TileMappingFlags.None)
         {

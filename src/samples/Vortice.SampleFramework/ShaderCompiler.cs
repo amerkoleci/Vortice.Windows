@@ -34,7 +34,7 @@ namespace Vortice
                 shaderProfile,
                 flags,
                 0,
-                out var blob,
+                out D3DCompiler.IDxcBlob blob,
                 out var errorMsgs);
 
             if (hr != 0)

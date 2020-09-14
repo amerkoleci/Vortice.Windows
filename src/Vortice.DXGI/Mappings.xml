@@ -226,7 +226,7 @@
     <map param="IDXGIDevice::CreateSurface::pDesc" attribute="in value optional" />
     <map param="IDXGIDevice::CreateSurface::ppSurface" attribute="out" return="true"/>
     <map method="IDXGIDevice::QueryResourceResidency" visibility="private" hresult="true" check="false"/>
-    <map method="IDXGIDevice::GetAdapter" persist="true"/>
+    <map method="IDXGIDevice::GetAdapter" property="false" hresult="true" check="false"/>
 
     <!-- IDXGIOutput -->
     <map method="IDXGIOutput::FindClosestMatchingMode" visibility="private" />
@@ -259,8 +259,8 @@
     <!-- IDXGISurface2 -->
     <map method="IDXGISurface2::GetResource" visibility="private" hresult="true" check="false"/>
 
-    <map function="DXGIGetDebugInterface" dll='"dxgidebug.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
-    <map function="DXGIGetDebugInterface1" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
+    <map function="DXGIGetDebugInterface" dll='"dxgidebug.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" visibility="private" />
+    <map function="DXGIGetDebugInterface1" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" visibility="private" />
     <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
 
     <remove function="CreateDXGIFactory" />

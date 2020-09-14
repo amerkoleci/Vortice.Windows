@@ -689,6 +689,7 @@
 
     <remove function="D3D11CreateDeviceAndSwapChain"/>
     <map function="D3D11.*" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11" visibility="private" />
+    <map param="D3D11CreateDevice::pAdapter" type="void" attribute="in"/>
     <!--<map param="D3D11CreateDevice::ppDevice" attribute="out fast" />-->
     <map function="D3D11CreateDevice" check="false"/>
 
