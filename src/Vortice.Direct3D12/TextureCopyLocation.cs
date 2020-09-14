@@ -33,13 +33,13 @@ namespace Vortice.Direct3D12
         /// Initializes a new instance of the <see cref="TextureCopyLocation"/> struct.
         /// </summary>
         /// <param name="resource">Instance of <see cref="ID3D12Resource"/></param>
-        /// <param name="subResourceIndex">Sub resource index.</param>
-        public TextureCopyLocation(ID3D12Resource resource, int subResourceIndex)
+        /// <param name="subresourceIndex">Sub resource index.</param>
+        public TextureCopyLocation(ID3D12Resource resource, int subresourceIndex = 0)
             : this()
         {
             _type = TextureCopyType.SubresourceIndex;
             _resource = resource != null ? resource.NativePointer : IntPtr.Zero;
-            _union.SubResourceIndex = subResourceIndex;
+            _union.SubResourceIndex = subresourceIndex;
         }
 
         /// <summary>

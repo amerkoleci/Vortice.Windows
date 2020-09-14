@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Vortice.Direct3D12
@@ -79,16 +77,10 @@ namespace Vortice.Direct3D12
         /// <param name="subresource">The subresource.</param>
         /// <param name="flags">The transition flags.</param>
         /// <returns>New intance of <see cref="ResourceBarrier"/> struct.</returns>
-        public static ResourceBarrier BarrierTransition(
-            ID3D12Resource resource,
-            ResourceStates stateBefore,
-            ResourceStates stateAfter,
-            int subresource = D3D12.ResourceBarrierAllSubResources,
-            ResourceBarrierFlags flags = ResourceBarrierFlags.None)
+        public static ResourceBarrier BarrierTransition(ID3D12Resource resource, ResourceStates stateBefore, ResourceStates stateAfter,
+            int subresource = D3D12.ResourceBarrierAllSubResources, ResourceBarrierFlags flags = ResourceBarrierFlags.None)
         {
-            return new ResourceBarrier(
-                new ResourceTransitionBarrier(resource, stateBefore, stateAfter, subresource),
-                flags);
+            return new ResourceBarrier(new ResourceTransitionBarrier(resource, stateBefore, stateAfter, subresource), flags);
         }
 
         /// <summary>

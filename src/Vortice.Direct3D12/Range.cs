@@ -63,7 +63,7 @@ namespace Vortice.Direct3D12
         {
             unchecked
             {
-                var hashCode = Begin.GetHashCode();
+                int hashCode = Begin.GetHashCode();
                 hashCode = (hashCode * 397) ^ End.GetHashCode();
                 return hashCode;
             }

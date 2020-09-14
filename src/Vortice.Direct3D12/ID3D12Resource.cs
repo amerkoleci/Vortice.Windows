@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using SharpGen.Runtime;
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12
@@ -12,7 +13,7 @@ namespace Vortice.Direct3D12
         {
             get
             {
-                GetHeapProperties(out HeapProperties properties, out var heapFlags);
+                GetHeapProperties(out HeapProperties properties, out _);
                 return properties;
             }
         }
@@ -21,8 +22,19 @@ namespace Vortice.Direct3D12
         {
             get
             {
-                GetHeapProperties(out var properties, out HeapFlags heapFlags);
+                GetHeapProperties(out _, out HeapFlags heapFlags);
                 return heapFlags;
+            }
+        }
+
+        public long GetRequiredIntermediateSize(int firstSubresource, int numSubresources)
+        {
+            ResourceDescription desc = GetDescription();
+
+            using(ID3D12Device device = GetDevice<ID3D12Device>())
+            {
+                device.GetCopyableFootprints(desc, firstSubresource, numSubresources, 0, null, null, null, out long requiredSize);
+                return requiredSize;
             }
         }
 
@@ -42,71 +54,56 @@ namespace Vortice.Direct3D12
             return mipSlice + arraySlice * mipLevels + planeSlice * mipLevels * arraySize;
         }
 
-        public unsafe void WriteToSubresource<T>(
+        public unsafe Result WriteToSubresource<T>(
             int destinationSubresource,
             Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
             fixed (void* dataPtr = sourceData)
             {
-                WriteToSubresource(destinationSubresource, null,
-                    (IntPtr)dataPtr, sourceRowPitch, srcDepthPitch
-                    );
+                return WriteToSubresource(destinationSubresource, null, (IntPtr)dataPtr, sourceRowPitch, srcDepthPitch);
             }
         }
 
-        public unsafe void WriteToSubresource<T>(
+        public unsafe Result WriteToSubresource<T>(
             int destinationSubresource, in Point3 destinationOffset, in Size3 destinationExtent,
             Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
             fixed (void* dataPtr = sourceData)
             {
-                WriteToSubresource(destinationSubresource, new Box(destinationOffset, destinationExtent),
+                return WriteToSubresource(destinationSubresource, new Box(destinationOffset, destinationExtent),
                     (IntPtr)dataPtr, sourceRowPitch, srcDepthPitch
                     );
             }
         }
 
-        public unsafe void WriteToSubresource<T>(
+        public unsafe Result WriteToSubresource<T>(
             int destinationSubresource,
             T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
             fixed (void* sourceDataPtr = &sourceData[0])
             {
-                WriteToSubresource(
-                    destinationSubresource, null,
-                    (IntPtr)sourceDataPtr, sourceRowPitch, srcDepthPitch
-                    );
+                return WriteToSubresource(destinationSubresource, null, (IntPtr)sourceDataPtr, sourceRowPitch, srcDepthPitch);
             }
         }
 
-        public unsafe void WriteToSubresource<T>(
+        public unsafe Result WriteToSubresource<T>(
             int destinationSubresource, Box destinationBox,
             T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
         {
             fixed (void* sourceDataPtr = &sourceData[0])
             {
-                WriteToSubresource(
-                    destinationSubresource, destinationBox,
-                    (IntPtr)sourceDataPtr, sourceRowPitch, srcDepthPitch
-                    );
+                return WriteToSubresource(destinationSubresource, destinationBox, (IntPtr)sourceDataPtr, sourceRowPitch, srcDepthPitch);
             }
         }
 
-        public unsafe void ReadFromSubresource<T>(
+        public unsafe Result ReadFromSubresource<T>(
             T[] destination, int destinationRowPitch, int destinationDepthPitch,
             int sourceSubresource, Box? sourceBox = null) where T : unmanaged
         {
             fixed (void* destinationPtr = &destination[0])
             {
-                ReadFromSubresource(
-                    (IntPtr)destinationPtr, destinationRowPitch, destinationDepthPitch,
-                    sourceSubresource, sourceBox);
+                return ReadFromSubresource((IntPtr)destinationPtr, destinationRowPitch, destinationDepthPitch, sourceSubresource, sourceBox);
             }
-        }
-
-        public static int CalculateSubresource(int mipSlice, int arraySlice, int planeSlice, int mipLevels, int arraySize)
-        {
-            return mipSlice + (arraySlice * mipLevels) + (planeSlice * mipLevels * arraySize);
         }
     }
 }

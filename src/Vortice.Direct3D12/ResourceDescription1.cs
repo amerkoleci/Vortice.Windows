@@ -127,9 +127,9 @@ namespace Vortice.Direct3D12
             return MipLevels * ArraySize * GetPlaneCount(pDevice);
         }
 
-        public int CalcSubresource(int mipSlice, int arraySlice, int planeSlice)
+        public int CalculateSubResourceIndex(int mipSlice, int arraySlice, int planeSlice)
         {
-            return ID3D12Resource.CalculateSubresource(mipSlice, arraySlice, planeSlice, MipLevels, ArraySize);
+            return ID3D12Resource.CalculateSubResourceIndex(mipSlice, arraySlice, planeSlice, MipLevels, ArraySize);
         }
     }
 }

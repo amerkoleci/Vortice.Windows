@@ -12,6 +12,7 @@ KEY CHANGES:
 - [FIX] DXGI: IDXGIDevice::GetAdapter is not property and not persisted, user need to manually Dispose the IDXGIAdapter (just like native code).
 - [ENH] D3D11: D3D11CreateDevice takes also native IntPtr adapter.
 - [ENH] Samples: Cleanup code and remove all leakages.
+- [ENH] D3D12: Add more helpers from d3d12x and cleanup.
 
 -----------------------------------------------
 Release:     1.7.37 (August 2020)

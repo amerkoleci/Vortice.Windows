@@ -557,6 +557,10 @@
     <map method="ID3D12DeviceChild::GetDevice" visibility="private" hresult="true" check="false"/>
 
     <!-- ID3D12Resource methods -->
+    <map method="ID3D12Resource::GetHeapProperties" hresult="true" check="false"/>
+    <map method="ID3D12Resource::WriteToSubresource" hresult="true" check="false"/>
+    <map method="ID3D12Resource::ReadFromSubresource" hresult="true" check="false"/>
+    
     <map param="ID3D12Resource::Map::pReadRange" default="null"/>
     <map param="ID3D12Resource::Unmap::pWrittenRange" default="null"/>
     <map param="ID3D12Resource::Map::ppData" attribute="out" return="true"/>
@@ -628,6 +632,7 @@
     <map method="ID3D12Device::Evict" visibility="private"/>
     <map method="ID3D12Device::MakeResident" visibility="private"/>
     <map method="ID3D12Device::GetResourceAllocationInfo" visibility="private"/>
+    <map param="ID3D12Device::GetCopyableFootprints::pResourceDesc" attribute="in value"/>
 
     <!-- ID3D12Device1 methods -->
     <map method="ID3D12Device1::CreatePipelineLibrary" visibility="private"/>
