@@ -413,6 +413,10 @@
     <map enum-item="D3D12_ROOT_PARAMETER_32BIT_CONSTANTS" name="Constant32Bits"/>
     <map enum-item="D3D12_ROOT_PARAMETER_CBV" name="ConstantBufferView"/>
 
+    <map enum="D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS" name="MultisampleQualityLevelFlags" flags="true"/>
+    <map enum-item="D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE" name="None"/>
+    <map enum-item="D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_TILED_RESOURCE" name="TiledResource"/>
+    
     <!--Remove all fields for D3D12_RESOURCE_BARRIER_DESC as the union with pointers cannot be mapped safely in x86/x64 with C# explicit layout-->
     <remove field="D3D12_RESOURCE_BARRIER::.*"/>
     <remove field="D3D12_ROOT_PARAMETER::.*"/>

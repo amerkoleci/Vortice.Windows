@@ -117,11 +117,6 @@ namespace Vortice.Direct3D12
             get => CheckFeatureSupport<FeatureDataShaderCache>(Feature.ShaderCache);
         }
 
-        public FeatureDataCommandQueuePriority CommandQueuePriority
-        {
-            get => CheckFeatureSupport<FeatureDataCommandQueuePriority>(Feature.CommandQueuePriority);
-        }
-
         public FeatureDataD3D12Options3 Options3
         {
             get => CheckFeatureSupport<FeatureDataD3D12Options3>(Feature.Options3);
@@ -162,11 +157,6 @@ namespace Vortice.Direct3D12
             get => CheckFeatureSupport<FeatureDataD3D12Options7>(Feature.Options7);
         }
 
-        public FeatureDataQueryMetaCommand QueryMetaCommand
-        {
-            get => CheckFeatureSupport<FeatureDataQueryMetaCommand>(Feature.QueryMetaCommand);
-        }
-
         public unsafe ShaderModel CheckHighestShaderModel(ShaderModel highestShaderModel)
         {
             var featureData = new FeatureDataShaderModel
@@ -197,6 +187,42 @@ namespace Vortice.Direct3D12
             return RootSignatureVersion.Version10;
         }
 
+        public unsafe bool CheckFormatSupport(Format format, out FormatSupport1 formatSupport1, out FormatSupport2 formatSupport2)
+        {
+            var featureData = new FeatureDataFormatSupport
+            {
+                Format = format
+            };
+
+            if (CheckFeatureSupport(Feature.FormatSupport, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataFormatSupport>()).Failure)
+            {
+                formatSupport1 = FormatSupport1.None;
+                formatSupport2 = FormatSupport2.None;
+                return false;
+            }
+
+            formatSupport1 = featureData.Support1;
+            formatSupport2 = featureData.Support2;
+            return true;
+        }
+
+        public unsafe int CheckMultisampleQualityLevels(Format format, int sampleCount, MultisampleQualityLevelFlags flags = MultisampleQualityLevelFlags.None)
+        {
+            FeatureDataMultisampleQualityLevels featureData = new FeatureDataMultisampleQualityLevels
+            {
+                Format = format,
+                SampleCount = sampleCount,
+                Flags = flags
+            };
+
+            if (CheckFeatureSupport(Feature.MultisampleQualityLevels, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataMultisampleQualityLevels>()).Failure)
+            {
+                return 0;
+            }
+
+            return featureData.NumQualityLevels;
+        }
+
         public unsafe byte GetFormatPlaneCount(Format format)
         {
             var featureData = new FeatureDataFormatInfo
@@ -204,14 +230,27 @@ namespace Vortice.Direct3D12
                 Format = format
             };
 
-            if (CheckFeatureSupport(Feature.FormatInfo,
-                new IntPtr(&featureData),
-                sizeof(FeatureDataFormatInfo)).Failure)
+            if (CheckFeatureSupport(Feature.FormatInfo, new IntPtr(&featureData), sizeof(FeatureDataFormatInfo)).Failure)
             {
                 return 0;
             }
 
             return featureData.PlaneCount;
+        }
+
+        public unsafe FeatureDataCommandQueuePriority CheckCommandQueuePriority(CommandListType commandListType)
+        {
+            var featureData = new FeatureDataCommandQueuePriority
+            {
+                CommandListType = commandListType,
+            };
+
+            if (CheckFeatureSupport(Feature.CommandQueuePriority, new IntPtr(&featureData), sizeof(FeatureDataFormatInfo)).Failure)
+            {
+                return default;
+            }
+
+            return featureData;
         }
 
         #region CreateCommittedResource
