@@ -565,7 +565,7 @@ namespace Vortice.Direct3D12
 
                         case RootSignatureVersion.Version11:
                             // Convert to version 1.0.
-                            var desc_1_1 = rootSignatureDescription.Description_1_1;
+                            RootSignatureDescription1 desc_1_1 = rootSignatureDescription.Description_1_1;
                             RootParameter[] parameters_1_0 = null;
 
                             if (desc_1_1.Parameters?.Length > 0)
@@ -594,7 +594,7 @@ namespace Vortice.Direct3D12
                                             RootDescriptorTable1 table_1_1 = desc_1_1.Parameters[i].DescriptorTable;
                                             var ranges = new DescriptorRange[table_1_1.Ranges?.Length ?? 0];
 
-                                            for (var x = 0; x < ranges.Length; x++)
+                                            for (int x = 0; x < ranges.Length; x++)
                                             {
                                                 ranges[x] = new DescriptorRange(
                                                     table_1_1.Ranges[x].RangeType,
@@ -664,7 +664,7 @@ namespace Vortice.Direct3D12
             return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12PipelineState CreateComputePipelineStat(ComputePipelineStateDescription description)
+        public ID3D12PipelineState CreateComputePipelineState(ComputePipelineStateDescription description)
         {
             Result result = CreateComputePipelineState(description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -765,7 +765,7 @@ namespace Vortice.Direct3D12
         /// <returns>The shared handle.</returns>
         public IntPtr OpenSharedHandleByName(string name)
         {
-            var result = OpenSharedHandleByName(name, GENERIC_ALL, out var handleRef);
+            Result result = OpenSharedHandleByName(name, GENERIC_ALL, out IntPtr handleRef);
             if (result.Failure)
             {
                 return IntPtr.Zero;
