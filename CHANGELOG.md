@@ -1,6 +1,6 @@
 # Changelog
 
-Current Stable Release:    1.8.9 (August 2020)
+Current Stable Release:    1.8.13 (September 2020)
 
 -----------------------------------------------
 Release:     1.8.x (XXX 2020)
@@ -13,6 +13,7 @@ KEY CHANGES:
 - [ENH] D3D11: D3D11CreateDevice takes also native IntPtr adapter.
 - [ENH] Samples: Cleanup code and remove all leakages.
 - [ENH] D3D12: Add more helpers from d3d12x and cleanup.
+- [ENH] D3D12: D3D12CreateDevice allow direct native IDXGIAdapter handle and improve GetMaxSupportedFeatureLevel, IsSupported to accept native handle.
 
 -----------------------------------------------
 Release:     1.7.37 (August 2020)

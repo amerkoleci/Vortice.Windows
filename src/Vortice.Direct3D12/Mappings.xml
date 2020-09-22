@@ -769,6 +769,7 @@
 
     <map function="D3D12.*" dll='"d3d12.dll"' group="Vortice.Direct3D12.D3D12" visibility="internal" />
     <map function="D3D12CreateDevice" check="false"/>
+    <map param="D3D12CreateDevice::pAdapter" type="void" attribute="in"/>
     <map function="D3D12GetDebugInterface" hresult="true" check="false"/>
     <map function="D3D12SerializeRootSignature" hresult="true" check="false"/>
     <map function="D3D12SerializeVersionedRootSignature" hresult="true" check="false"/>

@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using SharpGen.Runtime;
 using Vortice.Direct3D;
 using Vortice.DXGI;
@@ -72,6 +73,31 @@ namespace Vortice.Direct3D12
         }
 
         /// <summary>
+        /// Gets the highest supported hardware feature level of the primary adapter.
+        /// </summary>
+        /// <param name="adapterPtr">The native handle of <see cref="IDXGIAdapter"/>.</param>
+        /// <param name="minFeatureLevel">Thje</param>
+        /// <returns>The highest supported hardware feature level.</returns>
+        public static FeatureLevel GetMaxSupportedFeatureLevel(IntPtr adapterPtr, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
+        {
+            ID3D12Device device = null;
+
+            try
+            {
+                D3D12CreateDevice(adapterPtr, minFeatureLevel, out device);
+                return device.CheckMaxSupportedFeatureLevel(FeatureLevels);
+            }
+            catch
+            {
+                return FeatureLevel.Level_9_1;
+            }
+            finally
+            {
+                device?.Dispose();
+            }
+        }
+
+        /// <summary>
         /// Checks whether Direct3D12 is supported with default adapter and minimum feature level.
         /// </summary>
         /// <param name="minFeatureLevel">Minimum feature level.</param>
@@ -80,7 +106,7 @@ namespace Vortice.Direct3D12
         {
             try
             {
-                return D3D12CreateDeviceNoDevice(null, minFeatureLevel).Success;
+                return D3D12CreateDeviceNoDevice(IntPtr.Zero, minFeatureLevel).Success;
             }
             catch (DllNotFoundException)
             {
@@ -97,9 +123,34 @@ namespace Vortice.Direct3D12
         /// <returns>True if supported, false otherwise.</returns>
         public static bool IsSupported(IDXGIAdapter adapter, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
         {
+            if (adapter == null)
+                throw new ArgumentNullException(nameof(adapter));
+
             try
             {
-                return D3D12CreateDeviceNoDevice(adapter, minFeatureLevel).Success;
+                return D3D12CreateDeviceNoDevice(adapter.NativePointer, minFeatureLevel).Success;
+            }
+            catch (DllNotFoundException)
+            {
+                // On pre Windows 10 d3d12.dll is not present and therefore not supported.
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Checks whether Direct3D12 is supported with given adapter and minimum feature level.
+        /// </summary>
+        /// <param name="adapterPtr">The native handle of <see cref="IDXGIAdapter"/>.</param>
+        /// <param name="minFeatureLevel">Minimum feature level.</param>
+        /// <returns>True if supported, false otherwise.</returns>
+        public static bool IsSupported(IntPtr adapterPtr, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
+        {
+            if (adapterPtr == IntPtr.Zero)
+                throw new ArgumentNullException(nameof(adapterPtr));
+
+            try
+            {
+                return D3D12CreateDeviceNoDevice(adapterPtr, minFeatureLevel).Success;
             }
             catch (DllNotFoundException)
             {
@@ -115,7 +166,12 @@ namespace Vortice.Direct3D12
 
         public static Result D3D12CreateDevice<T>(IDXGIAdapter adapter, FeatureLevel minFeatureLevel, out T device) where T : ID3D12Device
         {
-            Result result = D3D12CreateDevice(adapter, minFeatureLevel, typeof(T).GUID, out IntPtr nativePtr);
+            Result result = D3D12CreateDevice(
+                adapter != null ? adapter.NativePointer : IntPtr.Zero,
+                minFeatureLevel,
+                typeof(T).GUID,
+                out IntPtr nativePtr);
+
             if (result.Failure)
             {
                 device = default;
@@ -128,7 +184,12 @@ namespace Vortice.Direct3D12
 
         public static T D3D12CreateDevice<T>(IDXGIAdapter adapter, FeatureLevel minFeatureLevel) where T : ID3D12Device
         {
-            Result result = D3D12CreateDevice(adapter, minFeatureLevel, typeof(T).GUID, out IntPtr nativePtr);
+            Result result = D3D12CreateDevice(
+                adapter != null ? adapter.NativePointer : IntPtr.Zero,
+                minFeatureLevel,
+                typeof(T).GUID,
+                out IntPtr nativePtr);
+
             if (result.Failure)
             {
                 return default;
@@ -137,12 +198,39 @@ namespace Vortice.Direct3D12
             return CppObject.FromPointer<T>(nativePtr);
         }
 
-        internal static unsafe Result D3D12CreateDeviceNoDevice(IDXGIAdapter adapter, FeatureLevel minFeatureLevel)
+        public static Result D3D12CreateDevice<T>(IntPtr adapterPtr, out T device) where T : ID3D12Device
         {
-            IntPtr adapterPtr = CppObject.ToCallbackPtr<IDXGIAdapter>(adapter);
+            return D3D12CreateDevice(adapterPtr, FeatureLevel.Level_11_0, out device);
+        }
+
+        public static Result D3D12CreateDevice<T>(IntPtr adapterPtr, FeatureLevel minFeatureLevel, out T device) where T : ID3D12Device
+        {
+            Result result = D3D12CreateDevice(adapterPtr, minFeatureLevel, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                device = default;
+                return result;
+            }
+
+            device = CppObject.FromPointer<T>(nativePtr);
+            return result;
+        }
+
+        public static T D3D12CreateDevice<T>(IntPtr adapterPtr, FeatureLevel minFeatureLevel) where T : ID3D12Device
+        {
+            Result result = D3D12CreateDevice(adapterPtr, minFeatureLevel, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                return default;
+            }
+
+            return CppObject.FromPointer<T>(nativePtr);
+        }
+
+        private static unsafe Result D3D12CreateDeviceNoDevice(IntPtr adapterPtr, FeatureLevel minFeatureLevel)
+        {
             Guid riid = typeof(ID3D12Device).GUID;
             Result result = D3D12CreateDevice_((void*)adapterPtr, (int)minFeatureLevel, &riid, null);
-            GC.KeepAlive(adapter);
             return result;
         }
 
