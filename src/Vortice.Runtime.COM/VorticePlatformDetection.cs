@@ -76,41 +76,43 @@ namespace SharpGen.Runtime
             }
         }
 
-        private static uint GetWindowsVersion()
+        private static unsafe uint GetWindowsVersion()
         {
-            var result = GetVersionExWEx(out var osvi);
-            Debug.Assert(result == 0);
+            OSVERSIONINFOEX osvi = default;
+            osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+            bool result = GetVersionEx(ref osvi);
+            Debug.Assert(result);
             return osvi.dwMajorVersion;
         }
-        private static uint GetWindowsMinorVersion()
+        private static unsafe uint GetWindowsMinorVersion()
         {
-            var result = GetVersionExWEx(out var osvi);
-            Debug.Assert(result == 0);
+            OSVERSIONINFOEX osvi = default;
+            osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+            bool result = GetVersionEx(ref osvi);
+            Debug.Assert(result);
             return osvi.dwMinorVersion;
         }
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, byte[] applicationUserModelId);
 
-        [DllImport("kernel32.dll", ExactSpelling = true)]
-        private static extern int GetVersionExW(ref OSVERSIONINFOEX lpVersionInformation);
-
-        private static unsafe int GetVersionExWEx(out OSVERSIONINFOEX osvi)
-        {
-            osvi = default;
-            osvi.dwOSVersionInfoSize = (uint)sizeof(OSVERSIONINFOEX);
-            return GetVersionExW(ref osvi);
-        }
+        [DllImport("kernel32.dll", EntryPoint = "GetVersionExW", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern bool GetVersionEx(ref OSVERSIONINFOEX ver);
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private unsafe struct OSVERSIONINFOEX
         {
-            internal uint dwOSVersionInfoSize;
-            internal uint dwMajorVersion;
-            internal uint dwMinorVersion;
-            internal uint dwBuildNumber;
-            internal uint dwPlatformId;
-            internal fixed char szCSDVersion[128];
+            public int dwOSVersionInfoSize;
+            public uint dwMajorVersion;
+            public uint dwMinorVersion;
+            public uint dwBuildNumber;
+            public uint dwPlatformId;
+            public fixed char szCSDVersion[128];
+            public short servicePackMajor;
+            public short servicePackMinor;
+            public short suiteMask;
+            public byte productType;
+            public byte reserved;
         }
     }
 }

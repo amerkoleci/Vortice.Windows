@@ -15,7 +15,7 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="bufferLocation">The gpu virtual address of the constant buffer.</param>
         /// <param name="sizeInBytes">The size in bytes of the constant buffer.</param>
-        public ConstantBufferViewDescription(long bufferLocation, int sizeInBytes)
+        public ConstantBufferViewDescription(ulong bufferLocation, int sizeInBytes)
         {
             BufferLocation = bufferLocation;
             SizeInBytes = sizeInBytes;

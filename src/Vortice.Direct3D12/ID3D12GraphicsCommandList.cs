@@ -263,17 +263,26 @@ namespace Vortice.Direct3D12
 
         public unsafe void OMSetRenderTargets(int renderTargetDescriptorsCount, CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
         {
-            fixed (void* pRT = renderTargetDescriptors)
+            fixed (void* renderTargetDescriptorsPtr = renderTargetDescriptors)
             {
-                OMSetRenderTargets(renderTargetDescriptorsCount, new IntPtr(pRT), false, depthStencilDescriptor);
+                OMSetRenderTargets(renderTargetDescriptorsCount, new IntPtr(renderTargetDescriptorsPtr), false, depthStencilDescriptor);
             }
         }
 
-        public unsafe void IASetVertexBuffers(int startSlot, int viewsCount, VertexBufferView[] vertexBufferViews)
+        #region IASetVertexBuffers
+        public void IASetVertexBuffers(int slot, VertexBufferView vertexBufferView)
         {
-            fixed (void* descPtr = vertexBufferViews)
+            unsafe
             {
-                IASetVertexBuffers(startSlot, viewsCount, new IntPtr(descPtr));
+                IASetVertexBuffers(slot, 1, (IntPtr)(&vertexBufferView));
+            }
+        }
+
+        public unsafe void IASetVertexBuffers(int startSlot, ReadOnlySpan<VertexBufferView> vertexBufferViews)
+        {
+            fixed (void* pin = &MemoryMarshal.GetReference(vertexBufferViews))
+            {
+                IASetVertexBuffers(startSlot, vertexBufferViews.Length, (IntPtr)pin);
             }
         }
 
@@ -285,19 +294,18 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public unsafe void IASetVertexBuffers(int startSlot, VertexBufferView vertexBufferView)
+        public unsafe void IASetVertexBuffers(int startSlot, int viewsCount, VertexBufferView[] vertexBufferViews)
         {
-            IASetVertexBuffers(startSlot, 1, (IntPtr)(&vertexBufferView));
+            fixed (void* vertexBufferViewsPtr = vertexBufferViews)
+            {
+                IASetVertexBuffers(startSlot, viewsCount, new IntPtr(vertexBufferViewsPtr));
+            }
         }
-
-        public unsafe void IASetVertexBuffers(VertexBufferView vertexBufferView)
-        {
-            IASetVertexBuffers(0, 1, (IntPtr)(&vertexBufferView));
-        }
+        #endregion
 
         public void BeginEvent(string name)
         {
-            var handle = IntPtr.Zero;
+            IntPtr handle = IntPtr.Zero;
             try
             {
                 handle = Marshal.StringToHGlobalUni(name);
@@ -314,7 +322,7 @@ namespace Vortice.Direct3D12
 
         public void SetMarker(string name)
         {
-            var handle = IntPtr.Zero;
+            IntPtr handle = IntPtr.Zero;
             try
             {
                 handle = Marshal.StringToHGlobalUni(name);

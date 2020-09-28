@@ -13,7 +13,7 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="startAddress">The beginning of the virtual address range.</param>
         /// <param name="strideInBytes">Defines indexing stride, such as for vertices. Only the bottom 32 bits are used. The field is 64 bits to make alignment of containing structures consistent everywhere.</param>
-        public GpuVirtualAddressAndStride(long startAddress, long strideInBytes)
+        public GpuVirtualAddressAndStride(ulong startAddress, long strideInBytes)
         {
             StartAddress = startAddress;
             StrideInBytes = strideInBytes;

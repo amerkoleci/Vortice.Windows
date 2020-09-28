@@ -55,7 +55,7 @@ namespace Vortice.Direct3D12
 
         public void EmitRaytracingAccelerationStructurePostbuildInfo(
             RaytracingAccelerationStructurePostbuildInfoDescription description,
-            long[] sourceAccelerationStructureData)
+            ulong[] sourceAccelerationStructureData)
         {
             EmitRaytracingAccelerationStructurePostbuildInfo(description, sourceAccelerationStructureData.Length, sourceAccelerationStructureData);
         }

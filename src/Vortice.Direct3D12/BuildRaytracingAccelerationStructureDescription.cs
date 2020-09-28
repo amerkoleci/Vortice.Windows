@@ -20,10 +20,10 @@ namespace Vortice.Direct3D12
         /// <param name="sourceAccelerationStructureData">Address of an existing acceleration structure if an acceleration structure update (an incremental build) is being requested, by setting <see cref="RaytracingAccelerationStructureBuildFlags.PerformUpdate"/> in the Flags parameter. Otherwise this address must be 0.</param>
         /// <param name="scratchAccelerationStructureData">Location where the build will store temporary data. <see cref="ID3D12Device5.GetRaytracingAccelerationStructurePrebuildInfo(BuildRaytracingAccelerationStructureInputs)"/> reports the amount of scratch memory the implementation will need for a given set of acceleration structure build parameters.</param>
         public BuildRaytracingAccelerationStructureDescription(
-            long destinationAccelerationStructureData,
+            ulong destinationAccelerationStructureData,
             BuildRaytracingAccelerationStructureInputs inputs,
-            long sourceAccelerationStructureData,
-            long scratchAccelerationStructureData)
+            ulong sourceAccelerationStructureData,
+            ulong scratchAccelerationStructureData)
         {
             DestinationAccelerationStructureData = destinationAccelerationStructureData;
             Inputs = inputs;

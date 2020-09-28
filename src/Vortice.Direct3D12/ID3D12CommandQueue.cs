@@ -20,11 +20,8 @@ namespace Vortice.Direct3D12
 
         public unsafe void ExecuteCommandLists(ID3D12CommandList[] commandLists)
         {
-            var commandListsPtr = (IntPtr*)0;
-
             int count = commandLists.Length;
-            IntPtr* tempPtr = stackalloc IntPtr[count];
-            commandListsPtr = tempPtr;
+            IntPtr* commandListsPtr = stackalloc IntPtr[count];
             for (int i = 0; i < count; i++)
             {
                 commandListsPtr[i] = (commandLists[i] == null) ? IntPtr.Zero : commandLists[i].NativePointer;
@@ -35,17 +32,24 @@ namespace Vortice.Direct3D12
 
         public unsafe void ExecuteCommandLists(int count, ID3D12CommandList[] commandLists)
         {
-            var commandListsPtr = (IntPtr*)0;
-
-            count = commandLists.Length;
-            IntPtr* tempPtr = stackalloc IntPtr[count];
-            commandListsPtr = tempPtr;
+            IntPtr* commandListsPtr = stackalloc IntPtr[count];
             for (int i = 0; i < count; i++)
             {
                 commandListsPtr[i] = (commandLists[i] == null) ? IntPtr.Zero : commandLists[i].NativePointer;
             }
 
             ExecuteCommandLists(count, new IntPtr(commandListsPtr));
+        }
+
+        public unsafe void ExecuteCommandLists(ReadOnlySpan<ID3D12CommandList> commandLists)
+        {
+            IntPtr* commandListsPtr = stackalloc IntPtr[commandLists.Length];
+            for (int i = 0; i < commandLists.Length; i++)
+            {
+                commandListsPtr[i] = (commandLists[i] == null) ? IntPtr.Zero : commandLists[i].NativePointer;
+            }
+
+            ExecuteCommandLists(commandLists.Length, new IntPtr(commandListsPtr));
         }
 
         public void BeginEvent(string name)

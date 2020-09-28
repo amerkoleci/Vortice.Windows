@@ -14,6 +14,9 @@ KEY CHANGES:
 - [ENH] Samples: Cleanup code and remove all leakages.
 - [ENH] D3D12: Add more helpers from d3d12x and cleanup.
 - [ENH] D3D12: D3D12CreateDevice allow direct native IDXGIAdapter handle and improve GetMaxSupportedFeatureLevel, IsSupported to accept native handle.
+- [FIX] VorticePlatformDetection correct usage of GetVersionEx.
+- [ENH] D3D12: D3D12_GPU_VIRTUAL_ADDRESS map to ulong
+- [ENH] D3D12: More API and methods improvements.
 
 -----------------------------------------------
 Release:     1.7.37 (August 2020)

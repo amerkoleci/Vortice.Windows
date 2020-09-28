@@ -118,11 +118,11 @@ namespace Vortice
                 SampleDescription = new SampleDescription(1, 0)
             };
 
-            using(IDXGISwapChain1 swapChain = DXGIFactory.CreateSwapChainForHwnd(GraphicsQueue, window.Handle, swapChainDesc))
+            using (IDXGISwapChain1 swapChain = DXGIFactory.CreateSwapChainForHwnd(GraphicsQueue, window.Handle, swapChainDesc))
             {
                 DXGIFactory.MakeWindowAssociation(window.Handle, WindowAssociationFlags.IgnoreAltEnter);
 
-                SwapChain =  swapChain.QueryInterface<IDXGISwapChain3>();
+                SwapChain = swapChain.QueryInterface<IDXGISwapChain3>();
                 _backbufferIndex = SwapChain.GetCurrentBackBufferIndex();
             }
 
@@ -298,7 +298,7 @@ namespace Vortice
             _commandList.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
             int stride = Unsafe.SizeOf<Vertex>();
             int vertexBufferSize = 3 * stride;
-            _commandList.IASetVertexBuffers(new VertexBufferView(_vertexBuffer.GPUVirtualAddress, vertexBufferSize, stride));
+            _commandList.IASetVertexBuffers(0, new VertexBufferView(_vertexBuffer.GPUVirtualAddress, vertexBufferSize, stride));
             _commandList.DrawInstanced(3, 1, 0, 0);
 
             // Indicate that the back buffer will now be used to present.
