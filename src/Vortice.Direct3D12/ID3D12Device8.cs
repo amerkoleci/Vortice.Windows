@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
+using SharpGen.Runtime;
+
 namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device8
@@ -13,14 +16,14 @@ namespace Vortice.Direct3D12
             ClearValue? optimizedClearValue,
             ID3D12ProtectedResourceSession protectedSession) where T : ID3D12Resource
         {
-            var result = CreateCommittedResource2(
+            Result result = CreateCommittedResource2(
                 ref heapProperties,
                 heapFlags,
                 ref description,
                 initialResourceState,
                 optimizedClearValue,
                 protectedSession,
-                typeof(T).GUID, out var nativePtr);
+                typeof(T).GUID, out IntPtr nativePtr);
 
             if (result.Success)
             {
@@ -30,15 +33,15 @@ namespace Vortice.Direct3D12
             return default;
         }
 
-        public T CreatePlacedResource1<T>(ID3D12Heap heap, long heapOffset, ResourceDescription1 description, ResourceStates initialState, ClearValue? optimizedClearValue = null) where T : ID3D12Resource
+        public T CreatePlacedResource1<T>(ID3D12Heap heap, ulong heapOffset, ResourceDescription1 description, ResourceStates initialState, ClearValue? optimizedClearValue = null) where T : ID3D12Resource
         {
-            var result = CreatePlacedResource1(
+            Result result = CreatePlacedResource1(
                 heap,
                 heapOffset,
                 ref description,
                 initialState,
                 optimizedClearValue,
-                typeof(T).GUID, out var nativePtr);
+                typeof(T).GUID, out IntPtr nativePtr);
 
             if (result.Success)
             {

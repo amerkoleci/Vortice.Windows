@@ -13,7 +13,7 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="sizeInBytes">The size, in bytes, of the resource.</param>
         /// <param name="alignment">The alignment value for the resource; one of 4KB (4096), 64KB (65536) and 4MB (4194304) alignment.</param>
-        public ResourceAllocationInfo(long sizeInBytes, long alignment)
+        public ResourceAllocationInfo(ulong sizeInBytes, ulong alignment)
         {
             SizeInBytes = sizeInBytes;
             Alignment = alignment;

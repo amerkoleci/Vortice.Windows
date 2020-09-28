@@ -37,8 +37,8 @@ namespace Vortice
 
         private readonly ID3D12Fence _frameFence;
         private readonly AutoResetEvent _frameFenceEvent;
-        private long _frameCount;
-        private long _frameIndex;
+        private ulong _frameCount;
+        private ulong _frameIndex;
         private int _backbufferIndex;
 
         public ID3D12Device D3D12Device => _d3d12Device;
@@ -211,7 +211,7 @@ namespace Vortice
             _vertexBuffer = _d3d12Device.CreateCommittedResource(
                 new HeapProperties(HeapType.Upload),
                 HeapFlags.None,
-                ResourceDescription.Buffer(vertexBufferSize),
+                ResourceDescription.Buffer((ulong)vertexBufferSize),
                 ResourceStates.GenericRead);
 
             Vertex[] triangleVertices = new Vertex[]
@@ -317,7 +317,7 @@ namespace Vortice
 
             GraphicsQueue.Signal(_frameFence, ++_frameCount);
 
-            long GPUFrameCount = _frameFence.CompletedValue;
+            ulong GPUFrameCount = _frameFence.CompletedValue;
 
             if ((_frameCount - GPUFrameCount) >= RenderLatency)
             {

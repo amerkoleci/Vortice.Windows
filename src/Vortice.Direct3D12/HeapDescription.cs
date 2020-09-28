@@ -8,7 +8,7 @@ namespace Vortice.Direct3D12
     /// </summary>
     public partial struct HeapDescription
     {
-        public HeapDescription(long size, HeapProperties properties, long alignment = 0, HeapFlags flags = HeapFlags.None)
+        public HeapDescription(ulong size, HeapProperties properties, ulong alignment = 0, HeapFlags flags = HeapFlags.None)
         {
             SizeInBytes = size;
             Properties = properties;
@@ -16,7 +16,7 @@ namespace Vortice.Direct3D12
             Flags = flags;
         }
 
-        public HeapDescription(long size, HeapType type, long alignment = 0, HeapFlags flags = HeapFlags.None)
+        public HeapDescription(ulong size, HeapType type, ulong alignment = 0, HeapFlags flags = HeapFlags.None)
         {
             SizeInBytes = size;
             Properties = new HeapProperties(type);
@@ -24,7 +24,7 @@ namespace Vortice.Direct3D12
             Flags = flags;
         }
 
-        public HeapDescription(long size, CpuPageProperty cpuPageProperty, MemoryPool memoryPoolPreference, long alignment = 0, HeapFlags flags = HeapFlags.None)
+        public HeapDescription(ulong size, CpuPageProperty cpuPageProperty, MemoryPool memoryPoolPreference, ulong alignment = 0, HeapFlags flags = HeapFlags.None)
         {
             SizeInBytes = size;
             Properties = new HeapProperties(cpuPageProperty, memoryPoolPreference);

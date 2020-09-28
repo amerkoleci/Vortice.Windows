@@ -27,13 +27,13 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public long GetRequiredIntermediateSize(int firstSubresource, int numSubresources)
+        public ulong GetRequiredIntermediateSize(int firstSubresource, int numSubresources)
         {
             ResourceDescription desc = GetDescription();
 
             using(ID3D12Device device = GetDevice<ID3D12Device>())
             {
-                device.GetCopyableFootprints(desc, firstSubresource, numSubresources, 0, null, null, null, out long requiredSize);
+                device.GetCopyableFootprints(desc, firstSubresource, numSubresources, 0, null, null, null, out ulong requiredSize);
                 return requiredSize;
             }
         }

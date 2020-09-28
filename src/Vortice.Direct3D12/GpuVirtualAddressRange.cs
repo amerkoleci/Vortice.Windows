@@ -13,7 +13,7 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="startAddress">The beginning of the virtual address range.</param>
         /// <param name="sizeInBytes">The size of the virtual address range, in bytes.</param>
-        public GpuVirtualAddressRange(ulong startAddress, long sizeInBytes)
+        public GpuVirtualAddressRange(ulong startAddress, ulong sizeInBytes)
         {
             StartAddress = startAddress;
             SizeInBytes = sizeInBytes;

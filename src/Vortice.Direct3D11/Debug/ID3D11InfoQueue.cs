@@ -8,7 +8,7 @@ namespace Vortice.Direct3D11.Debug
 {
     public partial class ID3D11InfoQueue
     {
-        public unsafe Message GetMessage(long messageIndex)
+        public unsafe Message GetMessage(ulong messageIndex)
         {
             PointerSize messageSize = 0;
             GetMessage(messageIndex, IntPtr.Zero, ref messageSize);
@@ -18,10 +18,10 @@ namespace Vortice.Direct3D11.Debug
                 return new Message();
             }
 
-            var messagePtr = stackalloc byte[(int)messageSize];
+            byte* messagePtr = stackalloc byte[messageSize];
             GetMessage(messageIndex, new IntPtr(messagePtr), ref messageSize);
 
-            var message = new Message();
+            Message message = new Message();
             message.__MarshalFrom(ref *(Message.__Native*)messagePtr);
             return message;
         }
@@ -29,37 +29,37 @@ namespace Vortice.Direct3D11.Debug
 
         public unsafe InfoQueueFilter GetStorageFilter()
         {
-            var sizeFilter = PointerSize.Zero;
+            PointerSize sizeFilter = PointerSize.Zero;
             GetStorageFilter(IntPtr.Zero, ref sizeFilter);
 
             if (sizeFilter == 0)
             {
                 return null;
             }
-            var filter = stackalloc byte[(int)sizeFilter];
+
+            byte* filter = stackalloc byte[sizeFilter];
             GetStorageFilter((IntPtr)filter, ref sizeFilter);
 
-            var queueNative = new InfoQueueFilter();
+            InfoQueueFilter queueNative = new InfoQueueFilter();
             queueNative.__MarshalFrom(ref *(InfoQueueFilter.__Native*)filter);
-
             return queueNative;
         }
 
         public unsafe InfoQueueFilter GetRetrievalFilter()
         {
-            var sizeFilter = PointerSize.Zero;
+            PointerSize sizeFilter = PointerSize.Zero;
             GetRetrievalFilter(IntPtr.Zero, ref sizeFilter);
 
             if (sizeFilter == 0)
             {
                 return null;
             }
-            var filter = stackalloc byte[(int)sizeFilter];
+
+            byte* filter = stackalloc byte[sizeFilter];
             GetRetrievalFilter((IntPtr)filter, ref sizeFilter);
 
-            var queueNative = new InfoQueueFilter();
+            InfoQueueFilter queueNative = new InfoQueueFilter();
             queueNative.__MarshalFrom(ref *(InfoQueueFilter.__Native*)filter);
-
             return queueNative;
         }
     }

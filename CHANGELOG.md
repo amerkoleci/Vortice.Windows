@@ -17,6 +17,7 @@ KEY CHANGES:
 - [FIX] VorticePlatformDetection correct usage of GetVersionEx.
 - [ENH] D3D12: D3D12_GPU_VIRTUAL_ADDRESS map to ulong
 - [ENH] D3D12: More API and methods improvements.
+- [ENH] Mapping: Map UINT64 to ulong instead of long, better keep close to native API.
 
 -----------------------------------------------
 Release:     1.7.37 (August 2020)

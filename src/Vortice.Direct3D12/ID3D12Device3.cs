@@ -11,7 +11,7 @@ namespace Vortice.Direct3D12
         /// <summary>
         /// Asynchronously makes objects resident for the device.
         /// </summary>
-        public Result EnqueueMakeResident(ResidencyFlags flags, ID3D12Pageable[] objects, ID3D12Fence fenceToSignal, long fenceValueToSignal)
+        public Result EnqueueMakeResident(ResidencyFlags flags, ID3D12Pageable[] objects, ID3D12Fence fenceToSignal, ulong fenceValueToSignal)
         {
             return EnqueueMakeResident(flags, objects?.Length ?? 0, objects, fenceToSignal, fenceValueToSignal);
         }
@@ -25,7 +25,7 @@ namespace Vortice.Direct3D12
         /// <returns></returns>
         public T OpenExistingHeapFromAddress<T>(IntPtr address) where T : ID3D12Heap
         {
-            if (OpenExistingHeapFromAddress(address, typeof(T).GUID, out var nativePtr).Failure)
+            if (OpenExistingHeapFromAddress(address, typeof(T).GUID, out IntPtr nativePtr).Failure)
             {
                 return default;
             }
@@ -35,7 +35,7 @@ namespace Vortice.Direct3D12
 
         public T OpenExistingHeapFromFileMapping<T>(IntPtr fileMapping) where T : ID3D12Heap
         {
-            if (OpenExistingHeapFromFileMapping(fileMapping, typeof(T).GUID, out var nativePtr).Failure)
+            if (OpenExistingHeapFromFileMapping(fileMapping, typeof(T).GUID, out IntPtr nativePtr).Failure)
             {
                 return default;
             }

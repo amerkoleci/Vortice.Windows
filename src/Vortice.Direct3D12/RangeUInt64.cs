@@ -18,7 +18,7 @@ namespace Vortice.Direct3D12
         /// <remarks>
         /// End is one-past-the-end. When Begin equals End, the range is empty. The size of the range is (End - Begin).
         /// </remarks>
-        public RangeUInt64(long begin, long end)
+        public RangeUInt64(ulong begin, ulong end)
         {
             Begin = begin;
             End = end;
@@ -33,8 +33,7 @@ namespace Vortice.Direct3D12
         /// <param name="other">The <see cref="RangeUInt64"/> to compare with this instance.</param>
         public bool Equals(RangeUInt64 other)
         {
-            return Begin.Equals(other.Begin)
-                && End.Equals(other.End);
+            return Begin == other.Begin && End == other.End;
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace Vortice.Direct3D12
         {
             unchecked
             {
-                var hashCode = Begin.GetHashCode();
+                int hashCode = Begin.GetHashCode();
                 hashCode = (hashCode * 397) ^ End.GetHashCode();
                 return hashCode;
             }

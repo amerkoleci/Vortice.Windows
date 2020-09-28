@@ -497,7 +497,7 @@ namespace Vortice.Direct3D12
         #endregion
 
         #region CreateFence
-        public ID3D12Fence CreateFence(long initialValue, FenceFlags flags = FenceFlags.None)
+        public ID3D12Fence CreateFence(ulong initialValue, FenceFlags flags = FenceFlags.None)
         {
             Result result = CreateFence(initialValue, flags, typeof(ID3D12Fence).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -506,7 +506,7 @@ namespace Vortice.Direct3D12
             return new ID3D12Fence(nativePtr);
         }
 
-        public T CreateFence<T>(long initialValue, FenceFlags flags = FenceFlags.None) where T : ID3D12Fence
+        public T CreateFence<T>(ulong initialValue, FenceFlags flags = FenceFlags.None) where T : ID3D12Fence
         {
             Result result = CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -515,7 +515,7 @@ namespace Vortice.Direct3D12
             return FromPointer<T>(nativePtr);
         }
 
-        public Result CreateFence<T>(long initialValue, FenceFlags flags, out T fence) where T : ID3D12Fence
+        public Result CreateFence<T>(ulong initialValue, FenceFlags flags, out T fence) where T : ID3D12Fence
         {
             Result result = CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -754,7 +754,7 @@ namespace Vortice.Direct3D12
 
         public T CreatePlacedResource<T>(
             ID3D12Heap heap,
-            long heapOffset,
+            ulong heapOffset,
             ResourceDescription resourceDescription,
             ResourceStates initialState,
             ClearValue? clearValue = null) where T : ID3D12Resource

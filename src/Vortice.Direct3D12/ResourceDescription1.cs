@@ -26,8 +26,8 @@ namespace Vortice.Direct3D12
         /// <param name="samplerFeedbackMipRegionDepth"></param>
         public ResourceDescription1(
             ResourceDimension dimension,
-            long alignment,
-            long width,
+            ulong alignment,
+            ulong width,
             int height,
             short depthOrArraySize,
             short mipLevels,
@@ -63,27 +63,27 @@ namespace Vortice.Direct3D12
         }
 
         public static ResourceDescription1 Buffer(
-            long width,
+            ulong width,
             ResourceFlags flags = ResourceFlags.None,
-            long alignment = 0)
+            ulong alignment = 0)
         {
             return new ResourceDescription1(ResourceDimension.Buffer, alignment, width, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags, 0, 0, 0);
         }
 
         public static ResourceDescription1 Texture1D(Format format,
-            long width,
+            ulong width,
             short arraySize = 1,
             short mipLevels = 0,
             ResourceFlags flags = ResourceFlags.None,
             TextureLayout layout = TextureLayout.Unknown,
-            long alignment = 0)
+            ulong alignment = 0)
         {
             return new ResourceDescription1(ResourceDimension.Texture1D, alignment, width, 1, arraySize,
                 mipLevels, format, 1, 0, layout, flags, 0, 0, 0);
         }
 
         public static ResourceDescription1 Texture2D(Format format,
-            long width,
+            ulong width,
             int height,
             short arraySize = 1,
             short mipLevels = 0,
@@ -91,7 +91,7 @@ namespace Vortice.Direct3D12
             int sampleQuality = 0,
             ResourceFlags flags = ResourceFlags.None,
             TextureLayout layout = TextureLayout.Unknown,
-            long alignment = 0,
+            ulong alignment = 0,
             int samplerFeedbackMipRegionWidth = 0,
             int samplerFeedbackMipRegionHeight = 0,
             int samplerFeedbackMipRegionDepth = 0)
@@ -102,13 +102,13 @@ namespace Vortice.Direct3D12
         }
 
         public static ResourceDescription1 Texture3D(Format format,
-            long width,
+            ulong width,
             int height,
             short depth,
             short mipLevels = 0,
             ResourceFlags flags = ResourceFlags.None,
             TextureLayout layout = TextureLayout.Unknown,
-            long alignment = 0)
+            ulong alignment = 0)
         {
             return new ResourceDescription1(ResourceDimension.Texture3D, alignment, width, height, depth,
                 mipLevels, format, 1, 0, layout, flags, 0, 0, 0);
