@@ -1,11 +1,14 @@
-name: CI
+
+name: ci
 
 on:
   push:
+    branches: [ main ]
     paths-ignore:
     - 'CHANGELOG.md'
-    - 'README.md'
+    - 'README.md'    
   pull_request:
+    branches: [ main ]
 
 jobs:
   build:
