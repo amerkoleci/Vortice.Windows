@@ -3,19 +3,12 @@
 
 using System;
 using SharpGen.Runtime;
-using SharpGen.Runtime.Win32;
 using Vortice.DXGI;
 
 namespace Vortice.DirectComposition
 {
-    public partial class IDCompositionDevice
+    public partial class IDCompositionDevice2
     {
-        public bool CheckDeviceState()
-        {
-            CheckDeviceState(out RawBool result).CheckError();
-            return result;
-        }
-
         public IDCompositionAnimation CreateAnimation()
         {
             CreateAnimation(out IDCompositionAnimation animation).CheckError();
@@ -76,22 +69,16 @@ namespace Vortice.DirectComposition
             return skewTransform;
         }
 
-        public IUnknown CreateSurfaceFromHandle(IntPtr handle)
+        public IDCompositionSurface CreateSurface(int width, int height, Format pixelFormat, AlphaMode alphaMode)
         {
-            CreateSurfaceFromHandle(handle, out IUnknown surface).CheckError();
+            CreateSurface(width, height, pixelFormat, alphaMode, out IDCompositionSurface surface).CheckError();
             return surface;
         }
 
-        public IUnknown CreateSurfaceFromHwnd(IntPtr hwnd)
+        public IDCompositionSurfaceFactory CreateSurfaceFactory(IUnknown renderingDevice)
         {
-            CreateSurfaceFromHwnd(hwnd, out IUnknown surface).CheckError();
-            return surface;
-        }
-
-        public IDCompositionTarget CreateSurfaceFromHwnd(IntPtr hwnd, bool topmost)
-        {
-            CreateTargetForHwnd(hwnd, topmost, out IDCompositionTarget target).CheckError();
-            return target;
+            CreateSurfaceFactory(renderingDevice, out IDCompositionSurfaceFactory surfaceFactory).CheckError();
+            return surfaceFactory;
         }
 
         public IDCompositionTransform CreateTransformGroup(IDCompositionTransform[] transforms)
@@ -130,9 +117,9 @@ namespace Vortice.DirectComposition
             return translateTransform;
         }
 
-        public IDCompositionVisual CreateVisual()
+        public IDCompositionVisual2 CreateVisual()
         {
-            CreateVisual(out IDCompositionVisual visual).CheckError();
+            CreateVisual(out IDCompositionVisual2 visual).CheckError();
             return visual;
         }
 

@@ -6,7 +6,8 @@
 
   <sdk name="WindowsSdk" version="10.0.19041.0" />
   <sdk name="StdLib" />
-
+  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/winui</include-dir>
+  
   <include file="dxgiformat.h" namespace="Vortice.DXGI" attach="true"/>
 
   <include file="dxgidebug.h" namespace="Vortice.DXGI" attach="true"/>
@@ -20,6 +21,11 @@
   <include file="dxgi1_5.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi1_6.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="windows.ui.xaml.media.dxinterop.h" namespace="Vortice.DXGI" attach="true" />
+  <!-- WinUI -->
+  <include file="microsoft.ui.xaml.window.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
+  <include file="microsoft.ui.xaml.hosting.desktopwindowxamlsource.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
+  <include file="microsoft.ui.xaml.xamlroot.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
+  
 
   <extension>
 
@@ -289,11 +295,12 @@
     <map param="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
 
     <!-- ISurfaceImageSourceNative -->
+    <map method="ISurfaceImageSourceNative::.*" property="false" hresult="true" check="false" />
     <map method="ISurfaceImageSourceNative::SetDevice" property="false" />
     <map method="ISurfaceImageSourceNative::BeginDraw" hresult="true" check="false"/>
 
     <!-- IVirtualSurfaceUpdatesCallbackNative -->
-    <map method="IVirtualSurfaceUpdatesCallbackNative::UpdatesNeeded" hresult="true" check="false"/>
+    <map method="IVirtualSurfaceUpdatesCallbackNative::.*" property="false" hresult="true" check="false" />
 
     <!-- IVirtualSurfaceImageSourceNative -->
     <map method="IVirtualSurfaceImageSourceNative::Invalidate" hresult="true" check="false"/>

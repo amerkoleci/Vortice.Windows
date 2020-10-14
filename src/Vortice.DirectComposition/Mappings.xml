@@ -43,6 +43,7 @@
     <map method="IDCompositionDesktopDevice::.*" property="false" hresult="true" check="false" />
     <map method="IDCompositionDeviceDebug::.*" property="false" hresult="true" check="false" />
     <map method="IDCompositionSurface::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionSurface::BeginDraw" visibility="private" />
     <map method="IDCompositionSurfaceFactory::.*" property="false" hresult="true" check="false" />
     <map method="IDCompositionVirtualSurface::.*" property="false" hresult="true" check="false" />
 

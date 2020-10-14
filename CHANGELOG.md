@@ -1,9 +1,16 @@
 # Changelog
 
-Current Stable Release:    1.8.13 (September 2020)
+Current Stable Release:    1.8.17 (September 2020)
 
 -----------------------------------------------
-Release:     1.8.x (XXX 2020)
+Release:     1.8.XX (October 2020)
+-----------------------------------------------
+KEY CHANGES:
+- [ENH] DirectComposition: Initial DirectComposition support.
+- [ENH] DXGI: Initial WinUI headers generation under WinUI folder + namespace.
+
+-----------------------------------------------
+Release:     1.8.17 (October 2020)
 -----------------------------------------------
 KEY CHANGES:
 - [FIX] D3D11: ID3D11DeviceContext fix various calls and avoid usage of params that can lead memory allocation.
