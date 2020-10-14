@@ -201,7 +201,6 @@
     <!-- IDXGISwapChain2 -->
     <map param="IDXGISwapChain2::GetMaximumFrameLatency::pMaxLatency" attribute="out" />
     <map param="IDXGISwapChain2::GetMatrixTransform::pMatrix" attribute="out" />
-    <map method="IDXGISwapChain2::[GS]etSourceSize" visibility="private"  />
 
     <!-- IDXGISwapChain3 -->
     <map method="IDXGISwapChain3::GetCurrentBackBufferIndex" property="false"  />

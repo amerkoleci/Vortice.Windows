@@ -614,8 +614,6 @@
 
     <map method="IDWriteGdiInterop1::.*?LOGFONT" visibility="internal" />
     <map param="IDWriteGdiInterop1::.*?LOGFONT::logFont" type="void" override-native-type="true" attribute="in" />
-    <map param="IDWriteGdiInterop1::CreateBitmapRenderTarget::renderTarget" return="true" />
-    <map param="IDWriteGdiInterop1::CreateFontFaceFromHdc::fontFace" return="true" />
     <map param="IDWriteGdiInterop1::GetFontSignature::fontSignature" return="true" />
     <map param="IDWriteGdiInterop1::CreateFontFromLOGFONT::font" return="true" />
     

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-dcomp" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.DirectComposition</assembly>
+  <namespace>Vortice.DirectComposition</namespace>
+  <depends>Vortice.DirectX</depends>
+  <depends>Vortice.DXGI</depends>
+  <depends>Vortice.Direct2D1</depends>
+
+  <sdk name="WindowsSdk" version="10.0.19041.0" />
+  <sdk name="StdLib" />
+
+  <include file="windows.h" />
+  <include file="dcomptypes.h" namespace="Vortice.DirectComposition" attach="true"/>
+  <include file="dcompanimation.h" namespace="Vortice.DirectComposition" attach="true"/>
+  <include file="dcomp.h" namespace="Vortice.DirectComposition" attach="true"/>
+  
+  <extension>
+    <create class="ResultCode" visibility="public static" />
+    <const from-macro="DCOMPOSITION_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct3D11.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+
+    <create class="DComp" visibility="public" />
+  </extension>
+
+  <bindings>
+    <bind from="D3DMATRIX" to="System.Numerics.Matrix4x4" />
+  </bindings>
+
+  <naming>
+    
+  </naming>
+
+  <mapping>
+    <!-- Enums -->
+    <map enum="DCOMPOSITION_(.*)" name-tmp="$1" />
+
+    <!-- Structs -->
+    <map struct="DCOMPOSITION(.*)" name-tmp="$1" />
+
+    <!-- Interfaces -->
+    <map method="IDCompositionDevice::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionDevice2::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionDevice3::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionDesktopDevice::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionDeviceDebug::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionSurface::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionSurfaceFactory::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionVirtualSurface::.*" property="false" hresult="true" check="false" />
+
+    <map method="IDCompositionAnimation::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionAffineTransform2DEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionArithmeticCompositeEffect::.*" property="false" hresult="true" check="false"/>
+    <map method="IDCompositionBlendEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionBrightnessEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionColorMatrixEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionCompositeEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionEffectGroup::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionFilterEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionGaussianBlurEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionHueRotationEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionLinearTransferEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionMatrixTransform::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionMatrixTransform3D::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionRectangleClip::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionRotateTransform::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionRotateTransform3D::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionSaturationEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionScaleTransform::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionScaleTransform3D::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionTarget::.*" property="false" hresult="true" check="false"/>
+    <map method="IDCompositionShadowEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionSkewTransform::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionTableTransferEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionTurbulenceEffect::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionTranslateTransform::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionTranslateTransform3D::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionVisual::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionVisual2::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionVisual3::.*" property="false" hresult="true" check="false" />
+    <map method="IDCompositionVisualDebug::.*" property="false" hresult="true" check="false" />
+
+    <map function="DComposition(.+)" visibility="internal" hresult="true" check="false" />
+    <map function="DComposition.*" dll='"dcomp.dll"' group="Vortice.DirectComposition.DComp" />
+    <map function="DCompositionAttachMouseDragToHwnd" visibility="public" hresult="true" check="false" />
+    <map function="DCompositionAttachMouseWheelToHwnd" visibility="public" hresult="true" check="false" />
+    <map function="DCompositionCreateSurfaceHandle" visibility="public" hresult="true" check="false" />
+  </mapping>
+</config>
