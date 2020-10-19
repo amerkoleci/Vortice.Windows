@@ -52,37 +52,19 @@ namespace Vortice.Direct3D12
             ExecuteCommandLists(commandLists.Length, new IntPtr(commandListsPtr));
         }
 
-        public void BeginEvent(string name)
+        public unsafe void BeginEvent(string name)
         {
-            IntPtr handle = IntPtr.Zero;
-            try
+            fixed (char* chars = name)
             {
-                handle = Marshal.StringToHGlobalUni(name);
-                BeginEvent(D3D12.PIX_EVENT_UNICODE_VERSION, handle, name.Length);
-            }
-            finally
-            {
-                if (handle != IntPtr.Zero)
-                {
-                    Marshal.FreeHGlobal(handle);
-                }
+                BeginEvent(D3D12.PIX_EVENT_UNICODE_VERSION, new IntPtr(chars), (name.Length + 1) * 2);
             }
         }
 
-        public void SetMarker(string name)
+        public unsafe void SetMarker(string name)
         {
-            IntPtr handle = IntPtr.Zero;
-            try
+            fixed (char* chars = name)
             {
-                handle = Marshal.StringToHGlobalUni(name);
-                SetMarker(D3D12.PIX_EVENT_UNICODE_VERSION, handle, name.Length);
-            }
-            finally
-            {
-                if (handle != IntPtr.Zero)
-                {
-                    Marshal.FreeHGlobal(handle);
-                }
+                SetMarker(D3D12.PIX_EVENT_UNICODE_VERSION, new IntPtr(chars), (name.Length + 1) * 2);
             }
         }
 

@@ -1497,15 +1497,12 @@ namespace Vortice.Direct3D11
             IntPtr pAdjustedSrcData = pSrcData;
             if (needWorkaround)
             {
-                var alignedBox = dstBox.Value;
+                Box alignedBox = dstBox.Value;
 
                 // convert from pixels to blocks
                 if (isCompressedResource)
                 {
-                    alignedBox.Left /= 4;
-                    alignedBox.Right /= 4;
-                    alignedBox.Top /= 4;
-                    alignedBox.Bottom /= 4;
+                    alignedBox = new Box(alignedBox.Left / 4, alignedBox.Top / 4, alignedBox.Front, alignedBox.Right / 4, alignedBox.Bottom / 4, alignedBox.Back);
                 }
 
                 pAdjustedSrcData = (IntPtr)(((byte*)pSrcData) - (alignedBox.Front * srcDepthPitch) - (alignedBox.Top * srcRowPitch) - (alignedBox.Left * srcBytesPerElement));
