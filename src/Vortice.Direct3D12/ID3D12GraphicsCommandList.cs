@@ -309,7 +309,7 @@ namespace Vortice.Direct3D12
             try
             {
                 handle = Marshal.StringToHGlobalUni(name);
-                BeginEvent(1, handle, name.Length);
+                BeginEvent(D3D12.PIX_EVENT_UNICODE_VERSION, handle, name.Length);
             }
             finally
             {
@@ -326,7 +326,7 @@ namespace Vortice.Direct3D12
             try
             {
                 handle = Marshal.StringToHGlobalUni(name);
-                SetMarker(1, handle, name.Length);
+                SetMarker(D3D12.PIX_EVENT_UNICODE_VERSION, handle, name.Length);
             }
             finally
             {

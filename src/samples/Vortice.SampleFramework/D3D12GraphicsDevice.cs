@@ -274,6 +274,7 @@ namespace Vortice
         {
             _commandAllocators[_frameIndex].Reset();
             _commandList.Reset(_commandAllocators[_frameIndex], _pipelineState);
+            _commandList.BeginEvent("Frame");
 
             // Set necessary state.
             _commandList.SetGraphicsRootSignature(_rootSignature);
@@ -303,6 +304,7 @@ namespace Vortice
 
             // Indicate that the back buffer will now be used to present.
             _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.RenderTarget, ResourceStates.Present);
+            _commandList.EndEvent();
             _commandList.Close();
 
             // Execute the command list.

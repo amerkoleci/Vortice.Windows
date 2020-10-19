@@ -510,5 +510,8 @@ namespace Vortice.Direct3D12
         public const int WHQLContextCountForResourceLimit = 10;
         public const int WHQLDrawIndexedIndexCount2ToExp = 25;
         public const int WHQLDrawVertexCount2ToExp = 25;
+
+        public const int PIX_EVENT_UNICODE_VERSION = 0;
+        public const int PIX_EVENT_ANSI_VERSION = 1;
     }
 }
