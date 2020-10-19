@@ -9,6 +9,7 @@ KEY CHANGES:
 - [ENH] DirectComposition: Initial DirectComposition support.
 - [ENH] DXGI: Initial WinUI headers generation under WinUI folder + namespace.
 - [FIX] D3D12: BeginEvent, SetMarker for ID3D12CommandQueue and ID3D12GraphicsCommandList.
+- [ENH] DXGI: Map IDXGraphicsAnalysis from DXProgrammableCapture.h.
 
 -----------------------------------------------
 Release:     1.8.17 (October 2020)

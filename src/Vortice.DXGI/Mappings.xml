@@ -20,6 +20,7 @@
   <include file="dxgi1_4.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi1_5.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi1_6.h" namespace="Vortice.DXGI" attach="true"/>
+  <include file="DXProgrammableCapture.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="windows.ui.xaml.media.dxinterop.h" namespace="Vortice.DXGI" attach="true" />
   <!-- WinUI -->
   <include file="microsoft.ui.xaml.window.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
