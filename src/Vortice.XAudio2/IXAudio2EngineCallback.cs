@@ -17,7 +17,9 @@ namespace Vortice.XAudio2
 
     internal class IXAudio2EngineCallbackShadow : CppObjectShadow
     {
-        protected override CppObjectVtbl Vtbl => new VTable();
+        private static readonly VTable s_vtbl = new VTable();
+
+        protected override CppObjectVtbl Vtbl => s_vtbl;
 
         private class VTable : CppObjectVtbl
         {
