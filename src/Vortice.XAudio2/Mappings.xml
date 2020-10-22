@@ -261,6 +261,9 @@
     <map field=".*::LFE(.*)" name="Lfe$1"/>
     <map field=".*::LPF(.*)" name="Lpf$1"/>
 
+    <map struct="XAUDIO2FX_VOLUMEMETER_LEVELS" name="VolumeMeterLevels" struct-to-class="true" marshal="true" />
+    <remove field="XAUDIO2FX_VOLUMEMETER_LEVELS::.*"/>
+
     <remove function="X3DAudio.*"/>
   </mapping>
 </config>

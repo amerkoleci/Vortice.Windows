@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Vortice.XAudio2.Fx;
 
 namespace Vortice.XAudio2
 {
@@ -233,19 +234,9 @@ namespace Vortice.XAudio2
         /// Sets parameters for a given effect in the voice's effect chain.
         /// </summary>	
         /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
-        /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
-        public void SetEffectParameters(int effectIndex, byte[] effectParameter)
-        {
-            SetEffectParameters(effectIndex, effectParameter, 0);
-        }
-
-        /// <summary>	
-        /// Sets parameters for a given effect in the voice's effect chain.
-        /// </summary>	
-        /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
         /// <param name="effectParameter">The the current values of the effect-specific parameters.</param>
         /// <param name="operationSet">Identifies this call as part of a deferred batch.</param>
-        public void SetEffectParameters(int effectIndex, byte[] effectParameter, int operationSet)
+        public void SetEffectParameters(int effectIndex, byte[] effectParameter, int operationSet = 0)
         {
             unsafe
             {
@@ -259,18 +250,8 @@ namespace Vortice.XAudio2
         /// </summary>	
         /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
         /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
-        public void SetEffectParameters<T>(int effectIndex, T effectParameter) where T : unmanaged
-        {
-            SetEffectParameters<T>(effectIndex, effectParameter, 0);
-        }
-
-        /// <summary>	
-        /// Sets parameters for a given effect in the voice's effect chain.
-        /// </summary>	
-        /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
-        /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
         /// <param name="operationSet">Identifies this call as part of a deferred batch.</param>
-        public void SetEffectParameters<T>(int effectIndex, T effectParameter, int operationSet) where T : unmanaged
+        public void SetEffectParameters<T>(int effectIndex, T effectParameter, int operationSet = 0) where T : unmanaged
         {
             unsafe
             {
@@ -278,6 +259,19 @@ namespace Vortice.XAudio2
                 _effectParameters.Add(effectParameterPtr);
                 Unsafe.CopyBlockUnaligned(effectParameterPtr.ToPointer(), &effectParameter, (uint)sizeof(T));
                 SetEffectParameters(effectIndex, effectParameterPtr, sizeof(T), operationSet);
+            }
+        }
+
+        public void SetEffectParameters(int effectIndex, VolumeMeterLevels meterLevels, int operationSet = 0)
+        {
+            unsafe
+            {
+                IntPtr effectParameterPtr = Marshal.AllocHGlobal(sizeof(VolumeMeterLevels.__Native));
+                _effectParameters.Add(effectParameterPtr);
+                VolumeMeterLevels.__Native native = default;
+                meterLevels.__MarshalTo(ref native);
+                Unsafe.CopyBlockUnaligned(effectParameterPtr.ToPointer(), &native, (uint)sizeof(VolumeMeterLevels.__Native));
+                SetEffectParameters(effectIndex, effectParameterPtr, sizeof(VolumeMeterLevels.__Native), operationSet);
             }
         }
 

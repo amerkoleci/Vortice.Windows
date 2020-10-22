@@ -21,6 +21,20 @@ namespace Vortice.XAudio2
             _ownsBuffer = ownsBuffer;
         }
 
+        /// <summary>
+        /// Create new instance of <see cref="AudioBuffer"/> with externally owned memory.
+        /// </summary>
+        /// <param name="data">The data pointer.</param>
+        /// <param name="sizeInBytes">Size in bytes of the buffer.</param>
+        /// <param name="flags">The <see cref="BufferFlags"/> flags.</param>
+        public AudioBuffer(IntPtr data, int sizeInBytes, BufferFlags flags = BufferFlags.None)
+        {
+            Flags = flags;
+            AudioBytes = sizeInBytes;
+            AudioDataPointer = data;
+            _ownsBuffer = false;
+        }
+
         public AudioBuffer(int sizeInBytes, BufferFlags flags = BufferFlags.EndOfStream)
         {
             Flags = flags;
@@ -29,29 +43,23 @@ namespace Vortice.XAudio2
             _ownsBuffer = true;
         }
 
-        public AudioBuffer(byte[] data, BufferFlags flags = BufferFlags.EndOfStream)
+        public unsafe AudioBuffer(byte[] data, BufferFlags flags = BufferFlags.EndOfStream)
         {
             Flags = flags;
             AudioBytes = data.Length;
             AudioDataPointer = MemoryHelpers.AllocateMemory(data.Length);
-            unsafe
+            fixed (void* dataPtr = &data[0])
             {
-                fixed (void* dataPtr = &data[0])
-                {
-                    Unsafe.CopyBlockUnaligned(
-                        AudioDataPointer.ToPointer(),
-                        dataPtr,
-                        (uint)data.Length);
-                }
+                Unsafe.CopyBlockUnaligned(AudioDataPointer.ToPointer(), dataPtr, (uint)data.Length);
             }
 
             _ownsBuffer = true;
         }
 
-        public static unsafe AudioBuffer Create<T>(ReadOnlySpan<T> data, BufferFlags flags = BufferFlags.EndOfStream) where T : struct
+        public static unsafe AudioBuffer Create<T>(ReadOnlySpan<T> data, BufferFlags flags = BufferFlags.EndOfStream) where T : unmanaged
         {
-            var sizeInBytes = data.Length * Unsafe.SizeOf<T>();
-            var dataPtr = MemoryHelpers.AllocateMemory(data.Length);
+            int sizeInBytes = data.Length * sizeof(T);
+            IntPtr dataPtr = MemoryHelpers.AllocateMemory(data.Length);
             MemoryHelpers.CopyMemory(dataPtr, data);
             return new AudioBuffer(flags, dataPtr, sizeInBytes, true);
         }
