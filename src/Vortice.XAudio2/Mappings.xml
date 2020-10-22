@@ -9,7 +9,7 @@
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include</include-dir>
 
-  <include file="xaudio2.h" attach="true" />
+  <include file="xaudio2redist.h" attach="true" />
   <include file="x3daudioredist.h" attach="true" output="X3DAudio" />
 
   <extension>
@@ -130,7 +130,6 @@
     <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pRMSLevels" visibility="internal" />
 
     <!-- IXAudio2 -->
-    <map method="IXAudio2::.*" custom-vtbl="true"/>
     <map method="IXAudio2::Initialize" visibility="internal" />
     <map method="IXAudio2::GetDeviceDetails" visibility="internal" />
     <map method="IXAudio2::Create.*" visibility="internal" />
@@ -167,7 +166,7 @@
     <map method="IXAudio2SourceVoice::GetFrequencyRatio" visibility="internal" />
 
     <remove interface="IXAudio2Extension"/>
-    <remove function="XAudio2CreateWithVersionInfo"/>
+    <remove function="XAudio2Create"/>
 
     <!-- X3DAudio -->
     <!-- Enums -->

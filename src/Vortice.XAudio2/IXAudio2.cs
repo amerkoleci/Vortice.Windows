@@ -79,7 +79,7 @@ namespace Vortice.XAudio2
             IXAudio2VoiceCallback callback = null,
             EffectDescriptor[] effectDescriptors = null)
         {
-            var waveformatPtr = WaveFormat.MarshalToPtr(sourceFormat);
+            IntPtr waveformatPtr = WaveFormat.MarshalToPtr(sourceFormat);
             try
             {
                 if (effectDescriptors != null)
@@ -109,6 +109,35 @@ namespace Vortice.XAudio2
             }
         }
 
+        public unsafe IXAudio2SubmixVoice CreateSubmixVoice(
+            int inputChannels = 2,
+            int inputSampleRate = 44100,
+            SubmixVoiceFlags flags = SubmixVoiceFlags.None,
+            int processingStage = 0,
+            EffectDescriptor[] effectDescriptors = null)
+        {
+            if (effectDescriptors != null)
+            {
+                var effectChain = new EffectChain();
+                var effectDescriptorNatives = new EffectDescriptor.__Native[effectDescriptors.Length];
+                for (int i = 0; i < effectDescriptorNatives.Length; i++)
+                {
+                    effectDescriptors[i].__MarshalTo(ref effectDescriptorNatives[i]);
+                }
+
+                effectChain.EffectCount = effectDescriptorNatives.Length;
+                fixed (void* pEffectDescriptors = &effectDescriptorNatives[0])
+                {
+                    effectChain.EffectDescriptorPointer = (IntPtr)pEffectDescriptors;
+                    return CreateSubmixVoice(inputChannels, inputSampleRate, (int)flags, processingStage, null, effectChain);
+                }
+            }
+            else
+            {
+                return CreateSubmixVoice(inputChannels, inputSampleRate, (int)flags, processingStage, null, null);
+            }
+        }
+
         /// <summary>
         /// Calculate a decibel from a volume.
         /// </summary>
@@ -117,7 +146,10 @@ namespace Vortice.XAudio2
         public static float AmplitudeRatioToDecibels(float volume)
         {
             if (volume == 0f)
+            {
                 return float.MinValue;
+            }
+
             return (float)(Math.Log10(volume) * 20);
         }
 

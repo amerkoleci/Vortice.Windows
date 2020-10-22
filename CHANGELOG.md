@@ -10,6 +10,8 @@ KEY CHANGES:
 - [ENH] DXGI: Initial WinUI headers generation under WinUI folder + namespace.
 - [FIX] D3D12: BeginEvent, SetMarker for ID3D12CommandQueue and ID3D12GraphicsCommandList.
 - [ENH] DXGI: Map IDXGraphicsAnalysis from DXProgrammableCapture.h.
+- [ENH] XAudio2: Update to Microsoft.XAudio2.Redist 1.2.4
+- [ENH] XAudio2: Implement clean CreateSubmixVoice mapping.
 
 -----------------------------------------------
 Release:     1.8.17 (October 2020)
