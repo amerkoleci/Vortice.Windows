@@ -11,6 +11,7 @@
 
   <include file="xaudio2redist.h" attach="true" />
   <include file="x3daudioredist.h" attach="true" output="X3DAudio" />
+  <include file="xaudio2fxredist.h" attach="true" namespace="Vortice.XAudio2.Fx" output="Fx" />
 
   <extension>
     <define struct="System.Drawing.Point" sizeof="8" />
@@ -60,6 +61,69 @@
 
     <define struct="Vortice.XAudio2.X3DAudioHandle" sizeof="20" />
     <create-cpp enum="X3DAudioCalculateFlags" macro="X3DAUDIO_CALCULATE_.*" />
+
+    <create class="Vortice.XAudio2.Fx.Fx" visibility="public static"/>
+    <const from-macro="XAUDIO2FX_REVERB_MIN_WET_DRY_MIX"       type="float" cpp-type="float" name="ReverbMinWetDryMix" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REFLECTIONS_DELAY" type="int"   cpp-type="int"   name="ReverbMinReflectionsDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REVERB_DELAY"      type="byte"  cpp-type="int"  name="ReverbMinReverbDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REAR_DELAY"        type="byte"  cpp-type="int"  name="ReverbMinRearDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_POSITION"          type="byte"  cpp-type="int"  name="ReverbMinPosition" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_DIFFUSION"         type="byte"  cpp-type="int"  name="ReverbMinDiffusion" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_LOW_EQ_GAIN"       type="byte"  cpp-type="int"  name="ReverbMinLowEqGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_LOW_EQ_CUTOFF"     type="byte"  cpp-type="int"  name="ReverbMinLowEqCutoff" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_HIGH_EQ_GAIN"      type="byte"  cpp-type="int"  name="ReverbMinHighEqGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_HIGH_EQ_CUTOFF"    type="byte"  cpp-type="int"  name="ReverbMinHighEqCutoff" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_ROOM_FILTER_FREQ"  type="float" cpp-type="float" name="ReverbMinRoomFilterFreq" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_ROOM_FILTER_MAIN"  type="float" cpp-type="float" name="ReverbMinRoomFilterMain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_ROOM_FILTER_HF"    type="float" cpp-type="float" name="ReverbMinRoomFilterHf" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REFLECTIONS_GAIN"  type="float" cpp-type="float" name="ReverbMinReflectionsGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_REVERB_GAIN"       type="float" cpp-type="float" name="ReverbMinReverbGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_DECAY_TIME"        type="float" cpp-type="float" name="ReverbMinDecayTime" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_DENSITY"           type="float" cpp-type="float" name="ReverbMinDensity" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MIN_ROOM_SIZE"         type="float" cpp-type="float" name="ReverbMinRoomSize" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+
+    <const from-macro="XAUDIO2FX_REVERB_MAX_WET_DRY_MIX"       type="float" cpp-type="float" name="ReverbMaxWetDryMix" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REFLECTIONS_DELAY" type="int"   cpp-type="int"   name="ReverbMaxReflectionsDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REVERB_DELAY"      type="byte"  cpp-type="int"  name="ReverbMaxReverbDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REAR_DELAY"        type="byte"  cpp-type="int"  name="ReverbMaxRearDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_POSITION"          type="byte"  cpp-type="int"  name="ReverbMaxPosition" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_DIFFUSION"         type="byte"  cpp-type="int"  name="ReverbMaxDiffusion" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_LOW_EQ_GAIN"       type="byte"  cpp-type="int"  name="ReverbMaxLowEqGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_LOW_EQ_CUTOFF"     type="byte"  cpp-type="int"  name="ReverbMaxLowEqCutoff" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_HIGH_EQ_GAIN"      type="byte"  cpp-type="int"  name="ReverbMaxHighEqGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_HIGH_EQ_CUTOFF"    type="byte"  cpp-type="int"  name="ReverbMaxHighEqCutoff" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_ROOM_FILTER_FREQ"  type="float" cpp-type="float" name="ReverbMaxRoomFilterFreq" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_ROOM_FILTER_MAIN"  type="float" cpp-type="float" name="ReverbMaxRoomFilterMain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_ROOM_FILTER_HF"    type="float" cpp-type="float" name="ReverbMaxRoomFilterHf" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REFLECTIONS_GAIN"  type="float" cpp-type="float" name="ReverbMaxReflectionsGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_REVERB_GAIN"       type="float" cpp-type="float" name="ReverbMaxReverbGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_DECAY_TIME"        type="float" cpp-type="float" name="ReverbMaxDecayTime" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_DENSITY"           type="float" cpp-type="float" name="ReverbMaxDensity" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_MAX_ROOM_SIZE"         type="float" cpp-type="float" name="ReverbMaxRoomSize" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_WET_DRY_MIX"       type="float" cpp-type="float" name="ReverbDefaultWetDryMix" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REFLECTIONS_DELAY" type="int"   cpp-type="int"   name="ReverbDefaultReflectionsDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REVERB_DELAY"      type="byte"  cpp-type="int"  name="ReverbDefaultReverbDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REAR_DELAY"        type="byte"  cpp-type="int"  name="ReverbDefaultRearDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_7POINT1_SIDE_DELAY" type="byte"  cpp-type="int"  name="ReverbDefault7Point1SideDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_7POINT1_REAR_DELAY" type="byte"  cpp-type="int"  name="ReverbDefault7Point1RearDelay" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_POSITION"          type="byte"  cpp-type="int"  name="ReverbDefaultPosition" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_POSITION_MATRIX"   type="byte"  cpp-type="int"  name="ReverbDefaultPositionMatrix" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_EARLY_DIFFUSION"   type="byte"  cpp-type="int"  name="ReverbDefaultEarlyDiffusion" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_LATE_DIFFUSION"    type="byte"  cpp-type="int"  name="ReverbDefaultLateDiffusion" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_LOW_EQ_GAIN"       type="byte"  cpp-type="int"  name="ReverbDefaultLowEqGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_LOW_EQ_CUTOFF"     type="byte"  cpp-type="int"  name="ReverbDefaultLowEqCutoff" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_HIGH_EQ_GAIN"      type="byte"  cpp-type="int"  name="ReverbDefaultHighEqGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_HIGH_EQ_CUTOFF"    type="byte"  cpp-type="int"  name="ReverbDefaultHighEqCutoff" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_ROOM_FILTER_FREQ"  type="float" cpp-type="float" name="ReverbDefaultRoomFilterFreq" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_ROOM_FILTER_MAIN"  type="float" cpp-type="float" name="ReverbDefaultRoomFilterMain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_ROOM_FILTER_HF"    type="float" cpp-type="float" name="ReverbDefaultRoomFilterHf" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REFLECTIONS_GAIN"  type="float" cpp-type="float" name="ReverbDefaultReflectionsGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_REVERB_GAIN"       type="float" cpp-type="float" name="ReverbDefaultReverbGain" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_DECAY_TIME"        type="float" cpp-type="float" name="ReverbDefaultDecayTime" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_DENSITY"           type="float" cpp-type="float" name="ReverbDefaultDensity" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+    <const from-macro="XAUDIO2FX_REVERB_DEFAULT_ROOM_SIZE"         type="float" cpp-type="float" name="ReverbDefaultRoomSize" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
+
   </extension>
 
   <bindings>
@@ -166,7 +230,8 @@
     <map method="IXAudio2SourceVoice::GetFrequencyRatio" visibility="internal" />
 
     <remove interface="IXAudio2Extension"/>
-    <remove function="XAudio2Create"/>
+    <remove function="XAudio2Create.*"/>
+    <remove function="CreateAudio.*"/>
 
     <!-- X3DAudio -->
     <!-- Enums -->

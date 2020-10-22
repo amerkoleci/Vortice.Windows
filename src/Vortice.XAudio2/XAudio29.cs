@@ -13,11 +13,11 @@ namespace Vortice.XAudio2
         [DllImport("xaudio2_9.dll", EntryPoint = "XAudio2Create", CallingConvention = CallingConvention.StdCall)]
         public static extern int XAudio2Create(void* arg0, int arg1, int arg2);
 
-        [DllImport("xaudio2_9.dll", EntryPoint = "CreateAudioReverb", CallingConvention = CallingConvention.StdCall)]
-        public unsafe static extern int CreateAudioReverb(void* arg0);
+        [DllImport("xaudio2_9.dll", EntryPoint = "XAudio2CreateVolumeMeter", CallingConvention = CallingConvention.StdCall)]
+        public unsafe static extern int XAudio2CreateVolumeMeter(void* arg0, uint flags);
 
-        [DllImport("xaudio2_9.dll", EntryPoint = "CreateAudioVolumeMeter", CallingConvention = CallingConvention.StdCall)]
-        public unsafe static extern int CreateAudioVolumeMeter(void* arg0);
+        [DllImport("xaudio2_9.dll", EntryPoint = "XAudio2CreateReverb", CallingConvention = CallingConvention.StdCall)]
+        public unsafe static extern int XAudio2CreateReverb(void* arg0, uint flags);
 
         [DllImport("xaudio2_9.dll", EntryPoint = "X3DAudioInitialize", CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern int X3DAudioInitialize(int arg0, float arg1, void* arg2);

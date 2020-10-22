@@ -17,10 +17,14 @@
 #ifdef __cplusplus
 // XAudio 2.8
 class __declspec(uuid("4FC3B166-972A-40CF-BC37-7DB03DB2FBA3")) AudioVolumeMeter;
-EXTERN_C const GUID DECLSPEC_SELECTANY CLSID_AudioVolumeMeter = __uuidof(AudioVolumeMeter);
+// Vortice.Windows patch (SharpGenTools doesn't support bellow semantic)
+//EXTERN_C const GUID DECLSPEC_SELECTANY CLSID_AudioVolumeMeter = __uuidof(AudioVolumeMeter);
+DEFINE_GUID(CLSID_AudioVolumeMeter, 0x4FC3B166, 0x972A, 0x40CF, 0xBC, 0x37, 0x7D, 0xB0, 0x3D, 0xB2, 0xFB, 0xA3);
 
 class __declspec(uuid("C2633B16-471B-4498-B8C5-4F0959E2EC09")) AudioReverb;
-EXTERN_C const GUID DECLSPEC_SELECTANY CLSID_AudioReverb = __uuidof(AudioReverb);
+// Vortice.Windows patch (SharpGenTools doesn't support bellow semantic)
+//EXTERN_C const GUID DECLSPEC_SELECTANY CLSID_AudioReverb = __uuidof(AudioReverb);
+DEFINE_GUID(CLSID_AudioReverb, 0xC2633B16, 0x471B, 0x4498, 0xB8, 0xC5, 0x4F, 0x09, 0x59, 0xE2, 0xEC, 0x09);
 #else // __cplusplus
 DEFINE_GUID(CLSID_AudioVolumeMeter,     0x4FC3B166, 0x972A, 0x40CF, 0xBC, 0x37, 0x7D, 0xB0, 0x3D, 0xB2, 0xFB, 0xA3);
 DEFINE_GUID(CLSID_AudioReverb,          0xC2633B16, 0x471B, 0x4498, 0xB8, 0xC5, 0x4F, 0x09, 0x59, 0xE2, 0xEC, 0x09);

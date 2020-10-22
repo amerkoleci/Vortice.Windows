@@ -12,6 +12,7 @@ KEY CHANGES:
 - [ENH] DXGI: Map IDXGraphicsAnalysis from DXProgrammableCapture.h.
 - [ENH] XAudio2: Update to Microsoft.XAudio2.Redist 1.2.4
 - [ENH] XAudio2: Implement clean CreateSubmixVoice mapping.
+- [ENH] XAudioFx: Reverb and Volume metter under namespace Vortice.XAudio2.Fx.
 
 -----------------------------------------------
 Release:     1.8.17 (October 2020)

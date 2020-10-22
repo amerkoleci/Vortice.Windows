@@ -18,17 +18,17 @@ namespace Vortice.XAudio2
             if (VorticePlatformDetection.IsUAP)
             {
                 s_XAudio2CreateCallback = XAudio29.XAudio2Create;
-                s_CreateAudioReverb = XAudio29.CreateAudioReverb;
-                s_CreateAudioVolumeMeter = XAudio29.CreateAudioVolumeMeter;
+                s_CreateAudioVolumeMeter = XAudio29.XAudio2CreateVolumeMeter;
+                s_CreateAudioReverb = XAudio29.XAudio2CreateReverb;
                 s_X3DAudioInitialize = XAudio29.X3DAudioInitialize;
                 s_X3DAudioCalculate = XAudio29.X3DAudioCalculate;
                 return IntPtr.Zero;
             }
             else
             {
-                var nativeLib = IntPtr.Zero;
-                var rid = Environment.Is64BitProcess ? "win-x64" : "win-x86";
-                var assemblyLocation = Path.GetDirectoryName(typeof(XAudio2Native).Assembly.Location) ?? "./";
+                IntPtr nativeLib = IntPtr.Zero;
+                string rid = Environment.Is64BitProcess ? "win-x64" : "win-x86";
+                string assemblyLocation = Path.GetDirectoryName(typeof(XAudio2Native).Assembly.Location) ?? "./";
 
                 if (nativeLib == IntPtr.Zero)
                     nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "native", rid, "xaudio2_9redist.dll"));
@@ -68,46 +68,11 @@ namespace Vortice.XAudio2
 
         public static IntPtr XAudio2Create(int flags, ProcessorSpecifier processorSpecifier)
         {
-            var nativePtr = IntPtr.Zero;
+            IntPtr nativePtr = IntPtr.Zero;
             Result result = s_XAudio2CreateCallback(&nativePtr, flags, (int)processorSpecifier);
             result.CheckError();
             return nativePtr;
         }
-
-        public static Result CreateAudioReverb<T>(out T reverb) where T : ComObject
-        {
-            unsafe
-            {
-                var nativePtr = IntPtr.Zero;
-                Result result = s_CreateAudioReverb(&nativePtr);
-                if (result.Success)
-                {
-                    reverb = CppObject.FromPointer<T>(nativePtr);
-                    return result;
-                }
-
-                reverb = null;
-                return result;
-            }
-        }
-
-        public static Result CreateAudioVolumeMeter<T>(out T reverb) where T : ComObject
-        {
-            unsafe
-            {
-                var nativePtr = IntPtr.Zero;
-                Result result = s_CreateAudioVolumeMeter(&nativePtr);
-                if (result.Success)
-                {
-                    reverb = CppObject.FromPointer<T>(nativePtr);
-                    return result;
-                }
-
-                reverb = null;
-                return result;
-            }
-        }
-
 
         public static Result X3DAudioInitialize(Speakers speakerChannelMask, float speedOfSound, out X3DAudioHandle instance)
         {
@@ -135,9 +100,43 @@ namespace Vortice.XAudio2
             emitter.__MarshalFree(ref nativeEmitter);
         }
 
+        public static Result CreateAudioVolumeMeter(out ComObject volumeMeter) 
+        {
+            unsafe
+            {
+                IntPtr nativePtr = IntPtr.Zero;
+                Result result = s_CreateAudioVolumeMeter(&nativePtr, 0u);
+                if (result.Success)
+                {
+                    volumeMeter = new ComObject(nativePtr);
+                    return result;
+                }
+
+                volumeMeter = null;
+                return result;
+            }
+        }
+
+        public static Result CreateAudioReverb(out ComObject reverb) 
+        {
+            unsafe
+            {
+                IntPtr nativePtr = IntPtr.Zero;
+                Result result = s_CreateAudioReverb(&nativePtr, 0u);
+                if (result.Success)
+                {
+                    reverb = new ComObject(nativePtr);
+                    return result;
+                }
+
+                reverb = null;
+                return result;
+            }
+        }
+
         private delegate int XAudio2CreateDelegate(void* arg0, int arg1, int arg2);
-        private delegate int CreateAudioReverbDelegate(void* arg0);
-        private delegate int CreateAudioVolumeMeterDelegate(void* arg0);
+        private delegate int CreateAudioReverbDelegate(void* arg0, uint flags);
+        private delegate int CreateAudioVolumeMeterDelegate(void* arg0, uint flags);
         private delegate int X3DAudioInitializeDelegate(int arg0, float arg1, void* arg2);
         private delegate void X3DAudioCalculateDelegate(void* arg0, void* arg1, void* arg2, int arg3, void* arg4);
 
