@@ -48,6 +48,14 @@ namespace Vortice.Direct3D12
             }
         }
 
+        public unsafe void ResourceBarrier(int barriersCount, ResourceBarrier[] barriers)
+        {
+            fixed (void* pBarriers = barriers)
+            {
+                ResourceBarrier(barriersCount, new IntPtr(pBarriers));
+            }
+        }
+
         public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color)
         {
             ClearRenderTargetView(renderTargetView, new Color4(color), 0, null);
@@ -58,14 +66,14 @@ namespace Vortice.Direct3D12
             ClearRenderTargetView(renderTargetView, new Color4(color), rectangles.Length, rectangles);
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color4 color)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 color)
         {
             ClearRenderTargetView(renderTargetView, color, 0, null);
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color4 color, RawRect[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 color, RawRect[] rects)
         {
-            ClearRenderTargetView(renderTargetView, color, rectangles.Length, rectangles);
+            ClearRenderTargetView(renderTargetView, color, rects.Length, rects);
         }
 
         public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil)
@@ -78,52 +86,81 @@ namespace Vortice.Direct3D12
             ClearFlags clearFlags,
             float depth,
             byte stencil,
+            RawRect[] rects)
+        {
+            ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, rects.Length, rects);
+        }
+
+        public unsafe void ClearUnorderedAccessViewFloat(
+            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
+            CpuDescriptorHandle viewCpuHandle,
+            ID3D12Resource resource,
+            Color4 clearValue)
+        {
+            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), 0, null);
+        }
+
+        public unsafe void ClearUnorderedAccessViewFloat(
+            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
+            CpuDescriptorHandle viewCpuHandle,
+            ID3D12Resource resource,
+            Color4 clearValue,
+            RawRect[] rects)
+        {
+            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), rects.Length, rects);
+        }
+
+        public unsafe void ClearUnorderedAccessViewFloat(
+            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
+            CpuDescriptorHandle viewCpuHandle,
+            ID3D12Resource resource,
+            Color4 clearValue,
+            int rectCount,
+            RawRect[] rects)
+        {
+            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), rectCount, rects);
+        }
+
+        public unsafe void ClearUnorderedAccessViewUint(
+            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
+            CpuDescriptorHandle viewCpuHandle,
+            ID3D12Resource resource,
+            Int4 clearValue)
+        {
+            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), 0, null);
+        }
+
+        public unsafe void ClearUnorderedAccessViewUint(
+            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
+            CpuDescriptorHandle viewCpuHandle,
+            ID3D12Resource resource,
+            Int4 clearValue,
             RawRect[] rectangles)
         {
-            ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, rectangles.Length, rectangles);
-        }
-
-        public unsafe void ClearUnorderedAccessView(
-            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
-            CpuDescriptorHandle viewCpuHandle,
-            ID3D12Resource resource,
-            in Color4 clearValue)
-        {
-            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, 0, null);
-        }
-
-        public unsafe void ClearUnorderedAccessView(
-            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
-            CpuDescriptorHandle viewCpuHandle,
-            ID3D12Resource resource,
-            in Color4 clearValue,
-            RawRect[] rectangles)
-        {
-            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
-        }
-
-        public unsafe void ClearUnorderedAccessView(
-            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
-            CpuDescriptorHandle viewCpuHandle,
-            ID3D12Resource resource,
-            in Int4 clearValue)
-        {
-            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, 0, null);
-        }
-
-        public unsafe void ClearUnorderedAccessView(
-            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
-            CpuDescriptorHandle viewCpuHandle,
-            ID3D12Resource resource,
-            in Int4 clearValue,
-            RawRect[] rectangles)
-        {
-            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, clearValue, rectangles.Length, rectangles);
+            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), rectangles.Length, rectangles);
         }
 
         public void OMSetBlendFactor(System.Drawing.Color blendFactor)
         {
             OMSetBlendFactor(new Color4(blendFactor));
+        }
+
+        public unsafe void OMSetBlendFactor(Color4 blendFactor)
+        {
+            OMSetBlendFactor(new IntPtr(&blendFactor));
+        }
+
+        public unsafe void OMSetBlendFactor(float red, float green, float blue, float alpha)
+        {
+            OMSetBlendFactor(new Color4(red, green, blue, alpha));
+        }
+
+        public unsafe void OMSetBlendFactor(float[] color)
+        {
+            fixed (void* colorPtr = &color[0])
+            {
+                OMSetBlendFactor((IntPtr)colorPtr);
+            }
         }
 
         #region Viewport
@@ -361,6 +398,28 @@ namespace Vortice.Direct3D12
                 FirstSubresource = firstSubresource,
                 NumSubresources = numSubresources
             });
+        }
+
+        /// <summary>
+        /// Discards a resource.
+        /// </summary>
+        /// <param name="resource">The resource to discard.</param>
+        /// <param name="rectCount">The number of rects to discard in rects.</param>
+        /// <param name="rects">An array of  rectangles in the resource to discard. If null, DiscardResource discards the entire resource.</param>
+        /// <param name="firstSubresource">Index of the first subresource in the resource to discard.</param>
+        /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
+        public unsafe void DiscardResource(ID3D12Resource resource, int rectCount, RawRect[] rects, int firstSubresource, int numSubresources)
+        {
+            fixed (void* rectsPtr = &rects[0])
+            {
+                DiscardResource(resource, new DiscardRegion
+                {
+                    NumRects = rectCount,
+                    PRects = (IntPtr)rectsPtr,
+                    FirstSubresource = firstSubresource,
+                    NumSubresources = numSubresources
+                });
+            }
         }
 
         /// <summary>

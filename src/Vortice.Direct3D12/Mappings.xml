@@ -714,9 +714,7 @@
     <map method="ID3D12GraphicsCommandList::SetGraphicsRootSignature" property="false"/>
     <map method="ID3D12GraphicsCommandList::BeginEvent" visibility="private"/>
     <map method="ID3D12GraphicsCommandList::SetMarker" visibility="private"/>
-    <map method="ID3D12GraphicsCommandList::ClearRenderTargetView" visibility="private"/>
     <map param="ID3D12GraphicsCommandList::ClearRenderTargetView::ColorRGBA" type="VORTICE_COLOR4" override-native-type="true"/>
-    <map method="ID3D12GraphicsCommandList::ClearDepthStencilView" visibility="private"/>
     <map method="ID3D12GraphicsCommandList::RSSetViewports" visibility="internal"/>
     <map param="ID3D12GraphicsCommandList::RSSetViewports::pViewports" type="void" />
     <map method="ID3D12GraphicsCommandList::RSSetScissorRects" visibility="internal"/>
@@ -725,15 +723,16 @@
     <map param="ID3D12GraphicsCommandList::IASetVertexBuffers::pViews" attribute="in" type="void"/>
 
     <map method="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat" visibility="private" />
-    <map method="ID3D12GraphicsCommandList::ClearUnorderedAccessViewUint" visibility="private" />
-    <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat::Values" type="VORTICE_COLOR4"  override-native-type="true" pointer="*" array="0" />
+    <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat::Values" attribute="in" type="void"/>
     <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat::pRects" attribute="in buffer optional" default="null" />
-    <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewUint::Values" type="VORTICE_INT4"  override-native-type="true" pointer="*" array="0" />
+    <map method="ID3D12GraphicsCommandList::ClearUnorderedAccessViewUint" visibility="private" />
+    <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewUint::Values" attribute="in" type="void"/>
     <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewUint::pRects" attribute="in buffer optional" default="null" />
 
     <map method="ID3D12GraphicsCommandList::OMSetRenderTargets" visibility="private"/>
     <map param="ID3D12GraphicsCommandList::OMSetRenderTargets::pRenderTargetDescriptors" type="void"/>
-    <map param="ID3D12GraphicsCommandList::OMSetBlendFactor::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" attribute="in" />
+    <map method="ID3D12GraphicsCommandList::OMSetBlendFactor" visibility="private" />
+    <map param="ID3D12GraphicsCommandList::OMSetBlendFactor::BlendFactor" attribute="in" type="void"/>
 
     <map method="ID3D12GraphicsCommandList::CopyTextureRegion" visibility="private" name="CopyTextureRegion_" />
     <map method="ID3D12GraphicsCommandList::DiscardResource" visibility="private" />

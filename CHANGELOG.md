@@ -15,6 +15,7 @@ KEY CHANGES:
 - [ENH] XAudioFX: Reverb and Volume metter under namespace Vortice.XAudio2.Fx.
 - [ENH] XAudioFX: Correctly marshal VolumeMeterLevels.
 - [EHN] XAudio: Allow AudioBuffer with externally owned memory.
+- [ENH] D3D12: Add count in some methods (for example: ID3D12GraphicsCommandList)
 
 -----------------------------------------------
 Release:     1.8.17 (October 2020)

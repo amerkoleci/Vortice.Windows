@@ -7,6 +7,11 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12GraphicsCommandList2
     {
+        public void WriteBufferImmediate(int count, WriteBufferImmediateParameter[] @params, WriteBufferImmediateMode[] modes)
+        {
+            WriteBufferImmediate_(count, @params, modes);
+        }
+
         public void WriteBufferImmediate(WriteBufferImmediateParameter[] @params, WriteBufferImmediateMode[] modes)
         {
             if (@params.Length != modes.Length)
