@@ -45,5 +45,5 @@ Nightly packages can be downloaded from NuGet as well.
 - ImGUI example using Vortice.Windows [VorticeImGui](https://github.com/YaakovDavis/VorticeImGui)
 
 ## Sponsors
-To further help development of these bindings consider [sponsoring](https://github.com/sponsors/amerkoleci) my profile in order to allow faster issue triaging and new features to be implemented.
+To further help development of these bindings consider [sponsoring](https://github.com/sponsors/amerkoleci) my profile in order to allow faster issue triaging and new features to be implemented, Note that **any feature request** would require a [sponsor](https://github.com/sponsors/amerkoleci) in order to allow faster implementation and allow this project to continue.
 
