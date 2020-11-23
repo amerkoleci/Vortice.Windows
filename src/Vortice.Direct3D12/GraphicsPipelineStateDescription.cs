@@ -42,7 +42,7 @@ namespace Vortice.Direct3D12
 
         public Format[] RenderTargetFormats
         {
-            get => _RTVFormats ?? (_RTVFormats = new Format[D3D12.SimultaneousRenderTargetCount]);
+            get => _RTVFormats ??= new Format[D3D12.SimultaneousRenderTargetCount];
             set => _RTVFormats = value;
         }
 

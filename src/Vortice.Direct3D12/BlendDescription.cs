@@ -29,7 +29,7 @@ namespace Vortice.Direct3D12
         public static readonly BlendDescription Opaque = new BlendDescription(Blend.One, Blend.Zero);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlendDescription"/> class.
+        /// Initializes a new instance of the <see cref="BlendDescription"/> struct.
         /// </summary>
         /// <param name="sourceBlend">The source blend.</param>
         /// <param name="destinationBlend">The destination blend.</param>
@@ -39,7 +39,7 @@ namespace Vortice.Direct3D12
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BlendDescription"/> class.
+        /// Initializes a new instance of the <see cref="BlendDescription"/> struct.
         /// </summary>
         /// <param name="sourceBlend">The source blend.</param>
         /// <param name="destinationBlend">The destination blend.</param>
@@ -51,29 +51,29 @@ namespace Vortice.Direct3D12
             AlphaToCoverageEnable = false;
             IndependentBlendEnable = false;
 
-            for (var i = 0; i < D3D12.SimultaneousRenderTargetCount; i++)
+            for (int i = 0; i < D3D12.SimultaneousRenderTargetCount; i++)
             {
-                RenderTarget[i].IsLogicOperationEnabled = false;
-                RenderTarget[i].SourceBlend = sourceBlend;
-                RenderTarget[i].DestinationBlend = destinationBlend;
-                RenderTarget[i].BlendOperation = BlendOperation.Add;
-                RenderTarget[i].SourceBlendAlpha = srcBlendAlpha;
-                RenderTarget[i].DestinationBlendAlpha = destBlendAlpha;
-                RenderTarget[i].BlendOperationAlpha = BlendOperation.Add;
+                RenderTarget[i].BlendEnable = IsBlendEnabled(ref RenderTarget[i]);
+                RenderTarget[i].LogicOpEnable = false;
+                RenderTarget[i].SrcBlend = sourceBlend;
+                RenderTarget[i].DestBlend = destinationBlend;
+                RenderTarget[i].BlendOp = BlendOperation.Add;
+                RenderTarget[i].SrcBlendAlpha = srcBlendAlpha;
+                RenderTarget[i].DestBlendAlpha = destBlendAlpha;
+                RenderTarget[i].BlendOpAlpha = BlendOperation.Add;
                 RenderTarget[i].LogicOp = LogicOp.Noop;
                 RenderTarget[i].RenderTargetWriteMask = ColorWriteEnable.All;
-                RenderTarget[i].IsBlendEnabled = IsBlendEnabled(ref RenderTarget[i]);
             }
         }
 
         private static bool IsBlendEnabled(ref RenderTargetBlendDescription renderTarget)
         {
-            return renderTarget.BlendOperationAlpha != BlendOperation.Add
-                    || renderTarget.SourceBlendAlpha != Blend.One
-                    || renderTarget.DestinationBlendAlpha != Blend.Zero
-                    || renderTarget.BlendOperation != BlendOperation.Add
-                    || renderTarget.SourceBlend != Blend.One
-                    || renderTarget.DestinationBlend != Blend.Zero;
+            return renderTarget.BlendOpAlpha != BlendOperation.Add
+                    || renderTarget.SrcBlendAlpha != Blend.One
+                    || renderTarget.DestBlendAlpha != Blend.Zero
+                    || renderTarget.BlendOp != BlendOperation.Add
+                    || renderTarget.SrcBlend != Blend.One
+                    || renderTarget.DestBlend != Blend.Zero;
         }
     }
 }

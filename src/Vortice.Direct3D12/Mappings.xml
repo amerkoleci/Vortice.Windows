@@ -517,15 +517,10 @@
     <map struct="D3D12_EXISTING_COLLECTION_DESC" name="ExistingCollectionDescription" struct-to-class="true" marshal="true" />
     <remove field="D3D12_EXISTING_COLLECTION_DESC::.*"/>
 
+    <map struct="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS" name="RenderPassEndingAccessResolveParameters" native="true" struct-to-class="true" marshal="true" marshalto="false"  />
+    <remove field="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS::.*"/>
+
     <!-- D3D12_RENDER_TARGET_BLEND_DESC struct -->
-    <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendEnable" name="IsBlendEnabled" />
-    <map field="D3D12_RENDER_TARGET_BLEND_DESC::SrcBlend" name="SourceBlend" />
-    <map field="D3D12_RENDER_TARGET_BLEND_DESC::DestBlend" name="DestinationBlend" />
-    <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendOp" name="BlendOperation" />
-    <map field="D3D12_RENDER_TARGET_BLEND_DESC::SrcBlendAlpha" name="SourceBlendAlpha" />
-    <map field="D3D12_RENDER_TARGET_BLEND_DESC::DestBlendAlpha" name="DestinationBlendAlpha" />
-    <map field="D3D12_RENDER_TARGET_BLEND_DESC::BlendOpAlpha" name="BlendOperationAlpha" />
-    <map field="D3D12_RENDER_TARGET_BLEND_DESC::LogicOpEnable" name="IsLogicOperationEnabled"/>
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D12_COLOR_WRITE_ENABLE" />
 
     <!-- D3D12_SAMPLER_DESC struct -->

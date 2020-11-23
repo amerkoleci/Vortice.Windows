@@ -15,7 +15,7 @@ namespace Vortice.Direct3D12
         public RenderPassBeginningAccess(RenderPassBeginningAccessType type)
         {
             Type = type;
-            Clear = new RenderPassBeginningAccessClearParameters();
+            Clear = default;
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="type">The type of access being requested.</param>
         /// <param name="clear">Appropriate when Type is <see cref="RenderPassBeginningAccessType.Clear"/>. The clear value to which resource(s) should be cleared.</param>
-        public RenderPassBeginningAccess(RenderPassBeginningAccessType type, RenderPassBeginningAccessClearParameters clear)
+        public RenderPassBeginningAccess(RenderPassBeginningAccessType type, in RenderPassBeginningAccessClearParameters clear)
         {
             Type = type;
             Clear = clear;
@@ -34,10 +34,10 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="type">The type of access being requested.</param>
         /// <param name="clearValue">Appropriate when Type is <see cref="RenderPassBeginningAccessType.Clear"/>. The clear value to which resource(s) should be cleared.</param>
-        public RenderPassBeginningAccess(RenderPassBeginningAccessType type, ClearValue clearValue)
+        public RenderPassBeginningAccess(RenderPassBeginningAccessType type, in ClearValue clearValue)
         {
             Type = type;
-            Clear = new RenderPassBeginningAccessClearParameters { ClearValue = clearValue };
+            Clear = new RenderPassBeginningAccessClearParameters(clearValue);
         }
     }
 }

@@ -19,11 +19,10 @@ namespace Vortice.Direct3D12
         /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
         /// </param>
         /// <param name="color">Specifies a RGBA clear color.</param>
-        public ClearValue(Format format, Color4 color)
+        public ClearValue(Format format, in Color4 color) : this()
         {
             Format = format;
             Color = color;
-            DepthStencil = default;
         }
 
         /// <summary>
@@ -34,11 +33,10 @@ namespace Vortice.Direct3D12
         /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
         /// </param>
         /// <param name="color">Specifies a RGBA clear color.</param>
-        public ClearValue(Format format, System.Drawing.Color color)
+        public ClearValue(Format format, System.Drawing.Color color) : this()
         {
             Format = format;
             Color = new Color4(color);
-            DepthStencil = default;
         }
 
         /// <summary>
@@ -49,11 +47,10 @@ namespace Vortice.Direct3D12
         /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
         /// </param>
         /// <param name="depthStencil">Specifies depth and stencil clear value.</param>
-        public ClearValue(Format format, DepthStencilValue depthStencil)
+        public ClearValue(Format format, in DepthStencilValue depthStencil) : this()
         {
             Format = format;
             DepthStencil = depthStencil;
-            Color = default;
         }
     }
 }
