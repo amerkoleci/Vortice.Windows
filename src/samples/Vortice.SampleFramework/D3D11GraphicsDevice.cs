@@ -9,6 +9,7 @@ using static Vortice.DXGI.DXGI;
 using static Vortice.Direct3D11.D3D11;
 using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
+using SharpGen.Runtime;
 
 namespace Vortice
 {
@@ -22,22 +23,14 @@ namespace Vortice
             FeatureLevel.Level_10_0
         };
 
-        private static readonly FeatureLevel[] s_featureLevelsNoLevel11 = new[]
-        {
-            FeatureLevel.Level_11_0,
-            FeatureLevel.Level_10_1,
-            FeatureLevel.Level_10_0
-        };
-
         private const int FrameCount = 2;
 
         public readonly Window Window;
-        public readonly IDXGIFactory1 Factory;
-        public readonly ID3D11Device Device;
-        public readonly IDXGIAdapter Adapter;
+        public readonly IDXGIFactory2 Factory;
+        public readonly ID3D11Device1 Device;
         public readonly FeatureLevel FeatureLevel;
-        public readonly ID3D11DeviceContext DeviceContext;
-        public readonly IDXGISwapChain SwapChain;
+        public readonly ID3D11DeviceContext1 DeviceContext;
+        public readonly IDXGISwapChain1 SwapChain;
         public readonly ID3D11Texture2D BackBuffer;
         public readonly ID3D11RenderTargetView RenderTargetView;
 
@@ -54,58 +47,60 @@ namespace Vortice
                 throw new InvalidOperationException("Cannot create IDXGIFactory1");
             }
 
-            var creationFlags = DeviceCreationFlags.BgraSupport;
-            if (validation)
+            using (IDXGIAdapter1 adapter = GetHardwareAdapter())
             {
-                creationFlags |= DeviceCreationFlags.Debug;
-            }
-
-            if (D3D11CreateDevice(
-                IntPtr.Zero,
-                DriverType.Hardware,
-                creationFlags,
-                s_featureLevels,
-                out Device, out FeatureLevel, out DeviceContext).Failure)
-            {
-                // Remove debug flag not being supported.
-                creationFlags &= ~DeviceCreationFlags.Debug;
-
-                var result = D3D11CreateDevice(null, DriverType.Hardware,
-                    creationFlags, s_featureLevels,
-                    out Device, out FeatureLevel, out DeviceContext);
-                if (result.Failure)
+                DeviceCreationFlags creationFlags = DeviceCreationFlags.BgraSupport;
+                if (validation && SdkLayersAvailable())
                 {
-                    // This will fail on Win 7 due to lack of 11.1, so re-try again without it
-                    D3D11CreateDevice(
-                        IntPtr.Zero,
-                        DriverType.Hardware,
-                        creationFlags,
-                        s_featureLevelsNoLevel11,
-                        out Device, out FeatureLevel, out DeviceContext).CheckError();
+                    creationFlags |= DeviceCreationFlags.Debug;
                 }
+
+                if (D3D11CreateDevice(
+                    adapter,
+                    DriverType.Unknown,
+                    creationFlags,
+                    s_featureLevels,
+                    out ID3D11Device tempDevice, out FeatureLevel, out ID3D11DeviceContext tempContext).Failure)
+                {
+                    // If the initialization fails, fall back to the WARP device.
+                    // For more information on WARP, see:
+                    // http://go.microsoft.com/fwlink/?LinkId=286690
+                    D3D11CreateDevice(
+                        null,
+                        DriverType.Warp,
+                        creationFlags,
+                        s_featureLevels,
+                        out tempDevice, out FeatureLevel, out tempContext).CheckError();
+                }
+
+                Device = tempDevice.QueryInterface<ID3D11Device1>();
+                DeviceContext = tempContext.QueryInterface<ID3D11DeviceContext1>();
+                tempContext.Dispose();
+                tempDevice.Dispose();
             }
 
-            using (IDXGIDevice dxgiDevice = Device.QueryInterface<IDXGIDevice>())
-            {
-                // Store a pointer to the DXGI adapter.
-                // This is for the case of no preferred DXGI adapter, or fallback to WARP.
-                dxgiDevice.GetAdapter(out Adapter).CheckError();
-            }
+            IntPtr hwnd = window.Handle;
 
-            IntPtr hwnd = (IntPtr)window.Handle;
-
-            var swapChainDescription = new SwapChainDescription()
+            SwapChainDescription1 swapChainDescription = new SwapChainDescription1()
             {
+                Width = window.Width,
+                Height = window.Height,
+                Format = Format.B8G8R8A8_UNorm,
                 BufferCount = FrameCount,
-                BufferDescription = new ModeDescription(window.Width, window.Height, Format.B8G8R8A8_UNorm),
-                IsWindowed = true,
-                OutputWindow = hwnd,
+                Usage = DXGI.Usage.RenderTargetOutput,
                 SampleDescription = new SampleDescription(1, 0),
-                SwapEffect = SwapEffect.Discard,
-                Usage = DXGI.Usage.RenderTargetOutput
+                Scaling = Scaling.Stretch,
+                SwapEffect = SwapEffect.FlipDiscard,
+                AlphaMode = AlphaMode.Ignore
             };
 
-            SwapChain = Factory.CreateSwapChain(Device, swapChainDescription);
+            SwapChainFullscreenDescription fullscreenDescription = new SwapChainFullscreenDescription
+            {
+                Windowed = true
+            };
+
+
+            SwapChain = Factory.CreateSwapChainForHwnd(Device, hwnd, swapChainDescription, fullscreenDescription);
             Factory.MakeWindowAssociation(hwnd, WindowAssociationFlags.IgnoreAltEnter);
 
             BackBuffer = SwapChain.GetBuffer<ID3D11Texture2D>(0);
@@ -121,7 +116,6 @@ namespace Vortice
             DeviceContext.Dispose();
             Device.Dispose();
             SwapChain.Dispose();
-            Adapter.Dispose();
             Factory.Dispose();
 
             if (DXGIGetDebugInterface1(out IDXGIDebug1 dxgiDebug).Success)
@@ -129,6 +123,54 @@ namespace Vortice
                 dxgiDebug.ReportLiveObjects(All, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
                 dxgiDebug.Dispose();
             }
+        }
+
+        private IDXGIAdapter1 GetHardwareAdapter()
+        {
+            IDXGIAdapter1 adapter = null;
+            IDXGIFactory6 factory6 = Factory.QueryInterfaceOrNull<IDXGIFactory6>();
+            if (factory6 != null)
+            {
+                for (int adapterIndex = 0;
+                    factory6.EnumAdapterByGpuPreference(adapterIndex, GpuPreference.HighPerformance, out adapter) != Vortice.DXGI.ResultCode.NotFound;
+                    adapterIndex++)
+                {
+                    AdapterDescription1 desc = adapter.Description1;
+
+                    if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
+                    {
+                        // Don't select the Basic Render Driver adapter.
+                        adapter.Dispose();
+                        continue;
+                    }
+
+                    return adapter;
+                }
+
+
+                factory6.Dispose();
+            }
+
+            if (adapter == null)
+            {
+                for (int adapterIndex = 0;
+                    Factory.EnumAdapters1(adapterIndex, out adapter) != Vortice.DXGI.ResultCode.NotFound;
+                    adapterIndex++)
+                {
+                    AdapterDescription1 desc = adapter.Description1;
+
+                    if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
+                    {
+                        // Don't select the Basic Render Driver adapter.
+                        adapter.Dispose();
+                        continue;
+                    }
+
+                    return adapter;
+                }
+            }
+
+            return adapter;
         }
 
         public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string frameName = null)

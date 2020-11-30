@@ -1231,7 +1231,8 @@ namespace Vortice.Direct3D11
 
         public unsafe void CSUnsetUnorderedAccessView(int slot, int uavInitialCount = -1)
         {
-            CSSetUnorderedAccessViews(slot, 1, IntPtr.Zero, new IntPtr(&uavInitialCount));
+            IntPtr nullPtr = IntPtr.Zero;
+            CSSetUnorderedAccessViews(slot, 1, new IntPtr(&nullPtr), new IntPtr(&uavInitialCount));
         }
         #endregion
 
