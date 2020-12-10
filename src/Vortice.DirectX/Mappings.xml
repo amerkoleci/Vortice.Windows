@@ -6,11 +6,11 @@
 
   <sdk name="WindowsSdk" version="10.0.19041.0" />
   <sdk name="StdLib" />
-
-  <include file="d3dcommon.h"
-           namespace="Vortice.Direct3D"
-           attach="true"
-           output="Direct3D" />
+  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
+  
+  <include file="d3dcommon.h" namespace="Vortice.Direct3D" attach="true" output="Direct3D" />
+  <include file="dxcore_interface.h" namespace="Vortice.DXCore" attach="true" output="DXCore" />
+  <include file="dxcore.h" namespace="Vortice.DXCore" attach="true" output="DXCore" />
 
   <extension>
     <define struct="Vortice.RawRect" sizeof="16" />
@@ -45,6 +45,8 @@
 
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
+
+    <create class="Vortice.DXCore.DXCore" visibility="public static" />
   </extension>
 
   <bindings>
@@ -224,5 +226,28 @@
     <map interface="ID3D10Blob" name="Blob" />
     <map interface="ID3DInclude" name="Include" callback="true" />
     <map interface="ID3DDestructionNotifier" name="DestructionNotifier" callback="true" />
+
+    <!-- DxCore -->
+    <map enum="DXCore(.*)" name-tmp="$1" />
+    <map struct="DXCore(.+)" name-tmp="$1" />
+    
+    <map function="DXCoreCreateAdapterFactory" dll='"DxCore.dll"' group="Vortice.DXCore.DXCore" hresult="true" check="false" visibility="private" />
+    <map param="DXCoreCreateAdapterFactory.*?::ppvFactory" attribute="out" />
+
+    <map method="IDXCoreAdapterFactory::CreateAdapterList" visibility="private" name="CreateAdapterList" hresult="true" check="false" />
+    <map method="IDXCoreAdapterFactory::GetAdapterByLuid" visibility="private" name="GetAdapterByLuid" hresult="true" check="false" />
+    <map param="IDXCoreAdapterFactory::RegisterEventNotification::eventCookie" return="true"/>
+
+    <map method="IDXCoreAdapterList::GetAdapter" visibility="private" name="GetAdapter" hresult="true" check="false" />
+    <map method="IDXCoreAdapterList::GetFactory" visibility="private" name="GetFactory" hresult="true" check="false" />
+    <map method="IDXCoreAdapterList::Sort" visibility="private" name="Sort" hresult="true" check="false" />
+
+    <map method="IDXCoreAdapter::GetFactory" visibility="private" hresult="true" check="false" />
+    <map method="IDXCoreAdapter::GetPropertySize" hresult="true" check="false" />
+    <map method="IDXCoreAdapter::GetProperty" visibility="private" hresult="true" check="false" />
+    <map param="IDXCoreAdapter::GetProperty::propertyData" type="void" attribute="in" />
+    <map method="IDXCoreAdapter::SetState" visibility="private" hresult="true" check="false" />
+    <map method="IDXCoreAdapter::QueryState" visibility="private" hresult="true" check="false" />
+    <map param="IDXCoreAdapter::QueryState::outputBuffer" type="void" attribute="in" />
   </mapping>
 </config>

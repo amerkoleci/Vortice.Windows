@@ -1,9 +1,16 @@
 # Changelog
 
-Current Stable Release:    1.8.17 (September 2020)
+Current Stable Release:    1.8.35 (November 2020)
 
 -----------------------------------------------
-Release:     1.8.XX (October 2020)
+Release:     1.8.XX (Decembre 2020)
+-----------------------------------------------
+KEY CHANGES:
+- [ENH] General: Integrate MIT licensed headers from (https://github.com/microsoft/DirectX-Headers)
+- [ENH] DXCore: Add support for DXCore.
+
+-----------------------------------------------
+Release:     1.8.35 (November 2020)
 -----------------------------------------------
 KEY CHANGES:
 - [ENH] DirectComposition: Initial DirectComposition support.

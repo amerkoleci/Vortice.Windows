@@ -6,7 +6,7 @@
 
   <sdk name="StdLib" />
   <sdk name="WindowsSdk" version="10.0.19041.0" />
-  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include</include-dir>
+  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
   
   <include file="d3d12.h" namespace="Vortice.Direct3D12" attach="true"/>
 
@@ -345,6 +345,7 @@
     <map enum-item="D3D12_DRED_VERSION_1_0" name="Version1_0"/>
     <map enum-item="D3D12_DRED_VERSION_1_1" name="Version1_1"/>
     <map enum-item="D3D12_DRED_VERSION_1_2" name="Version1_2"/>
+    <map enum-item="D3D12_DRED_VERSION_1_3" name="Version1_3"/>
 
     <!-- D3D12_SHADING_RATE -->
     <map enum-item="D3D12_SHADING_RATE_1X1" name="Rate1x1"/>
@@ -364,14 +365,17 @@
     <map enum="D3D12_RESOURCE_STATES" flags="true"/>
     <!-- D3D_SHADER_MODEL -->
     <map enum="D3D_SHADER_MODEL" name="ShaderModel"/>
-    <map enum-item="D3D_SHADER_MODEL_5_1" name="Model51"/>
-    <map enum-item="D3D_SHADER_MODEL_6_0" name="Model60"/>
-    <map enum-item="D3D_SHADER_MODEL_6_1" name="Model61"/>
-    <map enum-item="D3D_SHADER_MODEL_6_2" name="Model62"/>
-    <map enum-item="D3D_SHADER_MODEL_6_3" name="Model63"/>
-    <map enum-item="D3D_SHADER_MODEL_6_4" name="Model64"/>
-    <map enum-item="D3D_SHADER_MODEL_6_5" name="Model65"/>
-    <map enum-item="D3D_SHADER_MODEL_6_6" name="Model66"/>
+    <map enum-item="D3D_SHADER_MODEL_5_1" name="Model5_1"/>
+    <map enum-item="D3D_SHADER_MODEL_6_0" name="Model6_0"/>
+    <map enum-item="D3D_SHADER_MODEL_6_1" name="Model6_1"/>
+    <map enum-item="D3D_SHADER_MODEL_6_2" name="Model6_2"/>
+    <map enum-item="D3D_SHADER_MODEL_6_3" name="Model6_3"/>
+    <map enum-item="D3D_SHADER_MODEL_6_4" name="Model6_4"/>
+    <map enum-item="D3D_SHADER_MODEL_6_5" name="Model6_5"/>
+    <map enum-item="D3D_SHADER_MODEL_6_6" name="Model6_6"/>
+    <map enum-item="D3D_SHADER_MODEL_6_7" name="Model6_7"/>
+
+    <map enum-item="D3D12_WAVE_MMA_TIER_1_0" name="Tier1_0"/>
 
     <map enum="D3D12_RLDO_FLAGS" name="ReportLiveDeviceObjectFlags" />
     <map enum-item="D3D12_HEAP_SERIALIZATION_TIER_(.*)" name="Tier$1"/>

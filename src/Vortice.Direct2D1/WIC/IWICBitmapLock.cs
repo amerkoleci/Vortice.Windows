@@ -31,13 +31,13 @@ namespace Vortice.WIC
 
         public unsafe Span<byte> GetDataPointer() 
         {
-            var pointer = GetDataPointer(out var size);
+            IntPtr pointer = GetDataPointer(out int size);
             return new Span<byte>(pointer.ToPointer(), size);
         }
 
         public unsafe Span<T> GetDataPointer<T>() where T : unmanaged
         {
-            var pointer = GetDataPointer(out var size);
+            IntPtr pointer = GetDataPointer(out int size);
             return new Span<T>(pointer.ToPointer(), size / sizeof(T));
         }
     }

@@ -169,7 +169,7 @@ namespace Vortice.Direct3D12
                 return featureData.HighestShaderModel;
             }
 
-            return ShaderModel.Model51;
+            return ShaderModel.Model5_1;
         }
 
         public unsafe RootSignatureVersion CheckHighestRootSignatureVersion(RootSignatureVersion highestVersion)

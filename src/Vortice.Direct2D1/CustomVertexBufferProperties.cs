@@ -49,7 +49,7 @@ namespace Vortice.Direct2D1
         {
             if (@ref.shaderBufferSize > 0)
             {
-                Marshal.FreeHGlobal((IntPtr)@ref.shaderBufferWithInputSignature);
+                Marshal.FreeHGlobal(@ref.shaderBufferWithInputSignature);
             }
 
             if (@ref.inputElements != null)
