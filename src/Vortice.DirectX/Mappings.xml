@@ -50,6 +50,7 @@
   </extension>
 
   <bindings>
+    <bind from="uint32_t" to="System.Int32" />
     <bind from="UINT32" to="System.Int32" />
     <bind from="UINT" to="System.Int32" />
     <bind from="LUID" to="System.Int64"/>
@@ -240,11 +241,11 @@
 
     <map method="IDXCoreAdapterList::GetAdapter" visibility="private" name="GetAdapter" hresult="true" check="false" />
     <map method="IDXCoreAdapterList::GetFactory" visibility="private" name="GetFactory" hresult="true" check="false" />
-    <map method="IDXCoreAdapterList::Sort" visibility="private" name="Sort" hresult="true" check="false" />
+    <map method="IDXCoreAdapterList::Sort" hresult="true" check="false" />
 
     <map method="IDXCoreAdapter::GetFactory" visibility="private" hresult="true" check="false" />
     <map method="IDXCoreAdapter::GetPropertySize" hresult="true" check="false" />
-    <map method="IDXCoreAdapter::GetProperty" visibility="private" hresult="true" check="false" />
+    <map method="IDXCoreAdapter::GetProperty" hresult="true" check="false" />
     <map param="IDXCoreAdapter::GetProperty::propertyData" type="void" attribute="in" />
     <map method="IDXCoreAdapter::SetState" visibility="private" hresult="true" check="false" />
     <map method="IDXCoreAdapter::QueryState" visibility="private" hresult="true" check="false" />

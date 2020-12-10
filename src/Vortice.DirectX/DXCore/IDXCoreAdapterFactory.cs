@@ -10,10 +10,10 @@ namespace Vortice.DXCore
     {
         public Result CreateAdapterList<T>(Guid[] filterAttributes, out T adapterList) where T : IDXCoreAdapterList
         {
-            return CreateAdapterList((uint)filterAttributes.Length, filterAttributes, out adapterList);
+            return CreateAdapterList(filterAttributes.Length, filterAttributes, out adapterList);
         }
 
-        public Result CreateAdapterList<T>(uint numAttributes, Guid[] filterAttributes, out T adapterList) where T : IDXCoreAdapterList
+        public Result CreateAdapterList<T>(int numAttributes, Guid[] filterAttributes, out T adapterList) where T : IDXCoreAdapterList
         {
             Result result = CreateAdapterList(numAttributes, filterAttributes, typeof(T).GUID, out IntPtr adapterListPtr);
             if (result.Failure)
@@ -28,10 +28,10 @@ namespace Vortice.DXCore
 
         public T CreateAdapterList<T>(Guid[] filterAttributes) where T : IDXCoreAdapterList
         {
-            return CreateAdapterList<T>((uint)filterAttributes.Length, filterAttributes);
+            return CreateAdapterList<T>(filterAttributes.Length, filterAttributes);
         }
 
-        public T CreateAdapterList<T>(uint numAttributes, Guid[] filterAttributes) where T : IDXCoreAdapterList
+        public T CreateAdapterList<T>(int numAttributes, Guid[] filterAttributes) where T : IDXCoreAdapterList
         {
             Result result = CreateAdapterList(numAttributes, filterAttributes, typeof(T).GUID, out IntPtr adapterListPtr);
             if (result.Failure)

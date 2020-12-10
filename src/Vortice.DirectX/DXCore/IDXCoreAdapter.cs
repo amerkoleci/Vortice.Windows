@@ -2,13 +2,36 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
 
 namespace Vortice.DXCore
 {
     public partial class IDXCoreAdapter
     {
+        public long InstanceLuid => GetProperty<long>(AdapterProperty.InstanceLuid);
+        public ulong DriverVersion => GetProperty<ulong>(AdapterProperty.DriverVersion);
+        public string DriverDescription => GetStringProperty(AdapterProperty.DriverDescription);
+        public HardwareID HardwareID => GetProperty<HardwareID>(AdapterProperty.HardwareID);
+        public ulong DedicatedAdapterMemory => GetProperty<ulong>(AdapterProperty.DedicatedAdapterMemory);
+        public ulong DedicatedSystemMemory => GetProperty<ulong>(AdapterProperty.DedicatedSystemMemory);
+        public ulong SharedSystemMemory => GetProperty<ulong>(AdapterProperty.SharedSystemMemory);
+        public bool AcgCompatible => GetBoolProperty(AdapterProperty.AcgCompatible);
+        public bool IsHardware => GetBoolProperty(AdapterProperty.IsHardware);
+        public bool IsIntegrated => GetBoolProperty(AdapterProperty.IsIntegrated);
+        public bool IsDetachable => GetBoolProperty(AdapterProperty.IsDetachable);
+        public HardwareIDParts? HardwareIDParts
+        {
+            get
+            {
+                if (GetProperty(AdapterProperty.HardwareIDParts, out HardwareIDParts hardwareIDParts).Success)
+                {
+                    return hardwareIDParts;
+                }
+
+                return null;
+            }
+        }
+
         public T GetFactory<T>() where T : IDXCoreAdapterFactory
         {
             Result result = GetFactory(typeof(T).GUID, out IntPtr factoryPtr);
@@ -33,11 +56,25 @@ namespace Vortice.DXCore
             return result;
         }
 
-        public unsafe bool GetProperty(AdapterProperty property)
+        public PointerSize GetPropertySize(AdapterProperty property)
+        {
+            GetPropertySize(property, out PointerSize propertySize).CheckError();
+            return propertySize;
+        }
+
+        public unsafe bool GetBoolProperty(AdapterProperty property)
         {
             bool result = default;
-            GetProperty(property, sizeof(bool), new IntPtr(&result)).CheckError();
+            GetProperty(property, 1, new IntPtr(&result)).CheckError();
             return result;
+        }
+
+        public unsafe string GetStringProperty(AdapterProperty property)
+        {
+            GetPropertySize(property, out PointerSize propertySize).CheckError();
+            byte* strBytes = stackalloc byte[propertySize];
+            GetProperty(property, propertySize, new IntPtr(strBytes)).CheckError();
+            return System.Text.Encoding.UTF8.GetString(strBytes, propertySize - 1);
         }
 
         public unsafe T GetProperty<T>(AdapterProperty property) where T : unmanaged

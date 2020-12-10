@@ -5,6 +5,10 @@ using System.IO;
 using Vortice;
 using Vortice.Mathematics;
 using Vortice.WIC;
+using Vortice.DXCore;
+using static Vortice.DXCore.DXCore;
+using System;
+using System.Runtime.InteropServices;
 
 namespace HelloDirect3D11
 {
@@ -18,27 +22,59 @@ namespace HelloDirect3D11
             }
         }
 
-        public static void Main()
+        private unsafe static void TestDXCore()
         {
-            using (var app = new TestApplication())
+            using (IDXCoreAdapterFactory adapterFactory = DXCoreCreateAdapterFactory<IDXCoreAdapterFactory>())
             {
-                app.Run();
+                using (IDXCoreAdapterList adapterList = adapterFactory.CreateAdapterList<IDXCoreAdapterList>(new[] { D3D12_CoreCompute }))
+                {
+                    adapterList.Sort(new[] { AdapterPreference.Hardware, AdapterPreference.HighPerformance }).CheckError();
+                    for (int i = 0; i < adapterList.AdapterCount; i++)
+                    {
+                        using (IDXCoreAdapter candidateAdapter = adapterList.GetAdapter<IDXCoreAdapter>(i))
+                        {
+                            AdapterMemoryBudgetNodeSegmentGroup nodeSegmentGroup = new AdapterMemoryBudgetNodeSegmentGroup
+                            {
+                                NodeIndex = 0,
+                                SegmentGroup = SegmentGroup.Local
+                            };
+
+                            candidateAdapter.QueryState(AdapterState.AdapterMemoryBudget,
+                                nodeSegmentGroup,
+                                out AdapterMemoryBudget memoryBudget
+                                ).CheckError();
+
+                            string driverDescription = candidateAdapter.DriverDescription;
+
+                            bool isHardware = candidateAdapter.IsHardware;
+                            HardwareID hardwareID = candidateAdapter.HardwareID;
+
+                            if (candidateAdapter.GetProperty(AdapterProperty.HardwareIDParts, out HardwareIDParts hardwareIDParts).Success)
+                            {
+
+                            }
+
+                        }
+                    }
+                }
             }
         }
 
-        public static Size GetTextureDimensions(IWICImagingFactory factory, Stream stream)
+        public static void Main()
         {
-            IWICStream wicStream = factory.CreateStream();
-            wicStream.Initialize(stream);
-
-            using (IWICBitmapDecoder decoder = factory.CreateDecoderFromStream(wicStream, DecodeOptions.CacheOnDemand))
+            try
             {
-                var frame = decoder.GetFrame(0);
-                using (frame)
-                {
-                    stream.Seek(0, SeekOrigin.Begin);
-                    return frame.Size;
-                }
+                // Just safelly test DXCore stuff
+                TestDXCore();
+            }
+            catch
+            {
+
+            }
+
+            using (var app = new TestApplication())
+            {
+                app.Run();
             }
         }
     }

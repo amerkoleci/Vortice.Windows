@@ -10,7 +10,7 @@ namespace Vortice.DXCore
     {
         public T GetAdapter<T>(int index) where T : IDXCoreAdapter
         {
-            Result result = GetAdapter((uint)index, typeof(T).GUID, out IntPtr adapterPtr);
+            Result result = GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr);
             if (result.Failure)
             {
                 return default;
@@ -21,7 +21,7 @@ namespace Vortice.DXCore
 
         public Result GetAdapter<T>(int index, out T adapter) where T : IDXCoreAdapter
         {
-            Result result = GetAdapter((uint)index, typeof(T).GUID, out IntPtr adapterPtr);
+            Result result = GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr);
             if (result.Failure)
             {
                 adapter = default;
@@ -58,12 +58,7 @@ namespace Vortice.DXCore
 
         public Result Sort(AdapterPreference[] preferences)
         {
-            return Sort((uint)preferences.Length, preferences);
-        }
-
-        public Result Sort(int preferencesCount, AdapterPreference[] preferences)
-        {
-            return Sort((uint)preferencesCount, preferences);
+            return Sort(preferences.Length, preferences);
         }
     }
 }
