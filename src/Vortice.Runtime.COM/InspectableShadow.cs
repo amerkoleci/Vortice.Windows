@@ -1,15 +1,15 @@
 ﻿// Copyright (c) 2010-2014 SharpDX - Alexandre Mutel
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -27,6 +27,9 @@ namespace SharpGen.Runtime
     /// </summary>
     public class InspectableShadow : ComObjectShadow
     {
+        private static readonly ComObjectVtbl _vTable = new InspectableVtbl();
+
+        protected override CppObjectVtbl Vtbl { get; } = _vTable;
 
         protected class InspectableVtbl : ComObjectVtbl
         {
@@ -41,7 +44,7 @@ namespace SharpGen.Runtime
                 }
             }
 
-            //        virtual HRESULT STDMETHODCALLTYPE GetIids( 
+            //        virtual HRESULT STDMETHODCALLTYPE GetIids(
             ///* [out] */ __RPC__out ULONG *iidCount,
             ///* [size_is][size_is][out] */ __RPC__deref_out_ecount_full_opt(*iidCount) IID **iids) = 0;
 
@@ -71,7 +74,7 @@ namespace SharpGen.Runtime
                 return Result.Ok.Code;
             }
 
-            //virtual HRESULT STDMETHODCALLTYPE GetRuntimeClassName( 
+            //virtual HRESULT STDMETHODCALLTYPE GetRuntimeClassName(
             //    /* [out] */ __RPC__deref_out_opt HSTRING *className) = 0;
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -83,7 +86,7 @@ namespace SharpGen.Runtime
                     var shadow = ToShadow<InspectableShadow>(thisPtr);
                     var callback = (IInspectable)shadow.Callback;
                     // Use the name of the callback class
-                    
+
                     var name = callback.GetType().FullName;
                     Win32.WinRTStrings.WindowsCreateString(name, (uint)name.Length, out IntPtr str);
                     *className = str;
@@ -95,7 +98,7 @@ namespace SharpGen.Runtime
                 return Result.Ok.Code;
             }
 
-            //virtual HRESULT STDMETHODCALLTYPE GetTrustLevel( 
+            //virtual HRESULT STDMETHODCALLTYPE GetTrustLevel(
             //    /* [out] */ __RPC__out TrustLevel *trustLevel) = 0;
             private enum TrustLevel
             {
@@ -123,7 +126,5 @@ namespace SharpGen.Runtime
             }
 
         }
-
-        protected override CppObjectVtbl Vtbl { get; } = new InspectableVtbl();
     }
 }

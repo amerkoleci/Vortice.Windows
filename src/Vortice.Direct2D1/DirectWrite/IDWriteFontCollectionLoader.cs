@@ -16,7 +16,9 @@ namespace Vortice.DirectWrite
 
     internal class IDWriteFontCollectionLoaderShadow : ComObjectShadow
     {
-        protected override CppObjectVtbl Vtbl => new FontCollectionLoaderVtbl();
+        private static readonly ComObjectVtbl _vTable = new FontCollectionLoaderVtbl();
+
+        protected override CppObjectVtbl Vtbl => _vTable;
 
         private IDWriteFactory _factory;
 
@@ -41,7 +43,7 @@ namespace Vortice.DirectWrite
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate int CreateEnumeratorFromKeyDelegate(IntPtr thisPtr, IntPtr factory, IntPtr collectionKey, int collectionKeySize, out IntPtr fontFileEnumerator);
 
-            private static unsafe int CreateEnumeratorFromKeyImpl(IntPtr thisPtr, IntPtr factory, IntPtr collectionKey, int collectionKeySize, out IntPtr fontFileEnumerator)
+            private static int CreateEnumeratorFromKeyImpl(IntPtr thisPtr, IntPtr factory, IntPtr collectionKey, int collectionKeySize, out IntPtr fontFileEnumerator)
             {
                 fontFileEnumerator = IntPtr.Zero;
                 try
