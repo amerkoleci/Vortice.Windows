@@ -10,22 +10,24 @@ namespace Vortice.DirectWrite
     [Shadow(typeof(IDWriteFontFileEnumeratorShadow))]
     public partial interface IDWriteFontFileEnumerator
     {
-        /// <summary>	
-        /// Advances to the next font file in the collection. When it is first created, the enumerator is positioned before the first element of the collection and the first call to MoveNext advances to the first file. 	
-        /// </summary>	
+        /// <summary>
+        /// Advances to the next font file in the collection. When it is first created, the enumerator is positioned before the first element of the collection and the first call to MoveNext advances to the first file.
+        /// </summary>
         /// <returns>the value TRUE if the enumerator advances to a file; otherwise, FALSE if the enumerator advances past the last file in the collection.</returns>
         bool MoveNext();
 
-        /// <summary>	
-        /// Gets a reference to the current font file. 	
-        /// </summary>	
+        /// <summary>
+        /// Gets a reference to the current font file.
+        /// </summary>
         /// <returns>a reference to the newly created <see cref="IDWriteFontFile"/> object.</returns>
         IDWriteFontFile CurrentFontFile { get; }
     }
 
     internal class IDWriteFontFileEnumeratorShadow : ComObjectShadow
     {
-        protected override CppObjectVtbl Vtbl => new FontFileEnumeratorVtbl();
+        private static readonly ComObjectVtbl _vTable = new FontFileEnumeratorVtbl();
+
+        protected override CppObjectVtbl Vtbl => _vTable;
 
         /// <summary>
         /// Return a pointer to the unmanaged version of this callback.
@@ -42,9 +44,9 @@ namespace Vortice.DirectWrite
                 AddMethod(new GetCurrentFontFileDelegate(GetCurrentFontFileImpl));
             }
 
-            /// <summary>	
-            /// Advances to the next font file in the collection. When it is first created, the enumerator is positioned before the first element of the collection and the first call to MoveNext advances to the first file. 	
-            /// </summary>	
+            /// <summary>
+            /// Advances to the next font file in the collection. When it is first created, the enumerator is positioned before the first element of the collection and the first call to MoveNext advances to the first file.
+            /// </summary>
             /// <returns>the value TRUE if the enumerator advances to a file; otherwise, FALSE if the enumerator advances past the last file in the collection.</returns>
             /// <unmanaged>HRESULT IDWriteFontFileEnumerator::MoveNext([Out] BOOL* hasCurrentFile)</unmanaged>
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -66,9 +68,9 @@ namespace Vortice.DirectWrite
                 return Result.Ok.Code;
             }
 
-            /// <summary>	
-            /// Gets a reference to the current font file. 	
-            /// </summary>	
+            /// <summary>
+            /// Gets a reference to the current font file.
+            /// </summary>
             /// <returns>a reference to the newly created <see cref="IDWriteFontFile"/> object.</returns>
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate int GetCurrentFontFileDelegate(IntPtr thisPtr, out IntPtr fontFile);
