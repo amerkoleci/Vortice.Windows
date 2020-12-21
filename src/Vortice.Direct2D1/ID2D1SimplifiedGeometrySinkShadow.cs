@@ -10,6 +10,10 @@ namespace Vortice.Direct2D1
 {
     internal class ID2D1SimplifiedGeometrySinkShadow : ComObjectShadow
     {
+        private static readonly SimplifiedGeometrySinkVtbl s_vtbl = new SimplifiedGeometrySinkVtbl(0);
+
+        protected override CppObjectVtbl Vtbl => s_vtbl;
+
         /// <summary>
         /// Return a pointer to the unmanaged version of this callback.
         /// </summary>
@@ -113,7 +117,5 @@ namespace Vortice.Direct2D1
                 return Result.Ok.Code;
             }
         }
-
-        protected override CppObjectVtbl Vtbl => new SimplifiedGeometrySinkVtbl(0);
     }
 }

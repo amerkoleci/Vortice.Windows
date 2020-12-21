@@ -400,14 +400,6 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe void RSGetViewports(int count, Viewport[] viewports)
-        {
-            fixed (void* viewportsPtr = &viewports[0])
-            {
-                RSGetViewports(ref count, (IntPtr)viewportsPtr);
-            }
-        }
-
         public unsafe void RSGetViewports(Span<Viewport> viewports)
         {
             fixed (Viewport* viewportsPtr = &MemoryMarshal.GetReference(viewports))
@@ -417,7 +409,7 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe void RSGetViewports<T>(int count, T[] viewports) where T : unmanaged
+        public unsafe void RSGetViewports<T>(ref int count, T[] viewports) where T : unmanaged
         {
 #if DEBUG
             if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
@@ -486,6 +478,27 @@ namespace Vortice.Direct3D11
             T[] viewports = new T[numViewports];
             RSGetViewports(viewports);
             return viewports;
+        }
+
+        public unsafe void RSGetViewports(ref int count, Viewport[] viewports)
+        {
+            fixed (void* viewportsPtr = &viewports[0])
+            {
+                RSGetViewports(ref count, (IntPtr)viewportsPtr);
+            }
+        }
+
+        public unsafe void RSGetViewports(ref int count, Span<Viewport> viewports)
+        {
+            fixed (Viewport* viewportsPtr = &MemoryMarshal.GetReference(viewports))
+            {
+                RSGetViewports(ref count, (IntPtr)viewportsPtr);
+            }
+        }
+
+        public unsafe void RSGetViewports(ref int count, Viewport* viewports)
+        {
+            RSGetViewports(ref count, (IntPtr)viewports);
         }
         #endregion
 
@@ -565,12 +578,26 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe void RSGetScissorRects(int count, RawRect[] rects)
+        public unsafe void RSGetScissorRects(Span<RawRect> rects)
+        {
+            fixed (RawRect* rectsPtr = &MemoryMarshal.GetReference(rects))
+            {
+                int numRects = rects.Length;
+                RSGetScissorRects(ref numRects, (IntPtr)rectsPtr);
+            }
+        }
+
+        public unsafe void RSGetScissorRects(ref int count, RawRect[] rects)
         {
             fixed (void* rectsPtr = &rects[0])
             {
                 RSGetScissorRects(ref count, (IntPtr)rectsPtr);
             }
+        }
+
+        public unsafe void RSGetScissorRects(ref int count, RawRect* rects)
+        {
+            RSGetScissorRects(ref count, (IntPtr)rects);
         }
         #endregion
 

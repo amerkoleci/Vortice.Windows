@@ -59,9 +59,9 @@ namespace Vortice.XAudio2
 
     internal class IXAudio2VoiceCallbackShadow : CppObjectShadow
     {
-        private static readonly VTable _vTable = new VTable();
+        private static readonly VTable s_vtbl = new VTable();
 
-        protected override CppObjectVtbl Vtbl => _vTable;
+        protected override CppObjectVtbl Vtbl => s_vtbl;
 
         /// <summary>
         /// Return a pointer to the unmanaged version of this callback.
@@ -95,21 +95,21 @@ namespace Vortice.XAudio2
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate void IntPtrIntDelegate(IntPtr thisObject, IntPtr address, int error);
 
-            static private void OnVoiceProcessingPassStartImpl(IntPtr thisObject, int bytes)
+            private static void OnVoiceProcessingPassStartImpl(IntPtr thisObject, int bytes)
             {
-                var shadow = ToShadow<IXAudio2VoiceCallbackShadow>(thisObject);
-                var callback = (IXAudio2VoiceCallback)shadow.Callback;
+                IXAudio2VoiceCallbackShadow shadow = ToShadow<IXAudio2VoiceCallbackShadow>(thisObject);
+                IXAudio2VoiceCallback callback = (IXAudio2VoiceCallback)shadow.Callback;
                 callback.OnVoiceProcessingPassStart(bytes);
             }
 
-            static private void OnVoiceProcessingPassEndImpl(IntPtr thisObject)
+            private static void OnVoiceProcessingPassEndImpl(IntPtr thisObject)
             {
-                var shadow = ToShadow<IXAudio2VoiceCallbackShadow>(thisObject);
-                var callback = (IXAudio2VoiceCallback)shadow.Callback;
+                IXAudio2VoiceCallbackShadow shadow = ToShadow<IXAudio2VoiceCallbackShadow>(thisObject);
+                IXAudio2VoiceCallback callback = (IXAudio2VoiceCallback)shadow.Callback;
                 callback.OnVoiceProcessingPassEnd();
             }
 
-            static private void OnStreamEndImpl(IntPtr thisObject)
+            private static void OnStreamEndImpl(IntPtr thisObject)
             {
                 var shadow = ToShadow<IXAudio2VoiceCallbackShadow>(thisObject);
                 var callback = (IXAudio2VoiceCallback)shadow.Callback;

@@ -10,6 +10,10 @@ namespace Vortice.Direct2D1
 {
     internal class ID2D1GeometrySinkShadow : ID2D1SimplifiedGeometrySinkShadow
     {
+        private static readonly GeometrySinkVtbl s_vtbl = new GeometrySinkVtbl();
+
+        protected override CppObjectVtbl Vtbl => s_vtbl;
+
         /// <summary>
         /// Get a native callback pointer from a managed callback.
         /// </summary>
@@ -37,8 +41,8 @@ namespace Vortice.Direct2D1
 
             private static void AddLineImpl(IntPtr thisPtr, PointF point)
             {
-                var shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
-                var callback = (ID2D1GeometrySink)shadow.Callback;
+                ID2D1GeometrySinkShadow shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
+                ID2D1GeometrySink callback = (ID2D1GeometrySink)shadow.Callback;
                 callback.AddLine(point);
             }
 
@@ -47,8 +51,8 @@ namespace Vortice.Direct2D1
 
             private static void AddBezierImpl(IntPtr thisPtr, IntPtr bezier)
             {
-                var shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
-                var callback = (ID2D1GeometrySink)shadow.Callback;
+                ID2D1GeometrySinkShadow shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
+                ID2D1GeometrySink callback = (ID2D1GeometrySink)shadow.Callback;
                 callback.AddBezier(*((BezierSegment*)bezier));
             }
 
@@ -57,8 +61,8 @@ namespace Vortice.Direct2D1
 
             private static void AddQuadraticBezierImpl(IntPtr thisPtr, IntPtr bezier)
             {
-                var shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
-                var callback = (ID2D1GeometrySink)shadow.Callback;
+                ID2D1GeometrySinkShadow shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
+                ID2D1GeometrySink callback = (ID2D1GeometrySink)shadow.Callback;
                 callback.AddQuadraticBezier(*((QuadraticBezierSegment*)bezier));
             }
 
@@ -67,8 +71,8 @@ namespace Vortice.Direct2D1
 
             private static void AddQuadraticBeziersImpl(IntPtr thisPtr, IntPtr beziers, int beziersCount)
             {
-                var shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
-                var callback = (ID2D1GeometrySink)shadow.Callback;
+                ID2D1GeometrySinkShadow shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
+                ID2D1GeometrySink callback = (ID2D1GeometrySink)shadow.Callback;
                 var managedBeziers = new QuadraticBezierSegment[beziersCount];
                 MemoryHelpers.Read(beziers, managedBeziers, 0, beziersCount);
                 callback.AddQuadraticBeziers(managedBeziers);
@@ -79,12 +83,10 @@ namespace Vortice.Direct2D1
 
             private static void AddArcImpl(IntPtr thisPtr, IntPtr arc)
             {
-                var shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
-                var callback = (ID2D1GeometrySink)shadow.Callback;
+                ID2D1GeometrySinkShadow shadow = ToShadow<ID2D1GeometrySinkShadow>(thisPtr);
+                ID2D1GeometrySink callback = (ID2D1GeometrySink)shadow.Callback;
                 callback.AddArc(*((ArcSegment*)arc));
             }
         }
-
-        protected override CppObjectVtbl Vtbl => new GeometrySinkVtbl();
     }
 }

@@ -27,9 +27,9 @@ namespace SharpGen.Runtime
     /// </summary>
     public class InspectableShadow : ComObjectShadow
     {
-        private static readonly ComObjectVtbl _vTable = new InspectableVtbl();
+        private static readonly ComObjectVtbl s_vtbl = new InspectableVtbl();
 
-        protected override CppObjectVtbl Vtbl { get; } = _vTable;
+        protected override CppObjectVtbl Vtbl => s_vtbl;
 
         protected class InspectableVtbl : ComObjectVtbl
         {
@@ -44,22 +44,18 @@ namespace SharpGen.Runtime
                 }
             }
 
-            //        virtual HRESULT STDMETHODCALLTYPE GetIids(
-            ///* [out] */ __RPC__out ULONG *iidCount,
-            ///* [size_is][size_is][out] */ __RPC__deref_out_ecount_full_opt(*iidCount) IID **iids) = 0;
-
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private unsafe delegate int GetIidsDelegate(IntPtr thisPtr, int* iidCount, IntPtr* iids);
-            private unsafe static int GetIids(IntPtr thisPtr, int* iidCount, IntPtr* iids)
+            private static unsafe int GetIids(IntPtr thisPtr, int* iidCount, IntPtr* iids)
             {
                 try
                 {
-                    var shadow = ToShadow<InspectableShadow>(thisPtr);
-                    var callback = (IInspectable)shadow.Callback;
+                    InspectableShadow shadow = ToShadow<InspectableShadow>(thisPtr);
+                    IInspectable callback = (IInspectable)shadow.Callback;
 
-                    var container = callback.Shadow;
+                    ShadowContainer container = callback.Shadow;
 
-                    var countGuids = container.Guids.Length;
+                    int countGuids = container.Guids.Length;
 
                     // Copy GUIDs deduced from Callback
                     iids = (IntPtr*)Marshal.AllocCoTaskMem(IntPtr.Size * countGuids);
@@ -74,20 +70,17 @@ namespace SharpGen.Runtime
                 return Result.Ok.Code;
             }
 
-            //virtual HRESULT STDMETHODCALLTYPE GetRuntimeClassName(
-            //    /* [out] */ __RPC__deref_out_opt HSTRING *className) = 0;
-
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private unsafe delegate int GetRuntimeClassNameDelegate(IntPtr thisPtr, IntPtr* className);
-            private unsafe static int GetRuntimeClassName(IntPtr thisPtr, IntPtr* className)
+            private static unsafe int GetRuntimeClassName(IntPtr thisPtr, IntPtr* className)
             {
                 try
                 {
-                    var shadow = ToShadow<InspectableShadow>(thisPtr);
-                    var callback = (IInspectable)shadow.Callback;
+                    InspectableShadow shadow = ToShadow<InspectableShadow>(thisPtr);
+                    IInspectable callback = (IInspectable)shadow.Callback;
                     // Use the name of the callback class
 
-                    var name = callback.GetType().FullName;
+                    string name = callback.GetType().FullName;
                     Win32.WinRTStrings.WindowsCreateString(name, (uint)name.Length, out IntPtr str);
                     *className = str;
                 }
@@ -98,23 +91,22 @@ namespace SharpGen.Runtime
                 return Result.Ok.Code;
             }
 
-            //virtual HRESULT STDMETHODCALLTYPE GetTrustLevel(
-            //    /* [out] */ __RPC__out TrustLevel *trustLevel) = 0;
             private enum TrustLevel
             {
                 BaseTrust = 0,
                 PartialTrust = (BaseTrust + 1),
                 FullTrust = (PartialTrust + 1)
-            };
+            }
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate int GetTrustLevelDelegate(IntPtr thisPtr, IntPtr trustLevel);
+
             private static int GetTrustLevel(IntPtr thisPtr, IntPtr trustLevel)
             {
                 try
                 {
-                    var shadow = ToShadow<InspectableShadow>(thisPtr);
-                    var callback = (IInspectable)shadow.Callback;
+                    InspectableShadow shadow = ToShadow<InspectableShadow>(thisPtr);
+                    IInspectable callback = (IInspectable)shadow.Callback;
                     // Write full trust
                     Marshal.WriteInt32(trustLevel, (int)TrustLevel.FullTrust);
                 }
@@ -124,7 +116,6 @@ namespace SharpGen.Runtime
                 }
                 return Result.Ok.Code;
             }
-
         }
     }
 }

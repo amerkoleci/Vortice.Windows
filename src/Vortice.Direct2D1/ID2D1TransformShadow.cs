@@ -11,6 +11,10 @@ namespace Vortice.Direct2D1
 {
     internal class ID2D1TransformShadow : ID2D1TransformNodeShadow
     {
+        private static readonly ID2D1TransformVtbl s_vtbl = new ID2D1TransformVtbl(0);
+
+        protected override CppObjectVtbl Vtbl => s_vtbl;
+
         protected unsafe class ID2D1TransformVtbl : ID2D1TransformNodeVtbl
         {
             public ID2D1TransformVtbl(int numberOfCallbackMethods) : base(numberOfCallbackMethods + 3)
@@ -103,7 +107,5 @@ namespace Vortice.Direct2D1
                 }
             }
         }
-
-        protected override CppObjectVtbl Vtbl { get; } = new ID2D1TransformVtbl(0);
     }
 }

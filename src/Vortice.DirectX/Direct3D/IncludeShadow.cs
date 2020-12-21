@@ -15,7 +15,7 @@ namespace Vortice.Direct3D
     /// </summary>
     internal class IncludeShadow : CppObjectShadow
     {
-        private static readonly IncludeVtbl _vtbl = new IncludeVtbl();
+        private static readonly IncludeVtbl s_vtbl = new IncludeVtbl();
         private readonly Dictionary<IntPtr, Frame> _frames = new Dictionary<IntPtr, Frame>(DefaultIntPtrComparer);
 
         private struct Frame
@@ -34,16 +34,6 @@ namespace Vortice.Direct3D
                 if (Handle.IsAllocated)
                     Handle.Free();
             }
-        }
-
-        /// <summary>
-        /// Return a pointer to the unmanaged version of this callback.
-        /// </summary>
-        /// <param name="callback">The callback.</param>
-        /// <returns>A pointer to a shadow c++ callback</returns>
-        public static IntPtr ToIntPtr(Include callback)
-        {
-            return ToCallbackPtr<Include>(callback);
         }
 
         /// <summary>
@@ -66,8 +56,8 @@ namespace Vortice.Direct3D
                 {
                     try
                     {
-                        var shadow = ToShadow<IncludeShadow>(thisPtr);
-                        var callback = (Include)shadow.Callback;
+                        IncludeShadow shadow = ToShadow<IncludeShadow>(thisPtr);
+                        Include callback = (Include)shadow.Callback;
 
                         Stream stream = null;
                         Stream parentStream = null;
@@ -122,10 +112,10 @@ namespace Vortice.Direct3D
             {
                 try
                 {
-                    var shadow = ToShadow<IncludeShadow>(thisPtr);
-                    var callback = (Include)shadow.Callback;
+                    IncludeShadow shadow = ToShadow<IncludeShadow>(thisPtr);
+                    Include callback = (Include)shadow.Callback;
 
-                    if (shadow._frames.TryGetValue(pData, out var frame))
+                    if (shadow._frames.TryGetValue(pData, out Frame frame))
                     {
                         shadow._frames.Remove(pData);
                         callback.Close(frame.Stream);
@@ -144,7 +134,7 @@ namespace Vortice.Direct3D
             }
         }
 
-        protected override CppObjectVtbl Vtbl => _vtbl;
+        protected override CppObjectVtbl Vtbl => s_vtbl;
 
         private static byte[] ReadStream(Stream stream)
         {
@@ -186,15 +176,9 @@ namespace Vortice.Direct3D
 
         internal class IntPtrComparer : EqualityComparer<IntPtr>
         {
-            public override bool Equals(IntPtr x, IntPtr y)
-            {
-                return x == y;
-            }
+            public override bool Equals(IntPtr x, IntPtr y) => x == y;
 
-            public override int GetHashCode(IntPtr obj)
-            {
-                return obj.GetHashCode();
-            }
+            public override int GetHashCode(IntPtr obj) => obj.GetHashCode();
         }
     }
 }

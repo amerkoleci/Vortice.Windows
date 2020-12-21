@@ -10,10 +10,10 @@ namespace Vortice.DirectWrite
 {
     internal class IDWriteTextRendererShadow : IDWritePixelSnappingShadow
     {
-        public static IntPtr ToIntPtr(IDWriteTextRenderer callback)
-        {
-            return ToCallbackPtr<IDWriteTextRenderer>(callback);
-        }
+        private static readonly IDWriteTextRendererVtbl s_vtbl = new IDWriteTextRendererVtbl(0);
+
+        protected override CppObjectVtbl Vtbl => s_vtbl;
+
         protected unsafe class IDWriteTextRendererVtbl : IDWritePixelSnappingVtbl
         {
             public IDWriteTextRendererVtbl(int nbMethods) : base(nbMethods + 4)
@@ -26,12 +26,12 @@ namespace Vortice.DirectWrite
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private unsafe delegate int DrawGlyphRunDelegate(IntPtr thisObject, IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun.__Native* glyphRunNative, GlyphRunDescription.__Native* glyphRunDescriptionNative, IntPtr clientDrawingEffect);
-            private unsafe static int DrawGlyphRunImpl(IntPtr thisObject, IntPtr clientDrawingContextPtr, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun.__Native* glyphRunNative, GlyphRunDescription.__Native* glyphRunDescriptionNative, IntPtr clientDrawingEffectPtr)
+            private static unsafe int DrawGlyphRunImpl(IntPtr thisObject, IntPtr clientDrawingContextPtr, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun.__Native* glyphRunNative, GlyphRunDescription.__Native* glyphRunDescriptionNative, IntPtr clientDrawingEffectPtr)
             {
                 try
                 {
-                    var shadow = ToShadow<IDWriteTextRendererShadow>(thisObject);
-                    var callback = (IDWriteTextRenderer)shadow.Callback;
+                    IDWriteTextRendererShadow shadow = ToShadow<IDWriteTextRendererShadow>(thisObject);
+                    IDWriteTextRenderer callback = (IDWriteTextRenderer)shadow.Callback;
 
                     using (var glyphRun = new GlyphRun())
                     {
@@ -58,12 +58,12 @@ namespace Vortice.DirectWrite
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private unsafe delegate int DrawUnderlineDelegate(IntPtr thisObject, IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, Underline.__Native* underlineNative, IntPtr clientDrawingEffect);
-            private unsafe static int DrawUnderlineImpl(IntPtr thisObject, IntPtr clientDrawingContextPtr, float baselineOriginX, float baselineOriginY, Underline.__Native* underlineNative, IntPtr clientDrawingEffectPtr)
+            private static unsafe int DrawUnderlineImpl(IntPtr thisObject, IntPtr clientDrawingContextPtr, float baselineOriginX, float baselineOriginY, Underline.__Native* underlineNative, IntPtr clientDrawingEffectPtr)
             {
                 try
                 {
-                    var shadow = ToShadow<IDWriteTextRendererShadow>(thisObject);
-                    var callback = (IDWriteTextRenderer)shadow.Callback;
+                    IDWriteTextRendererShadow shadow = ToShadow<IDWriteTextRendererShadow>(thisObject);
+                    IDWriteTextRenderer callback = (IDWriteTextRenderer)shadow.Callback;
 
                     var underline = new Underline();
                     underline.__MarshalFrom(ref *underlineNative);
@@ -82,12 +82,12 @@ namespace Vortice.DirectWrite
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private unsafe delegate int DrawStrikethroughDelegate(IntPtr thisObject, IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, Strikethrough.__Native* strikethroughNative, IntPtr clientDrawingEffect);
-            private unsafe static int DrawStrikethroughImpl(IntPtr thisObject, IntPtr clientDrawingContextPtr, float baselineOriginX, float baselineOriginY, Strikethrough.__Native* strikethroughNative, IntPtr clientDrawingEffectPtr)
+            private static unsafe int DrawStrikethroughImpl(IntPtr thisObject, IntPtr clientDrawingContextPtr, float baselineOriginX, float baselineOriginY, Strikethrough.__Native* strikethroughNative, IntPtr clientDrawingEffectPtr)
             {
                 try
                 {
-                    var shadow = ToShadow<IDWriteTextRendererShadow>(thisObject);
-                    var callback = (IDWriteTextRenderer)shadow.Callback;
+                    IDWriteTextRendererShadow shadow = ToShadow<IDWriteTextRendererShadow>(thisObject);
+                    IDWriteTextRenderer callback = (IDWriteTextRenderer)shadow.Callback;
 
                     var strikethrough = new Strikethrough();
                     strikethrough.__MarshalFrom(ref *strikethroughNative);
@@ -110,8 +110,8 @@ namespace Vortice.DirectWrite
             {
                 try
                 {
-                    var shadow = ToShadow<IDWriteTextRendererShadow>(thisObject);
-                    var callback = (IDWriteTextRenderer)shadow.Callback;
+                    IDWriteTextRendererShadow shadow = ToShadow<IDWriteTextRendererShadow>(thisObject);
+                    IDWriteTextRenderer callback = (IDWriteTextRenderer)shadow.Callback;
 
                     callback.DrawInlineObject(clientDrawingContextPtr,
                                               originX,
@@ -128,6 +128,5 @@ namespace Vortice.DirectWrite
                 }
             }
         }
-        protected override CppObjectVtbl Vtbl { get; } = new IDWriteTextRendererVtbl(0);
     }
 }

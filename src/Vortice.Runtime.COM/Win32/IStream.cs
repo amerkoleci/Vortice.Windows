@@ -17,6 +17,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -92,19 +93,8 @@ namespace SharpGen.Runtime.Win32
 
     internal class IStreamShadow : IStreamBaseShadow
     {
-        private static readonly ComStreamVtbl _vTable = new ComStreamVtbl();
-
-        protected override CppObjectVtbl Vtbl => _vTable;
-
-        /// <summary>
-        /// Callbacks to pointer.
-        /// </summary>
-        /// <param name="stream">The stream.</param>
-        /// <returns></returns>
-        public static IntPtr ToIntPtr(IStream stream)
-        {
-            return ToCallbackPtr<IStream>(stream);
-        }
+        private static readonly ComStreamVtbl s_vtbl = new ComStreamVtbl();
+        protected override CppObjectVtbl Vtbl => s_vtbl;
 
         private class ComStreamVtbl : ComStreamBaseVtbl
         {
@@ -122,15 +112,15 @@ namespace SharpGen.Runtime.Win32
                 AddMethod(new CloneDelegate(CloneImpl));
             }
 
-            /* public long Seek(long dlibMove, System.IO.SeekOrigin dwOrigin) */
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private unsafe delegate int SeekDelegate(IntPtr thisPtr, long offset, SeekOrigin origin, IntPtr newPosition);
-            private unsafe static int SeekImpl(IntPtr thisPtr, long offset, SeekOrigin origin, IntPtr newPosition)
+
+            private static unsafe int SeekImpl(IntPtr thisPtr, long offset, SeekOrigin origin, IntPtr newPosition)
             {
                 try
                 {
-                    var shadow = ToShadow<IStreamShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
+                    IStreamShadow shadow = ToShadow<IStreamShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
                     long position = callback.Seek(offset, origin);
 
                     // pointer can be null, so we need to test it
@@ -146,16 +136,15 @@ namespace SharpGen.Runtime.Win32
                 return Result.Ok.Code;
             }
 
-            /* public SharpDX.Result SetSize(long libNewSize) */
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate Result SetSizeDelegate(IntPtr thisPtr, long newSize);
             private static Result SetSizeImpl(IntPtr thisPtr, long newSize)
             {
-                var result = Result.Ok;
+                Result result = Result.Ok;
                 try
                 {
-                    var shadow = ToShadow<IStreamShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
+                    IStreamShadow shadow = ToShadow<IStreamShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
                     callback.SetSize(newSize);
                 }
                 catch (SharpGenException exception)
@@ -169,7 +158,6 @@ namespace SharpGen.Runtime.Win32
                 return result;
             }
 
-            /* internal long CopyTo_(System.IntPtr stmRef, long cb, out long cbWrittenRef) */
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate int CopyToDelegate(IntPtr thisPtr, IntPtr streamPointer, long numberOfBytes, out long numberOfBytesRead, out long numberOfBytesWritten);
             private static int CopyToImpl(IntPtr thisPtr, IntPtr streamPointer, long numberOfBytes, out long numberOfBytesRead, out long numberOfBytesWritten)
@@ -178,8 +166,8 @@ namespace SharpGen.Runtime.Win32
                 numberOfBytesWritten = 0;
                 try
                 {
-                    var shadow = ToShadow<IStreamShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
+                    IStreamShadow shadow = ToShadow<IStreamShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
                     numberOfBytesRead = callback.CopyTo(new ComStream(streamPointer), numberOfBytes, out numberOfBytesWritten);
                 }
                 catch (Exception exception)
@@ -194,11 +182,11 @@ namespace SharpGen.Runtime.Win32
             private delegate Result CommitDelegate(IntPtr thisPtr, CommitFlags flags);
             private static Result CommitImpl(IntPtr thisPtr, CommitFlags flags)
             {
-                var result = Result.Ok;
+                Result result = Result.Ok;
                 try
                 {
-                    var shadow = ToShadow<IStreamShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
+                    IStreamShadow shadow = ToShadow<IStreamShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
                     callback.Commit(flags);
                 }
                 catch (SharpGenException exception)
@@ -212,16 +200,16 @@ namespace SharpGen.Runtime.Win32
                 return result;
             }
 
-            /* public SharpDX.Result Revert() */
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate Result RevertDelegate(IntPtr thisPtr);
+
             private static Result RevertImpl(IntPtr thisPtr)
             {
-                var result = Result.Ok;
+                Result result = Result.Ok;
                 try
                 {
-                    var shadow = ToShadow<IStreamShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
+                    IStreamShadow shadow = ToShadow<IStreamShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
                     callback.Revert();
                 }
                 catch (SharpGenException exception)
@@ -235,16 +223,15 @@ namespace SharpGen.Runtime.Win32
                 return result;
             }
 
-            /* public SharpDX.Result LockRegion(long libOffset, long cb, SharpDX.Win32.LockType dwLockType) */
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate Result LockRegionDelegate(IntPtr thisPtr, long offset, long numberOfBytes, LockType lockType);
             private static Result LockRegionImpl(IntPtr thisPtr, long offset, long numberOfBytes, LockType lockType)
             {
-                var result = Result.Ok;
+                Result result = Result.Ok;
                 try
                 {
-                    var shadow = ToShadow<IStreamShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
+                    IStreamShadow shadow = ToShadow<IStreamShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
                     callback.LockRegion(offset, numberOfBytes, lockType);
                 }
                 catch (SharpGenException exception)
@@ -259,16 +246,15 @@ namespace SharpGen.Runtime.Win32
             }
 
 
-            /* public SharpDX.Result UnlockRegion(long libOffset, long cb, SharpDX.Win32.LockType dwLockType) */
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate Result UnlockRegionDelegate(IntPtr thisPtr, long offset, long numberOfBytes, LockType lockType);
             private static Result UnlockRegionImpl(IntPtr thisPtr, long offset, long numberOfBytes, LockType lockType)
             {
-                var result = Result.Ok;
+                Result result = Result.Ok;
                 try
                 {
-                    var shadow = ToShadow<IStreamShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
+                    IStreamShadow shadow = ToShadow<IStreamShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
                     callback.UnlockRegion(offset, numberOfBytes, lockType);
                 }
                 catch (SharpGenException exception)
@@ -282,16 +268,15 @@ namespace SharpGen.Runtime.Win32
                 return result;
             }
 
-            /* public SharpDX.Win32.StorageStatistics GetStatistics(SharpDX.Win32.StorageStatisticsFlags grfStatFlag) */
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate Result StatDelegate(IntPtr thisPtr, ref StorageStatistics.__Native statisticsPtr, StorageStatisticsFlags flags);
             private static Result StatImpl(IntPtr thisPtr, ref StorageStatistics.__Native statisticsPtr, StorageStatisticsFlags flags)
             {
                 try
                 {
-                    var shadow = ToShadow<IStreamShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
-                    var statistics = callback.GetStatistics(flags);
+                    IStreamShadow shadow = ToShadow<IStreamShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
+                    StorageStatistics statistics = callback.GetStatistics(flags);
                     statistics.__MarshalTo(ref statisticsPtr);
                 }
                 catch (SharpGenException exception)
@@ -305,19 +290,19 @@ namespace SharpGen.Runtime.Win32
                 return Result.Ok;
             }
 
-            /* public SharpDX.Win32.IStream Clone() */
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate Result CloneDelegate(IntPtr thisPtr, out IntPtr streamPointer);
             private static Result CloneImpl(IntPtr thisPtr, out IntPtr streamPointer)
             {
+                Result result = Result.Ok;
                 streamPointer = IntPtr.Zero;
-                var result = Result.Ok;
+
                 try
                 {
-                    var shadow = ToShadow<IStreamShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
-                    var clone = callback.Clone();
-                    streamPointer = IStreamShadow.ToIntPtr(clone);
+                    IStreamShadow shadow = ToShadow<IStreamShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
+                    IStream clone = callback.Clone();
+                    streamPointer = ToCallbackPtr<IStream>(clone);
                 }
                 catch (SharpGenException exception)
                 {

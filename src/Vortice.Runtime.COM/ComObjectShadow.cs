@@ -27,7 +27,8 @@ namespace SharpGen.Runtime
     /// </summary>
     public class ComObjectShadow : CppObjectShadow
     {
-        private static readonly ComObjectVtbl _vTable = new ComObjectVtbl(0);
+        private static readonly ComObjectVtbl s_vtbl = new ComObjectVtbl(0);
+        protected override CppObjectVtbl Vtbl => s_vtbl;
 
         private Result QueryInterface(Guid guid, out IntPtr output)
         {
@@ -43,8 +44,6 @@ namespace SharpGen.Runtime
             return Result.Ok.Code;
 
         }
-
-        protected override CppObjectVtbl Vtbl { get; } = _vTable;
 
         protected class ComObjectVtbl : CppObjectVtbl
         {
@@ -65,28 +64,23 @@ namespace SharpGen.Runtime
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             public delegate uint ReleaseDelegate(IntPtr thisObject);
 
-            protected unsafe static int QueryInterfaceImpl(IntPtr thisObject, IntPtr guid, out IntPtr output)
+            protected static unsafe int QueryInterfaceImpl(IntPtr thisObject, IntPtr guid, out IntPtr output)
             {
-                var shadow = ToShadow<ComObjectShadow>(thisObject);
-
+                ComObjectShadow shadow = ToShadow<ComObjectShadow>(thisObject);
                 return shadow.QueryInterface(*(Guid*)guid, out output).Code;
             }
 
             protected static uint AddRefImpl(IntPtr thisObject)
             {
-                var shadow = ToShadow<ComObjectShadow>(thisObject);
-
-                var obj = (IUnknown)shadow.Callback;
-
+                ComObjectShadow shadow = ToShadow<ComObjectShadow>(thisObject);
+                IUnknown obj = (IUnknown)shadow.Callback;
                 return obj.AddRef();
             }
 
             protected static uint ReleaseImpl(IntPtr thisObject)
             {
-                var shadow = ToShadow<ComObjectShadow>(thisObject);
-
-                var obj = (IUnknown)shadow.Callback;
-
+                ComObjectShadow shadow = ToShadow<ComObjectShadow>(thisObject);
+                IUnknown obj = (IUnknown)shadow.Callback;
                 return obj.Release();
             }
         }

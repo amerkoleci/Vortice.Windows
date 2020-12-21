@@ -11,6 +11,10 @@ namespace Vortice.DirectWrite
 {
     internal class IDWriteTextRenderer1Shadow : IDWriteTextRendererShadow
     {
+        private static readonly IDWriteTextRenderer1Vtbl s_vtbl = new IDWriteTextRenderer1Vtbl(0);
+
+        protected override CppObjectVtbl Vtbl => s_vtbl;
+
         protected unsafe class IDWriteTextRenderer1Vtbl : IDWriteTextRendererVtbl
         {
             public IDWriteTextRenderer1Vtbl(int numberOfCallbackMethods) : base(numberOfCallbackMethods + 4)
@@ -27,8 +31,8 @@ namespace Vortice.DirectWrite
             {
                 try
                 {
-                    var shadow = ToShadow<IDWriteTextRenderer1Shadow>(thisObject);
-                    var callback = (IDWriteTextRenderer1)shadow.Callback;
+                    IDWriteTextRenderer1Shadow shadow = ToShadow<IDWriteTextRenderer1Shadow>(thisObject);
+                    IDWriteTextRenderer1 callback = (IDWriteTextRenderer1)shadow.Callback;
 
                     using (var glyphRun = new GlyphRun())
                     {
@@ -37,7 +41,7 @@ namespace Vortice.DirectWrite
                         var glyphRunDescription = new Vortice.DirectWrite.GlyphRunDescription();
                         glyphRunDescription.__MarshalFrom(ref *glyphRunDescriptionNative);
 
-                        var clientDrawingEffect = clientDrawingEffectPtr == IntPtr.Zero ? null : new ComObject(clientDrawingEffectPtr);
+                        ComObject clientDrawingEffect = clientDrawingEffectPtr == IntPtr.Zero ? null : new ComObject(clientDrawingEffectPtr);
 
                         callback.DrawGlyphRun(clientDrawingContext, baselineOriginX, baselineOriginY, orientationAngle, measuringMode, glyphRun, ref glyphRunDescription, clientDrawingEffect);
                     }
@@ -55,13 +59,13 @@ namespace Vortice.DirectWrite
             {
                 try
                 {
-                    var shadow = ToShadow<IDWriteTextRenderer1Shadow>(thisObject);
-                    var callback = (IDWriteTextRenderer1)shadow.Callback;
+                    IDWriteTextRenderer1Shadow shadow = ToShadow<IDWriteTextRenderer1Shadow>(thisObject);
+                    IDWriteTextRenderer1 callback = (IDWriteTextRenderer1)shadow.Callback;
 
                     Underline underline = default;
                     underline.__MarshalFrom(ref *underlineNative);
 
-                    var clientDrawingEffect = clientDrawingEffectPtr == IntPtr.Zero ? null : new ComObject(clientDrawingEffectPtr);
+                    ComObject clientDrawingEffect = clientDrawingEffectPtr == IntPtr.Zero ? null : new ComObject(clientDrawingEffectPtr);
 
                     callback.DrawUnderline(clientDrawingContext, baselineOriginX, baselineOriginY, orientationAngle, ref underline, clientDrawingEffect);
                     return Result.Ok.Code;
@@ -78,13 +82,13 @@ namespace Vortice.DirectWrite
             {
                 try
                 {
-                    var shadow = ToShadow<IDWriteTextRenderer1Shadow>(thisObject);
-                    var callback = (IDWriteTextRenderer1)shadow.Callback;
+                    IDWriteTextRenderer1Shadow shadow = ToShadow<IDWriteTextRenderer1Shadow>(thisObject);
+                    IDWriteTextRenderer1 callback = (IDWriteTextRenderer1)shadow.Callback;
 
                     Strikethrough strikethrough = default;
                     strikethrough.__MarshalFrom(ref *strikethroughNative);
 
-                    var clientDrawingEffect = clientDrawingEffectPtr == IntPtr.Zero ? null : new ComObject(clientDrawingEffectPtr);
+                    ComObject clientDrawingEffect = clientDrawingEffectPtr == IntPtr.Zero ? null : new ComObject(clientDrawingEffectPtr);
 
                     callback.DrawStrikethrough(clientDrawingContext, baselineOriginX, baselineOriginY, orientationAngle, ref strikethrough, clientDrawingEffect);
                     return Result.Ok.Code;
@@ -101,11 +105,11 @@ namespace Vortice.DirectWrite
             {
                 try
                 {
-                    var shadow = ToShadow<IDWriteTextRenderer1Shadow>(thisObject);
-                    var callback = (IDWriteTextRenderer1)shadow.Callback;
+                    IDWriteTextRenderer1Shadow shadow = ToShadow<IDWriteTextRenderer1Shadow>(thisObject);
+                    IDWriteTextRenderer1 callback = (IDWriteTextRenderer1)shadow.Callback;
 
-                    var inlineObject = inlineObjectPtr == IntPtr.Zero ? null : new IDWriteInlineObjectNative(inlineObjectPtr);
-                    var clientDrawingEffect = clientDrawingEffectPtr == IntPtr.Zero ? null : new ComObject(clientDrawingEffectPtr);
+                    IDWriteInlineObjectNative inlineObject = inlineObjectPtr == IntPtr.Zero ? null : new IDWriteInlineObjectNative(inlineObjectPtr);
+                    ComObject clientDrawingEffect = clientDrawingEffectPtr == IntPtr.Zero ? null : new ComObject(clientDrawingEffectPtr);
 
                     callback.DrawInlineObject(clientDrawingContext, originX, originY, orientationAngle, inlineObject, isSideways, isRightToLeft, clientDrawingEffect);
                     return Result.Ok.Code;
@@ -116,12 +120,5 @@ namespace Vortice.DirectWrite
                 }
             }
         }
-
-        protected override CppObjectVtbl Vtbl
-        {
-            get;
-        }
-
-        = new IDWriteTextRenderer1Vtbl(0);
     }
 }

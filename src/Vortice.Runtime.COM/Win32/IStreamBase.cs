@@ -44,9 +44,9 @@ namespace SharpGen.Runtime.Win32
 
     internal class IStreamBaseShadow : ComObjectShadow
     {
-        private static readonly ComStreamBaseVtbl _vTable = new ComStreamBaseVtbl(0);
+        private static readonly ComStreamBaseVtbl s_vtbl = new ComStreamBaseVtbl(0);
 
-        protected override CppObjectVtbl Vtbl => _vTable;
+        protected override CppObjectVtbl Vtbl => s_vtbl;
 
         protected class ComStreamBaseVtbl : ComObjectVtbl
         {
@@ -64,8 +64,8 @@ namespace SharpGen.Runtime.Win32
                 bytesRead = 0;
                 try
                 {
-                    var shadow = ToShadow<IStreamBaseShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
+                    IStreamBaseShadow shadow = ToShadow<IStreamBaseShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
                     bytesRead = callback.Read(buffer, sizeOfBytes);
                 }
                 catch (Exception exception)
@@ -82,8 +82,8 @@ namespace SharpGen.Runtime.Win32
                 bytesWrite = 0;
                 try
                 {
-                    var shadow = ToShadow<IStreamBaseShadow>(thisPtr);
-                    var callback = ((IStream)shadow.Callback);
+                    IStreamBaseShadow shadow = ToShadow<IStreamBaseShadow>(thisPtr);
+                    IStream callback = ((IStream)shadow.Callback);
                     bytesWrite = callback.Write(buffer, sizeOfBytes);
                 }
                 catch (Exception exception)

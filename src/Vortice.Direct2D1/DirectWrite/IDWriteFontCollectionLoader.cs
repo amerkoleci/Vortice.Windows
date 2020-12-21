@@ -16,18 +16,16 @@ namespace Vortice.DirectWrite
 
     internal class IDWriteFontCollectionLoaderShadow : ComObjectShadow
     {
-        private static readonly ComObjectVtbl _vTable = new FontCollectionLoaderVtbl();
+        private static readonly ComObjectVtbl s_vtbl = new FontCollectionLoaderVtbl();
 
-        protected override CppObjectVtbl Vtbl => _vTable;
+        protected override CppObjectVtbl Vtbl => s_vtbl;
 
         private IDWriteFactory _factory;
 
-        public static IntPtr ToIntPtr(IDWriteFontCollectionLoader loader) => ToCallbackPtr<IDWriteFontCollectionLoader>(loader);
-
         public static void SetFactory(IDWriteFontCollectionLoader loader, IDWriteFactory factory)
         {
-            var shadowPtr = ToIntPtr(loader);
-            var shadow = ToShadow<IDWriteFontCollectionLoaderShadow>(shadowPtr);
+            IntPtr shadowPtr = ToCallbackPtr<IDWriteFontCollectionLoader>(loader);
+            IDWriteFontCollectionLoaderShadow shadow = ToShadow<IDWriteFontCollectionLoaderShadow>(shadowPtr);
             shadow._factory = factory;
         }
 
@@ -39,7 +37,6 @@ namespace Vortice.DirectWrite
             }
 
 
-            /// <unmanaged>HRESULT IDWriteFontCollectionLoader::CreateEnumeratorFromKey([None] IDWriteFactory* factory,[In, Buffer] const void* collectionKey,[None] int collectionKeySize,[Out] IDWriteFontFileEnumerator** fontFileEnumerator)</unmanaged>
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate int CreateEnumeratorFromKeyDelegate(IntPtr thisPtr, IntPtr factory, IntPtr collectionKey, int collectionKeySize, out IntPtr fontFileEnumerator);
 
@@ -48,10 +45,10 @@ namespace Vortice.DirectWrite
                 fontFileEnumerator = IntPtr.Zero;
                 try
                 {
-                    var shadow = ToShadow<IDWriteFontCollectionLoaderShadow>(thisPtr);
-                    var callback = (IDWriteFontCollectionLoader)shadow.Callback;
+                    IDWriteFontCollectionLoaderShadow shadow = ToShadow<IDWriteFontCollectionLoaderShadow>(thisPtr);
+                    IDWriteFontCollectionLoader callback = (IDWriteFontCollectionLoader)shadow.Callback;
                     Debug.Assert(factory == shadow._factory.NativePointer);
-                    var enumerator = callback.CreateEnumeratorFromKey(shadow._factory, collectionKey, collectionKeySize);
+                    IDWriteFontFileEnumerator enumerator = callback.CreateEnumeratorFromKey(shadow._factory, collectionKey, collectionKeySize);
                     fontFileEnumerator = IDWriteFontFileEnumeratorShadow.ToIntPtr(enumerator);
                 }
                 catch (Exception exception)

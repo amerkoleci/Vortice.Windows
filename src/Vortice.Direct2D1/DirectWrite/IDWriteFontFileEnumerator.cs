@@ -25,9 +25,9 @@ namespace Vortice.DirectWrite
 
     internal class IDWriteFontFileEnumeratorShadow : ComObjectShadow
     {
-        private static readonly ComObjectVtbl _vTable = new FontFileEnumeratorVtbl();
+        private static readonly ComObjectVtbl s_vtbl = new FontFileEnumeratorVtbl();
 
-        protected override CppObjectVtbl Vtbl => _vTable;
+        protected override CppObjectVtbl Vtbl => s_vtbl;
 
         /// <summary>
         /// Return a pointer to the unmanaged version of this callback.
