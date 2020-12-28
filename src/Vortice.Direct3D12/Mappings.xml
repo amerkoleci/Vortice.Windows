@@ -9,14 +9,11 @@
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
   
   <include file="d3d12.h" namespace="Vortice.Direct3D12" attach="true"/>
-
-  <!--<include file="d3d12video.h"
-           namespace="Vortice.Direct3D12.Video"
-           attach="true"
-           output="Video" />-->
+  <!--<include file="d3d12compatibility.h" namespace="Vortice.Direct3D12" attach="true"/>-->
 
   <include file="d3d12shader.h" namespace="Vortice.Direct3D12.Shader" attach="true" output="Shader" />
   <include file="d3d12sdklayers.h" namespace="Vortice.Direct3D12.Debug" attach="true" output="Debug" />
+  <include file="d3d12video.h" namespace="Vortice.Direct3D12.Video" attach="true" output="Video" />
 
   <extension>
 
@@ -403,6 +400,11 @@
     <map enum="D3D12_STENCIL_OP" name="StencilOperation" />
     <map enum="D3D12_COLOR_WRITE_ENABLE" name="ColorWriteEnable" type="byte" flags="true"  />
     <map enum-item="D3D12_COLOR_WRITE_ENABLE(.*)" name-tmp="$1" />
+
+    <map enum-item="D3D12_VIDEO_MOTION_ESTIMATOR_SEARCH_BLOCK_SIZE_8X8" name="Size8x8"/>
+    <map enum-item="D3D12_VIDEO_MOTION_ESTIMATOR_SEARCH_BLOCK_SIZE_16X16" name="Size16x16"/>
+    <map enum-item="D3D12_VIDEO_MOTION_ESTIMATOR_SEARCH_BLOCK_SIZE_FLAG_8X8" name="Size8x8"/>
+    <map enum-item="D3D12_VIDEO_MOTION_ESTIMATOR_SEARCH_BLOCK_SIZE_FLAG_16X16" name="Size16x16"/>
 
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
@@ -816,5 +818,80 @@
     <map param="ID3D12FunctionReflection::GetResourceBindingDescByName::pDesc" attribute="out" return="true"/>
     <map method="ID3D12ShaderReflectionVariable::GetType" name="GetVariableType" />
     <map param="ID3D12ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
+
+    <!-- Video -->
+    <remove field="D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS::.*"/>
+    <remove field="D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS1::.*"/>
+    <remove field="D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS::.*"/>
+    <remove field="D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1::.*"/>
+
+    <map field="D3D12_VIDEO_DECODE_OUTPUT_HISTOGRAM::pBuffer" name="Buffer" />
+    <map field="D3D12_VIDEO_PROCESS_INPUT_STREAM::pReferenceTexture2D" name="ReferenceTexture2D" />
+    <map field="D3D12_VIDEO_PROCESS_INPUT_STREAM::pTexture2D" name="Texture2D" />
+
+    <map struct="D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS" name="VideoProcessInputStreamArguments" native="true" marshal="true" />
+    <map struct="D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS1" name="VideoProcessInputStreamArguments1" native="true" marshal="true" />
+    <map struct="D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS" name="VideoProcessOutputStreamArguments" native="true" marshal="true" />
+    <map struct="D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1" name="VideoDecodeOutputStreamArguments1" struct-to-class="true" marshal="true" />
+    
+    <map param="ID3D12VideoDecodeCommandList::ResourceBarrier::pBarriers" type="void"/>
+    <map method="ID3D12VideoDecodeCommandList::ResourceBarrier" visibility="private"/>
+    <map method="ID3D12VideoDecodeCommandList::DiscardResource" visibility="private" />
+    <map method="ID3D12VideoDecodeCommandList::BeginEvent" visibility="private"/>
+    <map method="ID3D12VideoDecodeCommandList::SetMarker" visibility="private"/>
+
+    <map param="ID3D12VideoEncodeCommandList::ResourceBarrier::pBarriers" type="void"/>
+    <map method="ID3D12VideoEncodeCommandList::ResourceBarrier" visibility="private"/>
+    <map method="ID3D12VideoEncodeCommandList::DiscardResource" visibility="private" />
+    <map method="ID3D12VideoEncodeCommandList::BeginEvent" visibility="private"/>
+    <map method="ID3D12VideoEncodeCommandList::SetMarker" visibility="private"/>
+
+    <map param="ID3D12VideoProcessCommandList::ResourceBarrier::pBarriers" type="void"/>
+    <map method="ID3D12VideoProcessCommandList::ResourceBarrier" visibility="private"/>
+    <map method="ID3D12VideoProcessCommandList::DiscardResource" visibility="private" />
+    <map method="ID3D12VideoProcessCommandList::BeginEvent" visibility="private"/>
+    <map method="ID3D12VideoProcessCommandList::SetMarker" visibility="private"/>
+
+    <!-- ID3D12VideoDevice methods -->
+    <map method="ID3D12VideoDevice::CheckFeatureSupport" visibility="internal" hresult="true" check="false" />
+    <map method="ID3D12VideoDevice::CreateVideoDecoder" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice::CreateVideoDecoder::ppVideoDecoder" attribute="out" />
+    <map method="ID3D12VideoDevice::CreateVideoDecoderHeap" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice::CreateVideoDecoderHeap::ppVideoDecoderHeap" attribute="out" />
+    <map method="ID3D12VideoDevice::CreateVideoProcessor" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice::CreateVideoProcessor::ppVideoProcessor" attribute="out" />
+
+    <!-- ID3D12VideoDevice1 methods -->
+    <map method="ID3D12VideoDevice1::CreateVideoMotionEstimator" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice1::CreateVideoMotionEstimator::ppVideoMotionEstimator" attribute="out" />
+    <map method="ID3D12VideoDevice1::CreateVideoMotionVectorHeap" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice1::CreateVideoMotionVectorHeap::ppVideoMotionVectorHeap" attribute="out" />
+
+    <!-- ID3D12VideoDevice2 methods -->
+    <map method="ID3D12VideoDevice2::CreateVideoDecoder1" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice2::CreateVideoDecoder1::ppVideoDecoder" attribute="out" />
+    <map method="ID3D12VideoDevice2::CreateVideoDecoderHeap1" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice2::CreateVideoDecoderHeap1::ppVideoDecoderHeap" attribute="out" />
+    <map method="ID3D12VideoDevice2::CreateVideoExtensionCommand" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice2::CreateVideoExtensionCommand::ppVideoExtensionCommand" attribute="out" />
+    <map method="ID3D12VideoDevice2::CreateVideoProcessor1" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice2::CreateVideoProcessor1::ppVideoProcessor" attribute="out" />
+    
+    <map method="ID3D12VideoDevice2::ExecuteExtensionCommand" hresult="true" check="false" />
+
+    <map method="ID3D12VideoDecoder1::GetProtectedResourceSession" visibility="private" hresult="true" check="false"/>
+    <map method="ID3D12VideoDecoderHeap1::GetProtectedResourceSession" visibility="private" hresult="true" check="false"/>
+
+    <map method="ID3D12VideoProcessor::GetNodeMask" property="false" />
+    <map method="ID3D12VideoProcessor::GetNumInputStreamDescs" name="GetNumInputStreamDescriptions" property="false" />
+    <map method="ID3D12VideoProcessor::GetOutputStreamDesc" name="GetOutputStreamDescription" property="false" />
+    <map method="ID3D12VideoProcessor::GetInputStreamDescs" name="GetInputStreamDescriptions" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12VideoProcessor::GetInputStreamDescs::pInputStreamDescs" type="void" />
+
+    <map method="ID3D12VideoProcessor1::GetProtectedResourceSession" visibility="private" hresult="true" check="false"/>
+
+    <map method="ID3D12VideoExtensionCommand::GetProtectedResourceSession" visibility="private" hresult="true" check="false"/>
+    <map method="ID3D12VideoMotionEstimator::GetProtectedResourceSession" visibility="private" hresult="true" check="false"/>
+    <map method="ID3D12VideoMotionVectorHeap::GetProtectedResourceSession" visibility="private" hresult="true" check="false"/>
   </mapping>
 </config>

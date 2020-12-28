@@ -8,6 +8,8 @@ Release:     1.8.XX (Decembre 2020)
 KEY CHANGES:
 - [ENH] General: Integrate MIT licensed headers from (https://github.com/microsoft/DirectX-Headers)
 - [ENH] DXCore: Add support for DXCore.
+- [ENH] General: Initial net5 migration, starting with Direct3D12.
+- [ENH] Direct3D12: Add Video binding generation.
 
 -----------------------------------------------
 Release:     1.8.35 (November 2020)

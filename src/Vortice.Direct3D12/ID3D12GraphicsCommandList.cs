@@ -4,7 +4,6 @@
 using System;
 using Vortice.Mathematics;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct3D12
 {
@@ -40,7 +39,7 @@ namespace Vortice.Direct3D12
             ResourceBarrier(1, new IntPtr(&barrier));
         }
 
-        public unsafe void ResourceBarrier(params ResourceBarrier[] barriers)
+        public unsafe void ResourceBarrier(ResourceBarrier[] barriers)
         {
             fixed (void* pBarriers = barriers)
             {
@@ -53,6 +52,14 @@ namespace Vortice.Direct3D12
             fixed (void* pBarriers = barriers)
             {
                 ResourceBarrier(barriersCount, new IntPtr(pBarriers));
+            }
+        }
+
+        public unsafe void ResourceBarrier(Span<ResourceBarrier> barriers)
+        {
+            fixed (ResourceBarrier* barriersPtr = barriers)
+            {
+                ResourceBarrier(barriers.Length, (IntPtr)barriersPtr);
             }
         }
 
