@@ -54,6 +54,7 @@
     <bind from="UINT32" to="System.Int32" />
     <bind from="UINT" to="System.Int32" />
     <bind from="LUID" to="System.Int64"/>
+    <bind from="long" to="System.Int64"/>
     <bind from="HWND" to="System.IntPtr"/>
     <bind from="HDC" to="System.IntPtr"/>
     <bind from="HINSTANCE" to="System.IntPtr"/>

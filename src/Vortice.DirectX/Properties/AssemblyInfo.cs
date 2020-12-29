@@ -4,3 +4,4 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Vortice.D3DCompiler")]
+[assembly: InternalsVisibleTo("Vortice.DirectInput")]
