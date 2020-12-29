@@ -51,7 +51,7 @@
     <const from-macro="XAUDIO2_COMMIT_NOW" type="int" cpp-type="int" name="CommitNow" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_COMMIT_ALL" type="int" cpp-type="int" name="CommitAll" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_NO_LOOP_REGION" type="int" cpp-type="int" name="NoLoopRegion" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_LOOP_INFINITE" type="int" cpp-type="int" name="LoopInfinite" class="Vortice.IXAudio2.AudioBuffer" visibility="public const" />
+    <const from-macro="XAUDIO2_LOOP_INFINITE" type="int" cpp-type="int" name="LoopInfinite" class="Vortice.IXAudio2.IXAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_DEFAULT_CHANNELS" type="int" cpp-type="int" name="DefaultChannels" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_DEFAULT_SAMPLERATE" type="int" cpp-type="int" name="DefaultSampleRate" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_VOICE_NOSAMPLESPLAYED" type="int" cpp-type="int" name="NoSamplesPlayed" class="Vortice.XAudio2.IXAudio2SourceVoice" visibility="private const" />

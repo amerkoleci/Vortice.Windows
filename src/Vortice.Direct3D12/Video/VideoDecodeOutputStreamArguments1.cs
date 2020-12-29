@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
@@ -32,29 +31,15 @@ namespace Vortice.Direct3D12.Video
         /// An array of <see cref="VideoDecodeOutputHistogram"/> structures that are populated with histogram data.
         /// The maximum size of the array is 4.
         /// </summary>
-        public HistogramsInner Histograms;
-
-        #region Nested
-        public partial struct HistogramsInner
+        public VideoDecodeOutputHistogram[] Histograms
         {
-            public VideoDecodeOutputHistogram e0;
-            public VideoDecodeOutputHistogram e1;
-            public VideoDecodeOutputHistogram e2;
-            public VideoDecodeOutputHistogram e3;
-
-            public ref VideoDecodeOutputHistogram this[int index]
-            {
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get
-                {
-                    return ref AsSpan()[index];
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public Span<VideoDecodeOutputHistogram> AsSpan() => MemoryMarshal.CreateSpan(ref e0, 4);
+            get => _histograms ??= new VideoDecodeOutputHistogram[4];
+            private set => _histograms = value;
         }
 
+        private VideoDecodeOutputHistogram[] _histograms;
+
+        #region Nested
         [StructLayout(LayoutKind.Sequential, Pack = 0, CharSet = CharSet.Unicode)]
         internal partial struct __Native
         {

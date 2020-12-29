@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -12,7 +11,13 @@ namespace Vortice.Direct3D12.Video
         /// <summary>
         /// An array of <see cref="VideoProcessInputStream"/> structures containing the set of references for video processing.
         /// </summary>
-        public _InputStream_e__FixedBuffer InputStream;
+        public VideoProcessInputStream[] InputStream
+        {
+            get => _inputStream ??= new VideoProcessInputStream[2];
+            private set => _inputStream = value;
+        }
+
+        private VideoProcessInputStream[] _inputStream;
 
         /// <summary>
         /// A <see cref="VideoProcessTransform"/> structure specifying the flip, rotation, scale and destination translation for the video input.
@@ -50,24 +55,6 @@ namespace Vortice.Direct3D12.Video
         public VideoFieldType FieldType;
 
         #region Nested
-        public partial struct _InputStream_e__FixedBuffer
-        {
-            public VideoProcessInputStream e0;
-            public VideoProcessInputStream e1;
-
-            public ref VideoProcessInputStream this[int index]
-            {
-                [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get
-                {
-                    return ref AsSpan()[index];
-                }
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public Span<VideoProcessInputStream> AsSpan() => MemoryMarshal.CreateSpan(ref e0, 2);
-        }
-
         [StructLayout(LayoutKind.Sequential, Pack = 0, CharSet = CharSet.Unicode)]
         internal partial struct __Native
         {
