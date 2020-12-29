@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.IO;
 using SharpGen.Runtime;
 using Vortice.Direct3D;
 
@@ -30,6 +31,19 @@ namespace Vortice.D3DCompiler
         {
             Data = new byte[blob.BufferSize];
             MemoryHelpers.Read(blob.BufferPointer, Data, 0, Data.Length);
+        }
+
+        /// <summary>
+        /// Initialize new instance of <see cref="ShaderBytecode"/> struct.
+        /// </summary>
+        /// <param name="data">The stream containing the compiled bytecode.</param>
+        public ShaderBytecode(Stream data)
+        {
+            int size = (int)(data.Length - data.Position);
+
+            byte[] localBuffer = new byte[size];
+            data.Read(localBuffer, 0, size);
+            Data = localBuffer;
         }
     }
 }
