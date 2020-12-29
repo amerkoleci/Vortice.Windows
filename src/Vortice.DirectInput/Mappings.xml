@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-directinput" xmlns="urn:SharpGen.Config">
   <depends>Vortice.Runtime.COM</depends>
+  <depends>Vortice.DirectX</depends>
+  <depends>Vortice.DXGI</depends>
 
-
-  <assembly>Vortice.DirectInput2</assembly>
+  <assembly>Vortice.DirectInput</assembly>
   <namespace>Vortice.DirectInput</namespace>
 
+  <sdk name="WindowsSdk" version="10.0.19041.0" />
+  <sdk name="StdLib" />
 
   <include file="dinput.h"  attach="true">
     <pre>

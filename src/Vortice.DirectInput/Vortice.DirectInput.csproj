@@ -15,7 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
-    <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
+    <ProjectReference Include="..\Vortice.Multimedia\Vortice.Multimedia.csproj" />
     <ProjectReference Include="..\Vortice.Runtime.COM\Vortice.Runtime.COM.csproj" />
   </ItemGroup>
 
