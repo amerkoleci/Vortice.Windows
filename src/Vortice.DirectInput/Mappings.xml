@@ -524,9 +524,11 @@
     <!-- define enum Vortice.DirectInput.ObjectDataFormatFlags -->
     <define enum="Vortice.DirectInput.ObjectDataFormatFlags" sizeof="4" />
 
-    <create class="DInput"/>
-    <const from-macro="DIRECTINPUT_VERSION" type="int" name="SdkVersion" class="Vortice.DirectInput.DInput"/>
+    <create class="DirectInput"  visibility="public"/>
+    <const from-macro="DIRECTINPUT_VERSION" type="int" name="SdkVersion" class="Vortice.DirectInput.DirectInput"/>
 
+    <create class="Joystick" visibility="public"/>
+  
     <context-clear />
   </extension>
 
@@ -1060,10 +1062,12 @@
     <remove function="ShowJoyCPL" />
 
     <!-- FIX ME, get dataformat of Joystick needs to be attached to the correct class -->
-    <map function="GetdfDIJoystick" dll='"dinput8.dll"' group="Vortice.DirectInput.DInput" />  
+    <map function="GetdfDIJoystick" dll='"dinput8.dll"' group="Vortice.DirectInput.Joystick" name="GetJoystickDataFormat" />  
+
+    <map function="DirectInput8Create" dll='"dinput8.dll"' group="Vortice.DirectInput.DirectInput" name="CreateDirectInput"  />   
+    <map function="DirectInput.*" dll='"dinput8.dll"' group="Vortice.DirectInput.DirectInput"  />
     
-    <map function="DirectInput.*" dll='"dinput8.dll"' group="Vortice.DirectInput.DInput" />   
-    <map param="DirectInput8Create::ppvOut" attribute="out"/>
+    <map param="DirectInput8Create::ppvOut" attribute="out" />
     
     <context-clear />
   </mapping>

@@ -30,7 +30,7 @@ namespace Vortice.DirectInput
         public DirectInput() : base(IntPtr.Zero)
         {
             IntPtr temp;
-            DInput.DirectInput8Create(Win32Native.GetModuleHandle(null), DInput.SdkVersion, Utilities.GetGuidFromType(typeof(DirectInput)), out temp, null);
+            DirectInput.CreateDirectInput(Win32Native.GetModuleHandle(null), DInput.SdkVersion, Utilities.GetGuidFromType(typeof(DirectInput)), out temp, null);
             NativePointer = temp;
         }
 
