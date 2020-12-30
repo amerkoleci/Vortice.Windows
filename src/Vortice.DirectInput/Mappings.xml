@@ -23,6 +23,10 @@
     </post>
   </include>
 
+  <bindings>
+    <bind from="GUID  " to="System.IntPtr" />
+  </bindings> 
+
   <extension>
     <context>vortice-directinput</context>
     <context>vortice-directinput-ext</context>
@@ -1055,9 +1059,12 @@
     <remove function="joyConfigChanged" />    
     <remove function="ShowJoyCPL" />
 
+    <!-- FIX ME, get dataformat of Joystick needs to be attached to the correct class -->
+    <map function="GetdfDIJoystick" dll='"dinput8.dll"' group="Vortice.DirectInput.DInput" />  
+    
     <map function="DirectInput.*" dll='"dinput8.dll"' group="Vortice.DirectInput.DInput" />   
     <map param="DirectInput8Create::ppvOut" attribute="out"/>
-
+    
     <context-clear />
   </mapping>
 
