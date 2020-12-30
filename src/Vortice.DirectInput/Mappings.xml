@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-directinput" xmlns="urn:SharpGen.Config">
-  <depends>Vortice.Runtime.COM</depends>
   <depends>Vortice.DirectX</depends>
-  <depends>Vortice.DXGI</depends>
 
   <assembly>Vortice.DirectInput</assembly>
   <namespace>Vortice.DirectInput</namespace>
 
-  <sdk name="WindowsSdk" version="10.0.19041.0" />
-  <sdk name="StdLib" />
 
   <include file="dinput.h"  attach="true">
     <pre>
@@ -16,7 +12,6 @@
       #define FIELD_OFFSET(type, field) __builtin_offsetof(type,field)
     </pre>
     <post>
-      
       // Add JoystickOffsets predefined values
       #define DIJOFS_SLIDER0 DIJOFS_SLIDER(0)
       #define DIJOFS_SLIDER1 DIJOFS_SLIDER(1)
@@ -24,7 +19,7 @@
       #define DIJOFS_POINT_OF_VIEW1 DIJOFS_POV(1)
       #define DIJOFS_POINT_OF_VIEW2 DIJOFS_POV(2)
       #define DIJOFS_POINT_OF_VIEW3 DIJOFS_POV(3)
-      #define DIK_UNKNOWN 0      
+      #define DIK_UNKNOWN 0
     </post>
   </include>
 
@@ -331,49 +326,49 @@
     <const from-macro="DIBUTTON_REMOTE_(.*)" type="int" name="$1" class="Vortice.DirectInput.RemoteControls"/>
 
     <!-- class Vortice.DirectInput.ResultCode -->
-    <create class="ResultCode" visibility="public sealed"/>    
-    <const from-macro="DI_OK" type="Vortice.ResultDescriptor" cpp-type="int" name="Ok" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_NOTATTACHED" type="Vortice.ResultDescriptor" cpp-type="int" name="NotAttached" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_BUFFEROVERFLOW" type="Vortice.ResultDescriptor" cpp-type="int" name="BufferOverflow" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_PROPNOEFFECT" type="Vortice.ResultDescriptor" cpp-type="int" name="PropertyHadNoEffect" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_NOEFFECT" type="Vortice.ResultDescriptor" cpp-type="int" name="NoEffect" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_POLLEDDEVICE" type="Vortice.ResultDescriptor" cpp-type="int" name="PolledDevice" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_DOWNLOADSKIPPED" type="Vortice.ResultDescriptor" cpp-type="int" name="DownloadSkipped" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_EFFECTRESTARTED" type="Vortice.ResultDescriptor" cpp-type="int" name="EffectRestarted" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_TRUNCATED" type="Vortice.ResultDescriptor" cpp-type="int" name="Truncated" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_SETTINGSNOTSAVED" type="Vortice.ResultDescriptor" cpp-type="int" name="SettingsNotSaved" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_TRUNCATEDANDRESTARTED" type="Vortice.ResultDescriptor" cpp-type="int" name="TruncatedAndRestarted" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DI_WRITEPROTECT" type="Vortice.ResultDescriptor" cpp-type="int" name="WriteProtect" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_READONLY" type="Vortice.ResultDescriptor" cpp-type="int" name="ReadOnly" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_NOTFOUND" type="Vortice.ResultDescriptor" cpp-type="int" name="NotFound" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_MAPFILEFAIL" type="Vortice.ResultDescriptor" cpp-type="int" name="MapFileFail" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_ALREADYINITIALIZED" type="Vortice.ResultDescriptor" cpp-type="int" name="AlreadyInitialized" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_INCOMPLETEEFFECT" type="Vortice.ResultDescriptor" cpp-type="int" name="IncompleteEffect" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_INVALIDPARAM" type="Vortice.ResultDescriptor" cpp-type="int" name="InvalidParam" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_EFFECTPLAYING" type="Vortice.ResultDescriptor" cpp-type="int" name="EffectPlaying" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_NOTINITIALIZED" type="Vortice.ResultDescriptor" cpp-type="int" name="NotInitialized" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_NOTACQUIRED" type="Vortice.ResultDescriptor" cpp-type="int" name="NotAcquired" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_HANDLEEXISTS" type="Vortice.ResultDescriptor" cpp-type="int" name="HandleExists" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_HASEFFECTS" type="Vortice.ResultDescriptor" cpp-type="int" name="HasEffects" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_OLDDIRECTINPUTVERSION" type="Vortice.ResultDescriptor" cpp-type="int" name="OldDirectInputVersion" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_NOAGGREGATION" type="Vortice.ResultDescriptor" cpp-type="int" name="NoAggregation" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_MOREDATA" type="Vortice.ResultDescriptor" cpp-type="int" name="MoreData" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_DEVICEFULL" type="Vortice.ResultDescriptor" cpp-type="int" name="DeviceFull" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_REPORTFULL" type="Vortice.ResultDescriptor" cpp-type="int" name="ReportFull" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_NOTDOWNLOADED" type="Vortice.ResultDescriptor" cpp-type="int" name="NotDownloaded" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_NOTBUFFERED" type="Vortice.ResultDescriptor" cpp-type="int" name="NotBuffered" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_OBJECTNOTFOUND" type="Vortice.ResultDescriptor" cpp-type="int" name="ObjectNotFound" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_INSUFFICIENTPRIVS" type="Vortice.ResultDescriptor" cpp-type="int" name="InsufficientPrivileges" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_NOINTERFACE" type="Vortice.ResultDescriptor" cpp-type="int" name="NoInterface" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_OUTOFMEMORY" type="Vortice.ResultDescriptor" cpp-type="int" name="OutOfMemory" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_DEVICENOTREG" type="Vortice.ResultDescriptor" cpp-type="int" name="DeviceNotRegistered" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_GENERIC" type="Vortice.ResultDescriptor" cpp-type="int" name="Generic" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_OTHERAPPHASPRIO" type="Vortice.ResultDescriptor" cpp-type="int" name="OtherApplicationHasPriority" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_NOTEXCLUSIVEACQUIRED" type="Vortice.ResultDescriptor" cpp-type="int" name="NotExclusiveAcquired" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_INPUTLOST" type="Vortice.ResultDescriptor" cpp-type="int" name="InputLost" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_BETADIRECTINPUTVERSION" type="Vortice.ResultDescriptor" cpp-type="int" name="BetaDirectInputVersion" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_BADDRIVERVER" type="Vortice.ResultDescriptor" cpp-type="int" name="BadDriverVersion" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
-    <const from-macro="DIERR_(.*)" type="Vortice.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new Vortice.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <create class="Vortice.DirectInput.ResultCode" visibility="public sealed"/>    
+    <const from-macro="DI_OK" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="Ok" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_NOTATTACHED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NotAttached" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_BUFFEROVERFLOW" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="BufferOverflow" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_PROPNOEFFECT" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="PropertyHadNoEffect" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_NOEFFECT" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NoEffect" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_POLLEDDEVICE" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="PolledDevice" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_DOWNLOADSKIPPED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="DownloadSkipped" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_EFFECTRESTARTED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="EffectRestarted" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_TRUNCATED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="Truncated" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_SETTINGSNOTSAVED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="SettingsNotSaved" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_TRUNCATEDANDRESTARTED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="TruncatedAndRestarted" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DI_WRITEPROTECT" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="WriteProtect" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_READONLY" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="ReadOnly" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_NOTFOUND" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NotFound" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_MAPFILEFAIL" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="MapFileFail" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_ALREADYINITIALIZED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="AlreadyInitialized" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_INCOMPLETEEFFECT" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="IncompleteEffect" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_INVALIDPARAM" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="InvalidParam" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_EFFECTPLAYING" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="EffectPlaying" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_NOTINITIALIZED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NotInitialized" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_NOTACQUIRED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NotAcquired" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_HANDLEEXISTS" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="HandleExists" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_HASEFFECTS" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="HasEffects" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_OLDDIRECTINPUTVERSION" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="OldDirectInputVersion" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_NOAGGREGATION" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NoAggregation" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_MOREDATA" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="MoreData" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_DEVICEFULL" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="DeviceFull" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_REPORTFULL" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="ReportFull" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_NOTDOWNLOADED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NotDownloaded" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_NOTBUFFERED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NotBuffered" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_OBJECTNOTFOUND" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="ObjectNotFound" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_INSUFFICIENTPRIVS" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="InsufficientPrivileges" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_NOINTERFACE" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NoInterface" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_OUTOFMEMORY" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="OutOfMemory" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_DEVICENOTREG" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="DeviceNotRegistered" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_GENERIC" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="Generic" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_OTHERAPPHASPRIO" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="OtherApplicationHasPriority" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_NOTEXCLUSIVEACQUIRED" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="NotExclusiveAcquired" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_INPUTLOST" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="InputLost" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_BETADIRECTINPUTVERSION" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="BetaDirectInputVersion" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_BADDRIVERVER" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="BadDriverVersion" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DIERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DirectInput.ResultCode" visibility="public static readonly" >new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
 
     <!-- class Vortice.DirectInput.RolePlayingControls -->
     <create class="RolePlayingControls" visibility="public"/>
@@ -448,8 +443,8 @@
     <const from-macro="DIHATSWITCH_STRATEGYT_(.*)" type="int" name="$1" class="Vortice.DirectInput.TurnBasedControls"/>
 
     <!-- class Vortice.DirectInput.EffectGuid -->
-    <create class="PropertyGuids" visibility="internal sealed"/>
-    <const from-macro="DIPROP_(.*)" class="Vortice.DirectInput.PropertyGuids" type="System.IntPtr" cpp-type="int" cpp-cast="(int)&amp;" name="$1" visibility="public static readonly">new System.IntPtr($1)</const>
+    <create class="DIPropertyGuids" visibility="internal sealed"/>    
+    <const from-macro="DIPROP_(.*)" class="Vortice.DirectInput.DIPropertyGuids" type="System.IntPtr" cpp-type="int" cpp-cast="(int)&amp;" name="$1" visibility="public static readonly">new System.IntPtr($1)</const>
 
     <!-- enum Vortice.DirectInput.CooperativeLevel -->
     <create-cpp enum="DISCL" macro="DISCL_.*"/>

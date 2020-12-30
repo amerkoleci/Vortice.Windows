@@ -92,9 +92,9 @@ namespace Vortice.DirectInput
         /// <value>The size of the buffer.</value>
         public int BufferSize
         {
-            get { return GetInt(PropertyGuids.BufferSize); }
+            get { return GetInt(PropertyGuids.Buffersize); }
 
-            set { Set(PropertyGuids.BufferSize, value); }
+            set { Set(PropertyGuids.Buffersize, value); }
         }
 
         /// <summary>
@@ -148,8 +148,8 @@ namespace Vortice.DirectInput
         /// <value>The name of the instance.</value>
         public string InstanceName
         {
-            get { return GetString(PropertyGuids.InstanceName); }
-            set { Set(PropertyGuids.InstanceName, value); }
+            get { return GetString(PropertyGuids.Instancename); }
+            set { Set(PropertyGuids.Instancename, value); }
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Vortice.DirectInput
         /// <value>The  human-readable display name of the port to which this device is connected.</value>
         public string PortDisplayName
         {
-            get { return GetPath(PropertyGuids.GetPortdisplayname); }
+            get { return GetPath(PropertyGuids.Getportdisplayname); }
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Vortice.DirectInput
         }
 
         /// <summary>
-        /// Gets the type name of a device. For most game controllers, this is the registry key name under REGSTR_PATH_JOYOEM from which static device settings can be retrieved, but predefined joystick types have special names consisting of a number sign (&Sharp;) followed by a character dependent on the type. This value might not be available for all devices.
+        /// Gets the type name of a device. For most game controllers, this is the registry key name under REGSTR_PATH_JOYOEM from which static device settings can be retrieved, but predefined joystick types have special names consisting of a number sign followed by a character dependent on the type. This value might not be available for all devices.
         /// </summary>
         /// <value>The name of the type.</value>
         public string TypeName

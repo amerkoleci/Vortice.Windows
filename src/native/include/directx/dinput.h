@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *  Copyright (C) 1996-2000 Microsoft Corporation.  All Rights Reserved.
+ *  Copyright (C) 1996-2002 Microsoft Corporation.  All Rights Reserved.
  *
  *  File:       dinput.h
  *  Content:    DirectInput include file
@@ -9,6 +9,8 @@
 
 #ifndef __DINPUT_INCLUDED__
 #define __DINPUT_INCLUDED__
+
+#include <winapifamily.h>
 
 #ifndef DIJ_RINGZERO
 
@@ -22,6 +24,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 
 
@@ -592,9 +598,6 @@ typedef struct DIDEVCAPS {
 #define DIDFT_VENDORDEFINED     0x04000000
 #define DIDFT_ALIAS             0x08000000
 #endif /* DIRECTINPUT_VERSION >= 0x050a */
-#ifndef DIDFT_OPTIONAL
-#define DIDFT_OPTIONAL          0x80000000
-#endif
 
 #define DIDFT_ENUMCOLLECTION(n) ((WORD)(n) << 8)
 #define DIDFT_NOCOLLECTION      0x00FFFF00
@@ -635,6 +638,8 @@ extern const DIDATAFORMAT c_dfDIKeyboard;
 
 #if(DIRECTINPUT_VERSION >= 0x0500)
 extern const DIDATAFORMAT c_dfDIJoystick;
+extern LPCDIDATAFORMAT WINAPI GetdfDIJoystick();
+
 extern const DIDATAFORMAT c_dfDIJoystick2;
 #endif /* DIRECTINPUT_VERSION >= 0x0500 */
 
@@ -644,6 +649,9 @@ extern const DIDATAFORMAT c_dfDIJoystick2;
 
 
 #if DIRECTINPUT_VERSION > 0x0700
+
+#pragma warning(push)
+#pragma warning(disable:4201)   // Nameless union / struct when compiled for C.
 
 typedef struct _DIACTIONA {
                 UINT_PTR    uAppData;
@@ -688,6 +696,7 @@ typedef LPCDIACTIONA LPCDIACTION;
 #endif // UNICODE
 typedef const DIACTION *LPCDIACTION;
 
+#pragma warning(pop)
 
 #define DIA_FORCEFEEDBACK       0x00000001
 #define DIA_APPMAPPED           0x00000002
@@ -2029,6 +2038,9 @@ typedef struct _DIMOUSESTATE2 {
  *      DirectInput keyboard scan codes
  *
  ****************************************************************************/
+//
+//    Copyright (C) Microsoft.  All rights reserved.
+//
 #define DIK_ESCAPE          0x01
 #define DIK_1               0x02
 #define DIK_2               0x03
@@ -2976,12 +2988,23 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFI
 #define DIERR_MAPFILEFAIL               0x8004020BL
 
 
+//
+//    Copyright (C) Microsoft.  All rights reserved.
+//
+
+
+//
+//    Copyright (C) Microsoft.  All rights reserved.
+//
 /*--- DINPUT Mapper Definitions: New for Dx8         ---*/
 
 
 /*--- Keyboard
       Physical Keyboard Device       ---*/
 
+//
+//    Copyright (C) Microsoft.  All rights reserved.
+//
 #define DIKEYBOARD_ESCAPE                       0x81000401
 #define DIKEYBOARD_1                            0x81000402
 #define DIKEYBOARD_2                            0x81000403
@@ -4283,6 +4306,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFI
 #define DIBUTTON_ANY(instance)                  ( 0xFF004400 | instance )
 
 
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
+
 #ifdef __cplusplus
 };
 #endif
@@ -4305,6 +4331,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion, REFI
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#pragma region Desktop Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 
 /*
  * Flag to indicate that the dwReserved2 field of the JOYINFOEX structure
@@ -4333,8 +4362,7 @@ WINMMAPI MMRESULT WINAPI joyConfigChanged( DWORD dwFlags );
  */
 void WINAPI ShowJoyCPL( HWND hWnd );
 typedef void (WINAPI* LPFNSHOWJOYCPL)( HWND hWnd );
-#endif /* DIJ_RINGZERO */
-
+#endif
 
 /*
  * Hardware Setting indicating that the device is a headtracker
@@ -4378,6 +4406,9 @@ typedef void (WINAPI* LPFNSHOWJOYCPL)( HWND hWnd );
  * should be removed if still present on a reboot.
  */
 #define JOY_US_VOLATILE             0x00000008L
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
+#pragma endregion
 
 #ifdef __cplusplus
 };
