@@ -126,105 +126,182 @@ namespace Vortice.Multimedia
         ControlResCr10 = 0x0037,
 
         /// <summary></summary>
-        WAVE_FORMAT_NMS_VBXADPCM = 0x0038, // Natural MicroSystems 
+        NmsVbxadpcm = 0x0038, // Natural MicroSystems
+
         /// <summary></summary>
-        WAVE_FORMAT_CS_IMAADPCM = 0x0039, // Crystal Semiconductor IMA ADPCM 
+        CsImaadpcm = 0x0039, // Crystal Semiconductor IMA ADPCM
+
         /// <summary></summary>
-        WAVE_FORMAT_ECHOSC3 = 0x003A, // Echo Speech Corporation 
+        Echosc3 = 0x003A, // Echo Speech Corporation
+
         /// <summary></summary>
-        WAVE_FORMAT_ROCKWELL_ADPCM = 0x003B, // Rockwell International 
+        RockwellAdpcm = 0x003B, // Rockwell International
+
         /// <summary></summary>
-        WAVE_FORMAT_ROCKWELL_DIGITALK = 0x003C, // Rockwell International 
+        RockwellDigitalk = 0x003C, // Rockwell International
+
         /// <summary></summary>
-        WAVE_FORMAT_XEBEC = 0x003D, // Xebec Multimedia Solutions Limited 
+        Xebec = 0x003D, // Xebec Multimedia Solutions Limited
+
         /// <summary></summary>
-        WAVE_FORMAT_G721_ADPCM = 0x0040, // Antex Electronics Corporation 
+        G721Adpcm = 0x0040, // Antex Electronics Corporation
+
         /// <summary></summary>
-        WAVE_FORMAT_G728_CELP = 0x0041, // Antex Electronics Corporation 
-        /// <summary></summary>
-        WAVE_FORMAT_MSG723 = 0x0042, // Microsoft Corporation 
-        /// <summary>WAVE_FORMAT_MPEG, Microsoft Corporation </summary>
+        G728Celp = 0x0041, // Antex Electronics Corporation
+
+        /// <summary></summary>       
+        Msg723 = 0x0042, // Microsoft Corporation
+
+        /// <summary></summary>       
+        IntelG7231 = 0x0043, // Microsoft Corporation
+
+        /// <summary></summary>       
+        IntelG729 = 0x0044, // Microsoft Corporation
+
+        /// <summary></summary>       
+        SharpG726 = 0x0045, // Microsoft Corporation
+
+        /// <summary>WAVE_FORMAT_MPEG, Microsoft Corporation </summary>        
         Mpeg = 0x0050,
 
         /// <summary></summary>
-        WAVE_FORMAT_RT24 = 0x0052, // InSoft, Inc. 
+        Rt24 = 0x0052, // InSoft, Inc.
+
         /// <summary></summary>
-        WAVE_FORMAT_PAC = 0x0053, // InSoft, Inc. 
+        Pac = 0x0053, // InSoft, Inc.
+
         /// <summary>WAVE_FORMAT_MPEGLAYER3, ISO/MPEG Layer3 Format Tag </summary>
         MpegLayer3 = 0x0055,
 
         /// <summary></summary>
-        WAVE_FORMAT_LUCENT_G723 = 0x0059, // Lucent Technologies 
+        LucentG723 = 0x0059, // Lucent Technologies
+
         /// <summary></summary>
-        WAVE_FORMAT_CIRRUS = 0x0060, // Cirrus Logic 
+        Cirrus = 0x0060, // Cirrus Logic
+
         /// <summary></summary>
-        WAVE_FORMAT_ESPCM = 0x0061, // ESS Technology 
+        Espcm = 0x0061, // ESS Technology
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE = 0x0062, // Voxware Inc 
+        Voxware = 0x0062, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_CANOPUS_ATRAC = 0x0063, // Canopus, co., Ltd. 
+        CanopusAtrac = 0x0063, // Canopus, co., Ltd.
+
+        /// <summary></summary>        
+        G726Adpcm = 0x0064, // APICOM
+
         /// <summary></summary>
-        WAVE_FORMAT_G726_ADPCM = 0x0064, // APICOM 
+        G722Adpcm = 0x0065, // APICOM
+
         /// <summary></summary>
-        WAVE_FORMAT_G722_ADPCM = 0x0065, // APICOM 
+        Dsat = 0x0066, // Microsoft Corporation 
+
         /// <summary></summary>
-        WAVE_FORMAT_DSAT_DISPLAY = 0x0067, // Microsoft Corporation 
+        DsatDisplay = 0x0067, // Microsoft Corporation
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_BYTE_ALIGNED = 0x0069, // Voxware Inc 
+        VoxwareByteAligned = 0x0069, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_AC8 = 0x0070, // Voxware Inc 
+        VoxwareAc8 = 0x0070, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_AC10 = 0x0071, // Voxware Inc 
+        VoxwareAc10 = 0x0071, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_AC16 = 0x0072, // Voxware Inc 
+        VoxwareAc16 = 0x0072, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_AC20 = 0x0073, // Voxware Inc 
+        VoxwareAc20 = 0x0073, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_RT24 = 0x0074, // Voxware Inc 
+        VoxwareRt24 = 0x0074, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_RT29 = 0x0075, // Voxware Inc 
+        VoxwareRt29 = 0x0075, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_RT29HW = 0x0076, // Voxware Inc 
+        VoxwareRt29hw = 0x0076, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_VR12 = 0x0077, // Voxware Inc 
+        VoxwareVr12 = 0x0077, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_VR18 = 0x0078, // Voxware Inc 
+        VoxwareVr18 = 0x0078, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_TQ40 = 0x0079, // Voxware Inc 
+        VoxwareTq40 = 0x0079, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_SOFTSOUND = 0x0080, // Softsound, Ltd. 
+        VoxwareSc3 =  0x007A, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_VOXWARE_TQ60 = 0x0081, // Voxware Inc 
+        VoxwareSc31 = 0x007B, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_MSRT24 = 0x0082, // Microsoft Corporation 
+        Softsound = 0x0080, // Softsound, Ltd.
+
         /// <summary></summary>
-        WAVE_FORMAT_G729A = 0x0083, // AT&T Labs, Inc. 
+        VoxwareTq60 = 0x0081, // Voxware Inc
+
         /// <summary></summary>
-        WAVE_FORMAT_MVI_MVI2 = 0x0084, // Motion Pixels 
+        Msrt24 = 0x0082, // Microsoft Corporation
+
         /// <summary></summary>
-        WAVE_FORMAT_DF_G726 = 0x0085, // DataFusion Systems (Pty) (Ltd) 
+        G729A = 0x0083, // AT&T Labs, Inc.
+
         /// <summary></summary>
-        WAVE_FORMAT_DF_GSM610 = 0x0086, // DataFusion Systems (Pty) (Ltd) 
+        MviMvi2 = 0x0084, // Motion Pixels
+
         /// <summary></summary>
-        WAVE_FORMAT_ISIAUDIO = 0x0088, // Iterated Systems, Inc. 
+        DfG726 = 0x0085, // DataFusion Systems (Pty) (Ltd)
+
         /// <summary></summary>
-        WAVE_FORMAT_ONLIVE = 0x0089, // OnLive! Technologies, Inc. 
+        DfGsm610 = 0x0086, // DataFusion Systems (Pty) (Ltd)
+
         /// <summary></summary>
-        WAVE_FORMAT_SBC24 = 0x0091, // Siemens Business Communications Sys 
+        Isiaudio = 0x0088, // Iterated Systems, Inc.
+
         /// <summary></summary>
-        WAVE_FORMAT_DOLBY_AC3_SPDIF = 0x0092, // Sonic Foundry 
+        Onlive = 0x0089, // OnLive! Technologies, Inc.
+
         /// <summary></summary>
-        WAVE_FORMAT_MEDIASONIC_G723 = 0x0093, // MediaSonic 
+        MultitudeFtSx20 = 0x008A,
+
         /// <summary></summary>
-        WAVE_FORMAT_PROSODY_8KBPS = 0x0094, // Aculab plc 
+        InfocomItsG721Adpcm = 0x008B,
+
         /// <summary></summary>
-        WAVE_FORMAT_ZYXEL_ADPCM = 0x0097, // ZyXEL Communications, Inc. 
+        ConvediaG729 = 0x008C,
+
         /// <summary></summary>
-        WAVE_FORMAT_PHILIPS_LPCBB = 0x0098, // Philips Speech Processing 
+        Congruency = 0x008A,
+
         /// <summary></summary>
-        WAVE_FORMAT_PACKED = 0x0099, // Studer Professional Audio AG 
+        Sbc24 = 0x0091, // Siemens Business Communications Sys
+
         /// <summary></summary>
-        WAVE_FORMAT_MALDEN_PHONYTALK = 0x00A0, // Malden Electronics Ltd. 
+        DolbyAc3Spdif = 0x0092, // Sonic Foundry
+
+        /// <summary></summary>
+        MediasonicG723 = 0x0093, // MediaSonic
+
+        /// <summary></summary>
+        Prosody8kbps = 0x0094, // Aculab plc
+
+        /// <summary></summary>
+        ZyxelAdpcm = 0x0097, // ZyXEL Communications, Inc.
+
+        /// <summary></summary>
+        PhilipsLpcbb = 0x0098, // Philips Speech Processing
+
+        /// <summary></summary>
+        Packed = 0x0099, // Studer Professional Audio AG
+
+        /// <summary></summary>
+        MaldenPhonytalk = 0x00A0, // Malden Electronics Ltd.
+
         /// <summary>WAVE_FORMAT_GSM</summary>
         Gsm = 0x00A1,
 
@@ -241,6 +318,7 @@ namespace Vortice.Multimedia
         /// WAVE_FORMAT_RAW_AAC1
         /// </summary>
         RawAac = 0x00FF,
+
         /// <summary></summary>
         WAVE_FORMAT_RHETOREX_ADPCM = 0x0100, // Rhetorex Inc. 
         /// <summary></summary>
@@ -364,11 +442,11 @@ namespace Vortice.Multimedia
         /// No additional data is required after the WAVEFORMATEX structure.
         /// </remarks>
         /// <see>http://msdn.microsoft.com/en-us/library/dd317599%28VS.85%29.aspx</see>
-        MPEG_ADTS_AAC = 0x1600,
+        MpegAdtsAac = 0x1600,
 
         /// <summary></summary>
         /// <remarks>Source wmCodec.h</remarks>
-        MPEG_RAW_AAC = 0x1601,
+        MpegRawAac = 0x1601,
 
         /// <summary>
         /// MPEG-4 audio transport stream with a synchronization layer (LOAS) and a multiplex layer (LATM).
@@ -380,30 +458,30 @@ namespace Vortice.Multimedia
         /// No additional data is required after the WAVEFORMATEX structure.
         /// </remarks>
         /// <see>http://msdn.microsoft.com/en-us/library/dd317599%28VS.85%29.aspx</see>
-        MPEG_LOAS = 0x1602,
+        MpegLoas = 0x1602,
 
         /// <summary>NOKIA_MPEG_ADTS_AAC</summary>
         /// <remarks>Source wmCodec.h</remarks>
-        NOKIA_MPEG_ADTS_AAC = 0x1608,
+        NokiaMpegAdtsAac = 0x1608,
 
         /// <summary>NOKIA_MPEG_RAW_AAC</summary>
         /// <remarks>Source wmCodec.h</remarks>
-        NOKIA_MPEG_RAW_AAC = 0x1609,
+        NokiaMpegRawAac = 0x1609,
 
         /// <summary>VODAFONE_MPEG_ADTS_AAC</summary>
         /// <remarks>Source wmCodec.h</remarks>
-        VODAFONE_MPEG_ADTS_AAC = 0x160A,
+        VodafoneMpegAdtsAac = 0x160A,
 
         /// <summary>VODAFONE_MPEG_RAW_AAC</summary>
         /// <remarks>Source wmCodec.h</remarks>
-        VODAFONE_MPEG_RAW_AAC = 0x160B,
+        VodafoneMpegRawAac = 0x160B,
 
         /// <summary>
         /// High-Efficiency Advanced Audio Coding (HE-AAC) stream.
         /// The format block is an HEAACWAVEFORMAT structure.
         /// </summary>
         /// <see>http://msdn.microsoft.com/en-us/library/dd317599%28VS.85%29.aspx</see>
-        MPEG_HEAAC = 0x1610,
+        MpegHeaac = 0x1610,
 
         /// <summary>WAVE_FORMAT_DVM</summary>
         WAVE_FORMAT_DVM = 0x2000, // FAST Multimedia AG 
