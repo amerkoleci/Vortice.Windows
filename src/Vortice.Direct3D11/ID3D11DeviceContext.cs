@@ -53,10 +53,13 @@ namespace Vortice.Direct3D11
             OMSetRenderTargets(0, IntPtr.Zero, null);
         }
 
-        public unsafe void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)
+        public void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)
         {
-            var renderTargetViewPtr = renderTargetView.NativePointer;
-            OMSetRenderTargets(1, new IntPtr(&renderTargetViewPtr), depthStencilView);
+            IntPtr renderTargetViewPtr = renderTargetView == null ? IntPtr.Zero : renderTargetView.NativePointer;
+            unsafe
+            {
+                OMSetRenderTargets(1, new IntPtr(&renderTargetViewPtr), depthStencilView);
+            }
         }
 
         public unsafe void OMSetRenderTargets(int renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
