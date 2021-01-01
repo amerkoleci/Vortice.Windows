@@ -9,6 +9,7 @@ KEY CHANGES:
 - [ENH] General: Integrate MIT licensed headers from (https://github.com/microsoft/DirectX-Headers)
 - [ENH] DXCore: Add support for DXCore.
 - [ENH] Direct3D12: Add Video binding generation.
+- [ENH] General: Add DataStream from SharpDX.
 
 -----------------------------------------------
 Release:     1.8.35 (November 2020)
