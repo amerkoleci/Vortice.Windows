@@ -4,7 +4,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using SharpGen.Runtime;
 
 namespace Vortice
 {
@@ -30,24 +29,31 @@ namespace Vortice
 
         public static IntPtr Write<T>(IntPtr destination, ref T value) where T : unmanaged
         {
-            unsafe
+            fixed (void* valuePtr = &value)
             {
-                fixed (void* valuePtr = &value)
-                {
-                    Unsafe.CopyBlockUnaligned((void*)destination, valuePtr, (uint)(sizeof(T)));
-                    return destination + sizeof(T);
-                }
+                Unsafe.CopyBlockUnaligned((void*)destination, valuePtr, (uint)(sizeof(T)));
+                return destination + sizeof(T);
             }
         }
 
-        public static void Write<T>(IntPtr destination, T[] values) where T : unmanaged
+        public static IntPtr Write<T>(IntPtr destination, T[] data) where T : unmanaged
         {
-            MemoryHelpers.Write(destination, new Span<T>(values), values.Length);
+            int byteCount = data.Length * sizeof(T);
+            fixed (void* dataPtr = data)
+            {
+                Unsafe.CopyBlockUnaligned((void*)destination, dataPtr, (uint)byteCount);
+                return destination + byteCount;
+            }
         }
 
-        public static IntPtr Write<T>(IntPtr destination, T[] values, int offset, int count) where T : unmanaged
+        public static IntPtr Write<T>(IntPtr destination, T[] data, int offset, int count) where T : unmanaged
         {
-            return MemoryHelpers.Write(destination, new Span<T>(values).Slice(offset), count);
+            int byteCount = count * sizeof(T);
+            fixed (void* dataPtr = &data[offset])
+            {
+                Unsafe.CopyBlockUnaligned((void*)destination, dataPtr, (uint)byteCount);
+                return destination + byteCount;
+            }
         }
 
         public static IntPtr Alloc<T>(int count = 1) where T : unmanaged
@@ -67,7 +73,7 @@ namespace Vortice
             int totalSize = values.Length * structSize;
             IntPtr ptr = Marshal.AllocHGlobal(totalSize);
 
-            var walk = (byte*)ptr;
+            byte* walk = (byte*)ptr;
             for (int i = 0; i < values.Length; i++)
             {
                 Unsafe.Copy(walk, ref values[i]);

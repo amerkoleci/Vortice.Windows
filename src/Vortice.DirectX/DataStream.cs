@@ -58,9 +58,9 @@ namespace Vortice
     /// <summary>
     /// Provides a stream interface to a buffer located in unmanaged memory.
     /// </summary>
-    public class DataStream : Stream
+    public unsafe class DataStream : Stream
     {
-        private unsafe byte* _buffer;
+        private byte* _buffer;
         private GCHandle _handle;
         private Blob _blob;
         private readonly bool _ownsBuffer;
@@ -73,16 +73,13 @@ namespace Vortice
         /// <param name="buffer">The buffer.</param>
         public DataStream(Blob buffer)
         {
-            unsafe
-            {
-                Debug.Assert(buffer.GetBufferSize() > 0);
+            Debug.Assert(buffer.GetBufferSize() > 0);
 
-                _buffer = (byte*)buffer.GetBufferPointer();
-                _size = buffer.GetBufferSize();
-                CanRead = true;
-                CanWrite = true;
-                _blob = buffer;
-            }
+            _buffer = (byte*)buffer.GetBufferPointer();
+            _size = buffer.GetBufferSize();
+            CanRead = true;
+            CanWrite = true;
+            _blob = buffer;
         }
 
         /// <summary>
@@ -93,16 +90,13 @@ namespace Vortice
         /// <param name = "canWrite"><c>true</c> if writing to the buffer should be allowed; otherwise, <c>false</c>.</param>
         public DataStream(int sizeInBytes, bool canRead, bool canWrite)
         {
-            unsafe
-            {
-                Debug.Assert(sizeInBytes > 0);
+            Debug.Assert(sizeInBytes > 0);
 
-                _buffer = (byte*)MemoryHelpers.AllocateMemory(sizeInBytes);
-                _size = sizeInBytes;
-                _ownsBuffer = true;
-                CanRead = canRead;
-                CanWrite = canWrite;
-            }
+            _buffer = (byte*)MemoryHelpers.AllocateMemory(sizeInBytes);
+            _size = sizeInBytes;
+            _ownsBuffer = true;
+            CanRead = canRead;
+            CanWrite = canWrite;
         }
 
         /// <summary>
@@ -114,19 +108,16 @@ namespace Vortice
         /// <param name = "canWrite"><c>true</c> if writing to the buffer should be allowed; otherwise, <c>false</c>.</param>
         public DataStream(IntPtr userBuffer, long sizeInBytes, bool canRead, bool canWrite)
         {
-            unsafe
-            {
-                Debug.Assert(userBuffer != IntPtr.Zero);
-                Debug.Assert(sizeInBytes > 0);
+            Debug.Assert(userBuffer != IntPtr.Zero);
+            Debug.Assert(sizeInBytes > 0);
 
-                _buffer = (byte*)userBuffer.ToPointer();
-                _size = sizeInBytes;
-                CanRead = canRead;
-                CanWrite = canWrite;
-            }
+            _buffer = (byte*)userBuffer.ToPointer();
+            _size = sizeInBytes;
+            CanRead = canRead;
+            CanWrite = canWrite;
         }
 
-        internal unsafe DataStream(void* dataPointer, int sizeInBytes, bool canRead, bool canWrite, GCHandle handle)
+        internal DataStream(void* dataPointer, int sizeInBytes, bool canRead, bool canWrite, GCHandle handle)
         {
             Debug.Assert(sizeInBytes > 0);
             _handle = handle;
@@ -137,7 +128,7 @@ namespace Vortice
             _ownsBuffer = false;
         }
 
-        internal unsafe DataStream(void* buffer, int sizeInBytes, bool canRead, bool canWrite, bool makeCopy)
+        internal DataStream(void* buffer, int sizeInBytes, bool canRead, bool canWrite, bool makeCopy)
         {
             Debug.Assert(sizeInBytes > 0);
 
@@ -173,31 +164,22 @@ namespace Vortice
         /// <returns></returns>
         public static DataStream Create<T>(T[] userBuffer, bool canRead, bool canWrite, int index = 0, bool pinBuffer = true) where T : unmanaged
         {
-            unsafe
+            if (userBuffer == null)
+                throw new ArgumentNullException(nameof(userBuffer));
+
+            if (index < 0 || index > userBuffer.Length)
+                throw new ArgumentException("Index is out of range [0, userBuffer.Length-1]", "index");
+
+            int sizeOfBuffer = userBuffer.Length * sizeof(T);
+            int indexOffset = index * sizeof(T);
+
+            if (pinBuffer)
             {
-                if (userBuffer == null)
-                    throw new ArgumentNullException("userBuffer");
-
-                if (index < 0 || index > userBuffer.Length)
-                    throw new ArgumentException("Index is out of range [0, userBuffer.Length-1]", "index");
-
-                DataStream stream;
-
-                int sizeOfBuffer = userBuffer.Length * sizeof(T);
-                int indexOffset = index * sizeof(T);
-
-                if (pinBuffer)
-                {
-                    var handle = GCHandle.Alloc(userBuffer, GCHandleType.Pinned);
-                    stream = new DataStream(indexOffset + (byte*)handle.AddrOfPinnedObject(), sizeOfBuffer - indexOffset, canRead, canWrite, handle);
-                }
-                else
-                {
-                    stream = new DataStream(indexOffset + (byte*)Unsafe.AsPointer(ref userBuffer[0]), sizeOfBuffer - indexOffset, canRead, canWrite, true);
-                }
-
-                return stream;
+                var handle = GCHandle.Alloc(userBuffer, GCHandleType.Pinned);
+                return new DataStream(indexOffset + (byte*)handle.AddrOfPinnedObject(), sizeOfBuffer - indexOffset, canRead, canWrite, handle);
             }
+
+            return new DataStream(indexOffset + (byte*)Unsafe.AsPointer(ref userBuffer[0]), sizeOfBuffer - indexOffset, canRead, canWrite, true);
         }
 
         /// <inheritdoc/>
@@ -217,13 +199,10 @@ namespace Vortice
                 _handle.Free();
             }
 
-            unsafe
+            if (_ownsBuffer && _buffer != (byte*)0)
             {
-                if (_ownsBuffer && _buffer != (byte*)0)
-                {
-                    MemoryHelpers.FreeMemory((IntPtr)_buffer);
-                    _buffer = (byte*)0;
-                }
+                MemoryHelpers.FreeMemory((IntPtr)_buffer);
+                _buffer = (byte*)0;
             }
         }
 
@@ -239,16 +218,13 @@ namespace Vortice
         /// <exception cref="NotSupportedException">This stream does not support reading.</exception>
         public T Read<T>() where T : unmanaged
         {
-            unsafe
-            {
-                if (!CanRead)
-                    throw new NotSupportedException();
+            if (!CanRead)
+                throw new NotSupportedException();
 
-                byte* from = _buffer + _position;
-                T result = default;
-                _position = (byte*)Interop.Read<T>((IntPtr)from, ref result) - _buffer;
-                return result;
-            }
+            byte* from = _buffer + _position;
+            T result = default;
+            _position = (byte*)Interop.Read<T>((IntPtr)from, ref result) - _buffer;
+            return result;
         }
 
         /// <summary>
@@ -259,11 +235,8 @@ namespace Vortice
         /// <param name="count">The number of bytes to be written to the current stream.</param>
         public void Read(IntPtr buffer, int offset, int count)
         {
-            unsafe
-            {
-                Unsafe.CopyBlockUnaligned((byte*)buffer + offset, _buffer + _position, (uint)count);
-                _position += count;
-            }
+            Unsafe.CopyBlockUnaligned((byte*)buffer + offset, _buffer + _position, (uint)count);
+            _position += count;
         }
 
         /// <summary>
@@ -277,16 +250,13 @@ namespace Vortice
         /// <returns>An array of values that was read from the current stream.</returns>
         public T[] ReadRange<T>(int count) where T : unmanaged
         {
-            unsafe
-            {
-                if (!CanRead)
-                    throw new NotSupportedException();
+            if (!CanRead)
+                throw new NotSupportedException();
 
-                byte* from = _buffer + _position;
-                T[] result = new T[count];
-                _position = (byte*)MemoryHelpers.Read((IntPtr)from, result, 0, count) - _buffer;
-                return result;
-            }
+            byte* from = _buffer + _position;
+            T[] result = new T[count];
+            _position = (byte*)MemoryHelpers.Read((IntPtr)from, result, 0, count) - _buffer;
+            return result;
         }
 
         /// <summary>
@@ -305,15 +275,12 @@ namespace Vortice
         /// <exception cref="NotSupportedException">This stream does not support reading.</exception>
         public int ReadRange<T>(T[] buffer, int offset, int count) where T : unmanaged
         {
-            unsafe
-            {
-                if (!CanRead)
-                    throw new NotSupportedException();
+            if (!CanRead)
+                throw new NotSupportedException();
 
-                long oldPosition = _position;
-                _position = (byte*)MemoryHelpers.Read((IntPtr)(_buffer + _position), buffer, offset, count) - _buffer;
-                return (int)(_position - oldPosition);
-            }
+            long oldPosition = _position;
+            _position = (byte*)MemoryHelpers.Read((IntPtr)(_buffer + _position), buffer, offset, count) - _buffer;
+            return (int)(_position - oldPosition);
         }
 
         /// <summary>
@@ -331,10 +298,7 @@ namespace Vortice
             if (!CanWrite)
                 throw new NotSupportedException();
 
-            unsafe
-            {
-                _position = (byte*)Interop.Write((IntPtr)(_buffer + _position), ref value) - _buffer;
-            }
+            _position = (byte*)Interop.Write((IntPtr)(_buffer + _position), ref value) - _buffer;
         }
 
         /// <summary>
@@ -345,11 +309,8 @@ namespace Vortice
         /// <param name="count">The number of bytes to be written to the current stream.</param>
         public void Write(IntPtr buffer, int offset, int count)
         {
-            unsafe
-            {
-                Unsafe.CopyBlockUnaligned(_buffer + _position, (byte*)buffer + offset, (uint)count);
-                _position += count;
-            }
+            Unsafe.CopyBlockUnaligned(_buffer + _position, (byte*)buffer + offset, (uint)count);
+            _position += count;
         }
 
         /// <summary>
@@ -378,18 +339,15 @@ namespace Vortice
         /// <exception cref="NotSupportedException">This stream does not support writing.</exception>
         public void WriteRange(IntPtr source, long count)
         {
-            unsafe
-            {
-                if (!CanWrite)
-                    throw new NotSupportedException();
+            if (!CanWrite)
+                throw new NotSupportedException();
 
-                Debug.Assert(source != IntPtr.Zero);
-                Debug.Assert(count > 0);
-                Debug.Assert((_position + count) <= _size);
+            Debug.Assert(source != IntPtr.Zero);
+            Debug.Assert(count > 0);
+            Debug.Assert((_position + count) <= _size);
 
-                Unsafe.CopyBlockUnaligned(_buffer + _position, source.ToPointer(), (uint)count);
-                _position += count;
-            }
+            Unsafe.CopyBlockUnaligned(_buffer + _position, source.ToPointer(), (uint)count);
+            _position += count;
         }
 
         /// <summary>
@@ -408,20 +366,17 @@ namespace Vortice
         /// <exception cref="NotSupportedException">This stream does not support writing.</exception>
         public void WriteRange<T>(T[] data, int offset, int count) where T : unmanaged
         {
-            unsafe
-            {
-                if (!CanWrite)
-                    throw new NotSupportedException();
+            if (!CanWrite)
+                throw new NotSupportedException();
 
-                _position = (byte*)Interop.Write((IntPtr)(_buffer + _position), data, offset, count) - _buffer;
-            }
+            _position = (byte*)Interop.Write((IntPtr)(_buffer + _position), data, offset, count) - _buffer;
         }
 
         /// <summary>
         /// Gets the position pointer.
         /// </summary>
         /// <value>The position pointer.</value>
-        public unsafe IntPtr PositionPointer => (IntPtr)(_buffer + _position);
+        public IntPtr PositionPointer => (IntPtr)(_buffer + _position);
 
         /// <summary>
         /// Gets the length of the remaining.
@@ -453,7 +408,7 @@ namespace Vortice
         public override void Flush() => throw new NotSupportedException($"{nameof(DataStream)} objects cannot be flushed.");
 
         /// <inheritdoc/>
-        public override unsafe int ReadByte()
+        public override int ReadByte()
         {
             if (_position >= Length)
                 return -1;

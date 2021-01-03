@@ -26,7 +26,9 @@ jobs:
         dotnet-version: 3.1.101
 
     - name: Version
-      uses: aarnott/nbgv@master
+      uses: aarnott/nbgv@v0.4.0
+      with:
+        setAllVars: true
 
     - name: Pack
       run: dotnet pack src --configuration Release --output build/packages
