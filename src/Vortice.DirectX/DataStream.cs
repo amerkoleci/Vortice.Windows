@@ -373,6 +373,12 @@ namespace Vortice
         }
 
         /// <summary>
+        /// Gets the undisturbed buffer pointer.
+        /// </summary>
+        /// <value>The undisturbed buffer pointer.</value>
+        public IntPtr BasePointer => (IntPtr)(_buffer);
+
+        /// <summary>
         /// Gets the position pointer.
         /// </summary>
         /// <value>The position pointer.</value>
