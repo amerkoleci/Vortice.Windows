@@ -28,7 +28,7 @@
     <!-- Packages versions -->
     <NerdbankGitVersioningVersion>3.3.37</NerdbankGitVersioningVersion>
     <SharpGenVersion>1.2.1</SharpGenVersion>
-    <VorticeMathematicsVersion>1.3.1</VorticeMathematicsVersion>
+    <VorticeMathematicsVersion>1.3.3</VorticeMathematicsVersion>
   </PropertyGroup>
 
   <ItemGroup>
