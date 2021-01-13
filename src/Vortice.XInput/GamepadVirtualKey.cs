@@ -29,17 +29,17 @@ namespace Vortice.XInput
         LeftThumbDown = 0x5821,
         LeftThumbRight = 0x5822,
         LeftThumbLeft = 0x5823,
-        RightThumbUpLeft = 0x5824,
-        LeftThumbUpright = 0x5825,
-        LeftThumbDownright = 0x5826,
-        RightThumbDownLeft = 0x5827,
+        LeftThumbUpLeft = 0x5824,
+        LeftThumbUpRight = 0x5825,
+        LeftThumbDownRight = 0x5826,
+        LeftThumbDownLeft = 0x5827,
         RightThumbUp = 0x5830,
         RightThumbDown = 0x5831,
         RightThumbRight = 0x5832,
         RightThumbLeft = 0x5833,
-        RightThumbUpleft = 0x5834,
+        RightThumbUpLeft = 0x5834,
         RightThumbUpRight = 0x5835,
         RightThumbDownRight = 0x5836,
-        RightThumbDownleft = 0x5837
+        RightThumbDownLeft = 0x5837
     }
 }
