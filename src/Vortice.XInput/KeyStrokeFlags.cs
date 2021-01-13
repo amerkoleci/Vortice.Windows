@@ -1,11 +1,9 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-
 namespace Vortice.XInput
 {
-    [Flags]
+    [System.Flags]
     public enum KeyStrokeFlags : short
     {
         /// <summary>
@@ -15,14 +13,14 @@ namespace Vortice.XInput
         /// <summary>
         /// The key was pressed. 
         /// </summary>
-        KeyDown = 0x1,
+        KeyDown = 0x0001,
         /// <summary>
         /// The key was released. 
         /// </summary>
-        KeyUp = 0x2,
+        KeyUp = 0x0002,
         /// <summary>
         /// A repeat of a held key. 
         /// </summary>
-        Repeat = 0x4,
+        Repeat = 0x0004,
     }
 }
