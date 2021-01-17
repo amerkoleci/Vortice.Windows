@@ -458,9 +458,12 @@ namespace Vortice.Direct3D11
 #endif
 
             int numViewports = viewports.Length;
-            fixed (void* viewportsPtr = &viewports[0])
+            if (numViewports > 0)
             {
-                RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
+                fixed (void* viewportsPtr = &viewports[0])
+                {
+                    RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
+                }
             }
         }
 
@@ -478,6 +481,10 @@ namespace Vortice.Direct3D11
 #endif
             int numViewports = 0;
             RSGetViewports(ref numViewports, IntPtr.Zero);
+            if (numViewports == 0)
+            {
+                return Array.Empty<T>();
+            }
             T[] viewports = new T[numViewports];
             RSGetViewports(viewports);
             return viewports;
@@ -601,6 +608,32 @@ namespace Vortice.Direct3D11
         public unsafe void RSGetScissorRects(ref int count, RawRect* rects)
         {
             RSGetScissorRects(ref count, (IntPtr)rects);
+        }
+
+        /// <summary>	
+        /// Get the array of scissor rects set on the rasterizer stage.	
+        /// </summary>	
+        /// <returns>An array of scissor rects</returns>
+        public unsafe T[] RSGetScissorRects<T>() where T : unmanaged
+        {
+#if DEBUG
+            if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<RawRect>())
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}");
+            }
+#endif
+            int numRects = 0;
+            RSGetScissorRects(ref numRects, IntPtr.Zero);
+            if (numRects == 0)
+            {
+                return Array.Empty<T>();
+            }
+            T[] rects = new T[numRects];
+            fixed (void* rectsPtr = &rects[0])
+            {
+                RSGetScissorRects(ref numRects, (IntPtr)rectsPtr);
+            }
+            return rects;
         }
         #endregion
 
