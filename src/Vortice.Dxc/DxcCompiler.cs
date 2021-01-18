@@ -9,25 +9,46 @@ namespace Vortice.Dxc
 {
     public static class DxcCompiler
     {
-        public static readonly IDxcLibrary Library = Dxc.CreateDxcLibrary();
-        public static IDxcIncludeHandler DefaultIncludeHandler = Library.CreateIncludeHandler();
+        public static readonly IDxcUtils Utils = Dxc.CreateDxcUtils();
+        public static readonly IDxcCompiler3 Compiler = Dxc.CreateDxcCompiler3();
 
-        public static IDxcOperationResult Compile(
-            DxcShaderStage shaderStage,
-            string source,
-            string entryPoint,
-            string sourceName,
-            DxcCompilerOptions options,
-            DXCDefine[] defines = null,
-            IDxcIncludeHandler include = null)
+        public static IDxcResult Compile(string shaderSource, string[] arguments, IDxcIncludeHandler includeHandler = null)
         {
-            var shaderProfile = GetShaderProfile(shaderStage, options.ShaderModel);
-            if (options == null)
+            if (includeHandler == null)
             {
-                options = new DxcCompilerOptions();
+                using (includeHandler = Utils.CreateDefaultIncludeHandler())
+                {
+                    return Compiler.Compile(shaderSource, arguments, includeHandler);
+                }
             }
+            else
+            {
+                return Compiler.Compile(shaderSource, arguments, includeHandler);
+            }
+        }
+
+        public static IDxcResult Compile(DxcShaderStage shaderStage, string source, string entryPoint,
+            DxcCompilerOptions options,
+            string fileName = null,
+            DxcDefine[] defines = null,
+            IDxcIncludeHandler includeHandler = null)
+        {
+            if (options == null)
+                options = new DxcCompilerOptions();
+
+            string profile = GetShaderProfile(shaderStage, options.ShaderModel);
 
             var arguments = new List<string>();
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                arguments.Add(fileName);
+            }
+
+            arguments.Add("-E");
+            arguments.Add(entryPoint);
+
+            arguments.Add("-T");
+            arguments.Add(profile);
 
             if (options.IEEEStrictness)
             {
@@ -79,9 +100,19 @@ namespace Vortice.Dxc
                 }
             }
 
+            if (options.WarningsAreErrors)
+            {
+                arguments.Add("-WX");
+            }
+
             if (options.AllResourcesBound)
             {
                 arguments.Add("-all_resources_bound");
+            }
+
+            if (options.StripReflectionIntoSeparateBlob)
+            {
+                arguments.Add("-Qstrip_reflect");
             }
 
             if (options.GenerateSPIRV)
@@ -117,41 +148,53 @@ namespace Vortice.Dxc
                 arguments.Add($"all");
             }
 
-            var compiler = Dxc.CreateDxcCompiler();
-            return compiler.Compile(
-                Dxc.CreateBlobForText(Library, source),
-                sourceName,
-                entryPoint,
-                shaderProfile,
-                arguments.ToArray(),
-                arguments.Count,
-                defines,
-                defines != null ? defines.Length : 0,
-                include ?? DefaultIncludeHandler
-                );
+            if (defines != null && defines.Length > 0)
+            {
+                foreach (DxcDefine define in defines)
+                {
+                    string defineValue = define.Value;
+                    if (string.IsNullOrEmpty(defineValue))
+                        defineValue = "1";
+
+                    arguments.Add("-D");
+                    arguments.Add($"{define.Name}={defineValue}");
+                }
+            }
+
+            if (includeHandler == null)
+            {
+                using (includeHandler = Utils.CreateDefaultIncludeHandler())
+                {
+                    return Compiler.Compile(source, arguments.ToArray(), includeHandler);
+                }
+            }
+            else
+            {
+                return Compiler.Compile(source, arguments.ToArray(), includeHandler);
+            }
         }
 
         private static string GetShaderProfile(DxcShaderStage shaderStage, DxcShaderModel shaderModel)
         {
-            var shaderProfile = "";
+            string shaderProfile = "";
             switch (shaderStage)
             {
-                case DxcShaderStage.VertexShader:
+                case DxcShaderStage.Vertex:
                     shaderProfile = "vs";
                     break;
-                case DxcShaderStage.PixelShader:
+                case DxcShaderStage.Pixel:
                     shaderProfile = "ps";
                     break;
-                case DxcShaderStage.GeometryShader:
+                case DxcShaderStage.Geometry:
                     shaderProfile = "gs";
                     break;
-                case DxcShaderStage.HullShader:
+                case DxcShaderStage.Hull:
                     shaderProfile = "hs";
                     break;
-                case DxcShaderStage.DomainShader:
+                case DxcShaderStage.Domain:
                     shaderProfile = "ds";
                     break;
-                case DxcShaderStage.ComputeShader:
+                case DxcShaderStage.Compute:
                     shaderProfile = "cs";
                     break;
                 case DxcShaderStage.Library:

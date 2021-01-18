@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-dxc" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.Dxc</assembly>
+  <namespace>Vortice.Dxc</namespace>
+  <depends>Vortice.Runtime.COM</depends>
+
+  <sdk name="StdLib" />
+  <sdk name="WindowsSdk" version="10.0.19041.0" />
+  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
+
+  <include file="windows.h" />
+  <include file="dxcapi.h" namespace="Vortice.Dxc" attach="true"/>
+
+  <extension>
+    <create class="Dxc" visibility="public static" />
+  </extension>
+
+  <bindings>
+    <bind from="uint32_t" to="System.Int32" />
+    <bind from="UINT32" to="System.Int32" />
+    <bind from="IMalloc" to="SharpGen.Runtime.ComObject" />
+  </bindings>
+
+  <naming>
+  </naming>
+
+  <mapping>
+    <map enum="DXC(\d+)(.*)" name-tmp="$2" />
+    <map struct="Dxc(\d+)(.*)" name-tmp="$2" />
+
+    <remove method="IDxcBlobUtf16::GetStringPointer" />
+    <remove method="IDxcCompilerArgs::GetArguments" />
+
+    <map method="IDxcUtils::CreateReflection" visibility="private" hresult="true" check="false"/>
+    <map param="IDxcUtils::CreateReflection::ppvReflection" type="void" attribute="out" />
+    
+    <map method="IDxcUtils::CreateDefaultIncludeHandler" hresult="true" check="false"/>
+
+    <map method="IDxcResult::GetOutput" visibility="private" hresult="true" check="false"/>
+    <map param="IDxcResult::GetOutput::ppOutputName" type="void" attribute="in" />
+    
+    <map method="IDxcCompiler3::Compile" visibility="internal" hresult="true" check="false"/>
+    <map param="IDxcCompiler3::Compile::pArguments" type="void" />
+    
+    <map function="DxcCreateInstance" dll='"dxcompiler.dll"' group="Vortice.Dxc.Dxc" hresult="true" check="false"/>
+    <map function="DxcCreateInstance2" dll='"dxcompiler.dll"' group="Vortice.Dxc.Dxc" hresult="true" check="false"/>
+  </mapping>
+</config>

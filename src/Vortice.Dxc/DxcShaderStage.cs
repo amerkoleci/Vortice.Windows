@@ -6,14 +6,13 @@ namespace Vortice.Dxc
 {
     public enum DxcShaderStage : uint
     {
-        VertexShader,
-        PixelShader,
-        GeometryShader,
-        HullShader,
-        DomainShader,
-        ComputeShader,
+        Vertex,
+        Pixel,
+        Geometry,
+        Hull,
+        Domain,
+        Compute,
         Library,
-
         Count,
     }
 }

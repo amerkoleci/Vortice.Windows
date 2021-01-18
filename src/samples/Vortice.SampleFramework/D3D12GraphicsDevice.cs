@@ -13,6 +13,8 @@ using SharpGen.Runtime;
 using static Vortice.Direct3D12.D3D12;
 using static Vortice.DXGI.DXGI;
 using Vortice.Mathematics;
+using Vortice.Dxc;
+using Vortice.Direct3D12.Shader;
 
 namespace Vortice
 {
@@ -185,11 +187,17 @@ namespace Vortice
                 new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
             };
 
+            Span<byte> vertexShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Vertex,
+                shaderSource, "VSMain", out ID3D12ShaderReflection vertexShaderReflection);
+
+            Span<byte> pixelShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Pixel,
+                shaderSource, "PSMain", out ID3D12ShaderReflection pixelShaderReflection);
+
             GraphicsPipelineStateDescription psoDesc = new GraphicsPipelineStateDescription()
             {
                 RootSignature = _rootSignature,
-                VertexShader = ShaderCompiler.Compile(shaderSource, ShaderStage.Vertex),
-                PixelShader = ShaderCompiler.Compile(shaderSource, ShaderStage.Pixel),
+                VertexShader = vertexShaderByteCode,
+                PixelShader = pixelShaderByteCode,
                 InputLayout = new InputLayoutDescription(inputElementDescs),
                 SampleMask = uint.MaxValue,
                 PrimitiveTopologyType = PrimitiveTopologyType.Triangle,
@@ -332,6 +340,44 @@ namespace Vortice
 
             return true;
         }
+
+        private static Span<byte> CompileBytecode(DxcShaderStage stage, string shaderSource, string entryPoint)
+        {
+            IDxcResult results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null);
+            if (results.Status.Failure)
+            {
+                string errors = results.GetErrors();
+                Console.WriteLine($"Failed to compile shader: {errors}");
+                return null;
+            }
+
+            return results.GetObjectBytecode();
+        }
+
+        private static Span<byte> CompileBytecodeWithReflection(
+            DxcShaderStage stage,
+            string shaderSource,
+            string entryPoint,
+            out ID3D12ShaderReflection reflection)
+        {
+            IDxcResult results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null);
+            if (results.Status.Failure)
+            {
+                string errors = results.GetErrors();
+                Console.WriteLine($"Failed to compile shader: {errors}");
+
+                reflection = default;
+                return null;
+            }
+
+            using (IDxcBlob reflectionData = results.GetOutput(DxcOutKind.Reflection))
+            {
+                reflection = DxcCompiler.Utils.CreateReflection<ID3D12ShaderReflection>(reflectionData);
+            }
+
+            return results.GetObjectBytecode();
+        }
+
 
         private readonly struct Vertex
         {

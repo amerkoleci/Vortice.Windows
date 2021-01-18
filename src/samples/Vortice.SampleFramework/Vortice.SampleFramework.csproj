@@ -15,6 +15,7 @@
     <ProjectReference Include="..\..\Vortice.Direct2D1\Vortice.Direct2D1.csproj" />
     <ProjectReference Include="..\..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />
     <ProjectReference Include="..\..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
+    <ProjectReference Include="..\..\Vortice.Dxc\Vortice.Dxc.csproj" />
   </ItemGroup>
 
 </Project>
