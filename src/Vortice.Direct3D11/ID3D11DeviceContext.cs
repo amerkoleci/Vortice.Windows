@@ -310,13 +310,13 @@ namespace Vortice.Direct3D11
 
         public ID3D11BlendState OMGetBlendState(out Color4 blendFactor)
         {
-            OMGetBlendState(out var blendState, out blendFactor, out _);
+            OMGetBlendState(out ID3D11BlendState blendState, out blendFactor, out _);
             return blendState;
         }
 
         public ID3D11BlendState OMGetBlendState(out Color4 blendFactor, out int sampleMask)
         {
-            OMGetBlendState(out var blendState, out blendFactor, out sampleMask);
+            OMGetBlendState(out ID3D11BlendState blendState, out blendFactor, out sampleMask);
             return blendState;
         }
 
@@ -375,6 +375,17 @@ namespace Vortice.Direct3D11
             {
                 RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
             }
+        }
+
+        /// <summary>
+        /// Get the number of bound viewports.
+        /// </summary>
+        /// <returns></returns>
+        public int RSGetViewports()
+        {
+            int numViewports = 0;
+            RSGetViewports(ref numViewports, IntPtr.Zero);
+            return numViewports;
         }
 
         public unsafe Viewport RSGetViewport()
@@ -506,6 +517,17 @@ namespace Vortice.Direct3D11
         #endregion
 
         #region ScissorRect
+        /// <summary>
+        /// Get the number of bound scissor rectangles.
+        /// </summary>
+        /// <returns></returns>
+        public int RSGetScissorRects()
+        {
+            int numRects = 0;
+            RSGetScissorRects(ref numRects, IntPtr.Zero);
+            return numRects;
+        }
+
         public unsafe void RSSetScissorRect(int x, int y, int width, int height)
         {
             RawRect rawRect = new RawRect(x, y, x + width, y + height);
@@ -552,6 +574,62 @@ namespace Vortice.Direct3D11
             fixed (RawRect* pRects = rectangles)
             {
                 RSSetScissorRects(count, (IntPtr)pRects);
+            }
+        }
+
+        public unsafe void RSSetScissorRect<T>(T rect) where T : unmanaged
+        {
+#if DEBUG
+            if (sizeof(T) != Unsafe.SizeOf<RawRect>())
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rect));
+            }
+#endif
+
+            RSSetScissorRects(1, new IntPtr(&rect));
+        }
+
+        public unsafe void RSSetScissorRects<T>(T[] rects) where T : unmanaged
+        {
+#if DEBUG
+            if (sizeof(T) != Unsafe.SizeOf<RawRect>())
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rects));
+            }
+#endif
+
+            fixed (void* rectPtr = &rects[0])
+            {
+                RSSetScissorRects(rects.Length, (IntPtr)rectPtr);
+            }
+        }
+
+        public unsafe void RSSetScissorRects<T>(int numRects, T[] rects) where T : unmanaged
+        {
+#if DEBUG
+            if (sizeof(T) != Unsafe.SizeOf<RawRect>())
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rects));
+            }
+#endif
+
+            fixed (void* rectPtr = &rects[0])
+            {
+                RSSetScissorRects(numRects, (IntPtr)rectPtr);
+            }
+        }
+
+        public unsafe void RSSetScissorRects<T>(Span<T> rects) where T : unmanaged
+        {
+#if DEBUG
+            if (sizeof(T) != Unsafe.SizeOf<RawRect>())
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rects));
+            }
+#endif
+            fixed (void* rectsPtr = rects)
+            {
+                RSSetScissorRects(rects.Length, (IntPtr)rectsPtr);
             }
         }
 

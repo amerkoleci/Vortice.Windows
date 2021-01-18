@@ -2,14 +2,13 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
 using Vortice.DXGI;
-using static Vortice.DXGI.DXGI;
-using static Vortice.Direct3D11.D3D11;
-using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
-using SharpGen.Runtime;
+using static Vortice.Direct3D11.D3D11;
+using static Vortice.DXGI.DXGI;
 
 namespace Vortice
 {
