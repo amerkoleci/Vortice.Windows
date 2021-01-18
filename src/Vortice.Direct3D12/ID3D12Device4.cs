@@ -1,56 +1,85 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
+using SharpGen.Runtime;
+
 namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device4
     {
-        public ID3D12GraphicsCommandList1 CreateCommandList1(CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None)
+        public T CreateCommandList1<T>(CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
         {
-            return CreateCommandList1(0, type, commandListFlags, typeof(ID3D12GraphicsCommandList1).GUID);
+            Result result = CreateCommandList1(0, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12GraphicsCommandList1 CreateCommandList1(int nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None)
+        public T CreateCommandList1<T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
         {
-            return CreateCommandList1(nodeMask, type, commandListFlags, typeof(ID3D12GraphicsCommandList1).GUID);
+            Result result = CreateCommandList1(nodeMask, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12Resource1 CreateCommittedResource1(
+        public T CreateCommittedResource1<T>(
             HeapProperties heapProperties,
             HeapFlags heapFlags,
             ResourceDescription description,
             ResourceStates initialResourceState,
             ID3D12ProtectedResourceSession protectedSession,
-            ClearValue? optimizedClearValue = null)
+            ClearValue? optimizedClearValue = null) where T : ID3D12Resource1
         {
-            return CreateCommittedResource1(
-                ref heapProperties,
-                heapFlags,
+            Result result = CreateCommittedResource1(ref heapProperties, heapFlags,
                 ref description,
                 initialResourceState,
                 optimizedClearValue,
                 protectedSession,
-                typeof(ID3D12Resource1).GUID);
+                typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12Heap1 CreateHeap1(HeapDescription description, ID3D12ProtectedResourceSession protectedSession)
+        public T CreateHeap1<T>(HeapDescription description, ID3D12ProtectedResourceSession protectedSession) where T : ID3D12Heap1
         {
-            return CreateHeap1(ref description, protectedSession, typeof(ID3D12Heap1).GUID);
+            Result result = CreateHeap1(ref description, protectedSession, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12ProtectedResourceSession CreateProtectedResourceSession(ProtectedResourceSessionDescription description)
+        public T CreateProtectedResourceSession<T>(ProtectedResourceSessionDescription description) where T : ID3D12ProtectedResourceSession
         {
-            return CreateProtectedResourceSession(description, typeof(ID3D12ProtectedResourceSession).GUID);
+            Result result = CreateProtectedResourceSession(description, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12Resource1 CreateReservedResource1(ResourceDescription description, ResourceStates initialState, ClearValue clearValue, ID3D12ProtectedResourceSession protectedResourceSession)
+        public T CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ClearValue clearValue, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource1
         {
-            return CreateReservedResource1(ref description, initialState, clearValue, protectedResourceSession, typeof(ID3D12Resource1).GUID);
+            Result result = CreateReservedResource1(ref description, initialState, clearValue, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
 
-        public ID3D12Resource1 CreateReservedResource1(ResourceDescription description, ResourceStates initialState, ID3D12ProtectedResourceSession protectedResourceSession)
+        public T CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource1
         {
-            return CreateReservedResource1(ref description, initialState, null, protectedResourceSession, typeof(ID3D12Resource1).GUID);
+            Result result = CreateReservedResource1(ref description, initialState, null, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+                return default;
+
+            return FromPointer<T>(nativePtr);
         }
     }
 }

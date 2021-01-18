@@ -639,12 +639,12 @@
     <map param="ID3D12Device::GetCopyableFootprints::pResourceDesc" attribute="in value"/>
 
     <!-- ID3D12Device1 methods -->
-    <map method="ID3D12Device1::CreatePipelineLibrary" visibility="private"/>
-    <map param="ID3D12Device1::CreatePipelineLibrary::ppPipelineLibrary" attribute="out" type="ID3D12PipelineLibrary" return="true"/>
+    <map method="ID3D12Device1::CreatePipelineLibrary" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device1::CreatePipelineLibrary::ppPipelineLibrary" attribute="out" />
 
     <!-- ID3D12Device2 methods -->
-    <map method="ID3D12Device2::CreatePipelineState" visibility="private"/>
-    <map param="ID3D12Device2::CreatePipelineState::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
+    <map method="ID3D12Device2::CreatePipelineState" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device2::CreatePipelineState::ppPipelineState" attribute="out" />
 
     <!-- ID3D12Device3 methods -->
     <map method="ID3D12Device3::EnqueueMakeResident" visibility="private" hresult="true" check="false"/>
@@ -652,41 +652,46 @@
     <map method="ID3D12Device3::OpenExistingHeapFromFileMapping" visibility="private" hresult="true" check="false"/>
 
     <!-- ID3D12Device4 methods -->
-    <map method="ID3D12Device4::CreateCommandList1" visibility="private"/>
-    <map param="ID3D12Device4::CreateCommandList1::ppCommandList" attribute="out" type="ID3D12GraphicsCommandList1" return="true"/>
+    <map method="ID3D12Device4::CreateCommandList1" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device4::CreateCommandList1::ppCommandList" attribute="out" />
 
-    <map method="ID3D12Device4::CreateCommittedResource1" visibility="private"/>
-    <map param="ID3D12Device4::CreateCommittedResource1::ppvResource" attribute="out" type="ID3D12Resource1" return="true"/>
+    <map method="ID3D12Device4::CreateCommittedResource1" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device4::CreateCommittedResource1::ppvResource" attribute="out" />
 
-    <map method="ID3D12Device4::CreateHeap1" visibility="private"/>
-    <map param="ID3D12Device4::CreateHeap1::ppvHeap" attribute="out" type="ID3D12Heap1" return="true"/>
+    <map method="ID3D12Device4::CreateHeap1" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device4::CreateHeap1::ppvHeap" attribute="out" />
 
-    <map method="ID3D12Device4::CreateProtectedResourceSession" visibility="private"/>
-    <map param="ID3D12Device4::CreateProtectedResourceSession::ppSession" attribute="out" type="ID3D12ProtectedResourceSession" return="true"/>
+    <map method="ID3D12Device4::CreateProtectedResourceSession" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device4::CreateProtectedResourceSession::ppSession" attribute="out" />
 
-    <map method="ID3D12Device4::CreateReservedResource1" visibility="private"/>
-    <map param="ID3D12Device4::CreateReservedResource1::ppvResource" attribute="out" type="ID3D12Resource1" return="true"/>
+    <map method="ID3D12Device4::CreateReservedResource1" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device4::CreateReservedResource1::ppvResource" attribute="out" />
 
     <!-- ID3D12Device5 methods -->
-    <map method="ID3D12Device5::CreateMetaCommand" visibility="private"/>
-    <map param="ID3D12Device5::CreateMetaCommand::ppMetaCommand" attribute="out" type="ID3D12MetaCommand" return="true"/>
+    <map method="ID3D12Device5::CreateMetaCommand" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device5::CreateMetaCommand::ppMetaCommand" attribute="out" />
 
-    <map method="ID3D12Device5::CreateStateObject" visibility="private"/>
-    <map param="ID3D12Device5::CreateStateObject::ppStateObject" attribute="out" type="ID3D12StateObject" return="true"/>
+    <map method="ID3D12Device5::CreateStateObject" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device5::CreateStateObject::ppStateObject" attribute="out" />
     <map param="ID3D12Device5::GetRaytracingAccelerationStructurePrebuildInfo::pInfo" attribute="out" return="true"/>
 
     <!-- ID3D12Device6 methods -->
     <map param="ID3D12Device6::SetBackgroundProcessingMode::pbFurtherMeasurementsDesired" attribute="out" return="true"/>
 
     <!-- ID3D12Device7 methods -->
-    <map method="ID3D12Device7::AddToStateObject" visibility="private"/>
-    <map param="ID3D12Device7::AddToStateObject::ppNewStateObject" attribute="out" type="ID3D12StateObject" return="true"/>
-    <map method="ID3D12Device7::CreateProtectedResourceSession1" visibility="private"/>
-    <map param="ID3D12Device7::CreateProtectedResourceSession1::ppSession" attribute="out" type="ID3D12ProtectedResourceSession1" return="true"/>
+    <map method="ID3D12Device7::AddToStateObject" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device7::AddToStateObject::ppNewStateObject" attribute="out" />
+    
+    <map method="ID3D12Device7::CreateProtectedResourceSession1" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device7::CreateProtectedResourceSession1::ppSession" attribute="out" />
 
     <!-- ID3D12Device8 -->
     <map method="ID3D12Device8::CreateCommittedResource2" visibility="private" hresult="true" check="false" />
     <map method="ID3D12Device8::CreatePlacedResource1" visibility="private" hresult="true" check="false" />
+
+    <!-- ID3D12Device9 -->
+    <map method="ID3D12Device9::CreateCommandQueue1" visibility="private" hresult="true" check="false" />
+    <map method="ID3D12Device9::CreateShaderCacheSession" visibility="private" hresult="true" check="false" />
     
     <!-- ID3D12Debug1 -->
     <map method="ID3D12Debug1::SetEnableGPUBasedValidation" property="false" />
@@ -782,6 +787,7 @@
     <map field="D3D12_GLOBAL_ROOT_SIGNATURE::pGlobalRootSignature" name="RootSignature"/>
     <map field="D3D12_LOCAL_ROOT_SIGNATURE::pLocalRootSignature" name="RootSignature"/>
 
+    <map field="D3D12_PIPELINE_STATE_STREAM_DESC::pPipelineStateSubobjectStream" name="SubObjectStream"/>
 
     <!-- d3d12shader -->
     <map struct="D3D12_SHADER_BUFFER_DESC" name="ConstantBufferDescription" />

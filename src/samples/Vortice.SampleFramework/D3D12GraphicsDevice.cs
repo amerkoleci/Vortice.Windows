@@ -15,6 +15,8 @@ using static Vortice.DXGI.DXGI;
 using Vortice.Mathematics;
 using Vortice.Dxc;
 using Vortice.Direct3D12.Shader;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Vortice
 {
@@ -24,7 +26,7 @@ namespace Vortice
 
         public readonly Window Window;
         public readonly IDXGIFactory4 DXGIFactory;
-        private readonly ID3D12Device _d3d12Device;
+        private readonly ID3D12Device2 _d3d12Device;
         private readonly ID3D12DescriptorHeap _rtvHeap;
         private readonly int _rtvDescriptorSize;
         private readonly ID3D12Resource[] _renderTargets;
@@ -43,7 +45,7 @@ namespace Vortice
         private ulong _frameIndex;
         private int _backbufferIndex;
 
-        public ID3D12Device D3D12Device => _d3d12Device;
+        public ID3D12Device2 D3D12Device => _d3d12Device;
         public ID3D12CommandQueue GraphicsQueue { get; }
 
         public IDXGISwapChain3 SwapChain { get; }
@@ -107,7 +109,7 @@ namespace Vortice
             }
 
             // Create Command queue.
-            GraphicsQueue = _d3d12Device.CreateCommandQueue(CommandListType.Direct);
+            GraphicsQueue = _d3d12Device.CreateCommandQueue<ID3D12CommandQueue>(CommandListType.Direct);
 
             SwapChainDescription1 swapChainDesc = new SwapChainDescription1
             {
@@ -128,7 +130,7 @@ namespace Vortice
                 _backbufferIndex = SwapChain.GetCurrentBackBufferIndex();
             }
 
-            _rtvHeap = _d3d12Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
+            _rtvHeap = _d3d12Device.CreateDescriptorHeap<ID3D12DescriptorHeap>(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
             _rtvDescriptorSize = _d3d12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.RenderTargetView);
 
             // Create frame resources.
@@ -148,18 +150,12 @@ namespace Vortice
             _commandAllocators = new ID3D12CommandAllocator[RenderLatency];
             for (int i = 0; i < RenderLatency; i++)
             {
-                _commandAllocators[i] = _d3d12Device.CreateCommandAllocator(CommandListType.Direct);
+                _commandAllocators[i] = _d3d12Device.CreateCommandAllocator<ID3D12CommandAllocator>(CommandListType.Direct);
             }
 
-            //var highestShaderVersion = _d3d12Device.CheckHighestShaderModel(ShaderModel.Model60);
-            //var highestRootSignatureVersion = _d3d12Device.CheckHighestRootSignatureVersion(RootSignatureVersion.Version11);
-            //var opts5 = _d3d12Device.CheckFeatureSupport<FeatureDataD3D12Options5>(SharpDirect3D12.Feature.Options5);
+            RootSignatureDescription1 rootSignatureDesc = new RootSignatureDescription1(RootSignatureFlags.AllowInputAssemblerInputLayout);
 
-            VersionedRootSignatureDescription rootSignatureDesc = new VersionedRootSignatureDescription(
-                new RootSignatureDescription1(RootSignatureFlags.AllowInputAssemblerInputLayout)
-                );
-
-            _rootSignature = _d3d12Device.CreateRootSignature(0, rootSignatureDesc);
+            _rootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, rootSignatureDesc);
 
             const string shaderSource = @"struct PSInput {
                 float4 position : SV_POSITION;
@@ -209,14 +205,23 @@ namespace Vortice
                 SampleDescription = new SampleDescription(1, 0)
             };
 
-            _pipelineState = _d3d12Device.CreateGraphicsPipelineState(psoDesc);
+            //var test = new TestS();
+            //test.RootSignature.Type = PipelineStateSubObjectType.RootSignature;
+            //test.RootSignature.RootSignature = _rootSignature.NativePointer;
 
-            _commandList = _d3d12Device.CreateCommandList(0, CommandListType.Direct, _commandAllocators[0], _pipelineState);
+            //var builder = new PipelineBuilder();
+            //builder.Add(_rootSignature);
+            //_pipelineState = _d3d12Device.CreatePipelineState<ID3D12PipelineState, TestS>(test);
+            //_pipelineState = _d3d12Device.CreatePipelineState<ID3D12PipelineState>(builder.Data);
+
+            _pipelineState = _d3d12Device.CreateGraphicsPipelineState<ID3D12PipelineState>(psoDesc);
+
+            _commandList = _d3d12Device.CreateCommandList<ID3D12GraphicsCommandList>(0, CommandListType.Direct, _commandAllocators[0], _pipelineState);
             _commandList.Close();
 
             int vertexBufferSize = 3 * Unsafe.SizeOf<Vertex>();
 
-            _vertexBuffer = _d3d12Device.CreateCommittedResource(
+            _vertexBuffer = _d3d12Device.CreateCommittedResource<ID3D12Resource>(
                 new HeapProperties(HeapType.Upload),
                 HeapFlags.None,
                 ResourceDescription.Buffer((ulong)vertexBufferSize),
@@ -238,7 +243,7 @@ namespace Vortice
             }
 
             // Create synchronization objects.
-            _frameFence = _d3d12Device.CreateFence(0);
+            _frameFence = _d3d12Device.CreateFence<ID3D12Fence>(0);
             _frameFenceEvent = new AutoResetEvent(false);
         }
 
@@ -378,6 +383,96 @@ namespace Vortice
             return results.GetObjectBytecode();
         }
 
+        public interface IPipelineStateStreamSubObject
+        {
+            PipelineStateSubObjectType Type { get; }
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        public struct PipelineStateStreamFlags : IPipelineStateStreamSubObject
+        {
+            [FieldOffset(0)]
+            public PipelineStateSubObjectType Type;
+
+            [FieldOffset(4)]
+            public PipelineStateFlags Flags;
+
+            [FieldOffset(0)]
+            private IntPtr Ptr;
+
+            PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => Type;
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        public struct RootSignatureSubObject : IPipelineStateStreamSubObject
+        {
+            [FieldOffset(0)]
+            public PipelineStateSubObjectType Type;
+
+            [FieldOffset(4)]
+            public IntPtr RootSignature;
+
+            [FieldOffset(0)]
+            private IntPtr Ptr;
+
+            PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => Type;
+        }
+
+        //[StructLayout(LayoutKind.Explicit)]
+        //public struct PipelineStateSubObjectTypeInputLayout : IPipelineStateStreamSubObject
+        //{
+        //    [FieldOffset(0)]
+        //    public PipelineStateSubObjectType Type;
+
+        //    [FieldOffset(4)]
+        //    public InputLayoutDescription.__Native RootSignature;
+
+        //    [FieldOffset(0)]
+        //    private IntPtr Ptr;
+
+        //    PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => Type;
+        //}
+
+        struct TestS
+        {
+            public RootSignatureSubObject RootSignature;
+        }
+
+        public class PipelineBuilder
+        {
+            private readonly List<byte> data = new List<byte>();
+
+            public byte[] Data => data.ToArray();
+
+            public void Add(PipelineStateFlags flags)
+            {
+                Add(PipelineStateSubObjectType.Flags);
+                data.AddRange(BitConverter.GetBytes((int)flags));
+            }
+
+            public void Add(ID3D12RootSignature rootSignature)
+            {
+                Add(PipelineStateSubObjectType.RootSignature);
+                Add(rootSignature.NativePointer);
+            }
+
+            private void Add(PipelineStateSubObjectType type)
+            {
+                data.AddRange(BitConverter.GetBytes((int)type));
+            }
+
+            private void Add(IntPtr ptr)
+            {
+                if (IntPtr.Size == 4)
+                {
+                    data.AddRange(BitConverter.GetBytes((int)ptr));
+                }
+                else
+                {
+                    data.AddRange(BitConverter.GetBytes((long)ptr));
+                }
+            }
+        }
 
         private readonly struct Vertex
         {
