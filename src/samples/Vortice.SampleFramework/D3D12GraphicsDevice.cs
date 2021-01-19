@@ -154,7 +154,10 @@ namespace Vortice
 
             _rootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, rootSignatureDesc);
 
-            const string shaderSource = @"struct PSInput {
+            //var includeCode = "#include \"Shader.inc\"";
+
+            string shaderSource = /*includeCode + Environment.NewLine +*/ @"
+            struct PSInput {
                 float4 position : SV_POSITION;
                 float4 color : COLOR;
             };
@@ -352,7 +355,7 @@ namespace Vortice
             string entryPoint,
             out ID3D12ShaderReflection reflection)
         {
-            IDxcResult results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null);
+            IDxcResult results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null, null, null, null);
             if (results.Status.Failure)
             {
                 string errors = results.GetErrors();
@@ -422,6 +425,15 @@ namespace Vortice
                 }
             }
         }
+
+        //class TestIncludeHandler : ComObject, IDxcIncludeHandler
+        //{
+        //    public Result LoadSource(string fileName, out IDxcBlob includeSource)
+        //    {
+        //        includeSource = default;
+        //        return Result.Ok;
+        //    }
+        //}
 
         private readonly struct Vertex
         {

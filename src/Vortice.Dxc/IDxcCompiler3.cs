@@ -20,6 +20,7 @@ namespace Vortice.Dxc
         public unsafe Result Compile<T>(string source, string[] arguments, IDxcIncludeHandler includeHandler, out T result) where T : ComObject
         {
             IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(source);
+            IntPtr* argumentsPtr = (IntPtr*)0;
 
             DxcBuffer buffer = new DxcBuffer
             {
@@ -31,11 +32,10 @@ namespace Vortice.Dxc
             try
             {
                 int argumentsCount = 0;
-                IntPtr* argumentsPtr = (IntPtr*)0;
                 if (arguments != null && arguments.Length > 0)
                 {
                     argumentsCount = arguments.Length;
-                    argumentsPtr = AllocToPointers(arguments);
+                    argumentsPtr = Interop.AllocToPointers(arguments);
                 }
 
                 Result hr = Compile(ref buffer, (IntPtr)argumentsPtr, argumentsCount, includeHandler, typeof(T).GUID, out IntPtr nativePtr);
@@ -54,24 +54,69 @@ namespace Vortice.Dxc
                 {
                     Marshal.FreeHGlobal(shaderSourcePtr);
                 }
+
+                if (argumentsPtr != null)
+                {
+                    Interop.Free(argumentsPtr);
+                }
             }
         }
 
-        private static unsafe IntPtr* AllocToPointers(string[] values)
+        public T Disassemble<T>(in DxcBuffer buffer) where T : IDxcResult
         {
-            if (values == null || values.Length == 0)
-                return null;
+            Disassemble(buffer, out T result);
+            return result;
+        }
 
-            // Allocate unmanaged memory for string pointers.
-            var stringHandlesPtr = (IntPtr*)Marshal.AllocHGlobal(sizeof(IntPtr) * values.Length);
-
-            // Store the pointer to the string.
-            for (int i = 0; i < values.Length; i++)
+        public unsafe Result Disassemble<T>(DxcBuffer buffer, out T result) where T : IDxcResult
+        {
+            Result hr = Disassemble(ref buffer, typeof(T).GUID, out IntPtr nativePtr);
+            if (hr.Failure)
             {
-                stringHandlesPtr[i] = Marshal.StringToHGlobalUni(values[i]);
+                result = default;
+                return hr;
             }
 
-            return stringHandlesPtr;
+            result = FromPointer<T>(nativePtr);
+            return hr;
+        }
+
+        public T Disassemble<T>(string source) where T : IDxcResult
+        {
+            Disassemble(source, out T result);
+            return result;
+        }
+
+        public unsafe Result Disassemble<T>(string source, out T result) where T : IDxcResult
+        {
+            IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(source);
+
+            DxcBuffer buffer = new DxcBuffer
+            {
+                Ptr = shaderSourcePtr,
+                Size = source.Length,
+                Encoding = Dxc.DXC_CP_ACP
+            };
+
+            try
+            {
+                Result hr = Disassemble(ref buffer, typeof(T).GUID, out IntPtr nativePtr);
+                if (hr.Failure)
+                {
+                    result = default;
+                    return hr;
+                }
+
+                result = FromPointer<T>(nativePtr);
+                return hr;
+            }
+            finally
+            {
+                if (shaderSourcePtr != IntPtr.Zero)
+                {
+                    Marshal.FreeHGlobal(shaderSourcePtr);
+                }
+            }
         }
     }
 }

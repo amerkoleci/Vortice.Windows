@@ -28,7 +28,7 @@ namespace Vortice.Dxc
         }
 
         public static IDxcResult Compile(DxcShaderStage shaderStage, string source, string entryPoint,
-            DxcCompilerOptions options,
+            DxcCompilerOptions options = null,
             string fileName = null,
             DxcDefine[] defines = null,
             IDxcIncludeHandler includeHandler = null)

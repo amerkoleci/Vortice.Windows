@@ -38,9 +38,44 @@
 
     <map method="IDxcResult::GetOutput" visibility="private" hresult="true" check="false"/>
     <map param="IDxcResult::GetOutput::ppOutputName" type="void" attribute="in" />
+
+    <map method="IDxcAssembler::AssembleToContainer" hresult="true" check="false"/>
+    <map method="IDxcBlobEncoding::GetEncoding" hresult="true" check="false"/>
+
+    <map method="IDxcCompiler::Disassemble" hresult="true" check="false"/>
     
+    <map method="IDxcCompiler::Compile" visibility="private" hresult="true" check="false"/>
+    <map param="IDxcCompiler::Compile::pArguments" type="void" />
+    
+    <map method="IDxcCompiler::Preprocess" visibility="private" hresult="true" check="false"/>
+    <map param="IDxcCompiler::Preprocess::pArguments" type="void" />
+
+    <map method="IDxcCompiler2::CompileWithDebug" visibility="internal" hresult="true" check="false"/>
+    <map param="IDxcCompiler2::CompileWithDebug::pArguments" type="void" />
+
     <map method="IDxcCompiler3::Compile" visibility="internal" hresult="true" check="false"/>
     <map param="IDxcCompiler3::Compile::pArguments" type="void" />
+    <map method="IDxcCompiler3::Disassemble" visibility="internal" hresult="true" check="false"/>
+
+    <map method="IDxcCompilerArgs::AddArguments" visibility="private" hresult="true" check="false"/>
+    <map param="IDxcCompilerArgs::AddArguments::pArguments" type="void" />
+    
+    <map method="IDxcCompilerArgs::AddArgumentsUTF8" visibility="private" hresult="true" check="false"/>
+    <map param="IDxcCompilerArgs::AddArgumentsUTF8::pArguments" type="void" />
+    <map method="IDxcCompilerArgs::AddDefines" hresult="true" check="false"/>
+
+    <map method="IDxcContainerBuilder::(.*)" hresult="true" check="false"/>
+
+    <map method="IDxcExtraOutputs::GetOutputCount" property="false"/>
+    <map method="IDxcExtraOutputs::GetOutput" visibility="private" hresult="true" check="false"/>
+
+    <map method="IDxcIncludeHandler::LoadSource" hresult="true" check="false"/>
+
+    <map method="IDxcLibrary::SetMalloc" property="false"/>
+    <map method="IDxcLibrary::(.*)" hresult="true" check="false"/>
+
+    <map method="IDxcLinker::(.*)" hresult="true" check="false"/>
+    <map method="IDxcOperationResult::(.*)" hresult="true" check="false"/>
     
     <map function="DxcCreateInstance" dll='"dxcompiler.dll"' group="Vortice.Dxc.Dxc" hresult="true" check="false"/>
     <map function="DxcCreateInstance2" dll='"dxcompiler.dll"' group="Vortice.Dxc.Dxc" hresult="true" check="false"/>
