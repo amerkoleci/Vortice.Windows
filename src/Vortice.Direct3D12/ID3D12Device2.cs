@@ -8,6 +8,17 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device2
     {
+        public unsafe ID3D12PipelineState CreatePipelineState<TData>(TData data) where TData : unmanaged
+        {
+            PipelineStateStreamDescription description = new PipelineStateStreamDescription
+            {
+                SizeInBytes = sizeof(TData),
+                SubObjectStream = new IntPtr(&data)
+            };
+
+            return CreatePipelineState<ID3D12PipelineState>(description);
+        }
+
         public unsafe T CreatePipelineState<T, TData>(TData data)
             where T : ID3D12PipelineState
             where TData : unmanaged
@@ -19,20 +30,6 @@ namespace Vortice.Direct3D12
             };
 
             return CreatePipelineState<T>(description);
-        }
-
-        public unsafe T CreatePipelineState<T>(byte[] data) where T : ID3D12PipelineState
-        {
-            fixed (byte* dataPtr = &data[0])
-            {
-                PipelineStateStreamDescription description = new PipelineStateStreamDescription
-                {
-                    SizeInBytes = data.Length,
-                    SubObjectStream = (IntPtr)dataPtr
-                };
-
-                return CreatePipelineState<T>(description);
-            }
         }
 
         public T CreatePipelineState<T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState

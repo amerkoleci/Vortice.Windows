@@ -421,6 +421,31 @@
     <map enum="D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS" name="MultisampleQualityLevelFlags" flags="true"/>
     <map enum-item="D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE" name="None"/>
     <map enum-item="D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_TILED_RESOURCE" name="TiledResource"/>
+
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_VS" name="VertexShader"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_PS" name="PixelShader"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DS" name="DomainShader"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_HS" name="HullShader"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_GS" name="GeometryShader"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_CS" name="ComputeShader"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_STREAM_OUTPUT" name="StreamOutput"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_BLEND" name="Blend"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_SAMPLE_MASK" name="SampleMask"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_RASTERIZER" name="Rasterizer"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL" name="DepthStencil"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_INPUT_LAYOUT" name="InputLayout"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_IB_STRIP_CUT_VALUE" name="IndexBufferStripCutValue"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_PRIMITIVE_TOPOLOGY" name="PrimitiveTopology"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_RENDER_TARGET_FORMATS" name="RenderTargetFormats"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL_FORMAT" name="DepthStencilFormat"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_SAMPLE_DESC" name="SampleDescription"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_NODE_MASK" name="NodeMask"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_CACHED_PSO" name="CachedPipelineStateObject"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_FLAGS" name="Flags"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_DEPTH_STENCIL1" name="DepthStencil1"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_VIEW_INSTANCING" name="ViewInstancing"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_AS" name="AmplificationShader"/>
+    <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_MS" name="MeshShader"/>
     
     <!--Remove all fields for D3D12_RESOURCE_BARRIER_DESC as the union with pointers cannot be mapped safely in x86/x64 with C# explicit layout-->
     <remove field="D3D12_RESOURCE_BARRIER::.*"/>
@@ -526,6 +551,9 @@
     <map struct="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS" name="RenderPassEndingAccessResolveParameters" native="true" struct-to-class="true" marshal="true" marshalto="false"  />
     <remove field="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS::.*"/>
 
+    <map struct="D3D12_VIEW_INSTANCING_DESC" name="ViewInstancingDescription" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_VIEW_INSTANCING_DESC::.*"/>
+
     <!-- D3D12_RENDER_TARGET_BLEND_DESC struct -->
     <map field="D3D12_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D12_COLOR_WRITE_ENABLE" />
 
@@ -552,6 +580,13 @@
 
     <map field="D3D11_FEATURE_DATA_SHADER_CACHE::SupportFlags" type="D3D11_SHADER_CACHE_SUPPORT_FLAGS" />
 
+    <map field="D3D12_CACHED_PIPELINE_STATE::pCachedBlob" name="CachedBlob" />
+    <map field="D3D12_CACHED_PIPELINE_STATE::CachedBlobSizeInBytes" name="CachedBlobSizeInBytes" />
+
+    <map struct="D3D12_RT_FORMAT_ARRAY" visibility="internal" marshal="true" />
+    <map field="D3D12_RT_FORMAT_ARRAY::RTFormats" name="Formats" />
+    <remove field="D3D12_RT_FORMAT_ARRAY::.*"/>
+    
     <!-- ID3D12Object methods -->
     <map method="ID3D12Object::GetPrivateData" visibility="public" hresult="true" check="false"/>
     <map method="ID3D12Object::SetPrivateData" visibility="public" hresult="true" check="false"/>

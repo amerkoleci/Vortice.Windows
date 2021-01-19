@@ -50,10 +50,7 @@ namespace Vortice
 
         public IDXGISwapChain3 SwapChain { get; }
 
-        public static bool IsSupported()
-        {
-            return D3D12.IsSupported(FeatureLevel.Level_11_0);
-        }
+        public static bool IsSupported() => D3D12.IsSupported(FeatureLevel.Level_11_0);
 
         public D3D12GraphicsDevice(bool validation, Window window)
         {
@@ -189,14 +186,14 @@ namespace Vortice
             Span<byte> pixelShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Pixel,
                 shaderSource, "PSMain", out ID3D12ShaderReflection pixelShaderReflection);
 
-            GraphicsPipelineStateDescription psoDesc = new GraphicsPipelineStateDescription()
+            PipelineStateStream pipelineStateStream = new PipelineStateStream
             {
                 RootSignature = _rootSignature,
-                VertexShader = vertexShaderByteCode,
-                PixelShader = pixelShaderByteCode,
+                VertexShader = new ShaderBytecode(vertexShaderByteCode),
+                PixelShader = new ShaderBytecode(pixelShaderByteCode),
                 InputLayout = new InputLayoutDescription(inputElementDescs),
                 SampleMask = uint.MaxValue,
-                PrimitiveTopologyType = PrimitiveTopologyType.Triangle,
+                PrimitiveTopology = PrimitiveTopologyType.Triangle,
                 RasterizerState = RasterizerDescription.CullCounterClockwise,
                 BlendState = BlendDescription.Opaque,
                 DepthStencilState = DepthStencilDescription.None,
@@ -205,17 +202,7 @@ namespace Vortice
                 SampleDescription = new SampleDescription(1, 0)
             };
 
-            //var test = new TestS();
-            //test.RootSignature.Type = PipelineStateSubObjectType.RootSignature;
-            //test.RootSignature.RootSignature = _rootSignature.NativePointer;
-
-            //var builder = new PipelineBuilder();
-            //builder.Add(_rootSignature);
-            //_pipelineState = _d3d12Device.CreatePipelineState<ID3D12PipelineState, TestS>(test);
-            //_pipelineState = _d3d12Device.CreatePipelineState<ID3D12PipelineState>(builder.Data);
-
-            _pipelineState = _d3d12Device.CreateGraphicsPipelineState<ID3D12PipelineState>(psoDesc);
-
+            _pipelineState = _d3d12Device.CreatePipelineState(pipelineStateStream);
             _commandList = _d3d12Device.CreateCommandList<ID3D12GraphicsCommandList>(0, CommandListType.Direct, _commandAllocators[0], _pipelineState);
             _commandList.Close();
 
@@ -383,59 +370,21 @@ namespace Vortice
             return results.GetObjectBytecode();
         }
 
-        public interface IPipelineStateStreamSubObject
+        [StructLayout(LayoutKind.Sequential)]
+        struct PipelineStateStream
         {
-            PipelineStateSubObjectType Type { get; }
-        }
-
-        [StructLayout(LayoutKind.Explicit)]
-        public struct PipelineStateStreamFlags : IPipelineStateStreamSubObject
-        {
-            [FieldOffset(0)]
-            public PipelineStateSubObjectType Type;
-
-            [FieldOffset(4)]
-            public PipelineStateFlags Flags;
-
-            [FieldOffset(0)]
-            private IntPtr Ptr;
-
-            PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => Type;
-        }
-
-        [StructLayout(LayoutKind.Explicit)]
-        public struct RootSignatureSubObject : IPipelineStateStreamSubObject
-        {
-            [FieldOffset(0)]
-            public PipelineStateSubObjectType Type;
-
-            [FieldOffset(4)]
-            public IntPtr RootSignature;
-
-            [FieldOffset(0)]
-            private IntPtr Ptr;
-
-            PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => Type;
-        }
-
-        //[StructLayout(LayoutKind.Explicit)]
-        //public struct PipelineStateSubObjectTypeInputLayout : IPipelineStateStreamSubObject
-        //{
-        //    [FieldOffset(0)]
-        //    public PipelineStateSubObjectType Type;
-
-        //    [FieldOffset(4)]
-        //    public InputLayoutDescription.__Native RootSignature;
-
-        //    [FieldOffset(0)]
-        //    private IntPtr Ptr;
-
-        //    PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => Type;
-        //}
-
-        struct TestS
-        {
-            public RootSignatureSubObject RootSignature;
+            public PipelineStateSubObjectTypeRootSignature RootSignature;
+            public PipelineStateSubObjectTypeVertexShader VertexShader;
+            public PipelineStateSubObjectTypePixelShader PixelShader;
+            public PipelineStateSubObjectTypeInputLayout InputLayout;
+            public PipelineStateSubObjectTypeSampleMask SampleMask;
+            public PipelineStateSubObjectTypePrimitiveTopology PrimitiveTopology;
+            public PipelineStateSubObjectTypeRasterizer RasterizerState;
+            public PipelineStateSubObjectTypeBlend BlendState;
+            public PipelineStateSubObjectTypeDepthStencil DepthStencilState;
+            public PipelineStateSubObjectTypeRenderTargetFormats RenderTargetFormats;
+            public PipelineStateSubObjectTypeDepthStencilFormat DepthStencilFormat;
+            public PipelineStateSubObjectTypeSampleDescription SampleDescription;
         }
 
         public class PipelineBuilder

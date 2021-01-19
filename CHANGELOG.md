@@ -1,15 +1,22 @@
 # Changelog
 
-Current Stable Release:    1.8.35 (November 2020)
+Current Stable Release:    1.8.59 (January 2021)
+
 
 -----------------------------------------------
-Release:     1.8.XX (December 2020)
+Release:     1.9.XX (March 2021)
+-----------------------------------------------
+
+-----------------------------------------------
+Release:     1.8.59 (January 2021)
 -----------------------------------------------
 KEY CHANGES:
 - [ENH] General: Integrate MIT licensed headers from (https://github.com/microsoft/DirectX-Headers)
 - [ENH] DXCore: Add support for DXCore.
 - [ENH] Direct3D12: Add Video binding generation.
 - [ENH] General: Add DataStream from SharpDX.
+- [ENH] Dxc: Bindings generated from headers for DirectX Shader Compiler and bring in parity with latest release.
+- [ENH] Direct3D12: Pipeline State stream object support and amplification and mesh shader support.
 
 -----------------------------------------------
 Release:     1.8.35 (November 2020)
