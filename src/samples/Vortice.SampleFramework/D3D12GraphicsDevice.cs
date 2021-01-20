@@ -339,7 +339,7 @@ namespace Vortice
         private static Span<byte> CompileBytecode(DxcShaderStage stage, string shaderSource, string entryPoint)
         {
             IDxcResult results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null);
-            if (results.Status.Failure)
+            if (results.GetStatus().Failure)
             {
                 string errors = results.GetErrors();
                 Console.WriteLine($"Failed to compile shader: {errors}");
@@ -356,7 +356,7 @@ namespace Vortice
             out ID3D12ShaderReflection reflection)
         {
             IDxcResult results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null, null, null, null);
-            if (results.Status.Failure)
+            if (results.GetStatus().Failure)
             {
                 string errors = results.GetErrors();
                 Console.WriteLine($"Failed to compile shader: {errors}");

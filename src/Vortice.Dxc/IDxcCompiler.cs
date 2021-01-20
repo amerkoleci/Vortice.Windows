@@ -66,7 +66,6 @@ namespace Vortice.Dxc
             int defineCount,
             IDxcIncludeHandler includeHandler)
         {
-
             IntPtr* argumentsPtr = (IntPtr*)0;
 
             try
