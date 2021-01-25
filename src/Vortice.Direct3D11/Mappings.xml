@@ -367,7 +367,7 @@
     <map enum="D3D11_RESOURCE_MISC_FLAG" name="ResourceOptionFlags" />
     <map enum-item="D3D11_RESOURCE_MISC_HW_PROTECTED" name="HardwareProtected"/>
     <map enum-item="D3D11_RESOURCE_MISC_SHARED_NTHANDLE" name="SharedNTHandle"/>
-    <map enum-item="D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS" name="DrawIndirectArgs"/>
+    <map enum-item="D3D11_RESOURCE_MISC_DRAWINDIRECT_ARGS" name="DrawIndirectArguments"/>
     <map enum-item="D3D11_RESOURCE_MISC_GDI_COMPATIBLE" name="GdiCompatible"/>
     <map enum-item="D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX" name="SharedKeyedMutex"/>
 
@@ -389,6 +389,13 @@
     <map enum="D3D11_RLDO_FLAGS" name="ReportLiveDeviceObjectFlags" />
     <map enum="D3D11_ASYNC_GETDATA_FLAG" name="AsyncGetDataFlags" />
     <map enum-item="D3D11_ASYNC_GETDATA_DONOTFLUSH" name="DoNotFlush" />
+
+    <map enum="D3D11_BUFFER_UAV_FLAG" name="BufferUnorderedAccessViewFlags" />
+    <map enum="D3D11_BUFFEREX_SRV_FLAG" name="BufferExtendedShaderResourceViewFlags" />
+
+    <map enum="D3D11_TILE_COPY_FLAG" name="TileCopyFlags" />
+    <map enum="D3D11_TILE_MAPPING_FLAG" name="TileMappingFlags" />
+    <map enum="D3D11_TILE_RANGE_FLAG" name="TileRangeFlags" />
 
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
@@ -485,6 +492,9 @@
     <map field="D3D11_QUERY_DESC1::MiscFlags" type="D3D11_QUERY_MISC_FLAG" />
 
     <map field="D3D11_COUNTER_DESC::Counter" name="CounterKind" />
+
+    <map struct="D3D11_DRAW_INSTANCED_INDIRECT_ARGS" name="DrawInstancedIndirectArguments" />
+    <map struct="D3D11_DRAW_INDEXED_INSTANCED_INDIRECT_ARGS" name="DrawIndexedInstancedIndirectArguments" />
     
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
@@ -684,6 +694,15 @@
     <map method="ID3D11On12Device::ReleaseWrappedResources" name="ReleaseWrappedResources_" visibility="private"/>
     <map method="ID3D11On12Device1::GetD3D12Device" visibility="private" check="false" />
 
+    <!-- ID3D11DeviceContext2 -->
+    <map method="ID3D11DeviceContext2::(.*)" hresult="true" check="false"/>
+    <map param="ID3D11DeviceContext2::CopyTileMappings::Flags" type="D3D11_TILE_MAPPING_FLAG" />
+    <map param="ID3D11DeviceContext2::CopyTiles::Flags" type="D3D11_TILE_COPY_FLAG" />
+    <map param="ID3D11DeviceContext2::UpdateTileMappings::pRangeFlags" type="D3D11_TILE_RANGE_FLAG" />
+    <map param="ID3D11DeviceContext2::UpdateTileMappings::Flags" type="D3D11_TILE_MAPPING_FLAG" />
+    <map param="ID3D11DeviceContext2::UpdateTiles::Flags" type="D3D11_TILE_COPY_FLAG" />
+    <map method="ID3D11DeviceContext2::IsAnnotationEnabled" property="false" />
+
     <!-- ID3D11CommandList -->
     <remove method="ID3D11CommandList::GetContextFlags" />
 
@@ -697,6 +716,8 @@
     <map function="D3D11On12CreateDevice" check="false"/>
     <map param="D3D11On12CreateDevice::Flags" type ="D3D11_CREATE_DEVICE_FLAG"/>
     <map param="D3D11On12CreateDevice::ppDevice" type="ID3D11Device" attribute="out" />
+
+    <map field="D3D11_TILE_REGION_SIZE::bUseBox" name="UseBox" />
 
     <!-- d3d11shader -->
     <map struct="D3D11_SHADER_BUFFER_DESC" name="ConstantBufferDescription" />

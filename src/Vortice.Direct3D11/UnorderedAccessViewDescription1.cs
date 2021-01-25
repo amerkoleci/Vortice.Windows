@@ -19,7 +19,7 @@ namespace Vortice.Direct3D11
         /// <param name="mipSlice">The index of the mipmap level to use mip slice or FirstElement for BUFFER.</param>
         /// <param name="firstArraySlice">The index of the first texture to use in an array of textures or NumElements for BUFFER or FirstWSlice for TEXTURE3D.</param>
         /// <param name="arraySize">Number of textures in the array or WSize for TEXTURE3D.</param>
-        /// <param name="flags"><see cref="BufferUnorderedAccessViewFlag"/> options flags for the resource.</param>
+        /// <param name="flags"><see cref="BufferUnorderedAccessViewFlags"/> options flags for the resource.</param>
         /// <param name="planeSlice"></param>
         public UnorderedAccessViewDescription1(
             UnorderedAccessViewDimension viewDimension,
@@ -27,7 +27,7 @@ namespace Vortice.Direct3D11
             int mipSlice = 0,
             int firstArraySlice = 0,
             int arraySize = -1,
-            BufferUnorderedAccessViewFlag flags = BufferUnorderedAccessViewFlag.None,
+            BufferUnorderedAccessViewFlags flags = BufferUnorderedAccessViewFlags.None,
             int planeSlice = 0) : this()
         {
             Format = format;
@@ -72,13 +72,13 @@ namespace Vortice.Direct3D11
         /// <param name="format"></param>
         /// <param name="firstElement"></param>
         /// <param name="numElements"></param>
-        /// <param name="flags"><see cref="BufferUnorderedAccessViewFlag"/> options flags for the resource.</param>
+        /// <param name="flags"><see cref="BufferUnorderedAccessViewFlags"/> options flags for the resource.</param>
         public UnorderedAccessViewDescription1(
             ID3D11Buffer buffer,
             Format format,
             int firstElement = 0,
             int numElements = 0,
-            BufferUnorderedAccessViewFlag flags = BufferUnorderedAccessViewFlag.None) : this()
+            BufferUnorderedAccessViewFlags flags = BufferUnorderedAccessViewFlags.None) : this()
         {
             Format = format;
             ViewDimension = UnorderedAccessViewDimension.Buffer;

@@ -19,14 +19,14 @@ namespace Vortice.Direct3D11
         /// <param name="mipSlice">The index of the mipmap level to use mip slice or FirstElement for BUFFER.</param>
         /// <param name="firstArraySlice">The index of the first texture to use in an array of textures or NumElements for BUFFER or FirstWSlice for TEXTURE3D.</param>
         /// <param name="arraySize">Number of textures in the array or WSize for TEXTURE3D.</param>
-        /// <param name="flags"><see cref="BufferUnorderedAccessViewFlag"/> options flags for the resource.</param>
+        /// <param name="flags"><see cref="BufferUnorderedAccessViewFlags"/> options flags for the resource.</param>
         public UnorderedAccessViewDescription(
             UnorderedAccessViewDimension viewDimension,
             Format format = Format.Unknown,
             int mipSlice = 0,
             int firstArraySlice = 0,
             int arraySize = -1,
-            BufferUnorderedAccessViewFlag flags = BufferUnorderedAccessViewFlag.None) : this()
+            BufferUnorderedAccessViewFlags flags = BufferUnorderedAccessViewFlags.None) : this()
         {
             Format = format;
             ViewDimension = viewDimension;
@@ -68,13 +68,13 @@ namespace Vortice.Direct3D11
         /// <param name="format"></param>
         /// <param name="firstElement"></param>
         /// <param name="numElements"></param>
-        /// <param name="flags"><see cref="BufferUnorderedAccessViewFlag"/> options flags for the resource.</param>
+        /// <param name="flags"><see cref="BufferUnorderedAccessViewFlags"/> options flags for the resource.</param>
         public UnorderedAccessViewDescription(
             ID3D11Buffer buffer,
             Format format,
             int firstElement = 0,
             int numElements = 0,
-            BufferUnorderedAccessViewFlag flags = BufferUnorderedAccessViewFlag.None) : this()
+            BufferUnorderedAccessViewFlags flags = BufferUnorderedAccessViewFlags.None) : this()
         {
             Format = format;
             ViewDimension = UnorderedAccessViewDimension.Buffer;
@@ -105,7 +105,7 @@ namespace Vortice.Direct3D11
             if (format == Format.Unknown
                 || (-1 == arraySize && (UnorderedAccessViewDimension.Texture1DArray == ViewDimension)))
             {
-                var textureDesc = texture.Description;
+                Texture1DDescription textureDesc = texture.Description;
                 if (format == Format.Unknown)
                     format = textureDesc.Format;
                 if (arraySize == -1)
@@ -147,7 +147,7 @@ namespace Vortice.Direct3D11
             if (format == Format.Unknown
                 || (-1 == arraySize && (viewDimension == UnorderedAccessViewDimension.Texture2DArray)))
             {
-                var textureDesc = texture.Description;
+                Texture2DDescription textureDesc = texture.Description;
                 if (format == Format.Unknown)
                     format = textureDesc.Format;
                 if (arraySize == -1)
@@ -188,7 +188,7 @@ namespace Vortice.Direct3D11
 
             if (format == Format.Unknown || wSize == -1)
             {
-                var textureDesc = texture.Description;
+                Texture3DDescription textureDesc = texture.Description;
                 if (format == Format.Unknown)
                     format = textureDesc.Format;
                 if (wSize == -1)

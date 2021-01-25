@@ -21,7 +21,7 @@ namespace Vortice.Direct3D11
         /// <param name="mipLevels">The maximum number of mipmap levels for the view of the texture or num elements for <see cref="ShaderResourceViewDimension.Buffer"/> or <see cref="ShaderResourceViewDimension.BufferExtended"/>.</param>
         /// <param name="firstArraySlice">The index of the first texture to use in an array of textures or First2DArrayFace for <see cref="ShaderResourceViewDimension.TextureCubeArray"/>. </param>
         /// <param name="arraySize">Number of textures in the array or num cubes for <see cref="ShaderResourceViewDimension.TextureCubeArray"/>. </param>
-        /// <param name="flags"><see cref="BufferExtendedShaderResourceViewFlag"/> for <see cref="ShaderResourceViewDimension.BufferExtended"/>.</param>
+        /// <param name="flags"><see cref="BufferExtendedShaderResourceViewFlags"/> for <see cref="ShaderResourceViewDimension.BufferExtended"/>.</param>
         /// <param name="planeSlice"></param>
         public ShaderResourceViewDescription1(
             ShaderResourceViewDimension viewDimension,
@@ -30,7 +30,7 @@ namespace Vortice.Direct3D11
             int mipLevels = -1,
             int firstArraySlice = 0,
             int arraySize = -1,
-            BufferExtendedShaderResourceViewFlag flags = BufferExtendedShaderResourceViewFlag.None,
+            BufferExtendedShaderResourceViewFlags flags = BufferExtendedShaderResourceViewFlags.None,
             int planeSlice = 0) : this()
         {
             Format = format;
@@ -101,7 +101,7 @@ namespace Vortice.Direct3D11
         /// <param name="firstElement"></param>
         /// <param name="numElements"></param>
         /// <param name="flags"></param>
-        public ShaderResourceViewDescription1(ID3D11Buffer buffer, Format format, int firstElement, int numElements, BufferExtendedShaderResourceViewFlag flags = BufferExtendedShaderResourceViewFlag.None)
+        public ShaderResourceViewDescription1(ID3D11Buffer buffer, Format format, int firstElement, int numElements, BufferExtendedShaderResourceViewFlags flags = BufferExtendedShaderResourceViewFlags.None)
             : this()
         {
             Format = format;
