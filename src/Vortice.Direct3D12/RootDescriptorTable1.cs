@@ -42,14 +42,14 @@ namespace Vortice.Direct3D12
             Ranges = new DescriptorRange1[@ref.NumDescriptorRanges];
             if (@ref.NumDescriptorRanges > 0)
             {
-                Interop.Read(@ref.PDescriptorRanges, Ranges);
+                UnsafeUtilities.Read(@ref.PDescriptorRanges, Ranges);
             }
         }
 
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
             @ref.NumDescriptorRanges = Ranges?.Length ?? 0;
-            @ref.PDescriptorRanges = Interop.AllocToPointer(Ranges);
+            @ref.PDescriptorRanges = UnsafeUtilities.AllocToPointer(Ranges);
         }
         #endregion
     }

@@ -31,7 +31,7 @@ namespace Vortice.Direct3D12
         public ShaderBytecode(IntPtr bytecode, PointerSize length)
         {
             Data = new byte[length];
-            Interop.Read(bytecode, Data);
+            UnsafeUtilities.Read(bytecode, Data);
         }
 
         public static implicit operator ShaderBytecode(byte[] buffer)
@@ -71,7 +71,7 @@ namespace Vortice.Direct3D12
             Data = new byte[@ref.Length];
             if (@ref.Length > 0)
             {
-                Interop.Read(@ref.Bytecode, Data);
+                UnsafeUtilities.Read(@ref.Bytecode, Data);
             }
         }
 
@@ -79,7 +79,7 @@ namespace Vortice.Direct3D12
         {
             if (Data?.Length > 0)
             {
-                @ref.Bytecode = Interop.AllocToPointer(Data);
+                @ref.Bytecode = UnsafeUtilities.AllocToPointer(Data);
                 @ref.Length = Data.Length;
             }
             else

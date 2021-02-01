@@ -7,7 +7,10 @@ using System.Runtime.InteropServices;
 
 namespace Vortice
 {
-    public static unsafe class Interop
+    /// <summary>
+    /// Provides a set of methods to supplement or replace <see cref="Unsafe" /> and <see cref="MemoryMarshal" />.
+    /// </summary>
+    public static unsafe class UnsafeUtilities
     {
         public static IntPtr Read<T>(IntPtr source, ref T value) where T : unmanaged
         {
@@ -18,12 +21,13 @@ namespace Vortice
             }
         }
 
-        public static void Read<T>(IntPtr source, T[] values) where T : unmanaged
+        public static IntPtr Read<T>(IntPtr source, T[] values) where T : unmanaged
         {
             int count = values.Length;
             fixed (void* dstPtr = values)
             {
                 Unsafe.CopyBlockUnaligned(dstPtr, (void*)source, (uint)(count * sizeof(T)));
+                return source + sizeof(T) * count;
             }
         }
 

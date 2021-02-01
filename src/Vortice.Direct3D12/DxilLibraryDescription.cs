@@ -53,7 +53,7 @@ namespace Vortice.Direct3D12
             native->NumExports = Exports?.Length ?? 0;
             if (native->NumExports > 0)
             {
-                var nativeExports = (ExportDescription.__Native*)Interop.Alloc<ExportDescription.__Native>(native->NumExports);
+                var nativeExports = (ExportDescription.__Native*)UnsafeUtilities.Alloc<ExportDescription.__Native>(native->NumExports);
                 for (int i = 0; i < native->NumExports; i++)
                 {
                     Exports[i].__MarshalTo(ref nativeExports[i]);

@@ -68,13 +68,13 @@ namespace Vortice.Direct2D1
             @ref.shaderBufferSize = ShaderBufferWithInputSignature?.Length ?? 0;
             if (@ref.shaderBufferSize > 0)
             {
-                @ref.shaderBufferWithInputSignature = Interop.AllocToPointer(ShaderBufferWithInputSignature);
+                @ref.shaderBufferWithInputSignature = UnsafeUtilities.AllocToPointer(ShaderBufferWithInputSignature);
             }
 
             @ref.elementCount = Elements?.Length ?? 0;
             if (@ref.elementCount > 0)
             {
-                var nativeElements = (InputElementDescription.__Native*)Interop.Alloc<InputElementDescription.__Native>(@ref.elementCount);
+                var nativeElements = (InputElementDescription.__Native*)Marshal.AllocHGlobal(sizeof(InputElementDescription.__Native) * @ref.elementCount);
                 for (int i = 0; i < @ref.elementCount; i++)
                 {
                     Elements[i].__MarshalTo(ref nativeElements[i]);

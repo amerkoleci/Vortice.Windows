@@ -75,11 +75,11 @@ namespace Vortice.DXGI
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
             @ref.NumCategories = Categories?.Length ?? 0;
-            @ref.PCategoryList = Interop.AllocToPointer(Categories);
+            @ref.PCategoryList = UnsafeUtilities.AllocToPointer(Categories);
             @ref.NumSeverities = Severities?.Length ?? 0;
-            @ref.PSeverityList = Interop.AllocToPointer(Severities);
+            @ref.PSeverityList = UnsafeUtilities.AllocToPointer(Severities);
             @ref.NumIDs = Ids?.Length ?? 0;
-            @ref.PIDList = Interop.AllocToPointer(Ids);
+            @ref.PIDList = UnsafeUtilities.AllocToPointer(Ids);
         }
         #endregion
     }

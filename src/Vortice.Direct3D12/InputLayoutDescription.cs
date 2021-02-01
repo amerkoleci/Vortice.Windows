@@ -59,7 +59,7 @@ namespace Vortice.Direct3D12
             @ref.NumElements = Elements?.Length ?? 0;
             if (@ref.NumElements > 0)
             {
-                var nativeElements = (InputElementDescription.__Native*)Interop.Alloc<InputElementDescription.__Native>(@ref.NumElements);
+                var nativeElements = (InputElementDescription.__Native*)UnsafeUtilities.Alloc<InputElementDescription.__Native>(@ref.NumElements);
                 for (int i = 0; i < @ref.NumElements; i++)
                 {
                     Elements[i].__MarshalTo(ref nativeElements[i]);

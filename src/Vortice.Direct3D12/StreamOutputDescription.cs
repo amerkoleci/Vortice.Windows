@@ -77,7 +77,7 @@ namespace Vortice.Direct3D12
             @ref.NumEntries = Elements?.Length ?? 0;
             if (@ref.NumEntries > 0)
             {
-                var nativeElements = (StreamOutputElement.__Native*)Interop.Alloc<StreamOutputElement.__Native>(@ref.NumEntries);
+                var nativeElements = (StreamOutputElement.__Native*)UnsafeUtilities.Alloc<StreamOutputElement.__Native>(@ref.NumEntries);
                 for (int i = 0; i < @ref.NumEntries; i++)
                 {
                     Elements[i].__MarshalTo(ref nativeElements[i]);
@@ -89,7 +89,7 @@ namespace Vortice.Direct3D12
             @ref.NumStrides = Strides?.Length ?? 0;
             if (@ref.NumStrides > 0)
             {
-                var nativeStrides = Interop.Alloc<int>(@ref.NumStrides);
+                var nativeStrides = UnsafeUtilities.Alloc<int>(@ref.NumStrides);
                 fixed (int* src = &Strides[0])
                 {
                     MemoryHelpers.CopyMemory(nativeStrides, (IntPtr)src, @ref.NumStrides * sizeof(int));

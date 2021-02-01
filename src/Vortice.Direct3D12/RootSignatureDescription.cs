@@ -70,13 +70,13 @@ namespace Vortice.Direct3D12
             Parameters = new RootParameter[@ref.NumParameters];
             if (@ref.NumParameters > 0)
             {
-                Interop.Read(@ref.PParameters, Parameters);
+                UnsafeUtilities.Read(@ref.PParameters, Parameters);
             }
 
             StaticSamplers = new StaticSamplerDescription[@ref.NumStaticSamplers];
             if (@ref.NumStaticSamplers > 0)
             {
-                Interop.Read(@ref.PStaticSamplers, StaticSamplers);
+                UnsafeUtilities.Read(@ref.PStaticSamplers, StaticSamplers);
             }
 
             Flags = @ref.Flags;
@@ -85,9 +85,9 @@ namespace Vortice.Direct3D12
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
             @ref.NumParameters = Parameters?.Length ?? 0;
-            @ref.PParameters = Interop.AllocToPointer(Parameters);
+            @ref.PParameters = UnsafeUtilities.AllocToPointer(Parameters);
             @ref.NumStaticSamplers = StaticSamplers?.Length ?? 0;
-            @ref.PStaticSamplers = Interop.AllocToPointer(StaticSamplers);
+            @ref.PStaticSamplers = UnsafeUtilities.AllocToPointer(StaticSamplers);
             @ref.Flags = Flags;
         }
         #endregion

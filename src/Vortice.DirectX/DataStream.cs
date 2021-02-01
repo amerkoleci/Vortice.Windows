@@ -44,7 +44,6 @@
 * THE SOFTWARE.
 */
 
-
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -221,9 +220,8 @@ namespace Vortice
             if (!CanRead)
                 throw new NotSupportedException();
 
-            byte* from = _buffer + _position;
-            T result = default;
-            _position = (byte*)Interop.Read<T>((IntPtr)from, ref result) - _buffer;
+            T result = Unsafe.ReadUnaligned<T>(_buffer + _position);
+            _position += sizeof(T);
             return result;
         }
 
@@ -298,7 +296,8 @@ namespace Vortice
             if (!CanWrite)
                 throw new NotSupportedException();
 
-            _position = (byte*)Interop.Write((IntPtr)(_buffer + _position), ref value) - _buffer;
+            Unsafe.WriteUnaligned(_buffer + _position, value);
+            _position += sizeof(T);
         }
 
         /// <summary>
@@ -369,7 +368,7 @@ namespace Vortice
             if (!CanWrite)
                 throw new NotSupportedException();
 
-            _position = (byte*)Interop.Write((IntPtr)(_buffer + _position), data, offset, count) - _buffer;
+            _position = (byte*)UnsafeUtilities.Write((IntPtr)(_buffer + _position), data, offset, count) - _buffer;
         }
 
         /// <summary>

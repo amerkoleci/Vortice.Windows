@@ -76,7 +76,7 @@ namespace Vortice.Direct3D12
                 else
                 {
                     GeometryDescriptions = new RaytracingGeometryDescription[@ref.NumDescs];
-                    Interop.Read(@ref.Union.pGeometryDescs, GeometryDescriptions);
+                    UnsafeUtilities.Read(@ref.Union.pGeometryDescs, GeometryDescriptions);
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace Vortice.Direct3D12
             if (GeometryDescriptions != null
                 && GeometryDescriptions.Length > 0)
             {
-                @ref.Union.pGeometryDescs = Interop.AllocToPointer(GeometryDescriptions);
+                @ref.Union.pGeometryDescs = UnsafeUtilities.AllocToPointer(GeometryDescriptions);
             }
             else
             {

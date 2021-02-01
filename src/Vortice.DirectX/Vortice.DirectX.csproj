@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -9,9 +9,8 @@
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="Vortice.Mathematics" Version="$(VorticeMathematicsVersion)" />
-    <!--<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.1" />-->
-    <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenVersion)" />
     <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
+    <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenRuntimeVersion)" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vortice.Runtime.COM\Vortice.Runtime.COM.csproj" />

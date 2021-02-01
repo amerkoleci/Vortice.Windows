@@ -68,7 +68,7 @@ namespace Vortice.Direct2D1
             @ref.usage = Usage;
             if (Data?.Length > 0)
             {
-                @ref.data = Interop.AllocToPointer(Data);
+                @ref.data = UnsafeUtilities.AllocToPointer(Data);
             }
             else
             {

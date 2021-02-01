@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -22,8 +22,8 @@
 
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
+    <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenRuntimeVersion)" />
     <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
-    <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenVersion)" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
