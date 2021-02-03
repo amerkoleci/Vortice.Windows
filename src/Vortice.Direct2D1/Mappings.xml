@@ -631,10 +631,10 @@
     <map interface="IDWritePixelSnapping" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true"/>
 
     <!-- IDWriteTextRenderer -->
-    <map interface="IDWriteTextRenderer" callback="true" callback-dual="true" callback-visibility="internal"/>
+    <map interface="IDWriteTextRenderer" callback="true" callback-dual="true" callback-visibility="public"/>
 
     <!-- IDWriteTextRenderer1 -->
-    <map interface="IDWriteTextRenderer1" callback="true" callback-dual="true" callback-visibility="internal"/>
+    <map interface="IDWriteTextRenderer1" callback="true" callback-dual="true" callback-visibility="public"/>
     
     <!-- IDWriteTextAnalysisSink -->
     <map interface="IDWriteTextAnalysisSink" callback="true" callback-dual="false" autogen-shadow="true"/>
