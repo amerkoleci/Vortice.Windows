@@ -8,7 +8,7 @@ using Vortice.Direct2D1;
 
 namespace Vortice.DirectWrite
 {
-    internal partial class IDWriteTextRenderer1Native
+    partial class IDWriteTextRenderer1Native
     {
         public void DrawGlyphRun(IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, GlyphOrientationAngle orientationAngle, MeasuringMode measuringMode, GlyphRun glyphRun,ref GlyphRunDescription glyphRunDescription, IUnknown clientDrawingEffect) => DrawGlyphRun_(clientDrawingContext, baselineOriginX, baselineOriginY, orientationAngle, measuringMode, glyphRun,ref glyphRunDescription, clientDrawingEffect);
         public void DrawInlineObject(IntPtr clientDrawingContext, float originX, float originY, GlyphOrientationAngle orientationAngle, IDWriteInlineObject inlineObject, RawBool isSideways,RawBool isRightToLeft, IUnknown clientDrawingEffect) => DrawInlineObject_(clientDrawingContext, originX, originY, orientationAngle, inlineObject, isSideways, isRightToLeft, clientDrawingEffect);
