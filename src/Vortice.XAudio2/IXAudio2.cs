@@ -29,18 +29,9 @@ namespace Vortice.XAudio2
         public event EventHandler<ErrorEventArgs> CriticalError;
         #endregion Events
 
-        /// <summary>
-        /// Create new instance of <see cref="IXAudio2"/> class.
-        /// </summary>
-        /// <param name="processorSpecifier"></param>
-        /// <param name="registerCallback">Whether to register for callback, uses native RegisterForCallbacks.</param>
-        public IXAudio2(
-            ProcessorSpecifier processorSpecifier = ProcessorSpecifier.UseDefaultProcessor,
-            bool registerCallback = true)
-            : base(IntPtr.Zero)
+        internal IXAudio2(ProcessorSpecifier processorSpecifier, bool registerCallback)
+            : base(XAudio2Native.XAudio2Create(0, processorSpecifier))
         {
-            NativePointer = XAudio2Native.XAudio2Create(0, processorSpecifier);
-
             // Register engine callback
             if (registerCallback)
             {

@@ -9,7 +9,6 @@ namespace Vortice.XAudio2
 {
     internal static unsafe class XAudio29
     {
-        
         [DllImport("xaudio2_9.dll", EntryPoint = "XAudio2Create", CallingConvention = CallingConvention.StdCall)]
         public static extern int XAudio2Create(void* arg0, int arg1, int arg2);
 
