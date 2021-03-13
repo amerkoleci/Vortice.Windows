@@ -16,8 +16,8 @@
       <PackagePath>runtimes\win-x86\native</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    
-    <Content Include="Vortice.XAudio2.targets" PackagePath="build" />
+
+    <Content Include="Vortice.XAudio2.targets" PackagePath="build\$(TargetFramework);buildMultiTargeting\$(TargetFramework);" />
   </ItemGroup>
 
   <ItemGroup>
