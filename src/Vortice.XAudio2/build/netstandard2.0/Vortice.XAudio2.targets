@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <CopyNativeAssemblies_Vortice_XAudio2 Condition="'$(CopyNativeAssemblies_Vortice_XAudio2)' == '' and '$(TargetFrameworkIdentifier)' == '.NETFramework'">true</CopyNativeAssemblies_Vortice_XAudio2>
+  </PropertyGroup>
+  
+  <ItemGroup Condition="'$(CopyNativeAssemblies_Vortice_XAudio2)' == true">
+    <None Include="$(MSBuildThisFileDirectory)\..\..\runtimes\win-x64\native\*.dll">
+      <Link>x64\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)\..\..\runtimes\win-x86\native\*.dll">
+      <Link>x86\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </None>
+  </ItemGroup>
+</Project>
