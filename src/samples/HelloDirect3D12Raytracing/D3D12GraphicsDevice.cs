@@ -454,7 +454,7 @@ namespace HelloDirect3D12Raytracing
                 {
                     Format = Format.Unknown,
                     ViewDimension = ShaderResourceViewDimension.RaytracingAccelerationStructure,
-                    Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING,
+                    Shader4ComponentMapping = ShaderComponentMapping.Default,
                     RaytracingAccelerationStructure = new RaytracingAccelerationStructureShaderResourceView { Location = _topLevelAccelerationStructure.GPUVirtualAddress },
                 };
 
@@ -672,22 +672,5 @@ namespace HelloDirect3D12Raytracing
         {
             return ((value + alignment - 1) / alignment) * alignment;
         }
-
-
-        private const int D3D12_SHADER_COMPONENT_MAPPING_MASK = 0x7;
-        private const int D3D12_SHADER_COMPONENT_MAPPING_SHIFT = 3;
-
-        private static int D3D12_SHADER_COMPONENT_MAPPING_ALWAYS_SET_BIT_AVOIDING_ZEROMEM_MISTAKES = (1 << (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * 4));
-
-        private static int D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING(int Src0, int Src1, int Src2, int Src3)
-        {
-            return ((((Src0) & D3D12_SHADER_COMPONENT_MAPPING_MASK) |
-                   (((Src1) & D3D12_SHADER_COMPONENT_MAPPING_MASK) << D3D12_SHADER_COMPONENT_MAPPING_SHIFT) |
-                   (((Src2) & D3D12_SHADER_COMPONENT_MAPPING_MASK) << (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * 2)) |
-                   (((Src3) & D3D12_SHADER_COMPONENT_MAPPING_MASK) << (D3D12_SHADER_COMPONENT_MAPPING_SHIFT * 3)) |
-                   D3D12_SHADER_COMPONENT_MAPPING_ALWAYS_SET_BIT_AVOIDING_ZEROMEM_MISTAKES));
-        }
-
-        private static int D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING = D3D12_ENCODE_SHADER_4_COMPONENT_MAPPING(0, 1, 2, 3);
     }
 }
