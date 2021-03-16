@@ -23,7 +23,7 @@ namespace Vortice.Direct3D12
         /// An arbitrary 24-bit value that can be accessed using the InstanceID intrinsic function in supported shader types.
         /// </summary>
         [FieldOffset(48)]
-        public int InstanceID;
+        public UInt24 InstanceID;
 
         /// <summary>
         /// An 8-bit mask assigned to the instance, which can be used to include/reject groups of instances on a per-ray basis. If the value is zero, then the instance will never be included, so typically this should be set to some non-zero value. 
@@ -35,7 +35,7 @@ namespace Vortice.Direct3D12
         /// An arbitrary 24-bit value representing per-instance contribution to add into shader table indexing to select the hit group to use.
         /// </summary>
         [FieldOffset(52)]
-        public int InstanceContributionToHitGroupIndex;
+        public UInt24 InstanceContributionToHitGroupIndex;
 
         /// <summary>
         /// An 8-bit mask representing flags to apply to the instance.
