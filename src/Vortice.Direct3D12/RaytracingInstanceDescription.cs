@@ -41,7 +41,7 @@ namespace Vortice.Direct3D12
         /// An 8-bit mask representing flags to apply to the instance.
         /// </summary>
         [FieldOffset(55)]
-        public byte Flags;
+        public RaytracingInstanceFlags Flags;
 
         /// <summary>
         /// Address of the bottom-level acceleration structure that is being instanced. 

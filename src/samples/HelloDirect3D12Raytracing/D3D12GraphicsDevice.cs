@@ -363,7 +363,7 @@ namespace HelloDirect3D12Raytracing
                                               0, 0, 1, 0),
                     InstanceMask = 0xFF,
                     InstanceID = (UInt24)0,
-                    Flags = 0,
+                    Flags = RaytracingInstanceFlags.None,
                     InstanceContributionToHitGroupIndex = (UInt24)0,
                     AccelerationStructure = (long)_bottomLevelAccelerationStructure.GPUVirtualAddress,
                 };
