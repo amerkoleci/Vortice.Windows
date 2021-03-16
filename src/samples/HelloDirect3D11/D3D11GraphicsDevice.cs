@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using Vortice;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
 using Vortice.DXGI;
@@ -10,7 +11,7 @@ using Vortice.Mathematics;
 using static Vortice.Direct3D11.D3D11;
 using static Vortice.DXGI.DXGI;
 
-namespace Vortice
+namespace HelloDirect3D11
 {
     public sealed class D3D11GraphicsDevice : IGraphicsDevice
     {
@@ -86,7 +87,7 @@ namespace Vortice
                 Height = window.Height,
                 Format = Format.B8G8R8A8_UNorm,
                 BufferCount = FrameCount,
-                Usage = DXGI.Usage.RenderTargetOutput,
+                Usage = Vortice.DXGI.Usage.RenderTargetOutput,
                 SampleDescription = new SampleDescription(1, 0),
                 Scaling = Scaling.Stretch,
                 SwapEffect = SwapEffect.FlipDiscard,

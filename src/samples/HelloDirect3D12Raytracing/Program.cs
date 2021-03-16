@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using SharpGen.Runtime;
-using SharpGen.Runtime.Diagnostics;
 using Vortice;
+using System;
+using SharpGen.Runtime.Diagnostics;
+using SharpGen.Runtime;
 
-namespace HelloDirect3D11
+namespace HelloDirect3D12Raytracing
 {
     public static class Program
     {
@@ -19,7 +19,7 @@ namespace HelloDirect3D11
                 validation = true;
 #endif
 
-                _graphicsDevice = new D3D11GraphicsDevice(validation, MainWindow);
+                _graphicsDevice = new D3D12GraphicsDevice(validation, MainWindow);
             }
         }
 

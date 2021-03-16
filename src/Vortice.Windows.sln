@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D9", "Vortic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectComposition", "Vortice.DirectComposition\Vortice.DirectComposition.csproj", "{4583371C-617C-4F5A-8514-D23C906F2338}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D12Raytracing", "samples\HelloDirect3D12Raytracing\HelloDirect3D12Raytracing.csproj", "{61F8DB50-54D3-44C7-A438-FE5201C01DD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +108,10 @@ Global
 		{4583371C-617C-4F5A-8514-D23C906F2338}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4583371C-617C-4F5A-8514-D23C906F2338}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4583371C-617C-4F5A-8514-D23C906F2338}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +120,7 @@ Global
 		{58C451C2-994B-41E6-80C5-975C23D6ECF9} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
 		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
 		{2246B81E-ED94-4DAD-8336-782CEDCD1795} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
+		{61F8DB50-54D3-44C7-A438-FE5201C01DD4} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0734700-42E1-4F87-8DD2-0084849DA44A}

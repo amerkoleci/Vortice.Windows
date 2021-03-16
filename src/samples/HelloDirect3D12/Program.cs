@@ -1,24 +1,27 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.IO;
 using Vortice;
-using Vortice.Mathematics;
-using Vortice.WIC;
 using Vortice.DXCore;
-using static Vortice.DXCore.DXCore;
 using System;
-using System.Runtime.InteropServices;
+using static Vortice.DXCore.DXCore;
+using SharpGen.Runtime.Diagnostics;
+using SharpGen.Runtime;
 
-namespace HelloDirect3D11
+namespace HelloDirect3D12
 {
     public static class Program
     {
         private class TestApplication : Application
         {
-            public TestApplication()
-                : base(true)
+            protected override void InitializeBeforeRun()
             {
+                var validation = false;
+#if DEBUG
+                validation = true;
+#endif
+
+                _graphicsDevice = new D3D12GraphicsDevice(validation, MainWindow);
             }
         }
 
@@ -62,20 +65,26 @@ namespace HelloDirect3D11
 
         public static void Main()
         {
-            try
-            {
-                // Just safelly test DXCore stuff
-                TestDXCore();
-            }
-            catch
-            {
+            //try
+            //{
+            //    // Just safelly test DXCore stuff
+            //    TestDXCore();
+            //}
+            //catch
+            //{
 
-            }
+            //}
+
+#if DEBUG
+            Configuration.EnableObjectTracking = true;
+#endif
 
             using (var app = new TestApplication())
-            {
                 app.Run();
-            }
+
+#if DEBUG
+            Console.WriteLine(ObjectTracker.ReportActiveObjects());
+#endif
         }
     }
 }

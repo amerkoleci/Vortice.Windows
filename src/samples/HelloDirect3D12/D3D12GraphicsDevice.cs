@@ -17,8 +17,9 @@ using Vortice.Dxc;
 using Vortice.Direct3D12.Shader;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Vortice;
 
-namespace Vortice
+namespace HelloDirect3D12
 {
     public sealed class D3D12GraphicsDevice : IGraphicsDevice
     {
@@ -50,7 +51,7 @@ namespace Vortice
 
         public IDXGISwapChain3 SwapChain { get; }
 
-        public static bool IsSupported() => D3D12.IsSupported(FeatureLevel.Level_11_0);
+        public static bool IsSupported() => D3D12.IsSupported(FeatureLevel.Level_12_0);
 
         public D3D12GraphicsDevice(bool validation, Window window)
         {
@@ -315,7 +316,7 @@ namespace Vortice
 
             Result result = SwapChain.Present(1, PresentFlags.None);
             if (result.Failure
-                && result.Code == DXGI.ResultCode.DeviceRemoved.Code)
+                && result.Code == Vortice.DXGI.ResultCode.DeviceRemoved.Code)
             {
                 return false;
             }
