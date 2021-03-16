@@ -24,8 +24,8 @@
       <PackagePath>runtimes/win-x64/native</PackagePath>
       <Pack>true</Pack>
     </Content>
-    <Content Include="build\net40\Vortice.Dxc.targets">
-      <PackagePath>build/net40/Vortice.Dxc.targets</PackagePath>
+    <Content Include="build\netstandard2.0\Vortice.Dxc.targets">
+      <PackagePath>build/netstandard2.0/Vortice.Dxc.targets</PackagePath>
       <Pack>true</Pack>
     </Content>
   </ItemGroup>
