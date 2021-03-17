@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Vortice.Dxc\Vortice.Dxc.csproj" />
+    <ProjectReference Include="..\Vortice.SampleFramework\Vortice.SampleFramework.csproj" />
+
+    <!-- Include native libraries in x64. -->
+    <Content Include="..\..\Vortice.Dxc\native\win-x64\dxil.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\Vortice.Dxc\native\win-x64\dxcompiler.dll" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Shaders\*.hlsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

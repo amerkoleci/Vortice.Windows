@@ -7,7 +7,7 @@
   <sdk name="StdLib" />
   <sdk name="WindowsSdk" version="10.0.19041.0" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
-  
+
   <include file="d3d12.h" namespace="Vortice.Direct3D12" attach="true"/>
   <!--<include file="d3d12compatibility.h" namespace="Vortice.Direct3D12" attach="true"/>-->
 
@@ -22,8 +22,11 @@
     <const from-macro="D3D12_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct3D12.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
     <define struct="Vortice.Direct3D12.CpuDescriptorHandle" sizeof="8" />
     <define struct="Vortice.Direct3D12.RaytracingInstanceDescription" sizeof="64" />
-    
+
     <define enum="Vortice.Direct3D12.Shader" sizeof="1" />
+
+    <create class="ShaderComponentMapping" visibility="public static" />
+    <const from-macro="D3D12_SHADER_COMPONENT_MAPPING_(.*)" type="int" cpp-type="int" name="$1" class="Vortice.Direct3D12.ShaderComponentMapping" visibility="public const"></const>
   </extension>
 
   <bindings>
@@ -335,6 +338,8 @@
     <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_UNDEFINED_SWIZZLE" name="UndefinedSwizzle64kb"/>
     <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_STANDARD_SWIZZLE" name="StandardSwizzle64kb"/>
 
+    <map enum="D3D12_SHADER_COMPONENT_MAPPING" name="ShaderComponentMappingSource"/>
+
     <!-- D3D12_AXIS_SHADING_RATE -->
     <map enum-item="D3D12_AXIS_SHADING_RATE_1X" name="Rate1x"/>
     <map enum-item="D3D12_AXIS_SHADING_RATE_2X" name="Rate2x"/>
@@ -446,7 +451,7 @@
     <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_VIEW_INSTANCING" name="ViewInstancing"/>
     <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_AS" name="AmplificationShader"/>
     <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_MS" name="MeshShader"/>
-    
+
     <!--Remove all fields for D3D12_RESOURCE_BARRIER_DESC as the union with pointers cannot be mapped safely in x86/x64 with C# explicit layout-->
     <remove field="D3D12_RESOURCE_BARRIER::.*"/>
     <remove field="D3D12_ROOT_PARAMETER::.*"/>
@@ -502,7 +507,7 @@
 
     <map struct="D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS" struct-to-class="true" marshal="true"  />
     <map field="D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_DESC::DestAccelerationStructureData" name="DestinationAccelerationStructureData" />
-    
+
     <map field="D3D12_CLEAR_VALUE::Color" type="VORTICE_COLOR4" array="" override-native-type="true" />
 
     <map struct="D3D12_DEPTH_STENCILOP_DESC" name="DepthStencilOperationDescription" />
@@ -529,10 +534,10 @@
     <remove field="D3D12_COMPUTE_PIPELINE_STATE_DESC::.*"/>
 
     <map struct="D3D12_BLEND_DESC" marshalto="true"/>
-    
+
     <map struct="D3D12_STATE_SUBOBJECT" name="StateSubObject" native="true" struct-to-class="true" marshal="true" />
     <remove field="D3D12_STATE_SUBOBJECT::.*"/>
-    
+
     <map struct="D3D12_STATE_OBJECT_DESC" name="StateObjectDescription" struct-to-class="true" marshal="true" />
     <remove field="D3D12_STATE_OBJECT_DESC::.*"/>
 
@@ -586,7 +591,9 @@
     <map struct="D3D12_RT_FORMAT_ARRAY" visibility="internal" marshal="true" />
     <map field="D3D12_RT_FORMAT_ARRAY::RTFormats" name="Formats" />
     <remove field="D3D12_RT_FORMAT_ARRAY::.*"/>
-    
+
+    <map enum="D3D12_RAYTRACING_INSTANCE_FLAGS" name="RaytracingInstanceFlags" type="byte" />
+
     <!-- ID3D12Object methods -->
     <map method="ID3D12Object::GetPrivateData" visibility="public" hresult="true" check="false"/>
     <map method="ID3D12Object::SetPrivateData" visibility="public" hresult="true" check="false"/>
@@ -599,7 +606,7 @@
     <map method="ID3D12Resource::GetHeapProperties" hresult="true" check="false"/>
     <map method="ID3D12Resource::WriteToSubresource" hresult="true" check="false"/>
     <map method="ID3D12Resource::ReadFromSubresource" hresult="true" check="false"/>
-    
+
     <map param="ID3D12Resource::Map::pReadRange" default="null"/>
     <map param="ID3D12Resource::Unmap::pWrittenRange" default="null"/>
     <map param="ID3D12Resource::Map::ppData" attribute="out" return="true"/>
@@ -716,7 +723,7 @@
     <!-- ID3D12Device7 methods -->
     <map method="ID3D12Device7::AddToStateObject" visibility="private" hresult="true" check="false" />
     <map param="ID3D12Device7::AddToStateObject::ppNewStateObject" attribute="out" />
-    
+
     <map method="ID3D12Device7::CreateProtectedResourceSession1" visibility="private" hresult="true" check="false" />
     <map param="ID3D12Device7::CreateProtectedResourceSession1::ppSession" attribute="out" />
 
@@ -727,7 +734,7 @@
     <!-- ID3D12Device9 -->
     <map method="ID3D12Device9::CreateCommandQueue1" visibility="private" hresult="true" check="false" />
     <map method="ID3D12Device9::CreateShaderCacheSession" visibility="private" hresult="true" check="false" />
-    
+
     <!-- ID3D12Debug1 -->
     <map method="ID3D12Debug1::SetEnableGPUBasedValidation" property="false" />
     <map method="ID3D12Debug1::SetEnableSynchronizedCommandQueueValidation" property="false" />
@@ -781,10 +788,10 @@
     <!-- ID3D12GraphicsCommandList1 -->
     <map method="ID3D12GraphicsCommandList1::ResolveSubresourceRegion" visibility="private" name="ResolveSubresourceRegion_"/>
     <map method="ID3D12GraphicsCommandList1::SetViewInstanceMask" property="false"/>
-    
+
     <!-- ID3D12GraphicsCommandList2 -->
     <map method="ID3D12GraphicsCommandList2::WriteBufferImmediate" visibility="private" name="WriteBufferImmediate_"/>
-    
+
     <!-- ID3D12GraphicsCommandList3 -->
     <map method="ID3D12GraphicsCommandList3::SetProtectedResourceSession" property="false"/>
 
@@ -874,7 +881,7 @@
     <map struct="D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS1" name="VideoProcessInputStreamArguments1" native="true" marshal="true" />
     <map struct="D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS" name="VideoProcessOutputStreamArguments" native="true" marshal="true" />
     <map struct="D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1" name="VideoDecodeOutputStreamArguments1" struct-to-class="true" marshal="true" />
-    
+
     <map param="ID3D12VideoDecodeCommandList::ResourceBarrier::pBarriers" type="void"/>
     <map method="ID3D12VideoDecodeCommandList::ResourceBarrier" visibility="private"/>
     <map method="ID3D12VideoDecodeCommandList::DiscardResource" visibility="private" />
@@ -917,7 +924,7 @@
     <map param="ID3D12VideoDevice2::CreateVideoExtensionCommand::ppVideoExtensionCommand" attribute="out" />
     <map method="ID3D12VideoDevice2::CreateVideoProcessor1" visibility="private" hresult="true" check="false" />
     <map param="ID3D12VideoDevice2::CreateVideoProcessor1::ppVideoProcessor" attribute="out" />
-    
+
     <map method="ID3D12VideoDevice2::ExecuteExtensionCommand" hresult="true" check="false" />
 
     <map method="ID3D12VideoDecoder1::GetProtectedResourceSession" visibility="private" hresult="true" check="false"/>
