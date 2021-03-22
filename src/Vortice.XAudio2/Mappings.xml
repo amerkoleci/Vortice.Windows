@@ -210,7 +210,7 @@
     <!-- IXAudio2Voice -->
     <map method="IXAudio2Voice::SetOutputVoices" visibility="internal" property="false"/>
     <map method="IXAudio2Voice::GetEffectParameters" visibility="internal" />
-    <map method="IXAudio2Voice::SetEffectParameters" visibility="internal" />
+    <map method="IXAudio2Voice::SetEffectParameters" visibility="internal" hresult="true" check="false" />
     <map param="IXAudio2Voice::GetEffectState::pEnabled" attribute="out" return="true" />
     <map method="IXAudio2Voice::SetEffectChain" visibility="internal" property="false" />
     <map method="IXAudio2Voice::GetVoiceDetails" visibility="private" property="false"/>

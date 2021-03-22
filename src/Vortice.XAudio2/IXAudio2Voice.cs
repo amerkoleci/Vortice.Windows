@@ -5,14 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using SharpGen.Runtime;
 using Vortice.XAudio2.Fx;
 
 namespace Vortice.XAudio2
 {
     public partial class IXAudio2Voice
     {
-        private readonly List<IntPtr> _effectParameters = new List<IntPtr>();
-
         /// <summary>	
         /// Gets or Sets the overall volume level for the voice.	
         /// </summary>	
@@ -20,7 +19,7 @@ namespace Vortice.XAudio2
         {
             get
             {
-                GetVolume(out var value);
+                GetVolume(out float value);
                 return value;
             }
             set
@@ -36,7 +35,7 @@ namespace Vortice.XAudio2
         {
             get
             {
-                GetVoiceDetails(out var details);
+                GetVoiceDetails(out VoiceDetails details);
                 return details;
             }
         }
@@ -236,12 +235,11 @@ namespace Vortice.XAudio2
         /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
         /// <param name="effectParameter">The the current values of the effect-specific parameters.</param>
         /// <param name="operationSet">Identifies this call as part of a deferred batch.</param>
-        public void SetEffectParameters(int effectIndex, byte[] effectParameter, int operationSet = 0)
+        public unsafe Result SetEffectParameters(int effectIndex, byte[] effectParameter, int operationSet = 0)
         {
-            unsafe
+            fixed (void* pEffectParameter = &effectParameter[0])
             {
-                fixed (void* pEffectParameter = &effectParameter[0])
-                    SetEffectParameters(effectIndex, (IntPtr)pEffectParameter, effectParameter.Length, operationSet);
+                return SetEffectParameters(effectIndex, (IntPtr)pEffectParameter, effectParameter.Length, operationSet);
             }
         }
 
@@ -251,39 +249,27 @@ namespace Vortice.XAudio2
         /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
         /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
         /// <param name="operationSet">Identifies this call as part of a deferred batch.</param>
-        public void SetEffectParameters<T>(int effectIndex, T effectParameter, int operationSet = 0) where T : unmanaged
+        public unsafe Result SetEffectParameters<T>(int effectIndex, T effectParameter, int operationSet = 0) where T : unmanaged
         {
-            unsafe
-            {
-                IntPtr effectParameterPtr = Marshal.AllocHGlobal(sizeof(T));
-                _effectParameters.Add(effectParameterPtr);
-                Unsafe.CopyBlockUnaligned(effectParameterPtr.ToPointer(), &effectParameter, (uint)sizeof(T));
-                SetEffectParameters(effectIndex, effectParameterPtr, sizeof(T), operationSet);
-            }
+            return SetEffectParameters(effectIndex, new IntPtr(&effectParameter), sizeof(T), operationSet);
         }
 
-        public void SetEffectParameters(int effectIndex, VolumeMeterLevels meterLevels, int operationSet = 0)
+        public unsafe Result SetEffectParameters(int effectIndex, ReverbParameters reverbParameters, int operationSet = 0)
         {
-            unsafe
-            {
-                IntPtr effectParameterPtr = Marshal.AllocHGlobal(sizeof(VolumeMeterLevels.__Native));
-                _effectParameters.Add(effectParameterPtr);
-                VolumeMeterLevels.__Native native = default;
-                meterLevels.__MarshalTo(ref native);
-                Unsafe.CopyBlockUnaligned(effectParameterPtr.ToPointer(), &native, (uint)sizeof(VolumeMeterLevels.__Native));
-                SetEffectParameters(effectIndex, effectParameterPtr, sizeof(VolumeMeterLevels.__Native), operationSet);
-            }
+            return SetEffectParameters(effectIndex, new IntPtr(&reverbParameters), sizeof(ReverbParameters), operationSet);
         }
 
-        protected override void Dispose(bool disposing)
+        public unsafe Result SetEffectParameters(int effectIndex, ReverbI3DL2Parameters reverbParameters, bool sevenDotOneReverb = true, int operationSet = 0)
         {
-            foreach (IntPtr ptr in _effectParameters)
-            {
-                Marshal.FreeHGlobal(ptr);
-            }
-            _effectParameters.Clear();
+            ReverbParameters reverbParametersNative = Fx.Fx.ReverbConvertI3DL2ToNative(reverbParameters, sevenDotOneReverb);
+            return SetEffectParameters(effectIndex, new IntPtr(&reverbParametersNative), sizeof(ReverbParameters), operationSet);
+        }
 
-            base.Dispose(disposing);
+        public unsafe Result SetEffectParameters(int effectIndex, VolumeMeterLevels meterLevels, int operationSet = 0)
+        {
+            VolumeMeterLevels.__Native native = default;
+            meterLevels.__MarshalTo(ref native);
+            return SetEffectParameters(effectIndex, new IntPtr(&native), sizeof(VolumeMeterLevels.__Native), operationSet);
         }
     }
 }

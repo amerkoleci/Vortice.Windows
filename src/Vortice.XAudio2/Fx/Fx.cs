@@ -37,8 +37,8 @@ namespace Vortice.XAudio2.Fx
             result.HighEQCutoff = 6;
 
             // The rest of the I3DL2 parameters map to the native property set
-            result.RoomFilterMain = I3DL2Parameters.Room / 100.0f;
-            result.RoomFilterHF = I3DL2Parameters.RoomHF / 100.0f;
+            result.RoomFilterMain = (float)I3DL2Parameters.Room / 100.0f;
+            result.RoomFilterHF = (float)I3DL2Parameters.RoomHF / 100.0f;
 
             if (I3DL2Parameters.DecayHFRatio >= 1.0f)
             {
