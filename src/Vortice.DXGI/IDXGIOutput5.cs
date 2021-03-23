@@ -10,7 +10,7 @@ namespace Vortice.DXGI
     {
         public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, params Format[] supportedFormats)
         {
-            if (VorticePlatformDetection.IsUAP)
+            if (PlatformDetection.IsAppContainerProcess)
             {
                 throw new PlatformNotSupportedException("IDXGIOutput5.DuplicateOutput1 is not supported on UAP platform");
             }

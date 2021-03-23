@@ -331,5 +331,7 @@
     <map method="ISwapChainPanelNative2::SetSwapChainHandle" hresult="true" check="false"/>
 
     <map method="ISurfaceImageSourceManagerNative::FlushAllSurfacesWithDevice" hresult="true" check="false"/>
+
+    <remove method="IDesktopWindowXamlSourceNative::PreTranslateMessage" />
   </mapping>
 </config>

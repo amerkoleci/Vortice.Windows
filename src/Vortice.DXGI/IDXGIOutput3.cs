@@ -16,7 +16,7 @@ namespace Vortice.DXGI
         /// <returns>Overlay support flags.</returns>
         public OverlaySupportFlags CheckOverlaySupport(Format format, IUnknown concernedDevice)
         {
-            if (VorticePlatformDetection.IsUAP)
+            if (PlatformDetection.IsAppContainerProcess)
             {
                 throw new PlatformNotSupportedException("IDXGIOutput3.CheckOverlaySupport is not supported on UAP platform");
             }
