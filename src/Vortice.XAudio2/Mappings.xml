@@ -10,8 +10,8 @@
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include</include-dir>
 
   <include file="xaudio2redist.h" attach="true" />
-  <include file="x3daudioredist.h" attach="true" output="X3DAudio" />
   <include file="xaudio2fxredist.h" attach="true" namespace="Vortice.XAudio2.Fx" output="Fx" />
+  <include file="x3daudioredist.h" attach="true" output="X3DAudio" />
 
   <extension>
     <define struct="System.Drawing.Point" sizeof="8" />

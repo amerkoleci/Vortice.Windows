@@ -184,11 +184,11 @@ namespace HelloDirect3D12
                 new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
             };
 
-            Span<byte> vertexShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Vertex,
-                shaderSource, "VSMain", out ID3D12ShaderReflection vertexShaderReflection);
+            byte[] vertexShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Vertex,
+                shaderSource, "VSMain", out ID3D12ShaderReflection? vertexShaderReflection);
 
-            Span<byte> pixelShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Pixel,
-                shaderSource, "PSMain", out ID3D12ShaderReflection pixelShaderReflection);
+            byte[] pixelShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Pixel,
+                shaderSource, "PSMain", out ID3D12ShaderReflection? pixelShaderReflection);
 
             PipelineStateStream pipelineStateStream = new PipelineStateStream
             {
@@ -350,28 +350,28 @@ namespace HelloDirect3D12
             return results.GetObjectBytecode();
         }
 
-        private static Span<byte> CompileBytecodeWithReflection(
+        private static byte[]? CompileBytecodeWithReflection(
             DxcShaderStage stage,
             string shaderSource,
             string entryPoint,
-            out ID3D12ShaderReflection reflection)
+            out ID3D12ShaderReflection? reflection)
         {
-            IDxcResult results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null, null, null, null);
-            if (results.GetStatus().Failure)
+            IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null, null, null, null);
+            if (results!.GetStatus().Failure)
             {
-                string errors = results.GetErrors();
+                string errors = results!.GetErrors();
                 Console.WriteLine($"Failed to compile shader: {errors}");
 
                 reflection = default;
                 return null;
             }
 
-            using (IDxcBlob reflectionData = results.GetOutput(DxcOutKind.Reflection))
+            using (IDxcBlob? reflectionData = results.GetOutput(DxcOutKind.Reflection))
             {
-                reflection = DxcCompiler.Utils.CreateReflection<ID3D12ShaderReflection>(reflectionData);
+                reflection = DxcCompiler.Utils!.CreateReflection<ID3D12ShaderReflection>(reflectionData);
             }
 
-            return results.GetObjectBytecode();
+            return results.GetObjectBytecodeArray();
         }
 
         [StructLayout(LayoutKind.Sequential)]

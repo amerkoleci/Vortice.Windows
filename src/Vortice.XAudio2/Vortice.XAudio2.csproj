@@ -3,27 +3,10 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <RootNamespace>Vortice.XAudio2</RootNamespace>
     <Description>XAudio2 and X3DAudio bindings</Description>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)native\win-x64\xaudio2_9redist.dll">
-      <PackagePath>runtimes\win-x64\native</PackagePath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="$(MSBuildThisFileDirectory)native\win-x86\xaudio2_9redist.dll">
-      <PackagePath>runtimes\win-x86\native</PackagePath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-
-    <Content Include="build\netstandard2.0\Vortice.XAudio2.targets">
-      <PackagePath>build/netstandard2.0/Vortice.XAudio2.targets</PackagePath>
-      <Pack>true</Pack>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />

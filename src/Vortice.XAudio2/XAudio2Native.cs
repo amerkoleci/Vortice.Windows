@@ -11,59 +11,118 @@ namespace Vortice.XAudio2
 {
     internal static unsafe class XAudio2Native
     {
-        private static readonly IntPtr s_xaudioLibrary = LoadXAudio2();
+        private static readonly IntPtr s_xaudioLibrary = LoadXAudioLibrary();
 
-        private static IntPtr LoadXAudio2()
+        private static IntPtr LoadXAudioLibrary()
         {
-            if (PlatformDetection.IsAppContainerProcess)
+#if NET5_0
+            IntPtr libraryHandle;
+            if(NativeLibrary.TryLoad("xaudio2_9.dll", out libraryHandle))
             {
-                s_XAudio2CreateCallback = XAudio29.XAudio2Create;
-                s_CreateAudioVolumeMeter = XAudio29.XAudio2CreateVolumeMeter;
-                s_CreateAudioReverb = XAudio29.XAudio2CreateReverb;
-                s_X3DAudioInitialize = XAudio29.X3DAudioInitialize;
-                s_X3DAudioCalculate = XAudio29.X3DAudioCalculate;
-                return IntPtr.Zero;
+                return libraryHandle;
             }
-            else
+            else if(NativeLibrary.TryLoad("xaudio2_9redist.dll", out libraryHandle))
             {
-                IntPtr nativeLib = IntPtr.Zero;
-                string rid = Environment.Is64BitProcess ? "win-x64" : "win-x86";
-                string assemblyLocation = Path.GetDirectoryName(typeof(XAudio2Native).Assembly.Location) ?? "./";
+                return libraryHandle;
+            }
 
-                if (nativeLib == IntPtr.Zero)
-                    nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "native", rid, "xaudio2_9redist.dll"));
+            return IntPtr.Zero;
+#else
+            string libraryPath = GetLibraryPath("xaudio2_9.dll");
 
-                if (nativeLib == IntPtr.Zero)
+            IntPtr handle = Win32.LoadLibrary(libraryPath);
+            if (handle == IntPtr.Zero)
+            {
+                libraryPath = GetLibraryPath("xaudio2_9redist.dll");
+                handle = Win32.LoadLibrary(libraryPath);
+                if (handle == IntPtr.Zero)
                 {
-                    if (Environment.Is64BitProcess)
-                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "x64/xaudio2_9redist.dll"));
-                    else
-                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "x86/xaudio2_9redist.dll"));
+                    throw new DllNotFoundException("Unable to load xaudio2_9.dll or xaudio2_9redist.dll library.");
+                }
+            }
 
-                    if (nativeLib == IntPtr.Zero)
-                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "../../runtimes", rid, "native/xaudio2_9redist.dll"));
+            return handle;
 
-                    if (nativeLib == IntPtr.Zero)
-                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "runtimes", rid, "native/xaudio2_9redist.dll"));
+            static string GetLibraryPath(string libraryName)
+            {
+                bool isArm = RuntimeInformation.ProcessArchitecture == Architecture.Arm || RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
 
-                    // Last try from executable folder.
-                    if (nativeLib == IntPtr.Zero)
-                        nativeLib = LoadLibraryW(Path.Combine(assemblyLocation, "xaudio2_9redist.dll"));
+                var arch = Environment.Is64BitProcess
+                    ? isArm ? "arm64" : "x64"
+                    : isArm ? "arm" : "x86";
+
+                // 1. try alongside managed assembly
+                var path = typeof(XAudio2Native).Assembly.Location;
+                if (!string.IsNullOrEmpty(path))
+                {
+                    path = Path.GetDirectoryName(path);
+                    // 1.1 in platform sub dir
+                    var lib = Path.Combine(path, arch, libraryName);
+                    if (File.Exists(lib))
+                        return lib;
+                    // 1.2 in root
+                    lib = Path.Combine(path, libraryName);
+                    if (File.Exists(lib))
+                        return lib;
                 }
 
-                if (nativeLib == IntPtr.Zero)
+                // 2. try current directory
+                path = Directory.GetCurrentDirectory();
+                if (!string.IsNullOrEmpty(path))
                 {
-                    throw new PlatformNotSupportedException("Cannot load native libraries on this platform: " + RuntimeInformation.OSDescription);
+                    // 2.1 in platform sub dir
+                    var lib = Path.Combine(path, arch, libraryName);
+                    if (File.Exists(lib))
+                        return lib;
+                    // 2.2 in root
+                    lib = Path.Combine(lib, libraryName);
+                    if (File.Exists(lib))
+                        return lib;
                 }
 
-                s_XAudio2CreateCallback = LoadFunction<XAudio2CreateDelegate>(nativeLib, "XAudio2Create");
-                s_CreateAudioReverb = LoadFunction<CreateAudioReverbDelegate>(nativeLib, "CreateAudioReverb");
-                s_CreateAudioVolumeMeter = LoadFunction<CreateAudioVolumeMeterDelegate>(nativeLib, "CreateAudioVolumeMeter");
-                s_X3DAudioInitialize = LoadFunction<X3DAudioInitializeDelegate>(nativeLib, "X3DAudioInitialize");
-                s_X3DAudioCalculate = LoadFunction<X3DAudioCalculateDelegate>(nativeLib, "X3DAudioCalculate");
-                return nativeLib;
+                // 3. try app domain
+                try
+                {
+                    if (AppDomain.CurrentDomain is AppDomain domain)
+                    {
+                        // 3.1 RelativeSearchPath
+                        path = domain.RelativeSearchPath;
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            // 3.1.1 in platform sub dir
+                            var lib = Path.Combine(path, arch, libraryName);
+                            if (File.Exists(lib))
+                                return lib;
+                            // 3.1.2 in root
+                            lib = Path.Combine(lib, libraryName);
+                            if (File.Exists(lib))
+                                return lib;
+                        }
 
+                        // 3.2 BaseDirectory
+                        path = domain.BaseDirectory;
+                        if (!string.IsNullOrEmpty(path))
+                        {
+                            // 3.2.1 in platform sub dir
+                            string? lib = Path.Combine(path, arch, libraryName);
+                            if (File.Exists(lib))
+                                return lib;
+                            // 3.2.2 in root
+                            lib = Path.Combine(lib, libraryName);
+                            if (File.Exists(lib))
+                                return lib;
+                        }
+                    }
+                }
+                catch
+                {
+                    // no-op as there may not be any domain or path
+                }
+
+                // 4. use PATH or default loading mechanism
+                return libraryName;
             }
+#endif
         }
 
         public static IntPtr XAudio2Create(int flags, ProcessorSpecifier processorSpecifier)
@@ -100,7 +159,7 @@ namespace Vortice.XAudio2
             emitter.__MarshalFree(ref nativeEmitter);
         }
 
-        public static Result CreateAudioVolumeMeter(out ComObject volumeMeter) 
+        public static Result CreateAudioVolumeMeter(out ComObject? volumeMeter)
         {
             unsafe
             {
@@ -117,7 +176,7 @@ namespace Vortice.XAudio2
             }
         }
 
-        public static Result CreateAudioReverb(out ComObject reverb) 
+        public static Result CreateAudioReverb(out ComObject? reverb)
         {
             unsafe
             {
@@ -140,15 +199,19 @@ namespace Vortice.XAudio2
         private delegate int X3DAudioInitializeDelegate(int arg0, float arg1, void* arg2);
         private delegate void X3DAudioCalculateDelegate(void* arg0, void* arg1, void* arg2, int arg3, void* arg4);
 
-        private static XAudio2CreateDelegate s_XAudio2CreateCallback;
-        private static CreateAudioReverbDelegate s_CreateAudioReverb;
-        private static CreateAudioVolumeMeterDelegate s_CreateAudioVolumeMeter;
-        private static X3DAudioInitializeDelegate s_X3DAudioInitialize;
-        private static X3DAudioCalculateDelegate s_X3DAudioCalculate;
+        private static XAudio2CreateDelegate s_XAudio2CreateCallback = LoadFunction<XAudio2CreateDelegate>(nameof(XAudio2Create));
+        private static CreateAudioReverbDelegate s_CreateAudioReverb = LoadFunction<CreateAudioReverbDelegate>(nameof(CreateAudioReverb));
+        private static CreateAudioVolumeMeterDelegate s_CreateAudioVolumeMeter = LoadFunction<CreateAudioVolumeMeterDelegate>(nameof(CreateAudioVolumeMeter));
+        private static X3DAudioInitializeDelegate s_X3DAudioInitialize = LoadFunction<X3DAudioInitializeDelegate>(nameof(X3DAudioInitialize));
+        private static X3DAudioCalculateDelegate s_X3DAudioCalculate = LoadFunction<X3DAudioCalculateDelegate>(nameof(X3DAudioCalculate));
 
-        private static T LoadFunction<T>(IntPtr module, string name)
+        private static T LoadFunction<T>(string name)
         {
-            IntPtr functionPtr = GetProcAddress(module, name);
+#if NET5_0
+            IntPtr functionPtr = NativeLibrary.GetExport(s_xaudioLibrary, name);
+#else
+            IntPtr functionPtr = Win32.GetProcAddress(s_xaudioLibrary, name);
+#endif
             if (functionPtr == IntPtr.Zero)
             {
                 throw new InvalidOperationException($"No function was found with the name {name}.");
@@ -157,10 +220,22 @@ namespace Vortice.XAudio2
             return Marshal.GetDelegateForFunctionPointer<T>(functionPtr);
         }
 
-        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
-        private static extern IntPtr LoadLibraryW(string lpszLib);
+#pragma warning disable IDE1006 // Naming Styles
+#if !NET5_0
+        private static class Win32
+        {
+            private const string SystemLibrary = "Kernel32.dll";
 
-        [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-        private static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+            [DllImport(SystemLibrary, SetLastError = true, CharSet = CharSet.Ansi)]
+            public static extern IntPtr LoadLibrary(string lpFileName);
+
+            [DllImport(SystemLibrary, SetLastError = true, CharSet = CharSet.Ansi)]
+            public static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+
+            [DllImport(SystemLibrary, SetLastError = true, CharSet = CharSet.Ansi)]
+            public static extern void FreeLibrary(IntPtr hModule);
+        }
+#endif
+#pragma warning restore IDE1006 // Naming Styles
     }
 }
