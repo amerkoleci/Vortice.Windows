@@ -9,39 +9,41 @@ namespace Vortice.Dxc
 {
     public static class DxcCompiler
     {
-        public static readonly IDxcUtils Utils = Dxc.CreateDxcUtils();
-        public static readonly IDxcCompiler3 Compiler = Dxc.CreateDxcCompiler3();
+        public static readonly IDxcUtils? Utils = Dxc.CreateDxcUtils();
+        public static readonly IDxcCompiler3? Compiler = Dxc.CreateDxcCompiler3();
 
-        public static IDxcResult Compile(string shaderSource, string[] arguments, IDxcIncludeHandler includeHandler = null)
+        public static IDxcResult? Compile(string shaderSource, string[] arguments, IDxcIncludeHandler? includeHandler = null)
         {
             if (includeHandler == null)
             {
-                using (includeHandler = Utils.CreateDefaultIncludeHandler())
+                using (includeHandler = Utils!.CreateDefaultIncludeHandler())
                 {
-                    return Compiler.Compile(shaderSource, arguments, includeHandler);
+                    return Compiler!.Compile(shaderSource, arguments, includeHandler);
                 }
             }
             else
             {
-                return Compiler.Compile(shaderSource, arguments, includeHandler);
+                return Compiler!.Compile(shaderSource, arguments, includeHandler);
             }
         }
 
-        public static IDxcResult Compile(DxcShaderStage shaderStage, string source, string entryPoint,
-            DxcCompilerOptions options = null,
-            string fileName = null,
-            DxcDefine[] defines = null,
-            IDxcIncludeHandler includeHandler = null)
+        public static IDxcResult? Compile(DxcShaderStage shaderStage, string source, string entryPoint,
+            DxcCompilerOptions? options = null,
+            string? fileName = null,
+            DxcDefine[]? defines = null,
+            IDxcIncludeHandler? includeHandler = null)
         {
             if (options == null)
+            {
                 options = new DxcCompilerOptions();
+            }
 
             string profile = GetShaderProfile(shaderStage, options.ShaderModel);
 
             var arguments = new List<string>();
             if (!string.IsNullOrEmpty(fileName))
             {
-                arguments.Add(fileName);
+                arguments.Add(fileName!);
             }
 
             arguments.Add("-E");
@@ -163,14 +165,14 @@ namespace Vortice.Dxc
 
             if (includeHandler == null)
             {
-                using (includeHandler = Utils.CreateDefaultIncludeHandler())
+                using (includeHandler = Utils!.CreateDefaultIncludeHandler())
                 {
-                    return Compiler.Compile(source, arguments.ToArray(), includeHandler);
+                    return Compiler!.Compile(source, arguments.ToArray(), includeHandler);
                 }
             }
             else
             {
-                return Compiler.Compile(source, arguments.ToArray(), includeHandler);
+                return Compiler!.Compile(source, arguments.ToArray(), includeHandler);
             }
         }
 

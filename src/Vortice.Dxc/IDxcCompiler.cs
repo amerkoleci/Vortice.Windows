@@ -15,7 +15,7 @@ namespace Vortice.Dxc
         }
 
         #region Compile
-        public IDxcOperationResult Compile(IDxcBlob source,
+        public IDxcOperationResult? Compile(IDxcBlob source,
             string sourceName,
             string entryPoint,
             string targetProfile,
@@ -34,7 +34,7 @@ namespace Vortice.Dxc
                 includeHandler);
         }
 
-        public unsafe IDxcOperationResult Compile(IDxcBlob source,
+        public unsafe IDxcOperationResult? Compile(IDxcBlob source,
             string sourceName,
             string entryPoint,
             string targetProfile,
@@ -57,12 +57,12 @@ namespace Vortice.Dxc
                     (IntPtr)argumentsPtr, argumentsCount,
                     defines,
                     includeHandler,
-                    out IDxcOperationResult result);
+                    out IDxcOperationResult? result);
 
                 if (hr.Failure)
                 {
                     result = default;
-                    return default;
+                    return result;
                 }
 
                 return result;
@@ -82,7 +82,7 @@ namespace Vortice.Dxc
             string targetProfile,
             string[] arguments,
             DxcDefine[] defines,
-            IDxcIncludeHandler includeHandler, out IDxcOperationResult result)
+            IDxcIncludeHandler includeHandler, out IDxcOperationResult? result)
         {
             return Compile(
                 source,
@@ -104,7 +104,7 @@ namespace Vortice.Dxc
                                      int argumentsCount,
                                      DxcDefine[] defines,
                                      IDxcIncludeHandler includeHandler,
-                                     out IDxcOperationResult result)
+                                     out IDxcOperationResult? result)
         {
 
             IntPtr* argumentsPtr = (IntPtr*)0;
@@ -142,7 +142,7 @@ namespace Vortice.Dxc
         #endregion Compile
 
         #region Preprocess
-        public IDxcOperationResult Preprocess(IDxcBlob source,
+        public IDxcOperationResult? Preprocess(IDxcBlob source,
             string sourceName,
             string[] arguments,
             DxcDefine[] defines,
@@ -157,7 +157,7 @@ namespace Vortice.Dxc
                 includeHandler);
         }
 
-        public unsafe IDxcOperationResult Preprocess(IDxcBlob source,
+        public unsafe IDxcOperationResult? Preprocess(IDxcBlob source,
             string sourceName,
             string[] arguments,
             int argumentsCount,
@@ -177,7 +177,7 @@ namespace Vortice.Dxc
                     (IntPtr)argumentsPtr, argumentsCount,
                     defines,
                     includeHandler,
-                    out IDxcOperationResult result);
+                    out IDxcOperationResult? result);
 
                 if (hr.Failure)
                 {
@@ -201,7 +201,7 @@ namespace Vortice.Dxc
             string[] arguments,
             DxcDefine[] defines,
             IDxcIncludeHandler includeHandler,
-            out IDxcOperationResult result)
+            out IDxcOperationResult? result)
         {
             return Preprocess(
                 source,
@@ -219,7 +219,7 @@ namespace Vortice.Dxc
             int argumentsCount,
             DxcDefine[] defines,
             IDxcIncludeHandler includeHandler,
-            out IDxcOperationResult result)
+            out IDxcOperationResult? result)
         {
             IntPtr* argumentsPtr = (IntPtr*)0;
 

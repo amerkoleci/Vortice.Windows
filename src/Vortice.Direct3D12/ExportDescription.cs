@@ -17,7 +17,7 @@ namespace Vortice.Direct3D12
         /// </param>
         /// <param name="exportToRename">If non-null, this is the name of an export to use but then rename when exported.</param>
         /// <param name="flags">The flags to apply to the export.</param>
-        public ExportDescription(string name, string exportToRename, ExportFlags flags = ExportFlags.None)
+        public ExportDescription(string name, string? exportToRename = null, ExportFlags flags = ExportFlags.None)
         {
             Name = name;
             ExportToRename = exportToRename;

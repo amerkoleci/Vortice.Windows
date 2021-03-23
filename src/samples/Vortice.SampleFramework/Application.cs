@@ -11,8 +11,8 @@ namespace Vortice
         private bool _paused;
         private bool _exitRequested;
 
-        protected IGraphicsDevice _graphicsDevice;
-        public Window MainWindow { get; private set; }
+        protected IGraphicsDevice? _graphicsDevice;
+        public Window? MainWindow { get; private set; }
 
         protected Application()
         {
@@ -21,7 +21,7 @@ namespace Vortice
 
         public void Dispose()
         {
-            _graphicsDevice.Dispose();
+            _graphicsDevice?.Dispose();
         }
 
         protected virtual void InitializeBeforeRun()
@@ -30,7 +30,7 @@ namespace Vortice
 
         public void Tick()
         {
-            _graphicsDevice.DrawFrame(OnDraw);
+            _graphicsDevice!.DrawFrame(OnDraw);
         }
 
         public void Run()

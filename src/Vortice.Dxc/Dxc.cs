@@ -27,51 +27,51 @@ namespace Vortice.Dxc
         public const int DXC_CP_ACP = 0;
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static IDxcCompiler CreateDxcCompiler()
+        public static IDxcCompiler? CreateDxcCompiler()
         {
-            DxcCreateInstance(CLSID_DxcCompiler, out IDxcCompiler result).CheckError();
+            DxcCreateInstance(CLSID_DxcCompiler, out IDxcCompiler? result).CheckError();
             return result;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static IDxcCompiler2 CreateDxcCompiler2()
+        public static IDxcCompiler2? CreateDxcCompiler2()
         {
-            DxcCreateInstance(CLSID_DxcCompiler, out IDxcCompiler2 result).CheckError();
+            DxcCreateInstance(CLSID_DxcCompiler, out IDxcCompiler2? result).CheckError();
             return result;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static IDxcCompiler3 CreateDxcCompiler3()
+        public static IDxcCompiler3? CreateDxcCompiler3()
         {
-            DxcCreateInstance(CLSID_DxcCompiler, out IDxcCompiler3 result).CheckError();
+            DxcCreateInstance(CLSID_DxcCompiler, out IDxcCompiler3? result).CheckError();
             return result;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static IDxcUtils CreateDxcUtils()
+        public static IDxcUtils? CreateDxcUtils()
         {
-            DxcCreateInstance(CLSID_DxcUtils, out IDxcUtils result).CheckError();
+            DxcCreateInstance(CLSID_DxcUtils, out IDxcUtils? result).CheckError();
             return result;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static IDxcAssembler CreateDxcAssembler()
+        public static IDxcAssembler? CreateDxcAssembler()
         {
-            DxcCreateInstance(CLSID_DxcAssembler, out IDxcAssembler result).CheckError();
+            DxcCreateInstance(CLSID_DxcAssembler, out IDxcAssembler? result).CheckError();
             return result;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static IDxcLinker CreateDxcLinker()
+        public static IDxcLinker? CreateDxcLinker()
         {
-            DxcCreateInstance(CLSID_DxcLinker, out IDxcLinker result).CheckError();
+            DxcCreateInstance(CLSID_DxcLinker, out IDxcLinker? result).CheckError();
             return result;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static IDxcContainerReflection CreateDxcContainerReflection()
+        public static IDxcContainerReflection? CreateDxcContainerReflection()
         {
-            DxcCreateInstance(CLSID_DxcContainerReflection, out IDxcContainerReflection result).CheckError();
+            DxcCreateInstance(CLSID_DxcContainerReflection, out IDxcContainerReflection? result).CheckError();
             return result;
         }
 
@@ -87,7 +87,7 @@ namespace Vortice.Dxc
             }
         }
 
-        public static Result DxcCreateInstance<T>(Guid classGuid, out T instance) where T : ComObject
+        public static Result DxcCreateInstance<T>(Guid classGuid, out T? instance) where T : ComObject
         {
             Result result = DxcCreateInstance(classGuid, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)

@@ -9,14 +9,14 @@ namespace Vortice.Dxc
 {
     public partial class IDxcCompiler2
     {
-        public IDxcOperationResult CompileWithDebug(IDxcBlob source,
+        public IDxcOperationResult? CompileWithDebug(IDxcBlob source,
             string sourceName,
             string entryPoint,
             string targetProfile,
             string[] arguments,
             DxcDefine[] defines,
             IDxcIncludeHandler includeHandler,
-            out string debugBlobName, out IDxcBlob debugBlob)
+            out string? debugBlobName, out IDxcBlob? debugBlob)
         {
             return CompileWithDebug(
                 source,
@@ -30,7 +30,7 @@ namespace Vortice.Dxc
                 out debugBlobName, out debugBlob);
         }
 
-        public unsafe IDxcOperationResult CompileWithDebug(IDxcBlob source,
+        public unsafe IDxcOperationResult? CompileWithDebug(IDxcBlob source,
             string sourceName,
             string entryPoint,
             string targetProfile,
@@ -38,7 +38,7 @@ namespace Vortice.Dxc
             int argumentsCount,
             DxcDefine[] defines,
             IDxcIncludeHandler includeHandler,
-            out string debugBlobName, out IDxcBlob debugBlob)
+            out string? debugBlobName, out IDxcBlob? debugBlob)
         {
 
             IntPtr* argumentsPtr = (IntPtr*)0;
@@ -56,7 +56,7 @@ namespace Vortice.Dxc
                     (IntPtr)argumentsPtr, argumentsCount,
                     defines,
                     includeHandler,
-                    out IDxcOperationResult result,
+                    out IDxcOperationResult? result,
                     out var debugBlobNameOut,
                     out debugBlob);
 
@@ -93,7 +93,7 @@ namespace Vortice.Dxc
             string[] arguments,
             DxcDefine[] defines,
             IDxcIncludeHandler includeHandler,
-            out IDxcOperationResult result, out string debugBlobName, out IDxcBlob debugBlob)
+            out IDxcOperationResult? result, out string? debugBlobName, out IDxcBlob? debugBlob)
         {
             return CompileWithDebug(
                 source,
@@ -115,8 +115,8 @@ namespace Vortice.Dxc
                                               int argumentsCount,
                                               DxcDefine[] defines,
                                               IDxcIncludeHandler includeHandler,
-                                              out IDxcOperationResult result,
-                                              out string debugBlobName, out IDxcBlob debugBlob)
+                                              out IDxcOperationResult? result,
+                                              out string? debugBlobName, out IDxcBlob? debugBlob)
         {
 
             IntPtr* argumentsPtr = (IntPtr*)0;

@@ -32,7 +32,7 @@ namespace Vortice.Dxc
             return result;
         }
 
-        public T GetPartReflection<T>(int index) where T : ComObject
+        public T? GetPartReflection<T>(int index) where T : ComObject
         {
             Result result = GetPartReflection(index, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -43,7 +43,7 @@ namespace Vortice.Dxc
             return FromPointer<T>(nativePtr);
         }
 
-        public Result GetPartReflection<T>(int index, out T @object) where T : ComObject
+        public Result GetPartReflection<T>(int index, out T? @object) where T : ComObject
         {
             Result result = GetPartReflection(index, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)

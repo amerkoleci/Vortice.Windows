@@ -12,7 +12,7 @@ namespace Vortice.Direct3D12
     /// </summary>
     public partial class ShaderBytecode
     {
-        public byte[] Data { get; set; }
+        public byte[]? Data { get; set; }
 
         public ShaderBytecode()
         {
@@ -23,11 +23,6 @@ namespace Vortice.Direct3D12
             Data = data;
         }
 
-        public ShaderBytecode(Span<byte> data)
-        {
-            Data = data.ToArray();
-        }
-
         public ShaderBytecode(IntPtr bytecode, PointerSize length)
         {
             Data = new byte[length];
@@ -35,11 +30,6 @@ namespace Vortice.Direct3D12
         }
 
         public static implicit operator ShaderBytecode(byte[] buffer)
-        {
-            return new ShaderBytecode(buffer);
-        }
-
-        public static implicit operator ShaderBytecode(Span<byte> buffer)
         {
             return new ShaderBytecode(buffer);
         }

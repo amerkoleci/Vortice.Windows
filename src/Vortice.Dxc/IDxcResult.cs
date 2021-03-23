@@ -11,29 +11,45 @@ namespace Vortice.Dxc
     {
         public string GetErrors()
         {
-            using (IDxcBlobUtf8 errors = GetOutput<IDxcBlobUtf8>(DxcOutKind.Errors))
+            using (IDxcBlobUtf8? errors = GetOutput<IDxcBlobUtf8>(DxcOutKind.Errors))
             {
-                return errors.StringPointer;
+                return errors!.StringPointer;
             }
         }
 
         public Span<byte> GetObjectBytecode()
         {
-            using (IDxcBlob blob = GetOutput(DxcOutKind.Object))
+            using (IDxcBlob? blob = GetOutput(DxcOutKind.Object))
             {
-                return blob.AsByte();
+                return blob!.AsByte();
             }
         }
 
-        public Span<byte> GetObjectBytecode(out IDxcBlobUtf16 outputName)
+        public Span<byte> GetObjectBytecode(out IDxcBlobUtf16? outputName)
         {
-            using (IDxcBlob blob = GetOutput<IDxcBlob>(DxcOutKind.Object, out outputName))
+            using (IDxcBlob? blob = GetOutput<IDxcBlob>(DxcOutKind.Object, out outputName))
             {
-                return blob.AsByte();
+                return blob!.AsByte();
             }
         }
 
-        public IDxcBlob GetOutput(DxcOutKind kind)
+        public byte[] GetObjectBytecodeArray()
+        {
+            using (IDxcBlob? blob = GetOutput(DxcOutKind.Object))
+            {
+                return blob!.ToArray();
+            }
+        }
+
+        public byte[] GetObjectBytecodeArray(out IDxcBlobUtf16? outputName)
+        {
+            using (IDxcBlob? blob = GetOutput<IDxcBlob>(DxcOutKind.Object, out outputName))
+            {
+                return blob!.ToArray();
+            }
+        }
+
+        public IDxcBlob? GetOutput(DxcOutKind kind)
         {
             Result result = GetOutput(kind, typeof(IDxcBlob).GUID, out IntPtr nativePtr, IntPtr.Zero);
             if (result.Failure)
@@ -45,7 +61,7 @@ namespace Vortice.Dxc
         }
 
 
-        public T GetOutput<T>(DxcOutKind kind) where T : ComObject
+        public T? GetOutput<T>(DxcOutKind kind) where T : ComObject
         {
             Result result = GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, IntPtr.Zero);
             if (result.Failure)
@@ -56,7 +72,7 @@ namespace Vortice.Dxc
             return FromPointer<T>(nativePtr);
         }
 
-        public unsafe T GetOutput<T>(DxcOutKind kind, out IDxcBlobUtf16 outputName) where T : ComObject
+        public unsafe T? GetOutput<T>(DxcOutKind kind, out IDxcBlobUtf16? outputName) where T : ComObject
         {
             IntPtr outputNamePtr = IntPtr.Zero;
             Result result = GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, new IntPtr(&outputNamePtr));
@@ -70,7 +86,7 @@ namespace Vortice.Dxc
             return FromPointer<T>(nativePtr);
         }
 
-        public Result GetOutput<T>(DxcOutKind kind, out T @object) where T : ComObject
+        public Result GetOutput<T>(DxcOutKind kind, out T? @object) where T : ComObject
         {
             Result result = GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, IntPtr.Zero);
             if (result.Failure)
@@ -83,7 +99,7 @@ namespace Vortice.Dxc
             return result;
         }
 
-        public unsafe Result GetOutput<T>(DxcOutKind kind, out T @object, out IDxcBlobUtf16 outputName) where T : ComObject
+        public unsafe Result GetOutput<T>(DxcOutKind kind, out T? @object, out IDxcBlobUtf16? outputName) where T : ComObject
         {
             IntPtr outputNamePtr = IntPtr.Zero;
             Result result = GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, new IntPtr(&outputNamePtr));

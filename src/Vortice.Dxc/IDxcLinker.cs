@@ -8,19 +8,19 @@ namespace Vortice.Dxc
 {
     public partial class IDxcLinker
     {
-        public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, string[] arguments)
+        public IDxcOperationResult? Link(string entryName, string targetProfile, string[] libNames, string[] arguments)
         {
-            Link(entryName, targetProfile, libNames, arguments, out IDxcOperationResult result);
+            Link(entryName, targetProfile, libNames, arguments, out IDxcOperationResult? result);
             return result;
         }
 
-        public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount)
+        public IDxcOperationResult? Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount)
         {
-            Link(entryName, targetProfile, libNames, libCount, arguments, argumentsCount, out IDxcOperationResult result);
+            Link(entryName, targetProfile, libNames, libCount, arguments, argumentsCount, out IDxcOperationResult? result);
             return result;
         }
 
-        public unsafe Result Link(string entryName, string targetProfile, string[] libNames, string[] arguments, out IDxcOperationResult result)
+        public unsafe Result Link(string entryName, string targetProfile, string[] libNames, string[] arguments, out IDxcOperationResult? result)
         {
             IntPtr* libNamesPtr = (IntPtr*)0;
             IntPtr* argumentsPtr = (IntPtr*)0;
@@ -61,7 +61,7 @@ namespace Vortice.Dxc
             }
         }
 
-        public unsafe Result Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount, out IDxcOperationResult result)
+        public unsafe Result Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount, out IDxcOperationResult? result)
         {
             IntPtr* libNamesPtr = (IntPtr*)0;
             IntPtr* argumentsPtr = (IntPtr*)0;

@@ -33,7 +33,7 @@ namespace Vortice
                 ClassName = WndClassName,
             };
 
-            var atom = RegisterClassEx(ref wndClassEx);
+            ushort atom = RegisterClassEx(ref wndClassEx);
 
             if (atom == 0)
             {

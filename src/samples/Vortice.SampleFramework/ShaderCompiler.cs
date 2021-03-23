@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.InteropServices;
+using SharpGen.Runtime;
 
 namespace Vortice
 {
@@ -15,7 +16,7 @@ namespace Vortice
 
     public static class ShaderCompiler
     {
-        public static byte[] Compile(string source, ShaderStage stage, string entryPoint = "", string fileName = "")
+        public static byte[]? Compile(string source, ShaderStage stage, string entryPoint = "", string fileName = "")
         {
             if (string.IsNullOrEmpty(entryPoint))
             {
@@ -23,8 +24,8 @@ namespace Vortice
             }
 
             uint flags = 0;
-            var shaderProfile = $"{GetShaderProfile(stage)}_5_0";
-            int hr = D3DCompiler.D3DCompiler.D3DCompile(
+            string shaderProfile = $"{GetShaderProfile(stage)}_5_0";
+            Result hr = D3DCompiler.D3DCompiler.D3DCompile(
                 source,
                 source.Length,
                 fileName,
@@ -35,9 +36,9 @@ namespace Vortice
                 flags,
                 0,
                 out D3DCompiler.IDxcBlob blob,
-                out var errorMsgs);
+                out D3DCompiler.IDxcBlob? errorMsgs);
 
-            if (hr != 0)
+            if (hr.Failure)
             {
                 if (errorMsgs != null)
                 {
@@ -94,12 +95,9 @@ namespace Vortice
             }
         }
 
-        public static string GetStringFromBlob(D3DCompiler.IDxcBlob blob)
+        public static unsafe string? GetStringFromBlob(D3DCompiler.IDxcBlob blob)
         {
-            unsafe
-            {
-                return Marshal.PtrToStringAnsi((IntPtr)blob.GetBufferPointer());
-            }
+            return Marshal.PtrToStringAnsi((IntPtr)blob.GetBufferPointer());
         }
 
         public static byte[] GetBytesFromBlob(D3DCompiler.IDxcBlob blob)
@@ -129,6 +127,7 @@ namespace D3DCompiler
 
     using System;
     using System.Runtime.InteropServices;
+    using SharpGen.Runtime;
 
     [ComImport]
     [Guid("8BA5FB08-5195-40e2-AC58-0D989C3A0102")]
@@ -152,19 +151,19 @@ namespace D3DCompiler
     internal static class D3DCompiler
     {
         [DllImport("d3dcompiler_47.dll", CallingConvention = CallingConvention.Winapi, SetLastError = false, CharSet = CharSet.Ansi, ExactSpelling = true)]
-        public extern static Int32 D3DCompile(
+        public extern static Result D3DCompile(
             [MarshalAs(UnmanagedType.LPStr)] string srcData, int srcDataSize,
             [MarshalAs(UnmanagedType.LPStr)] string sourceName,
             [MarshalAs(UnmanagedType.LPArray)] D3D_SHADER_MACRO[] defines,
             int pInclude,
             [MarshalAs(UnmanagedType.LPStr)] string entryPoint,
             [MarshalAs(UnmanagedType.LPStr)] string target,
-            UInt32 Flags1,
-            UInt32 Flags2,
-            out IDxcBlob code, out IDxcBlob errorMsgs);
+            uint Flags1,
+            uint Flags2,
+            out IDxcBlob code, out IDxcBlob? errorMsgs);
 
         [DllImport("d3dcompiler_47.dll", CallingConvention = CallingConvention.Winapi, SetLastError = false, CharSet = CharSet.Ansi, ExactSpelling = true)]
-        public extern static Int32 D3DDisassemble(
+        public extern static Result D3DDisassemble(
             IntPtr ptr, uint ptrSize, uint flags,
             [MarshalAs(UnmanagedType.LPStr)] string szComments,
             out IDxcBlob disassembly);
