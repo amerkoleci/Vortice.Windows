@@ -2,7 +2,7 @@
 <config id="vortice-xaudio2" xmlns="urn:SharpGen.Config">
   <assembly>Vortice.XAudio2</assembly>
   <namespace>Vortice.XAudio2</namespace>
-  <depends>Vortice.Runtime.COM</depends>
+  <depends>SharpGen.Runtime.COM</depends>
   <depends>Vortice.Multimedia</depends>
 
   <sdk name="WindowsSdk" version="10.0.19041.0" />

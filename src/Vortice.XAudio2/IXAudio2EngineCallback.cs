@@ -10,9 +10,6 @@ namespace Vortice.XAudio2
     [Shadow(typeof(IXAudio2EngineCallbackShadow))]
     internal partial interface IXAudio2EngineCallback
     {
-        void OnProcessingPassStart();
-        void OnProcessingPassEnd();
-        void OnCriticalError(Result error);
     }
 
     internal class IXAudio2EngineCallbackShadow : CppObjectShadow
@@ -39,9 +36,9 @@ namespace Vortice.XAudio2
                 callback.OnProcessingPassStart();
             }
 
-            /// <summary>	
-            /// Called by XAudio2 just after an audio processing pass ends.	
-            /// </summary>	
+            /// <summary>
+            /// Called by XAudio2 just after an audio processing pass ends.
+            /// </summary>
             /// <unmanaged>void IXAudio2EngineCallback::OnProcessingPassEnd()</unmanaged>
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             private delegate void OnProcessingPassEndDelegate(IntPtr thisObject);
@@ -52,8 +49,8 @@ namespace Vortice.XAudio2
                 callback.OnProcessingPassEnd();
             }
 
-            /// <summary>	
-            /// Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.	
+            /// <summary>
+            /// Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.
             /// </summary>
             /// <param name="thisObject">This pointer</param>
             /// <param name="error"> Error code returned by XAudio2. </param>

@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -9,8 +11,8 @@
 
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <ProjectReference Include="..\Vortice.Runtime.COM\Vortice.Runtime.COM.csproj" />
-    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
+    <SharpGenExtensionPackage Include="SharpGen.Extension.MicrosoftDocs" Version="$(SharpGenVersion)" Condition="'$(TestDocs)' == 'true'" />
+    <PackageReference Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
   </ItemGroup>
 
   <ItemGroup>

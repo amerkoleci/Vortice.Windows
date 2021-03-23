@@ -2,7 +2,7 @@
 <config id="vortice-dxc" xmlns="urn:SharpGen.Config">
   <assembly>Vortice.Dxc</assembly>
   <namespace>Vortice.Dxc</namespace>
-  <depends>Vortice.Runtime.COM</depends>
+  <depends>SharpGen.Runtime.COM</depends>
 
   <sdk name="StdLib" />
   <sdk name="WindowsSdk" version="10.0.19041.0" />
@@ -27,9 +27,6 @@
   <mapping>
     <map enum="DXC(\d+)(.*)" name-tmp="$2" />
     <map struct="Dxc(\d+)(.*)" name-tmp="$2" />
-
-    <remove method="IDxcBlobUtf16::GetStringPointer" />
-    <remove method="IDxcCompilerArgs::GetArguments" />
 
     <map method="IDxcUtils::(.*)" property="false" hresult="true" check="false"/>
     <map method="IDxcUtils::CreateReflection" visibility="private" hresult="true" check="false"/>
@@ -60,13 +57,15 @@
     <map param="IDxcCompiler3::Compile::pArguments" type="void" />
     <map method="IDxcCompiler3::Disassemble" visibility="internal" hresult="true" check="false"/>
 
+    <map param="IDxcCompiler.*::Compile.*::defineCount" relation="length(pDefines)" />
+    <map param="IDxcCompiler.*::Preprocess::defineCount" relation="length(pDefines)" />
+
     <map method="IDxcCompilerArgs::AddArguments" visibility="private" hresult="true" check="false"/>
-    <map param="IDxcCompilerArgs::AddArguments::pArguments" type="void" />
     
     <map method="IDxcCompilerArgs::AddArgumentsUTF8" visibility="private" hresult="true" check="false"/>
-    <map param="IDxcCompilerArgs::AddArgumentsUTF8::pArguments" type="void" />
     <map method="IDxcCompilerArgs::AddDefines" hresult="true" check="false"/>
-
+    <map param="IDxcCompilerArgs::AddDefines::defineCount" relation="length(pDefines)" />
+    
     <map method="IDxcContainerBuilder::(.*)" hresult="true" check="false"/>
     
     <map method="IDxcContainerReflection::(.*)" hresult="true" check="false"/>

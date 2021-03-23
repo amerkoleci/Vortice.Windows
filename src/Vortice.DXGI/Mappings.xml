@@ -27,7 +27,7 @@
   <include file="microsoft.ui.xaml.window.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
   <include file="microsoft.ui.xaml.hosting.desktopwindowxamlsource.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
   <include file="microsoft.ui.xaml.xamlroot.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
-  
+  <include file="microsoft.ui.xaml.media.dxinterop.h" namespace="Vortice.DXGI.WinUI" output="WinUI" attach="true" />
 
   <extension>
 
@@ -329,5 +329,7 @@
     <!-- ISwapChainPanelNative -->
     <map method="ISwapChainPanelNative2::SetSwapChainHandle" property="false" />
     <map method="ISwapChainPanelNative2::SetSwapChainHandle" hresult="true" check="false"/>
+
+    <map method="ISurfaceImageSourceManagerNative::FlushAllSurfacesWithDevice" hresult="true" check="false"/>
   </mapping>
 </config>

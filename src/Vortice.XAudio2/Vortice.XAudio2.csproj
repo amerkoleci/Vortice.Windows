@@ -1,4 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -25,13 +27,12 @@
 
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <PackageReference Include="SharpGen.Runtime" Version="$(SharpGenRuntimeVersion)" />
-    <PackageReference Include="SharpGenTools.Sdk" Version="$(SharpGenVersion)" PrivateAssets="All" />
+    <SharpGenExtensionPackage Include="SharpGen.Extension.MicrosoftDocs" Version="$(SharpGenVersion)" Condition="'$(TestDocs)' == 'true'" />
+    <PackageReference Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vortice.Multimedia\Vortice.Multimedia.csproj" />
-    <ProjectReference Include="..\Vortice.Runtime.COM\Vortice.Runtime.COM.csproj" />
   </ItemGroup>
 
 </Project>

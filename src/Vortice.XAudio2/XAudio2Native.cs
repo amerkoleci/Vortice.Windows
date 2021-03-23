@@ -15,7 +15,7 @@ namespace Vortice.XAudio2
 
         private static IntPtr LoadXAudio2()
         {
-            if (VorticePlatformDetection.IsUAP)
+            if (PlatformDetection.IsAppContainerProcess)
             {
                 s_XAudio2CreateCallback = XAudio29.XAudio2Create;
                 s_CreateAudioVolumeMeter = XAudio29.XAudio2CreateVolumeMeter;

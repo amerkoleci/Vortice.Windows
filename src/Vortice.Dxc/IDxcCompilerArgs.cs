@@ -9,16 +9,6 @@ namespace Vortice.Dxc
 {
     public partial class IDxcCompilerArgs
     {
-        public string Arguments
-        {
-            get => Marshal.PtrToStringUni(GetArguments());
-        }
-
-        private unsafe IntPtr GetArguments()
-        {
-            return LocalInterop.CalliStdCallSystemIntPtr(_nativePointer, (*(void***)_nativePointer)[3]);
-        }
-
         public Result AddArguments(string[] arguments)
         {
             return AddArguments(arguments, arguments.Length);
@@ -71,11 +61,6 @@ namespace Vortice.Dxc
                     Interop.Free(argumentsPtr);
                 }
             }
-        }
-
-        public Result AddDefines(DxcDefine[] defines)
-        {
-            return AddDefines(defines, defines != null ? defines.Length : 0);
         }
     }
 }
