@@ -116,6 +116,7 @@ namespace Vortice.Direct3D11
         /// <param name="mipSlice"></param>
         /// <param name="firstArraySlice"></param>
         /// <param name="arraySize"></param>
+        /// <param name="flags"></param>
         public DepthStencilViewDescription(
             ID3D11Texture2D texture,
             DepthStencilViewDimension viewDimension,

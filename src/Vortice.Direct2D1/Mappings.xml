@@ -426,7 +426,7 @@
     <map method="ID2D1TransformNode::GetInputCount" property="false"/>
     
     <!-- ID2D1Transform -->
-    <map interface="ID2D1Transform" callback="true" callback-dual="true" callback-visibility="public"/>
+    <map interface="ID2D1Transform" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
     <map param="ID2D1Transform::MapInputRectsToOutputRect::inputRectCount" relation="length(inputRects)" />
     <map param="ID2D1Transform::MapOutputRectToInputRects::inputRectsCount" relation="length(inputRects)" />
 
@@ -580,7 +580,7 @@
     <map param="IDWriteFontCollection::FindFamilyName::exists" return="true" />
     <map param="IDWriteFontCollection::GetFontFamily::fontFamily" return="true" />
     <map param="IDWriteFontCollection::GetFontFromFontFace::font" return="true" />
-    <map interface="IDWriteFontCollectionLoader" callback="true" callback-dual="false" />
+    <map interface="IDWriteFontCollectionLoader" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
 
     <!-- IDWriteFontFileLoader -->
     <map interface="IDWriteFontFileLoader" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true" />
@@ -589,7 +589,7 @@
     <map interface="IDWriteRemoteFontFileLoader" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true" />
     
     <!-- IDWriteFontFileEnumerator -->
-    <map interface="IDWriteFontFileEnumerator" callback="true" callback-dual="false" />
+    <map interface="IDWriteFontFileEnumerator" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
 
     <!-- IDWriteFontFileStream -->
     <map interface="IDWriteFontFileStream" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true"/>
@@ -775,5 +775,13 @@
 
     <map function="DWriteCreateFactory" dll='"dwrite.dll"' group="Vortice.DirectWrite.DWrite" visibility="internal" hresult="true" check="false" />
     <map param="DWriteCreateFactory::factory" attribute="out" type="void" />
+
+    <map param="ID2D1GeometrySink::AddArc::arc" attribute="in value" />
+    <map param="ID2D1GeometrySink::AddBezier::bezier" attribute="in value" />
+    <map param="ID2D1GeometrySink::AddQuadraticBeziers::beziersCount" relation="length(beziers)" />
+    <map param="ID2D1SimplifiedGeometrySink::AddLines::pointsCount" relation="length(points)" />
+    <map param="ID2D1SimplifiedGeometrySink::AddBeziers::beziersCount" relation="length(beziers)" />
+
+    <map interface="ID2D1.*GeometrySink" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
   </mapping>
 </config>
