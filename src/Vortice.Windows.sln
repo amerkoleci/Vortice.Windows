@@ -36,6 +36,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectComposition",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D12Raytracing", "samples\HelloDirect3D12Raytracing\HelloDirect3D12Raytracing.csproj", "{61F8DB50-54D3-44C7-A438-FE5201C01DD4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{0DBFE3CB-7EB1-469D-9F87-40D414DEF509}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		version.json = version.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

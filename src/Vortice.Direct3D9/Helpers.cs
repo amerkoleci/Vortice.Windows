@@ -35,34 +35,5 @@ namespace Vortice.Direct3D9
 
             return (int)value;
         }
-
-        /// <summary>
-        /// Converts bool array to integer pointers array.
-        /// </summary>
-        /// <param name="array">The bool array.</param>
-        /// <param name="dest">The destination array of int pointers.</param>
-        public unsafe static void ConvertToIntArray(bool[] array, int* dest)
-        {
-            for (int i = 0; i < array.Length; i++)
-            {
-                dest[i] = array[i] ? 1 : 0;
-            }
-        }
-
-        /// <summary>
-        /// Converts bool array to <see cref="RawBool"/> array.
-        /// </summary>
-        /// <param name="array">The bool array.</param>
-        /// <returns>Converted array of <see cref="RawBool"/>.</returns>
-        public static RawBool[] ConvertToIntArray(bool[] array)
-        {
-            var result = new RawBool[array.Length];
-            for (int i = 0; i < array.Length; i++)
-            {
-                result[i] = array[i];
-            }
-
-            return result;
-        }
     }
 }

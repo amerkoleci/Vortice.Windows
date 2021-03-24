@@ -46,11 +46,6 @@ namespace HelloDirect3D12
         private ulong _frameIndex;
         private int _backbufferIndex;
 
-        public ID3D12Device2 D3D12Device => _d3d12Device;
-        public ID3D12CommandQueue GraphicsQueue { get; }
-
-        public IDXGISwapChain3 SwapChain { get; }
-
         public static bool IsSupported() => D3D12.IsSupported(FeatureLevel.Level_12_0);
 
         public D3D12GraphicsDevice(bool validation, Window window)
@@ -98,18 +93,18 @@ namespace HelloDirect3D12
                 }
             }
 
-            // Check raytracing support.
-            FeatureDataD3D12Options5 featureOptions5 = _d3d12Device.Options5;
-            if (featureOptions5.RaytracingTier != RaytracingTier.NotSupported)
+            using (IDXGIFactory5? factory5 = DXGIFactory.QueryInterfaceOrNull<IDXGIFactory5>())
             {
-                //var d3d12Device5 = _d3d12Device.QueryInterfaceOrNull<ID3D12Device5>();
-                //d3d12Device5.CreateStateObject(new StateObjectDescription(StateObjectType.Collection));
+                if (factory5 != null)
+                {
+                    IsTearingSupported = factory5.PresentAllowTearing;
+                }
             }
 
             // Create Command queue.
             GraphicsQueue = _d3d12Device.CreateCommandQueue<ID3D12CommandQueue>(CommandListType.Direct);
 
-            SwapChainDescription1 swapChainDesc = new SwapChainDescription1
+            SwapChainDescription1 swapChainDesc = new()
             {
                 BufferCount = RenderLatency,
                 Width = window.Width,
@@ -237,6 +232,13 @@ namespace HelloDirect3D12
             _frameFence = _d3d12Device.CreateFence<ID3D12Fence>(0);
             _frameFenceEvent = new AutoResetEvent(false);
         }
+
+        public bool IsTearingSupported { get; }
+
+        public ID3D12Device2 D3D12Device => _d3d12Device;
+        public ID3D12CommandQueue GraphicsQueue { get; }
+
+        public IDXGISwapChain3 SwapChain { get; }
 
         public void Dispose()
         {

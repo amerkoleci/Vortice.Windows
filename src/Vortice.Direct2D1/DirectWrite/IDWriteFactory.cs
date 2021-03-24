@@ -3,13 +3,14 @@
 
 using System;
 using System.Collections.Generic;
+using SharpGen.Runtime;
 
 namespace Vortice.DirectWrite
 {
     public partial class IDWriteFactory
     {
-        private readonly List<IDWriteFontCollectionLoader> _fontCollectionLoaderCallbacks = new List<IDWriteFontCollectionLoader>();
-        private readonly List<IDWriteFontFileLoader> _fontFileLoaderCallbacks = new List<IDWriteFontFileLoader>();
+        private readonly List<IDWriteFontCollectionLoader> _fontCollectionLoaderCallbacks = new();
+        private readonly List<IDWriteFontFileLoader> _fontFileLoaderCallbacks = new();
 
         internal IDWriteFactory()
         {
@@ -57,14 +58,15 @@ namespace Vortice.DirectWrite
         /// <param name="faceIndex">The zero-based index of a font face, in cases when the font files contain a collection of font faces. If the font files contain a single face, this value should be zero.</param>
         /// <param name="fontFaceSimulationFlags">A value that indicates which, if any, font face simulation flags for algorithmic means of making text bold or italic are applied to the current font face.</param>
         /// <returns>Instance of <see cref="IDWriteFontFace"/> or null if failed.</returns>
-        public IDWriteFontFace CreateFontFace(FontFaceType fontFaceType, IDWriteFontFile[] fontFiles, int faceIndex = 0, FontSimulations fontFaceSimulationFlags = FontSimulations.None)
+        public IDWriteFontFace? CreateFontFace(FontFaceType fontFaceType, IDWriteFontFile[] fontFiles, int faceIndex = 0, FontSimulations fontFaceSimulationFlags = FontSimulations.None)
         {
-            var result = CreateFontFace(
+            Result result = CreateFontFace(
                 fontFaceType,
                 fontFiles.Length, fontFiles,
                 faceIndex,
                 fontFaceSimulationFlags,
-                out var fontFace);
+                out IDWriteFontFace? fontFace);
+
             return result.Failure ? null : fontFace;
         }
 
@@ -79,7 +81,7 @@ namespace Vortice.DirectWrite
         /// <param name="fontCollectionLoader">Reference to a <see cref="IDWriteFontCollectionLoader"/> object to be registered.</param>
         public void RegisterFontCollectionLoader(IDWriteFontCollectionLoader fontCollectionLoader)
         {
-            IDWriteFontCollectionLoaderShadow.SetFactory(fontCollectionLoader, this);
+            //IDWriteFontCollectionLoaderShadow.SetFactory(fontCollectionLoader, this);
             RegisterFontCollectionLoader_(fontCollectionLoader);
             _fontCollectionLoaderCallbacks.Add(fontCollectionLoader);
         }
@@ -91,7 +93,10 @@ namespace Vortice.DirectWrite
         public void UnregisterFontCollectionLoader(IDWriteFontCollectionLoader fontCollectionLoader)
         {
             if (!_fontCollectionLoaderCallbacks.Contains(fontCollectionLoader))
-                throw new ArgumentException("This font collection loader is not registered", "fontCollectionLoader");
+            {
+                throw new ArgumentException("This font collection loader is not registered", nameof(fontCollectionLoader));
+            }
+
             UnregisterFontCollectionLoader_(fontCollectionLoader);
             _fontCollectionLoaderCallbacks.Remove(fontCollectionLoader);
         }

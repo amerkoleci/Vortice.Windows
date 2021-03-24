@@ -5,7 +5,7 @@ namespace Vortice.WIC
 {
     public partial class IWICBitmapDecoder
     {
-        internal IWICStream _wicStream;
+        internal IWICStream? _wicStream;
 
         protected override void Dispose(bool disposing)
         {

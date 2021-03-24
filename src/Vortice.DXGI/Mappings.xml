@@ -180,6 +180,7 @@
 
     <!-- IDXGIFactory5 -->
     <map method="IDXGIFactory5::CheckFeatureSupport" check="false" visibility="private"/>
+    <map param="IDXGIFactory5::CheckFeatureSupport::pFeatureSupportData" keep-pointers="true" />
 
     <!-- IDXGIFactory6 -->
     <map method="IDXGIFactory6::EnumAdapterByGpuPreference" visibility="internal" hresult="true" check="false"/>

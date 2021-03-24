@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using SharpGen.Runtime.Win32;
+using SharpGen.Runtime;
 
 namespace Vortice.DXGI
 {
@@ -18,20 +18,17 @@ namespace Vortice.DXGI
                 unsafe
                 {
                     RawBool allowTearing;
-                    CheckFeatureSupport(Feature.PresentAllowTearing, new IntPtr(&allowTearing), sizeof(RawBool));
+                    CheckFeatureSupport(Feature.PresentAllowTearing, &allowTearing, sizeof(RawBool));
                     return allowTearing;
                 }
             }
         }
 
-        public bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
+        public bool CheckFeatureSupport<T>(Feature feature, T featureSupport) where T : unmanaged
         {
             unsafe
             {
-                fixed (void* featureSupportPtr = &featureSupport)
-                {
-                    return CheckFeatureSupport(feature, (IntPtr)featureSupportPtr, sizeof(T)).Success;
-                }
+                return CheckFeatureSupport(feature, &featureSupport, sizeof(T)).Success;
             }
         }
     }

@@ -4,16 +4,16 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using SharpGen.Runtime.Win32;
+using SharpGen.Runtime;
 
 namespace Vortice.DirectWrite
 {
     public partial class GlyphRun : IDisposable
     {
-        public IDWriteFontFace FontFace { set; get; }
-        public short[] GlyphIndices { get; set; }
-        public float[] GlyphAdvances { get; set; }
-        public GlyphOffset[] GlyphOffsets { get; set; }
+        public IDWriteFontFace? FontFace { set; get; }
+        public short[]? GlyphIndices { get; set; }
+        public float[]? GlyphAdvances { get; set; }
+        public GlyphOffset[]? GlyphOffsets { get; set; }
 
         public void Dispose()
         {
@@ -95,10 +95,7 @@ namespace Vortice.DirectWrite
                 if (@ref.GlyphCount > 0)
                     fixed (void* offsetsPtr = &GlyphOffsets[0])
                     {
-                        Unsafe.CopyBlock(
-                            offsetsPtr,
-                            @ref.GlyphOffsets.ToPointer(),
-                            (uint)(sizeof(GlyphOffset) * @ref.GlyphCount));
+                        Unsafe.CopyBlock(offsetsPtr, @ref.GlyphOffsets.ToPointer(), (uint)(sizeof(GlyphOffset) * @ref.GlyphCount));
                     }
             }
         }
@@ -150,7 +147,7 @@ namespace Vortice.DirectWrite
                 {
                     fixed (void* offsetsPtr = &GlyphOffsets[0])
                     {
-                        Unsafe.CopyBlock(@ref.GlyphOffsets.ToPointer(), 
+                        Unsafe.CopyBlock(@ref.GlyphOffsets.ToPointer(),
                             offsetsPtr,
                             (uint)(sizeof(GlyphOffset) * GlyphCount));
                     }

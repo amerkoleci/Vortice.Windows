@@ -61,6 +61,7 @@
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>
     <bind from="HMONITOR" to="System.IntPtr"/>
+    <bind from="BOOL" to="SharpGen.Runtime.RawBool"/>
 
     <bind from="POINT" to="Vortice.Mathematics.Point" />
     <bind from="SIZE" to="Vortice.Mathematics.Size" />

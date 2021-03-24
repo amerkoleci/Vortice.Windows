@@ -50,6 +50,10 @@ namespace Vortice.XInput
                 s_xInput = new XInput910();
                 Version = XInputVersion.Version910;
             }
+            else
+            {
+                throw new PlatformNotSupportedException("XInput is not supported");
+            }
         }
 
         private static bool IsUAP()
@@ -116,7 +120,7 @@ namespace Vortice.XInput
         /// <returns>True if success, false if not connected or error.</returns>
         public static bool GetState(int userIndex, out State state)
         {
-            return s_xInput.XInputGetState(userIndex, out state) == 0;
+            return s_xInput!.XInputGetState(userIndex, out state) == 0;
         }
 
         /// <summary>
@@ -133,7 +137,7 @@ namespace Vortice.XInput
                 LeftMotorSpeed = (ushort)(leftMotor * ushort.MaxValue),
                 RightMotorSpeed = (ushort)(rightMotor * ushort.MaxValue)
             };
-            return s_xInput.XInputSetState(userIndex, vibration) == 0;
+            return s_xInput!.XInputSetState(userIndex, vibration) == 0;
         }
 
         /// <summary>
@@ -150,7 +154,7 @@ namespace Vortice.XInput
                 LeftMotorSpeed = leftMotorSpeed,
                 RightMotorSpeed = rightMotorSpeed
             };
-            return s_xInput.XInputSetState(userIndex, vibration) == 0;
+            return s_xInput!.XInputSetState(userIndex, vibration) == 0;
         }
 
         /// <summary>

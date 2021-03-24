@@ -8,26 +8,26 @@ namespace Vortice.Direct2D1
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class CustomEffectAttribute : Attribute
     {
-        public CustomEffectAttribute(string[] inputs, string displayName = null, string description = null, string category = null, string author = null)
+        public CustomEffectAttribute(string[] inputs, string? displayName = null, string? description = null, string? category = null, string? author = null)
         {
             Inputs = inputs;
-            DisplayName = displayName;
-            Description = description;
-            Category = category;
-            Author = author;
+            DisplayName = displayName ?? string.Empty;
+            Description = description ?? string.Empty;
+            Category = category ?? string.Empty;
+            Author = author ?? string.Empty;
         }
 
-        public CustomEffectAttribute(int inputCount, string displayName = null, string description = null, string category = null, string author = null)
+        public CustomEffectAttribute(int inputCount, string? displayName = null, string? description = null, string? category = null, string? author = null)
         {
             Inputs = new string[inputCount];
             for(int i = 0; i < inputCount; i++)
             {
                 Inputs[i] = $"Input{i}";
             }
-            DisplayName = displayName;
-            Description = description;
-            Category = category;
-            Author = author;
+            DisplayName = displayName ?? string.Empty;
+            Description = description ?? string.Empty;
+            Category = category ?? string.Empty;
+            Author = author ?? string.Empty;
         }
 
         public string DisplayName { get; }

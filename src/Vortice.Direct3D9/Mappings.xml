@@ -1331,6 +1331,7 @@
 
     <map method="IDirect3DDevice9::SetPixelShaderConstant.*" visibility="internal"/>
     <map param="IDirect3DDevice9::SetPixelShaderConstant[BFI]::pConstantData" type="void" attribute="in"/>
+    <!--<map param="IDirect3DDevice9::SetPixelShaderConstant[BFI]::pConstantData" keep-pointers="true" />-->
 
     <map method="IDirect3DDevice9::GetRenderState" visibility="internal"/>
     <map param="IDirect3DDevice9::GetRenderState::pValue" type="void"/>

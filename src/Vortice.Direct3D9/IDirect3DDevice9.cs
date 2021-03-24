@@ -314,12 +314,12 @@ namespace Vortice.Direct3D9
                 if (data.Length < 1024)
                 {
                     var result = stackalloc int[data.Length];
-                    Helpers.ConvertToIntArray(data, result);
+                    BooleanHelpers.ConvertToIntArray(data, result);
                     SetVertexShaderConstantB(startRegister, (IntPtr)result, data.Length);
                 }
                 else
                 {
-                    var result = Helpers.ConvertToIntArray(data);
+                    var result = BooleanHelpers.ConvertToRawBoolArray(data);
                     fixed (void* pResult = result)
                     {
                         SetVertexShaderConstantB(startRegister, (IntPtr)pResult, data.Length);
@@ -432,12 +432,12 @@ namespace Vortice.Direct3D9
             if (count < 1024)
             {
                 var result = stackalloc int[data.Length];
-                Helpers.ConvertToIntArray(data, result);
+                BooleanHelpers.ConvertToIntArray(data, result);
                 SetVertexShaderConstantB(startRegister, new IntPtr(&result[offset]), count);
             }
             else
             {
-                var result = Helpers.ConvertToIntArray(data);
+                var result = BooleanHelpers.ConvertToRawBoolArray(data);
                 fixed (void* pResult = &result[offset])
                     SetVertexShaderConstantB(startRegister, (IntPtr)pResult, count);
             }
@@ -513,12 +513,12 @@ namespace Vortice.Direct3D9
             if (data.Length < 1024)
             {
                 var result = stackalloc int[data.Length];
-                Helpers.ConvertToIntArray(data, result);
+                BooleanHelpers.ConvertToIntArray(data, result);
                 SetPixelShaderConstantB(startRegister, (IntPtr)result, data.Length);
             }
             else
             {
-                var result = Helpers.ConvertToIntArray(data);
+                var result = BooleanHelpers.ConvertToRawBoolArray(data);
                 fixed (void* pResult = result)
                     SetPixelShaderConstantB(startRegister, (IntPtr)pResult, data.Length);
             }
@@ -631,12 +631,12 @@ namespace Vortice.Direct3D9
                 if (count < 1024)
                 {
                     var result = stackalloc int[data.Length];
-                    Helpers.ConvertToIntArray(data, result);
+                    BooleanHelpers.ConvertToIntArray(data, result);
                     SetPixelShaderConstantB(startRegister, new IntPtr(&result[offset]), count);
                 }
                 else
                 {
-                    var result = Helpers.ConvertToIntArray(data);
+                    var result = BooleanHelpers.ConvertToRawBoolArray(data);
                     fixed (void* pResult = &result[offset])
                         SetPixelShaderConstantB(startRegister, (IntPtr)pResult, count);
                 }
