@@ -755,14 +755,18 @@
     <map method="ID3D12CommandQueue::UpdateTileMappings" visibility="private" hresult="true" check="false"/>
 
     <!-- ID3D12GraphicsCommandList -->
-    <map param="ID3D12GraphicsCommandList::ResourceBarrier::pBarriers" type="void"/>
+    <map param="ID3D12GraphicsCommandList::ResourceBarrier::pBarriers" type="void" keep-pointers="true"/>
     <map method="ID3D12GraphicsCommandList::ResourceBarrier" visibility="private"/>
+    
     <map method="ID3D12GraphicsCommandList::SetPipelineState" property="false"/>
     <map method="ID3D12GraphicsCommandList::SetComputeRootSignature" property="false"/>
     <map method="ID3D12GraphicsCommandList::SetGraphicsRootSignature" property="false"/>
     <map method="ID3D12GraphicsCommandList::BeginEvent" visibility="private"/>
     <map method="ID3D12GraphicsCommandList::SetMarker" visibility="private"/>
     <map param="ID3D12GraphicsCommandList::ClearRenderTargetView::ColorRGBA" type="VORTICE_COLOR4" override-native-type="true"/>
+    <map param="ID3D12GraphicsCommandList::ClearRenderTargetView::pRects" type="void" keep-pointers="true"/>
+    <map method="ID3D12GraphicsCommandList::ClearRenderTargetView" visibility="private"/>
+    
     <map method="ID3D12GraphicsCommandList::RSSetViewports" visibility="internal"/>
     <map param="ID3D12GraphicsCommandList::RSSetViewports::pViewports" type="void" />
     <map method="ID3D12GraphicsCommandList::RSSetScissorRects" visibility="internal"/>

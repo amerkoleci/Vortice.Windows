@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 
 namespace Vortice.Direct3D12
 {
-    public partial class ID3D12GraphicsCommandList
+    public unsafe partial class ID3D12GraphicsCommandList
     {
-        public unsafe void ResourceBarrierTransition(
+        public void ResourceBarrierTransition(
             ID3D12Resource resource,
             ResourceStates stateBefore,
             ResourceStates stateAfter,
@@ -19,68 +19,90 @@ namespace Vortice.Direct3D12
             var barrier = new ResourceBarrier(
                 new ResourceTransitionBarrier(resource, stateBefore, stateAfter, subresource),
                 flags);
-            ResourceBarrier(1, new IntPtr(&barrier));
+            ResourceBarrier(1, &barrier);
         }
 
-        public unsafe void ResourceBarrierAliasing(ID3D12Resource resourceBefore, ID3D12Resource resourceAfter)
+        public void ResourceBarrierAliasing(ID3D12Resource resourceBefore, ID3D12Resource resourceAfter)
         {
             var barrier = new ResourceBarrier(new ResourceAliasingBarrier(resourceBefore, resourceAfter));
-            ResourceBarrier(1, new IntPtr(&barrier));
+            ResourceBarrier(1, &barrier);
         }
 
-        public unsafe void ResourceBarrierUnorderedAccessView(ID3D12Resource resource)
+        public void ResourceBarrierUnorderedAccessView(ID3D12Resource resource)
         {
             var barrier = new ResourceBarrier(new ResourceUnorderedAccessViewBarrier(resource));
-            ResourceBarrier(1, new IntPtr(&barrier));
+            ResourceBarrier(1, &barrier);
         }
 
-        public unsafe void ResourceBarrier(ResourceBarrier barrier)
+        public void ResourceBarrier(ResourceBarrier barrier)
         {
-            ResourceBarrier(1, new IntPtr(&barrier));
+            ResourceBarrier(1, &barrier);
         }
 
-        public unsafe void ResourceBarrier(ResourceBarrier[] barriers)
+        public void ResourceBarrier(ResourceBarrier[] barriers)
         {
-            fixed (void* pBarriers = barriers)
+            fixed (ResourceBarrier* pBarriers = barriers)
             {
-                ResourceBarrier(barriers.Length, new IntPtr(pBarriers));
+                ResourceBarrier(barriers.Length, pBarriers);
             }
         }
 
-        public unsafe void ResourceBarrier(int barriersCount, ResourceBarrier[] barriers)
+        public void ResourceBarrier(int barriersCount, ResourceBarrier[] barriers)
         {
-            fixed (void* pBarriers = barriers)
+            fixed (ResourceBarrier* pBarriers = barriers)
             {
-                ResourceBarrier(barriersCount, new IntPtr(pBarriers));
+                ResourceBarrier(barriersCount, pBarriers);
             }
         }
 
-        public unsafe void ResourceBarrier(Span<ResourceBarrier> barriers)
+        public void ResourceBarrier(Span<ResourceBarrier> barriers)
         {
-            fixed (ResourceBarrier* barriersPtr = barriers)
+            fixed (ResourceBarrier* pBarriers = barriers)
             {
-                ResourceBarrier(barriers.Length, (IntPtr)barriersPtr);
+                ResourceBarrier(barriers.Length, pBarriers);
             }
         }
 
         public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color)
         {
-            ClearRenderTargetView(renderTargetView, new Color4(color), 0, null);
+            ClearRenderTargetView(renderTargetView, new Color4(color), 0, (void*)null);
         }
 
-        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color, RawRect[] rectangles)
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color, RawRect[] rects)
         {
-            ClearRenderTargetView(renderTargetView, new Color4(color), rectangles.Length, rectangles);
+            fixed (RawRect* pRects = rects)
+            {
+                ClearRenderTargetView(renderTargetView, new Color4(color), rects.Length, pRects);
+            }
+        }
+
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color, int rectsCount, RawRect[] rects)
+        {
+            fixed (RawRect* pRects = rects)
+            {
+                ClearRenderTargetView(renderTargetView, new Color4(color), rectsCount, pRects);
+            }
         }
 
         public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 color)
         {
-            ClearRenderTargetView(renderTargetView, color, 0, null);
+            ClearRenderTargetView(renderTargetView, color, 0, (void*)null);
         }
 
         public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 color, RawRect[] rects)
         {
-            ClearRenderTargetView(renderTargetView, color, rects.Length, rects);
+            fixed (RawRect* pRects = rects)
+            {
+                ClearRenderTargetView(renderTargetView, color, rects.Length, pRects);
+            }
+        }
+
+        public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 color, int rectsCount, RawRect[] rects)
+        {
+            fixed (RawRect* pRects = rects)
+            {
+                ClearRenderTargetView(renderTargetView, color, rectsCount, pRects);
+            }
         }
 
         public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil)
