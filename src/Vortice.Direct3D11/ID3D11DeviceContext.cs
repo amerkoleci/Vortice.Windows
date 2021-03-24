@@ -9,7 +9,7 @@ using Vortice.Mathematics;
 
 namespace Vortice.Direct3D11
 {
-    public partial class ID3D11DeviceContext
+    public unsafe partial class ID3D11DeviceContext
     {
         /// <summary>
         /// D3D11_KEEP_RENDER_TARGETS_AND_DEPTH_STENCIL
@@ -56,10 +56,7 @@ namespace Vortice.Direct3D11
         public void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)
         {
             IntPtr renderTargetViewPtr = renderTargetView == null ? IntPtr.Zero : renderTargetView.NativePointer;
-            unsafe
-            {
-                OMSetRenderTargets(1, new IntPtr(&renderTargetViewPtr), depthStencilView);
-            }
+            OMSetRenderTargets(1, new IntPtr(&renderTargetViewPtr), depthStencilView);
         }
 
         public unsafe void OMSetRenderTargets(int renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
@@ -321,59 +318,80 @@ namespace Vortice.Direct3D11
         }
 
         #region Viewport
-        public unsafe void RSSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f)
+        public void RSSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f)
         {
             var viewport = new Viewport(x, y, width, height, minDepth, maxDepth);
-            RSSetViewports(1, new IntPtr(&viewport));
+            RSSetViewports(1, &viewport);
         }
 
-        public unsafe void RSSetViewport(Viewport viewport)
+        public void RSSetViewport(Viewport viewport)
         {
-            RSSetViewports(1, new IntPtr(&viewport));
+            RSSetViewports(1, &viewport);
         }
 
-        public unsafe void RSSetViewports(Viewport[] viewports)
+        public void RSSetViewports(Viewport[] viewports)
         {
-            fixed (void* pViewPorts = viewports)
+            fixed (Viewport* pViewports = viewports)
             {
-                RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
+                RSSetViewports(viewports.Length, pViewports);
             }
         }
 
-        public unsafe void RSSetViewports(int count, Viewport[] viewports)
+        public void RSSetViewports(int count, Viewport[] viewports)
         {
-            fixed (void* pViewPorts = viewports)
+            fixed (Viewport* pViewports = viewports)
             {
-                RSSetViewports(count, (IntPtr)pViewPorts);
+                RSSetViewports(count, pViewports);
             }
         }
 
-        public unsafe void RSSetViewports(Span<Viewport> viewports)
+        public void RSSetViewports(Span<Viewport> viewports)
         {
-            fixed (Viewport* pViewPorts = viewports)
+            fixed (Viewport* pViewports = viewports)
             {
-                RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
+                RSSetViewports(viewports.Length, pViewports);
             }
         }
 
-        public unsafe void RSSetViewport<T>(T viewport) where T : unmanaged
+        public void RSSetViewport<T>(T viewport) where T : unmanaged
         {
-            RSSetViewports(1, new IntPtr(&viewport));
+#if DEBUG
+            if (sizeof(T) != sizeof(Viewport))
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewport));
+            }
+#endif
+
+            RSSetViewports(1, &viewport);
         }
 
-        public unsafe void RSSetViewports<T>(T[] viewports) where T : unmanaged
+        public void RSSetViewports<T>(T[] viewports) where T : unmanaged
         {
+#if DEBUG
+            if (sizeof(T) != sizeof(Viewport))
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+            }
+#endif
+
             fixed (void* viewportsPtr = &viewports[0])
             {
-                RSSetViewports(viewports.Length, (IntPtr)viewportsPtr);
+                RSSetViewports(viewports.Length, viewportsPtr);
             }
         }
 
-        public unsafe void RSSetViewports<T>(Span<T> viewports) where T : unmanaged
+        public void RSSetViewports<T>(Span<T> viewports) where T : unmanaged
         {
-            fixed (void* pViewPorts = viewports)
+#if DEBUG
+            if (sizeof(T) != sizeof(Viewport))
             {
-                RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+            }
+#endif
+
+            fixed (void* viewportsPtr = viewports)
+            {
+                RSSetViewports(viewports.Length, viewportsPtr);
             }
         }
 
@@ -528,56 +546,56 @@ namespace Vortice.Direct3D11
             return numRects;
         }
 
-        public unsafe void RSSetScissorRect(int x, int y, int width, int height)
+        public void RSSetScissorRect(int x, int y, int width, int height)
         {
             RawRect rawRect = new RawRect(x, y, x + width, y + height);
-            RSSetScissorRects(1, new IntPtr(&rawRect));
+            RSSetScissorRects(1, &rawRect);
         }
 
-        public unsafe void RSSetScissorRect(in Rectangle rectangle)
+        public void RSSetScissorRect(in Rectangle rectangle)
         {
             RawRect rawRect = rectangle;
-            RSSetScissorRects(1, new IntPtr(&rawRect));
+            RSSetScissorRects(1, &rawRect);
         }
 
-        public unsafe void RSSetScissorRect(RawRect rectangle)
+        public void RSSetScissorRect(RawRect rectangle)
         {
-            RSSetScissorRects(1, new IntPtr(&rectangle));
+            RSSetScissorRects(1, &rectangle);
         }
 
-        public unsafe void RSSetScissorRects(RawRect[] rectangles)
-        {
-            fixed (void* pRects = rectangles)
-            {
-                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
-            }
-        }
-
-        public unsafe void RSSetScissorRects(int count, RawRect[] rectangles)
-        {
-            fixed (void* pRects = rectangles)
-            {
-                RSSetScissorRects(count, (IntPtr)pRects);
-            }
-        }
-
-        public unsafe void RSSetScissorRects(Span<RawRect> rectangles)
+        public void RSSetScissorRects(RawRect[] rectangles)
         {
             fixed (RawRect* pRects = rectangles)
             {
-                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
+                RSSetScissorRects(rectangles.Length, pRects);
             }
         }
 
-        public unsafe void RSSetScissorRects(int count, Span<RawRect> rectangles)
+        public void RSSetScissorRects(int count, RawRect[] rectangles)
         {
             fixed (RawRect* pRects = rectangles)
             {
-                RSSetScissorRects(count, (IntPtr)pRects);
+                RSSetScissorRects(count, pRects);
             }
         }
 
-        public unsafe void RSSetScissorRect<T>(T rect) where T : unmanaged
+        public void RSSetScissorRects(Span<RawRect> rectangles)
+        {
+            fixed (RawRect* pRects = rectangles)
+            {
+                RSSetScissorRects(rectangles.Length, pRects);
+            }
+        }
+
+        public void RSSetScissorRects(int count, Span<RawRect> rectangles)
+        {
+            fixed (RawRect* pRects = rectangles)
+            {
+                RSSetScissorRects(count, pRects);
+            }
+        }
+
+        public void RSSetScissorRect<T>(T rect) where T : unmanaged
         {
 #if DEBUG
             if (sizeof(T) != Unsafe.SizeOf<RawRect>())
@@ -586,10 +604,10 @@ namespace Vortice.Direct3D11
             }
 #endif
 
-            RSSetScissorRects(1, new IntPtr(&rect));
+            RSSetScissorRects(1, &rect);
         }
 
-        public unsafe void RSSetScissorRects<T>(T[] rects) where T : unmanaged
+        public void RSSetScissorRects<T>(T[] rects) where T : unmanaged
         {
 #if DEBUG
             if (sizeof(T) != Unsafe.SizeOf<RawRect>())
@@ -600,7 +618,7 @@ namespace Vortice.Direct3D11
 
             fixed (void* rectPtr = &rects[0])
             {
-                RSSetScissorRects(rects.Length, (IntPtr)rectPtr);
+                RSSetScissorRects(rects.Length, rectPtr);
             }
         }
 
@@ -615,7 +633,7 @@ namespace Vortice.Direct3D11
 
             fixed (void* rectPtr = &rects[0])
             {
-                RSSetScissorRects(numRects, (IntPtr)rectPtr);
+                RSSetScissorRects(numRects, rectPtr);
             }
         }
 
@@ -629,7 +647,7 @@ namespace Vortice.Direct3D11
 #endif
             fixed (void* rectsPtr = rects)
             {
-                RSSetScissorRects(rects.Length, (IntPtr)rectsPtr);
+                RSSetScissorRects(rects.Length, rectsPtr);
             }
         }
 

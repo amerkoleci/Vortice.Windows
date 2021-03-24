@@ -107,36 +107,38 @@ namespace Vortice.Direct3D12
 
         public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil)
         {
-            ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, 0, null);
+            ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, 0, (void*)null);
         }
 
-        public void ClearDepthStencilView(
-            CpuDescriptorHandle depthStencilView,
-            ClearFlags clearFlags,
-            float depth,
-            byte stencil,
-            RawRect[] rects)
+        public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil, RawRect[] rects)
         {
-            ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, rects.Length, rects);
+            fixed (RawRect* pRects = rects)
+            {
+                ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, rects.Length, pRects);
+            }
         }
 
-        public unsafe void ClearUnorderedAccessViewFloat(
-            GpuDescriptorHandle viewGpuHandleInCurrentHeap,
-            CpuDescriptorHandle viewCpuHandle,
-            ID3D12Resource resource,
-            Color4 clearValue)
+        public void ClearDepthStencilView(CpuDescriptorHandle depthStencilView, ClearFlags clearFlags, float depth, byte stencil, int rectsCount, RawRect[] rects)
         {
-            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), 0, null);
+            fixed (RawRect* pRects = rects)
+            {
+                ClearDepthStencilView(depthStencilView, clearFlags, depth, stencil, rectsCount, pRects);
+            }
         }
 
-        public unsafe void ClearUnorderedAccessViewFloat(
+        public void ClearUnorderedAccessViewFloat(GpuDescriptorHandle viewGpuHandleInCurrentHeap, CpuDescriptorHandle viewCpuHandle, ID3D12Resource resource, Color4 clearValue)
+        {
+            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, 0, null);
+        }
+
+        public void ClearUnorderedAccessViewFloat(
             GpuDescriptorHandle viewGpuHandleInCurrentHeap,
             CpuDescriptorHandle viewCpuHandle,
             ID3D12Resource resource,
             Color4 clearValue,
             RawRect[] rects)
         {
-            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), rects.Length, rects);
+            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, rects.Length, rects);
         }
 
         public unsafe void ClearUnorderedAccessViewFloat(
@@ -147,7 +149,7 @@ namespace Vortice.Direct3D12
             int rectCount,
             RawRect[] rects)
         {
-            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), rectCount, rects);
+            ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, rectCount, rects);
         }
 
         public unsafe void ClearUnorderedAccessViewUint(
@@ -156,7 +158,7 @@ namespace Vortice.Direct3D12
             ID3D12Resource resource,
             Int4 clearValue)
         {
-            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), 0, null);
+            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, 0, null);
         }
 
         public unsafe void ClearUnorderedAccessViewUint(
@@ -166,7 +168,7 @@ namespace Vortice.Direct3D12
             Int4 clearValue,
             RawRect[] rectangles)
         {
-            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, new IntPtr(&clearValue), rectangles.Length, rectangles);
+            ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, rectangles.Length, rectangles);
         }
 
         public void OMSetBlendFactor(System.Drawing.Color blendFactor)
@@ -174,202 +176,246 @@ namespace Vortice.Direct3D12
             OMSetBlendFactor(new Color4(blendFactor));
         }
 
-        public unsafe void OMSetBlendFactor(Color4 blendFactor)
+        public void OMSetBlendFactor(Color4 blendFactor)
         {
-            OMSetBlendFactor(new IntPtr(&blendFactor));
+            OMSetBlendFactor(&blendFactor);
         }
 
-        public unsafe void OMSetBlendFactor(float red, float green, float blue, float alpha)
+        public void OMSetBlendFactor(float red, float green, float blue, float alpha)
         {
-            OMSetBlendFactor(new Color4(red, green, blue, alpha));
+            float* colorPtr = stackalloc float[4] { red, green, blue, alpha };
+            OMSetBlendFactor(colorPtr);
         }
 
-        public unsafe void OMSetBlendFactor(float[] color)
+        public void OMSetBlendFactor(float[] color)
         {
-            fixed (void* colorPtr = &color[0])
+            fixed (float* colorPtr = &color[0])
             {
-                OMSetBlendFactor((IntPtr)colorPtr);
+                OMSetBlendFactor(colorPtr);
             }
         }
 
         #region Viewport
-        public unsafe void RSSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f)
+        public void RSSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f)
         {
             var viewport = new Viewport(x, y, width, height, minDepth, maxDepth);
-            RSSetViewports(1, new IntPtr(&viewport));
+            RSSetViewports(1, &viewport);
         }
 
-        public unsafe void RSSetViewport(Viewport viewport)
+        public void RSSetViewport(Viewport viewport)
         {
-            RSSetViewports(1, new IntPtr(&viewport));
+            RSSetViewports(1, &viewport);
         }
 
         public void RSSetViewports(params Viewport[] viewports)
         {
-            unsafe
+            fixed (Viewport* pViewports = viewports)
             {
-                fixed (void* pViewPorts = viewports)
-                {
-                    RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
-                }
+                RSSetViewports(viewports.Length, pViewports);
             }
         }
 
         public unsafe void RSSetViewports(int count, Viewport[] viewports)
         {
-            fixed (void* pViewPorts = viewports)
+            fixed (Viewport* pViewports = viewports)
             {
-                RSSetViewports(count, (IntPtr)pViewPorts);
+                RSSetViewports(count, pViewports);
             }
         }
 
-        public unsafe void RSSetViewports(Span<Viewport> viewports)
+        public void RSSetViewports(Span<Viewport> viewports)
         {
-            fixed (Viewport* pViewPorts = viewports)
+            fixed (Viewport* pViewports = viewports)
             {
-                RSSetViewports(viewports.Length, (IntPtr)pViewPorts);
+                RSSetViewports(viewports.Length, pViewports);
             }
         }
 
-        public unsafe void RSSetViewports(int count, Span<Viewport> viewports)
+        public void RSSetViewports(int count, Span<Viewport> viewports)
         {
-            fixed (Viewport* pViewPorts = viewports)
+            fixed (Viewport* pViewports = viewports)
             {
-                RSSetViewports(count, (IntPtr)pViewPorts);
+                RSSetViewports(count, pViewports);
             }
         }
 
-        public unsafe void RSSetViewport<T>(T viewport) where T : unmanaged
+        public void RSSetViewport<T>(T viewport) where T : unmanaged
         {
-            RSSetViewports(1, new IntPtr(&viewport));
+#if DEBUG
+            if (sizeof(T) != sizeof(Viewport))
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewport));
+            }
+#endif
+
+            RSSetViewports(1, &viewport);
         }
 
         public unsafe void RSSetViewports<T>(T[] viewports) where T : unmanaged
         {
+#if DEBUG
+            if (sizeof(T) != sizeof(Viewport))
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+            }
+#endif
+
             fixed (void* viewportsPtr = &viewports[0])
             {
-                RSSetViewports(viewports.Length, (IntPtr)viewportsPtr);
+                RSSetViewports(viewports.Length, viewportsPtr);
             }
         }
 
         public unsafe void RSSetViewports<T>(int count, T[] viewports) where T : unmanaged
         {
+#if DEBUG
+            if (sizeof(T) != sizeof(Viewport))
+            {
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+            }
+#endif
+
             fixed (void* viewportsPtr = &viewports[0])
             {
-                RSSetViewports(count, (IntPtr)viewportsPtr);
+                RSSetViewports(count, viewportsPtr);
             }
         }
 
         public unsafe void RSSetViewports<T>(int count, Span<T> viewports) where T : unmanaged
         {
-            fixed (void* pViewPorts = viewports)
+#if DEBUG
+            if (sizeof(T) != sizeof(Viewport))
             {
-                RSSetViewports(count, (IntPtr)pViewPorts);
+                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+            }
+#endif
+
+            fixed (void* pViewports = viewports)
+            {
+                RSSetViewports(count, pViewports);
             }
         }
         #endregion
 
         #region ScissorRect
-        public unsafe void RSSetScissorRect(Rectangle rectangle)
+        public void RSSetScissorRect(Rectangle rectangle)
         {
             RawRect rect = rectangle;
-            RSSetScissorRects(1, new IntPtr(&rect));
+            RSSetScissorRects(1, &rect);
         }
 
-        public unsafe void RSSetScissorRect(RawRect rectangle)
+        public void RSSetScissorRect(RawRect rectangle)
         {
-            RSSetScissorRects(1, new IntPtr(&rectangle));
+            RSSetScissorRects(1, &rectangle);
         }
 
-        public unsafe void RSSetScissorRects(params RawRect[] rectangles)
+        public void RSSetScissorRects(params RawRect[] rects)
         {
-            fixed (void* pRects = rectangles)
+            fixed (void* pRects = rects)
             {
-                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
+                RSSetScissorRects(rects.Length, pRects);
             }
         }
 
-        public unsafe void RSSetScissorRects(int count, RawRect[] rectangles)
+        public void RSSetScissorRects(int count, RawRect[] rects)
         {
-            fixed (void* pRects = rectangles)
+            fixed (void* pRects = rects)
             {
-                RSSetScissorRects(count, (IntPtr)pRects);
+                RSSetScissorRects(count, pRects);
             }
         }
 
-        public unsafe void RSSetScissorRects(Span<RawRect> rectangles)
+        public void RSSetScissorRects(Span<RawRect> rects)
         {
-            fixed (RawRect* pRects = rectangles)
+            fixed (RawRect* pRects = rects)
             {
-                RSSetScissorRects(rectangles.Length, (IntPtr)pRects);
+                RSSetScissorRects(rects.Length, pRects);
             }
         }
 
-        public unsafe void RSSetScissorRects(int count, Span<RawRect> rectangles)
+        public void RSSetScissorRects(int count, Span<RawRect> rects)
         {
-            fixed (RawRect* pRects = rectangles)
+            fixed (RawRect* pRects = rects)
             {
-                RSSetScissorRects(count, (IntPtr)pRects);
+                RSSetScissorRects(count, pRects);
             }
         }
         #endregion
 
-        public unsafe void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
+        public void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
         {
-            OMSetRenderTargets(1, new IntPtr(&renderTargetDescriptor), false, depthStencilDescriptor);
+            OMSetRenderTargets(1, &renderTargetDescriptor, false, depthStencilDescriptor);
         }
 
-        public unsafe void OMSetRenderTargets(CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
+        public void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, bool RTsSingleHandleToDescriptorRange, CpuDescriptorHandle? depthStencilDescriptor = null)
         {
-            fixed (void* pRT = renderTargetDescriptors)
+            OMSetRenderTargets(1, &renderTargetDescriptor, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
+        }
+
+        public void OMSetRenderTargets(CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
+        {
+            fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
             {
-                OMSetRenderTargets(renderTargetDescriptors?.Length ?? 0, new IntPtr(pRT), false, depthStencilDescriptor);
+                OMSetRenderTargets(renderTargetDescriptors.Length, renderTargetDescriptorsPtr, false, depthStencilDescriptor);
             }
         }
 
-        public unsafe void OMSetRenderTargets(int renderTargetDescriptorsCount, CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
+        public void OMSetRenderTargets(CpuDescriptorHandle[] renderTargetDescriptors, bool RTsSingleHandleToDescriptorRange, CpuDescriptorHandle? depthStencilDescriptor = null)
         {
-            fixed (void* renderTargetDescriptorsPtr = renderTargetDescriptors)
+            fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
             {
-                OMSetRenderTargets(renderTargetDescriptorsCount, new IntPtr(renderTargetDescriptorsPtr), false, depthStencilDescriptor);
+                OMSetRenderTargets(renderTargetDescriptors.Length, renderTargetDescriptorsPtr, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
+            }
+        }
+
+        public void OMSetRenderTargets(int renderTargetDescriptorsCount, CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
+        {
+            fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
+            {
+                OMSetRenderTargets(renderTargetDescriptorsCount, renderTargetDescriptorsPtr, false, depthStencilDescriptor);
+            }
+        }
+
+        public void OMSetRenderTargets(int renderTargetDescriptorsCount, CpuDescriptorHandle[] renderTargetDescriptors, bool RTsSingleHandleToDescriptorRange, CpuDescriptorHandle? depthStencilDescriptor = null)
+        {
+            fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
+            {
+                OMSetRenderTargets(renderTargetDescriptorsCount, renderTargetDescriptorsPtr, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
             }
         }
 
         #region IASetVertexBuffers
         public void IASetVertexBuffers(int slot, VertexBufferView vertexBufferView)
         {
-            unsafe
-            {
-                IASetVertexBuffers(slot, 1, (IntPtr)(&vertexBufferView));
-            }
+            IASetVertexBuffers(slot, 1, &vertexBufferView);
         }
 
-        public unsafe void IASetVertexBuffers(int startSlot, ReadOnlySpan<VertexBufferView> vertexBufferViews)
+        public void IASetVertexBuffers(int startSlot, Span<VertexBufferView> vertexBufferViews)
         {
-            fixed (void* pin = &MemoryMarshal.GetReference(vertexBufferViews))
+            fixed (VertexBufferView* vertexBufferViewsPtr = vertexBufferViews)
             {
-                IASetVertexBuffers(startSlot, vertexBufferViews.Length, (IntPtr)pin);
+                IASetVertexBuffers(startSlot, vertexBufferViews.Length, vertexBufferViewsPtr);
             }
         }
 
         public unsafe void IASetVertexBuffers(int startSlot, params VertexBufferView[] vertexBufferViews)
         {
-            fixed (void* descPtr = vertexBufferViews)
+            fixed (VertexBufferView* vertexBufferViewsPtr = vertexBufferViews)
             {
-                IASetVertexBuffers(startSlot, vertexBufferViews.Length, new IntPtr(descPtr));
+                IASetVertexBuffers(startSlot, vertexBufferViews.Length, vertexBufferViewsPtr);
             }
         }
 
-        public unsafe void IASetVertexBuffers(int startSlot, int viewsCount, VertexBufferView[] vertexBufferViews)
+        public void IASetVertexBuffers(int startSlot, int viewsCount, VertexBufferView[] vertexBufferViews)
         {
-            fixed (void* vertexBufferViewsPtr = vertexBufferViews)
+            fixed (VertexBufferView* vertexBufferViewsPtr = vertexBufferViews)
             {
-                IASetVertexBuffers(startSlot, viewsCount, new IntPtr(vertexBufferViewsPtr));
+                IASetVertexBuffers(startSlot, viewsCount, vertexBufferViewsPtr);
             }
         }
         #endregion
 
-        public unsafe void BeginEvent(string name)
+        public void BeginEvent(string name)
         {
             fixed (char* chars = name)
             {
@@ -437,9 +483,9 @@ namespace Vortice.Direct3D12
         /// <param name="rects">An array of  rectangles in the resource to discard. If null, DiscardResource discards the entire resource.</param>
         /// <param name="firstSubresource">Index of the first subresource in the resource to discard.</param>
         /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
-        public unsafe void DiscardResource(ID3D12Resource resource, int rectCount, RawRect[] rects, int firstSubresource, int numSubresources)
+        public void DiscardResource(ID3D12Resource resource, int rectCount, RawRect[] rects, int firstSubresource, int numSubresources)
         {
-            fixed (void* rectsPtr = &rects[0])
+            fixed (RawRect* rectsPtr = &rects[0])
             {
                 DiscardResource(resource, new DiscardRegion
                 {
@@ -458,9 +504,9 @@ namespace Vortice.Direct3D12
         /// <param name="rects">An array of  rectangles in the resource to discard. If null, DiscardResource discards the entire resource.</param>
         /// <param name="firstSubresource">Index of the first subresource in the resource to discard.</param>
         /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
-        public unsafe void DiscardResource(ID3D12Resource resource, RawRect[] rects, int firstSubresource, int numSubresources)
+        public void DiscardResource(ID3D12Resource resource, RawRect[] rects, int firstSubresource, int numSubresources)
         {
-            fixed (void* rectsPtr = &rects[0])
+            fixed (RawRect* rectsPtr = &rects[0])
             {
                 DiscardResource(resource, new DiscardRegion
                 {

@@ -638,11 +638,11 @@
     <map method="ID3D11DeviceContext::RSGetScissorRects" visibility="internal" />
     <map param="ID3D11DeviceContext::RSGetScissorRects::pRects" type="void" />
     <map method="ID3D11DeviceContext::RSSetScissorRects" visibility="internal" />
-    <map param="ID3D11DeviceContext::RSSetScissorRects::pRects" type="void" />
+    <map param="ID3D11DeviceContext::RSSetScissorRects::pRects" type="void" keep-pointers="true"/>
     <map method="ID3D11DeviceContext::RSGetViewports" visibility="internal" />
     <map param="ID3D11DeviceContext::RSGetViewports::pViewports" type="void" />
     <map method="ID3D11DeviceContext::RSSetViewports" visibility="internal" />
-    <map param="ID3D11DeviceContext::RSSetViewports::pViewports" type="void" />
+    <map param="ID3D11DeviceContext::RSSetViewports::pViewports" type="void" keep-pointers="true"/>
     <map param="ID3D11DeviceContext::OMGetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" />
     <map param="ID3D11DeviceContext::OMSetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" default="null"/>
     <map param="ID3D11DeviceContext::OMSetBlendState::SampleMask" default="-1"/>

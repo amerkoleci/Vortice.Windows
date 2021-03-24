@@ -173,11 +173,13 @@ namespace HelloDirect3D11
             return adapter;
         }
 
-        public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string frameName = null)
+        public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string? frameName = null)
         {
-            DeviceContext.RSSetViewport(new Viewport(Window.Width, Window.Height));
             var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
             DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
+            DeviceContext.OMSetRenderTargets(RenderTargetView, /*depthStencil*/null);
+
+            DeviceContext.RSSetViewport(new Viewport(Window.Width, Window.Height));
 
             // Call callback.
             draw(Window.Width, Window.Height);
