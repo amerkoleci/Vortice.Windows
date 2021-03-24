@@ -24,15 +24,8 @@ namespace Vortice.Dxc
             Minor = minor;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (!(obj is DxcShaderModel))
-            {
-                return false;
-            }
-
-            return Equals((DxcShaderModel)obj);
-        }
+        /// <inheritdoc/>
+		public override bool Equals(object? obj) => obj is DxcShaderModel value && Equals(value);
 
         public bool Equals(DxcShaderModel other)
         {
