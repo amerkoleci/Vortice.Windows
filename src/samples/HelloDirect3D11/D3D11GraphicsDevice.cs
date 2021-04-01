@@ -25,7 +25,7 @@ namespace HelloDirect3D11
 
         private const int FrameCount = 2;
 
-        public readonly Window Window;
+        public readonly Window? Window;
         public readonly IDXGIFactory2 Factory;
         public readonly ID3D11Device1 Device;
         public readonly FeatureLevel FeatureLevel;
@@ -39,9 +39,10 @@ namespace HelloDirect3D11
             return true;
         }
 
-        public D3D11GraphicsDevice(bool validation, Window window)
+        public D3D11GraphicsDevice(bool validation, Window? window)
         {
             Window = window;
+
             if (CreateDXGIFactory1(out Factory).Failure)
             {
                 throw new InvalidOperationException("Cannot create IDXGIFactory1");
@@ -79,32 +80,34 @@ namespace HelloDirect3D11
                 tempDevice.Dispose();
             }
 
-            IntPtr hwnd = window.Handle;
-
-            SwapChainDescription1 swapChainDescription = new SwapChainDescription1()
+            if (window != null)
             {
-                Width = window.Width,
-                Height = window.Height,
-                Format = Format.B8G8R8A8_UNorm,
-                BufferCount = FrameCount,
-                Usage = Vortice.DXGI.Usage.RenderTargetOutput,
-                SampleDescription = new SampleDescription(1, 0),
-                Scaling = Scaling.Stretch,
-                SwapEffect = SwapEffect.FlipDiscard,
-                AlphaMode = AlphaMode.Ignore
-            };
+                IntPtr hwnd = window.Handle;
 
-            SwapChainFullscreenDescription fullscreenDescription = new SwapChainFullscreenDescription
-            {
-                Windowed = true
-            };
+                SwapChainDescription1 swapChainDescription = new SwapChainDescription1()
+                {
+                    Width = window.Width,
+                    Height = window.Height,
+                    Format = Format.B8G8R8A8_UNorm,
+                    BufferCount = FrameCount,
+                    Usage = Vortice.DXGI.Usage.RenderTargetOutput,
+                    SampleDescription = new SampleDescription(1, 0),
+                    Scaling = Scaling.Stretch,
+                    SwapEffect = SwapEffect.FlipDiscard,
+                    AlphaMode = AlphaMode.Ignore
+                };
 
+                SwapChainFullscreenDescription fullscreenDescription = new SwapChainFullscreenDescription
+                {
+                    Windowed = true
+                };
 
-            SwapChain = Factory.CreateSwapChainForHwnd(Device, hwnd, swapChainDescription, fullscreenDescription);
-            Factory.MakeWindowAssociation(hwnd, WindowAssociationFlags.IgnoreAltEnter);
+                SwapChain = Factory.CreateSwapChainForHwnd(Device, hwnd, swapChainDescription, fullscreenDescription);
+                Factory.MakeWindowAssociation(hwnd, WindowAssociationFlags.IgnoreAltEnter);
 
-            BackBuffer = SwapChain.GetBuffer<ID3D11Texture2D>(0);
-            RenderTargetView = Device.CreateRenderTargetView(BackBuffer);
+                BackBuffer = SwapChain.GetBuffer<ID3D11Texture2D>(0);
+                RenderTargetView = Device.CreateRenderTargetView(BackBuffer);
+            }
         }
 
         public void Dispose()

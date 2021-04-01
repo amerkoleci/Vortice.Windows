@@ -3,7 +3,6 @@
 
 using System;
 using System.Diagnostics;
-using Vortice.Mathematics;
 using Vortice.Win32;
 using static Vortice.Win32.User32;
 
@@ -13,7 +12,7 @@ namespace Vortice
     {
         private const int CW_USEDEFAULT = unchecked((int)0x80000000);
 
-        private void PlatformConstruct()
+        private unsafe void PlatformConstruct()
         {
             int x = 0;
             int y = 0;
@@ -63,11 +62,7 @@ namespace Vortice
                 var rect = new RawRect(0, 0, Width, Height);
 
                 // Adjust according to window styles
-                AdjustWindowRectEx(
-                    ref rect,
-                    style,
-                    false,
-                    styleEx);
+                AdjustWindowRectEx(&rect, (uint)style, 0, (uint)styleEx);
 
                 windowWidth = rect.Right - rect.Left;
                 windowHeight = rect.Bottom - rect.Top;
@@ -77,26 +72,33 @@ namespace Vortice
                 x = y = windowWidth = windowHeight = CW_USEDEFAULT;
             }
 
-            Handle = CreateWindowEx(
-                (int)styleEx,
-                Application.WndClassName,
-                Title,
-                (int)style,
-                x,
-                y,
-                windowWidth,
-                windowHeight,
-                IntPtr.Zero,
-                IntPtr.Zero,
-                IntPtr.Zero,
-                IntPtr.Zero);
-
-            if (Handle == IntPtr.Zero)
+            fixed (char* lpszClassName = Application.WindowClassName)
             {
-                return;
+                fixed (char* lpWindowName = Title)
+                {
+                    Handle = CreateWindowExW(
+                    (uint)styleEx,
+                    (ushort*)lpszClassName,
+                    (ushort*)lpWindowName,
+                    (uint)style,
+                    x,
+                    y,
+                    windowWidth,
+                    windowHeight,
+                    IntPtr.Zero,
+                    IntPtr.Zero,
+                    IntPtr.Zero,
+                    null
+                    );
+
+                    if (Handle == IntPtr.Zero)
+                    {
+                        return;
+                    }
+                }
             }
 
-            ShowWindow(Handle, ShowWindowCommand.Normal);
+            ShowWindow(Handle, (int)ShowWindowCommand.Normal);
             Width = windowWidth;
             Height = windowHeight;
         }

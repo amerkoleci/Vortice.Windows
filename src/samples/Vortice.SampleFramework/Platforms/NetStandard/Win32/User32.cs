@@ -235,26 +235,6 @@ namespace Vortice.Win32
         ForceMinimize = 11
     }
 
-    public enum SystemCursor
-    {
-        IDC_ARROW = 32512,
-        IDC_IBEAM = 32513,
-        IDC_WAIT = 32514,
-        IDC_CROSS = 32515,
-        IDC_UPARROW = 32516,
-        IDC_SIZE = 32640,
-        IDC_ICON = 32641,
-        IDC_SIZENWSE = 32642,
-        IDC_SIZENESW = 32643,
-        IDC_SIZEWE = 32644,
-        IDC_SIZENS = 32645,
-        IDC_SIZEALL = 32646,
-        IDC_NO = 32648,
-        IDC_HAND = 32649,
-        IDC_APPSTARTING = 32650,
-        IDC_HELP = 32651
-    }
-
     public enum SystemMetrics
     {
         SM_CXSCREEN = 0,  // 0x00
@@ -369,147 +349,66 @@ namespace Vortice.Win32
         public Point Point;
     }
 
-    public delegate IntPtr WNDPROC(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct WNDCLASSEX
+    public unsafe struct WNDCLASSEX
     {
         public int Size;
         public WindowClassStyles Styles;
 
-        [MarshalAs(UnmanagedType.FunctionPtr)] public WNDPROC WindowProc;
+        public delegate* unmanaged<IntPtr, uint, nuint, nint, nint> WindowProc;
         public int ClassExtraBytes;
         public int WindowExtraBytes;
         public IntPtr InstanceHandle;
         public IntPtr IconHandle;
         public IntPtr CursorHandle;
         public IntPtr BackgroundBrushHandle;
-        public string MenuName;
-        public string ClassName;
+        public ushort* MenuName;
+        public ushort* ClassName;
         public IntPtr SmallIconHandle;
     }
     #endregion Structures
 
-    internal static class User32
+    internal static unsafe class User32
     {
-        public const string LibraryName = "user32.dll";
+        public unsafe static readonly ushort* IDC_ARROW = (ushort*)32512;
 
-        [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-        public static extern ushort RegisterClassEx([In] ref WNDCLASSEX lpwcx);
+        [DllImport("user32", ExactSpelling = true)]
+        public unsafe static extern ushort RegisterClassExW(WNDCLASSEX* lpwcx);
 
-        [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport(LibraryName)]
-        public static extern bool UnregisterClass(string lpClassName, IntPtr hInstance);
+        [DllImport("user32", ExactSpelling = true)]
+        public static extern nint DefWindowProcW(IntPtr hWnd, uint msg, nuint wParam, nint lParam);
 
-        [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-        public static extern IntPtr DefWindowProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32", ExactSpelling = true)]
+        public static extern IntPtr LoadCursorW(IntPtr hInstance, ushort* lpCursorName);
 
-        [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-        public static extern IntPtr CallWindowProc(WNDPROC lpPrevWndFunc, IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32", ExactSpelling = true, SetLastError = true)]
+        public unsafe static extern int GetMessageW(Message* lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
 
-        [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-        public static extern IntPtr CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam);
+        [DllImport("user32", ExactSpelling = true)]
+        public unsafe static extern int PeekMessageW(Message* lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
 
-        [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-        public static extern IntPtr LoadCursor(IntPtr hInstance, string lpCursorName);
+        [DllImport("user32", ExactSpelling = true)]
+        public static extern int TranslateMessage(Message* lpMsg);
 
-        [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-        public static extern IntPtr LoadCursor(IntPtr hInstance, IntPtr lpCursorResource);
+        [DllImport("user32", ExactSpelling = true)]
+        public unsafe static extern nint DispatchMessageW(Message* lpMsg);
 
-        public static IntPtr LoadCursor(IntPtr hInstance, SystemCursor cursor)
-        {
-            return LoadCursor(hInstance, new IntPtr((int)cursor));
-        }
-
-        [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-        public static extern int GetMessage(out Message lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
-
-        [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport(LibraryName, CharSet = CharSet.Unicode, EntryPoint = "PeekMessageW")]
-        public static extern bool PeekMessage(
-            out Message lpMsg,
-            IntPtr hWnd,
-            uint wMsgFilterMin,
-            uint wMsgFilterMax,
-            uint wRemoveMsg);
-
-        [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport(LibraryName, SetLastError = true, CharSet = CharSet.Unicode, EntryPoint = "PostMessageW")]
-        public static extern bool PostMessage(IntPtr hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
-
-        [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport(LibraryName, ExactSpelling = true)]
-        public static extern bool TranslateMessage([In] ref Message lpMsg);
-
-        [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-        public static extern IntPtr DispatchMessage([In] ref Message lpmsg);
-
-        [DllImport(LibraryName, ExactSpelling = true)]
+        [DllImport("user32", ExactSpelling = true)]
         public static extern int GetSystemMetrics(SystemMetrics smIndex);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern uint GetWindowLongPtr(IntPtr hWnd, int nIndex);
+        [DllImport("user32", ExactSpelling = true, SetLastError = true)]
+        public static extern int AdjustWindowRectEx(RawRect* lpRect, uint dwStyle, int bMenu, uint dwExStyle);
 
-        [DllImport("user32.dll", SetLastError = true, EntryPoint = "GetWindowLong")]
-        private static extern uint GetWindowLong32b(IntPtr hWnd, int nIndex);
+        [DllImport("user32", ExactSpelling = true)]
+        public static extern IntPtr CreateWindowExW(uint dwExStyle, ushort* lpClassName, ushort* lpWindowName, uint dwStyle, int X, int Y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, void* lpParam);
 
-        public static uint GetWindowLong(IntPtr hWnd, int nIndex)
-        {
-            if (IntPtr.Size == 4)
-            {
-                return GetWindowLong32b(hWnd, nIndex);
-            }
+        [DllImport("user32", ExactSpelling = true, SetLastError = true)]
+        public static extern int DestroyWindow(IntPtr hWnd);
 
-            return GetWindowLongPtr(hWnd, nIndex);
-        }
+        [DllImport("user32", ExactSpelling = true)]
+        public static extern int ShowWindow(IntPtr hWnd, int nCmdShow);
 
-        [DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLong")]
-        private static extern uint SetWindowLong32b(IntPtr hWnd, int nIndex, uint value);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern uint SetWindowLongPtr(IntPtr hWnd, int nIndex, uint value);
-
-        public static uint SetWindowLong(IntPtr hWnd, int nIndex, uint value)
-        {
-            if (IntPtr.Size == 4)
-            {
-                return SetWindowLong32b(hWnd, nIndex, value);
-            }
-
-            return SetWindowLongPtr(hWnd, nIndex, value);
-        }
-
-        [return: MarshalAs(UnmanagedType.U1)]
-        [DllImport(LibraryName, ExactSpelling = true)]
-        public static extern bool AdjustWindowRect([In] [Out] ref RawRect lpRect, WindowStyles dwStyle, bool hasMenu);
-
-        [return: MarshalAs(UnmanagedType.U1)]
-        [DllImport(LibraryName, ExactSpelling = true)]
-        public static extern bool AdjustWindowRectEx([In] [Out] ref RawRect lpRect, WindowStyles dwStyle, bool bMenu, WindowExStyles exStyle);
-
-        [DllImport(LibraryName, CharSet = CharSet.Unicode)]
-        public static extern IntPtr CreateWindowEx(
-            int exStyle,
-            string className,
-            string windowName,
-            int style,
-            int x, int y,
-            int width, int height,
-            IntPtr hwndParent,
-            IntPtr Menu,
-            IntPtr Instance,
-            IntPtr pvParam);
-
-        [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport(LibraryName, ExactSpelling = true)]
-        public static extern bool DestroyWindow(IntPtr windowHandle);
-
-        [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport(LibraryName, ExactSpelling = true)]
-        public static extern bool ShowWindow(IntPtr hWnd, ShowWindowCommand nCmdShow);
-
-
-        [DllImport(LibraryName)]
+        [DllImport("user32", ExactSpelling = true)]
         public static extern void PostQuitMessage(int nExitCode);
     }
 }

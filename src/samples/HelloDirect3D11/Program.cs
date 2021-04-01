@@ -30,7 +30,9 @@ namespace HelloDirect3D11
 #endif
 
             using (var app = new TestApplication())
+            {
                 app.Run();
+            }
 
 #if DEBUG
             Console.WriteLine(ObjectTracker.ReportActiveObjects());

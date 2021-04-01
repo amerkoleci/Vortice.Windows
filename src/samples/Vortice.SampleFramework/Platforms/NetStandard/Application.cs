@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -14,51 +13,54 @@ namespace Vortice
 {
     public abstract partial class Application : IDisposable
     {
-        public static readonly string WndClassName = "VorticeWindow";
+        public const string WindowClassName = "VorticeWindow";
         public readonly IntPtr HInstance = GetModuleHandle(null);
-        private WNDPROC _wndProc;
 
-        private void PlatformConstruct()
+        private unsafe void PlatformConstruct()
         {
-            _wndProc = ProcessWindowMessage;
-            var wndClassEx = new WNDCLASSEX
+            fixed (char* lpszClassName = WindowClassName)
             {
-                Size = Unsafe.SizeOf<WNDCLASSEX>(),
-                Styles = WindowClassStyles.CS_HREDRAW | WindowClassStyles.CS_VREDRAW | WindowClassStyles.CS_OWNDC,
-                WindowProc = _wndProc,
-                InstanceHandle = HInstance,
-                CursorHandle = LoadCursor(IntPtr.Zero, SystemCursor.IDC_ARROW),
-                BackgroundBrushHandle = IntPtr.Zero,
-                IconHandle = IntPtr.Zero,
-                ClassName = WndClassName,
-            };
+                var wndClassEx = new WNDCLASSEX
+                {
+                    Size = Unsafe.SizeOf<WNDCLASSEX>(),
+                    Styles = WindowClassStyles.CS_HREDRAW | WindowClassStyles.CS_VREDRAW | WindowClassStyles.CS_OWNDC,
+                    WindowProc = &ProcessWindowMessage,
+                    InstanceHandle = HInstance,
+                    CursorHandle = LoadCursorW(IntPtr.Zero, IDC_ARROW),
+                    BackgroundBrushHandle = IntPtr.Zero,
+                    IconHandle = IntPtr.Zero,
+                    ClassName = (ushort*)lpszClassName
+                };
 
-            ushort atom = RegisterClassEx(ref wndClassEx);
+                ushort atom = RegisterClassExW(&wndClassEx);
 
-            if (atom == 0)
-            {
-                throw new InvalidOperationException(
-                    $"Failed to register window class. Error: {Marshal.GetLastWin32Error()}"
-                    );
+                if (atom == 0)
+                {
+                    throw new InvalidOperationException(
+                        $"Failed to register window class. Error: {Marshal.GetLastWin32Error()}"
+                        );
+                }
             }
 
             // Create main window.
             MainWindow = new Window("Vortice", 800, 600);
         }
 
-        private void PlatformRun()
+        private unsafe void PlatformRun()
         {
             InitializeBeforeRun();
+
+            Message msg;
 
             while (!_exitRequested)
             {
                 if (!_paused)
                 {
                     const uint PM_REMOVE = 1;
-                    if (PeekMessage(out var msg, IntPtr.Zero, 0, 0, PM_REMOVE))
+                    if (PeekMessageW(&msg, IntPtr.Zero, 0, 0, PM_REMOVE) != 0)
                     {
-                        TranslateMessage(ref msg);
-                        DispatchMessage(ref msg);
+                        TranslateMessage(&msg);
+                        DispatchMessageW(&msg);
 
                         if (msg.Value == (uint)WindowMessage.Quit)
                         {
@@ -71,7 +73,7 @@ namespace Vortice
                 }
                 else
                 {
-                    var ret = GetMessage(out var msg, IntPtr.Zero, 0, 0);
+                    var ret = GetMessageW(&msg, IntPtr.Zero, 0, 0);
                     if (ret == 0)
                     {
                         _exitRequested = true;
@@ -85,38 +87,38 @@ namespace Vortice
                     }
                     else
                     {
-                        TranslateMessage(ref msg);
-                        DispatchMessage(ref msg);
+                        TranslateMessage(&msg);
+                        DispatchMessageW(&msg);
                     }
                 }
             }
         }
 
-        private IntPtr ProcessWindowMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)
+        [UnmanagedCallersOnly]
+        private static nint ProcessWindowMessage(IntPtr hWnd, uint message, nuint wParam, nint lParam)
         {
-            if (msg == (uint)WindowMessage.ActivateApp)
+            if (message == (uint)WindowMessage.ActivateApp)
             {
-                _paused = IntPtrToInt32(wParam) == 0;
-                if (IntPtrToInt32(wParam) != 0)
+                if (wParam != 0)
                 {
-                    OnActivated();
+                    Application.Current?.OnActivated();
                 }
                 else
                 {
-                    OnDeactivated();
+                    Application.Current?.OnDeactivated();
                 }
 
-                return DefWindowProc(hWnd, msg, wParam, lParam);
+                return DefWindowProcW(hWnd, message, wParam, lParam);
             }
 
-            switch ((WindowMessage)msg)
+            switch ((WindowMessage)message)
             {
                 case WindowMessage.Destroy:
                     PostQuitMessage(0);
                     break;
             }
 
-            return DefWindowProc(hWnd, msg, wParam, lParam);
+            return DefWindowProcW(hWnd, message, wParam, lParam);
         }
 
         private static int SignedLOWORD(int n)

@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Drawing;
 
 namespace Vortice
 {
@@ -12,12 +11,20 @@ namespace Vortice
         private bool _exitRequested;
 
         protected IGraphicsDevice? _graphicsDevice;
-        public Window? MainWindow { get; private set; }
 
-        protected Application()
+        protected Application(bool headless = false)
         {
+            Headless = headless;
+            Current = this;
+
             PlatformConstruct();
         }
+
+        public static Application? Current { get; private set; }
+
+        public bool Headless { get; }
+
+        public Window? MainWindow { get; private set; }
 
         public void Dispose()
         {
