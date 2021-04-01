@@ -39,17 +39,32 @@ namespace Vortice.WIC
             SetSize(size.Width, size.Height);
         }
 
-        public unsafe void WritePixels(int lineCount, int stride, Span<byte> data)
+        public void WritePixels(int lineCount, DataRectangle buffer, int totalSizeInBytes = 0)
+        {
+            WritePixels(lineCount, buffer.DataPointer, buffer.Pitch, totalSizeInBytes);
+        }
+
+        public void WritePixels(int lineCount, IntPtr buffer, int rowStride, int totalSizeInBytes = 0)
+        {
+            if (totalSizeInBytes == 0)
+            {
+                totalSizeInBytes = lineCount * rowStride;
+            }
+
+            WritePixels(lineCount, rowStride, totalSizeInBytes, buffer);
+        }
+
+        public unsafe void WritePixels<T>(int lineCount, int stride, Span<T> data) where T : unmanaged
         {
             fixed (void* dataPtr = data)
             {
-                WritePixels(lineCount, stride, data.Length, (IntPtr)dataPtr);
+                WritePixels(lineCount, stride, data.Length * sizeof(T), (IntPtr)dataPtr);
             }
         }
 
         public unsafe void WritePixels<T>(int lineCount, int stride, T[] pixelBuffer) where T : unmanaged
         {
-            if ((lineCount * stride) > (Unsafe.SizeOf<T>() * pixelBuffer.Length))
+            if ((lineCount * stride) > (sizeof(T) * pixelBuffer.Length))
             {
                 throw new ArgumentException("lineCount * stride must be <= to sizeof(pixelBuffer)");
             }

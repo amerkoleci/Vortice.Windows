@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.InteropServices;
 using Vortice.DXGI;
 
 namespace Vortice.Direct3D11
@@ -34,24 +35,37 @@ namespace Vortice.Direct3D11
             RowPitch = DepthPitch = 0;
         }
 
-        public unsafe Span<T> AsSpan<T>(int sizeInBytes) => new Span<T>(DataPointer.ToPointer(), sizeInBytes);
-        public unsafe Span<T> AsSpan<T>(ID3D11Buffer buffer) => new Span<T>(DataPointer.ToPointer(), buffer.Description.SizeInBytes);
-        public unsafe Span<T> AsSpan<T>(ID3D11Texture1D resource, int mipSlice, int arraySlice)
+        public unsafe Span<T> AsSpan<T>(int length) where T : unmanaged
         {
-            resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
-            return new Span<T>(DataPointer.ToPointer(), mipSize * resource.Description.Format.SizeOfInBytes());
+            Span<byte> source = new(DataPointer.ToPointer(), length);
+            return MemoryMarshal.Cast<byte, T>(source);
         }
 
-        public unsafe Span<T> AsSpan<T>(ID3D11Texture2D resource, int mipSlice, int arraySlice)
+        public unsafe Span<T> AsSpan<T>(ID3D11Buffer buffer) where T : unmanaged
         {
-            resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
-            return new Span<T>(DataPointer.ToPointer(), mipSize * RowPitch);
+            Span<byte> source = new(DataPointer.ToPointer(), buffer.Description.SizeInBytes);
+            return MemoryMarshal.Cast<byte, T>(source);
         }
 
-        public unsafe Span<T> AsSpan<T>(ID3D11Texture3D resource, int mipSlice, int arraySlice)
+        public unsafe Span<T> AsSpan<T>(ID3D11Texture1D resource, int mipSlice, int arraySlice) where T : unmanaged
         {
             resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
-            return new Span<T>(DataPointer.ToPointer(), mipSize * DepthPitch);
+            Span<byte> source = new(DataPointer.ToPointer(), mipSize * resource.Description.Format.SizeOfInBytes());
+            return MemoryMarshal.Cast<byte, T>(source);
+        }
+
+        public unsafe Span<T> AsSpan<T>(ID3D11Texture2D resource, int mipSlice, int arraySlice) where T : unmanaged
+        {
+            resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
+            Span<byte> source = new Span<byte>(DataPointer.ToPointer(), mipSize * RowPitch);
+            return MemoryMarshal.Cast<byte, T>(source);
+        }
+
+        public unsafe Span<T> AsSpan<T>(ID3D11Texture3D resource, int mipSlice, int arraySlice) where T : unmanaged
+        {
+            resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
+            Span<byte> source = new(DataPointer.ToPointer(), mipSize * DepthPitch);
+            return MemoryMarshal.Cast<byte, T>(source);
         }
     }
 }

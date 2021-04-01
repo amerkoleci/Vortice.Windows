@@ -3,6 +3,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using Vortice.Win32;
 using static Vortice.Win32.User32;
 
@@ -31,14 +32,14 @@ namespace Vortice
             //}
             //else
             {
-                if (Width > 0 && Height > 0)
+                if (ClientSize.Width > 0 && ClientSize.Height > 0)
                 {
                     int screenWidth = GetSystemMetrics(SystemMetrics.SM_CXSCREEN);
                     int screenHeight = GetSystemMetrics(SystemMetrics.SM_CYSCREEN);
 
                     // Place the window in the middle of the screen.WS_EX_APPWINDOW
-                    x = (screenWidth - Width) / 2;
-                    y = (screenHeight - Height) / 2;
+                    x = (screenWidth - ClientSize.Width) / 2;
+                    y = (screenHeight - ClientSize.Height) / 2;
                 }
 
                 if (resizable)
@@ -57,9 +58,9 @@ namespace Vortice
             int windowWidth;
             int windowHeight;
 
-            if (Width > 0 && Height > 0)
+            if (ClientSize.Width > 0 && ClientSize.Height > 0)
             {
-                var rect = new RawRect(0, 0, Width, Height);
+                var rect = new RawRect(0, 0, ClientSize.Width, ClientSize.Height);
 
                 // Adjust according to window styles
                 AdjustWindowRectEx(&rect, (uint)style, 0, (uint)styleEx);
@@ -99,8 +100,7 @@ namespace Vortice
             }
 
             ShowWindow(Handle, (int)ShowWindowCommand.Normal);
-            Width = windowWidth;
-            Height = windowHeight;
+            ClientSize = new Size(windowWidth, windowHeight);
         }
 
         public void Destroy()

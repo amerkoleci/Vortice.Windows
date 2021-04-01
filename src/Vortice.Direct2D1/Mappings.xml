@@ -494,7 +494,6 @@
 
     <!-- IWICBitmapFrameEncode -->
     <map method="IWICBitmapFrameEncode::SetColorContexts" visibility="internal"/>
-    <map method="IWICBitmapFrameEncode::WritePixels" visibility="internal"/>
     <map param="IWICBitmapFrameEncode::WritePixels::pbPixels" type="void"/>
     <map method="IWICBitmapFrameEncode::WriteSource" visibility="internal"/>
     <map param="IWICBitmapFrameEncode::WriteSource::prc" type="void" attribute="in"/>
@@ -671,6 +670,7 @@
     <map method="IWICImagingFactory::CreateStream" visibility="private" name="CreateStream_" />
     <map method="IWICImagingFactory::CreateEncoder" visibility="private" name="CreateEncoder_" />
     <map method="IWICImagingFactory::CreateDecoderFromStream" visibility="private" name="CreateDecoderFromStream_" />
+    <map param="IWICImagingFactory::CreateBitmapFromMemory::pbBuffer" type="void" keep-pointers="true"/>
     
     <!-- IWICImagingFactory2 -->
     <map param="IWICImagingFactory2::CreateImageEncoder::ppWICImageEncoder" attribute="out" return="true"/>

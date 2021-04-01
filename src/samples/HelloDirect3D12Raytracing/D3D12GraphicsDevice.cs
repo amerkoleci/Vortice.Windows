@@ -194,8 +194,8 @@ namespace HelloDirect3D12Raytracing
                 SwapChainDescription1 swapChainDesc = new SwapChainDescription1
                 {
                     BufferCount = RenderLatency,
-                    Width = window.Width,
-                    Height = window.Height,
+                    Width = window.ClientSize.Width,
+                    Height = window.ClientSize.Height,
                     Format = Format.R8G8B8A8_UNorm,
                     Usage = Usage.RenderTargetOutput,
                     SwapEffect = SwapEffect.FlipDiscard,
@@ -476,8 +476,8 @@ namespace HelloDirect3D12Raytracing
                     Dimension = ResourceDimension.Texture2D,
                     Format = Format.R8G8B8A8_UNorm,
                     Flags = ResourceFlags.AllowUnorderedAccess,
-                    Width = (ulong)window.Width,
-                    Height = window.Height,
+                    Width = (ulong)window.ClientSize.Width,
+                    Height = window.ClientSize.Height,
                     Layout = TextureLayout.Unknown,
                     MipLevels = 1,
                     SampleDescription = new SampleDescription(1, 0),
@@ -613,7 +613,7 @@ namespace HelloDirect3D12Raytracing
             _commandList.BeginEvent("Frame");
 
             // Call callback.
-            draw(Window.Width, Window.Height);
+            draw(Window.ClientSize.Width, Window.ClientSize.Height);
 
             // Raytracing
             _commandList.ResourceBarrierTransition(_outputBuffer, ResourceStates.CopySource, ResourceStates.UnorderedAccess);
@@ -626,8 +626,8 @@ namespace HelloDirect3D12Raytracing
 
             _commandList.DispatchRays(new DispatchRaysDescription
             {
-                Width = Window.Width,
-                Height = Window.Height,
+                Width = Window.ClientSize.Width,
+                Height = Window.ClientSize.Height,
                 Depth = 1,
 
                 RayGenerationShaderRecord = new GpuVirtualAddressRange
@@ -679,7 +679,7 @@ namespace HelloDirect3D12Raytracing
             return true;
         }
 
-        private static void WriteDebugMessages(ID3D12InfoQueue infoQueue)
+        private static void WriteDebugMessages(ID3D12InfoQueue? infoQueue)
         {
             if (infoQueue == null)
                 return;

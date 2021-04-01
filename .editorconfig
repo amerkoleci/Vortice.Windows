@@ -158,7 +158,7 @@ dotnet_code_quality.ca1802.api_surface = private, internal
 dotnet_code_quality.ca2208.api_surface = public
 
 # License header
-file_header_template = Copyright (c) Amer Koleci and contributors.\nDistributed under the MIT license. See the LICENSE file in the project root for more information.\n
+file_header_template = Copyright (c) Amer Koleci and contributors.\nDistributed under the MIT license. See the LICENSE file in the project root for more information.
 
 # C++ Files
 [*.{cpp,h,in}]

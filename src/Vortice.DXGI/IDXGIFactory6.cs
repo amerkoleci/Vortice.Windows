@@ -8,7 +8,7 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIFactory6
     {
-        public Result EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference, out T adapter) where T : IDXGIAdapter
+        public Result EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference, out T? adapter) where T : IDXGIAdapter
         {
             Result result = EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr);
             if (result.Success)
@@ -21,7 +21,7 @@ namespace Vortice.DXGI
             return result;
         }
 
-        public T EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference) where T : IDXGIAdapter
+        public T? EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference) where T : IDXGIAdapter
         {
             Result result = EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr);
             if (result.Failure)

@@ -222,5 +222,33 @@ namespace Vortice.WIC
             var nativeAccess = desiredAccess.ToNative();
             return CreateDecoderFromFilename_(fileName, guidVendor, (int)nativeAccess, metadataOptions);
         }
+
+        public unsafe IWICBitmap CreateBitmapFromMemory<T>(int width, int height, Guid pixelFormat, T[] pixelData, int stride = 0) where T : unmanaged
+        {
+            if (stride == 0)
+            {
+                stride = width * sizeof(T);
+            }
+
+            int sizeInBytes = height * stride;
+            fixed (void* pixelDataPtr = &pixelData[0])
+            {
+                return CreateBitmapFromMemory(width, height, pixelFormat, stride, sizeInBytes, pixelDataPtr);
+            }
+        }
+
+        public unsafe IWICBitmap CreateBitmapFromMemory<T>(int width, int height, Guid pixelFormat, Span<T> pixelData, int stride = 0) where T : unmanaged
+        {
+            if (stride == 0)
+            {
+                stride = width * sizeof(T);
+            }
+
+            int sizeInBytes = height * stride;
+            fixed (void* pixelDataPtr = &pixelData[0])
+            {
+                return CreateBitmapFromMemory(width, height, pixelFormat, stride, sizeInBytes, pixelDataPtr);
+            }
+        }
     }
 }

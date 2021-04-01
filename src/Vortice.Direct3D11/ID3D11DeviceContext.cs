@@ -1405,6 +1405,14 @@ namespace Vortice.Direct3D11
             return Map(resource, subresource, mode, flags);
         }
 
+        public Span<T> Map<T>(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
+        {
+            int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
+            MappedSubresource mapped = Map(resource, subresource, mode, flags);
+            Span<byte> source = new(mapped.DataPointer.ToPointer(), mipSize * mapped.RowPitch);
+            return MemoryMarshal.Cast<byte, T>(source);
+        }
+
         public void Unmap(ID3D11Buffer buffer) => Unmap(buffer, 0);
 
         public void Unmap(ID3D11Resource resource, int mipSlice, int arraySlice)

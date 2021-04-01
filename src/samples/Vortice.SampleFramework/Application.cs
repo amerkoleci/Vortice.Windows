@@ -56,5 +56,10 @@ namespace Vortice
         protected virtual void OnDraw(int width, int height)
         {
         }
+
+        protected virtual void OnKeyboardEvent(KeyboardKey key, bool pressed)
+        {
+
+        }
     }
 }

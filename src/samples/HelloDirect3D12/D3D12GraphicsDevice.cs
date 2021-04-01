@@ -107,8 +107,8 @@ namespace HelloDirect3D12
             SwapChainDescription1 swapChainDesc = new()
             {
                 BufferCount = RenderLatency,
-                Width = window.Width,
-                Height = window.Height,
+                Width = window.ClientSize.Width,
+                Height = window.ClientSize.Height,
                 Format = Format.R8G8B8A8_UNorm,
                 Usage = Usage.RenderTargetOutput,
                 SwapEffect = SwapEffect.FlipDiscard,
@@ -284,14 +284,14 @@ namespace HelloDirect3D12
 
             // Set necessary state.
             _commandList.SetGraphicsRootSignature(_rootSignature);
-            _commandList.RSSetViewport(new Viewport(Window.Width, Window.Height));
-            _commandList.RSSetScissorRect(new Rectangle(Window.Width, Window.Height));
+            _commandList.RSSetViewport(new Viewport(Window.ClientSize.Width, Window.ClientSize.Height));
+            _commandList.RSSetScissorRect(new Rectangle(Window.ClientSize.Width, Window.ClientSize.Height));
 
             // Indicate that the back buffer will be used as a render target.
             _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.Present, ResourceStates.RenderTarget);
 
             // Call callback.
-            draw(Window.Width, Window.Height);
+            draw(Window.ClientSize.Width, Window.ClientSize.Height);
 
             CpuDescriptorHandle rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
             rtvHandle += _backbufferIndex * _rtvDescriptorSize;
