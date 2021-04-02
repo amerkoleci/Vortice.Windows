@@ -9,11 +9,10 @@
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <SharpGenExtensionPackage Include="SharpGen.Extension.MicrosoftDocs" Version="$(SharpGenVersion)" Condition="'$(TestDocs)' == 'true'" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
     <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
   </ItemGroup>
-  
+
 </Project>

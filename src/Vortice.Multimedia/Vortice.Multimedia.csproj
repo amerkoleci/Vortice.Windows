@@ -9,6 +9,5 @@
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <SharpGenExtensionPackage Include="SharpGen.Extension.MicrosoftDocs" Version="$(SharpGenVersion)" Condition="'$(TestDocs)' == 'true'" />
   </ItemGroup>
 </Project>

@@ -15,7 +15,7 @@ namespace Vortice.XAudio2
 
         private static IntPtr LoadXAudioLibrary()
         {
-#if NET5_0
+#if NETCOREAPP3_0_OR_GREATER
             IntPtr libraryHandle;
             if(NativeLibrary.TryLoad("xaudio2_9.dll", out libraryHandle))
             {
@@ -207,7 +207,7 @@ namespace Vortice.XAudio2
 
         private static T LoadFunction<T>(string name)
         {
-#if NET5_0
+#if NETCOREAPP3_0_OR_GREATER
             IntPtr functionPtr = NativeLibrary.GetExport(s_xaudioLibrary, name);
 #else
             IntPtr functionPtr = Win32.GetProcAddress(s_xaudioLibrary, name);
@@ -221,7 +221,7 @@ namespace Vortice.XAudio2
         }
 
 #pragma warning disable IDE1006 // Naming Styles
-#if !NET5_0
+#if !NETCOREAPP3_0_OR_GREATER
         private static class Win32
         {
             private const string SystemLibrary = "Kernel32.dll";
