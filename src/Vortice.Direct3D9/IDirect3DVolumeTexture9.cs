@@ -34,8 +34,8 @@ namespace Vortice.Direct3D9
         /// </summary>
         /// <param name="level">The level.</param>
         /// <param name="flags">The flags.</param>
-        /// <returns>A <see cref="DataBox"/> describing the region locked.</returns>
-        public DataBox LockBox(int level, LockFlags flags)
+        /// <returns>A <see cref="NativeMessage"/> describing the region locked.</returns>
+        public NativeMessage LockBox(int level, LockFlags flags)
         {
             LockBox(level, out LockedBox lockedRect, IntPtr.Zero, flags);
             return new DataBox(lockedRect.PBits, lockedRect.RowPitch, lockedRect.SlicePitch);
@@ -48,7 +48,7 @@ namespace Vortice.Direct3D9
         /// <param name="box">The box.</param>
         /// <param name="flags">The flags.</param>
         /// <returns>A <see cref="DataRectangle"/> describing the region locked.</returns>
-        public DataBox LockBox(int level, Box box, LockFlags flags)
+        public NativeMessage LockBox(int level, Box box, LockFlags flags)
         {
             unsafe
             {

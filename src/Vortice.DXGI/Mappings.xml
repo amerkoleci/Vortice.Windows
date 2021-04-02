@@ -333,6 +333,6 @@
 
     <map method="ISurfaceImageSourceManagerNative::FlushAllSurfacesWithDevice" hresult="true" check="false"/>
 
-    <remove method="IDesktopWindowXamlSourceNative::PreTranslateMessage" />
+    <!--<remove method="IDesktopWindowXamlSourceNative::PreTranslateMessage" />-->
   </mapping>
 </config>

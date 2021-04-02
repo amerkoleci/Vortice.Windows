@@ -43,6 +43,8 @@
     <define struct="Vortice.Mathematics.Matrix4x3" sizeof="48" />
     <define struct="Vortice.Mathematics.Matrix5x4" sizeof="80" />
 
+    <define struct="Vortice.Win32.NativeMessage" sizeof="28" />
+
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
 
@@ -61,12 +63,12 @@
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>
     <bind from="HMONITOR" to="System.IntPtr"/>
-    <bind from="BOOL" to="SharpGen.Runtime.RawBool"/>
 
     <bind from="POINT" to="Vortice.Mathematics.Point" />
     <bind from="SIZE" to="Vortice.Mathematics.Size" />
     <bind from="RECT" to="Vortice.RawRect" />
     <bind from="D3DCOLORVALUE" to="Vortice.Mathematics.Color4" />
+    <bind from="MSG" to="Vortice.Win32.NativeMessage" />
   </bindings>
 
   <naming>

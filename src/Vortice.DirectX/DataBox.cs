@@ -27,15 +27,15 @@ namespace Vortice
     /// Provides access to data organized in 3D.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public readonly struct DataBox
+    public readonly struct NativeMessage
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataBox"/> struct.
+        /// Initializes a new instance of the <see cref="NativeMessage"/> struct.
         /// </summary>
         /// <param name="dataPointer">The data pointer.</param>
         /// <param name="rowPitch">The row pitch.</param>
         /// <param name="slicePitch">The slice pitch.</param>
-        public DataBox(IntPtr dataPointer, int rowPitch, int slicePitch)
+        public NativeMessage(IntPtr dataPointer, int rowPitch, int slicePitch)
         {
             DataPointer = dataPointer;
             RowPitch = rowPitch;
@@ -43,10 +43,10 @@ namespace Vortice
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataBox"/> struct.
+        /// Initializes a new instance of the <see cref="NativeMessage"/> struct.
         /// </summary>
         /// <param name="dataPointer">The data pointer.</param>
-        public DataBox(IntPtr dataPointer)
+        public NativeMessage(IntPtr dataPointer)
         {
             DataPointer = dataPointer;
             RowPitch = 0;

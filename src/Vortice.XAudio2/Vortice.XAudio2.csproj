@@ -3,7 +3,7 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Vortice.XAudio2</RootNamespace>
     <Description>XAudio2 and X3DAudio bindings</Description>
   </PropertyGroup>
