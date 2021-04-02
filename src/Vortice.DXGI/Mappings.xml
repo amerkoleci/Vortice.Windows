@@ -6,9 +6,8 @@
 
   <sdk name="WindowsSdk" version="10.0.19041.0" />
   <sdk name="StdLib" />
-  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/winui</include-dir>
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
-  
+
   <include file="dxgiformat.h" namespace="Vortice.DXGI" attach="true"/>
 
   <include file="dxgidebug.h" namespace="Vortice.DXGI" attach="true"/>
@@ -23,11 +22,6 @@
   <include file="dxgi1_6.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="DXProgrammableCapture.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="windows.ui.xaml.media.dxinterop.h" namespace="Vortice.DXGI" attach="true" />
-  <!-- WinUI -->
-  <include file="microsoft.ui.xaml.window.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
-  <include file="microsoft.ui.xaml.hosting.desktopwindowxamlsource.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
-  <include file="microsoft.ui.xaml.xamlroot.h" attach="true" namespace="Vortice.DXGI.WinUI" output="WinUI" />
-  <include file="microsoft.ui.xaml.media.dxinterop.h" namespace="Vortice.DXGI.WinUI" output="WinUI" attach="true" />
 
   <extension>
 
@@ -332,7 +326,5 @@
     <map method="ISwapChainPanelNative2::SetSwapChainHandle" hresult="true" check="false"/>
 
     <map method="ISurfaceImageSourceManagerNative::FlushAllSurfacesWithDevice" hresult="true" check="false"/>
-
-    <!--<remove method="IDesktopWindowXamlSourceNative::PreTranslateMessage" />-->
   </mapping>
 </config>
