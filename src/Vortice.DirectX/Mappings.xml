@@ -12,6 +12,7 @@
   <include file="dxcore_interface.h" namespace="Vortice.DXCore" attach="true" output="DXCore" />
   <include file="dxcore.h" namespace="Vortice.DXCore" attach="true" output="DXCore" />
   <include file="dxgiformat.h" namespace="Vortice.DXGI" attach="true" output="DXGI" />
+  <include file="dxgicommon.h" namespace="Vortice.DXGI" attach="true"/>
 
   <extension>
     <define struct="Vortice.RawRect" sizeof="16" />
