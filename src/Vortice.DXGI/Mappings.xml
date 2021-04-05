@@ -8,8 +8,6 @@
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 
-  <include file="dxgiformat.h" namespace="Vortice.DXGI" attach="true"/>
-
   <include file="dxgidebug.h" namespace="Vortice.DXGI" attach="true"/>
 
   <include file="dxgitype.h" namespace="Vortice.DXGI" attach="true"/>
@@ -75,8 +73,6 @@
     <map enum="DXGI_USAGE_ENUM" name="Usage" flags="true" none="false" />
     <map enum-item="DXGI_USAGE_(.+)" name-tmp="$1" />
     <map enum-item="DXGI_USAGE_BACK_BUFFER" name="Backbuffer" />
-    <map enum-item="DXGI_FORMAT_.*" naming="underscore" />
-    <map enum-item="DXGI_FORMAT_420_OPAQUE" name="Opaque420"/>
     <map enum="DXGI_DEBUG_RLO_FLAGS" name="ReportLiveObjectFlags" />
     <map enum="DXGI_MWA_FLAGS" name="WindowAssociationFlags" />
     <map enum-item="DXGI_MWA_NO_WINDOW_CHANGES" name="IgnoreAll" />

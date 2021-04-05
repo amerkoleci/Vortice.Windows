@@ -240,7 +240,7 @@ namespace Vortice.DXGI
                 Format.B8G8R8A8_Typeless,
                 Format.B8G8R8A8_UNorm,
                 Format.B8G8R8A8_UNorm_SRgb,
-                Format.R9G9B9E5_Sharedexp,
+                Format.R9G9B9E5_SharedExp,
                 Format.X24_Typeless_G8_UInt,
                 Format.X32_Typeless_G8X24_UInt,
             }, 32);
