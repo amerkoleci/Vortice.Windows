@@ -3,12 +3,12 @@ name: ci
 
 on:
   push:
-    branches: [ main ]
     paths-ignore:
     - 'CHANGELOG.md'
-    - 'README.md'    
+    - 'README.md'
+    - 'changelog.md'
+    - 'readme.md'
   pull_request:
-    branches: [ main ]
 
 jobs:
   build:
