@@ -11,8 +11,19 @@ on:
   pull_request:
 
 jobs:
+  CheckSkipCI:
+    runs-on: ubuntu-latest
+    if: |
+      !contains(github.event.head_commit.message, '[skip ci]') &&
+      !contains(github.event.pull_request.title, '[skip ci]') &&
+      !contains(github.event.head_commit.message, '[skip-ci]') &&
+      !contains(github.event.pull_request.title, '[skip-ci]')
+    steps:
+      - run: exit 0
+
   build:
     runs-on: windows-latest
+    needs: [CheckSkipCI]
 
     steps:
     - name: Checkout

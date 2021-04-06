@@ -1,10 +1,13 @@
 # Changelog
 
-Current Stable Release:    1.8.59 (January 2021)
-
+Current Stable Release:    1.9.41 (April 2021)
 
 -----------------------------------------------
-Release:     1.9.XX (April 2021)
+Release:     1.9.XX (May 2021)
+-----------------------------------------------
+
+-----------------------------------------------
+Release:     1.9.41 (April 2021)
 -----------------------------------------------
 KEY CHANGES:
 - [ENH] General: Update to newer SharpGen SDK and remove Vortice.Runtime.COM.
