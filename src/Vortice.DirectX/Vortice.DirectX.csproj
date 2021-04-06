@@ -8,10 +8,17 @@
     <RootNamespace>Vortice</RootNamespace>
     <Description>Core DirectX library.</Description>
   </PropertyGroup>
+
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="Vortice.Mathematics" Version="$(VorticeMathematicsVersion)" />
     <PackageReference Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Vortice.D3DCompiler, PublicKey=$(VorticePublicKey)</_Parameter1>
+    </AssemblyAttribute>
   </ItemGroup>
 
 </Project>

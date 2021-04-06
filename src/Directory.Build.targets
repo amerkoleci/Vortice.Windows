@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <DefineConstants Condition="'$(SignAssembly)' == 'true'">$(DefineConstants);SIGNED_BUILD</DefineConstants>
+  </PropertyGroup>
+</Project>

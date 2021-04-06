@@ -430,7 +430,7 @@
     <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT::OutFormatSupport" type="D3D11_FORMAT_SUPPORT" />
     <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT2::OutFormatSupport2" type="D3D11_FORMAT_SUPPORT2" />
 
-    <map field="D3D11_SUBRESOURCE_DATA::pSysMem" name="DataPointer " />
+    <map field="D3D11_SUBRESOURCE_DATA::pSysMem" name="DataPointer" />
     <map field="D3D11_SUBRESOURCE_DATA::SysMemPitch" name="Pitch" />
     <map field="D3D11_SUBRESOURCE_DATA::SysMemSlicePitch" name="SlicePitch" />
 
