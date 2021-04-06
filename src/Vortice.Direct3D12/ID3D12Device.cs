@@ -64,7 +64,7 @@ namespace Vortice.Direct3D12
                 var featureData = new FeatureDataFeatureLevels
                 {
                     NumFeatureLevels = featureLevels.Length,
-                    PFeatureLevelsRequested = new IntPtr(levelsPtr),
+                    FeatureLevelsRequestedPointer = new IntPtr(levelsPtr),
                     MaxSupportedFeatureLevel = FeatureLevel.Level_11_0
                 };
 

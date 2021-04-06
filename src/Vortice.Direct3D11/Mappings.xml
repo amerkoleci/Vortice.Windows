@@ -453,7 +453,6 @@
     <map enum-item="D3D11_MESSAGE_ID_(.*)" name-tmp="$1" />
     <remove enum-item="D3D11_MESSAGE_ID_D3D10L9_MESSAGES_START" />
     <remove enum-item="D3D11_MESSAGE_ID_D3D10L9_MESSAGES_END" />
-    <remove enum-item="D3D11_MESSAGE_ID_D3D10_MESSAGES_START" />
     <remove enum-item="D3D11_MESSAGE_ID_D3D10_MESSAGES_END" />
     <map struct="D3D11_MESSAGE" marshal="true" new="false" marshalto="true" />
     <map field="D3D11_MESSAGE::pDescription" name="Description" visibility="public"/>

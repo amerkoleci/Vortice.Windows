@@ -38,8 +38,8 @@ namespace Vortice.Direct3D9
         /// <returns>A <see cref="DataRectangle"/> describing the region locked.</returns>
         public DataRectangle LockRect(int level, LockFlags flags)
         {
-            LockRect(level, out var lockedRect, IntPtr.Zero, flags);
-            return new DataRectangle(lockedRect.PBits, lockedRect.Pitch);
+            LockRect(level, out LockedRectangle lockedRect, IntPtr.Zero, flags);
+            return new DataRectangle(lockedRect.BitsPointer, lockedRect.Pitch);
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace Vortice.Direct3D9
             unsafe
             {
                 RawRect rawRect = rectangle;
-                LockRect(level, out var lockedRect, new IntPtr(&rawRect), flags);
-                return new DataRectangle(lockedRect.PBits, lockedRect.Pitch);
+                LockRect(level, out LockedRectangle lockedRect, new IntPtr(&rawRect), flags);
+                return new DataRectangle(lockedRect.BitsPointer, lockedRect.Pitch);
             }
         }
     }

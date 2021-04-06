@@ -95,7 +95,7 @@ namespace Vortice.Direct3D12.Video
             DiscardResource(resource, new DiscardRegion
             {
                 NumRects = 0,
-                PRects = IntPtr.Zero,
+                RectsPointer = IntPtr.Zero,
                 FirstSubresource = firstSubresource,
                 NumSubresources = numSubresources
             });
@@ -116,7 +116,7 @@ namespace Vortice.Direct3D12.Video
                 DiscardResource(resource, new DiscardRegion
                 {
                     NumRects = rectCount,
-                    PRects = (IntPtr)rectsPtr,
+                    RectsPointer = (IntPtr)rectsPtr,
                     FirstSubresource = firstSubresource,
                     NumSubresources = numSubresources
                 });

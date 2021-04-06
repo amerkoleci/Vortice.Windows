@@ -47,7 +47,7 @@ namespace Vortice.Direct3D9
         public DataBox LockBox(LockFlags flags)
         {
             LockBox(out LockedBox lockedBox, IntPtr.Zero, flags);
-            return new DataBox(lockedBox.PBits, lockedBox.RowPitch, lockedBox.SlicePitch);
+            return new DataBox(lockedBox.BitsPointer, lockedBox.RowPitch, lockedBox.SlicePitch);
         }
 
         /// <summary>
@@ -56,13 +56,10 @@ namespace Vortice.Direct3D9
         /// <param name="box">The box.</param>
         /// <param name="flags">The flags.</param>
         /// <returns>The locked region of this resource</returns>
-        public DataBox LockBox(Box box, LockFlags flags)
+        public unsafe DataBox LockBox(Box box, LockFlags flags)
         {
-            unsafe
-            {
-                LockBox(out LockedBox lockedBox, new IntPtr(&box), flags);
-                return new DataBox(lockedBox.PBits, lockedBox.RowPitch, lockedBox.SlicePitch);
-            }
+            LockBox(out LockedBox lockedBox, new IntPtr(&box), flags);
+            return new DataBox(lockedBox.BitsPointer, lockedBox.RowPitch, lockedBox.SlicePitch);
         }
     }
 }
