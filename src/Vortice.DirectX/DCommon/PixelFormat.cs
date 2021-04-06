@@ -3,7 +3,7 @@
 
 using Vortice.DXGI;
 
-namespace Vortice.Direct2D1
+namespace Vortice.DCommon
 {
     public partial struct PixelFormat
     {

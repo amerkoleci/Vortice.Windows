@@ -4,8 +4,14 @@ Current Stable Release:    1.8.59 (January 2021)
 
 
 -----------------------------------------------
-Release:     1.9.XX (March 2021)
+Release:     1.9.XX (April 2021)
 -----------------------------------------------
+KEY CHANGES:
+- [ENH] General: Update to newer SharpGen SDK and remove Vortice.Runtime.COM.
+- [FIX] BUG: Critical bug with Interop.Patch for Read and Write.
+- [CHG] XAudio2: Remove XAudio2 redist and improve bindings.
+- [ENH] Direct3D12: Add Hello raytracing example.
+- [ENH] Move common types from DXGI and DCommon to Vortice.DirectX for better separation and interop.
 
 -----------------------------------------------
 Release:     1.8.59 (January 2021)

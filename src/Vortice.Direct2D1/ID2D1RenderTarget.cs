@@ -7,6 +7,7 @@ using Vortice.WIC;
 using SharpGen.Runtime;
 using Vortice.DXGI;
 using Vortice.Mathematics;
+using Vortice.DCommon;
 
 namespace Vortice.Direct2D1
 {

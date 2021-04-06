@@ -3,6 +3,7 @@
 
 using System;
 using System.Numerics;
+using Vortice.DCommon;
 using Vortice.Direct2D1;
 
 namespace Vortice.DirectWrite
