@@ -46,9 +46,9 @@ jobs:
 
     - name: Publish to NuGet
       if: github.event_name == 'push'
-      run: |      
+      run: |
           if ( "${{github.ref}}" -match "^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$" ) {
-              dotnet nuget push build\packages\**\*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}} --no-symbols true
+              dotnet nuget push build\packages\**\*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_TOKEN}}
           } else {
               echo "publish is only enabled by tagging with a release tag"
           }
