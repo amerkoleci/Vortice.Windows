@@ -10,7 +10,6 @@
 
   <include file="dxgidebug.h" namespace="Vortice.DXGI" attach="true"/>
 
-  <include file="dxgitype.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi1_2.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi1_3.h" namespace="Vortice.DXGI" attach="true"/>
@@ -38,8 +37,6 @@
   </extension>
 
   <bindings>
-    <bind from="DXGI_RGB" to="Vortice.Mathematics.Color3" />
-    <bind from="DXGI_RGBA" to="Vortice.Mathematics.Color4" />
     <bind from="DXGI_MATRIX_3X2_F" to="System.Numerics.Matrix3x2" />
   </bindings>
 

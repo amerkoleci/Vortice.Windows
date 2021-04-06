@@ -13,7 +13,7 @@
   <include file="dxcore.h" namespace="Vortice.DXCore" attach="true" output="DXCore" />
   <include file="dxgiformat.h" namespace="Vortice.DXGI" attach="true" output="DXGI" />
   <include file="dxgicommon.h" namespace="Vortice.DXGI" attach="true" output="DXGI" />
-
+  <include file="dxgitype.h" namespace="Vortice.DXGI" attach="true" output="DXGI" />
 
   <include file="dcommon.h" namespace="Vortice.DCommon" attach="true" output="DCommon" />
 
@@ -74,6 +74,10 @@
     <bind from="RECT" to="Vortice.RawRect" />
     <bind from="D3DCOLORVALUE" to="Vortice.Mathematics.Color4" />
     <bind from="MSG" to="Vortice.Win32.NativeMessage" />
+
+    <!-- DXGI -->
+    <bind from="DXGI_RGB" to="Vortice.Mathematics.Color3" />
+    <bind from="DXGI_RGBA" to="Vortice.Mathematics.Color4" />
 
     <!-- DCommon -->
     <bind from="D2D_SIZE_U" to="Vortice.Mathematics.Size" />
@@ -282,7 +286,17 @@
     <map enum-item="DXGI_FORMAT_.*" naming="underscore" />
     <map enum-item="DXGI_FORMAT_420_OPAQUE" name="Opaque420" />
     <map struct="DXGI(.+)" name-tmp="$1" />
-
+    <map struct="DXGI_GAMMA_CONTROL" name="GammaControl" />
+    <remove field="DXGI_GAMMA_CONTROL::.*"/>
+    <map struct="DXGI_GAMMA_CONTROL_CAPABILITIES" name="GammaControlCapabilities" />
+    <remove field="DXGI_GAMMA_CONTROL_CAPABILITIES::.*"/>
+    <map struct="DXGI_JPEG_AC_HUFFMAN_TABLE" name="JpegAcHuffmanTable" />
+    <remove field="DXGI_JPEG_AC_HUFFMAN_TABLE::.*"/>
+    <map struct="DXGI_JPEG_DC_HUFFMAN_TABLE" name="JpegDcHuffmanTable" />
+    <remove field="DXGI_JPEG_DC_HUFFMAN_TABLE::.*"/>
+    <map struct="DXGI_JPEG_QUANTIZATION_TABLE" name="JpegQuantizationTable" />
+    <remove field="DXGI_JPEG_QUANTIZATION_TABLE::.*"/>
+    
     <!-- DCommon -->
     <map enum="D2D1(.*)" name-tmp="$1" />
     <map enum="DWRITE(.+)" name-tmp="$1" />

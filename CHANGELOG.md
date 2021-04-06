@@ -12,6 +12,7 @@ KEY CHANGES:
 - [CHG] XAudio2: Remove XAudio2 redist and improve bindings.
 - [ENH] Direct3D12: Add Hello raytracing example.
 - [ENH] Move common types from DXGI and DCommon to Vortice.DirectX for better separation and interop.
+- [ENH] dxgitype.h: Moved in Vortice.DirectX.
 
 -----------------------------------------------
 Release:     1.8.59 (January 2021)
