@@ -36,32 +36,32 @@ namespace Vortice.DirectWrite
         public GlyphMetrics[] GetDesignGlyphMetrics(ushort[] glyphIndices, bool isSideways)
         {
             var glyphMetrics = new GlyphMetrics[glyphIndices.Length];
-            GetDesignGlyphMetrics(glyphIndices, glyphIndices.Length, glyphMetrics, isSideways);
+            GetDesignGlyphMetrics(glyphIndices, glyphMetrics, isSideways);
             return glyphMetrics;
         }
 
         public Result GetDesignGlyphMetrics(ushort[] glyphIndices, GlyphMetrics[] glyphMetrics, bool isSideways)
         {
-            return GetDesignGlyphMetrics(glyphIndices, glyphIndices.Length, glyphMetrics, isSideways);
+            return GetDesignGlyphMetrics(glyphIndices, glyphMetrics, isSideways);
         }
 
         public GlyphMetrics[] GetGdiCompatibleGlyphMetrics(float fontSize, float pixelsPerDip, Matrix3x2? transform, bool useGdiNatural, ushort[] glyphIndices, bool isSideways)
         {
             var glyphMetrics = new GlyphMetrics[glyphIndices.Length];
-            GetGdiCompatibleGlyphMetrics(fontSize, pixelsPerDip, transform, useGdiNatural, glyphIndices, glyphIndices.Length, glyphMetrics, isSideways);
+            GetGdiCompatibleGlyphMetrics(fontSize, pixelsPerDip, transform, useGdiNatural, glyphIndices, glyphMetrics, isSideways);
             return glyphMetrics;
         }
 
         public ushort[] GetGlyphIndices(int[] codePoints)
         {
             ushort[] glyphIndices = new ushort[codePoints.Length];
-            GetGlyphIndicesW(codePoints, codePoints.Length, glyphIndices);
+            GetGlyphIndicesW(codePoints, glyphIndices);
             return glyphIndices;
         }
 
         public Result GetGlyphIndices(int[] codePoints, ushort[] glyphIndices)
         {
-            return GetGlyphIndicesW(codePoints, codePoints.Length, glyphIndices);
+            return GetGlyphIndicesW(codePoints, glyphIndices);
         }
 
         public unsafe bool TryGetFontTable(int openTypeTableTag, out Span<byte> tableData, out IntPtr tableContext)
