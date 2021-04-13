@@ -358,7 +358,7 @@ namespace HelloDirect3D12
             string entryPoint,
             out ID3D12ShaderReflection? reflection)
         {
-            IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null, null, null, include);
+            IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint);
             if (results!.GetStatus().Failure)
             {
                 string errors = results!.GetErrors();
