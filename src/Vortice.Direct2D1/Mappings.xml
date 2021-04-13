@@ -399,7 +399,7 @@
 
     <!-- ID2D1Transform -->
     <map interface="ID2D1Transform" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
-    <map param="ID2D1Transform::MapInputRectsToOutputRect::inputRectCount" relation="length(inputRects)" />
+    <map param="ID2D1Transform::MapInputRectsToOutputRect::inputRectCount" relation="length(inputRects), length(inputOpaqueSubRects)" />
     <map param="ID2D1Transform::MapOutputRectToInputRects::inputRectsCount" relation="length(inputRects)" />
 
     <!-- ID2D1DrawTransform -->
@@ -528,9 +528,12 @@
     <!-- IDWriteFontFace -->
     <map method="IDWriteFontFace::GetFiles" hresult="true" check="false"/>
     <map method="IDWriteFontFace::GetDesignGlyphMetrics" hresult="true" check="false"/>
+    <map param="IDWriteFontFace::GetDesignGlyphMetrics::glyphCount" relation="length(glyphIndices)" />
     <map method="IDWriteFontFace::GetGdiCompatibleGlyphMetrics" visibility="internal" hresult="true" check="false"/>
+    <map param="IDWriteFontFace::GetGdiCompatibleGlyphMetrics::glyphCount" relation="length(glyphIndices)" />
     <map param="IDWriteFontFace::GetGdiCompatibleMetrics::fontFaceMetrics" return="true" />
     <map method="IDWriteFontFace::GetGlyphIndicesW" visibility="internal" hresult="true" check="false"/>
+    <map param="IDWriteFontFace::GetGlyphIndicesW::codePointCount" relation="length(codePoints)" />
     <map param="IDWriteFontFace::GetRecommendedRenderingMode::renderingMode" return="true" />
     <map method="IDWriteFontFace::TryGetFontTable" visibility="internal" hresult="true" check="false"/>
     <map param="IDWriteFontFace::TryGetFontTable::tableData" type="void" keep-pointers="true"/>
@@ -575,6 +578,7 @@
     <!-- IDWriteRemoteFontFileStream -->
     <map interface="IDWriteRemoteFontFileStream" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true"/>
     <map param="IDWriteRemoteFontFileStream::GetFileFragmentLocality::partialSize" attribute="out" />
+    <map param="IDWriteRemoteFontFileStream::BeginDownload::fragmentCount" relation="length(fileFragments)" />
 
     <!-- IDWriteInlineObject -->
     <map interface="IDWriteInlineObject" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true"/>
@@ -604,24 +608,14 @@
     <map interface="IDWritePixelSnapping" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true"/>
 
     <!-- IDWriteTextRenderer -->
-    <map interface="IDWriteTextRenderer" callback="true" callback-dual="true" callback-visibility="public"/>
-
-    <!-- IDWriteTextRenderer1 -->
-    <map interface="IDWriteTextRenderer1" callback="true" callback-dual="true" callback-visibility="public"/>
+    <map interface="IDWriteTextRenderer\d*" callback="true" callback-dual="true" callback-visibility="public"/>
 
     <!-- IDWriteTextAnalysisSink -->
-    <map interface="IDWriteTextAnalysisSink" callback="true" callback-dual="false" autogen-shadow="true"/>
-
-    <!-- IDWriteTextAnalysisSink1 -->
-    <map interface="IDWriteTextAnalysisSink1" callback="true" callback-dual="false" autogen-shadow="true"/>
+    <map interface="IDWriteTextAnalysisSink\d*" callback="true" callback-dual="false" autogen-shadow="true"/>
+    <map param="IDWriteTextAnalysisSink\d*::SetLineBreakpoints::textLength" relation="length(lineBreakpoints)" />
 
     <!-- IDWriteTextAnalysisSource -->
-    <map interface="IDWriteTextAnalysisSource" callback="true" callback-dual="false" autogen-shadow="true"/>
-
-    <!-- IDWriteTextAnalysisSource1 -->
-    <map interface="IDWriteTextAnalysisSource1" callback="true" callback-dual="false" autogen-shadow="true"/>
-
-    <!-- IWICBitmapFrameEncode -->
+    <map interface="IDWriteTextAnalysisSource\d*" callback="true" callback-dual="false" autogen-shadow="true"/>
 
     <!-- IWICBitmapEncoder -->
     <map method="IWICBitmapEncoder::Initialize" visibility="internal" name="Initialize_" />
