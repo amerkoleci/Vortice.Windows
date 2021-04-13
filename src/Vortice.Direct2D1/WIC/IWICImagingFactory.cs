@@ -83,53 +83,14 @@ namespace Vortice.WIC
 
         public IWICBitmapEncoder CreateEncoder(Guid guidContainerFormat)
         {
-            var encoder = CreateEncoder_(guidContainerFormat, null);
+            IWICBitmapEncoder encoder = CreateEncoder_(guidContainerFormat, null);
             encoder._factory = this;
             return encoder;
         }
 
         public IWICBitmapEncoder CreateEncoder(ContainerFormat format, Guid? guidVendor = null)
         {
-            IWICBitmapEncoder encoder;
-            switch (format)
-            {
-                case ContainerFormat.Bmp:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Bmp, guidVendor);
-                    break;
-                case ContainerFormat.Png:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Png, guidVendor);
-                    break;
-                case ContainerFormat.Ico:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Ico, guidVendor);
-                    break;
-                case ContainerFormat.Jpeg:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Jpeg, guidVendor);
-                    break;
-                case ContainerFormat.Tiff:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Tiff, guidVendor);
-                    break;
-                case ContainerFormat.Gif:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Gif, guidVendor);
-                    break;
-                case ContainerFormat.Wmp:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Wmp, guidVendor);
-                    break;
-                case ContainerFormat.Dds:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Dds, guidVendor);
-                    break;
-                case ContainerFormat.Adng:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Adng, guidVendor);
-                    break;
-                case ContainerFormat.Heif:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Heif, guidVendor);
-                    break;
-                case ContainerFormat.Webp:
-                    encoder = CreateEncoder_(ContainerFormatGuids.Webp, guidVendor);
-                    break;
-                default:
-                    return null;
-            }
-
+            IWICBitmapEncoder encoder = CreateEncoder_(WIC.GetGuid(format), guidVendor);
             encoder._factory = this;
             return encoder;
         }

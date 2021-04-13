@@ -27,7 +27,7 @@
   <include file="winerror.h">
     <attach>D2DERR_(.*)</attach>
   </include>
-  
+
   <include file="DWrite.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
   <include file="DWrite_1.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
   <include file="DWrite_2.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
@@ -57,13 +57,13 @@
 
     <define struct="Vortice.Gdi.LogFont" sizeof="32"/>
     <define struct="Vortice.Gdi.FontSignature" sizeof="24" />
-    
+
     <create class="Vortice.Direct2D1.EffectGuids" visibility="public sealed"/>
     <const from-guid="CLSID_D2D12DAffineTransform" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="AffineTransform2D">new System.Guid("$1")</const>
     <const from-guid="CLSID_D2D13DPerspectiveTransform" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="PerspectiveTransform3D">new System.Guid("$1")</const>
     <const from-guid="CLSID_D2D13DTransform" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="Transform3D">new System.Guid("$1")</const>
     <const from-guid="CLSID_D2D1(.*)" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
-  
+
     <create class="ResultCode" visibility="public"/>
     <const from-macro="D2DERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct2D1.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
   </extension>
@@ -282,7 +282,7 @@
     <map enum="D2D1_TILE_PROP" name="TileProperties"/>
     <map enum="D2D1_TURBULENCE_PROP" name="TurbulenceProperties"/>
     <map enum="D2D1_OPACITYMETADATA_PROP" name="OpacityMetadataProperties"/>
-    
+
     <map enum="D2D1_YCBCR_CHROMA_SUBSAMPLING" name="YCbCrChromaSubSampling" />
     <map enum-item="D2D1_YCBCR_CHROMA_SUBSAMPLING_420" name-tmp="Both" />
     <map enum-item="D2D1_YCBCR_CHROMA_SUBSAMPLING_422" name-tmp="Horizontal" />
@@ -333,13 +333,13 @@
 
     <!-- dwrite structs -->
     <map struct="DWRITE(.+)" name-tmp="$1" />
-    
+
     <map struct="DWRITE_GLYPH_RUN" native="true" struct-to-class="true" marshal="true" new="false" />
     <remove field="DWRITE_GLYPH_RUN::fontFace"/>
     <remove field="DWRITE_GLYPH_RUN::glyphIndices"/>
     <remove field="DWRITE_GLYPH_RUN::glyphAdvances"/>
     <remove field="DWRITE_GLYPH_RUN::glyphOffsets"/>
-    
+
     <!-- d2d1 structs -->
     <map struct="D2D1(.*)" name-tmp="$1" />
     <map field="D2D1_BLEND_DESCRIPTION::blendFactor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
@@ -393,10 +393,10 @@
 
     <!-- ID2D1EffectImpl -->
     <map interface="ID2D1EffectImpl" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
-    
+
     <!-- ID2D1TransformNode -->
     <map interface="ID2D1TransformNode" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
-    
+
     <!-- ID2D1Transform -->
     <map interface="ID2D1Transform" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
     <map param="ID2D1Transform::MapInputRectsToOutputRect::inputRectCount" relation="length(inputRects)" />
@@ -412,21 +412,21 @@
     <map interface="ID2D1SourceTransform"  callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true" />
 
     <!-- ID2D1TransformGraph -->
-    
+
     <!-- ID2D1DrawInfo -->
     <map method="ID2D1DrawInfo::SetVertexShaderConstantBuffer" visibility="internal"/>
     <map param="ID2D1DrawInfo::SetVertexShaderConstantBuffer::buffer" type="void"/>
-    
+
     <map method="ID2D1DrawInfo::SetPixelShaderConstantBuffer" visibility="internal"/>
     <map param="ID2D1DrawInfo::SetPixelShaderConstantBuffer::buffer" type="void"/>
-    
+
     <!-- ID2D1Bitmap1 -->
     <map param="ID2D1Bitmap1::Map::mappedRect" return="true"/>
     <map method="ID2D1Bitmap1::GetColorContext" persist="true"/>
-    
+
     <!-- ID2D1BitmapRenderTarget -->
     <map method="ID2D1BitmapRenderTarget::GetBitmap" persist="true"/>
-    
+
     <!-- ID2D1GdiInteropRenderTarget -->
     <map param="ID2D1GdiInteropRenderTarget::GetDC::hdc" return="true" />
 
@@ -443,7 +443,7 @@
     <!-- ID2D1Properties -->
     <map param="ID2D1Properties::GetValue::data" type="void"/>
     <map param="ID2D1Properties::SetValue::data" type="void"/>
-    
+
     <!--IWICStream-->
     <map method="IWICStream::InitializeFrom.*" visibility="internal"/>
     <map param="IWICStream::InitializeFromMemory::pbBuffer" type="void" attribute="in"/>
@@ -499,7 +499,7 @@
     <map method="IDWriteFactory::((Unr|R)egisterFont(File|Collection)Loader)" visibility="internal" name="$1_" />
     <map param="IDWriteFactory::GetSystemFontCollection::fontCollection" return="true" />
     <map param="IDWriteFactory::CreateTextLayout::stringLength" relation="const(text.Length)"/>
-    
+
     <!-- IDWriteFactory1 -->
     <map param="IDWriteFactory1::GetEudcFontCollection::fontCollection" return="true" />
     <map param="IDWriteFactory1::CreateCustomRenderingParams::renderingParams" attribute="out" return="true"/>
@@ -514,14 +514,14 @@
     <map method="IDWriteTextFormat::GetLocaleName" visibility="internal" />
     <map method="IDWriteTextFormat::GetFontFamilyNameLength" visibility="internal" />
     <map method="IDWriteTextFormat::GetLocaleNameLength" visibility="internal" />
-    
+
     <!-- IDWriteTextLayout -->
     <map method="IDWriteTextLayout::GetLineMetrics" visibility="internal" hresult="true" check="false"/>
     <map method="IDWriteTextLayout::HitTestTextRange" hresult="true" check="false"/>
 
     <!-- IDWriteTextLayout3 -->
     <map method="IDWriteTextLayout3::GetLineMetrics" hresult="true" check="false"/>
-    
+
     <!-- IDWriteFont -->
     <map param="IDWriteFont::CreateFontFace::fontFace" attribute="out" return="true" />
 
@@ -536,19 +536,35 @@
     <map param="IDWriteFontFace::TryGetFontTable::tableData" type="void" keep-pointers="true"/>
     <map method="IDWriteFontFace::GetType" name="GetFaceType" hresult="true" check="false"/>
     <map param="IDWriteFontFace::GetGlyphRunOutline::glyphCount" relation="length(glyphIndices)" />
-    
+
+    <!-- IDWriteFontFamily -->
+    <map param="IDWriteFontFamily::GetFirstMatchingFont::matchingFont" return="true" />
+    <map param="IDWriteFontFamily::GetMatchingFonts::matchingFonts" return="true" />
+
+    <!-- IDWriteFontFamily1 -->
+    <map param="IDWriteFontFamily1::GetFont::font" return="true" />
+    <map param="IDWriteFontFamily1::GetFontFaceReference::fontFaceReference" return="true" />
+
+    <!-- IDWriteFontFamily2 -->
+    <map param="IDWriteFontFamily2::GetMatchingFonts::matchingFonts" return="true" />
+
     <!-- IDWriteFontCollection -->
     <map param="IDWriteFontCollection::FindFamilyName::exists" return="true" />
     <map param="IDWriteFontCollection::GetFontFamily::fontFamily" return="true" />
     <map param="IDWriteFontCollection::GetFontFromFontFace::font" return="true" />
     <map interface="IDWriteFontCollectionLoader" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
 
+    <!--IDWriteFontFile -->
+    <map method="IDWriteFontFile::Analyze" hresult="true" check="false"/>
+    <map method="IDWriteFontFile::GetReferenceKey" hresult="true" check="false"/>
+    <map param="IDWriteFontFile::GetReferenceKey::fontFileReferenceKey" type="void" keep-pointers="true"/>
+
     <!-- IDWriteFontFileLoader -->
     <map interface="IDWriteFontFileLoader" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true" />
 
     <!-- IDWriteRemoteFontFileLoader -->
     <map interface="IDWriteRemoteFontFileLoader" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true" />
-    
+
     <!-- IDWriteFontFileEnumerator -->
     <map interface="IDWriteFontFileEnumerator" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
 
@@ -573,7 +589,7 @@
     <map param="IDWriteGdiInterop1::.*?LOGFONT::logFont" type="void" override-native-type="true" attribute="in" />
     <map param="IDWriteGdiInterop1::GetFontSignature::fontSignature" return="true" />
     <map param="IDWriteGdiInterop1::CreateFontFromLOGFONT::font" return="true" />
-    
+
     <!-- IDWriteLocalizedStrings -->
     <map param="IDWriteLocalizedStrings::FindLocaleName::exists" attribute="out" return="true"/>
     <map param="IDWriteLocalizedStrings::GetLocaleNameLength::length" attribute="out" return="true"/>
@@ -583,7 +599,7 @@
 
     <!-- IDWriteAsyncResult -->
     <map method="IDWriteAsyncResult::GetResult" check="false"/>
-    
+
     <!-- IDWritePixelSnapping -->
     <map interface="IDWritePixelSnapping" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true"/>
 
@@ -592,7 +608,7 @@
 
     <!-- IDWriteTextRenderer1 -->
     <map interface="IDWriteTextRenderer1" callback="true" callback-dual="true" callback-visibility="public"/>
-    
+
     <!-- IDWriteTextAnalysisSink -->
     <map interface="IDWriteTextAnalysisSink" callback="true" callback-dual="false" autogen-shadow="true"/>
 
@@ -604,12 +620,15 @@
 
     <!-- IDWriteTextAnalysisSource1 -->
     <map interface="IDWriteTextAnalysisSource1" callback="true" callback-dual="false" autogen-shadow="true"/>
-    
+
     <!-- IWICBitmapFrameEncode -->
 
     <!-- IWICBitmapEncoder -->
     <map method="IWICBitmapEncoder::Initialize" visibility="internal" name="Initialize_" />
     <map param="IWICBitmapEncoder::CreateNewFrame::ppIFrameEncode" attribute="out" return="true"/>
+
+    <!--IWICBitmapClipper -->
+    <map method="IWICBitmapClipper::Initialize" hresult="true" check="false" />
 
     <!-- WIC functions -->
     <remove function=".*_Stub"/>
@@ -628,13 +647,13 @@
     <map method="IWICImagingFactory::CreateEncoder" visibility="private" name="CreateEncoder_" />
     <map method="IWICImagingFactory::CreateDecoderFromStream" visibility="private" name="CreateDecoderFromStream_" />
     <map param="IWICImagingFactory::CreateBitmapFromMemory::pbBuffer" type="void" keep-pointers="true"/>
-    
+
     <!-- IWICImagingFactory2 -->
     <map param="IWICImagingFactory2::CreateImageEncoder::ppWICImageEncoder" attribute="out" return="true"/>
-    
+
     <!-- IWICMetadataQueryReader -->
     <map param="IWICMetadataQueryReader::GetMetadataByName::pvarValue" type="VARIANT" attribute="out" return="true"/>
-    
+
     <!-- ID2D1Factory -->
     <map param="ID2D1Factory::CreateDCRenderTarget::renderTargetProperties" attribute="in value" />
     <map param="ID2D1Factory::CreateDCRenderTarget::dcRenderTarget" attribute="out" return="true"/>
@@ -680,7 +699,7 @@
 
     <map method="ID2D1Factory1::CreateStrokeStyle" visibility="private" />
     <map param="ID2D1Factory1::CreateStrokeStyle::strokeStyle" attribute="out" return="true"/>
-    
+
     <map param="ID2D1Factory1::RegisterEffectFromString::bindingsCount" relation="length(bindings)" />
     <map param="ID2D1Factory1::RegisterEffectFromStream::bindingsCount" relation="length(bindings)" />
 
@@ -723,7 +742,9 @@
     <map interface="ID2D(\d+).*Sink4?" callback="true" callback-dual="true" callback-visibility="internal" />
     <map interface="ID2D(\d+).*Sink5?" callback="true" callback-dual="true" callback-visibility="internal" />
 
-    <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.WIC.WIC" visibility="internal" />
+    <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.WIC.WIC" visibility="internal" hresult="true" check="false"  />
+    <map function="WICConvertBitmapSource" name="WICConvertBitmapSource_" />
+    <map function="WICCreateBitmapFromSection" name="WICCreateBitmapFromSection_" />
 
     <map function="D2D1.*" dll='"d2d1.dll"' group="Vortice.Direct2D1.D2D1" />
     <map function="D2D1CreateFactory" hresult="true" check="false" visibility="internal" />

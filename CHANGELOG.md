@@ -6,6 +6,7 @@ Current Stable Release:    1.9.45 (April 2021)
 Release:     1.9.XX (May 2021)
 -----------------------------------------------
 - [ENH] Direct2D1: FIX namespace issues and improvements in bindings.
+- [ENH] WIC: Some improvements.
 
 -----------------------------------------------
 Release:     1.9.45 (April 2021)

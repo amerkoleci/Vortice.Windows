@@ -15,6 +15,7 @@ namespace Vortice.WIC
         Dds,
         Adng,
         Heif,
-        Webp
+        Webp,
+        Raw
     }
 }
