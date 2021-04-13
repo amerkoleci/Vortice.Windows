@@ -29,14 +29,14 @@ namespace Vortice.Direct2D1.Effects
 
         public ID2D1ColorContext DestinationColorContext
         {
-            set => SetValue((int)ColorManagementProperties.DestinationInationColorContext, value);
-            get => GetIUnknownValue<ID2D1ColorContext>((int)ColorManagementProperties.DestinationInationColorContext);
+            set => SetValue((int)ColorManagementProperties.DestinationColorContext, value);
+            get => GetIUnknownValue<ID2D1ColorContext>((int)ColorManagementProperties.DestinationColorContext);
         }
 
         public ColorManagementRenderingIntent DestinationRenderingIntent
         {
-            set => SetValue((int)ColorManagementProperties.DestinationInationRenderingIntent, value);
-            get => GetEnumValue<ColorManagementRenderingIntent>((int)ColorManagementProperties.DestinationInationRenderingIntent);
+            set => SetValue((int)ColorManagementProperties.DestinationRenderingIntent, value);
+            get => GetEnumValue<ColorManagementRenderingIntent>((int)ColorManagementProperties.DestinationRenderingIntent);
         }
 
         public ColorManagementAlphaMode AlphaMode

@@ -165,6 +165,7 @@
     <short name="SRC">Source</short>
     <short name="DST">Destination</short>
     <short name="DEST">Destination</short>
+    <short name="DESTINATION">Destination</short>
     <short name="INV">Inverse</short>
   </naming>
 
@@ -367,19 +368,6 @@
     <map param="ID2D1DeviceContext::GetImageWorldBounds::worldBounds" return="true"/>
     <map param="ID2D1DeviceContext::GetGlyphRunWorldBounds::bounds" return="true"/>
 
-    <map method="ID2D1DeviceContext::GetPrimitiveBlend" property="false"/>
-    <map method="ID2D1DeviceContext::SetPrimitiveBlend" property="false"/>
-    <map method="ID2D1DeviceContext::GetRenderingControls" property="false"/>
-    <map method="ID2D1DeviceContext::SetRenderingControls" property="false"/>
-    <map param="ID2D1DeviceContext::GetRenderingControls::renderingControls" return="true" />
-
-    <map method="ID2D1DeviceContext::GetTarget" property="false"/>
-    <map method="ID2D1DeviceContext::SetTarget" property="false"/>
-    <map param="ID2D1DeviceContext::GetTarget::image" return="true" />
-
-    <map method="ID2D1DeviceContext::GetUnitMode" property="false"/>
-    <map method="ID2D1DeviceContext::SetUnitMode" property="false"/>
-
     <map param="ID2D1DeviceContext::FillOpacityMask::destinationRectangle" default="null" />
     <map param="ID2D1DeviceContext::FillOpacityMask::sourceRectangle" default="null" />
 
@@ -405,11 +393,9 @@
 
     <!-- ID2D1EffectImpl -->
     <map interface="ID2D1EffectImpl" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
-    <map method="ID2D1EffectImpl::SetGraph" property="false"/>
     
     <!-- ID2D1TransformNode -->
     <map interface="ID2D1TransformNode" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
-    <map method="ID2D1TransformNode::GetInputCount" property="false"/>
     
     <!-- ID2D1Transform -->
     <map interface="ID2D1Transform" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
@@ -418,19 +404,14 @@
 
     <!-- ID2D1DrawTransform -->
     <map interface="ID2D1DrawTransform" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
-    <map method="ID2D1DrawTransform::Set.*" property="false"/>
 
     <!-- ID2D1ComputeTransform -->
     <map interface="ID2D1ComputeTransform"  callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
-    <map method="ID2D1ComputeTransform::Set.*" property="false"/>
 
     <!-- ID2D1SourceTransform -->
     <map interface="ID2D1SourceTransform"  callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true" />
-    <map method="ID2D1SourceTransform::Set.*" property="false"/>
-
 
     <!-- ID2D1TransformGraph -->
-    <map method="ID2D1TransformGraph::Set.*" property="false"/>
     
     <!-- ID2D1DrawInfo -->
     <map method="ID2D1DrawInfo::SetVertexShaderConstantBuffer" visibility="internal"/>
@@ -442,8 +423,6 @@
     <!-- ID2D1Bitmap1 -->
     <map param="ID2D1Bitmap1::Map::mappedRect" return="true"/>
     <map method="ID2D1Bitmap1::GetColorContext" persist="true"/>
-    <map method="ID2D1Bitmap1::GetSurface" property="false"/>
-    <map param="ID2D1Bitmap1::GetSurface::dxgiSurface" return="true" />
     
     <!-- ID2D1BitmapRenderTarget -->
     <map method="ID2D1BitmapRenderTarget::GetBitmap" persist="true"/>
@@ -483,16 +462,12 @@
     <map param="IWICBitmapFrameEncode::WritePixels::pbPixels" type="void"/>
     <map method="IWICBitmapFrameEncode::WriteSource" visibility="internal"/>
     <map param="IWICBitmapFrameEncode::WriteSource::prc" type="void" attribute="in"/>
-    <map method="IWICBitmapFrameEncode::SetPixelFormat" property="false"/>
-    <map method="IWICBitmapFrameEncode::SetPalette" property="false"/>
-    <map method="IWICBitmapFrameEncode::SetThumbnail" property="false"/>
 
     <!--IWICBitmap -->
     <map method="IWICBitmap::Lock" visibility="internal"/>
     <map param="IWICBitmap::Lock::ppILock" return="true"/>
     <map param="IWICBitmap::Lock::flags" type="WICBitmapLockFlags"/>
     <map param="IWICBitmap::Lock::prcLock" type="void" attribute="in"/>
-    <map method="IWICBitmap::SetPalette" property="false"/>
 
     <!-- IWICBitmapDecoder -->
     <map param="IWICBitmapDecoder::GetFrame::ppIBitmapFrame" attribute="out" return="true" />
@@ -537,8 +512,8 @@
     <!-- IDWriteTextFormat -->
     <map method="IDWriteTextFormat::GetFontFamilyName" visibility="internal" />
     <map method="IDWriteTextFormat::GetLocaleName" visibility="internal" />
-    <map method="IDWriteTextFormat::GetFontFamilyNameLength" visibility="internal" property="false" />
-    <map method="IDWriteTextFormat::GetLocaleNameLength" visibility="internal" property="false" />
+    <map method="IDWriteTextFormat::GetFontFamilyNameLength" visibility="internal" />
+    <map method="IDWriteTextFormat::GetLocaleNameLength" visibility="internal" />
     
     <!-- IDWriteTextLayout -->
     <map method="IDWriteTextLayout::GetLineMetrics" visibility="internal" hresult="true" check="false"/>
@@ -551,14 +526,15 @@
     <map param="IDWriteFont::CreateFontFace::fontFace" attribute="out" return="true" />
 
     <!-- IDWriteFontFace -->
-    <map method="IDWriteFontFace::GetFiles" visibility="internal" />
-    <map method="IDWriteFontFace::GetDesignGlyphMetrics" visibility="internal" />
-    <map method="IDWriteFontFace::GetGdiCompatibleGlyphMetrics" visibility="internal" />
+    <map method="IDWriteFontFace::GetFiles" hresult="true" check="false"/>
+    <map method="IDWriteFontFace::GetDesignGlyphMetrics" hresult="true" check="false"/>
+    <map method="IDWriteFontFace::GetGdiCompatibleGlyphMetrics" visibility="internal" hresult="true" check="false"/>
     <map param="IDWriteFontFace::GetGdiCompatibleMetrics::fontFaceMetrics" return="true" />
-    <map method="IDWriteFontFace::GetGlyphIndicesW" visibility="internal" />
+    <map method="IDWriteFontFace::GetGlyphIndicesW" visibility="internal" hresult="true" check="false"/>
     <map param="IDWriteFontFace::GetRecommendedRenderingMode::renderingMode" return="true" />
-    <map method="IDWriteFontFace::TryGetFontTable" visibility="internal" />
-    <map method="IDWriteFontFace::GetType" name="GetFaceType" />
+    <map method="IDWriteFontFace::TryGetFontTable" visibility="internal" hresult="true" check="false"/>
+    <map param="IDWriteFontFace::TryGetFontTable::tableData" type="void" keep-pointers="true"/>
+    <map method="IDWriteFontFace::GetType" name="GetFaceType" hresult="true" check="false"/>
     <map param="IDWriteFontFace::GetGlyphRunOutline::glyphCount" relation="length(glyphIndices)" />
     
     <!-- IDWriteFontCollection -->
@@ -579,17 +555,13 @@
     <!-- IDWriteFontFileStream -->
     <map interface="IDWriteFontFileStream" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true"/>
     <map param="IDWriteFontFileStream::ReadFileFragment::fragmentStart" attribute="out" />
-    <map method="IDWriteFontFileStream::Get.*" property="false" />
 
     <!-- IDWriteRemoteFontFileStream -->
     <map interface="IDWriteRemoteFontFileStream" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true"/>
     <map param="IDWriteRemoteFontFileStream::GetFileFragmentLocality::partialSize" attribute="out" />
-    <map param="IDWriteRemoteFontFileStream::GetLocalFileSize::localFileSize" return="true" />
-    <map method="IDWriteRemoteFontFileStream::Get.*" property="false" />
 
     <!-- IDWriteInlineObject -->
     <map interface="IDWriteInlineObject" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true"/>
-    <map method="IDWriteInlineObject::Get.*" property="false"/>
 
     <!-- IDWriteGdiInterop -->
     <map method="IDWriteGdiInterop::.*?LOGFONT" visibility="internal" />
@@ -634,7 +606,6 @@
     <map interface="IDWriteTextAnalysisSource1" callback="true" callback-dual="false" autogen-shadow="true"/>
     
     <!-- IWICBitmapFrameEncode -->
-    <map method="IWICBitmapFrameEncode::SetPixelFormat" property="false"/>
 
     <!-- IWICBitmapEncoder -->
     <map method="IWICBitmapEncoder::Initialize" visibility="internal" name="Initialize_" />
