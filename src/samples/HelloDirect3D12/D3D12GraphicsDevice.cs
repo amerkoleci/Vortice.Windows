@@ -150,9 +150,9 @@ namespace HelloDirect3D12
 
             _rootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, rootSignatureDesc);
 
-            //var includeCode = "#include \"Shader.inc\"";
+            var includeCode = "#include \"Shader.inc\"";
 
-            string shaderSource = /*includeCode + Environment.NewLine +*/ @"
+            string shaderSource = includeCode + Environment.NewLine + @"
             struct PSInput {
                 float4 position : SV_POSITION;
                 float4 color : COLOR;
@@ -358,7 +358,7 @@ namespace HelloDirect3D12
             string entryPoint,
             out ID3D12ShaderReflection? reflection)
         {
-            IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null, null, null, null);
+            IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null, null, null, include);
             if (results!.GetStatus().Failure)
             {
                 string errors = results!.GetErrors();
@@ -375,6 +375,16 @@ namespace HelloDirect3D12
 
             return results.GetObjectBytecodeArray();
         }
+
+        class Includer : ComObject, IDxcIncludeHandler
+        {
+            public Result LoadSource(string filenameRef, out IDxcBlob includeSourceOut)
+            {
+                includeSourceOut = null;
+                return 0;
+            }
+        }
+
 
         [StructLayout(LayoutKind.Sequential)]
         struct PipelineStateStream
