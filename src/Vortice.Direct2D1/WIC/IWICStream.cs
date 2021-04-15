@@ -10,7 +10,7 @@ namespace Vortice.WIC
 {
     public partial class IWICStream
     {
-        private ComStreamProxy _streamProxy;
+        private ComStreamProxy? _streamProxy;
 
         /// <summary>
         /// Initialize stream from file name.
@@ -55,7 +55,7 @@ namespace Vortice.WIC
             DisposeStreamProxy();
             fixed (void* dataPtr = &data[0])
             {
-                InitializeFromMemory(new IntPtr(dataPtr), data.Length);
+                InitializeFromMemory(dataPtr, data.Length);
             }
         }
 
@@ -63,15 +63,13 @@ namespace Vortice.WIC
         /// Initialize the stream from given data.
         /// </summary>
         /// <param name="data">Data to initialize with.</param>
-        public void Initialize<T>(ReadOnlySpan<T> data) where T : unmanaged
+        public unsafe void Initialize<T>(ReadOnlySpan<T> data) where T : unmanaged
         {
             DisposeStreamProxy();
-            unsafe
+
+            fixed (void* dataPtr = data)
             {
-                fixed (void* dataPtr = data)
-                {
-                    InitializeFromMemory(new IntPtr(dataPtr), data.Length * sizeof(T));
-                }
+                InitializeFromMemory(dataPtr, data.Length * sizeof(T));
             }
         }
 
@@ -80,15 +78,13 @@ namespace Vortice.WIC
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data">Data to initialize with.</param>
-        public void Initialize<T>(T[] data) where T : unmanaged
+        public unsafe void Initialize<T>(T[] data) where T : unmanaged
         {
             DisposeStreamProxy();
-            unsafe
+
+            fixed (void* dataPtr = data)
             {
-                fixed (void* dataPtr = data)
-                {
-                    InitializeFromMemory(new IntPtr(dataPtr), data.Length * sizeof(T));
-                }
+                InitializeFromMemory(dataPtr, data.Length * sizeof(T));
             }
         }
 

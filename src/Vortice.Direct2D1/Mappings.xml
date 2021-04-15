@@ -446,7 +446,7 @@
 
     <!--IWICStream-->
     <map method="IWICStream::InitializeFrom.*" visibility="internal"/>
-    <map param="IWICStream::InitializeFromMemory::pbBuffer" type="void" attribute="in"/>
+    <map param="IWICStream::InitializeFromMemory::pbBuffer" type="void" keep-pointers="true"/>
 
     <!--IWICBitmapLock-->
     <map method="IWICBitmapLock::GetDataPointer" visibility="internal"/>
