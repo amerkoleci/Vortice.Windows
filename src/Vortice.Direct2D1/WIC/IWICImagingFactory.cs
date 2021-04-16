@@ -165,22 +165,15 @@ namespace Vortice.WIC
             return decoder;
         }
 
-        public IWICBitmapDecoder CreateDecoderFromFilename(string fileName, DecodeOptions metadataOptions)
+        public IWICBitmapDecoder CreateDecoderFromFileName(string fileName, FileAccess desiredAccess = FileAccess.Read, DecodeOptions metadataOptions = DecodeOptions.CacheOnDemand)
         {
-            return CreateDecoderFromFilename(fileName, null, FileAccess.Read, metadataOptions);
+            NativeFileAccess nativeAccess = desiredAccess.ToNative();
+            return CreateDecoderFromFilename_(fileName, null, (int)nativeAccess, metadataOptions);
         }
 
-        public IWICBitmapDecoder CreateDecoderFromFilename(
-            string fileName,
-            FileAccess desiredAccess,
-            DecodeOptions metadataOptions)
+        public IWICBitmapDecoder CreateDecoderFromFileName(string fileName, Guid? guidVendor, FileAccess desiredAccess = FileAccess.Read, DecodeOptions metadataOptions = DecodeOptions.CacheOnDemand)
         {
-            return CreateDecoderFromFilename(fileName, null, desiredAccess, metadataOptions);
-        }
-
-        public IWICBitmapDecoder CreateDecoderFromFilename(string fileName, Guid? guidVendor, FileAccess desiredAccess, DecodeOptions metadataOptions)
-        {
-            var nativeAccess = desiredAccess.ToNative();
+            NativeFileAccess nativeAccess = desiredAccess.ToNative();
             return CreateDecoderFromFilename_(fileName, guidVendor, (int)nativeAccess, metadataOptions);
         }
 

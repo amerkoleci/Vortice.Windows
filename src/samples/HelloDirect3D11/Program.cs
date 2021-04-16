@@ -22,7 +22,6 @@ namespace HelloDirect3D11
             public TestApplication(bool headless = false)
                 : base(headless)
             {
-
             }
 
             protected override void InitializeBeforeRun()
@@ -162,62 +161,59 @@ namespace HelloDirect3D11
                             break;
                     }
 
-                    using (var wicFactory = new IWICImagingFactory())
+                    using var wicFactory = new IWICImagingFactory();
+                    using IWICBitmapDecoder decoder = wicFactory.CreateDecoderFromFileName(path);
+
+
+                    using Stream stream = File.OpenWrite(path);
+                    using IWICStream wicStream = wicFactory.CreateStream(stream);
+                    using IWICBitmapEncoder encoder = wicFactory.CreateEncoder(format, wicStream);
+                    // Create a Frame encoder
+                    var props = new SharpGen.Runtime.Win32.PropertyBag();
+                    var frame = encoder.CreateNewFrame(props);
+                    frame.Initialize(props);
+                    frame.SetSize(textureDesc.Width, textureDesc.Height);
+                    frame.SetResolution(72, 72);
+                    frame.SetPixelFormat(targetGuid);
+
+                    var context = d3d11GraphicsDevice!.DeviceContext;
+                    //var mapped = context.Map(staging, 0, MapMode.Read, MapFlags.None);
+                    Span<Color> colors = context.Map<Color>(staging, 0, 0, MapMode.Read, MapFlags.None);
+
+                    // Check conversion
+                    if (targetGuid != pfGuid)
                     {
-                        using (IWICStream stream = wicFactory.CreateStream(path, FileAccess.Write))
+                        // Conversion required to write
+                        using (IWICBitmap bitmapSource = wicFactory.CreateBitmapFromMemory(
+                            textureDesc.Width,
+                            textureDesc.Height,
+                            pfGuid,
+                            colors))
                         {
-                            // Initialize a Jpeg encoder with this stream
-                            using (IWICBitmapEncoder encoder = wicFactory.CreateEncoder(format, stream))
+                            using (IWICFormatConverter formatConverter = wicFactory.CreateFormatConverter())
                             {
-                                // Create a Frame encoder
-                                var props = new SharpGen.Runtime.Win32.PropertyBag();
-                                var frame = encoder.CreateNewFrame(props);
-                                frame.Initialize(props);
-                                frame.SetSize(textureDesc.Width, textureDesc.Height);
-                                frame.SetResolution(72, 72);
-                                frame.SetPixelFormat(targetGuid);
-
-                                var context = d3d11GraphicsDevice!.DeviceContext;
-                                //var mapped = context.Map(staging, 0, MapMode.Read, MapFlags.None);
-                                Span<Color> colors = context.Map<Color>(staging, 0, 0, MapMode.Read, MapFlags.None);
-
-                                // Check conversion
-                                if (targetGuid != pfGuid)
+                                formatConverter.CanConvert(pfGuid, targetGuid, out RawBool canConvert);
+                                if (!canConvert)
                                 {
-                                    // Conversion required to write
-                                    using (IWICBitmap bitmapSource = wicFactory.CreateBitmapFromMemory(
-                                        textureDesc.Width,
-                                        textureDesc.Height,
-                                        pfGuid,
-                                        colors))
-                                    {
-                                        using(IWICFormatConverter formatConverter = wicFactory.CreateFormatConverter())
-                                        {
-                                            formatConverter.CanConvert(pfGuid, targetGuid, out RawBool canConvert);
-                                            if (!canConvert)
-                                            {
-                                                context.Unmap(staging, 0);
-                                                return;
-                                            }
-
-                                            formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                                            frame.WriteSource(formatConverter, new Rectangle(textureDesc.Width, textureDesc.Height));
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    // No conversion required
-                                    int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
-                                    frame.WritePixels(textureDesc.Height, stride, colors);
+                                    context.Unmap(staging, 0);
+                                    return;
                                 }
 
-                                context.Unmap(staging, 0);
-                                frame.Commit();
-                                encoder.Commit();
+                                formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
+                                frame.WriteSource(formatConverter, new Rectangle(textureDesc.Width, textureDesc.Height));
                             }
                         }
                     }
+                    else
+                    {
+                        // No conversion required
+                        int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
+                        frame.WritePixels(textureDesc.Height, stride, colors);
+                    }
+
+                    context.Unmap(staging, 0);
+                    frame.Commit();
+                    encoder.Commit();
                 }
             }
         }
@@ -228,11 +224,8 @@ namespace HelloDirect3D11
             Configuration.EnableObjectTracking = true;
 #endif
 
-            using (var app = new TestApplication(headless: false))
-            {
-                app.Run();
-            }
-
+            using var app = new TestApplication(headless: false);
+            app.Run();
 #if DEBUG
             Console.WriteLine(ObjectTracker.ReportActiveObjects());
 #endif
