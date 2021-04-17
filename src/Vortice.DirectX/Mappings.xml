@@ -49,7 +49,8 @@
     <define struct="Vortice.Mathematics.Matrix5x4" sizeof="80" />
 
     <define struct="Vortice.Win32.NativeMessage" sizeof="28" />
-
+    <define struct="Vortice.Win32.BitmapInfoHeader" sizeof="40"/>
+    
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
 
@@ -74,6 +75,7 @@
     <bind from="RECT" to="Vortice.RawRect" />
     <bind from="D3DCOLORVALUE" to="Vortice.Mathematics.Color4" />
     <bind from="MSG" to="Vortice.Win32.NativeMessage" />
+    <bind from="BITMAPINFOHEADER" to="Vortice.Win32.BitmapInfoHeader"/>
 
     <!-- DXGI -->
     <bind from="DXGI_RGB" to="Vortice.Mathematics.Color3" />
