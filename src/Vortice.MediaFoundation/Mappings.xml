@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-media-foundation" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.MediaFoundation</assembly>
+  <namespace>Vortice.MediaFoundation</namespace>
+  <depends>Vortice.DirectX</depends>
+  <depends>Vortice.Multimedia</depends>
+  
+  <sdk name="WindowsSdk" version="10.0.19041.0" />
+  <sdk name="StdLib" />
+
+  <!--<include file="uuids.h" attach="true"/>-->
+  <include file="mferror.h" attach="true"/>
+  <include file="mfobjects.h" attach="true"/>
+  <include file="mftransform.h" attach="true"/>
+  <!--<include file="evr.h" attach="true">
+    <pre>
+      #define __AUDIODEFS_INCLUDED__
+    </pre>
+  </include>-->
+
+  <extension>
+    <create class="MediaFactory" visibility="public static" />
+    <create class="MediaFoundation" visibility="public static" />
+  </extension>
+
+  <bindings>
+    <bind from="SIZE" to="SharpGen.Runtime.PointerSize" />
+  </bindings>
+
+  <naming>
+  </naming>
+
+  <mapping>
+    <map enum="MF(.*)" name-tmp="$1"/>
+    <map enum-item="MFNominalRange_([0-9].*)" name="Range$1"/>
+
+    <map enum="MF2DBuffer_LockFlags" name="Buffer2DLockFlags"/>
+    <remove enum-item="MF2DBuffer_LockFlags_ForceDWORD"/>
+
+    <map enum="MF3DVideoOutputType" name="Video3DOutputType"/>
+    
+    <map interface="IMFByteStream" name="IByteStream" callback-visibility="public" callback="true" callback-dual="true" callback-name="ByteStream"/>
+    <map param="IMFByteStream::*.*::pb" type="void" attribute="in"/>
+    <map param="IMFByteStream::Begin[RW].*::punkState" type="void"/>
+
+    <remove function="IMF.*"/>
+    
+    <map function="MFCreateVideoPresenter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
+    <map function="MFCreateVideoMixer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
+    <map function="MFCreateVideoMixerAndPresenter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
+    <map function="MFCreateVideoRenderer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
+    <map function="MFCreateVideoSampleFromSurface" dll='"EVR.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
+    <map function="MFCreateVideoSampleAllocator" dll='"EVR.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
+
+    <map function="MFSerializeAttributesToStream" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFDeserializeAttributesFromStream" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateTransformActivate" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+  </mapping>
+</config>

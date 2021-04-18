@@ -56,10 +56,15 @@ namespace Vortice.WIC
         /// </summary>
         /// <param name="stream">The initialize stream.</param>
         /// <returns>New instance of <see cref="IWICStream"/> or throws exception.</returns>
-        public IWICStream CreateStream(Stream stream)
+        public IWICStream? CreateStream(Stream stream)
         {
             var wicStream = CreateStream_();
-            wicStream.Initialize(stream);
+            if (wicStream.Initialize(stream).Failure)
+            {
+                wicStream.Dispose();
+                return null;
+            }
+
             return wicStream;
         }
 

@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{0DBFE3CB
 		version.json = version.json
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.MediaFoundation", "Vortice.MediaFoundation\Vortice.MediaFoundation.csproj", "{B54120C2-217F-44C4-A1C2-DC9D93F09729}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

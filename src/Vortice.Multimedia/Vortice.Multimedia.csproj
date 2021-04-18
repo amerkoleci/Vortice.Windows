@@ -10,4 +10,11 @@
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Vortice.MediaFoundation, PublicKey=$(VorticePublicKey)</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+  
 </Project>

@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using Vortice.Win32;
 using SharpGen.Runtime.Win32;
+using SharpGen.Runtime;
 
 namespace Vortice.WIC
 {
@@ -17,45 +18,49 @@ namespace Vortice.WIC
         /// </summary>
         /// <param name="fileName">The file name.</param>
         /// <param name="access">The <see cref="FileAccess"/> mode.</param>
-        public void Initialize(string fileName, FileAccess access)
+        /// <returns>The <see cref="Result"/> of the operation.</returns>
+        public Result Initialize(string fileName, FileAccess access)
         {
             DisposeStreamProxy();
 
-            var desiredAccess = access.ToNative();
-            InitializeFromFilename(fileName, (int)desiredAccess);
+            NativeFileAccess desiredAccess = access.ToNative();
+            return InitializeFromFilename(fileName, (int)desiredAccess);
         }
 
         /// <summary>
         /// Initialize the <see cref="IWICStream"/> from another stream. Access rights are inherited from the underlying stream
         /// </summary>
         /// <param name="comStream"></param>
-        public void Initialize(IStream comStream)
+        /// <returns>The <see cref="Result"/> of the operation.</returns>
+        public Result Initialize(IStream comStream)
         {
             DisposeStreamProxy();
-            InitializeFromIStream(comStream);
+            return InitializeFromIStream(comStream);
         }
 
         /// <summary>
         /// Initialize the <see cref="IWICStream"/> from another stream. Access rights are inherited from the underlying stream
         /// </summary>
         /// <param name="stream">The initialize stream.</param>
-        public void Initialize(Stream stream)
+        /// <returns>The <see cref="Result"/> of the operation.</returns>
+        public Result Initialize(Stream stream)
         {
             DisposeStreamProxy();
             _streamProxy = new ComStreamProxy(stream);
-            InitializeFromIStream(_streamProxy);
+            return InitializeFromIStream(_streamProxy);
         }
 
         /// <summary>
         /// Initialize the stream from given data.
         /// </summary>
         /// <param name="data">Data to initialize with.</param>
-        public unsafe void Initialize(byte[] data)
+        /// <returns>The <see cref="Result"/> of the operation.</returns>
+        public unsafe Result Initialize(byte[] data)
         {
             DisposeStreamProxy();
             fixed (void* dataPtr = &data[0])
             {
-                InitializeFromMemory(dataPtr, data.Length);
+                return InitializeFromMemory(dataPtr, data.Length);
             }
         }
 
@@ -63,13 +68,14 @@ namespace Vortice.WIC
         /// Initialize the stream from given data.
         /// </summary>
         /// <param name="data">Data to initialize with.</param>
-        public unsafe void Initialize<T>(ReadOnlySpan<T> data) where T : unmanaged
+        /// <returns>The <see cref="Result"/> of the operation.</returns>
+        public unsafe Result Initialize<T>(ReadOnlySpan<T> data) where T : unmanaged
         {
             DisposeStreamProxy();
 
             fixed (void* dataPtr = data)
             {
-                InitializeFromMemory(dataPtr, data.Length * sizeof(T));
+                return InitializeFromMemory(dataPtr, data.Length * sizeof(T));
             }
         }
 
@@ -78,13 +84,14 @@ namespace Vortice.WIC
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data">Data to initialize with.</param>
-        public unsafe void Initialize<T>(T[] data) where T : unmanaged
+        /// <returns>The <see cref="Result"/> of the operation.</returns>
+        public unsafe Result Initialize<T>(T[] data) where T : unmanaged
         {
             DisposeStreamProxy();
 
             fixed (void* dataPtr = data)
             {
-                InitializeFromMemory(dataPtr, data.Length * sizeof(T));
+                return InitializeFromMemory(dataPtr, data.Length * sizeof(T));
             }
         }
 

@@ -445,7 +445,7 @@
     <map param="ID2D1Properties::SetValue::data" type="void"/>
 
     <!--IWICStream-->
-    <map method="IWICStream::InitializeFrom.*" visibility="internal"/>
+    <map method="IWICStream::InitializeFrom.*" visibility="internal" hresult="true" check="false" />
     <map param="IWICStream::InitializeFromMemory::pbBuffer" type="void" keep-pointers="true"/>
 
     <!--IWICBitmapLock-->
