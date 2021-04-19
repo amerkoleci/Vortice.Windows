@@ -10,8 +10,16 @@
 
   <!--<include file="uuids.h" attach="true"/>-->
   <include file="mferror.h" attach="true"/>
+  <include file="mfidl.h" attach="true"/>
+  <!--<include file="mfreadwrite.h" attach="true"/>-->
   <include file="mfobjects.h" attach="true"/>
   <include file="mftransform.h" attach="true"/>
+  <include file="mfapi.h" attach="true">
+    <pre>
+      #undef DIRECT3D_VERSION
+    </pre>
+  </include>
+  
   <!--<include file="evr.h" attach="true">
     <pre>
       #define __AUDIODEFS_INCLUDED__
@@ -20,7 +28,11 @@
 
   <extension>
     <create class="MediaFactory" visibility="public static" />
-    <create class="MediaFoundation" visibility="public static" />
+    <const from-macro="MF_VERSION" class="Vortice.MediaFoundation.MediaFactory" type="int" name="Version" />
+    
+    <create class="ResultCode" visibility="public"/>
+    <const from-macro="MF_E_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.MediaFoundation.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+
   </extension>
 
   <bindings>
@@ -28,22 +40,50 @@
   </bindings>
 
   <naming>
+    <short name="MFINPUTTRUSTAUTHORITY">InputTrustAuthority</short>
   </naming>
 
   <mapping>
+    <!-- Enums -->
     <map enum="MF(.*)" name-tmp="$1"/>
+    <map enum="_MFT_(.*)" name-tmp="$1"/>
+    <map enum-item="MFT_(.*)" name-tmp="$1"/>
+    <map enum="MFT_INPUT_STREAM_INFO" name="InputStreamInfo"/>
+    <map enum="MFT_OUTPUT_DATA_BUFFER" name="OutputDataBuffer"/>
+    <map enum="MFT_OUTPUT_STREAM_INFO" name="OutputStreamInfo"/>
+    <map enum="MFT_REGISTER_TYPE_INFO" name="RegisterTypeInfo"/>
+    <map enum="MFT_STREAM_STATE_PARAM" name="StreamStateParam"/>
     <map enum-item="MFNominalRange_([0-9].*)" name="Range$1"/>
 
     <map enum="MF2DBuffer_LockFlags" name="Buffer2DLockFlags"/>
     <remove enum-item="MF2DBuffer_LockFlags_ForceDWORD"/>
 
     <map enum="MF3DVideoOutputType" name="Video3DOutputType"/>
+    <map enum-item="MFCameraIntrinsic_DistortionModelType_6KT" name="SixKT"/>
+    <map enum-item="MFVideoSphericalFormat_3DMesh" name="ThreeDMesh"/>
+    <map enum-item="MFVideoRotationFormat_(.*)" name="Angle$1"/>
+    <map enum-item="MFVideoSrcContentHintFlag_16x9" name="Hint16x9"/>
+    <map enum-item="MFVideoSrcContentHintFlag_235_1" name="Hint235_1"/>
+    
+    <!-- Structs -->
+    <map struct="MF(.*)" name-tmp="$1"/>
     
     <map interface="IMFByteStream" name="IByteStream" callback-visibility="public" callback="true" callback-dual="true" callback-name="ByteStream"/>
     <map param="IMFByteStream::*.*::pb" type="void" attribute="in"/>
     <map param="IMFByteStream::Begin[RW].*::punkState" type="void"/>
 
     <remove function="IMF.*"/>
+    <map function="MF.*" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <!--<map function="MFCreateLegacyMediaBufferOnMFMediaBuffer" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />-->
+    <remove function="MFCreateLegacyMediaBufferOnMFMediaBuffer"/>
+    <remove function="MFInitMediaTypeFromVideoInfoHeader" />
+    <remove function="MFInitMediaTypeFromMPEG1VideoInfo" />
+    <remove function="MFInitMediaTypeFromVideoInfoHeader2" />
+    <remove function="MFInitMediaTypeFromAMMediaType" />
+    <remove function="MFInitMediaTypeFromVideoInfoHeader" />
+    <remove function="MFInitMediaTypeFromMPEG2VideoInfo" />
+    <remove function="MFInitAMMediaTypeFromMFMediaType" />
+    <remove function="MFCreateAMMediaTypeFromMFMediaType"/>
     
     <map function="MFCreateVideoPresenter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
     <map function="MFCreateVideoMixer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
@@ -55,5 +95,131 @@
     <map function="MFSerializeAttributesToStream" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFDeserializeAttributesFromStream" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateTransformActivate" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+
+    <map function="MFTranscodeGetAudioOutputAvailableTypes" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFShutdownObject" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFRR_CreateActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFRequireProtectedEnvironment" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFReadSequencerSegmentOffset" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFLoadSignedLibrary" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFGetTopoNodeCurrentType" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFGetSystemId" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFGetSupportedSchemes" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFGetSupportedMimeTypes" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFGetService" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFGetMultipleServiceProviders" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFGetLocalId" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFEnumDeviceSources" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateWMVEncoderActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateWMAEncoderActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateVideoRendererActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateVideoRenderer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateUrlmonSchemePlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateTranscodeTopologyFromByteStream" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateTranscodeTopology" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateTranscodeSinkActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateTranscodeProfile" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateTopologyNode" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateTopology" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateTopoLoader" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateStandardQualityManager" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+
+    <map function="MFCreateSoundEventSchemePlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSimpleTypeHandler" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSequencerSourceRemoteStream" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSequencerSource" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSequencerSegmentOffset" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSecureHttpSchemePlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSampleGrabberSinkActivate" visibility="internal" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSampleCopierMFT" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSAMIByteStreamPlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateRemoteDesktopPlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateProxyLocator" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateProtectedEnvironmentAccess" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreatePresentationDescriptorFromASFProfile" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreatePresentationClock" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreatePMPServer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreatePMPMediaSession" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreatePMPHost" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateNSCByteStreamPlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateNetSchemePlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateMuxSink" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateMPEG4MediaSink" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateMP3MediaSink" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateMP3ByteStreamPlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateMediaSession" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateMediaProcessor" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateLPCMByteStreamPlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateHttpSchemePlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateFMPEG4MediaSink" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateFileSchemePlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateFileBlockMap" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateDrmNetNDSchemePlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateDeviceSourceActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateDeviceSource" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateCredentialCache" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateCacheManager" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateByteCacheFile" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateAudioRendererActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateAudioRenderer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFStreamSelector" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFStreamingMediaSinkActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFStreamingMediaSink" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFSplitter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFProfileFromPresentationDescriptor" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFProfile" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFMultiplexer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFMediaSinkActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFMediaSink" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFIndexerByteStream" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFIndexer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFContentInfo" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateASFByteStreamPlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateAppSourceProxy" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateAggregateSource" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateADTSMediaSink" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateAC3MediaSink" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreate3GPMediaSink" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MergePropertyStore" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="ExtractPropVariant" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="DllGetClassObject" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="DllGetActivationFactory" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="DllCanUnloadNow" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="CreateNamedPropertyStore" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="CopyPropertyStore" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="ConvertPropVariant" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="AppendPropVariant" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+
+    <map function="MFPCreateMediaPlayer" dll='"mfplay.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSourceResolver" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="CreatePropertyStore" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFGetSystemTime" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSystemTimeSource" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreatePresentationDescriptor" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFSerializePresentationDescriptor" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFDeserializePresentationDescriptor" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateStreamDescriptor" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateAVIMediaSink" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateWAVEMediaSink" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateTrackedSample" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateMFByteStreamOnStream" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateStreamOnMFByteStream" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateMFByteStreamOnStreamEx" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateStreamOnMFByteStreamEx" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateMediaTypeFromProperties" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreatePropertiesFromMediaType" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateContentProtectionDevice" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFIsContentProtectionDeviceSupported" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateContentDecryptorContext" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSensorGroup" dll='"Mfsensorgroup.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSensorStream" dll='"Mfsensorgroup.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSensorProfile" dll='"Mfsensorgroup.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSensorProfileCollection" dll='"Mfsensorgroup.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSensorActivityMonitor" dll='"Mfsensorgroup.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateExtendedCameraIntrinsics" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateExtendedCameraIntrinsicModel" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateRelativePanelWatcher" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+
+    <map function="MFCreateVideoSampleFromSurface" dll='"EVR.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
   </mapping>
 </config>

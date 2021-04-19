@@ -74,7 +74,7 @@ namespace Vortice.Multimedia
         /// <value>
         /// The coefficients.
         /// </value>
-        public short[] Coefficients1 { get; set; }
+        public short[]? Coefficients1 { get; set; }
 
         /// <summary>
         /// Gets or sets the coefficients.
@@ -82,7 +82,7 @@ namespace Vortice.Multimedia
         /// <value>
         /// The coefficients.
         /// </value>
-        public short[] Coefficients2 { get; set; }
+        public short[]? Coefficients2 { get; set; }
 
         #region Marshal
         protected unsafe override IntPtr MarshalToPtr()

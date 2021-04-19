@@ -261,7 +261,7 @@ namespace Vortice.Multimedia
         /// </summary>
         /// <param name="pointer">Pointer to the WaveFormat rawdata</param>
         /// <returns>WaveFormat structure</returns>
-        public unsafe static WaveFormat MarshalFrom(IntPtr pointer)
+        public unsafe static WaveFormat? MarshalFrom(IntPtr pointer)
         {
             if (pointer == IntPtr.Zero)
             {

@@ -30,6 +30,14 @@
     <define struct="System.Numerics.Matrix4x4" sizeof="64" />
     <define struct="System.Numerics.Plane" sizeof="16" />
 
+    <!-- System.Drawing types -->
+    <define struct="System.Drawing.Point" sizeof="8" />
+    <define struct="System.Drawing.PointF" sizeof="8" />
+    <define struct="System.Drawing.Size" sizeof="8" />
+    <define struct="System.Drawing.SizeF" sizeof="8" />
+    <define struct="System.Drawing.Rectangle" sizeof="16" />
+    <define struct="System.Drawing.RectangleF" sizeof="16" />
+    
     <!-- Vortice.Mathematics types -->
     <define struct="Vortice.Mathematics.Point" sizeof="8" />
     <define struct="Vortice.Mathematics.PointF" sizeof="8" />
@@ -70,8 +78,8 @@
     <bind from="HPALETTE" to="System.IntPtr"/>
     <bind from="HMONITOR" to="System.IntPtr"/>
 
-    <bind from="POINT" to="Vortice.Mathematics.Point" />
-    <bind from="SIZE" to="Vortice.Mathematics.Size" />
+    <bind from="POINT" to="System.Drawing.Point" />
+    <bind from="SIZE" to="System.Drawing.Size" />
     <bind from="RECT" to="Vortice.RawRect" />
     <bind from="D3DCOLORVALUE" to="Vortice.Mathematics.Color4" />
     <bind from="MSG" to="Vortice.Win32.NativeMessage" />
@@ -82,10 +90,10 @@
     <bind from="DXGI_RGBA" to="Vortice.Mathematics.Color4" />
 
     <!-- DCommon -->
-    <bind from="D2D_SIZE_U" to="Vortice.Mathematics.Size" />
-    <bind from="D2D_SIZE_F" to="Vortice.Mathematics.SizeF" />
-    <bind from="D2D_POINT_2U" to="Vortice.Mathematics.Point" />
-    <bind from="D2D_POINT_2F" to="Vortice.Mathematics.PointF" />
+    <bind from="D2D_SIZE_U" to="System.Drawing.Size" />
+    <bind from="D2D_SIZE_F" to="System.Drawing.SizeF" />
+    <bind from="D2D_POINT_2U" to="System.Drawing.Point" />
+    <bind from="D2D_POINT_2F" to="System.Drawing.PointF" />
     <bind from="D2D_RECT_U" to="Vortice.RawRect" />
     <bind from="D2D_RECT_F" to="Vortice.RawRectF" />
     <bind from="D2D_VECTOR_2F" to="System.Numerics.Vector2" />
