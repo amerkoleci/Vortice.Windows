@@ -1292,6 +1292,7 @@
     <map param="IDirect3DDevice9::CreateVertexShader::pFunction" type="void"/>
     <map param="IDirect3DDevice9::CreatePixelShader::pFunction" type="void"/>
 
+    <map method="IDirect3DDevice9::CreateVertexBuffer" visibility="internal" name="CreateVertexBuffer_" />
     <map param="IDirect3DDevice9::CreateVertexBuffer::FVF" name="vertexFormat" type="D3DFVF" />
     <map param="IDirect3DDevice9::CreateVertexBuffer::Usage" type="D3DUSAGE" />
 
@@ -1304,9 +1305,18 @@
     <map method="IDirect3DDevice9::CreateIndexBuffer" visibility="internal" name="CreateIndexBuffer_" />
     <map param="IDirect3DDevice9::CreateIndexBuffer::Usage" type="D3DUSAGE" />
 
+    <map method="IDirect3DDevice9::CreateTexture" visibility="internal" name="CreateTexture_" />
     <map param="IDirect3DDevice9::CreateTexture::Usage" type="D3DUSAGE" />
+
+    <map method="IDirect3DDevice9::CreateVolumeTexture" visibility="internal" name="CreateVolumeTexture_" />
     <map param="IDirect3DDevice9::CreateVolumeTexture::Usage" type="D3DUSAGE" />
+
+    <map method="IDirect3DDevice9::CreateCubeTexture" visibility="internal" name="CreateCubeTexture_" />
     <map param="IDirect3DDevice9::CreateCubeTexture::Usage" type="D3DUSAGE" />
+
+    <map method="IDirect3DDevice9::CreateRenderTarget" visibility="internal" name="CreateRenderTarget_" />
+    <map method="IDirect3DDevice9::CreateDepthStencilSurface" visibility="internal" name="CreateDepthStencilSurface_" />
+    <map method="IDirect3DDevice9::CreateOffscreenPlainSurface" visibility="internal" name="CreateOffscreenPlainSurface_" />
 
     <map param="IDirect3DDevice9::GetScissorRect::pRect" attribute="out" />
     <map param="IDirect3DDevice9::GetViewport::pViewport" attribute="out" />
@@ -1338,11 +1348,25 @@
     <map param="IDirect3DDevice9::EndStateBlock::ppSB" return="true" />
     
     <!-- IDirect3DDevice9Ex -->
+    <map param="IDirect3DDevice9Ex::Create.*::pp.*" attribute="out" return="true" />
+    
     <map method="IDirect3DDevice9Ex::PresentEx" visibility="internal" hresult="true" check="false" />
-    <map param="IDirect3DDevice9Ex::PresentEx::pSourceRect" type="void" />
-    <map param="IDirect3DDevice9Ex::PresentEx::pDestRect" type="void" />
-    <map param="IDirect3DDevice9Ex::PresentEx::pDirtyRegion" type="void" attribute="in" />
+    <map param="IDirect3DDevice9Ex::PresentEx::pSourceRect" type="void" keep-pointers="true" />
+    <map param="IDirect3DDevice9Ex::PresentEx::pDestRect" type="void" keep-pointers="true" />
+    <!--<map param="IDirect3DDevice9Ex::PresentEx::hDestWindowOverride" type="void" keep-pointers="true" />-->
+    <map param="IDirect3DDevice9Ex::PresentEx::pDirtyRegion" type="void" keep-pointers="true" />
 
+    <map method="IDirect3DDevice9Ex::ResetEx" visibility="internal"/>
+    <map param="IDirect3DDevice9Ex::ResetEx::pFullscreenDisplayMode" type="void" keep-pointers="true" />
+
+    <map param="IDirect3DDevice9Ex::CreateRenderTargetEx::Usage" type="D3DUSAGE" />
+    <map param="IDirect3DDevice9Ex::CreateOffscreenPlainSurfaceEx::Usage" type="D3DUSAGE" />
+    <map param="IDirect3DDevice9Ex::CreateDepthStencilSurfaceEx::Usage" type="D3DUSAGE" />
+
+    <map method="IDirect3DDevice9Ex::CreateRenderTargetEx" visibility="internal" name="CreateRenderTargetEx_" />
+    <map method="IDirect3DDevice9Ex::CreateOffscreenPlainSurfaceEx" visibility="internal" name="CreateOffscreenPlainSurfaceEx_" />
+    <map method="IDirect3DDevice9Ex::CreateDepthStencilSurfaceEx" visibility="internal" name="CreateDepthStencilSurfaceEx_" />
+    
     <!-- IDirect3DVertexBuffer9 -->
     <map param="IDirect3DVertexBuffer9::GetDesc::pDesc" attribute="out" />
     <map method="IDirect3DVertexBuffer9::GetDesc" name="GetDescription" />

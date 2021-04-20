@@ -26,7 +26,15 @@ namespace Vortice.Direct3D9
 
         public IDirect3DVertexBuffer9 CreateVertexBuffer(int sizeInBytes, Usage usage, VertexFormat vertexFormat, Pool pool)
         {
-            return CreateVertexBuffer(sizeInBytes, usage, vertexFormat, pool, IntPtr.Zero);
+            return CreateVertexBuffer_(sizeInBytes, usage, vertexFormat, pool, IntPtr.Zero);
+        }
+
+        public unsafe IDirect3DVertexBuffer9 CreateVertexBuffer(int sizeInBytes, Usage usage, VertexFormat vertexFormat, Pool pool, ref IntPtr sharedHandle)
+        {
+            fixed (void* pSharedHandle = &sharedHandle)
+            {
+                return CreateVertexBuffer_(sizeInBytes, usage, vertexFormat, pool, new IntPtr(pSharedHandle));
+            }
         }
 
         public IDirect3DIndexBuffer9 CreateIndexBuffer(int sizeInBytes, Usage usage, bool sixteenBit, Pool pool)
@@ -34,39 +42,90 @@ namespace Vortice.Direct3D9
             return CreateIndexBuffer_(sizeInBytes, usage, sixteenBit ? Format.Index16 : Format.Index32, pool, IntPtr.Zero);
         }
 
-        public IDirect3DIndexBuffer9 CreateIndexBuffer(int sizeInBytes, Usage usage, bool sixteenBit, Pool pool, IntPtr sharedHandle)
+        public unsafe IDirect3DIndexBuffer9 CreateIndexBuffer(int sizeInBytes, Usage usage, bool sixteenBit, Pool pool, ref IntPtr sharedHandle)
         {
-            return CreateIndexBuffer_(sizeInBytes, usage, sixteenBit ? Format.Index16 : Format.Index32, pool, sharedHandle);
+            fixed (void* pSharedHandle = &sharedHandle)
+            {
+                return CreateIndexBuffer_(sizeInBytes, usage, sixteenBit ? Format.Index16 : Format.Index32, pool, new IntPtr(pSharedHandle));
+            }
         }
 
         public IDirect3DTexture9 CreateTexture(int width, int height, int levels, Usage usage, Format format, Pool pool)
         {
-            return CreateTexture(width, height, levels, usage, format, pool, IntPtr.Zero);
+            return CreateTexture_(width, height, levels, usage, format, pool, IntPtr.Zero);
+        }
+
+        public unsafe IDirect3DTexture9 CreateTexture(int width, int height, int levels, Usage usage, Format format, Pool pool, ref IntPtr sharedHandle)
+        {
+            fixed (void* pSharedHandle = &sharedHandle)
+            {
+                return CreateTexture_(width, height, levels, usage, format, pool, new IntPtr(pSharedHandle));
+            }
         }
 
         public IDirect3DVolumeTexture9 CreateVolumeTexture(int width, int height, int depth, int levels, Usage usage, Format format, Pool pool)
         {
-            return CreateVolumeTexture(width, height, depth, levels, usage, format, pool, IntPtr.Zero);
+            return CreateVolumeTexture_(width, height, depth, levels, usage, format, pool, IntPtr.Zero);
+        }
+
+        public unsafe IDirect3DVolumeTexture9 CreateVolumeTexture(int width, int height, int depth, int levels, Usage usage, Format format, Pool pool, ref IntPtr sharedHandle)
+        {
+            fixed (void* pSharedHandle = &sharedHandle)
+            {
+                return CreateVolumeTexture_(width, height, depth, levels, usage, format, pool, new IntPtr(pSharedHandle));
+            }
         }
 
         public IDirect3DCubeTexture9 CreateCubeTexture(int edgeLength, int levels, Usage usage, Format format, Pool pool)
         {
-            return CreateCubeTexture(edgeLength, levels, usage, format, pool, IntPtr.Zero);
+            return CreateCubeTexture_(edgeLength, levels, usage, format, pool, IntPtr.Zero);
+        }
+
+        public unsafe IDirect3DCubeTexture9 CreateCubeTexture(int edgeLength, int levels, Usage usage, Format format, Pool pool, ref IntPtr sharedHandle)
+        {
+            fixed (void* pSharedHandle = &sharedHandle)
+            {
+                return CreateCubeTexture_(edgeLength, levels, usage, format, pool, new IntPtr(pSharedHandle));
+            }
         }
 
         public IDirect3DSurface9 CreateRenderTarget(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable)
         {
-            return CreateRenderTarget(width, height, format, multiSample, multisampleQuality, lockable, IntPtr.Zero);
+            return CreateRenderTarget_(width, height, format, multiSample, multisampleQuality, lockable, IntPtr.Zero);
+        }
+
+        public unsafe IDirect3DSurface9 CreateRenderTarget(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable, ref IntPtr sharedHandle)
+        {
+            fixed (void* pSharedHandle = &sharedHandle)
+            {
+                return CreateRenderTarget_(width, height, format, multiSample, multisampleQuality, lockable, new IntPtr(pSharedHandle));
+            }
         }
 
         public IDirect3DSurface9 CreateDepthStencilSurface(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard)
         {
-            return CreateDepthStencilSurface(width, height, format, multiSample, multisampleQuality, discard);
+            return CreateDepthStencilSurface_(width, height, format, multiSample, multisampleQuality, discard, IntPtr.Zero);
+        }
+
+        public unsafe IDirect3DSurface9 CreateDepthStencilSurface(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard, ref IntPtr sharedHandle)
+        {
+            fixed (void* pSharedHandle = &sharedHandle)
+            {
+                return CreateDepthStencilSurface_(width, height, format, multiSample, multisampleQuality, discard, new IntPtr(pSharedHandle));
+            }
         }
 
         public IDirect3DSurface9 CreateOffscreenPlainSurface(int width, int height, Format format, Pool pool)
         {
-            return CreateOffscreenPlainSurface(width, height, format, pool, IntPtr.Zero);
+            return CreateOffscreenPlainSurface_(width, height, format, pool, IntPtr.Zero);
+        }
+
+        public unsafe IDirect3DSurface9 CreateOffscreenPlainSurface(int width, int height, Format format, Pool pool, ref IntPtr sharedHandle)
+        {
+            fixed (void* pSharedHandle = &sharedHandle)
+            {
+                return CreateOffscreenPlainSurface_(width, height, format, pool, new IntPtr(pSharedHandle));
+            }
         }
 
         /// <summary>

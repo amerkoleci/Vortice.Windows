@@ -8,6 +8,7 @@ Release:     1.9.XX (May 2021)
 - [ENH] Direct2D1: FIX namespace issues and improvements in bindings.
 - [ENH] WIC: Some improvements.
 - [ENH] DXC: Allow IDxcIncludeHandler subclass.
+- [ENH] Direct3D9: Improve methods taking sharedHandle and various improvements.
 
 -----------------------------------------------
 Release:     1.9.45 (April 2021)
