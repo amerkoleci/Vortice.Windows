@@ -35,8 +35,8 @@ Nightly packages can be downloaded from NuGet as well.
 
 ## Projects using Vortice.Windows
 
+- [Wave Engine](https://waveengine.net/)
 - [Veldrid](https://github.com/mellinoe/veldrid)
-- [ComputeSharp](https://github.com/Sergio0694/ComputeSharp)
 
 ## Samples
 - Direct3D12 DXR samples by [CAMongrel](https://github.com/CAMongrel) [D3D12SampleRaytracerSharp](https://github.com/CAMongrel/D3D12SampleRaytracerSharp).
