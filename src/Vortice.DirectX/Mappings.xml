@@ -60,6 +60,7 @@
     <define struct="Vortice.Win32.BitmapInfoHeader" sizeof="40"/>
     
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
+    <const from-guid="WKPDID_D3DDebugObjectNameW" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectNameW">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
 
     <create class="Vortice.DXCore.DXCore" visibility="public static" />

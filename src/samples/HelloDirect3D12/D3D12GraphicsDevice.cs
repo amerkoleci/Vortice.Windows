@@ -103,6 +103,7 @@ namespace HelloDirect3D12
 
             // Create Command queue.
             GraphicsQueue = _d3d12Device.CreateCommandQueue<ID3D12CommandQueue>(CommandListType.Direct);
+            GraphicsQueue.Name = "Graphics Queue";
 
             SwapChainDescription1 swapChainDesc = new()
             {

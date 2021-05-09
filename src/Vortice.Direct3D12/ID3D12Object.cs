@@ -22,7 +22,7 @@ namespace Vortice.Direct3D12
                 {
                     byte* pname = stackalloc byte[1024];
                     int size = 1024 - 1;
-                    if (GetPrivateData(CommonGuid.DebugObjectName, ref size, new IntPtr(pname)).Failure)
+                    if (GetPrivateData(CommonGuid.DebugObjectNameW, ref size, new IntPtr(pname)).Failure)
                     {
                         return string.Empty;
                     }
