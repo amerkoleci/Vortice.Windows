@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -14,6 +14,12 @@
     <!-- Include native libraries in x64. -->
     <Content Include="..\..\Vortice.Dxc\native\win-x64\dxil.dll" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\..\Vortice.Dxc\native\win-x64\dxcompiler.dll" CopyToOutputDirectory="PreserveNewest" />
+
+    <Content Include="Assets\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\" />
   </ItemGroup>
   
 </Project>

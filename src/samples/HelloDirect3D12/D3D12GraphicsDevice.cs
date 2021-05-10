@@ -15,13 +15,12 @@ using static Vortice.DXGI.DXGI;
 using Vortice.Mathematics;
 using Vortice.Dxc;
 using Vortice.Direct3D12.Shader;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Vortice;
+using System.IO;
 
 namespace HelloDirect3D12
 {
-    public sealed class D3D12GraphicsDevice : IGraphicsDevice
+    public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
     {
         private const int RenderLatency = 2;
 
@@ -150,30 +149,6 @@ namespace HelloDirect3D12
             RootSignatureDescription1 rootSignatureDesc = new RootSignatureDescription1(RootSignatureFlags.AllowInputAssemblerInputLayout);
 
             _rootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, rootSignatureDesc);
-
-            var includeCode = "#include \"Shader.inc\"";
-
-            string shaderSource = includeCode + Environment.NewLine + @"
-            struct PSInput {
-                float4 position : SV_POSITION;
-                float4 color : COLOR;
-            };
-            PSInput VSMain(float4 position : POSITION, float4 color : COLOR) {
-                PSInput result;
-                result.position = position;
-                result.color = color;
-                return result;
-            }
-            float4 PSMain(PSInput input) : SV_TARGET {
-                return input.color;
-            }
-
-            [numthreads(1, 1, 1)]
-            void CSMain(uint3 DTid : SV_DispatchThreadID )
-            {
-            }
-";
-
             InputElementDescription[] inputElementDescs = new[]
             {
                 new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
@@ -181,10 +156,10 @@ namespace HelloDirect3D12
             };
 
             byte[] vertexShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Vertex,
-                shaderSource, "VSMain", out ID3D12ShaderReflection? vertexShaderReflection);
+                "Triangle.hlsl", "VSMain", out ID3D12ShaderReflection? vertexShaderReflection);
 
             byte[] pixelShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Pixel,
-                shaderSource, "PSMain", out ID3D12ShaderReflection? pixelShaderReflection);
+                "Triangle.hlsl", "PSMain", out ID3D12ShaderReflection? pixelShaderReflection);
 
             PipelineStateStream pipelineStateStream = new PipelineStateStream
             {
@@ -355,109 +330,31 @@ namespace HelloDirect3D12
 
         private static byte[]? CompileBytecodeWithReflection(
             DxcShaderStage stage,
-            string shaderSource,
+            string shaderName,
             string entryPoint,
             out ID3D12ShaderReflection? reflection)
         {
-            IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint);
-            if (results!.GetStatus().Failure)
+            string assetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
+            string shaderSource = File.ReadAllText(Path.Combine(assetsPath, shaderName));
+
+            using (var includeHandler = new ShaderIncludeHandler(assetsPath))
             {
-                string errors = results!.GetErrors();
-                Console.WriteLine($"Failed to compile shader: {errors}");
-
-                reflection = default;
-                return null;
-            }
-
-            using (IDxcBlob? reflectionData = results.GetOutput(DxcOutKind.Reflection))
-            {
-                reflection = DxcCompiler.Utils!.CreateReflection<ID3D12ShaderReflection>(reflectionData);
-            }
-
-            return results.GetObjectBytecodeArray();
-        }
-
-        class Includer : ComObject, IDxcIncludeHandler
-        {
-            public Result LoadSource(string filenameRef, out IDxcBlob includeSourceOut)
-            {
-                includeSourceOut = null;
-                return 0;
-            }
-        }
-
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct PipelineStateStream
-        {
-            public PipelineStateSubObjectTypeRootSignature RootSignature;
-            public PipelineStateSubObjectTypeVertexShader VertexShader;
-            public PipelineStateSubObjectTypePixelShader PixelShader;
-            public PipelineStateSubObjectTypeInputLayout InputLayout;
-            public PipelineStateSubObjectTypeSampleMask SampleMask;
-            public PipelineStateSubObjectTypePrimitiveTopology PrimitiveTopology;
-            public PipelineStateSubObjectTypeRasterizer RasterizerState;
-            public PipelineStateSubObjectTypeBlend BlendState;
-            public PipelineStateSubObjectTypeDepthStencil DepthStencilState;
-            public PipelineStateSubObjectTypeRenderTargetFormats RenderTargetFormats;
-            public PipelineStateSubObjectTypeDepthStencilFormat DepthStencilFormat;
-            public PipelineStateSubObjectTypeSampleDescription SampleDescription;
-        }
-
-        public class PipelineBuilder
-        {
-            private readonly List<byte> data = new List<byte>();
-
-            public byte[] Data => data.ToArray();
-
-            public void Add(PipelineStateFlags flags)
-            {
-                Add(PipelineStateSubObjectType.Flags);
-                data.AddRange(BitConverter.GetBytes((int)flags));
-            }
-
-            public void Add(ID3D12RootSignature rootSignature)
-            {
-                Add(PipelineStateSubObjectType.RootSignature);
-                Add(rootSignature.NativePointer);
-            }
-
-            private void Add(PipelineStateSubObjectType type)
-            {
-                data.AddRange(BitConverter.GetBytes((int)type));
-            }
-
-            private void Add(IntPtr ptr)
-            {
-                if (IntPtr.Size == 4)
+                IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint, includeHandler: includeHandler);
+                if (results!.GetStatus().Failure)
                 {
-                    data.AddRange(BitConverter.GetBytes((int)ptr));
+                    string errors = results!.GetErrors();
+                    Console.WriteLine($"Failed to compile shader: {errors}");
+
+                    reflection = default;
+                    return null;
                 }
-                else
+
+                using (IDxcBlob? reflectionData = results.GetOutput(DxcOutKind.Reflection))
                 {
-                    data.AddRange(BitConverter.GetBytes((long)ptr));
+                    reflection = DxcCompiler.Utils!.CreateReflection<ID3D12ShaderReflection>(reflectionData);
                 }
-            }
-        }
 
-        //class TestIncludeHandler : ComObject, IDxcIncludeHandler
-        //{
-        //    public Result LoadSource(string fileName, out IDxcBlob includeSource)
-        //    {
-        //        includeSource = default;
-        //        return Result.Ok;
-        //    }
-        //}
-
-        private readonly struct Vertex
-        {
-            public readonly Vector3 Position;
-            public readonly Color4 Color;
-
-            public Vertex(in Vector3 position, in Color4 color)
-            {
-                Position = position;
-                Color = color;
+                return results.GetObjectBytecodeArray();
             }
         }
     }
