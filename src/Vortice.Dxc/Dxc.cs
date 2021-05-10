@@ -21,6 +21,7 @@ namespace Vortice.Dxc
         public static readonly Guid CLSID_DxcContainerReflection = new Guid("b9f54489-55b8-400c-ba3a-1675e4728b91");
         public static readonly Guid CLSID_DxcOptimizer = new Guid("AE2CD79F-CC22-453F-9B6B-B124E7A5204C");
         public static readonly Guid CLSID_DxcContainerBuilder = new Guid("94134294-411f-4574-b4d0-8741e25240d2");
+        public static readonly Guid CLSID_DxcPdbUtils = new Guid("54621dfb-f2ce-457e-ae8c-ec355faeec7c");
 
         public const int DXC_CP_UTF8 = 65001;
         public const int DXC_CP_UTF16 = 1200;

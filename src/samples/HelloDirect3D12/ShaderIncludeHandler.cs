@@ -2,104 +2,101 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using Vortice.Dxc;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.IO;
 
 namespace HelloDirect3D12
 {
-    public sealed partial class D3D12GraphicsDevice
+    public class ShaderIncludeHandler : CallbackBase, IDxcIncludeHandler
     {
-        public class ShaderIncludeHandler : CallbackBase, IDxcIncludeHandler
+        private readonly string[] _includeDirectories;
+        private readonly Dictionary<string, SourceCodeBlob> _sourceFiles = new Dictionary<string, SourceCodeBlob>();
+
+        public ShaderIncludeHandler(params string[] includeDirectories)
         {
-            private readonly string[] _includeDirectories;
-            private readonly Dictionary<string, SourceCodeBlob> _sourceFiles = new Dictionary<string, SourceCodeBlob>();
+            _includeDirectories = includeDirectories;
+        }
 
-            public ShaderIncludeHandler(params string[] includeDirectories)
+        protected override void Dispose(bool disposing)
+        {
+            foreach (var pinnedObject in _sourceFiles.Values)
+                pinnedObject?.Dispose();
+
+            _sourceFiles.Clear();
+
+            base.Dispose(disposing);
+        }
+
+        public Result LoadSource(string fileName, out IDxcBlob includeSource)
+        {
+            if (fileName.StartsWith("./"))
+                fileName = fileName.Substring(2);
+
+            var includeFile = GetFilePath(fileName);
+
+            if (string.IsNullOrEmpty(includeFile))
             {
-                _includeDirectories = includeDirectories;
+                includeSource = default;
+
+                return Result.Fail;
             }
 
-            protected override void Dispose(bool disposing)
+            if (!_sourceFiles.TryGetValue(includeFile, out var sourceCodeBlob))
             {
-                foreach (var pinnedObject in _sourceFiles.Values)
-                    pinnedObject?.Dispose();
+                var data = File.ReadAllBytes(includeFile);
 
-                _sourceFiles.Clear();
+                sourceCodeBlob = new SourceCodeBlob(data);
 
-                base.Dispose(disposing);
+                _sourceFiles.Add(includeFile, sourceCodeBlob);
             }
 
-            public Result LoadSource(string fileName, out IDxcBlob includeSource)
+            includeSource = sourceCodeBlob.Blob;
+
+            return Result.Ok;
+        }
+
+        private string? GetFilePath(string fileName)
+        {
+            for (int i = 0; i < _includeDirectories.Length; i++)
             {
-                if (fileName.StartsWith("./"))
-                    fileName = fileName.Substring(2);
+                var filePath = Path.GetFullPath(Path.Combine(_includeDirectories[i], fileName));
 
-                var includeFile = GetFilePath(fileName);
-
-                if (string.IsNullOrEmpty(includeFile))
-                {
-                    includeSource = default;
-
-                    return Result.Fail;
-                }
-
-                if (!_sourceFiles.TryGetValue(includeFile, out var sourceCodeBlob))
-                {
-                    var data = File.ReadAllBytes(includeFile);
-
-                    sourceCodeBlob = new SourceCodeBlob(data);
-
-                    _sourceFiles.Add(includeFile, sourceCodeBlob);
-                }
-
-                includeSource = sourceCodeBlob.Blob;
-
-                return Result.Ok;
+                if (File.Exists(filePath))
+                    return filePath;
             }
 
-            private string? GetFilePath(string fileName)
+            return null;
+        }
+
+
+        private class SourceCodeBlob : IDisposable
+        {
+            private byte[] _data;
+            private GCHandle _dataPointer;
+            private IDxcBlobEncoding _blob;
+
+            internal IDxcBlob Blob { get => _blob; }
+
+            public SourceCodeBlob(byte[] data)
             {
-                for (int i = 0; i < _includeDirectories.Length; i++)
-                {
-                    var filePath = Path.GetFullPath(Path.Combine(_includeDirectories[i], fileName));
+                _data = data;
 
-                    if (File.Exists(filePath))
-                        return filePath;
-                }
+                _dataPointer = GCHandle.Alloc(data, GCHandleType.Pinned);
 
-                return null;
+                DxcCompiler.Utils.CreateBlob(_dataPointer.AddrOfPinnedObject(), data.Length, Dxc.DXC_CP_UTF8, out _blob).CheckError();
             }
 
-
-            private class SourceCodeBlob : IDisposable
+            public void Dispose()
             {
-                private byte[] _data;
-                private GCHandle _dataPointer;
-                private IDxcBlobEncoding _blob;
+                if (_blob != null)
+                    _blob = null;
 
-                internal IDxcBlob Blob { get => _blob; }
-
-                public SourceCodeBlob(byte[] data)
-                {
-                    _data = data;
-
-                    _dataPointer = GCHandle.Alloc(data, GCHandleType.Pinned);
-
-                    DxcCompiler.Utils.CreateBlob(_dataPointer.AddrOfPinnedObject(), data.Length, Dxc.DXC_CP_UTF8, out _blob).CheckError();
-                }
-
-                public void Dispose()
-                {
-                    if (_blob != null)
-                        _blob = null;
-
-                    if (_dataPointer.IsAllocated)
-                        _dataPointer.Free();
-                    _dataPointer = default;
-                }
+                if (_dataPointer.IsAllocated)
+                    _dataPointer.Free();
+                _dataPointer = default;
             }
         }
     }

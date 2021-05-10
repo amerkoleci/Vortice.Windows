@@ -94,6 +94,8 @@
     
     <map method="IDxcVersionInfo2::(.*)" hresult="true" check="false"/>
     <map param="IDxcVersionInfo2::GetCommitInfo::pCommitHash" type="void" attribute="out" />
+
+    <map method="IDxcPdbUtils::(.*)" hresult="true" check="false"/>
     
     <map function="DxcCreateInstance" dll='"dxcompiler.dll"' group="Vortice.Dxc.Dxc" hresult="true" check="false"/>
     <map function="DxcCreateInstance2" dll='"dxcompiler.dll"' group="Vortice.Dxc.Dxc" hresult="true" check="false"/>

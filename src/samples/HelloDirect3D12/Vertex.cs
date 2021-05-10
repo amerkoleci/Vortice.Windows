@@ -6,18 +6,15 @@ using Vortice.Mathematics;
 
 namespace HelloDirect3D12
 {
-    public sealed partial class D3D12GraphicsDevice
+    public readonly struct VertexPositionColor
     {
-        private readonly struct Vertex
-        {
-            public readonly Vector3 Position;
-            public readonly Color4 Color;
+        public readonly Vector3 Position;
+        public readonly Color4 Color;
 
-            public Vertex(in Vector3 position, in Color4 color)
-            {
-                Position = position;
-                Color = color;
-            }
+        public VertexPositionColor(in Vector3 position, in Color4 color)
+        {
+            Position = position;
+            Color = color;
         }
     }
 }

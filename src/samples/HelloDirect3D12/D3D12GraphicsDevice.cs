@@ -181,7 +181,7 @@ namespace HelloDirect3D12
             _commandList = _d3d12Device.CreateCommandList<ID3D12GraphicsCommandList>(0, CommandListType.Direct, _commandAllocators[0], _pipelineState);
             _commandList.Close();
 
-            int vertexBufferSize = 3 * Unsafe.SizeOf<Vertex>();
+            int vertexBufferSize = 3 * Unsafe.SizeOf<VertexPositionColor>();
 
             _vertexBuffer = _d3d12Device.CreateCommittedResource<ID3D12Resource>(
                 new HeapProperties(HeapType.Upload),
@@ -189,17 +189,17 @@ namespace HelloDirect3D12
                 ResourceDescription.Buffer((ulong)vertexBufferSize),
                 ResourceStates.GenericRead);
 
-            Vertex[] triangleVertices = new Vertex[]
+            VertexPositionColor[] triangleVertices = new VertexPositionColor[]
             {
-                  new Vertex(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
-                  new Vertex(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
-                  new Vertex(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
+                  new VertexPositionColor(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
+                  new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
+                  new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
             };
 
             unsafe
             {
                 IntPtr bufferData = _vertexBuffer.Map(0);
-                ReadOnlySpan<Vertex> src = new ReadOnlySpan<Vertex>(triangleVertices);
+                ReadOnlySpan<VertexPositionColor> src = new ReadOnlySpan<VertexPositionColor>(triangleVertices);
                 MemoryHelpers.CopyMemory(bufferData, src);
                 _vertexBuffer.Unmap(0);
             }
@@ -279,7 +279,7 @@ namespace HelloDirect3D12
             _commandList.ClearRenderTargetView(rtvHandle, clearColor);
 
             _commandList.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
-            int stride = Unsafe.SizeOf<Vertex>();
+            int stride = Unsafe.SizeOf<VertexPositionColor>();
             int vertexBufferSize = 3 * stride;
             _commandList.IASetVertexBuffers(0, new VertexBufferView(_vertexBuffer.GPUVirtualAddress, vertexBufferSize, stride));
             _commandList.DrawInstanced(3, 1, 0, 0);
