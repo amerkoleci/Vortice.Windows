@@ -163,6 +163,13 @@ namespace Vortice.Dxc
                 }
             }
 
+            if (options.UseGlLayout)
+                arguments.Add("-fvk-use-gl-layout");
+            if (options.UseDxLayout)
+                arguments.Add("-fvk-use-dx-layout");
+            if (options.UseScalarLayout)
+                arguments.Add("-fvk-use-scalar-layout");
+
             if (includeHandler == null)
             {
                 using (includeHandler = Utils!.CreateDefaultIncludeHandler())
