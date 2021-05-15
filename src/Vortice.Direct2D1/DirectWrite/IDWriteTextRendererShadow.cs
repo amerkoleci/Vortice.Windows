@@ -25,10 +25,10 @@ namespace Vortice.DirectWrite
                     float baselineOriginX = (float)_baselineOriginX;
                     float baselineOriginY = (float)_baselineOriginY;
                     Vortice.DCommon.MeasuringMode measuringMode = (Vortice.DCommon.MeasuringMode)_measuringMode;
-                    ref Vortice.DirectWrite.GlyphRun.__Native glyphRun_ = System.Runtime.CompilerServices.Unsafe.AsRef<Vortice.DirectWrite.GlyphRun.__Native>(_glyphRun);
+                    ref Vortice.DirectWrite.GlyphRun.__Native glyphRun_ = ref System.Runtime.CompilerServices.Unsafe.AsRef<Vortice.DirectWrite.GlyphRun.__Native>(_glyphRun);
                     Vortice.DirectWrite.GlyphRun glyphRun;
-                    ref Vortice.DirectWrite.GlyphRunDescription.__Native glyphRunDescription_ = System.Runtime.CompilerServices.Unsafe.AsRef<Vortice.DirectWrite.GlyphRunDescription.__Native>(_glyphRunDescription);
-                    Vortice.DirectWrite.GlyphRunDescription glyphRunDescription;
+                    ref Vortice.DirectWrite.GlyphRunDescription.__Native glyphRunDescription_ = ref System.Runtime.CompilerServices.Unsafe.AsRef<Vortice.DirectWrite.GlyphRunDescription.__Native>(_glyphRunDescription);
+                    Vortice.DirectWrite.GlyphRunDescription glyphRunDescription = default;
                     SharpGen.Runtime.IUnknown clientDrawingEffect = default;
                     System.IntPtr clientDrawingEffect_ = (System.IntPtr)_clientDrawingEffect;
                     IDWriteTextRenderer @this = (IDWriteTextRenderer)ToShadow<Vortice.DirectWrite.IDWriteTextRendererShadow>(thisObject).Callback;
@@ -59,8 +59,8 @@ namespace Vortice.DirectWrite
                     System.IntPtr clientDrawingContext = (System.IntPtr)_clientDrawingContext;
                     float baselineOriginX = (float)_baselineOriginX;
                     float baselineOriginY = (float)_baselineOriginY;
-                    ref Vortice.DirectWrite.Underline.__Native underline_ = System.Runtime.CompilerServices.Unsafe.AsRef<Vortice.DirectWrite.Underline.__Native>(_underline);
-                    Vortice.DirectWrite.Underline underline;
+                    ref Vortice.DirectWrite.Underline.__Native underline_ = ref System.Runtime.CompilerServices.Unsafe.AsRef<Vortice.DirectWrite.Underline.__Native>(_underline);
+                    Vortice.DirectWrite.Underline underline = default;
                     SharpGen.Runtime.IUnknown clientDrawingEffect = default;
                     System.IntPtr clientDrawingEffect_ = (System.IntPtr)_clientDrawingEffect;
                     IDWriteTextRenderer @this = (IDWriteTextRenderer)ToShadow<Vortice.DirectWrite.IDWriteTextRendererShadow>(thisObject).Callback;
@@ -86,8 +86,8 @@ namespace Vortice.DirectWrite
                     System.IntPtr clientDrawingContext = (System.IntPtr)_clientDrawingContext;
                     float baselineOriginX = (float)_baselineOriginX;
                     float baselineOriginY = (float)_baselineOriginY;
-                    ref Vortice.DirectWrite.Strikethrough.__Native strikethrough_ = System.Runtime.CompilerServices.Unsafe.AsRef<Vortice.DirectWrite.Strikethrough.__Native>(_strikethrough);
-                    Vortice.DirectWrite.Strikethrough strikethrough;
+                    ref Vortice.DirectWrite.Strikethrough.__Native strikethrough_ = ref System.Runtime.CompilerServices.Unsafe.AsRef<Vortice.DirectWrite.Strikethrough.__Native>(_strikethrough);
+                    Vortice.DirectWrite.Strikethrough strikethrough = default;
                     SharpGen.Runtime.IUnknown clientDrawingEffect = default;
                     System.IntPtr clientDrawingEffect_ = (System.IntPtr)_clientDrawingEffect;
                     IDWriteTextRenderer @this = (IDWriteTextRenderer)ToShadow<Vortice.DirectWrite.IDWriteTextRendererShadow>(thisObject).Callback;
