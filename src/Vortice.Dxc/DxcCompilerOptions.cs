@@ -28,5 +28,9 @@ namespace Vortice.Dxc
         /// Generate SPIR-V code
         /// </summary>
         public bool GenerateSPIRV { get; set; } = false;
+
+        public bool UseGlLayout { get; set; } = false;
+        public bool UseDxLayout { get; set; } = false;
+        public bool UseScalarLayout { get; set; } = false;
     }
 }
