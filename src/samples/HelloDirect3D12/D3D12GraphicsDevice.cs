@@ -339,7 +339,7 @@ namespace HelloDirect3D12
 
             using (var includeHandler = new ShaderIncludeHandler(assetsPath))
             {
-                IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint, includeHandler: includeHandler);
+                using IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint, includeHandler: includeHandler);
                 if (results!.GetStatus().Failure)
                 {
                     string errors = results!.GetErrors();

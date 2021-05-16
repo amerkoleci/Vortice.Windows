@@ -76,9 +76,9 @@ namespace HelloDirect3D12
         {
             private byte[] _data;
             private GCHandle _dataPointer;
-            private IDxcBlobEncoding _blob;
+            private IDxcBlobEncoding? _blob;
 
-            internal IDxcBlob Blob { get => _blob; }
+            internal IDxcBlob? Blob { get => _blob; }
 
             public SourceCodeBlob(byte[] data)
             {
@@ -86,13 +86,13 @@ namespace HelloDirect3D12
 
                 _dataPointer = GCHandle.Alloc(data, GCHandleType.Pinned);
 
-                DxcCompiler.Utils.CreateBlob(_dataPointer.AddrOfPinnedObject(), data.Length, Dxc.DXC_CP_UTF8, out _blob).CheckError();
+                _blob = DxcCompiler.Utils.CreateBlob(_dataPointer.AddrOfPinnedObject(), data.Length, Dxc.DXC_CP_UTF8);
             }
 
             public void Dispose()
             {
-                if (_blob != null)
-                    _blob = null;
+                //_blob?.Dispose();
+                _blob = null;
 
                 if (_dataPointer.IsAllocated)
                     _dataPointer.Free();
