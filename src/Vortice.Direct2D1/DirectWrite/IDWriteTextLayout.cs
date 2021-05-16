@@ -7,11 +7,11 @@ namespace Vortice.DirectWrite
     {
         public LineMetrics[] GetLineMetrics()
         {
-            GetLineMetrics(null, 0, out var actualLineCount);
+            GetLineMetrics(null, out var actualLineCount);
             var lineMetrics = new LineMetrics[actualLineCount];
             if (actualLineCount > 0)
             {
-                GetLineMetrics(lineMetrics, lineMetrics.Length, out _).CheckError();
+                GetLineMetrics(lineMetrics, out _).CheckError();
             }
 
             return lineMetrics;

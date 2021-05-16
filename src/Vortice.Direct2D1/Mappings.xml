@@ -516,7 +516,8 @@
     <map method="IDWriteTextFormat::GetLocaleNameLength" visibility="internal" />
 
     <!-- IDWriteTextLayout -->
-    <map method="IDWriteTextLayout::GetLineMetrics" visibility="internal" hresult="true" check="false"/>
+    <map method="IDWriteTextLayout::GetLineMetrics" hresult="true" check="false"/>
+    <map param="IDWriteTextLayout\d*::GetLineMetrics::maxLineCount" relation="length(lineMetrics)" />
     <map method="IDWriteTextLayout::HitTestTextRange" hresult="true" check="false"/>
 
     <!-- IDWriteTextLayout3 -->
@@ -542,14 +543,14 @@
 
     <!-- IDWriteFontFamily -->
     <map param="IDWriteFontFamily::GetFirstMatchingFont::matchingFont" return="true" />
-    <map param="IDWriteFontFamily::GetMatchingFonts::matchingFonts" return="true" />
+    <map param="IDWriteFontFamily\d*::GetMatchingFonts::matchingFonts" return="true" />
 
     <!-- IDWriteFontFamily1 -->
     <map param="IDWriteFontFamily1::GetFont::font" return="true" />
     <map param="IDWriteFontFamily1::GetFontFaceReference::fontFaceReference" return="true" />
 
     <!-- IDWriteFontFamily2 -->
-    <map param="IDWriteFontFamily2::GetMatchingFonts::matchingFonts" return="true" />
+    <map param="IDWriteFontFamily2::GetMatchingFonts::fontAxisValueCount" relation="length(fontAxisValues)" />
 
     <!-- IDWriteFontCollection -->
     <map param="IDWriteFontCollection::FindFamilyName::exists" return="true" />
@@ -608,7 +609,7 @@
     <map interface="IDWritePixelSnapping" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true"/>
 
     <!-- IDWriteTextRenderer -->
-    <map interface="IDWriteTextRenderer\d*" callback="true" callback-dual="true" callback-visibility="public"/>
+    <map interface="IDWriteTextRenderer\d*" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true"/>
 
     <!-- IDWriteTextAnalysisSink -->
     <map interface="IDWriteTextAnalysisSink\d*" callback="true" callback-dual="false" autogen-shadow="true"/>

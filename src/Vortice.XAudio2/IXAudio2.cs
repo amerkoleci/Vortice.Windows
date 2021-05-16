@@ -10,17 +10,17 @@ namespace Vortice.XAudio2
 {
     public partial class IXAudio2
     {
-        private readonly EngineCallbackImpl _engineCallback;
+        private readonly EngineCallbackImpl? _engineCallback;
 
         #region Events
-        /// <summary>	
-        /// Called by XAudio2 just before an audio processing pass begins.	
-        /// </summary>	
+        /// <summary>
+        /// Called by XAudio2 just before an audio processing pass begins.
+        /// </summary>
         public event EventHandler ProcessingPassStart;
 
-        /// <summary>	
-        /// Called by XAudio2 just after an audio processing pass ends.	
-        /// </summary>	
+        /// <summary>
+        /// Called by XAudio2 just after an audio processing pass ends.
+        /// </summary>
         public event EventHandler ProcessingPassEnd;
 
         /// <summary>
@@ -199,9 +199,9 @@ namespace Vortice.XAudio2
             return (float)Math.Pow(2, semitones / 12);
         }
 
-        /// <summary>	
+        /// <summary>
         /// Atomically applies a set of operations for all pending operations.
-        /// </summary>	
+        /// </summary>
         public void CommitChanges()
         {
             CommitChanges(0);
@@ -232,8 +232,6 @@ namespace Vortice.XAudio2
             {
                 XAudio2.CriticalError?.Invoke(this, new ErrorEventArgs(error));
             }
-
-            ShadowContainer ICallbackable.Shadow { get; set; }
         }
         #endregion
     }

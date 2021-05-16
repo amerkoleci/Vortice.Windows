@@ -45,6 +45,8 @@ namespace Vortice.Dxc
 
             try
             {
+                IntPtr debugBlobNameOut = default;
+
                 if (arguments != null && argumentsCount > 0)
                 {
                     argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
@@ -57,7 +59,7 @@ namespace Vortice.Dxc
                     defines,
                     includeHandler,
                     out IDxcOperationResult? result,
-                    out var debugBlobNameOut,
+                    new IntPtr(&debugBlobNameOut),
                     out debugBlob);
 
                 if (debugBlobNameOut != IntPtr.Zero)
@@ -123,6 +125,8 @@ namespace Vortice.Dxc
 
             try
             {
+                IntPtr debugBlobNameOut = default;
+
                 if (arguments != null && argumentsCount > 0)
                 {
                     argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
@@ -134,7 +138,7 @@ namespace Vortice.Dxc
                     defines,
                     includeHandler,
                     out result,
-                    out var debugBlobNameOut,
+                    new IntPtr(&debugBlobNameOut),
                     out debugBlob);
 
                 if (debugBlobNameOut != IntPtr.Zero)

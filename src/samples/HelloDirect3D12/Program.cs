@@ -17,7 +17,7 @@ namespace HelloDirect3D12
         {
             protected override void InitializeBeforeRun()
             {
-                var test = XAudio2Create();
+                using var test = XAudio2Create();
 
                 var validation = false;
 #if DEBUG
