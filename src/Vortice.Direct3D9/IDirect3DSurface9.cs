@@ -17,10 +17,10 @@ namespace Vortice.Direct3D9
         /// <typeparam name="T"></typeparam>
         /// <param name="guid">The GUID.</param>
         /// <returns>The parent container texture.</returns>
-        public T GetContainer<T>(Guid guid) where T : ComObject
+        public T? GetContainer<T>(Guid guid) where T : ComObject
         {
             GetContainer(guid, out IntPtr containerPtr);
-            return FromPointer<T>(containerPtr);
+            return MarshallingHelpers.FromPointer<T>(containerPtr);
         }
 
         /// <summary>

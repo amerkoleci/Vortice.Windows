@@ -9,7 +9,7 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIFactory2
     {
-        public IDXGISwapChain1 CreateSwapChainForComposition(IUnknown deviceOrCommandQueue, SwapChainDescription1 description, IDXGIOutput restrictToOutput = null)
+        public IDXGISwapChain1 CreateSwapChainForComposition(IUnknown deviceOrCommandQueue, SwapChainDescription1 description, IDXGIOutput? restrictToOutput = default)
         {
             if (deviceOrCommandQueue == null)
                 throw new ArgumentNullException(nameof(deviceOrCommandQueue), $"Null not allowed for {nameof(deviceOrCommandQueue)}");
@@ -21,7 +21,7 @@ namespace Vortice.DXGI
             IUnknown deviceOrCommandQueue, 
             IUnknown window, 
             SwapChainDescription1 description, 
-            IDXGIOutput restrictToOutput = null)
+            IDXGIOutput? restrictToOutput = default)
         {
             if (deviceOrCommandQueue == null)
                 throw new ArgumentNullException(nameof(deviceOrCommandQueue), $"Null not allowed for {nameof(deviceOrCommandQueue)}");
@@ -37,7 +37,7 @@ namespace Vortice.DXGI
             IntPtr hwnd,
             SwapChainDescription1 description,
             SwapChainFullscreenDescription? fullscreenDescription = null,
-            IDXGIOutput restrictToOutput = null)
+            IDXGIOutput? restrictToOutput = default)
         {
             if (deviceOrCommandQueue == null)
                 throw new ArgumentNullException(nameof(deviceOrCommandQueue), $"Null not allowed for {nameof(deviceOrCommandQueue)}");

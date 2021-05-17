@@ -1449,6 +1449,8 @@
     <map param="IDirect3DVolume9::LockBox::Flags" type="D3DLOCK"/>
     <map param="IDirect3DVolume9::LockBox::pLockedVolume" attribute="out" />
 
+    <map method="IDirect3DQuery9::GetType" name="GetQueryType" />
+    <map method="IDirect3DResource9::GetType" name="GetResourceType" />
 
     <!-- IDirect3DStateBlock9 -->
     <map method="IDirect3DStateBlock9::GetDevice" persist="true"/>

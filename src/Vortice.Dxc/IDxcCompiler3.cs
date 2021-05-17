@@ -44,7 +44,7 @@ namespace Vortice.Dxc
                     return hr;
                 }
 
-                result = FromPointer<T>(nativePtr);
+                result = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return hr;
             }
             finally
@@ -76,7 +76,7 @@ namespace Vortice.Dxc
                 return hr;
             }
 
-            result = FromPointer<T>(nativePtr);
+            result = MarshallingHelpers.FromPointer<T>(nativePtr);
             return hr;
         }
 
@@ -106,7 +106,7 @@ namespace Vortice.Dxc
                     return hr;
                 }
 
-                result = FromPointer<T>(nativePtr);
+                result = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return hr;
             }
             finally

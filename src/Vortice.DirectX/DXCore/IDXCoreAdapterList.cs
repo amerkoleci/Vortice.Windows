@@ -8,7 +8,7 @@ namespace Vortice.DXCore
 {
     public partial class IDXCoreAdapterList
     {
-        public T GetAdapter<T>(int index) where T : IDXCoreAdapter
+        public T? GetAdapter<T>(int index) where T : IDXCoreAdapter
         {
             Result result = GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr);
             if (result.Failure)
@@ -16,10 +16,10 @@ namespace Vortice.DXCore
                 return default;
             }
 
-            return FromPointer<T>(adapterPtr);
+            return MarshallingHelpers.FromPointer<T>(adapterPtr);
         }
 
-        public Result GetAdapter<T>(int index, out T adapter) where T : IDXCoreAdapter
+        public Result GetAdapter<T>(int index, out T? adapter) where T : IDXCoreAdapter
         {
             Result result = GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr);
             if (result.Failure)
@@ -28,11 +28,11 @@ namespace Vortice.DXCore
                 return result;
             }
 
-            adapter = FromPointer<T>(adapterPtr);
+            adapter = MarshallingHelpers.FromPointer<T>(adapterPtr);
             return result;
         }
 
-        public T GetFactory<T>() where T : IDXCoreAdapterFactory
+        public T? GetFactory<T>() where T : IDXCoreAdapterFactory
         {
             Result result = GetFactory(typeof(T).GUID, out IntPtr factoryPtr);
             if (result.Failure)
@@ -40,10 +40,10 @@ namespace Vortice.DXCore
                 return default;
             }
 
-            return FromPointer<T>(factoryPtr);
+            return MarshallingHelpers.FromPointer<T>(factoryPtr);
         }
 
-        public Result GetFactory<T>(out T factory) where T : IDXCoreAdapterFactory
+        public Result GetFactory<T>(out T? factory) where T : IDXCoreAdapterFactory
         {
             Result result = GetFactory(typeof(T).GUID, out IntPtr factoryPtr);
             if (result.Failure)
@@ -52,7 +52,7 @@ namespace Vortice.DXCore
                 return result;
             }
 
-            factory = FromPointer<T>(factoryPtr);
+            factory = MarshallingHelpers.FromPointer<T>(factoryPtr);
             return result;
         }
 

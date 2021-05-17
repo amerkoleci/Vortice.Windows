@@ -25,7 +25,7 @@ namespace Vortice.XAudio2
         /// <returns>A pointer to a shadow c++ callback</returns>
         public static IntPtr ToIntPtr(IXAudio2VoiceCallback callback)
         {
-            return ToCallbackPtr<IXAudio2VoiceCallback>(callback);
+            return MarshallingHelpers.ToCallbackPtr<IXAudio2VoiceCallback>(callback);
         }
 
         private class VTable : CppObjectVtbl

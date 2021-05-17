@@ -15,10 +15,10 @@ namespace Vortice.Direct2D1.Effects
         {
         }
 
-        public ID2D1ColorContext SourceColorContext
+        public ID2D1ColorContext? SourceColorContext
         {
-            set => SetValue((int)ColorManagementProperties.SourceColorContext, value);
             get => GetIUnknownValue<ID2D1ColorContext>((int)ColorManagementProperties.SourceColorContext);
+            set => SetValue((int)ColorManagementProperties.SourceColorContext, value);
         }
 
         public ColorManagementRenderingIntent SourceRenderingIntent
@@ -27,10 +27,10 @@ namespace Vortice.Direct2D1.Effects
             get => GetEnumValue<ColorManagementRenderingIntent>((int)ColorManagementProperties.SourceRenderingIntent);
         }
 
-        public ID2D1ColorContext DestinationColorContext
+        public ID2D1ColorContext? DestinationColorContext
         {
-            set => SetValue((int)ColorManagementProperties.DestinationColorContext, value);
             get => GetIUnknownValue<ID2D1ColorContext>((int)ColorManagementProperties.DestinationColorContext);
+            set => SetValue((int)ColorManagementProperties.DestinationColorContext, value);
         }
 
         public ColorManagementRenderingIntent DestinationRenderingIntent

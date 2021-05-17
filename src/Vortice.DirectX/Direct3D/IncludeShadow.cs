@@ -59,8 +59,8 @@ namespace Vortice.Direct3D
                         IncludeShadow shadow = ToShadow<IncludeShadow>(thisPtr);
                         Include callback = (Include)shadow.Callback;
 
-                        Stream stream = null;
-                        Stream parentStream = null;
+                        Stream? stream = null;
+                        Stream? parentStream = null;
 
                         if (shadow._frames.ContainsKey(pParentData))
                         {
@@ -145,7 +145,8 @@ namespace Vortice.Direct3D
         private static byte[] ReadStream(Stream stream, ref int readLength)
         {
             Debug.Assert(stream != null);
-            Debug.Assert(stream.CanRead);
+            Debug.Assert(stream!.CanRead);
+
             int count = readLength;
             Debug.Assert(count <= (stream.Length - stream.Position));
             if (count == 0)

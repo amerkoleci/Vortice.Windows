@@ -18,10 +18,10 @@ namespace Vortice.Direct2D1.Effects
         {
         }
 
-        public IWICBitmapSource WicBitmapSource
+        public IWICBitmapSource? WicBitmapSource
         {
-            set => SetValue((int)BitmapSourceProperties.WicBitmapSource, value);
             get => GetIUnknownValue<IWICBitmapSource>((int)BitmapSourceProperties.WicBitmapSource);
+            set => SetValue((int)BitmapSourceProperties.WicBitmapSource, value);
         }
 
         public Vector2 Scale

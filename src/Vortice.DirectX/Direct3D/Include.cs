@@ -17,7 +17,7 @@ namespace Vortice.Direct3D
         /// <param name="parentStream">Pointer to the container that includes the #include file.</param>
         /// <returns>Stream that is associated with fileName to be read. This reference remains valid until <see cref="Include.Close"/> is called.</returns>
         /// <unmanaged>HRESULT Open([None] D3D_INCLUDE_TYPE IncludeType,[None] const char* pFileName,[None] LPCVOID pParentData,[None] LPCVOID* ppData,[None] UINT* pBytes)</unmanaged>
-        Stream Open(IncludeType type, string fileName, Stream parentStream);
+        Stream Open(IncludeType type, string fileName, Stream? parentStream);
 
         /// <summary>	
         /// A user-implemented method for closing a shader #include file.	

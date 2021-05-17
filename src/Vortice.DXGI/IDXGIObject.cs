@@ -21,7 +21,10 @@ namespace Vortice.DXGI
                     byte* pname = stackalloc byte[1024];
                     int size = 1024 - 1;
                     if (GetPrivateData(CommonGuid.DebugObjectName, ref size, new IntPtr(pname)).Failure)
+                    {
                         return string.Empty;
+                    }
+
                     pname[size] = 0;
                     return Marshal.PtrToStringAnsi(new IntPtr(pname));
                 }
@@ -34,20 +37,20 @@ namespace Vortice.DXGI
                 }
                 else
                 {
-                    var namePtr = Marshal.StringToHGlobalAnsi(value);
+                    IntPtr namePtr = Marshal.StringToHGlobalAnsi(value);
                     SetPrivateData(CommonGuid.DebugObjectName, value.Length, namePtr);
                 }
             }
 
         }
-        public T GetParent<T>() where T : ComObject
+        public T? GetParent<T>() where T : ComObject
         {
             if (GetParent(typeof(T).GUID, out IntPtr nativePtr).Failure)
             {
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }

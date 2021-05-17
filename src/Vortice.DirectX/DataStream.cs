@@ -61,7 +61,7 @@ namespace Vortice
     {
         private byte* _buffer;
         private GCHandle _handle;
-        private Blob _blob;
+        private Blob? _blob;
         private readonly bool _ownsBuffer;
         private long _position;
         private readonly long _size;

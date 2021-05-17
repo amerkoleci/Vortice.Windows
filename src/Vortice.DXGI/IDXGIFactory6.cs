@@ -13,7 +13,7 @@ namespace Vortice.DXGI
             Result result = EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr);
             if (result.Success)
             {
-                adapter = FromPointer<T>(adapterPtr);
+                adapter = MarshallingHelpers.FromPointer<T>(adapterPtr);
                 return result;
             }
 
@@ -29,7 +29,7 @@ namespace Vortice.DXGI
                 return default;
             }
 
-            return FromPointer<T>(adapterPtr);
+            return MarshallingHelpers.FromPointer<T>(adapterPtr);
         }
     }
 }

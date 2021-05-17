@@ -2,8 +2,8 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Drawing;
 using SharpGen.Runtime;
-using Vortice.Mathematics;
 
 namespace Vortice.DXGI
 {
@@ -15,7 +15,7 @@ namespace Vortice.DXGI
         /// <returns>Native HWND handle</returns>
         public IntPtr GetHwnd()
         {
-            if (GetHwnd(out var hwnd).Failure)
+            if (GetHwnd(out IntPtr hwnd).Failure)
             {
                 return IntPtr.Zero;
             }
@@ -28,15 +28,15 @@ namespace Vortice.DXGI
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T GetCoreWindow<T>() where T : ComObject
+        public T? GetCoreWindow<T>() where T : ComObject
         {
-            var result = GetCoreWindow(typeof(T).GUID, out var nativePtr);
+            Result result = GetCoreWindow(typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
             {
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         public unsafe Result Present(int syncInterval, PresentFlags presentFlags, PresentParameters presentParameters)
@@ -44,8 +44,8 @@ namespace Vortice.DXGI
             bool hasScrollRectangle = presentParameters.ScrollRectangle.HasValue;
             bool hasScrollOffset = presentParameters.ScrollOffset.HasValue;
 
-            var scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle.Value : new RawRect();
-            var scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset.Value : default;
+            RawRect scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle.Value : new RawRect();
+            Point scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset.Value : default;
 
             fixed (void* pDirtyRects = presentParameters.DirtyRectangles)
             {

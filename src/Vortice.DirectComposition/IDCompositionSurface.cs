@@ -12,10 +12,10 @@ namespace Vortice.DirectComposition
         public T BeginDraw<T>(RawRect? updateRect, out Point updateOffset) where T : ComObject
         {
             BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out updateOffset).CheckError();
-            return FromPointer<T>(updateObjectPtr);
+            return MarshallingHelpers.FromPointer<T>(updateObjectPtr);
         }
 
-        public Result BeginDraw<T>(RawRect? updateRect, out T updateObject, out Point updateOffset) where T : ComObject
+        public Result BeginDraw<T>(RawRect? updateRect, out T? updateObject, out Point updateOffset) where T : ComObject
         {
             Result result = BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out updateOffset);
             if (result.Failure)
@@ -24,7 +24,7 @@ namespace Vortice.DirectComposition
                 return result;
             }
 
-            updateObject = FromPointer<T>(updateObjectPtr);
+            updateObject = MarshallingHelpers.FromPointer<T>(updateObjectPtr);
             return result;
         }
     }

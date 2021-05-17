@@ -8,7 +8,7 @@ using Vortice.Mathematics;
 
 namespace Vortice.Direct2D1
 {
-    public partial class ID2D1Properties
+    public unsafe partial class ID2D1Properties
     {
         public bool Cached
         {
@@ -16,48 +16,48 @@ namespace Vortice.Direct2D1
             get => GetBoolValue((int)Property.Cached);
         }
 
-        public unsafe void SetValue(int index, bool value)
+        public void SetValue(int index, bool value)
         {
             var intValue = value ? 1 : 0;
             SetValue(index, PropertyType.Bool, new IntPtr(&intValue), sizeof(int));
         }
 
-        public unsafe void SetValue(int index, Guid value)
+        public void SetValue(int index, Guid value)
         {
             SetValue(index, PropertyType.Clsid, new IntPtr(&value), sizeof(Guid));
         }
 
-        public unsafe void SetValue(int index, float value)
+        public void SetValue(int index, float value)
         {
             SetValue(index, PropertyType.Float, new IntPtr(&value), sizeof(float));
         }
 
-        public unsafe void SetValue(int index, int value)
+        public void SetValue(int index, int value)
         {
             SetValue(index, PropertyType.Int32, new IntPtr(&value), sizeof(int));
         }
 
-        public unsafe void SetValue(int index, Matrix3x2 value)
+        public void SetValue(int index, Matrix3x2 value)
         {
             SetValue(index, PropertyType.Matrix3x2, new IntPtr(&value), sizeof(Matrix3x2));
         }
 
-        public unsafe void SetValue(int index, Matrix4x3 value)
+        public void SetValue(int index, Matrix4x3 value)
         {
             SetValue(index, PropertyType.Matrix4x3, new IntPtr(&value), sizeof(Matrix4x3));
         }
 
-        public unsafe void SetValue(int index, Matrix4x4 value)
+        public void SetValue(int index, Matrix4x4 value)
         {
             SetValue(index, PropertyType.Matrix4x4, new IntPtr(&value), sizeof(Matrix4x4));
         }
 
-        public unsafe void SetValue(int index, Matrix5x4 value)
+        public void SetValue(int index, Matrix5x4 value)
         {
             SetValue(index, PropertyType.Matrix5x4, new IntPtr(&value), sizeof(Matrix5x4));
         }
 
-        public unsafe void SetValue(int index, string value)
+        public void SetValue(int index, string value)
         {
             fixed (char* chars = value)
             {
@@ -65,51 +65,51 @@ namespace Vortice.Direct2D1
             }
         }
 
-        public unsafe void SetValue(int index, uint value)
+        public void SetValue(int index, uint value)
         {
             SetValue(index, PropertyType.UInt32, new IntPtr(&value), sizeof(uint));
         }
 
-        public unsafe void SetValue(int index, Vector2 value)
+        public void SetValue(int index, Vector2 value)
         {
             SetValue(index, PropertyType.Vector2, new IntPtr(&value), sizeof(Vector2));
         }
 
-        public unsafe void SetValue(int index, Vector3 value)
+        public void SetValue(int index, Vector3 value)
         {
             SetValue(index, PropertyType.Vector3, new IntPtr(&value), sizeof(Vector3));
         }
 
-        public unsafe void SetValue(int index, Vector4 value)
+        public void SetValue(int index, Vector4 value)
         {
             SetValue(index, PropertyType.Vector4, new IntPtr(&value), sizeof(Vector4));
         }
 
-        public unsafe void SetValue(int index, RectangleF value)
+        public void SetValue(int index, RectangleF value)
         {
             Vector4 vector = new Vector4(value.X, value.Y, value.Width, value.Height);
             SetValue(index, PropertyType.Vector4, new IntPtr(&vector), sizeof(Vector4));
         }
 
-        public unsafe void SetValue<T>(int index, T value) where T : unmanaged, Enum
+        public void SetValue<T>(int index, T value) where T : unmanaged, Enum
         {
             SetValue(index, PropertyType.Enum, new IntPtr(&value), sizeof(int));
         }
 
-        public unsafe void SetValue(int index, ComObject comObject)
+        public void SetValue(int index, ComObject? comObject)
         {
             var ptr = comObject?.NativePointer ?? IntPtr.Zero;
             SetValue(index, PropertyType.IUnknown, new IntPtr(&ptr), sizeof(IntPtr));
         }
 
-        public unsafe bool GetBoolValue(int index)
+        public bool GetBoolValue(int index)
         {
             int value = default;
             GetValue(index, PropertyType.Bool, new IntPtr(&value), sizeof(int));
             return value != 0;
         }
 
-        public unsafe Guid GetGuidValue(int index)
+        public Guid GetGuidValue(int index)
         {
             Guid value = default;
             GetValue(index, PropertyType.Clsid, new IntPtr(&value), sizeof(Guid));
@@ -201,11 +201,11 @@ namespace Vortice.Direct2D1
             return value;
         }
 
-        public unsafe T GetIUnknownValue<T>(int index) where T : ComObject
+        public unsafe T? GetIUnknownValue<T>(int index) where T : ComObject
         {
             IntPtr value = default;
             GetValue(index, PropertyType.IUnknown, new IntPtr(&value), sizeof(IntPtr));
-            return value == IntPtr.Zero ? null : As<T>(value);
+            return value == IntPtr.Zero ? default : As<T>(value);
         }
     }
 }

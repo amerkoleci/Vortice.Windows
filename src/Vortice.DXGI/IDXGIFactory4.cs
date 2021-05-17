@@ -12,12 +12,12 @@ namespace Vortice.DXGI
         /// Gets the default warp adapter.
         /// </summary>
         /// <returns>The warp adapter.</returns>
-        public Result EnumWarpAdapter<T>(out T adapter) where T : IDXGIAdapter
+        public Result EnumWarpAdapter<T>(out T? adapter) where T : IDXGIAdapter
         {
-            var result = EnumWarpAdapter(typeof(T).GUID, out var nativePtr);
+            Result result = EnumWarpAdapter(typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
-                adapter = FromPointer<T>(nativePtr);
+                adapter = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
 
@@ -31,12 +31,12 @@ namespace Vortice.DXGI
         /// <param name="adapterLuid">A unique value that identifies the adapter.</param>
         /// <param name="adapter">The adapter instance of <see cref="IDXGIAdapter"/>, make sure to dispose the instance.</param>
         /// <returns>The <see cref="Result"/>.</returns>
-        public Result EnumAdapterByLuid<T>(long adapterLuid, out T adapter) where T : IDXGIAdapter
+        public Result EnumAdapterByLuid<T>(long adapterLuid, out T? adapter) where T : IDXGIAdapter
         {
-            var result = EnumAdapterByLuid(adapterLuid, typeof(T).GUID, out var nativePtr);
+            Result result = EnumAdapterByLuid(adapterLuid, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
-                adapter = FromPointer<T>(nativePtr);
+                adapter = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
 

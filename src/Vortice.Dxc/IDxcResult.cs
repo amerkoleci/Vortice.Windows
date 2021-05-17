@@ -69,7 +69,7 @@ namespace Vortice.Dxc
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         public unsafe T? GetOutput<T>(DxcOutKind kind, out IDxcBlobUtf16? outputName) where T : ComObject
@@ -83,7 +83,7 @@ namespace Vortice.Dxc
             }
 
             outputName = new IDxcBlobUtf16(outputNamePtr);
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         public Result GetOutput<T>(DxcOutKind kind, out T? @object) where T : ComObject
@@ -95,7 +95,7 @@ namespace Vortice.Dxc
                 return result;
             }
 
-            @object = FromPointer<T>(nativePtr);
+            @object = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
@@ -110,7 +110,7 @@ namespace Vortice.Dxc
                 return result;
             }
 
-            @object = FromPointer<T>(nativePtr);
+            @object = MarshallingHelpers.FromPointer<T>(nativePtr);
             outputName = new IDxcBlobUtf16(outputNamePtr);
             return result;
         }

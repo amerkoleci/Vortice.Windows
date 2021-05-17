@@ -8,14 +8,14 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIDeviceSubObject
     {
-        public T GetDevice<T>() where T : ComObject
+        public T? GetDevice<T>() where T : ComObject
         {
             if (GetDevice(typeof(T).GUID, out IntPtr nativePtr).Failure)
             {
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }

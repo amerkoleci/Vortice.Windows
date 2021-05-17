@@ -28,12 +28,12 @@ namespace Vortice.DXCore
         /// </summary>
         /// <param name="factory">The <see cref="IDXCoreAdapterFactory"/> being created.</param>
         /// <returns>Return the <see cref="Result"/>.</returns>
-        public static Result DXCoreCreateAdapterFactory<T>(out T factory) where T : IDXCoreAdapterFactory
+        public static Result DXCoreCreateAdapterFactory<T>(out T? factory) where T : IDXCoreAdapterFactory
         {
             Result result = DXCoreCreateAdapterFactory(typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
-                factory = CppObject.FromPointer<T>(nativePtr);
+                factory = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
 
@@ -45,7 +45,7 @@ namespace Vortice.DXCore
         /// Try to create new instance of <see cref="IDXCoreAdapterFactory"/>.
         /// </summary>
         /// <returns>Return an instance of <see cref="IDXCoreAdapterFactory"/> or null if failed.</returns>
-        public static T DXCoreCreateAdapterFactory<T>() where T : IDXCoreAdapterFactory
+        public static T? DXCoreCreateAdapterFactory<T>() where T : IDXCoreAdapterFactory
         {
             Result result = DXCoreCreateAdapterFactory(typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -53,7 +53,7 @@ namespace Vortice.DXCore
                 return default;
             }
 
-            return CppObject.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }

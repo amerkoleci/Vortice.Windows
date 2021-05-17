@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
 using SharpGen.Runtime;
 
 namespace Vortice.Direct2D1
@@ -12,7 +13,7 @@ namespace Vortice.Direct2D1
         /// </summary>
         /// <param name="factory">The <see cref="ID2D1Factory"/> being created.</param>
         /// <returns>Return the <see cref="Result"/>.</returns>
-        public static Result D2D1CreateFactory<T>(out T factory) where T : ID2D1Factory
+        public static Result D2D1CreateFactory<T>(out T? factory) where T : ID2D1Factory
         {
             return D2D1CreateFactory(FactoryType.SingleThreaded, out factory);
         }
@@ -23,17 +24,17 @@ namespace Vortice.Direct2D1
             /// <param name="factoryType">The type of factory.</param>
             /// <param name="factory">The <see cref="ID2D1Factory"/> being created.</param>
             /// <returns>Return the <see cref="Result"/>.</returns>
-            public static Result D2D1CreateFactory<T>(FactoryType factoryType, out T factory) where T : ID2D1Factory
+            public static Result D2D1CreateFactory<T>(FactoryType factoryType, out T? factory) where T : ID2D1Factory
         {
             var options = new FactoryOptions
             {
                 DebugLevel = DebugLevel.None,
             };
 
-            var result = D2D1CreateFactory(factoryType, typeof(T).GUID, options, out var nativePtr);
+            var result = D2D1CreateFactory(factoryType, typeof(T).GUID, options, out IntPtr nativePtr);
             if (result.Success)
             {
-                factory = CppObject.FromPointer<T>(nativePtr);
+                factory = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
 
@@ -48,12 +49,12 @@ namespace Vortice.Direct2D1
         /// <param name="options">The <see cref="FactoryOptions"/>.</param>
         /// <param name="factory">The <see cref="ID2D1Factory"/> being created.</param>
         /// <returns>Return the <see cref="Result"/>.</returns>
-        public static Result D2D1CreateFactory<T>(FactoryType factoryType, FactoryOptions options, out T factory) where T : ID2D1Factory
+        public static Result D2D1CreateFactory<T>(FactoryType factoryType, FactoryOptions options, out T? factory) where T : ID2D1Factory
         {
-            var result = D2D1CreateFactory(factoryType, typeof(T).GUID, options, out var nativePtr);
+            var result = D2D1CreateFactory(factoryType, typeof(T).GUID, options, out IntPtr nativePtr);
             if (result.Success)
             {
-                factory = CppObject.FromPointer<T>(nativePtr);
+                factory = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
 

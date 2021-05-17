@@ -32,7 +32,7 @@ namespace Vortice.DXCore
             }
         }
 
-        public T GetFactory<T>() where T : IDXCoreAdapterFactory
+        public T? GetFactory<T>() where T : IDXCoreAdapterFactory
         {
             Result result = GetFactory(typeof(T).GUID, out IntPtr factoryPtr);
             if (result.Failure)
@@ -40,10 +40,10 @@ namespace Vortice.DXCore
                 return default;
             }
 
-            return FromPointer<T>(factoryPtr);
+            return MarshallingHelpers.FromPointer<T>(factoryPtr);
         }
 
-        public Result GetFactory<T>(out T factory) where T : IDXCoreAdapterFactory
+        public Result GetFactory<T>(out T? factory) where T : IDXCoreAdapterFactory
         {
             Result result = GetFactory(typeof(T).GUID, out IntPtr factoryPtr);
             if (result.Failure)
@@ -52,7 +52,7 @@ namespace Vortice.DXCore
                 return result;
             }
 
-            factory = FromPointer<T>(factoryPtr);
+            factory = MarshallingHelpers.FromPointer<T>(factoryPtr);
             return result;
         }
 

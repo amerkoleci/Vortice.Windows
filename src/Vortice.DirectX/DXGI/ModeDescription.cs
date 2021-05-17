@@ -12,12 +12,10 @@ namespace Vortice.DXGI
         /// Initialize instance of <see cref="ModeDescription"/> struct.
         /// </summary>
         /// <param name="width">
-        /// A value that describes the resolution width. If you specify the width as zero when you call the <see cref="IDXGIFactory.CreateSwapChain(SharpGen.Runtime.IUnknown, SwapChainDescription)"/> method to create a swap chain, the runtime obtains the width from the output window and assigns this width value to the swap-chain description. 
-        /// You can subsequently call the <see cref="IDXGISwapChain.Description"/> method to retrieve the assigned width value.
+        /// A value that describes the resolution width. If you specify the width as zero when you call the IDXGIFactory.CreateSwapChain method to create a swap chain, the runtime obtains the width from the output window and assigns this width value to the swap-chain description. 
         /// </param>
         /// <param name="height">
-        /// A value that describes the resolution height. If you specify the width as zero when you call the <see cref="IDXGIFactory.CreateSwapChain(SharpGen.Runtime.IUnknown, SwapChainDescription)"/> method to create a swap chain, the runtime obtains the height from the output window and assigns this height value to the swap-chain description. 
-        /// You can subsequently call the <see cref="IDXGISwapChain.Description"/> method to retrieve the assigned height value.
+        /// A value that describes the resolution height. If you specify the width as zero when you call the IDXGIFactory.CreateSwapChain method to create a swap chain, the runtime obtains the height from the output window and assigns this height value to the swap-chain description. 
         /// </param>
         /// <param name="format">A <see cref="Vortice.DXGI.Format"/> describing the display format.</param>
         public ModeDescription(
@@ -37,12 +35,10 @@ namespace Vortice.DXGI
         /// Initialize instance of <see cref="ModeDescription"/> struct.
         /// </summary>
         /// <param name="width">
-        /// A value that describes the resolution width. If you specify the width as zero when you call the <see cref="IDXGIFactory.CreateSwapChain(SharpGen.Runtime.IUnknown, SwapChainDescription)"/> method to create a swap chain, the runtime obtains the width from the output window and assigns this width value to the swap-chain description. 
-        /// You can subsequently call the <see cref="IDXGISwapChain.Description"/> method to retrieve the assigned width value.
+        /// A value that describes the resolution width. If you specify the width as zero when you call the IDXGIFactory.CreateSwapChain method to create a swap chain, the runtime obtains the width from the output window and assigns this width value to the swap-chain description. 
         /// </param>
         /// <param name="height">
-        /// A value that describes the resolution height. If you specify the width as zero when you call the <see cref="IDXGIFactory.CreateSwapChain(SharpGen.Runtime.IUnknown, SwapChainDescription)"/> method to create a swap chain, the runtime obtains the height from the output window and assigns this height value to the swap-chain description. 
-        /// You can subsequently call the <see cref="IDXGISwapChain.Description"/> method to retrieve the assigned height value.
+        /// A value that describes the resolution height. If you specify the width as zero when you call the IDXGIFactory.CreateSwapChain method to create a swap chain, the runtime obtains the height from the output window and assigns this height value to the swap-chain description. 
         /// </param>
         /// <param name="refreshRate">A <see cref="Rational"/> describing the refresh rate in hertz</param>
         /// <param name="format">A <see cref="Vortice.DXGI.Format"/> describing the display format.</param>

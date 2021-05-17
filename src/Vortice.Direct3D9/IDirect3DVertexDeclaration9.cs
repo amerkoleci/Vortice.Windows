@@ -21,14 +21,16 @@ namespace Vortice.Direct3D9
         /// <summary>
         /// Gets the <see cref="VertexElement"/> array.
         /// </summary>
-        public VertexElement[] Elements
+        public VertexElement[]? Elements
         {
             get
             {
                 int count = 0;
                 GetDeclaration(null, ref count);
                 if (count == 0)
+                {
                     return null;
+                }
 
                 var buffer = new VertexElement[count];
                 GetDeclaration(buffer, ref count);

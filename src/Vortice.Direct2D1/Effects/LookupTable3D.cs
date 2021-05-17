@@ -17,7 +17,7 @@ namespace Vortice.Direct2D1.Effects
         {
         }
 
-        public ID2D1LookupTable3D LUT
+        public ID2D1LookupTable3D? LUT
         {
             get => GetIUnknownValue<ID2D1LookupTable3D>((int)LookupTable3DProperties.Lut);
             set => SetValue((int)LookupTable3DProperties.Lut, value);

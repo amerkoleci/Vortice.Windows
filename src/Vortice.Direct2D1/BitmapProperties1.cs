@@ -50,7 +50,7 @@ namespace Vortice.Direct2D1
         /// <param name="dpiY">The bitmap dpi in the y direction.</param>
         /// <param name="bitmapOptions">The special creation options of the bitmap.</param>
         /// <param name="colorContext">The optionally specified color context information.</param>
-        public BitmapProperties1(PixelFormat pixelFormat, float dpiX, float dpiY, BitmapOptions bitmapOptions, ID2D1ColorContext colorContext)
+        public BitmapProperties1(PixelFormat pixelFormat, float dpiX, float dpiY, BitmapOptions bitmapOptions, ID2D1ColorContext? colorContext)
         {
             PixelFormat = pixelFormat;
             DpiX = dpiX;

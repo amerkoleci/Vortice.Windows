@@ -10,7 +10,7 @@ namespace Vortice.WIC
     public partial class IWICBitmapEncoder
     {
         internal IWICImagingFactory _factory;
-        private IWICStream _wicStream;
+        private IWICStream? _wicStream;
 
         /// <summary>
         /// Initializes the encoder with the provided stream.

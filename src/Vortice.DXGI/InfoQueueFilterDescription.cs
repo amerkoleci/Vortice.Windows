@@ -12,17 +12,17 @@ namespace Vortice.DXGI
         /// <summary>
         /// Gets or sets the categories.
         /// </summary>
-        public InfoQueueMessageCategory[] Categories { get; set; }
+        public InfoQueueMessageCategory[]? Categories { get; set; }
 
         /// <summary>
         /// Gets or sets the severities.
         /// </summary>
-        public InfoQueueMessageSeverity[] Severities { get; set; }
+        public InfoQueueMessageSeverity[]? Severities { get; set; }
 
         /// <summary>
         /// Gets or sets the ids.
         /// </summary>
-        public int[] Ids { get; set; }
+        public int[]? Ids { get; set; }
 
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -74,12 +74,38 @@ namespace Vortice.DXGI
 
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
-            @ref.NumCategories = Categories?.Length ?? 0;
-            @ref.PCategoryList = UnsafeUtilities.AllocToPointer(Categories);
-            @ref.NumSeverities = Severities?.Length ?? 0;
-            @ref.PSeverityList = UnsafeUtilities.AllocToPointer(Severities);
-            @ref.NumIDs = Ids?.Length ?? 0;
-            @ref.PIDList = UnsafeUtilities.AllocToPointer(Ids);
+            if (Categories != null && Categories.Length > 0)
+            {
+                @ref.NumCategories = Categories.Length;
+                @ref.PCategoryList = UnsafeUtilities.AllocToPointer(Categories);
+            }
+            else
+            {
+                @ref.NumCategories = 0;
+                @ref.PCategoryList = IntPtr.Zero;
+            }
+
+            if (Severities != null && Severities.Length > 0)
+            {
+                @ref.NumSeverities = Severities.Length;
+                @ref.PSeverityList = UnsafeUtilities.AllocToPointer(Severities);
+            }
+            else
+            {
+                @ref.NumSeverities = 0;
+                @ref.PSeverityList = IntPtr.Zero;
+            }
+
+            if (Ids != null && Ids.Length > 0)
+            {
+                @ref.NumIDs = Ids.Length;
+                @ref.PIDList = UnsafeUtilities.AllocToPointer(Ids);
+            }
+            else
+            {
+                @ref.NumIDs = 0;
+                @ref.PIDList = IntPtr.Zero;
+            }
         }
         #endregion
     }

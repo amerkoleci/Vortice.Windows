@@ -41,7 +41,7 @@ namespace Vortice.Direct2D1
             try
             {
                 var customEffect = _createID2D1EffectImplFunc();
-                nativeCustomEffectPtr = CppObject.ToCallbackPtr<ID2D1EffectImpl>(customEffect);
+                nativeCustomEffectPtr = MarshallingHelpers.ToCallbackPtr<ID2D1EffectImpl>(customEffect);
             }
             catch (SharpGenException ex)
             {
@@ -51,7 +51,7 @@ namespace Vortice.Direct2D1
             return Result.Ok.Code;
         }
 
-        private IEnumerable<PropertyNativeBase> GetPropertyNatives()
+        private IEnumerable<PropertyNativeBase?> GetPropertyNatives()
         {
             return _effectType.GetTypeInfo()
                 .DeclaredProperties
@@ -118,8 +118,8 @@ namespace Vortice.Direct2D1
             protected delegate int SetterDelegate(IntPtr thisPtr, IntPtr dataPtr, int dataSize);
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
             protected delegate int GetterDelegate(IntPtr thisPtr, IntPtr dataPtr, int dataSize, out int actualSize);
-            protected SetterDelegate setterDelegate;
-            protected GetterDelegate getterDelegate;
+            protected SetterDelegate? setterDelegate;
+            protected GetterDelegate? getterDelegate;
             public IntPtr GetterPointer;
             public IntPtr SetterPointer;
 
@@ -146,7 +146,7 @@ namespace Vortice.Direct2D1
                 }
             }
 
-            public static PropertyNativeBase Create(PropertyInfo propertyInfo)
+            public static PropertyNativeBase? Create(PropertyInfo propertyInfo)
             {
                 var type = propertyInfo.PropertyType;
                 if (type == typeof(int))

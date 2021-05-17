@@ -16,17 +16,17 @@ namespace Vortice.XAudio2
         /// <summary>
         /// Called by XAudio2 just before an audio processing pass begins.
         /// </summary>
-        public event EventHandler ProcessingPassStart;
+        public event EventHandler? ProcessingPassStart;
 
         /// <summary>
         /// Called by XAudio2 just after an audio processing pass ends.
         /// </summary>
-        public event EventHandler ProcessingPassEnd;
+        public event EventHandler? ProcessingPassEnd;
 
         /// <summary>
         /// Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.
         /// </summary>
-        public event EventHandler<ErrorEventArgs> CriticalError;
+        public event EventHandler<ErrorEventArgs>? CriticalError;
         #endregion Events
 
         internal IXAudio2(ProcessorSpecifier processorSpecifier, bool registerCallback)
@@ -67,8 +67,8 @@ namespace Vortice.XAudio2
             WaveFormat sourceFormat,
             VoiceFlags flags = VoiceFlags.None,
             float maxFrequencyRatio = 1.0f,
-            IXAudio2VoiceCallback callback = null,
-            EffectDescriptor[] effectDescriptors = null)
+            IXAudio2VoiceCallback? callback = null,
+            EffectDescriptor[]? effectDescriptors = null)
         {
             IntPtr waveformatPtr = WaveFormat.MarshalToPtr(sourceFormat);
             try
@@ -105,7 +105,7 @@ namespace Vortice.XAudio2
             int inputSampleRate = 44100,
             SubmixVoiceFlags flags = SubmixVoiceFlags.None,
             int processingStage = 0,
-            EffectDescriptor[] effectDescriptors = null)
+            EffectDescriptor[]? effectDescriptors = null)
         {
             if (effectDescriptors != null)
             {

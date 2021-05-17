@@ -3,37 +3,36 @@
 
 using System;
 using SharpGen.Runtime;
-using SharpGen.Runtime.Win32;
 
 namespace Vortice.DXGI
 {
     public partial class IDXGISwapChain
     {
-        public T GetBuffer<T>(int index) where T : ComObject
+        public T? GetBuffer<T>(int index) where T : ComObject
         {
-            GetBuffer(index, out T surface);
+            GetBuffer(index, out T? surface);
             return surface;
         }
 
-        public Result GetBuffer<T>(int index, out T surface) where T : ComObject
+        public Result GetBuffer<T>(int index, out T? surface) where T : ComObject
         {
-            var result = GetBuffer(index, typeof(T).GUID, out var nativePtr);
+            var result = GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
             {
                 surface = default;
                 return result;
             }
 
-            surface = FromPointer<T>(nativePtr);
+            surface = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
         public void GetFullscreenState(out RawBool fullscreen)
         {
-            GetFullscreenState(out fullscreen, out var target);
+            GetFullscreenState(out fullscreen, out _);
         }
 
-        public Result SetFullscreenState(bool fullscreen, IDXGIOutput target = null)
+        public Result SetFullscreenState(bool fullscreen, IDXGIOutput? target = default)
         {
             return SetFullscreenState(new RawBool(fullscreen), target);
         }

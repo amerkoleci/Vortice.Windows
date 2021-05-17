@@ -16,7 +16,7 @@ namespace Vortice.DXGI
         /// </remarks>
         /// <param name="index">The index to get from.</param>
         /// <returns>Instance of <see cref="IDXGIAdapter"/> or null if not found.</returns>
-        public IDXGIOutput GetOutput(int index)
+        public IDXGIOutput? GetOutput(int index)
         {
             Result result = EnumOutputs(index, out IDXGIOutput adapter);
             if (result.Failure)

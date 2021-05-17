@@ -11,7 +11,7 @@ namespace Vortice.DirectWrite
     public partial class GlyphRun : IDisposable
     {
         public IDWriteFontFace? FontFace { set; get; }
-        public short[]? GlyphIndices { get; set; }
+        public ushort[]? GlyphIndices { get; set; }
         public float[]? GlyphAdvances { get; set; }
         public GlyphOffset[]? GlyphOffsets { get; set; }
 
@@ -65,14 +65,12 @@ namespace Vortice.DirectWrite
 
             if (@ref.GlyphIndices != IntPtr.Zero)
             {
-                GlyphIndices = new short[@ref.GlyphCount];
+                GlyphIndices = new ushort[@ref.GlyphCount];
                 if (@ref.GlyphCount > 0)
                     fixed (void* indicesPtr = &GlyphIndices[0])
                     {
-                        Unsafe.CopyBlock(
-                            indicesPtr,
-                            @ref.GlyphIndices.ToPointer(),
-                            (uint)(sizeof(short) * @ref.GlyphCount));
+                        Unsafe.CopyBlock(indicesPtr, @ref.GlyphIndices.ToPointer(),
+                            (uint)(sizeof(ushort) * @ref.GlyphCount));
                     }
             }
 
@@ -113,14 +111,14 @@ namespace Vortice.DirectWrite
 
             if (GlyphIndices != null)
             {
-                @ref.GlyphIndices = Marshal.AllocHGlobal(GlyphIndices.Length * sizeof(short));
+                @ref.GlyphIndices = Marshal.AllocHGlobal(GlyphIndices.Length * sizeof(ushort));
                 if (GlyphCount > 0)
                 {
                     fixed (void* glyphIndicesPtr = &GlyphIndices[0])
                     {
                         Unsafe.CopyBlock(@ref.GlyphIndices.ToPointer(),
                             glyphIndicesPtr,
-                            (uint)(sizeof(short) * GlyphCount));
+                            (uint)(sizeof(ushort) * GlyphCount));
                     }
                 }
 

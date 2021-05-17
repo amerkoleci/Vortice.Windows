@@ -19,17 +19,17 @@ namespace Vortice.XAudio2
         /// </summary>
         public Cone? Cone;
 
-        public float[] ChannelAzimuths;
+        public float[]? ChannelAzimuths;
 
-        public CurvePoint[] VolumeCurve;
+        public CurvePoint[]? VolumeCurve;
 
-        public CurvePoint[] LfeCurve;
+        public CurvePoint[]? LfeCurve;
 
-        public CurvePoint[] LpfDirectCurve;
+        public CurvePoint[]? LpfDirectCurve;
 
-        public CurvePoint[] LpfReverbCurve;
+        public CurvePoint[]? LpfReverbCurve;
 
-        public CurvePoint[] ReverbCurve;
+        public CurvePoint[]? ReverbCurve;
 
         // Internal native struct used for marshalling
         [StructLayout(LayoutKind.Sequential, Pack = 1)]

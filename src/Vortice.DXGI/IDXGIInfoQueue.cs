@@ -27,16 +27,17 @@ namespace Vortice.DXGI
         }
 
 
-        public unsafe InfoQueueFilter GetStorageFilter(Guid producer)
+        public unsafe InfoQueueFilter? GetStorageFilter(Guid producer)
         {
-            var sizeFilter = PointerSize.Zero;
+            PointerSize sizeFilter = PointerSize.Zero;
             GetStorageFilter(producer, IntPtr.Zero, ref sizeFilter);
 
             if (sizeFilter == 0)
             {
                 return null;
             }
-            var filter = stackalloc byte[(int)sizeFilter];
+
+            byte* filter = stackalloc byte[(int)sizeFilter];
             GetStorageFilter(producer, (IntPtr)filter, ref sizeFilter);
 
             var queueNative = new InfoQueueFilter();
@@ -45,7 +46,7 @@ namespace Vortice.DXGI
             return queueNative;
         }
 
-        public unsafe InfoQueueFilter GetRetrievalFilter(Guid producer)
+        public unsafe InfoQueueFilter? GetRetrievalFilter(Guid producer)
         {
             var sizeFilter = PointerSize.Zero;
             GetRetrievalFilter(producer, IntPtr.Zero, ref sizeFilter);

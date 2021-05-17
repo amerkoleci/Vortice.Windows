@@ -17,7 +17,7 @@ namespace Vortice.DirectComposition
         /// <param name="dxgiDevice">The DXGI device <see cref="IDXGIDevice"/> to use to create DirectComposition surface objects.</param>
         /// <param name="compositionDevice">An instance of <see cref="IDCompositionDevice"/> interface or null if failure</param>
         /// <returns>The <see cref="Result"/> code.</returns>
-        public static Result DCompositionCreateDevice<T>(IDXGIDevice dxgiDevice, out T compositionDevice) where T : IDCompositionDevice
+        public static Result DCompositionCreateDevice<T>(IDXGIDevice dxgiDevice, out T? compositionDevice) where T : IDCompositionDevice
         {
             Result result = DCompositionCreateDevice(dxgiDevice, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -26,7 +26,7 @@ namespace Vortice.DirectComposition
                 return result;
             }
 
-            compositionDevice = CppObject.FromPointer<T>(nativePtr);
+            compositionDevice = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
@@ -37,7 +37,7 @@ namespace Vortice.DirectComposition
         /// <param name="renderingDevice">An optional instance to a DirectX device to be used to create DirectComposition surface objects. Must be a instance of an object implementing the <see cref="IDXGIDevice"/> or <see cref="ID2D1Device"/> interfaces.</param>
         /// <param name="compositionDevice">An instance of <see cref="IDCompositionDevice"/> interface or null if failure</param>
         /// <returns>The <see cref="Result"/> code.</returns>
-        public static Result DCompositionCreateDevice2<T>(IUnknown renderingDevice, out T compositionDevice) where T : IDCompositionDevice
+        public static Result DCompositionCreateDevice2<T>(IUnknown renderingDevice, out T? compositionDevice) where T : IDCompositionDevice
         {
             Result result = DCompositionCreateDevice2(renderingDevice, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -46,7 +46,7 @@ namespace Vortice.DirectComposition
                 return result;
             }
 
-            compositionDevice = CppObject.FromPointer<T>(nativePtr);
+            compositionDevice = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
@@ -57,7 +57,7 @@ namespace Vortice.DirectComposition
         /// <param name="renderingDevice">An optional instance to a DirectX device to be used to create DirectComposition surface objects. Must be a instance of an object implementing the <see cref="IDXGIDevice"/> or <see cref="ID2D1Device"/> interfaces.</param>
         /// <param name="compositionDevice">An instance of <see cref="IDCompositionDevice"/> interface or null if failure</param>
         /// <returns>The <see cref="Result"/> code.</returns>
-        public static Result DCompositionCreateDevice3<T>(IUnknown renderingDevice, out T compositionDevice) where T : IDCompositionDevice
+        public static Result DCompositionCreateDevice3<T>(IUnknown renderingDevice, out T? compositionDevice) where T : IDCompositionDevice
         {
             Result result = DCompositionCreateDevice3(renderingDevice, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -66,7 +66,7 @@ namespace Vortice.DirectComposition
                 return result;
             }
 
-            compositionDevice = CppObject.FromPointer<T>(nativePtr);
+            compositionDevice = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
     }

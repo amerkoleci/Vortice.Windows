@@ -16,7 +16,7 @@ namespace Vortice.DXGI
         /// </remarks>
         /// <param name="index">The index to get from.</param>
         /// <returns>Instance of <see cref="IDXGIAdapter1"/> or null if not found.</returns>
-        public IDXGIAdapter1 GetAdapter1(int index)
+        public IDXGIAdapter1? GetAdapter1(int index)
         {
             Result result = EnumAdapters1(index, out IDXGIAdapter1 adapter);
             if (result == ResultCode.NotFound)

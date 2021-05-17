@@ -20,7 +20,7 @@ namespace Vortice.Direct2D1
             return CreateDrawingStateBlock(drawingStateDescription, null);
         }
 
-        public ID2D1DrawingStateBlock CreateDrawingStateBlock(DrawingStateDescription drawingStateDescription, IDWriteRenderingParams textRenderingParams)
+        public ID2D1DrawingStateBlock CreateDrawingStateBlock(DrawingStateDescription drawingStateDescription, IDWriteRenderingParams? textRenderingParams)
         {
             return CreateDrawingStateBlock(drawingStateDescription, textRenderingParams);
         }

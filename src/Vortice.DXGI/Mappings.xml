@@ -114,7 +114,7 @@
     <map field="DXGI_SWAP_CHAIN_DESC[12]?::Flags" type="DXGI_SWAP_CHAIN_FLAG" />
 
     <map struct="DXGI_PRESENT_PARAMETERS" native="true" marshal="true" marshalto="true"/>
-    <map field="DXGI_PRESENT_PARAMETERS::.*" visibility="internal"/>
+    <remove field="DXGI_PRESENT_PARAMETERS::.*"/>
 
     <map struct="DXGI_SHARED_RESOURCE" visibility="internal"/>
 

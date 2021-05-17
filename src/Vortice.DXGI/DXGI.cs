@@ -18,12 +18,12 @@ namespace Vortice.DXGI
         /// </summary>
         /// <param name="factory">The <see cref="IDXGIFactory1"/> being created.</param>
         /// <returns>Return the <see cref="Result"/>.</returns>
-        public static Result CreateDXGIFactory1<T>(out T factory) where T : IDXGIFactory1
+        public static Result CreateDXGIFactory1<T>(out T? factory) where T : IDXGIFactory1
         {
             Result result = CreateDXGIFactory1(typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
-                factory = CppObject.FromPointer<T>(nativePtr);
+                factory = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
 
@@ -35,7 +35,7 @@ namespace Vortice.DXGI
         /// Try to create new instance of <see cref="IDXGIFactory1"/>.
         /// </summary>
         /// <returns>Return an instance of <see cref="IDXGIFactory1"/> or null if failed.</returns>
-        public static T CreateDXGIFactory1<T>() where T : IDXGIFactory1
+        public static T? CreateDXGIFactory1<T>() where T : IDXGIFactory1
         {
             Result result = CreateDXGIFactory1(typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -43,7 +43,7 @@ namespace Vortice.DXGI
                 return default;
             }
 
-            return CppObject.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         /// <summary>
@@ -52,13 +52,13 @@ namespace Vortice.DXGI
         /// <param name="debug">Whether to enable debug callback.</param>
         /// <param name="factory">The <see cref="IDXGIFactory2"/> being created.</param>
         /// <returns>Return the <see cref="Result"/>.</returns>
-        public static Result CreateDXGIFactory2<T>(bool debug, out T factory) where T : IDXGIFactory2
+        public static Result CreateDXGIFactory2<T>(bool debug, out T? factory) where T : IDXGIFactory2
         {
             int flags = debug ? CreateFactoryDebug : 0x00;
             Result result = CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
-                factory = CppObject.FromPointer<T>(nativePtr);
+                factory = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
 
@@ -71,13 +71,13 @@ namespace Vortice.DXGI
         /// </summary>
         /// <param name="debug">Whether to enable debug callback.</param>
         /// <returns>Return an instance of <see cref="IDXGIFactory2"/> or null if failed.</returns>
-        public static IDXGIFactory2 CreateDXGIFactory2<T>(bool debug) where T : IDXGIFactory2
+        public static IDXGIFactory2? CreateDXGIFactory2<T>(bool debug) where T : IDXGIFactory2
         {
             int flags = debug ? CreateFactoryDebug : 0x00;
             Result result = CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
-                return CppObject.FromPointer<T>(nativePtr);
+                return MarshallingHelpers.FromPointer<T>(nativePtr);
             }
 
             return default;
@@ -89,7 +89,7 @@ namespace Vortice.DXGI
         /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
         /// <param name="debugInterface">Instance of T.</param>
         /// <returns>The result code.</returns>
-        public static Result DXGIGetDebugInterface<T>(out T debugInterface) where T : ComObject
+        public static Result DXGIGetDebugInterface<T>(out T? debugInterface) where T : ComObject
         {
             try
             {
@@ -100,7 +100,7 @@ namespace Vortice.DXGI
                     return result;
                 }
 
-                debugInterface = CppObject.FromPointer<T>(nativePtr);
+                debugInterface = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
             catch
@@ -115,7 +115,7 @@ namespace Vortice.DXGI
         /// </summary>
         /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
         /// <returns>The <see cref="ComObject"/> to get.</returns>
-        public static ComObject DXGIGetDebugInterface<T>() where T : ComObject
+        public static ComObject? DXGIGetDebugInterface<T>() where T : ComObject
         {
             try
             {
@@ -125,7 +125,7 @@ namespace Vortice.DXGI
                     return default;
                 }
 
-                return CppObject.FromPointer<T>(nativePtr);
+                return MarshallingHelpers.FromPointer<T>(nativePtr);
             }
             catch
             {
@@ -139,7 +139,7 @@ namespace Vortice.DXGI
         /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
         /// <param name="debugInterface">Instance of T.</param>
         /// <returns>The result code.</returns>
-        public static Result DXGIGetDebugInterface1<T>(out T debugInterface) where T : ComObject
+        public static Result DXGIGetDebugInterface1<T>(out T? debugInterface) where T : ComObject
         {
             try
             {
@@ -150,7 +150,7 @@ namespace Vortice.DXGI
                     return result;
                 }
 
-                debugInterface = CppObject.FromPointer<T>(nativePtr);
+                debugInterface = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
             catch
@@ -165,7 +165,7 @@ namespace Vortice.DXGI
         /// </summary>
         /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
         /// <returns>The <see cref="ComObject"/> to get.</returns>
-        public static T DXGIGetDebugInterface1<T>() where T : ComObject
+        public static T? DXGIGetDebugInterface1<T>() where T : ComObject
         {
             try
             {
@@ -175,7 +175,7 @@ namespace Vortice.DXGI
                     return default;
                 }
 
-                return CppObject.FromPointer<T>(nativePtr);
+                return MarshallingHelpers.FromPointer<T>(nativePtr);
             }
             catch
             {
