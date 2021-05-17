@@ -183,7 +183,7 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        public unsafe ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
             {
@@ -191,7 +191,7 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        public unsafe ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
             {
@@ -199,7 +199,7 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe ID3D11GeometryShader CreateGeometryShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        public unsafe ID3D11GeometryShader CreateGeometryShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
             {
@@ -207,7 +207,7 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe ID3D11HullShader CreateHullShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        public unsafe ID3D11HullShader CreateHullShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
             {
@@ -215,7 +215,7 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe ID3D11DomainShader CreateDomainShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        public unsafe ID3D11DomainShader CreateDomainShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
             {
@@ -223,7 +223,7 @@ namespace Vortice.Direct3D11
             }
         }
 
-        public unsafe ID3D11ComputeShader CreateComputeShader(byte[] shaderBytecode, ID3D11ClassLinkage classLinkage = null)
+        public unsafe ID3D11ComputeShader CreateComputeShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
             {
@@ -265,7 +265,7 @@ namespace Vortice.Direct3D11
         /// <typeparam name="T">Type of <see cref="ID3D11Resource"/> </typeparam>
         /// <param name="handle">A handle to the resource to open.</param>
         /// <returns>Instance of <see cref="ID3D11Resource"/>.</returns>
-        public T OpenSharedResource<T>(IntPtr handle) where T : ID3D11Resource
+        public T? OpenSharedResource<T>(IntPtr handle) where T : ID3D11Resource
         {
             Result result = OpenSharedResource(handle, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -273,7 +273,7 @@ namespace Vortice.Direct3D11
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         /// <summary>
@@ -283,12 +283,12 @@ namespace Vortice.Direct3D11
         /// <param name="handle">A handle to the resource to open.</param>
         /// <param name="resource">Instance of <see cref="ID3D11Resource"/>.</param>
         /// <returns>The operation result.</returns>
-        public Result OpenSharedResource<T>(IntPtr handle, out T resource) where T : ID3D11Resource
+        public Result OpenSharedResource<T>(IntPtr handle, out T? resource) where T : ID3D11Resource
         {
             Result result = OpenSharedResource(handle, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
-                resource = FromPointer<T>(nativePtr);
+                resource = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
 

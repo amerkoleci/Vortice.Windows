@@ -29,7 +29,7 @@ namespace Vortice.Direct3D12
         unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc(Dictionary<StateSubObject, IntPtr> subObjectLookup)
         {
             __Native* native = (__Native*)Marshal.AllocHGlobal(sizeof(__Native));
-            native->RootSignature = CppObject.ToCallbackPtr<ID3D12RootSignature>(RootSignature);
+            native->RootSignature = MarshallingHelpers.ToCallbackPtr<ID3D12RootSignature>(RootSignature);
             return (IntPtr)native;
         }
 

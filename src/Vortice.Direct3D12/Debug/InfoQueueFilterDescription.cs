@@ -11,17 +11,17 @@ namespace Vortice.Direct3D12.Debug
         /// <summary>
         /// Gets or sets the categories.
         /// </summary>
-        public MessageCategory[] Categories { get; set; }
+        public MessageCategory[]? Categories { get; set; }
 
         /// <summary>
         /// Gets or sets the severities.
         /// </summary>
-        public MessageSeverity[] Severities { get; set; }
+        public MessageSeverity[]? Severities { get; set; }
 
         /// <summary>
         /// Gets or sets the ids.
         /// </summary>
-        public MessageId[] Ids { get; set; }
+        public MessageId[]? Ids { get; set; }
 
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]

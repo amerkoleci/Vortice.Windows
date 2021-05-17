@@ -62,12 +62,12 @@ namespace Vortice.Direct3D12
                 // Create lookup table first
                 for (int i = 0; i < @ref.NumSubobjects; i++)
                 {
-                    subObjectLookup.Add(SubObjects[i], new IntPtr(&nativeSubObjects[i]));
+                    subObjectLookup.Add(SubObjects![i], new IntPtr(&nativeSubObjects[i]));
                 }
 
                 for (int i = 0; i < @ref.NumSubobjects; i++)
                 {
-                    SubObjects[i].__MarshalTo(ref nativeSubObjects[i], subObjectLookup);
+                    SubObjects![i].__MarshalTo(ref nativeSubObjects[i], subObjectLookup);
                 }
 
                 @ref.pSubobjects = nativeSubObjects;

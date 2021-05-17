@@ -30,12 +30,12 @@ namespace Vortice.Direct3D12
         /// <returns>The highest supported hardware feature level.</returns>
         public static FeatureLevel GetMaxSupportedFeatureLevel(FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
         {
-            ID3D12Device device = null;
+            ID3D12Device? device = null;
 
             try
             {
-                D3D12CreateDevice(null, minFeatureLevel, out device);
-                return device.CheckMaxSupportedFeatureLevel(FeatureLevels);
+                D3D12CreateDevice(null, minFeatureLevel, out device).CheckError();
+                return device!.CheckMaxSupportedFeatureLevel(FeatureLevels);
             }
             catch
             {
@@ -55,12 +55,12 @@ namespace Vortice.Direct3D12
         /// <returns>The highest supported hardware feature level.</returns>
         public static FeatureLevel GetMaxSupportedFeatureLevel(IDXGIAdapter adapter, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
         {
-            ID3D12Device device = null;
+            ID3D12Device? device = null;
 
             try
             {
-                D3D12CreateDevice(adapter, minFeatureLevel, out device);
-                return device.CheckMaxSupportedFeatureLevel(FeatureLevels);
+                D3D12CreateDevice(adapter, minFeatureLevel, out device).CheckError();
+                return device!.CheckMaxSupportedFeatureLevel(FeatureLevels);
             }
             catch
             {
@@ -80,12 +80,12 @@ namespace Vortice.Direct3D12
         /// <returns>The highest supported hardware feature level.</returns>
         public static FeatureLevel GetMaxSupportedFeatureLevel(IntPtr adapterPtr, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
         {
-            ID3D12Device device = null;
+            ID3D12Device? device = null;
 
             try
             {
-                D3D12CreateDevice(adapterPtr, minFeatureLevel, out device);
-                return device.CheckMaxSupportedFeatureLevel(FeatureLevels);
+                D3D12CreateDevice(adapterPtr, minFeatureLevel, out device).CheckError();
+                return device!.CheckMaxSupportedFeatureLevel(FeatureLevels);
             }
             catch
             {
@@ -159,12 +159,12 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public static Result D3D12CreateDevice<T>(IDXGIAdapter adapter, out T device) where T : ID3D12Device
+        public static Result D3D12CreateDevice<T>(IDXGIAdapter? adapter, out T? device) where T : ID3D12Device
         {
             return D3D12CreateDevice(adapter, FeatureLevel.Level_11_0, out device);
         }
 
-        public static Result D3D12CreateDevice<T>(IDXGIAdapter adapter, FeatureLevel minFeatureLevel, out T device) where T : ID3D12Device
+        public static Result D3D12CreateDevice<T>(IDXGIAdapter? adapter, FeatureLevel minFeatureLevel, out T? device) where T : ID3D12Device
         {
             Result result = D3D12CreateDevice(
                 adapter != null ? adapter.NativePointer : IntPtr.Zero,
@@ -178,11 +178,11 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            device = CppObject.FromPointer<T>(nativePtr);
+            device = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
-        public static T D3D12CreateDevice<T>(IDXGIAdapter adapter, FeatureLevel minFeatureLevel) where T : ID3D12Device
+        public static T? D3D12CreateDevice<T>(IDXGIAdapter? adapter, FeatureLevel minFeatureLevel) where T : ID3D12Device
         {
             Result result = D3D12CreateDevice(
                 adapter != null ? adapter.NativePointer : IntPtr.Zero,
@@ -195,15 +195,15 @@ namespace Vortice.Direct3D12
                 return default;
             }
 
-            return CppObject.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public static Result D3D12CreateDevice<T>(IntPtr adapterPtr, out T device) where T : ID3D12Device
+        public static Result D3D12CreateDevice<T>(IntPtr adapterPtr, out T? device) where T : ID3D12Device
         {
             return D3D12CreateDevice(adapterPtr, FeatureLevel.Level_11_0, out device);
         }
 
-        public static Result D3D12CreateDevice<T>(IntPtr adapterPtr, FeatureLevel minFeatureLevel, out T device) where T : ID3D12Device
+        public static Result D3D12CreateDevice<T>(IntPtr adapterPtr, FeatureLevel minFeatureLevel, out T? device) where T : ID3D12Device
         {
             Result result = D3D12CreateDevice(adapterPtr, minFeatureLevel, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -212,11 +212,11 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            device = CppObject.FromPointer<T>(nativePtr);
+            device = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
-        public static T D3D12CreateDevice<T>(IntPtr adapterPtr, FeatureLevel minFeatureLevel) where T : ID3D12Device
+        public static T? D3D12CreateDevice<T>(IntPtr adapterPtr, FeatureLevel minFeatureLevel) where T : ID3D12Device
         {
             Result result = D3D12CreateDevice(adapterPtr, minFeatureLevel, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -224,7 +224,7 @@ namespace Vortice.Direct3D12
                 return default;
             }
 
-            return CppObject.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         private static unsafe Result D3D12CreateDeviceNoDevice(IntPtr adapterPtr, FeatureLevel minFeatureLevel)
@@ -234,7 +234,7 @@ namespace Vortice.Direct3D12
             return result;
         }
 
-        public static Result D3D12GetDebugInterface<T>(out T debugInterface) where T : ComObject
+        public static Result D3D12GetDebugInterface<T>(out T? debugInterface) where T : ComObject
         {
             Result result = D3D12GetDebugInterface(typeof(T).GUID, out IntPtr nativePtr);
 
@@ -244,11 +244,11 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            debugInterface = CppObject.FromPointer<T>(nativePtr);
+            debugInterface = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
-        public static T D3D12GetDebugInterface<T>() where T : ComObject
+        public static T? D3D12GetDebugInterface<T>() where T : ComObject
         {
             Result result = D3D12GetDebugInterface(typeof(T).GUID, out IntPtr nativePtr);
 
@@ -257,7 +257,7 @@ namespace Vortice.Direct3D12
                 return default;
             }
 
-            return CppObject.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         public static string D3D12SerializeVersionedRootSignature(VersionedRootSignatureDescription description, out Blob blob)

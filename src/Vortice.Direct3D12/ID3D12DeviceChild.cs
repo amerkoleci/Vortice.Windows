@@ -8,7 +8,7 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12DeviceChild
     {
-        public Result GetDevice<T>(out T device) where T : ID3D12Device
+        public Result GetDevice<T>(out T? device) where T : ID3D12Device
         {
             Result result = GetDevice(typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -17,18 +17,18 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            device = FromPointer<T>(nativePtr);
+            device = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
-        public T GetDevice<T>() where T : ID3D12Device
+        public T? GetDevice<T>() where T : ID3D12Device
         {
             if (GetDevice(typeof(T).GUID, out IntPtr nativePtr).Failure)
             {
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }

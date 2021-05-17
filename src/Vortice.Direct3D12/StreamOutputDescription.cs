@@ -22,12 +22,12 @@ namespace Vortice.Direct3D12
         /// <summary>	
         /// An array of <see cref="StreamOutputElement"/>.
         /// </summary>	
-        public StreamOutputElement[] Elements { get; set; }
+        public StreamOutputElement[]? Elements { get; set; }
 
         /// <summary>
         /// An array of buffer strides; each stride is the size of an element for that buffer.
         /// </summary>
-        public int[] Strides { get; set; }
+        public int[]? Strides { get; set; }
 
         /// <summary>
         /// The index number of the stream to be sent to the rasterizer stage.
@@ -60,7 +60,7 @@ namespace Vortice.Direct3D12
             {
                 for (int i = 0; i < @ref.NumEntries; i++)
                 {
-                    Elements[i].__MarshalFree(ref @ref.pSODeclaration[i]);
+                    Elements![i].__MarshalFree(ref @ref.pSODeclaration[i]);
                 }
 
                 Marshal.FreeHGlobal((IntPtr)@ref.pSODeclaration);
@@ -80,7 +80,7 @@ namespace Vortice.Direct3D12
                 var nativeElements = (StreamOutputElement.__Native*)UnsafeUtilities.Alloc<StreamOutputElement.__Native>(@ref.NumEntries);
                 for (int i = 0; i < @ref.NumEntries; i++)
                 {
-                    Elements[i].__MarshalTo(ref nativeElements[i]);
+                    Elements![i].__MarshalTo(ref nativeElements[i]);
                 }
 
                 @ref.pSODeclaration = nativeElements;
@@ -90,7 +90,7 @@ namespace Vortice.Direct3D12
             if (@ref.NumStrides > 0)
             {
                 var nativeStrides = UnsafeUtilities.Alloc<int>(@ref.NumStrides);
-                fixed (int* src = &Strides[0])
+                fixed (int* src = &Strides![0])
                 {
                     MemoryHelpers.CopyMemory(nativeStrides, (IntPtr)src, @ref.NumStrides * sizeof(int));
                 }

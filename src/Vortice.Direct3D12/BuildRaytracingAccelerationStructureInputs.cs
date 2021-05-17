@@ -23,7 +23,7 @@ namespace Vortice.Direct3D12
 
         public long InstanceDescriptions { get; set; }
 
-        public RaytracingGeometryDescription[] GeometryDescriptions { get; set; }
+        public RaytracingGeometryDescription[]? GeometryDescriptions { get; set; }
 
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]

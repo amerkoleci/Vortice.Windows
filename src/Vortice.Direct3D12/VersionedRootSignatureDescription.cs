@@ -12,8 +12,8 @@ namespace Vortice.Direct3D12
     {
         public RootSignatureVersion Version { get; private set; }
 
-        public RootSignatureDescription Description_1_0 { get; private set; }
-        public RootSignatureDescription1 Description_1_1 { get; private set; }
+        public RootSignatureDescription? Description_1_0 { get; private set; }
+        public RootSignatureDescription1? Description_1_1 { get; private set; }
 
         internal VersionedRootSignatureDescription()
         {
@@ -75,11 +75,11 @@ namespace Vortice.Direct3D12
             @ref.Version = Version;
             if (Version == RootSignatureVersion.Version11)
             {
-                Description_1_1.__MarshalTo(ref @ref.Union.Desc_1_1);
+                Description_1_1!.__MarshalTo(ref @ref.Union.Desc_1_1);
             }
             else
             {
-                Description_1_0.__MarshalTo(ref @ref.Union.Desc_1_0);
+                Description_1_0!.__MarshalTo(ref @ref.Union.Desc_1_0);
             }
         }
         #endregion

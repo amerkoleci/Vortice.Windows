@@ -65,7 +65,7 @@ namespace Vortice
             return Marshal.AllocHGlobal(sizeof(T) * count);
         }
 
-        public static IntPtr AllocToPointer<T>(T[] values) where T : unmanaged
+        public static IntPtr AllocToPointer<T>(T[]? values) where T : unmanaged
         {
             if (values == null
                 || values.Length == 0)

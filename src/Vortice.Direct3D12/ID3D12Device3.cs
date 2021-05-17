@@ -23,24 +23,24 @@ namespace Vortice.Direct3D12
         /// <typeparam name="T"></typeparam>
         /// <param name="address">The address used to create the heap.</param>
         /// <returns></returns>
-        public T OpenExistingHeapFromAddress<T>(IntPtr address) where T : ID3D12Heap
+        public T? OpenExistingHeapFromAddress<T>(IntPtr address) where T : ID3D12Heap
         {
             if (OpenExistingHeapFromAddress(address, typeof(T).GUID, out IntPtr nativePtr).Failure)
             {
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T OpenExistingHeapFromFileMapping<T>(IntPtr fileMapping) where T : ID3D12Heap
+        public T? OpenExistingHeapFromFileMapping<T>(IntPtr fileMapping) where T : ID3D12Heap
         {
             if (OpenExistingHeapFromFileMapping(fileMapping, typeof(T).GUID, out IntPtr nativePtr).Failure)
             {
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }

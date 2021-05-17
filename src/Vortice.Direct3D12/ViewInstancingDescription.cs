@@ -24,7 +24,7 @@ namespace Vortice.Direct3D12
         /// <summary>	
         /// An array of <see cref="ViewInstanceLocation"/> that specify the location of viewport/scissor and render target details of each view instance.
         /// </summary>	
-        public ViewInstanceLocation[] Locations { get; set; }
+        public ViewInstanceLocation[]? Locations { get; set; }
 
         /// <summary>
         /// Configures view instancing with additional options.
@@ -58,7 +58,7 @@ namespace Vortice.Direct3D12
             @ref.ViewInstanceCount = Locations?.Length ?? 0;
             if (@ref.ViewInstanceCount > 0)
             {
-                @ref.pViewInstanceLocations = (ViewInstanceLocation*)Unsafe.AsPointer(ref Locations[0]);
+                @ref.pViewInstanceLocations = (ViewInstanceLocation*)Unsafe.AsPointer(ref Locations![0]);
             }
             @ref.Flags = Flags;
         }

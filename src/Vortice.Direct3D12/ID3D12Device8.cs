@@ -8,7 +8,7 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device8
     {
-        public T CreateCommittedResource2<T>(
+        public T? CreateCommittedResource2<T>(
             HeapProperties heapProperties,
             HeapFlags heapFlags,
             ResourceDescription1 description,
@@ -27,13 +27,13 @@ namespace Vortice.Direct3D12
 
             if (result.Success)
             {
-                return FromPointer<T>(nativePtr);
+                return MarshallingHelpers.FromPointer<T>(nativePtr);
             }
 
             return default;
         }
 
-        public T CreatePlacedResource1<T>(ID3D12Heap heap, ulong heapOffset, ResourceDescription1 description, ResourceStates initialState, ClearValue? optimizedClearValue = null) where T : ID3D12Resource
+        public T? CreatePlacedResource1<T>(ID3D12Heap heap, ulong heapOffset, ResourceDescription1 description, ResourceStates initialState, ClearValue? optimizedClearValue = null) where T : ID3D12Resource
         {
             Result result = CreatePlacedResource1(
                 heap,
@@ -45,7 +45,7 @@ namespace Vortice.Direct3D12
 
             if (result.Success)
             {
-                return FromPointer<T>(nativePtr);
+                return MarshallingHelpers.FromPointer<T>(nativePtr);
             }
 
             return default;

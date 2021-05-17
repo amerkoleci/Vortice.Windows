@@ -57,7 +57,7 @@ namespace Vortice.Direct3D12
                 var nativeExports = (IntPtr*)Marshal.AllocHGlobal(IntPtr.Size * native->NumExports);
                 for (int i = 0; i < native->NumExports; i++)
                 {
-                    nativeExports[i] = Marshal.StringToHGlobalUni(Exports[i]);
+                    nativeExports[i] = Marshal.StringToHGlobalUni(Exports![i]);
                 }
 
                 native->pExports = nativeExports;

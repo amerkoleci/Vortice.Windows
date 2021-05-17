@@ -8,7 +8,7 @@ namespace Vortice.Direct3D12.Video
 {
     public partial class ID3D12VideoMotionEstimator
     {
-        public unsafe Result GetProtectedResourceSession<T>(out T protectedSession) where T : ID3D12ProtectedResourceSession
+        public unsafe Result GetProtectedResourceSession<T>(out T? protectedSession) where T : ID3D12ProtectedResourceSession
         {
             Result result = GetProtectedResourceSession(typeof(T).GUID, out IntPtr protectedSessionPtr);
             if (result.Failure)
@@ -17,7 +17,7 @@ namespace Vortice.Direct3D12.Video
                 return result;
             }
 
-            protectedSession = FromPointer<T>(protectedSessionPtr);
+            protectedSession = MarshallingHelpers.FromPointer<T>(protectedSessionPtr);
             return result;
         }
     }

@@ -14,7 +14,7 @@ namespace Vortice.Direct3D12.Video
         /// If decode conversion is enabled, this texture will contain the post-conversion output.
         /// If decode conversion is not enabled, this texture will contain the decode output.
         /// </summary>
-        public ID3D12Resource OutputTexture2D;
+        public ID3D12Resource? OutputTexture2D;
         /// <summary>
         /// The index of the output subresource of <see cref="OutputTexture2D"/> to use.
         /// This allows you to specify array indices if the output is an array.
@@ -37,7 +37,7 @@ namespace Vortice.Direct3D12.Video
             private set => _histograms = value;
         }
 
-        private VideoDecodeOutputHistogram[] _histograms;
+        private VideoDecodeOutputHistogram[]? _histograms;
 
         #region Nested
         [StructLayout(LayoutKind.Sequential, Pack = 0, CharSet = CharSet.Unicode)]
@@ -64,7 +64,7 @@ namespace Vortice.Direct3D12.Video
 
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
-            @ref.POutputTexture2D = CppObject.ToCallbackPtr<ID3D12Resource>(OutputTexture2D);
+            @ref.POutputTexture2D = MarshallingHelpers.ToCallbackPtr<ID3D12Resource>(OutputTexture2D);
             @ref.OutputSubresource = OutputSubresource;
             ConversionArguments.__MarshalTo(ref @ref.ConversionArguments);
             Histograms[0].__MarshalTo(ref @ref.Histograms0);

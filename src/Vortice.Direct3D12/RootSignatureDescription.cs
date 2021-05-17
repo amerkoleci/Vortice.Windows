@@ -11,8 +11,8 @@ namespace Vortice.Direct3D12
     /// </summary>
     public partial class RootSignatureDescription
     {
-        public RootParameter[] Parameters { get; set; }
-        public StaticSamplerDescription[] StaticSamplers { get; set; }
+        public RootParameter[]? Parameters { get; set; }
+        public StaticSamplerDescription[]? StaticSamplers { get; set; }
         public RootSignatureFlags Flags { get; set; }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Vortice.Direct3D12
         /// <param name="flags">The flags.</param>
         /// <param name="parameters">The parameters.</param>
         /// <param name="samplers">The samplers.</param>
-        public RootSignatureDescription(RootSignatureFlags flags, RootParameter[] parameters = null, StaticSamplerDescription[] samplers = null)
+        public RootSignatureDescription(RootSignatureFlags flags, RootParameter[]? parameters = default, StaticSamplerDescription[]? samplers = default)
         {
             Parameters = parameters;
             StaticSamplers = samplers;

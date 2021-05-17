@@ -14,7 +14,7 @@ namespace Vortice.Direct3D12
         /// <summary>
         /// Gets or sets the descriptor ranges.
         /// </summary>
-        public DescriptorRange1[] Ranges { get; set; }
+        public DescriptorRange1[]? Ranges { get; set; }
 
         public RootDescriptorTable1(params DescriptorRange1[] ranges)
         {

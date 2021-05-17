@@ -8,16 +8,16 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device9
     {
-        public T CreateCommandQueue1<T>(in CommandQueueDescription description, Guid creatorID) where T : ID3D12CommandQueue
+        public T? CreateCommandQueue1<T>(in CommandQueueDescription description, Guid creatorID) where T : ID3D12CommandQueue
         {
             Result result = CreateCommandQueue1(description, creatorID, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateCommandQueue1<T>(in CommandQueueDescription description, Guid creatorID, out T commandQueue) where T : ID3D12CommandQueue
+        public Result CreateCommandQueue1<T>(in CommandQueueDescription description, Guid creatorID, out T? commandQueue) where T : ID3D12CommandQueue
         {
             Result result = CreateCommandQueue1(description, creatorID, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -26,20 +26,20 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            commandQueue = FromPointer<T>(nativePtr);
+            commandQueue = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
-        public T CreateShaderCacheSession<T>(ShaderCacheSessionDescription description) where T : ID3D12ShaderCacheSession
+        public T? CreateShaderCacheSession<T>(ShaderCacheSessionDescription description) where T : ID3D12ShaderCacheSession
         {
             Result result = CreateShaderCacheSession(ref description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateShaderCacheSession<T>(ShaderCacheSessionDescription description, out T session) where T : ID3D12ShaderCacheSession
+        public Result CreateShaderCacheSession<T>(ShaderCacheSessionDescription description, out T? session) where T : ID3D12ShaderCacheSession
         {
             Result result = CreateShaderCacheSession(ref description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -48,7 +48,7 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            session = FromPointer<T>(nativePtr);
+            session = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
     }

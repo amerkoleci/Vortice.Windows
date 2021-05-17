@@ -9,9 +9,9 @@ namespace Vortice.Direct3D12
 {
     public partial class ComputePipelineStateDescription
     {
-        public ID3D12RootSignature RootSignature { get; set; }
+        public ID3D12RootSignature? RootSignature { get; set; }
 
-        public ShaderBytecode ComputeShader { get; set; }
+        public ShaderBytecode? ComputeShader { get; set; }
 
         public int NodeMask { get; set; }
         public CachedPipelineState CachedPSO { get; set; }
@@ -37,7 +37,7 @@ namespace Vortice.Direct3D12
 
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
-            @ref.RootSignature = CppObject.ToCallbackPtr<ID3D12RootSignature>(RootSignature);
+            @ref.RootSignature = MarshallingHelpers.ToCallbackPtr<ID3D12RootSignature>(RootSignature);
             ComputeShader?.__MarshalTo(ref @ref.CS);
             @ref.NodeMask = NodeMask;
             CachedPSO.__MarshalTo(ref @ref.CachedPSO);

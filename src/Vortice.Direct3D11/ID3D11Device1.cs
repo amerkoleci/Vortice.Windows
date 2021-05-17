@@ -42,7 +42,7 @@ namespace Vortice.Direct3D11
         /// <typeparam name="T">A handle to the resource to open.</typeparam>
         /// <param name="handle"></param>
         /// <returns></returns>
-        public T OpenSharedResource1<T>(IntPtr handle) where T : ID3D11Resource
+        public T? OpenSharedResource1<T>(IntPtr handle) where T : ID3D11Resource
         {
             var result = OpenSharedResource1(handle, typeof(T).GUID, out var nativePtr);
             if (result.Failure)
@@ -50,18 +50,18 @@ namespace Vortice.Direct3D11
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T OpenSharedResourceByName<T>(string name, SharedResourceFlags access) where T : ID3D11Resource
+        public T? OpenSharedResourceByName<T>(string name, SharedResourceFlags access) where T : ID3D11Resource
         {
-            var result = OpenSharedResourceByName(name, (int)access, typeof(T).GUID, out var nativePtr);
+            var result = OpenSharedResourceByName(name, (int)access, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
             {
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }

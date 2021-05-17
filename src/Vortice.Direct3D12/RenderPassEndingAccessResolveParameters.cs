@@ -4,7 +4,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
-using SharpGen.Runtime.Win32;
 using Vortice.DXGI;
 
 namespace Vortice.Direct3D12
@@ -13,9 +12,9 @@ namespace Vortice.Direct3D12
     {
         private RenderPassEndingAccessResolveSubresourceParameters _subresourceParameters;
 
-        public ID3D12Resource SrcResource { get; set; }
+        public ID3D12Resource? SrcResource { get; set; }
 
-        public ID3D12Resource DstResource { get; set; }
+        public ID3D12Resource? DstResource { get; set; }
 
         public int SubresourceCount { get; set; }
 
@@ -74,8 +73,8 @@ namespace Vortice.Direct3D12
 
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
-            @ref.pSrcResource = SrcResource.NativePointer;
-            @ref.pDstResource = DstResource.NativePointer;
+            @ref.pSrcResource = SrcResource != null ? SrcResource.NativePointer : IntPtr.Zero;
+            @ref.pDstResource = DstResource != null ? DstResource.NativePointer : IntPtr.Zero;
             @ref.SubresourceCount = SubresourceCount;
             @ref.pSubresourceParameters = (RenderPassEndingAccessResolveSubresourceParameters*)Unsafe.AsPointer(ref _subresourceParameters);
             @ref.Format = Format;

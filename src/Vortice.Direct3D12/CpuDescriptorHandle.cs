@@ -18,7 +18,7 @@ namespace Vortice.Direct3D12
         /// Adds an offset to a descriptor handle
         /// </summary>
         /// <param name = "left">Initial descriptor handle</param>
-        /// <param name = "right">Offset to apply, use <see cref="SharpDirect3D12.ID3D12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType)"/> with the relevant heap type.</param>
+        /// <param name = "right">Offset to apply, use <see cref="ID3D12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType)"/> with the relevant heap type.</param>
         /// <returns>Offsetted descriptor handle</returns>
         public static CpuDescriptorHandle operator +(CpuDescriptorHandle left, int right)
         {

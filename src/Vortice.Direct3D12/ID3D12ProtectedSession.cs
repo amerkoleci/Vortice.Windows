@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
+using SharpGen.Runtime;
+
 namespace Vortice.Direct3D12
 {
     /// <summary>
@@ -9,14 +12,14 @@ namespace Vortice.Direct3D12
     /// </summary>
     public partial class ID3D12ProtectedSession
     {
-        public T GetStatusFence<T>() where T : ID3D12Fence
+        public T? GetStatusFence<T>() where T : ID3D12Fence
         {
-            if (GetStatusFence(typeof(T).GUID, out var nativePtr).Failure)
+            if (GetStatusFence(typeof(T).GUID, out IntPtr nativePtr).Failure)
             {
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }

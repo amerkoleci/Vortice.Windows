@@ -21,7 +21,7 @@ namespace Vortice.Direct3D12
         /// <summary>	
         /// An array of <see cref="InputElementDescription"/> that describe the data types of the input-assembler stage.
         /// </summary>	
-        public InputElementDescription[] Elements { get; set; }
+        public InputElementDescription[]? Elements { get; set; }
 
         /// <summary>
         /// Implicitely converts to an <see cref="InputLayoutDescription"/> from an array of <see cref="InputElementDescription"/>
@@ -47,7 +47,7 @@ namespace Vortice.Direct3D12
             {
                 for (int i = 0; i < @ref.NumElements; i++)
                 {
-                    Elements[i].__MarshalFree(ref @ref.pInputElementDescs[i]);
+                    Elements![i].__MarshalFree(ref @ref.pInputElementDescs[i]);
                 }
 
                 Marshal.FreeHGlobal((IntPtr)@ref.pInputElementDescs);
@@ -62,7 +62,7 @@ namespace Vortice.Direct3D12
                 var nativeElements = (InputElementDescription.__Native*)UnsafeUtilities.Alloc<InputElementDescription.__Native>(@ref.NumElements);
                 for (int i = 0; i < @ref.NumElements; i++)
                 {
-                    Elements[i].__MarshalTo(ref nativeElements[i]);
+                    Elements![i].__MarshalTo(ref nativeElements[i]);
                 }
 
                 @ref.pInputElementDescs = nativeElements;

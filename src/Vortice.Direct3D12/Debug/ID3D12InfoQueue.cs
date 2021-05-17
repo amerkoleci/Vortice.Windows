@@ -26,7 +26,7 @@ namespace Vortice.Direct3D12.Debug
             return message;
         }
 
-        public unsafe InfoQueueFilter GetStorageFilter()
+        public unsafe InfoQueueFilter? GetStorageFilter()
         {
             PointerSize sizeFilter = PointerSize.Zero;
             GetStorageFilter(IntPtr.Zero, ref sizeFilter);
@@ -44,7 +44,7 @@ namespace Vortice.Direct3D12.Debug
             return queueNative;
         }
 
-        public unsafe InfoQueueFilter GetRetrievalFilter()
+        public unsafe InfoQueueFilter? GetRetrievalFilter()
         {
             PointerSize sizeFilter = PointerSize.Zero;
             GetRetrievalFilter(IntPtr.Zero, ref sizeFilter);

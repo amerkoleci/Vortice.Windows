@@ -12,7 +12,7 @@ namespace Vortice.Direct3D12
         /// Copy a region of a multisampled or compressed resource into a non-multisampled or non-compressed resource.
         /// </summary>
         /// <param name="dstResource">Destination resource.</param>
-        /// <param name="dstSubresource">A zero-based index that identifies the destination subresource. Use <see cref="ID3D12Resource.CalculateSubresource(int, int, int, int, int)"/> to calculate the subresource index if the parent resource is complex.</param>
+        /// <param name="dstSubresource">A zero-based index that identifies the destination subresource. Use <see cref="ID3D12Resource.CalculateSubResourceIndex(int, int, int, int, int)"/> to calculate the subresource index if the parent resource is complex.</param>
         /// <param name="dstX">The X coordinate of the left-most edge of the destination region. The width of the destination region is the same as the width of the source rect.</param>
         /// <param name="dstY">The Y coordinate of the top-most edge of the destination region. The height of the destination region is the same as the height of the source rect.</param>
         /// <param name="srcResource">Source resource. Must be multisampled or compressed.</param>
@@ -38,7 +38,7 @@ namespace Vortice.Direct3D12
         /// Copy a region of a multisampled or compressed resource into a non-multisampled or non-compressed resource.
         /// </summary>
         /// <param name="dstResource">Destination resource.</param>
-        /// <param name="dstSubresource">A zero-based index that identifies the destination subresource. Use <see cref="ID3D12Resource.CalculateSubresource(int, int, int, int, int)"/> to calculate the subresource index if the parent resource is complex.</param>
+        /// <param name="dstSubresource">A zero-based index that identifies the destination subresource. Use <see cref="ID3D12Resource.CalculateSubResourceIndex(int, int, int, int, int)"/> to calculate the subresource index if the parent resource is complex.</param>
         /// <param name="dstX">The X coordinate of the left-most edge of the destination region. The width of the destination region is the same as the width of the source rect.</param>
         /// <param name="dstY">The Y coordinate of the top-most edge of the destination region. The height of the destination region is the same as the height of the source rect.</param>
         /// <param name="srcResource">Source resource. Must be multisampled or compressed.</param>

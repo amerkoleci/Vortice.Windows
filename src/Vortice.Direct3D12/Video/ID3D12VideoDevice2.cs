@@ -13,7 +13,7 @@ namespace Vortice.Direct3D12.Video
     public partial class ID3D12VideoDevice2
     {
         #region CreateVideoDecoder
-        public ID3D12VideoDecoder1 CreateVideoDecoder1(VideoDecoderDescription description, ID3D12ProtectedResourceSession protectedResourceSession)
+        public ID3D12VideoDecoder1? CreateVideoDecoder1(VideoDecoderDescription description, ID3D12ProtectedResourceSession protectedResourceSession)
         {
             Result result = CreateVideoDecoder1(ref description, protectedResourceSession, typeof(ID3D12VideoDecoder1).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -22,16 +22,16 @@ namespace Vortice.Direct3D12.Video
             return new ID3D12VideoDecoder1(nativePtr);
         }
 
-        public T CreateVideoDecoder1<T>(VideoDecoderDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoDecoder1
+        public T? CreateVideoDecoder1<T>(VideoDecoderDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoDecoder1
         {
             Result result = CreateVideoDecoder1(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateVideoDecoder1<T>(VideoDecoderDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T videoDecoder) where T : ID3D12VideoDecoder1
+        public Result CreateVideoDecoder1<T>(VideoDecoderDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoDecoder) where T : ID3D12VideoDecoder1
         {
             Result result = CreateVideoDecoder1(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -40,14 +40,14 @@ namespace Vortice.Direct3D12.Video
                 return result;
             }
 
-            videoDecoder = FromPointer<T>(nativePtr);
+            videoDecoder = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion
 
 
         #region CreateVideoDecoderHeap
-        public ID3D12VideoDecoderHeap1 CreateVideoDecoderHeap1(VideoDecoderHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession)
+        public ID3D12VideoDecoderHeap1? CreateVideoDecoderHeap1(VideoDecoderHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession)
         {
             Result result = CreateVideoDecoderHeap1(ref description, protectedResourceSession, typeof(ID3D12VideoDecoderHeap1).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -56,16 +56,16 @@ namespace Vortice.Direct3D12.Video
             return new ID3D12VideoDecoderHeap1(nativePtr);
         }
 
-        public T CreateVideoDecoderHeap1<T>(VideoDecoderHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoDecoderHeap1
+        public T? CreateVideoDecoderHeap1<T>(VideoDecoderHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoDecoderHeap1
         {
             Result result = CreateVideoDecoderHeap1(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateVideoDecoderHeap1<T>(VideoDecoderHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T videoDecoder) where T : ID3D12VideoDecoderHeap1
+        public Result CreateVideoDecoderHeap1<T>(VideoDecoderHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoDecoder) where T : ID3D12VideoDecoderHeap1
         {
             Result result = CreateVideoDecoderHeap1(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -74,13 +74,13 @@ namespace Vortice.Direct3D12.Video
                 return result;
             }
 
-            videoDecoder = FromPointer<T>(nativePtr);
+            videoDecoder = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion
 
         #region CreateVideoExtensionCommand
-        public ID3D12VideoExtensionCommand CreateVideoExtensionCommand(VideoExtensionCommandDescription description, IntPtr creationParameters, PointerSize creationParametersDataSizeInBytes, ID3D12ProtectedResourceSession protectedResourceSession)
+        public ID3D12VideoExtensionCommand? CreateVideoExtensionCommand(VideoExtensionCommandDescription description, IntPtr creationParameters, PointerSize creationParametersDataSizeInBytes, ID3D12ProtectedResourceSession protectedResourceSession)
         {
             Result result = CreateVideoExtensionCommand(ref description, creationParameters, creationParametersDataSizeInBytes, protectedResourceSession, typeof(ID3D12VideoExtensionCommand).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -89,13 +89,13 @@ namespace Vortice.Direct3D12.Video
             return new ID3D12VideoExtensionCommand(nativePtr);
         }
 
-        public T CreateVideoExtensionCommand<T>(VideoExtensionCommandDescription description, IntPtr creationParameters, PointerSize creationParametersDataSizeInBytes, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoExtensionCommand
+        public T? CreateVideoExtensionCommand<T>(VideoExtensionCommandDescription description, IntPtr creationParameters, PointerSize creationParametersDataSizeInBytes, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoExtensionCommand
         {
             Result result = CreateVideoExtensionCommand(ref description, creationParameters, creationParametersDataSizeInBytes, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         public Result CreateVideoExtensionCommand<T>(
@@ -103,7 +103,7 @@ namespace Vortice.Direct3D12.Video
             IntPtr creationParameters,
             PointerSize creationParametersDataSizeInBytes,
             ID3D12ProtectedResourceSession protectedResourceSession,
-            out T videoExtensionCommand) where T : ID3D12VideoExtensionCommand
+            out T? videoExtensionCommand) where T : ID3D12VideoExtensionCommand
         {
             Result result = CreateVideoExtensionCommand(ref description, creationParameters, creationParametersDataSizeInBytes, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -112,13 +112,13 @@ namespace Vortice.Direct3D12.Video
                 return result;
             }
 
-            videoExtensionCommand = FromPointer<T>(nativePtr);
+            videoExtensionCommand = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion
 
         #region CreateVideoProcessor1
-        public ID3D12VideoProcessor CreateVideoProcessor1(
+        public ID3D12VideoProcessor? CreateVideoProcessor1(
             int nodeMask,
             VideoProcessOutputStreamDescription outputStreamDescription,
             int inputStreamDescriptionsCount,
@@ -139,7 +139,7 @@ namespace Vortice.Direct3D12.Video
             return new ID3D12VideoProcessor(nativePtr);
         }
 
-        public ID3D12VideoProcessor CreateVideoProcessor1(
+        public ID3D12VideoProcessor? CreateVideoProcessor1(
             int nodeMask,
             VideoProcessOutputStreamDescription outputStreamDescription,
             VideoProcessInputStreamDescription[] inputStreamDescriptions,
@@ -158,7 +158,7 @@ namespace Vortice.Direct3D12.Video
             return new ID3D12VideoProcessor(nativePtr);
         }
 
-        public T CreateVideoProcessor1<T>(
+        public T? CreateVideoProcessor1<T>(
             int nodeMask,
             VideoProcessOutputStreamDescription outputStreamDescription,
             VideoProcessInputStreamDescription[] inputStreamDescriptions,
@@ -174,10 +174,10 @@ namespace Vortice.Direct3D12.Video
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateVideoProcessor1<T>(
+        public T? CreateVideoProcessor1<T>(
             int nodeMask,
             VideoProcessOutputStreamDescription outputStreamDescription,
             int inputStreamDescriptionsCount,
@@ -194,7 +194,7 @@ namespace Vortice.Direct3D12.Video
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         public Result CreateVideoProcessor1<T>(
@@ -202,7 +202,7 @@ namespace Vortice.Direct3D12.Video
             VideoProcessOutputStreamDescription outputStreamDescription,
             VideoProcessInputStreamDescription[] inputStreamDescriptions,
             ID3D12ProtectedResourceSession protectedResourceSession,
-            out T videoDecoder) where T : ID3D12VideoProcessor
+            out T? videoDecoder) where T : ID3D12VideoProcessor
         {
             Result result = CreateVideoProcessor1(
                 nodeMask,
@@ -217,7 +217,7 @@ namespace Vortice.Direct3D12.Video
                 return result;
             }
 
-            videoDecoder = FromPointer<T>(nativePtr);
+            videoDecoder = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
@@ -227,7 +227,7 @@ namespace Vortice.Direct3D12.Video
             int inputStreamDescriptionsCount,
             VideoProcessInputStreamDescription[] inputStreamDescriptions,
             ID3D12ProtectedResourceSession protectedResourceSession,
-            out T videoDecoder) where T : ID3D12VideoProcessor1
+            out T? videoDecoder) where T : ID3D12VideoProcessor1
         {
             Result result = CreateVideoProcessor1(
                 nodeMask,
@@ -242,7 +242,7 @@ namespace Vortice.Direct3D12.Video
                 return result;
             }
 
-            videoDecoder = FromPointer<T>(nativePtr);
+            videoDecoder = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion

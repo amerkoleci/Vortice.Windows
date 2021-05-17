@@ -53,13 +53,13 @@ namespace Vortice.Direct3D11
             OMSetRenderTargets(0, IntPtr.Zero, null);
         }
 
-        public void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView depthStencilView = null)
+        public void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView? depthStencilView = default)
         {
             IntPtr renderTargetViewPtr = renderTargetView == null ? IntPtr.Zero : renderTargetView.NativePointer;
             OMSetRenderTargets(1, new IntPtr(&renderTargetViewPtr), depthStencilView);
         }
 
-        public unsafe void OMSetRenderTargets(int renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
+        public unsafe void OMSetRenderTargets(int renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
         {
             IntPtr* renderTargetViewsPtr = (IntPtr*)0;
             if (renderTargetViewsCount > 0)
@@ -75,7 +75,7 @@ namespace Vortice.Direct3D11
             OMSetRenderTargets(renderTargetViewsCount, (IntPtr)renderTargetViewsPtr, depthStencilView);
         }
 
-        public unsafe void OMSetRenderTargets(ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
+        public unsafe void OMSetRenderTargets(ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
         {
             IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
             for (int i = 0; i < renderTargetViews.Length; i++)
@@ -86,7 +86,7 @@ namespace Vortice.Direct3D11
             OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
         }
 
-        public unsafe void OMSetRenderTargets(ReadOnlySpan<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView depthStencilView = null)
+        public unsafe void OMSetRenderTargets(ReadOnlySpan<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
         {
             IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
             for (int i = 0; i < renderTargetViews.Length; i++)
@@ -705,7 +705,7 @@ namespace Vortice.Direct3D11
         /// </summary>
         /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
         /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
-        public void SOSetTargets(ID3D11Buffer[] targets, int[] offsets = null)
+        public void SOSetTargets(ID3D11Buffer[] targets, int[]? offsets = null)
         {
             SOSetTargets(targets.Length, targets, offsets);
         }
@@ -716,19 +716,26 @@ namespace Vortice.Direct3D11
         /// <param name="buffersCount">The number of buffer to bind to the device. A maximum of four output buffers can be set. If less than four are defined by the call, the remaining buffer slots are set to null.</param>
         /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
         /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
-        public unsafe void SOSetTargets(int buffersCount, ID3D11Buffer[] targets, int[] offsets = null)
+        public unsafe void SOSetTargets(int buffersCount, ID3D11Buffer[] targets, int[]? offsets = null)
         {
-            var targetsPtr = stackalloc IntPtr[buffersCount];
+            IntPtr* targetsPtr = stackalloc IntPtr[buffersCount];
             for (int i = 0; i < buffersCount; i++)
             {
                 targetsPtr[i] = targets[i] != null ? targets[i].NativePointer : IntPtr.Zero;
             }
 
-            fixed (void* offsetsPtr = &offsets[0])
+            if (offsets != null && offsets.Length > 0)
             {
-                SOSetTargets(buffersCount, (IntPtr)targetsPtr,
-                    offsets?.Length > 0 ? (IntPtr)offsetsPtr : IntPtr.Zero
-                    );
+                fixed (int* offsetsPtr = &offsets[0])
+                {
+                    SOSetTargets(buffersCount, (IntPtr)targetsPtr,
+                        offsets?.Length > 0 ? (IntPtr)offsetsPtr : IntPtr.Zero
+                        );
+                }
+            }
+            else
+            {
+                SOSetTargets(buffersCount, (IntPtr)targetsPtr, IntPtr.Zero);
             }
         }
 
@@ -771,7 +778,7 @@ namespace Vortice.Direct3D11
         #region VertexShader
         public void VSSetShader(ID3D11VertexShader vertexShader)
         {
-            VSSetShader(ToCallbackPtr<ID3D11VertexShader>(vertexShader), IntPtr.Zero, 0);
+            VSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11VertexShader>(vertexShader), IntPtr.Zero, 0);
         }
 
         public void VSSetShader(ID3D11VertexShader vertexShader, ID3D11ClassInstance[] classInstances)
@@ -870,7 +877,7 @@ namespace Vortice.Direct3D11
         #region PixelShader
         public void PSSetShader(ID3D11PixelShader pixelShader)
         {
-            PSSetShader(ToCallbackPtr<ID3D11PixelShader>(pixelShader), IntPtr.Zero, 0);
+            PSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11PixelShader>(pixelShader), IntPtr.Zero, 0);
         }
 
         public void PSSetShader(ID3D11PixelShader pixelShader, ID3D11ClassInstance[] classInstances)
@@ -969,7 +976,7 @@ namespace Vortice.Direct3D11
         #region DomainShader
         public void DSSetShader(ID3D11DomainShader domainShader)
         {
-            DSSetShader(ToCallbackPtr<ID3D11DomainShader>(domainShader), IntPtr.Zero, 0);
+            DSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11DomainShader>(domainShader), IntPtr.Zero, 0);
         }
 
         public void DSSetShader(ID3D11DomainShader domainShader, ID3D11ClassInstance[] classInstances)
@@ -1068,7 +1075,7 @@ namespace Vortice.Direct3D11
         #region HullShader
         public void HSSetShader(ID3D11HullShader hullShader)
         {
-            HSSetShader(ToCallbackPtr<ID3D11HullShader>(hullShader), IntPtr.Zero, 0);
+            HSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11HullShader>(hullShader), IntPtr.Zero, 0);
         }
 
         public void HSSetShader(ID3D11HullShader hullShader, ID3D11ClassInstance[] classInstances)
@@ -1167,7 +1174,7 @@ namespace Vortice.Direct3D11
         #region GeometryShader
         public void GSSetShader(ID3D11GeometryShader geometryShader)
         {
-            GSSetShader(ToCallbackPtr<ID3D11GeometryShader>(geometryShader), IntPtr.Zero, 0);
+            GSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11GeometryShader>(geometryShader), IntPtr.Zero, 0);
         }
 
         public void GSSetShader(ID3D11GeometryShader geometryShader, ID3D11ClassInstance[] classInstances)
@@ -1263,7 +1270,7 @@ namespace Vortice.Direct3D11
         #region ComputeShader
         public void CSSetShader(ID3D11ComputeShader computeShader)
         {
-            CSSetShader(ToCallbackPtr<ID3D11ComputeShader>(computeShader), IntPtr.Zero, 0);
+            CSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11ComputeShader>(computeShader), IntPtr.Zero, 0);
         }
 
         public void CSSetShader(ID3D11ComputeShader computeShader, ID3D11ClassInstance[] classInstances)
@@ -1632,7 +1639,7 @@ namespace Vortice.Direct3D11
             IntPtr pAdjustedSrcData = pSrcData;
             if (needWorkaround)
             {
-                Box alignedBox = dstBox.Value;
+                Box alignedBox = dstBox!.Value;
 
                 // convert from pixels to blocks
                 if (isCompressedResource)

@@ -8,25 +8,25 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device4
     {
-        public T CreateCommandList1<T>(CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
+        public T? CreateCommandList1<T>(CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
         {
             Result result = CreateCommandList1(0, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateCommandList1<T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
+        public T? CreateCommandList1<T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
         {
             Result result = CreateCommandList1(nodeMask, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateCommittedResource1<T>(
+        public T? CreateCommittedResource1<T>(
             HeapProperties heapProperties,
             HeapFlags heapFlags,
             ResourceDescription description,
@@ -43,43 +43,43 @@ namespace Vortice.Direct3D12
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateHeap1<T>(HeapDescription description, ID3D12ProtectedResourceSession protectedSession) where T : ID3D12Heap1
+        public T? CreateHeap1<T>(HeapDescription description, ID3D12ProtectedResourceSession protectedSession) where T : ID3D12Heap1
         {
             Result result = CreateHeap1(ref description, protectedSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateProtectedResourceSession<T>(ProtectedResourceSessionDescription description) where T : ID3D12ProtectedResourceSession
+        public T? CreateProtectedResourceSession<T>(ProtectedResourceSessionDescription description) where T : ID3D12ProtectedResourceSession
         {
             Result result = CreateProtectedResourceSession(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ClearValue clearValue, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource1
+        public T? CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ClearValue clearValue, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource1
         {
             Result result = CreateReservedResource1(ref description, initialState, clearValue, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource1
+        public T? CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource1
         {
             Result result = CreateReservedResource1(ref description, initialState, null, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }

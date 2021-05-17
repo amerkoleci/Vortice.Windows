@@ -27,14 +27,14 @@ namespace Vortice.Direct3D11.Debug
         }
 
 
-        public unsafe InfoQueueFilter GetStorageFilter()
+        public unsafe InfoQueueFilter? GetStorageFilter()
         {
             PointerSize sizeFilter = PointerSize.Zero;
             GetStorageFilter(IntPtr.Zero, ref sizeFilter);
 
             if (sizeFilter == 0)
             {
-                return null;
+                return default;
             }
 
             byte* filter = stackalloc byte[sizeFilter];
@@ -45,14 +45,14 @@ namespace Vortice.Direct3D11.Debug
             return queueNative;
         }
 
-        public unsafe InfoQueueFilter GetRetrievalFilter()
+        public unsafe InfoQueueFilter? GetRetrievalFilter()
         {
             PointerSize sizeFilter = PointerSize.Zero;
             GetRetrievalFilter(IntPtr.Zero, ref sizeFilter);
 
             if (sizeFilter == 0)
             {
-                return null;
+                return default;
             }
 
             byte* filter = stackalloc byte[sizeFilter];

@@ -8,7 +8,7 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device2
     {
-        public unsafe ID3D12PipelineState CreatePipelineState<TData>(TData data) where TData : unmanaged
+        public unsafe ID3D12PipelineState? CreatePipelineState<TData>(TData data) where TData : unmanaged
         {
             PipelineStateStreamDescription description = new PipelineStateStreamDescription
             {
@@ -19,7 +19,7 @@ namespace Vortice.Direct3D12
             return CreatePipelineState<ID3D12PipelineState>(description);
         }
 
-        public unsafe T CreatePipelineState<T, TData>(TData data)
+        public unsafe T? CreatePipelineState<T, TData>(TData data)
             where T : ID3D12PipelineState
             where TData : unmanaged
         {
@@ -32,16 +32,16 @@ namespace Vortice.Direct3D12
             return CreatePipelineState<T>(description);
         }
 
-        public T CreatePipelineState<T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
+        public T? CreatePipelineState<T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
         {
             Result result = CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreatePipelineState<T>(PipelineStateStreamDescription description, out T pipelineState) where T : ID3D12PipelineState
+        public Result CreatePipelineState<T>(PipelineStateStreamDescription description, out T? pipelineState) where T : ID3D12PipelineState
         {
             Result result = CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -50,7 +50,7 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            pipelineState = FromPointer<T>(nativePtr);
+            pipelineState = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
     }

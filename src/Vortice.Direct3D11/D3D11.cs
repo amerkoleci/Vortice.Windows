@@ -11,7 +11,7 @@ namespace Vortice.Direct3D11
     public static partial class D3D11
     {
         public static Result D3D11CreateDevice(IDXGIAdapter adapter, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
-            out ID3D11Device device)
+            out ID3D11Device? device)
         {
             return RawD3D11CreateDeviceNoContext(
                 adapter != null ? adapter.NativePointer : IntPtr.Zero,
@@ -59,7 +59,7 @@ namespace Vortice.Direct3D11
         }
 
         public static Result D3D11CreateDevice(IntPtr adapterPtr, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
-            out ID3D11Device device)
+            out ID3D11Device? device)
         {
             return RawD3D11CreateDeviceNoContext(
                 adapterPtr,
@@ -277,7 +277,7 @@ namespace Vortice.Direct3D11
             DriverType driverType,
             DeviceCreationFlags flags,
             FeatureLevel[] featureLevels,
-            out ID3D11Device device,
+            out ID3D11Device? device,
             out FeatureLevel featureLevel)
         {
             unsafe
@@ -308,16 +308,16 @@ namespace Vortice.Direct3D11
             }
         }
 
-        private static Result RawD3D11CreateDeviceNoDeviceAndContext(
+        private static unsafe Result RawD3D11CreateDeviceNoDeviceAndContext(
             IntPtr adapterPtr,
             DriverType driverType,
             DeviceCreationFlags flags,
-            FeatureLevel[] featureLevels,
+            FeatureLevel[]? featureLevels,
             out FeatureLevel featureLevel)
         {
-            unsafe
+            if (featureLevels != null && featureLevels.Length > 0)
             {
-                fixed (void* featureLevelsPtr = &featureLevels[0])
+                fixed (FeatureLevel* featureLevelsPtr = &featureLevels[0])
                 fixed (void* featureLevelPtr = &featureLevel)
                 {
                     Result result = D3D11CreateDevice_(
@@ -325,8 +325,26 @@ namespace Vortice.Direct3D11
                         (int)driverType,
                         null,
                         (int)flags,
-                        featureLevels != null && featureLevels.Length > 0 ? featureLevelsPtr : null,
-                        featureLevels?.Length ?? 0,
+                        featureLevelsPtr,
+                        featureLevels.Length,
+                        SdkVersion,
+                        null,
+                        featureLevelPtr,
+                        null);
+                    return result;
+                }
+            }
+            else
+            {
+                fixed (void* featureLevelPtr = &featureLevel)
+                {
+                    Result result = D3D11CreateDevice_(
+                        (void*)adapterPtr,
+                        (int)driverType,
+                        null,
+                        (int)flags,
+                        null,
+                        0,
                         SdkVersion,
                         null,
                         featureLevelPtr,

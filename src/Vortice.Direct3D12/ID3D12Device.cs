@@ -254,7 +254,7 @@ namespace Vortice.Direct3D12
         }
 
         #region CreateCommittedResource
-        public T CreateCommittedResource<T>(HeapProperties heapProperties,
+        public T? CreateCommittedResource<T>(HeapProperties heapProperties,
             HeapFlags heapFlags,
             ResourceDescription description,
             ResourceStates initialResourceState,
@@ -272,10 +272,10 @@ namespace Vortice.Direct3D12
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateCommittedResource<T>(HeapProperties heapProperties, HeapFlags heapFlags, ResourceDescription description, ResourceStates initialResourceState, out T resource) where T : ID3D12Resource
+        public Result CreateCommittedResource<T>(HeapProperties heapProperties, HeapFlags heapFlags, ResourceDescription description, ResourceStates initialResourceState, out T? resource) where T : ID3D12Resource
         {
             Result result = CreateCommittedResource(
                 ref heapProperties,
@@ -292,7 +292,7 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            resource = FromPointer<T>(nativePtr);
+            resource = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
@@ -301,7 +301,7 @@ namespace Vortice.Direct3D12
             ResourceDescription description,
             ResourceStates initialResourceState,
             ClearValue? optimizedClearValue,
-            out T resource) where T : ID3D12Resource
+            out T? resource) where T : ID3D12Resource
         {
             Result result = CreateCommittedResource(
                 ref heapProperties,
@@ -318,13 +318,13 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            resource = FromPointer<T>(nativePtr);
+            resource = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion
 
         #region CreateCommandQueue
-        public Result CreateCommandQueue<T>(in CommandQueueDescription description, out T commandQueue) where T : ID3D12CommandQueue
+        public Result CreateCommandQueue<T>(in CommandQueueDescription description, out T? commandQueue) where T : ID3D12CommandQueue
         {
             Result result = CreateCommandQueue(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -333,41 +333,41 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            commandQueue = FromPointer<T>(nativePtr);
+            commandQueue = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
-        public T CreateCommandQueue<T>(in CommandQueueDescription description) where T : ID3D12CommandQueue
+        public T? CreateCommandQueue<T>(in CommandQueueDescription description) where T : ID3D12CommandQueue
         {
             Result result = CreateCommandQueue(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateCommandQueue<T>(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
+        public T? CreateCommandQueue<T>(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
         {
             return CreateCommandQueue<T>(new CommandQueueDescription(type, priority, flags, nodeMask));
         }
 
-        public T CreateCommandQueue<T>(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
+        public T? CreateCommandQueue<T>(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
         {
             return CreateCommandQueue<T>(new CommandQueueDescription(type, priority, flags, nodeMask));
         }
         #endregion
 
         #region CreateDescriptorHeap
-        public T CreateDescriptorHeap<T>(in DescriptorHeapDescription description) where T : ID3D12DescriptorHeap
+        public T? CreateDescriptorHeap<T>(in DescriptorHeapDescription description) where T : ID3D12DescriptorHeap
         {
             Result result = CreateDescriptorHeap(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateDescriptorHeap<T>(in DescriptorHeapDescription description, out T descriptorHeap) where T : ID3D12DescriptorHeap
+        public Result CreateDescriptorHeap<T>(in DescriptorHeapDescription description, out T? descriptorHeap) where T : ID3D12DescriptorHeap
         {
             Result result = CreateDescriptorHeap(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -376,22 +376,22 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            descriptorHeap = FromPointer<T>(nativePtr);
+            descriptorHeap = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion
 
         #region CreateCommandAllocator
-        public T CreateCommandAllocator<T>(CommandListType type) where T : ID3D12CommandAllocator
+        public T? CreateCommandAllocator<T>(CommandListType type) where T : ID3D12CommandAllocator
         {
             Result result = CreateCommandAllocator(type, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateCommandAllocator<T>(CommandListType type, out T commandAllocator) where T : ID3D12CommandAllocator
+        public Result CreateCommandAllocator<T>(CommandListType type, out T? commandAllocator) where T : ID3D12CommandAllocator
         {
             Result result = CreateCommandAllocator(type, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -400,22 +400,22 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            commandAllocator = FromPointer<T>(nativePtr);
+            commandAllocator = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion
 
         #region CreateCommandList
-        public T CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState = null) where T : ID3D12CommandList
+        public T? CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState? initialState = default) where T : ID3D12CommandList
         {
             Result result = CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState, out T commandList) where T : ID3D12CommandList
+        public Result CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState, out T? commandList) where T : ID3D12CommandList
         {
             Result result = CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -424,22 +424,22 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            commandList = FromPointer<T>(nativePtr);
+            commandList = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion
 
         #region CreateFence
-        public T CreateFence<T>(ulong initialValue, FenceFlags flags = FenceFlags.None) where T : ID3D12Fence
+        public T? CreateFence<T>(ulong initialValue, FenceFlags flags = FenceFlags.None) where T : ID3D12Fence
         {
             Result result = CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateFence<T>(ulong initialValue, FenceFlags flags, out T fence) where T : ID3D12Fence
+        public Result CreateFence<T>(ulong initialValue, FenceFlags flags, out T? fence) where T : ID3D12Fence
         {
             Result result = CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -448,22 +448,22 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            fence = FromPointer<T>(nativePtr);
+            fence = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion
 
         #region CreateHeap
-        public T CreateHeap<T>(in HeapDescription description) where T : ID3D12Heap
+        public T? CreateHeap<T>(in HeapDescription description) where T : ID3D12Heap
         {
             Result result = CreateHeap(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateHeap<T>(in HeapDescription description, out T heap) where T : ID3D12Heap
+        public Result CreateHeap<T>(in HeapDescription description, out T? heap) where T : ID3D12Heap
         {
             Result result = CreateHeap(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -472,12 +472,12 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            heap = FromPointer<T>(nativePtr);
+            heap = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
         #endregion
 
-        public T CreateRootSignature<T>(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
+        public T? CreateRootSignature<T>(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
         {
             Result result = D3D12.D3D12SerializeRootSignature(description, version, out Blob blob, out Blob errorBlob);
             if (result.Failure)
@@ -496,7 +496,7 @@ namespace Vortice.Direct3D12
                 if (result.Failure)
                     return default;
 
-                return FromPointer<T>(nativePtr);
+                return MarshallingHelpers.FromPointer<T>(nativePtr);
             }
             finally
             {
@@ -505,26 +505,26 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public T CreateRootSignature<T>(in RootSignatureDescription1 description) where T : ID3D12RootSignature
+        public T? CreateRootSignature<T>(in RootSignatureDescription1 description) where T : ID3D12RootSignature
         {
             return CreateRootSignature<T>(0, new VersionedRootSignatureDescription(description));
         }
 
-        public T CreateRootSignature<T>(int nodeMask, in RootSignatureDescription1 description) where T : ID3D12RootSignature
+        public T? CreateRootSignature<T>(int nodeMask, in RootSignatureDescription1 description) where T : ID3D12RootSignature
         {
             return CreateRootSignature<T>(0, new VersionedRootSignatureDescription(description));
         }
 
-        public T CreateRootSignature<T>(in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
+        public T? CreateRootSignature<T>(in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
         {
             return CreateRootSignature<T>(0, description);
         }
 
-        public T CreateRootSignature<T>(int nodeMask, in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
+        public T? CreateRootSignature<T>(int nodeMask, in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
         {
             Result result = Result.Ok;
-            Blob signature = null;
-            Blob errorBlob = null;
+            Blob? signature = null;
+            Blob? errorBlob = null;
 
             // D3DX12SerializeVersionedRootSignature
             switch (HighestRootSignatureVersion)
@@ -538,10 +538,10 @@ namespace Vortice.Direct3D12
 
                         case RootSignatureVersion.Version11:
                             // Convert to version 1.0.
-                            RootSignatureDescription1 desc_1_1 = description.Description_1_1;
-                            RootParameter[] parameters_1_0 = null;
+                            RootSignatureDescription1? desc_1_1 = description.Description_1_1;
+                            RootParameter[]? parameters_1_0 = null;
 
-                            if (desc_1_1.Parameters?.Length > 0)
+                            if (desc_1_1?.Parameters?.Length > 0)
                             {
                                 parameters_1_0 = new RootParameter[desc_1_1.Parameters.Length];
                                 for (int i = 0; i < parameters_1_0.Length; i++)
@@ -583,7 +583,7 @@ namespace Vortice.Direct3D12
                                 }
                             }
 
-                            var desc_1_0 = new RootSignatureDescription(desc_1_1.Flags, parameters_1_0, desc_1_1.StaticSamplers);
+                            var desc_1_0 = new RootSignatureDescription(desc_1_1!.Flags, parameters_1_0, desc_1_1.StaticSamplers);
                             result = D3D12.D3D12SerializeRootSignature(desc_1_0, RootSignatureVersion.Version1, out signature, out errorBlob);
                             break;
                     }
@@ -610,7 +610,7 @@ namespace Vortice.Direct3D12
                 if (result.Failure)
                     return default;
 
-                return FromPointer<T>(nativePtr);
+                return MarshallingHelpers.FromPointer<T>(nativePtr);
             }
             finally
             {
@@ -619,43 +619,43 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public T CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature rootSignature) where T : ID3D12CommandSignature
+        public T? CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature rootSignature) where T : ID3D12CommandSignature
         {
             Result result = CreateCommandSignature(description, rootSignature, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateComputePipelineState<T>(ComputePipelineStateDescription description) where T : ID3D12PipelineState
+        public T? CreateComputePipelineState<T>(ComputePipelineStateDescription description) where T : ID3D12PipelineState
         {
             Result result = CreateComputePipelineState(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateGraphicsPipelineState<T>(GraphicsPipelineStateDescription description) where T : ID3D12PipelineState
+        public T? CreateGraphicsPipelineState<T>(GraphicsPipelineStateDescription description) where T : ID3D12PipelineState
         {
             Result result = CreateGraphicsPipelineState(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateQueryHeap<T>(QueryHeapDescription description) where T : ID3D12QueryHeap
+        public T? CreateQueryHeap<T>(QueryHeapDescription description) where T : ID3D12QueryHeap
         {
             Result result = CreateQueryHeap(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateQueryHeap<T>(in QueryHeapDescription description, out T queryHeap) where T : ID3D12QueryHeap
+        public Result CreateQueryHeap<T>(in QueryHeapDescription description, out T? queryHeap) where T : ID3D12QueryHeap
         {
             Result result = CreateQueryHeap(description, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -664,11 +664,11 @@ namespace Vortice.Direct3D12
                 return result;
             }
 
-            queryHeap = FromPointer<T>(nativePtr);
+            queryHeap = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
-        public T CreatePlacedResource<T>(
+        public T? CreatePlacedResource<T>(
             ID3D12Heap heap,
             ulong heapOffset,
             ResourceDescription resourceDescription,
@@ -679,16 +679,16 @@ namespace Vortice.Direct3D12
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T CreateReservedResource<T>(ResourceDescription resourceDescription, ResourceStates initialState, ClearValue? clearValue = null) where T : ID3D12Resource
+        public T? CreateReservedResource<T>(ResourceDescription resourceDescription, ResourceStates initialState, ClearValue? clearValue = null) where T : ID3D12Resource
         {
             Result result = CreateReservedResource(ref resourceDescription, initialState, clearValue, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         public IntPtr CreateSharedHandle(ID3D12DeviceChild deviceChild, SecurityAttributes? attributes, string name)
@@ -702,7 +702,7 @@ namespace Vortice.Direct3D12
         /// <typeparam name="T">The handle that was output by the call to <see cref="CreateSharedHandle(ID3D12DeviceChild, SecurityAttributes?, string)"/> </typeparam>
         /// <param name="handle"></param>
         /// <returns>Instance of <see cref="ID3D12Heap"/>, <see cref="ID3D12Resource"/> or <see cref="ID3D12Fence"/>.</returns>
-        public T OpenSharedHandle<T>(IntPtr handle) where T : ComObject
+        public T? OpenSharedHandle<T>(IntPtr handle) where T : ComObject
         {
             Result result = OpenSharedHandle(handle, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -710,7 +710,7 @@ namespace Vortice.Direct3D12
                 return default;
             }
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         /// <summary>

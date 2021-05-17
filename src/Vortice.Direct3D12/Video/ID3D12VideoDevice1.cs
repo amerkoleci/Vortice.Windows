@@ -12,7 +12,7 @@ namespace Vortice.Direct3D12.Video
     /// </summary>
     public partial class ID3D12VideoDevice1
     {
-        public ID3D12VideoMotionEstimator CreateVideoMotionEstimator(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession)
+        public ID3D12VideoMotionEstimator? CreateVideoMotionEstimator(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession)
         {
             Result result = CreateVideoMotionEstimator(ref description, protectedResourceSession, typeof(ID3D12VideoMotionEstimator).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -21,16 +21,16 @@ namespace Vortice.Direct3D12.Video
             return new ID3D12VideoMotionEstimator(nativePtr);
         }
 
-        public T CreateVideoMotionEstimator<T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionEstimator
+        public T? CreateVideoMotionEstimator<T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionEstimator
         {
             Result result = CreateVideoMotionEstimator(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateVideoMotionEstimator<T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T videoMotionEstimator) where T : ID3D12VideoMotionEstimator
+        public Result CreateVideoMotionEstimator<T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoMotionEstimator) where T : ID3D12VideoMotionEstimator
         {
             Result result = CreateVideoMotionEstimator(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -39,11 +39,11 @@ namespace Vortice.Direct3D12.Video
                 return result;
             }
 
-            videoMotionEstimator = FromPointer<T>(nativePtr);
+            videoMotionEstimator = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
 
-        public ID3D12VideoMotionVectorHeap CreateVideoMotionVectorHeap(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession)
+        public ID3D12VideoMotionVectorHeap? CreateVideoMotionVectorHeap(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession)
         {
             Result result = CreateVideoMotionVectorHeap(ref description, protectedResourceSession, typeof(ID3D12VideoMotionVectorHeap).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -52,16 +52,16 @@ namespace Vortice.Direct3D12.Video
             return new ID3D12VideoMotionVectorHeap(nativePtr);
         }
 
-        public T CreateVideoMotionVectorHeap<T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionVectorHeap
+        public T? CreateVideoMotionVectorHeap<T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionVectorHeap
         {
             Result result = CreateVideoMotionVectorHeap(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
                 return default;
 
-            return FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public Result CreateVideoMotionVectorHeap<T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T videoMotionEstimator) where T : ID3D12VideoMotionVectorHeap
+        public Result CreateVideoMotionVectorHeap<T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoMotionEstimator) where T : ID3D12VideoMotionVectorHeap
         {
             Result result = CreateVideoMotionVectorHeap(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
@@ -70,7 +70,7 @@ namespace Vortice.Direct3D12.Video
                 return result;
             }
 
-            videoMotionEstimator = FromPointer<T>(nativePtr);
+            videoMotionEstimator = MarshallingHelpers.FromPointer<T>(nativePtr);
             return result;
         }
     }

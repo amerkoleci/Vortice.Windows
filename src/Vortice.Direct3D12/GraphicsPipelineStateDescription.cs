@@ -10,21 +10,21 @@ namespace Vortice.Direct3D12
 {
     public partial class GraphicsPipelineStateDescription
     {
-        private Format[] _RTVFormats;
+        private Format[]? _RTVFormats;
 
-        public ID3D12RootSignature RootSignature { get; set; }
+        public ID3D12RootSignature? RootSignature { get; set; }
 
-        public ShaderBytecode VertexShader { get; set; }
+        public ShaderBytecode? VertexShader { get; set; }
 
-        public ShaderBytecode PixelShader { get; set; }
+        public ShaderBytecode? PixelShader { get; set; }
 
-        public ShaderBytecode DomainShader { get; set; }
+        public ShaderBytecode? DomainShader { get; set; }
 
-        public ShaderBytecode HullShader { get; set; }
+        public ShaderBytecode? HullShader { get; set; }
 
-        public ShaderBytecode GeometryShader { get; set; }
+        public ShaderBytecode? GeometryShader { get; set; }
 
-        public StreamOutputDescription StreamOutput { get; set; }
+        public StreamOutputDescription? StreamOutput { get; set; }
 
         public BlendDescription BlendState { get; set; }
 
@@ -34,7 +34,7 @@ namespace Vortice.Direct3D12
 
         public DepthStencilDescription DepthStencilState { get; set; } = DepthStencilDescription.Default;
 
-        public InputLayoutDescription InputLayout { get; set; }
+        public InputLayoutDescription? InputLayout { get; set; }
 
         public IndexBufferStripCutValue IndexBufferStripCutValue { get; set; }
 
@@ -105,7 +105,7 @@ namespace Vortice.Direct3D12
 
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
-            @ref.RootSignature = CppObject.ToCallbackPtr<ID3D12RootSignature>(RootSignature);
+            @ref.RootSignature = MarshallingHelpers.ToCallbackPtr<ID3D12RootSignature>(RootSignature);
             VertexShader?.__MarshalTo(ref @ref.VertexShader);
             PixelShader?.__MarshalTo(ref @ref.PixelShader);
             DomainShader?.__MarshalTo(ref @ref.DomainShader);

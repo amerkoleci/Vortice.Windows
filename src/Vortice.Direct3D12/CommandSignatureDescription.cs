@@ -58,7 +58,7 @@ namespace Vortice.Direct3D12
             if (@ref.NumArgumentDescs > 0)
             {
                 @ref.pArgumentDescs = UnsafeUtilities.Alloc<IndirectArgumentDescription>(@ref.NumArgumentDescs);
-                fixed (void* indirectArgumentsPtr = &IndirectArguments[0])
+                fixed (void* indirectArgumentsPtr = &IndirectArguments![0])
                 {
                     MemoryHelpers.CopyMemory(
                         @ref.pArgumentDescs,

@@ -22,10 +22,6 @@ namespace HelloDirect3D11
             public TestApplication(bool headless = false)
                 : base(headless)
             {
-                using FileStream stream = File.OpenRead("Screenshot.jpg");
-                using var wicFactory = new IWICImagingFactory();
-                using IWICStream? wicStream = wicFactory.CreateStream(stream);
-                using IWICBitmapDecoder decoder = wicFactory.CreateDecoderFromStream(wicStream!);
             }
 
             protected override void InitializeBeforeRun()

@@ -45,14 +45,14 @@ namespace Vortice.Direct3D12
         {
             __Native* native = (__Native*)Marshal.AllocHGlobal(sizeof(__Native));
 
-            native->pExistingCollection = CppObject.ToCallbackPtr<ID3D12StateObject>(ExistingCollection);
+            native->pExistingCollection = MarshallingHelpers.ToCallbackPtr<ID3D12StateObject>(ExistingCollection);
             native->NumExports = Exports?.Length ?? 0;
             if (native->NumExports > 0)
             {
                 var nativeExports = (ExportDescription.__Native*)UnsafeUtilities.Alloc<ExportDescription.__Native>(native->NumExports);
                 for (int i = 0; i < native->NumExports; i++)
                 {
-                    Exports[i].__MarshalTo(ref nativeExports[i]);
+                    Exports![i].__MarshalTo(ref nativeExports[i]);
                 }
 
                 native->pExports = nativeExports;
