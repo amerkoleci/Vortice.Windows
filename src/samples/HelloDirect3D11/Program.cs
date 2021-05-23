@@ -192,8 +192,7 @@ namespace HelloDirect3D11
                         {
                             using (IWICFormatConverter formatConverter = wicFactory.CreateFormatConverter())
                             {
-                                formatConverter.CanConvert(pfGuid, targetGuid, out RawBool canConvert);
-                                if (!canConvert)
+                                if (!formatConverter.CanConvert(pfGuid, targetGuid))
                                 {
                                     context.Unmap(staging, 0);
                                     return;

@@ -7,11 +7,6 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIOutput1
     {
-        public void FindClosestMatchingMode1(ComObject concernedDevice, ModeDescription1 modeToMatch, out ModeDescription1 closestMatch)
-        {
-            FindClosestMatchingMode1(ref modeToMatch, out closestMatch, concernedDevice);
-        }
-
         public ModeDescription1[] GetDisplayModeList1(Format format, DisplayModeEnumerationFlags flags)
         {
             int count = 0;

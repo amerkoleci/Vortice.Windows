@@ -9,7 +9,8 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11Device1
     {
-        protected override void Dispose(bool disposing)
+        /// <inheritdoc/>
+        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
         {
             if (disposing)
             {
@@ -20,7 +21,7 @@ namespace Vortice.Direct3D11
                 }
             }
 
-            base.Dispose(disposing);
+            base.DisposeCore(nativePointer, disposing);
         }
 
         public ID3D11DeviceContext1 CreateDeferredContext1()

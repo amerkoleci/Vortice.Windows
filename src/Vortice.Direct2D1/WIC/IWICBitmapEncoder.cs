@@ -36,9 +36,9 @@ namespace Vortice.WIC
             Initialize_(_wicStream, cacheOption);
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
         {
-            base.Dispose(disposing);
+            base.DisposeCore(nativePointer, disposing);
 
             DisposeWICStreamProxy();
         }

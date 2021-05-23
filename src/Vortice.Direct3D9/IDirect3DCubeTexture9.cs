@@ -41,7 +41,7 @@ namespace Vortice.Direct3D9
         /// <unmanaged>HREULT IDirect3DCubeTexture9::LockRect([In] D3DCUBEMAP_FACES FaceType,[In] unsigned int Level,[In] D3DLOCKED_RECT* pLockedRect,[In] const void* pRect,[In] D3DLOCK Flags)</unmanaged>
         public DataRectangle LockRect(CubeMapFace faceType, int level, LockFlags flags)
         {
-            LockRect(faceType, level, out LockedRectangle lockedRect, IntPtr.Zero, flags);
+            var lockedRect = LockRect(faceType, level, IntPtr.Zero, flags);
             return new DataRectangle(lockedRect.BitsPointer, lockedRect.Pitch);
         }
 
@@ -58,7 +58,7 @@ namespace Vortice.Direct3D9
             unsafe
             {
                 RawRect rawRect = rectangle;
-                LockRect(faceType, level, out LockedRectangle lockedRect, new IntPtr(&rawRect), flags);
+                var lockedRect = LockRect(faceType, level, new IntPtr(&rawRect), flags);
                 return new DataRectangle(lockedRect.BitsPointer, lockedRect.Pitch);
             }
         }

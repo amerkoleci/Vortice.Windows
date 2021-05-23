@@ -40,7 +40,7 @@ namespace Vortice.XAudio2
             }
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
         {
             if (_engineCallback != null)
             {
@@ -52,7 +52,7 @@ namespace Vortice.XAudio2
                 _engineCallback?.Dispose();
             }
 
-            base.Dispose(disposing);
+            base.DisposeCore(nativePointer, disposing);
         }
 
         public IXAudio2MasteringVoice CreateMasteringVoice(

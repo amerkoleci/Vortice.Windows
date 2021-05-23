@@ -95,9 +95,10 @@ namespace Vortice.WIC
             }
         }
 
-        protected override void Dispose(bool disposing)
+
+        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
         {
-            base.Dispose(disposing);
+            base.DisposeCore(nativePointer, disposing);
 
             DisposeStreamProxy();
         }
