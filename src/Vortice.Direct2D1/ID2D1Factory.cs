@@ -27,8 +27,7 @@ namespace Vortice.Direct2D1
 
         public ID2D1GeometryGroup CreateGeometryGroup(FillMode fillMode, params ID2D1Geometry[] geometries)
         {
-            CreateGeometryGroup(fillMode, geometries, geometries.Length, out ID2D1GeometryGroup geometryGroup);
-            return geometryGroup;
+            return CreateGeometryGroup(fillMode, geometries, geometries.Length);
         }
 
         public ID2D1RectangleGeometry CreateRectangleGeometry(RectangleF rectangle)

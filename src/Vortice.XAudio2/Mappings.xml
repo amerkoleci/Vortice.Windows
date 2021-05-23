@@ -197,11 +197,8 @@
     <map method="IXAudio2::Initialize" visibility="internal" />
     <map method="IXAudio2::GetDeviceDetails" visibility="internal" />
     <map method="IXAudio2::Create.*" visibility="internal" />
-    <map param="IXAudio2::CreateMasteringVoice::ppMasteringVoice" attribute="out" return="true" />
-    <map param="IXAudio2::CreateSourceVoice::ppSourceVoice" attribute="out" return="true" />
     <map param="IXAudio2::CreateSourceVoice::Flags" type="XAUDIO2_VOICE_FLAGS" />
     <map param="IXAudio2::CreateSourceVoice::pSourceFormat" type="void" />
-    <map param="IXAudio2::CreateSubmixVoice::ppSubmixVoice" attribute="out" return="true" />
 
     <map method="IXAudio2::(Unr|R)egisterForCallbacks" visibility="internal" />
     <map interface="IXAudio2EngineCallback" visibility="internal" />
@@ -211,23 +208,19 @@
     <map method="IXAudio2Voice::SetOutputVoices" visibility="internal" property="false"/>
     <map method="IXAudio2Voice::GetEffectParameters" visibility="internal" />
     <map method="IXAudio2Voice::SetEffectParameters" visibility="internal" hresult="true" check="false" />
-    <map param="IXAudio2Voice::GetEffectState::pEnabled" attribute="out" return="true" />
     <map method="IXAudio2Voice::SetEffectChain" visibility="internal" property="false" />
-    <map method="IXAudio2Voice::GetVoiceDetails" visibility="private" property="false"/>
     <map method="IXAudio2Voice::GetVolume" visibility="private" property="false"/>
-    <map param="IXAudio2Voice::GetFilterParameters::pParameters" attribute="out" return="true" />
-    
-    <!-- IXAudio2MasteringVoice -->
-    <map method="IXAudio2MasteringVoice::GetChannelMask" visibility="private" property="false"/>
-    
+
     <!-- IXAudio2SourceVoice -->
     <map method="IXAudio2SourceVoice::SetSourceSampleRate" property="false"/>
     <map method="IXAudio2SourceVoice::Start" visibility="internal" />
     <map param="IXAudio2SourceVoice::Stop::Flags" type="XAUDIO2_PLAY_FLAGS" />
     <map method="IXAudio2SourceVoice::SubmitSourceBuffer" visibility="internal" />
     <map method="IXAudio2SourceVoice::GetState" visibility="internal" />
-    <map param="IXAudio2SourceVoice::GetState::pVoiceState" return="true" />
     <map method="IXAudio2SourceVoice::GetFrequencyRatio" visibility="internal" />
+
+    <map interface="IXAudio2VoiceCallback" callback="true" />
+    <map interface="IXAudio2EngineCallback" callback="true" />
 
     <remove interface="IXAudio2Extension"/>
     <remove function="XAudio2Create.*"/>

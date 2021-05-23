@@ -21,8 +21,8 @@ namespace Vortice.DirectWrite
         {
             int sizeOfLogFont = Marshal.SizeOf(logFont);
             byte* nativeLogFont = stackalloc byte[sizeOfLogFont];
-            GetMatchingFontsByLOGFONT(new IntPtr(nativeLogFont), fontSet, out IDWriteFontSet filteredSet);
-            return filteredSet;
+            Marshal.StructureToPtr(logFont, new IntPtr(nativeLogFont), false);
+            return GetMatchingFontsByLOGFONT(new IntPtr(nativeLogFont), fontSet);
         }
     }
 }

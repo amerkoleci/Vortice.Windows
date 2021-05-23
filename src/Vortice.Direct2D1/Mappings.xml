@@ -392,24 +392,24 @@
     <map param="ID2D1EffectContext::GetMaximumSupportedFeatureLevel::maximumSupportedFeatureLevel" return="true"/>
 
     <!-- ID2D1EffectImpl -->
-    <map interface="ID2D1EffectImpl" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
+    <map interface="ID2D1EffectImpl" callback="true" callback-dual="true" callback-visibility="internal"/>
 
     <!-- ID2D1TransformNode -->
-    <map interface="ID2D1TransformNode" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
+    <map interface="ID2D1TransformNode" callback="true" callback-dual="true" />
 
     <!-- ID2D1Transform -->
-    <map interface="ID2D1Transform" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
+    <map interface="ID2D1Transform" callback="true" callback-dual="true" callback-visibility="internal"/>
     <map param="ID2D1Transform::MapInputRectsToOutputRect::inputRectCount" relation="length(inputRects), length(inputOpaqueSubRects)" />
     <map param="ID2D1Transform::MapOutputRectToInputRects::inputRectsCount" relation="length(inputRects)" />
 
     <!-- ID2D1DrawTransform -->
-    <map interface="ID2D1DrawTransform" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
+    <map interface="ID2D1DrawTransform" callback="true" callback-dual="true" callback-visibility="internal"/>
 
     <!-- ID2D1ComputeTransform -->
-    <map interface="ID2D1ComputeTransform"  callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
+    <map interface="ID2D1ComputeTransform"  callback="true" callback-dual="true" callback-visibility="internal"/>
 
     <!-- ID2D1SourceTransform -->
-    <map interface="ID2D1SourceTransform"  callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true" />
+    <map interface="ID2D1SourceTransform"  callback="true" callback-dual="true" callback-visibility="internal" />
 
     <!-- ID2D1TransformGraph -->
 
@@ -481,50 +481,17 @@
     <remove method="IWICJpegFrameEncode::GetQuantizationTable" />
 
     <!-- IDWriteFactory -->
-    <map param="IDWriteFactory::CreateCustomFontCollection::fontCollection" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateFontFileReference::fontFile" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateCustomFontFileReference::fontFile" attribute="out" return="true"/>
     <map method="IDWriteFactory::CreateFontFace" visibility="internal" hresult="true" check="false" />
-    <map param="IDWriteFactory::CreateRenderingParams::renderingParams" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateMonitorRenderingParams::renderingParams" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateCustomRenderingParams::renderingParams" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateTextFormat::textFormat" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateTypography::typography" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateTextLayout::textLayout" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateGdiCompatibleTextLayout::textLayout" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateEllipsisTrimmingSign::trimmingSign" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateTextAnalyzer::textAnalyzer" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateNumberSubstitution::numberSubstitution" attribute="out" return="true"/>
-    <map param="IDWriteFactory::CreateGlyphRunAnalysis::glyphRunAnalysis" attribute="out" return="true"/>
     <map method="IDWriteFactory::((Unr|R)egisterFont(File|Collection)Loader)" visibility="internal" name="$1_" />
-    <map param="IDWriteFactory::GetSystemFontCollection::fontCollection" return="true" />
-    <map param="IDWriteFactory::CreateTextLayout::stringLength" relation="const(text.Length)"/>
-
-    <!-- IDWriteFactory1 -->
-    <map param="IDWriteFactory1::GetEudcFontCollection::fontCollection" return="true" />
-    <map param="IDWriteFactory1::CreateCustomRenderingParams::renderingParams" attribute="out" return="true"/>
-
-    <!-- IDWriteFactory2 -->
-    <map param="IDWriteFactory2::CreateFontFallbackBuilder::fontFallbackBuilder" return="true" />
-    <map param="IDWriteFactory2::CreateGlyphRunAnalysis::glyphRunAnalysis" return="true" />
-    <map param="IDWriteFactory2::TranslateColorGlyphRun::colorLayers" return="true" />
-
-    <!-- IDWriteTextFormat -->
-    <map method="IDWriteTextFormat::GetFontFamilyName" visibility="internal" />
-    <map method="IDWriteTextFormat::GetLocaleName" visibility="internal" />
-    <map method="IDWriteTextFormat::GetFontFamilyNameLength" visibility="internal" />
-    <map method="IDWriteTextFormat::GetLocaleNameLength" visibility="internal" />
+    <map param="IDWriteFactory::CreateTextLayout::stringLength" relation="length(string)" />
 
     <!-- IDWriteTextLayout -->
-    <map method="IDWriteTextLayout::GetLineMetrics" hresult="true" check="false"/>
+    <map method="IDWriteTextLayout\d*::GetLineMetrics" hresult="true" check="false"/>
     <map param="IDWriteTextLayout\d*::GetLineMetrics::maxLineCount" relation="length(lineMetrics)" />
+    <map method="IDWriteTextLayout::GetClusterMetrics" hresult="true" check="false"/>
+    <map param="IDWriteTextLayout::GetClusterMetrics::maxClusterCount" relation="length(clusterMetrics)" />
     <map method="IDWriteTextLayout::HitTestTextRange" hresult="true" check="false"/>
-
-    <!-- IDWriteTextLayout3 -->
-    <map method="IDWriteTextLayout3::GetLineMetrics" hresult="true" check="false"/>
-
-    <!-- IDWriteFont -->
-    <map param="IDWriteFont::CreateFontFace::fontFace" attribute="out" return="true" />
+    <map param="IDWriteTextLayout::HitTestTextRange::maxHitTestMetricsCount" relation="length(hitTestMetrics)" />
 
     <!-- IDWriteFontFace -->
     <map method="IDWriteFontFace::GetFiles" hresult="true" check="false"/>
@@ -532,22 +499,12 @@
     <map param="IDWriteFontFace::GetDesignGlyphMetrics::glyphCount" relation="length(glyphIndices)" />
     <map method="IDWriteFontFace::GetGdiCompatibleGlyphMetrics" visibility="internal" hresult="true" check="false"/>
     <map param="IDWriteFontFace::GetGdiCompatibleGlyphMetrics::glyphCount" relation="length(glyphIndices)" />
-    <map param="IDWriteFontFace::GetGdiCompatibleMetrics::fontFaceMetrics" return="true" />
     <map method="IDWriteFontFace::GetGlyphIndicesW" visibility="internal" hresult="true" check="false"/>
     <map param="IDWriteFontFace::GetGlyphIndicesW::codePointCount" relation="length(codePoints)" />
-    <map param="IDWriteFontFace::GetRecommendedRenderingMode::renderingMode" return="true" />
     <map method="IDWriteFontFace::TryGetFontTable" visibility="internal" hresult="true" check="false"/>
     <map param="IDWriteFontFace::TryGetFontTable::tableData" type="void" keep-pointers="true"/>
     <map method="IDWriteFontFace::GetType" name="GetFaceType" hresult="true" check="false"/>
     <map param="IDWriteFontFace::GetGlyphRunOutline::glyphCount" relation="length(glyphIndices)" />
-
-    <!-- IDWriteFontFamily -->
-    <map param="IDWriteFontFamily::GetFirstMatchingFont::matchingFont" return="true" />
-    <map param="IDWriteFontFamily\d*::GetMatchingFonts::matchingFonts" return="true" />
-
-    <!-- IDWriteFontFamily1 -->
-    <map param="IDWriteFontFamily1::GetFont::font" return="true" />
-    <map param="IDWriteFontFamily1::GetFontFaceReference::fontFaceReference" return="true" />
 
     <!-- IDWriteFontFamily2 -->
     <map param="IDWriteFontFamily2::GetMatchingFonts::fontAxisValueCount" relation="length(fontAxisValues)" />
@@ -556,7 +513,7 @@
     <map param="IDWriteFontCollection::FindFamilyName::exists" return="true" />
     <map param="IDWriteFontCollection::GetFontFamily::fontFamily" return="true" />
     <map param="IDWriteFontCollection::GetFontFromFontFace::font" return="true" />
-    <map interface="IDWriteFontCollectionLoader" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
+    <map interface="IDWriteFontCollectionLoader" callback="true" callback-dual="true" callback-visibility="internal"/>
 
     <!--IDWriteFontFile -->
     <map method="IDWriteFontFile::Analyze" hresult="true" check="false"/>
@@ -564,41 +521,33 @@
     <map param="IDWriteFontFile::GetReferenceKey::fontFileReferenceKey" type="void" keep-pointers="true"/>
 
     <!-- IDWriteFontFileLoader -->
-    <map interface="IDWriteFontFileLoader" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true" />
+    <map interface="IDWriteFontFileLoader" callback="true" callback-dual="true" />
 
     <!-- IDWriteRemoteFontFileLoader -->
-    <map interface="IDWriteRemoteFontFileLoader" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true" />
+    <map interface="IDWriteRemoteFontFileLoader" callback="true" callback-dual="true" />
 
     <!-- IDWriteFontFileEnumerator -->
-    <map interface="IDWriteFontFileEnumerator" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
+    <map interface="IDWriteFontFileEnumerator" callback="true" callback-dual="true" callback-visibility="internal"/>
 
     <!-- IDWriteFontFileStream -->
-    <map interface="IDWriteFontFileStream" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true"/>
+    <map interface="IDWriteFontFileStream" callback="true" callback-dual="true"/>
     <map param="IDWriteFontFileStream::ReadFileFragment::fragmentStart" attribute="out" />
 
     <!-- IDWriteRemoteFontFileStream -->
-    <map interface="IDWriteRemoteFontFileStream" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true"/>
+    <map interface="IDWriteRemoteFontFileStream" callback="true" callback-dual="true"/>
     <map param="IDWriteRemoteFontFileStream::GetFileFragmentLocality::partialSize" attribute="out" />
     <map param="IDWriteRemoteFontFileStream::BeginDownload::fragmentCount" relation="length(fileFragments)" />
 
     <!-- IDWriteInlineObject -->
-    <map interface="IDWriteInlineObject" callback-visibility="public" callback="true" callback-dual="true" autogen-shadow="true"/>
+    <map interface="IDWriteInlineObject" callback="true" callback-dual="true"/>
 
     <!-- IDWriteGdiInterop -->
-    <map method="IDWriteGdiInterop::.*?LOGFONT" visibility="internal" />
-    <map param="IDWriteGdiInterop::.*?LOGFONT::logFont" type="void" override-native-type="true" attribute="in" />
-    <map param="IDWriteGdiInterop::CreateBitmapRenderTarget::renderTarget" return="true" />
-    <map param="IDWriteGdiInterop::CreateFontFaceFromHdc::fontFace" return="true" />
-
-    <map method="IDWriteGdiInterop1::.*?LOGFONT" visibility="internal" />
-    <map param="IDWriteGdiInterop1::.*?LOGFONT::logFont" type="void" override-native-type="true" attribute="in" />
-    <map param="IDWriteGdiInterop1::GetFontSignature::fontSignature" return="true" />
-    <map param="IDWriteGdiInterop1::CreateFontFromLOGFONT::font" return="true" />
+    <map method="IDWriteGdiInterop\d*::.*?LOGFONT" visibility="internal" />
+    <map param="IDWriteGdiInterop\d*::.*?LOGFONT::logFont" type="void" override-native-type="true" />
+    <map param="IDWriteGdiInterop\d*::ConvertFont.*?ToLOGFONT::.+" return="false" />
 
     <!-- IDWriteLocalizedStrings -->
-    <map param="IDWriteLocalizedStrings::FindLocaleName::exists" attribute="out" return="true"/>
-    <map param="IDWriteLocalizedStrings::GetLocaleNameLength::length" attribute="out" return="true"/>
-    <map param="IDWriteLocalizedStrings::GetStringLength::length" attribute="out" return="true"/>
+    <map param="IDWriteLocalizedStrings::FindLocaleName::exists" return="true"/>
     <map method="IDWriteLocalizedStrings::GetString" visibility="internal"/>
     <map method="IDWriteLocalizedStrings::GetLocaleName" visibility="internal"/>
 
@@ -606,17 +555,17 @@
     <map method="IDWriteAsyncResult::GetResult" check="false"/>
 
     <!-- IDWritePixelSnapping -->
-    <map interface="IDWritePixelSnapping" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true"/>
+    <map interface="IDWritePixelSnapping" callback="true" callback-dual="true"/>
 
     <!-- IDWriteTextRenderer -->
-    <map interface="IDWriteTextRenderer\d*" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true"/>
+    <map interface="IDWriteTextRenderer\d*" callback="true" callback-dual="true"/>
 
     <!-- IDWriteTextAnalysisSink -->
-    <map interface="IDWriteTextAnalysisSink\d*" callback="true" callback-dual="false" autogen-shadow="true"/>
+    <map interface="IDWriteTextAnalysisSink\d*" callback="true" callback-dual="false"/>
     <map param="IDWriteTextAnalysisSink\d*::SetLineBreakpoints::textLength" relation="length(lineBreakpoints)" />
 
     <!-- IDWriteTextAnalysisSource -->
-    <map interface="IDWriteTextAnalysisSource\d*" callback="true" callback-dual="false" autogen-shadow="true"/>
+    <map interface="IDWriteTextAnalysisSource\d*" callback="true" callback-dual="false"/>
 
     <!-- IWICBitmapEncoder -->
     <map method="IWICBitmapEncoder::Initialize" visibility="internal" name="Initialize_" />
@@ -731,11 +680,7 @@
     <!-- ID2D1PathGeometry -->
     <map param="ID2D1PathGeometry::Open::geometrySink" return="true" />
 
-    <map interface="ID2D(\d+).*Sink1?" callback="true" callback-dual="true" callback-visibility="internal" />
-    <map interface="ID2D(\d+).*Sink2?" callback="true" callback-dual="true" callback-visibility="internal" />
-    <map interface="ID2D(\d+).*Sink3?" callback="true" callback-dual="true" callback-visibility="internal" />
-    <map interface="ID2D(\d+).*Sink4?" callback="true" callback-dual="true" callback-visibility="internal" />
-    <map interface="ID2D(\d+).*Sink5?" callback="true" callback-dual="true" callback-visibility="internal" />
+    <map interface="ID2D(\d+).*Sink\d?" callback="true" callback-dual="true" callback-visibility="internal" />
 
     <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.WIC.WIC" visibility="internal" hresult="true" check="false"  />
     <map function="WICConvertBitmapSource" name="WICConvertBitmapSource_" />
@@ -755,6 +700,8 @@
     <map param="ID2D1SimplifiedGeometrySink::AddLines::pointsCount" relation="length(points)" />
     <map param="ID2D1SimplifiedGeometrySink::AddBeziers::beziersCount" relation="length(beziers)" />
 
-    <map interface="ID2D1.*GeometrySink" callback="true" callback-dual="true" callback-visibility="internal" autogen-shadow="true"/>
+    <map interface="ID2D1.*GeometrySink" callback="true" callback-dual="true" callback-visibility="internal"/>
+
+    <map param="ID2D1TessellationSink::AddTriangles::trianglesCount" relation="length(triangles)" />
   </mapping>
 </config>

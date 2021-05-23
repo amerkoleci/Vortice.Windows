@@ -13,35 +13,35 @@ namespace Vortice.Direct3D
     /// <summary>
     /// Shadow callback for <see cref="Include"/>.
     /// </summary>
-    internal class IncludeShadow : CppObjectShadow
+    internal partial class IncludeShadow
     {
-        private static readonly IncludeVtbl s_vtbl = new IncludeVtbl();
-        private readonly Dictionary<IntPtr, Frame> _frames = new Dictionary<IntPtr, Frame>(DefaultIntPtrComparer);
+        private readonly Dictionary<IntPtr, Frame> _frames = new();
 
-        private struct Frame
+        private struct Frame : IDisposable
         {
             public Frame(Stream stream, GCHandle handle)
             {
                 Stream = stream;
-                Handle = handle;
+                _handle = handle;
             }
 
             public readonly Stream Stream;
-            public readonly GCHandle Handle;
+            private GCHandle _handle;
 
-            public void Close()
+            public void Dispose()
             {
-                if (Handle.IsAllocated)
-                    Handle.Free();
+                if (_handle.IsAllocated)
+                    _handle.Free();
             }
         }
 
         /// <summary>
         /// Internal Include Callback
         /// </summary>
+        [DebuggerTypeProxy(typeof(CppObjectVtblDebugView))]
         private class IncludeVtbl : CppObjectVtbl
         {
-            public IncludeVtbl() : base(2)
+            public IncludeVtbl(int numberOfCallbackMethods) : base(numberOfCallbackMethods + 2)
             {
                 AddMethod(new OpenDelegate(OpenImpl));
                 AddMethod(new CloseDelegate(CloseImpl));
@@ -52,56 +52,53 @@ namespace Vortice.Direct3D
 
             private static Result OpenImpl(IntPtr thisPtr, IncludeType includeType, IntPtr fileNameRef, IntPtr pParentData, ref IntPtr dataRef, ref int bytesRef)
             {
-                unsafe
+                try
                 {
-                    try
+                    IncludeShadow shadow = ToShadow<IncludeShadow>(thisPtr);
+                    Include callback = (Include)shadow.Callback;
+
+                    Stream? stream = null;
+                    Stream? parentStream = null;
+
+                    if (shadow._frames.ContainsKey(pParentData))
                     {
-                        IncludeShadow shadow = ToShadow<IncludeShadow>(thisPtr);
-                        Include callback = (Include)shadow.Callback;
-
-                        Stream? stream = null;
-                        Stream? parentStream = null;
-
-                        if (shadow._frames.ContainsKey(pParentData))
-                        {
-                            parentStream = shadow._frames[pParentData].Stream;
-                        }
-
-                        stream = callback.Open(includeType, Marshal.PtrToStringAnsi(fileNameRef), parentStream);
-                        if (stream == null)
-                            return Result.Fail;
-
-                        GCHandle handle;
-
-                        //if (stream is DataStream)
-                        //{
-                        //    // Magic shortcut if we happen to get a DataStream
-                        //    var data = (DataStream)stream;
-                        //    dataRef = data.PositionPointer;
-                        //    bytesRef = (int)(data.Length - data.Position);
-                        //    handle = new GCHandle();
-                        //}
-                        //else
-                        {
-                            // Read the stream into a byte array and pin it
-                            byte[] data = ReadStream(stream);
-                            handle = GCHandle.Alloc(data, GCHandleType.Pinned);
-                            dataRef = handle.AddrOfPinnedObject();
-                            bytesRef = data.Length;
-                        }
-
-                        shadow._frames.Add(dataRef, new Frame(stream, handle));
-
-                        return Result.Ok;
+                        parentStream = shadow._frames[pParentData].Stream;
                     }
-                    catch (SharpGenException exception)
-                    {
-                        return exception.ResultCode.Code;
-                    }
-                    catch (Exception)
-                    {
+
+                    stream = callback.Open(includeType, Marshal.PtrToStringAnsi(fileNameRef), parentStream);
+                    if (stream == null)
                         return Result.Fail;
+
+                    GCHandle handle;
+
+                    //if (stream is DataStream)
+                    //{
+                    //    // Magic shortcut if we happen to get a DataStream
+                    //    var data = (DataStream)stream;
+                    //    dataRef = data.PositionPointer;
+                    //    bytesRef = (int)(data.Length - data.Position);
+                    //    handle = new GCHandle();
+                    //}
+                    //else
+                    {
+                        // Read the stream into a byte array and pin it
+                        byte[] data = ReadStream(stream);
+                        handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+                        dataRef = handle.AddrOfPinnedObject();
+                        bytesRef = data.Length;
                     }
+
+                    shadow._frames.Add(dataRef, new Frame(stream, handle));
+
+                    return Result.Ok;
+                }
+                catch (SharpGenException exception)
+                {
+                    return exception.ResultCode.Code;
+                }
+                catch (Exception)
+                {
+                    return Result.Fail;
                 }
             }
 
@@ -119,8 +116,9 @@ namespace Vortice.Direct3D
                     {
                         shadow._frames.Remove(pData);
                         callback.Close(frame.Stream);
-                        frame.Close();
+                        frame.Dispose();
                     }
+
                     return Result.Ok;
                 }
                 catch (SharpGenException exception)
@@ -132,54 +130,41 @@ namespace Vortice.Direct3D
                     return Result.Fail;
                 }
             }
-        }
 
-        protected override CppObjectVtbl Vtbl => s_vtbl;
-
-        private static byte[] ReadStream(Stream stream)
-        {
-            int readLength = 0;
-            return ReadStream(stream, ref readLength);
-        }
-
-        private static byte[] ReadStream(Stream stream, ref int readLength)
-        {
-            Debug.Assert(stream != null);
-            Debug.Assert(stream!.CanRead);
-
-            int count = readLength;
-            Debug.Assert(count <= (stream.Length - stream.Position));
-            if (count == 0)
+            private static byte[] ReadStream(Stream stream)
             {
-                readLength = (int)(stream.Length - stream.Position);
+                int readLength = 0;
+                return ReadStream(stream, ref readLength);
             }
 
-            count = readLength;
-
-            Debug.Assert(count >= 0);
-            if (count == 0)
-                return Array.Empty<byte>();
-
-            byte[] buffer = new byte[count];
-            int bytesRead = 0;
-            if (count > 0)
+            private static byte[] ReadStream(Stream stream, ref int readLength)
             {
+                Debug.Assert(stream != null);
+                Debug.Assert(stream!.CanRead);
+
+                int count = readLength;
+                Debug.Assert(count <= stream.Length - stream.Position);
+                if (count == 0)
+                {
+                    readLength = (int)(stream.Length - stream.Position);
+                }
+
+                count = readLength;
+
+                Debug.Assert(count >= 0);
+                if (count == 0)
+                    return Array.Empty<byte>();
+
+                byte[] buffer = new byte[count];
+                int bytesRead = 0;
+
                 do
                 {
                     bytesRead += stream.Read(buffer, bytesRead, readLength - bytesRead);
                 } while (bytesRead < readLength);
+
+                return buffer;
             }
-
-            return buffer;
-        }
-
-        public static readonly IEqualityComparer<IntPtr> DefaultIntPtrComparer = new IntPtrComparer();
-
-        internal class IntPtrComparer : EqualityComparer<IntPtr>
-        {
-            public override bool Equals(IntPtr x, IntPtr y) => x == y;
-
-            public override int GetHashCode(IntPtr obj) => obj.GetHashCode();
         }
     }
 }

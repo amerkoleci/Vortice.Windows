@@ -12,7 +12,7 @@ namespace Vortice.Direct3D9
             if (sizeToLock == 0)
                 sizeToLock = Description.SizeInBytes;
 
-            Lock(offsetToLock, sizeToLock, out var pOut, lockFlags);
+            var pOut = Lock(offsetToLock, sizeToLock, lockFlags);
             return new Span<T>(pOut.ToPointer(), sizeToLock);
         }
 
@@ -21,7 +21,7 @@ namespace Vortice.Direct3D9
             if (sizeToLock == 0)
                 sizeToLock = Description.SizeInBytes;
 
-            Lock(offsetToLock, sizeToLock, out var pOut, lockFlags);
+            var pOut = Lock(offsetToLock, sizeToLock, lockFlags);
             return new ReadOnlySpan<T>(pOut.ToPointer(), sizeToLock);
         }
 
@@ -35,12 +35,9 @@ namespace Vortice.Direct3D9
         public IntPtr LockToPointer(int offsetToLock, int sizeToLock, LockFlags lockFlags = LockFlags.None)
         {
             if (sizeToLock == 0)
-            {
                 sizeToLock = Description.SizeInBytes;
-            }
 
-            Lock(offsetToLock, sizeToLock, out var pOut, lockFlags);
-            return pOut;
+            return Lock(offsetToLock, sizeToLock, lockFlags);
         }
     }
 }

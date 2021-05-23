@@ -10,20 +10,19 @@ namespace Vortice.Direct3D9
     {
         protected override void NativePointerUpdated(IntPtr oldNativePointer)
         {
-            DisposeDevice();
+            ReleaseDevice();
             base.NativePointerUpdated(oldNativePointer);
         }
 
-        protected override unsafe void Dispose(bool disposing)
+        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
         {
             if (disposing)
-            {
-                DisposeDevice();
-            }
-            base.Dispose(disposing);
+                ReleaseDevice();
+
+            base.DisposeCore(nativePointer, disposing);
         }
 
-        private void DisposeDevice()
+        private void ReleaseDevice()
         {
             if (Device__ != null)
             {
@@ -35,7 +34,7 @@ namespace Vortice.Direct3D9
 
         public T? GetContainer<T>(Guid guid) where T : ComObject
         {
-            GetContainer(guid, out IntPtr containerPtr);
+            var containerPtr = GetContainer(guid);
             return MarshallingHelpers.FromPointer<T>(containerPtr);
         }
 
@@ -46,7 +45,7 @@ namespace Vortice.Direct3D9
         /// <returns>The locked region of this resource.</returns>
         public DataBox LockBox(LockFlags flags)
         {
-            LockBox(out LockedBox lockedBox, IntPtr.Zero, flags);
+            var lockedBox = LockBox(IntPtr.Zero, flags);
             return new DataBox(lockedBox.BitsPointer, lockedBox.RowPitch, lockedBox.SlicePitch);
         }
 
@@ -58,7 +57,7 @@ namespace Vortice.Direct3D9
         /// <returns>The locked region of this resource</returns>
         public unsafe DataBox LockBox(Box box, LockFlags flags)
         {
-            LockBox(out LockedBox lockedBox, new IntPtr(&box), flags);
+            var lockedBox = LockBox(new IntPtr(&box), flags);
             return new DataBox(lockedBox.BitsPointer, lockedBox.RowPitch, lockedBox.SlicePitch);
         }
     }

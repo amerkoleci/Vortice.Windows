@@ -11,7 +11,8 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11Device
     {
-        protected override void Dispose(bool disposing)
+        /// <inheritdoc/>
+        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
         {
             if (disposing)
             {
@@ -22,7 +23,7 @@ namespace Vortice.Direct3D11
                 }
             }
 
-            base.Dispose(disposing);
+            base.DisposeCore(nativePointer, disposing);
         }
 
         public unsafe T CheckFeatureSupport<T>(Feature feature) where T : unmanaged

@@ -22,15 +22,8 @@ namespace Vortice.XAudio2
         /// </summary>
         public float FrequencyRatio
         {
-            get
-            {
-                GetFrequencyRatio(out float ratio);
-                return ratio;
-            }
-            set
-            {
-                SetFrequencyRatio(value, 0);
-            }
+            get => GetFrequencyRatio();
+            set => SetFrequencyRatio(value, 0);
         }
 
         /// <summary>	

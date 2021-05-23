@@ -37,7 +37,7 @@
     <define struct="System.Drawing.SizeF" sizeof="8" />
     <define struct="System.Drawing.Rectangle" sizeof="16" />
     <define struct="System.Drawing.RectangleF" sizeof="16" />
-    
+
     <!-- Vortice.Mathematics types -->
     <define struct="Vortice.Mathematics.Point" sizeof="8" />
     <define struct="Vortice.Mathematics.PointF" sizeof="8" />
@@ -58,7 +58,7 @@
 
     <define struct="Vortice.Win32.NativeMessage" sizeof="28" />
     <define struct="Vortice.Win32.BitmapInfoHeader" sizeof="40"/>
-    
+
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <const from-guid="WKPDID_D3DDebugObjectNameW" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectNameW">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
@@ -265,7 +265,7 @@
     <map struct="D3D_SHADER_MACRO" name="ShaderMacro" native="true" marshal="true" />
 
     <map interface="ID3D10Blob" name="Blob" />
-    <map interface="ID3DInclude" name="Include" callback="true" />
+    <map interface="ID3DInclude" name="Include" callback="true" shadow-name="Vortice.Direct3D.IncludeShadow" autogen-vtbl="false" />
     <map method="ID3DInclude::.+" hidden="true" />
     <map interface="ID3DDestructionNotifier" name="DestructionNotifier" callback="true" />
 
@@ -274,11 +274,9 @@
     <map struct="DXCore(.+)" name-tmp="$1" />
 
     <map function="DXCoreCreateAdapterFactory" dll='"DxCore.dll"' group="Vortice.DXCore.DXCore" hresult="true" check="false" visibility="private" />
-    <map param="DXCoreCreateAdapterFactory.*?::ppvFactory" attribute="out" />
 
     <map method="IDXCoreAdapterFactory::CreateAdapterList" visibility="private" name="CreateAdapterList" hresult="true" check="false" />
     <map method="IDXCoreAdapterFactory::GetAdapterByLuid" visibility="private" name="GetAdapterByLuid" hresult="true" check="false" />
-    <map param="IDXCoreAdapterFactory::RegisterEventNotification::eventCookie" return="true"/>
 
     <map method="IDXCoreAdapterList::GetAdapter" visibility="private" name="GetAdapter" hresult="true" check="false" />
     <map method="IDXCoreAdapterList::GetFactory" visibility="private" name="GetFactory" hresult="true" check="false" />
@@ -307,7 +305,7 @@
     <remove field="DXGI_JPEG_DC_HUFFMAN_TABLE::.*"/>
     <map struct="DXGI_JPEG_QUANTIZATION_TABLE" name="JpegQuantizationTable" />
     <remove field="DXGI_JPEG_QUANTIZATION_TABLE::.*"/>
-    
+
     <!-- DCommon -->
     <map enum="D2D1(.*)" name-tmp="$1" />
     <map enum="DWRITE(.+)" name-tmp="$1" />

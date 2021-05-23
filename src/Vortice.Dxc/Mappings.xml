@@ -31,11 +31,11 @@
     <map method="IDxcUtils::(.*)" property="false" hresult="true" check="false"/>
     <map method="IDxcUtils::CreateReflection" visibility="private" hresult="true" check="false"/>
     <map param="IDxcUtils::CreateReflection::ppvReflection" type="void" attribute="out" />
-    
+
     <map method="IDxcUtils::CreateDefaultIncludeHandler" hresult="true" check="false"/>
     <map method="IDxcUtils::BuildArguments" visibility="private" />
     <map param="IDxcUtils::BuildArguments::pArguments" type="void" />
-    
+
     <map method="IDxcResult::GetOutput" visibility="private" hresult="true" check="false"/>
     <map param="IDxcResult::GetOutput::ppOutputName" type="void" attribute="in" />
 
@@ -43,10 +43,10 @@
     <map method="IDxcBlobEncoding::GetEncoding" hresult="true" check="false"/>
 
     <map method="IDxcCompiler::Disassemble" hresult="true" check="false"/>
-    
+
     <map method="IDxcCompiler::Compile" visibility="private" hresult="true" check="false"/>
     <map param="IDxcCompiler::Compile::pArguments" type="void" />
-    
+
     <map method="IDxcCompiler::Preprocess" visibility="private" hresult="true" check="false"/>
     <map param="IDxcCompiler::Preprocess::pArguments" type="void" />
 
@@ -61,18 +61,18 @@
     <map param="IDxcCompiler.*::Preprocess::defineCount" relation="length(pDefines)" />
 
     <map method="IDxcCompilerArgs::AddArguments" visibility="private" hresult="true" check="false"/>
-    
+
     <map method="IDxcCompilerArgs::AddArgumentsUTF8" visibility="private" hresult="true" check="false"/>
     <map method="IDxcCompilerArgs::AddDefines" hresult="true" check="false"/>
     <map param="IDxcCompilerArgs::AddDefines::defineCount" relation="length(pDefines)" />
-    
+
     <map method="IDxcContainerBuilder::(.*)" hresult="true" check="false"/>
-    
+
     <map method="IDxcContainerReflection::(.*)" hresult="true" check="false"/>
     <map method="IDxcContainerReflection::GetPartCount" property="false"/>
     <map method="IDxcContainerReflection::GetPartReflection" visibility="private" hresult="true" check="false"/>
     <map param="IDxcContainerReflection::GetPartReflection::ppvObject" type="void" attribute="out" />
-    
+
     <map method="IDxcExtraOutputs::GetOutputCount" property="false"/>
     <map method="IDxcExtraOutputs::GetOutput" visibility="private" hresult="true" check="false"/>
 
@@ -86,17 +86,17 @@
     <map method="IDxcLinker::Link" visibility="private" />
     <map param="IDxcLinker::Link::pLibNames" type="void" />
     <map param="IDxcLinker::Link::pArguments" type="void" />
-    
+
     <map method="IDxcOperationResult::(.*)" property="false" hresult="true" check="false"/>
 
     <map method="IDxcValidator::(.*)" hresult="true" check="false"/>
     <map method="IDxcVersionInfo::(.*)" property="false"  hresult="true" check="false"/>
-    
+
     <map method="IDxcVersionInfo2::(.*)" hresult="true" check="false"/>
-    <map param="IDxcVersionInfo2::GetCommitInfo::pCommitHash" type="void" attribute="out" />
+    <map param="IDxcVersionInfo2::GetCommitInfo::pCommitHash" type="void" />
 
     <map method="IDxcPdbUtils::(.*)" hresult="true" check="false"/>
-    
+
     <map function="DxcCreateInstance" dll='"dxcompiler.dll"' group="Vortice.Dxc.Dxc" hresult="true" check="false"/>
     <map function="DxcCreateInstance2" dll='"dxcompiler.dll"' group="Vortice.Dxc.Dxc" hresult="true" check="false"/>
   </mapping>

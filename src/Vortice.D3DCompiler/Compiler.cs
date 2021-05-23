@@ -502,7 +502,7 @@ namespace Vortice.D3DCompiler
                         BytecodeLength = shaderBytecodes[i].Data.Length
                     };
                 }
-                CompressShaders(shaderBytecodes.Length, shaderData, 1, out blob);
+                blob = CompressShaders(shaderBytecodes.Length, shaderData, 1);
             }
             finally
             {

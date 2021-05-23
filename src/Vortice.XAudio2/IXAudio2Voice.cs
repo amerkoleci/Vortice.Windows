@@ -17,27 +17,8 @@ namespace Vortice.XAudio2
         /// </summary>	
         public float Volume
         {
-            get
-            {
-                GetVolume(out float value);
-                return value;
-            }
-            set
-            {
-                SetVolume(value);
-            }
-        }
-
-        /// <summary>	
-        /// Returns information about the creation flags, input channels, and sample rate of a voice.
-        /// </summary>	
-        public VoiceDetails VoiceDetails
-        {
-            get
-            {
-                GetVoiceDetails(out VoiceDetails details);
-                return details;
-            }
+            get => GetVolume();
+            set => SetVolume(value);
         }
 
         /// <summary>

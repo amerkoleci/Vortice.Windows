@@ -14,18 +14,22 @@ namespace Vortice.DirectWrite
             int sizeOfLogFont = Marshal.SizeOf(logFont);
             byte* nativeLogFont = stackalloc byte[sizeOfLogFont];
             Marshal.StructureToPtr(logFont, new IntPtr(nativeLogFont), false);
-            CreateFontFromLOGFONT(new IntPtr(nativeLogFont), out var font);
-            return font;
+            return CreateFontFromLOGFONT(new IntPtr(nativeLogFont));
         }
 
-        public unsafe bool ConvertFontToLOGFONT(IDWriteFont font, out LogFont logFont)
+        public bool ConvertFontToLOGFONT(IDWriteFont font, out LogFont logFont)
         {
             logFont = new LogFont();
-            int sizeOfLogFont = Marshal.SizeOf(logFont);
-            byte* nativeLogFont = stackalloc byte[sizeOfLogFont];
-            ConvertFontToLOGFONT(font, new IntPtr(nativeLogFont), out var isSystemFont);
-            Marshal.PtrToStructure(new IntPtr(nativeLogFont), logFont);
+            ConvertFontToLOGFONT(font, out var nativeLogFont, out var isSystemFont);
+            Marshal.PtrToStructure(nativeLogFont, logFont);
             return isSystemFont;
+        }
+
+        public void ConvertFontFaceToLOGFONT(IDWriteFontFace font, out LogFont logFont)
+        {
+            logFont = new LogFont();
+            ConvertFontFaceToLOGFONT(font, out IntPtr nativeLogFont);
+            Marshal.PtrToStructure(nativeLogFont, logFont);
         }
     }
 }

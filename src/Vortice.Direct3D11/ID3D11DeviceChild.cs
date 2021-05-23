@@ -50,14 +50,12 @@ namespace Vortice.Direct3D11
             base.NativePointerUpdated(oldNativePointer);
         }
 
-        /// <inheritdoc/>
-        protected override unsafe void Dispose(bool disposing)
+        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
         {
             if (disposing)
-            {
                 ReleaseDevice();
-            }
-            base.Dispose(disposing);
+
+            base.DisposeCore(nativePointer, disposing);
         }
 
         private void ReleaseDevice()
