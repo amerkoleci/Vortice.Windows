@@ -11,18 +11,21 @@ namespace Vortice.DirectWrite
     public partial class IDWriteFactory2
     {
         public IDWriteColorGlyphRunEnumerator TranslateColorGlyphRun(
-            float baselineOriginX, 
+            float baselineOriginX,
             float baselineOriginY,
             GlyphRun glyphRun)
         {
-            return TranslateColorGlyphRun(
+            var result = TranslateColorGlyphRun(
                 baselineOriginX,
                 baselineOriginY,
                 glyphRun,
                 null,
                 MeasuringMode.Natural,
                 null,
-                0);
+                0,
+                out var colorLayers);
+            result.CheckError();
+            return colorLayers;
         }
     }
 }

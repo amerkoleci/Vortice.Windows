@@ -488,6 +488,7 @@
     <map method="IDWriteFactory::CreateFontFace" visibility="internal" hresult="true" check="false" />
     <map method="IDWriteFactory::((Unr|R)egisterFont(File|Collection)Loader)" visibility="internal" name="$1_" />
     <map param="IDWriteFactory::CreateTextLayout::stringLength" relation="length(string)" />
+    <map method="IDWriteFactory\d*::TranslateColorGlyphRun" hresult="true" check="false"/>
     
     <!-- IDWriteTextLayout -->
     <map method="IDWriteTextLayout\d*::GetLineMetrics" hresult="true" check="false"/>
