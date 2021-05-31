@@ -7,15 +7,23 @@ namespace Vortice.Dxc
     public sealed class DxcCompilerOptions
     {
         public DxcShaderModel ShaderModel { get; set; } = DxcShaderModel.Model6_0;
-        public bool IEEEStrictness { get; set; }
-        public bool PackMatrixInRowMajor { get; set; }
-        public bool PackMatrixInColumnMajor { get; set; }
-        public bool Enable16bitTypes { get; set; }
         public bool EnableDebugInfo { get; set; }
-        public bool DisableOptimizations { get; set; }
+        public bool SkipValidation { get; set; }
+        public bool SkipOptimizations { get; set; }
+        public bool PackMatrixRowMajor { get; set; }
+        public bool PackMatrixColumnMajor { get; set; }
+        public bool AvoidFlowControl { get; set; }
+        public bool PreferFlowControl { get; set; }
+        public bool EnableStrictness { get; set; }
+        public bool EnableBackwardCompatibility { get; set; }
+        public bool IEEEStrictness { get; set; }
+        public bool Enable16bitTypes { get; set; }
         public int OptimizationLevel { get; set; } = 3;
-        public bool AllResourcesBound { get; set; }
         public bool WarningsAreErrors { get; set; }
+        public bool ResourcesMayAlias { get; set; }
+        public bool AllResourcesBound { get; set; }
+
+        public int HLSLVersion { get; set; } = 2018;
 
         public bool StripReflectionIntoSeparateBlob { get; set; } = true;
 
@@ -29,10 +37,11 @@ namespace Vortice.Dxc
         /// </summary>
         public bool GenerateSPIRV { get; set; } = false;
 
-        public bool UseGlLayout { get; set; } = false;
-        public bool UseDxLayout { get; set; } = false;
+        public bool UseOpenGLLayout { get; set; } = false;
+        public bool UseDirectXLayout { get; set; } = false;
         public bool UseScalarLayout { get; set; } = false;
 
-        public bool FlattenResourceArrays { get; set; } = false;
+        public bool SPIRVFlattenResourceArrays { get; set; } = false;
+        public bool SPIRVReflect { get; set; } = false;
     }
 }

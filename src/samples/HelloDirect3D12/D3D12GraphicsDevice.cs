@@ -155,11 +155,9 @@ namespace HelloDirect3D12
                 new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
             };
 
-            byte[] vertexShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Vertex,
-                "Triangle.hlsl", "VSMain", out ID3D12ShaderReflection? vertexShaderReflection);
+            byte[] vertexShaderByteCode = CompileBytecode(DxcShaderStage.Vertex, "Triangle.hlsl", "VSMain");
 
-            byte[] pixelShaderByteCode = CompileBytecodeWithReflection(DxcShaderStage.Pixel,
-                "Triangle.hlsl", "PSMain", out ID3D12ShaderReflection? pixelShaderReflection);
+            byte[] pixelShaderByteCode = CompileBytecode(DxcShaderStage.Pixel, "Triangle.hlsl", "PSMain");
 
             PipelineStateStream pipelineStateStream = new PipelineStateStream
             {
@@ -315,24 +313,7 @@ namespace HelloDirect3D12
             return true;
         }
 
-        private static Span<byte> CompileBytecode(DxcShaderStage stage, string shaderSource, string entryPoint)
-        {
-            IDxcResult results = DxcCompiler.Compile(stage, shaderSource, entryPoint, null);
-            if (results.GetStatus().Failure)
-            {
-                string errors = results.GetErrors();
-                Console.WriteLine($"Failed to compile shader: {errors}");
-                return null;
-            }
-
-            return results.GetObjectBytecode();
-        }
-
-        private static byte[]? CompileBytecodeWithReflection(
-            DxcShaderStage stage,
-            string shaderName,
-            string entryPoint,
-            out ID3D12ShaderReflection? reflection)
+        private static byte[]? CompileBytecode(DxcShaderStage stage, string shaderName, string entryPoint)
         {
             string assetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
             string shaderSource = File.ReadAllText(Path.Combine(assetsPath, shaderName));
@@ -344,14 +325,7 @@ namespace HelloDirect3D12
                 {
                     string errors = results!.GetErrors();
                     Console.WriteLine($"Failed to compile shader: {errors}");
-
-                    reflection = default;
                     return null;
-                }
-
-                using (IDxcBlob? reflectionData = results.GetOutput(DxcOutKind.Reflection))
-                {
-                    reflection = DxcCompiler.Utils!.CreateReflection<ID3D12ShaderReflection>(reflectionData);
                 }
 
                 return results.GetObjectBytecodeArray();

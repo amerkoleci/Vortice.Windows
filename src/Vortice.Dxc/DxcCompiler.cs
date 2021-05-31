@@ -31,7 +31,8 @@ namespace Vortice.Dxc
             DxcCompilerOptions? options = null,
             string? fileName = null,
             DxcDefine[]? defines = null,
-            IDxcIncludeHandler? includeHandler = null)
+            IDxcIncludeHandler? includeHandler = null,
+            string[]? additionalArguments = null)
         {
             if (options == null)
             {
@@ -52,32 +53,17 @@ namespace Vortice.Dxc
             arguments.Add("-T");
             arguments.Add(profile);
 
-            if (options.IEEEStrictness)
+            // Defines
+            if (defines != null && defines.Length > 0)
             {
-                arguments.Add("-Gis");
-            }
-
-            // HLSL matrices are translated into SPIR-V OpTypeMatrixs in a transposed manner,
-            // See also https://antiagainst.github.io/post/hlsl-for-vulkan-matrices/
-            if (options.PackMatrixInColumnMajor)
-            {
-                arguments.Add("-Zpc");
-            }
-            else if (options.PackMatrixInRowMajor)
-            {
-                arguments.Add("-Zpr");
-            }
-
-            if (options.Enable16bitTypes)
-            {
-                if (options.ShaderModel.Major >= 6
-                    && options.ShaderModel.Minor >= 2)
+                foreach (DxcDefine define in defines)
                 {
-                    arguments.Add("-enable-16bit-types");
-                }
-                else
-                {
-                    throw new InvalidOperationException("16-bit types requires shader model 6.2 or up.");
+                    string defineValue = define.Value;
+                    if (string.IsNullOrEmpty(defineValue))
+                        defineValue = "1";
+
+                    arguments.Add("-D");
+                    arguments.Add($"{define.Name}={defineValue}");
                 }
             }
 
@@ -86,7 +72,12 @@ namespace Vortice.Dxc
                 arguments.Add("-Zi");
             }
 
-            if (options.DisableOptimizations)
+            if (options.SkipValidation)
+            {
+                arguments.Add("-Vd");
+            }
+
+            if (options.SkipOptimizations)
             {
                 arguments.Add("-Od");
             }
@@ -102,14 +93,66 @@ namespace Vortice.Dxc
                 }
             }
 
+            // HLSL matrices are translated into SPIR-V OpTypeMatrixs in a transposed manner,
+            // See also https://antiagainst.github.io/post/hlsl-for-vulkan-matrices/
+            if (options.PackMatrixRowMajor)
+            {
+                arguments.Add("-Zpr");
+            }
+            if (options.PackMatrixColumnMajor)
+            {
+                arguments.Add("-Zpc");
+            }
+            if (options.AvoidFlowControl)
+            {
+                arguments.Add("-Gfa");
+            }
+            if (options.PreferFlowControl)
+            {
+                arguments.Add("-Gfp");
+            }
+
+            if (options.EnableStrictness)
+            {
+                arguments.Add("-Ges");
+            }
+
+            if (options.EnableBackwardCompatibility)
+            {
+                arguments.Add("-Gec");
+            }
+
+            if (options.IEEEStrictness)
+            {
+                arguments.Add("-Gis");
+            }
+
             if (options.WarningsAreErrors)
             {
                 arguments.Add("-WX");
             }
 
+            if (options.ResourcesMayAlias)
+            {
+                arguments.Add("-res_may_alias");
+            }
+
             if (options.AllResourcesBound)
             {
                 arguments.Add("-all_resources_bound");
+            }
+
+            if (options.Enable16bitTypes)
+            {
+                if (options.ShaderModel.Major >= 6
+                    && options.ShaderModel.Minor >= 2)
+                {
+                    arguments.Add("-enable-16bit-types");
+                }
+                else
+                {
+                    throw new InvalidOperationException("16-bit types requires shader model 6.2 or up.");
+                }
             }
 
             if (options.StripReflectionIntoSeparateBlob)
@@ -121,6 +164,10 @@ namespace Vortice.Dxc
             {
                 arguments.Add("-spirv");
             }
+
+            // HLSL version, default 2018.
+            arguments.Add("-HV");
+            arguments.Add($"{options.HLSLVersion}");
 
             if (options.ShiftAllConstantBuffersBindings > 0)
             {
@@ -150,28 +197,24 @@ namespace Vortice.Dxc
                 arguments.Add($"all");
             }
 
-            if (defines != null && defines.Length > 0)
-            {
-                foreach (DxcDefine define in defines)
-                {
-                    string defineValue = define.Value;
-                    if (string.IsNullOrEmpty(defineValue))
-                        defineValue = "1";
-
-                    arguments.Add("-D");
-                    arguments.Add($"{define.Name}={defineValue}");
-                }
-            }
-
-            if (options.UseGlLayout)
+            if (options.UseOpenGLLayout)
                 arguments.Add("-fvk-use-gl-layout");
-            if (options.UseDxLayout)
+            if (options.UseDirectXLayout)
                 arguments.Add("-fvk-use-dx-layout");
             if (options.UseScalarLayout)
                 arguments.Add("-fvk-use-scalar-layout");
 
-            if (options.FlattenResourceArrays)
+            if (options.SPIRVFlattenResourceArrays)
                 arguments.Add("-fspv-flatten-resource-arrays");
+            if (options.SPIRVReflect)
+                arguments.Add("-fspv-reflect");
+
+            arguments.Add("-fspv-target-env=vulkan1.1");
+
+            if (additionalArguments != null && additionalArguments.Length > 0)
+            {
+                arguments.AddRange(additionalArguments);
+            }
 
             if (includeHandler == null)
             {
@@ -188,7 +231,7 @@ namespace Vortice.Dxc
 
         private static string GetShaderProfile(DxcShaderStage shaderStage, DxcShaderModel shaderModel)
         {
-            string shaderProfile = "";
+            string shaderProfile;
             switch (shaderStage)
             {
                 case DxcShaderStage.Vertex:
