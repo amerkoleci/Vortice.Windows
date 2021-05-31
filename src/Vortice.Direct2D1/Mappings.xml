@@ -488,7 +488,7 @@
     <map method="IDWriteFactory::CreateFontFace" visibility="internal" hresult="true" check="false" />
     <map method="IDWriteFactory::((Unr|R)egisterFont(File|Collection)Loader)" visibility="internal" name="$1_" />
     <map param="IDWriteFactory::CreateTextLayout::stringLength" relation="length(string)" />
-
+    
     <!-- IDWriteTextLayout -->
     <map method="IDWriteTextLayout\d*::GetLineMetrics" hresult="true" check="false"/>
     <map param="IDWriteTextLayout\d*::GetLineMetrics::maxLineCount" relation="length(lineMetrics)" />
@@ -571,6 +571,9 @@
     <!-- IDWriteTextAnalysisSource -->
     <map interface="IDWriteTextAnalysisSource\d*" callback="true" callback-dual="false"/>
 
+    <!-- IDWriteColorGlyphRunEnumerator -->
+    <map method="IDWriteColorGlyphRunEnumerator\d*::GetCurrentRun" visibility="internal" name="GetCurrentRun_"  property="false"/>
+    
     <!-- IWICBitmapEncoder -->
     <map method="IWICBitmapEncoder::Initialize" visibility="internal" name="Initialize_" />
     <map param="IWICBitmapEncoder::CreateNewFrame::ppIFrameEncode" attribute="out" return="true"/>
