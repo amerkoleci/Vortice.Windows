@@ -10,11 +10,9 @@
   <ItemGroup>
     <Compile Remove="Platforms\UWP\*.cs" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />
-    <ProjectReference Include="..\..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
-    <ProjectReference Include="..\..\Vortice.Dxc\Vortice.Dxc.csproj" />
+    <ProjectReference Include="..\..\Vortice.DirectX\Vortice.DirectX.csproj" />
   </ItemGroup>
 
 </Project>

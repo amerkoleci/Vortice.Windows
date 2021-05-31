@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
     <ProjectReference Include="..\..\Vortice.Dxc\Vortice.Dxc.csproj" />
-    <ProjectReference Include="..\..\Vortice.XAudio2\Vortice.XAudio2.csproj" />
     <ProjectReference Include="..\Vortice.SampleFramework\Vortice.SampleFramework.csproj" />
     
     <!-- Include native libraries in x64. -->

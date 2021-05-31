@@ -37,7 +37,14 @@ namespace Vortice
 
         public void Tick()
         {
-            _graphicsDevice!.DrawFrame(OnDraw);
+            if (_graphicsDevice != null)
+            {
+                _graphicsDevice.DrawFrame(OnDraw);
+            }
+            else
+            {
+                OnDraw(MainWindow!.ClientSize.Width, MainWindow.ClientSize!.Height);
+            }
         }
 
         public void Run()

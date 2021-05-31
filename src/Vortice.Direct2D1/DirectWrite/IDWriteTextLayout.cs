@@ -2,6 +2,8 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Drawing;
+using SharpGen.Runtime;
 
 namespace Vortice.DirectWrite
 {
@@ -66,6 +68,41 @@ namespace Vortice.DirectWrite
                 HitTestTextRange(textPosition, textLength, originX, originY, hitTestMetrics, out _).CheckError();
 
             return hitTestMetrics;
+        }
+
+        public HitTestMetrics HitTestPoint(in PointF point, out RawBool isTrailingHit, out RawBool isInside)
+        {
+            HitTestPoint(point.X, point.Y, out isTrailingHit, out isInside, out HitTestMetrics hitTestMetrics);
+            return hitTestMetrics;
+        }
+
+        public HitTestMetrics HitTestPoint(float pointX, float pointY, out RawBool isTrailingHit, out RawBool isInside)
+        {
+            HitTestPoint(pointX, pointY, out isTrailingHit, out isInside, out HitTestMetrics hitTestMetrics);
+            return hitTestMetrics;
+        }
+
+        public HitTestMetrics HitTestTextPosition(int textPosition, bool isTrailingHit)
+        {
+            HitTestTextPosition(textPosition, isTrailingHit, out _, out _, out HitTestMetrics hitTestMetrics);
+            return hitTestMetrics;
+        }
+
+        public HitTestMetrics HitTestTextPosition(int textPosition, bool isTrailingHit, out PointF point)
+        {
+            HitTestTextPosition(textPosition, isTrailingHit, out float x, out float y, out HitTestMetrics hitTestMetrics);
+            point = new(x, y);
+            return hitTestMetrics;
+        }
+
+        public void Draw(IDWriteTextRenderer renderer, float originX, float originY)
+        {
+            Draw(IntPtr.Zero, renderer, originX, originY);
+        }
+
+        public void Draw(IDWriteTextRenderer renderer, in PointF origin)
+        {
+            Draw(IntPtr.Zero, renderer, origin.X, origin.Y);
         }
     }
 }

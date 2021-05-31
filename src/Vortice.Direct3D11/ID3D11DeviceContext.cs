@@ -275,6 +275,18 @@ namespace Vortice.Direct3D11
         {
             return GetData(data, IntPtr.Zero, 0, flags) == Result.Ok;
         }
+        /// <summary>
+        ///   Gets data from the GPU asynchronously.
+        /// </summary>
+        /// <param name = "data">The asynchronous data provider.</param>
+        /// <param name = "flags">Flags specifying how the command should operate.</param>
+        /// <returns>The data retrieved from the GPU.</returns>
+        public DataStream GetData(ID3D11Asynchronous data, AsyncGetDataFlags flags = AsyncGetDataFlags.None)
+        {
+            var result = new DataStream(data.DataSize, true, true);
+            GetData(data, result.BasePointer, (int)result.Length, flags);
+            return result;
+        }
 
         public T GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags) where T : unmanaged
         {

@@ -1,9 +1,9 @@
 # Changelog
 
-Current Stable Release:    1.9.45 (April 2021)
+Current Stable Release:    1.9.77 (May 2021)
 
 -----------------------------------------------
-Release:     1.9.XX (May 2021)
+Release:     1.9.77 (May 2021)
 -----------------------------------------------
 - [ENH] Direct2D1: FIX namespace issues and improvements in bindings.
 - [ENH] WIC: Some improvements.
@@ -11,6 +11,8 @@ Release:     1.9.XX (May 2021)
 - [ENH] Direct3D9: Improve methods taking sharedHandle and various improvements.
 - [ENH] Direct3D12: Update headers to DirectX Agility SDK.
 - [ENH] Dxc: Update to April 2021.
+- [ENH] General: Move to standard types for Point, PointF, Size, SizeF, Rectangle and RectangleF.
+- [ENH] Direct2D1: Improve mappings.
 
 -----------------------------------------------
 Release:     1.9.45 (April 2021)

@@ -32,12 +32,18 @@ namespace Vortice.Direct2D1
 
         public ID2D1SolidColorBrush CreateSolidColorBrush(Color color, BrushProperties? brushProperties = null)
         {
-            return CreateSolidColorBrush(new Mathematics.Color4(color), brushProperties);
+            Mathematics.Color4 color4 = new(color);
+            return CreateSolidColorBrush(color4, brushProperties);
         }
 
         public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops)
         {
             return CreateGradientStopCollection_(gradientStops, gradientStops.Length, Gamma.StandardRgb, ExtendMode.Clamp);
+        }
+
+        public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops, ExtendMode extendMode)
+        {
+            return CreateGradientStopCollection_(gradientStops, gradientStops.Length, Gamma.StandardRgb, extendMode);
         }
 
         public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops, Gamma colorInterpolationGamma, ExtendMode extendMode)
@@ -243,6 +249,11 @@ namespace Vortice.Direct2D1
             FillRectangle(rect, brush);
         }
 
+        public void FillGeometry(ID2D1Geometry geometry, ID2D1Brush brush)
+        {
+            FillGeometry(geometry, brush, null);
+        }
+
         /// <summary>	
         /// Draws the outline of the specified rounded rectangle.
         /// </summary>
@@ -274,6 +285,11 @@ namespace Vortice.Direct2D1
         public void DrawRoundedRectangle(RoundedRectangle roundedRect, ID2D1Brush brush, float strokeWidth, ID2D1StrokeStyle strokeStyle)
         {
             DrawRoundedRectangle(ref roundedRect, brush, strokeWidth, strokeStyle);
+        }
+
+        public void FillRoundedRectangle(RoundedRectangle roundedRect, ID2D1Brush brush)
+        {
+            FillRoundedRectangle(ref roundedRect, brush);
         }
 
         /// <summary>	
@@ -336,6 +352,11 @@ namespace Vortice.Direct2D1
         public void DrawTextLayout(PointF origin, IDWriteTextLayout textLayout, ID2D1Brush defaultForegroundBrush)
         {
             DrawTextLayout(origin, textLayout, defaultForegroundBrush, DrawTextOptions.None);
+        }
+
+        public void DrawGlyphRun(PointF baselineOrigin, GlyphRun glyphRun, ID2D1Brush foregroundBrush)
+        {
+            DrawGlyphRun(baselineOrigin, glyphRun, foregroundBrush, MeasuringMode.Natural);
         }
 
         public Result EndDraw()

@@ -9,6 +9,11 @@ namespace Vortice.Direct2D1
 {
     public partial class ID2D1DeviceContext
     {
+        public ID2D1BitmapBrush1 CreateBitmapBrush(ID2D1Bitmap bitmap)
+        {
+            return CreateBitmapBrush(bitmap, null, null);
+        }
+
         public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode)
         {
             DrawBitmap(bitmap, null, opacity, interpolationMode, null, null);

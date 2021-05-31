@@ -7,7 +7,6 @@ using System;
 using static Vortice.DXCore.DXCore;
 using SharpGen.Runtime.Diagnostics;
 using SharpGen.Runtime;
-using static Vortice.XAudio2.XAudio2;
 
 namespace HelloDirect3D12
 {
@@ -17,8 +16,6 @@ namespace HelloDirect3D12
         {
             protected override void InitializeBeforeRun()
             {
-                using var test = XAudio2Create();
-
                 var validation = false;
 #if DEBUG
                 validation = true;

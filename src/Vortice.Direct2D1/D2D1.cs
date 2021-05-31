@@ -11,6 +11,34 @@ namespace Vortice.Direct2D1
         /// <summary>
         /// Try to create new instance of <see cref="ID2D1Factory"/>.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T D2D1CreateFactory<T>(FactoryType factoryType = FactoryType.SingleThreaded) where T : ID2D1Factory
+        {
+            var options = new FactoryOptions
+            {
+                DebugLevel = DebugLevel.None,
+            };
+
+            D2D1CreateFactory(factoryType, typeof(T).GUID, options, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
+        }
+
+        /// <summary>
+        /// Try to create new instance of <see cref="ID2D1Factory"/>.
+        /// </summary>
+        /// <param name="factoryType">The type of factory.</param>
+        /// <param name="options">The <see cref="FactoryOptions"/>.</param>
+        /// <returns>Return the <see cref="Result"/>.</returns>
+        public static T D2D1CreateFactory<T>(FactoryType factoryType, FactoryOptions options) where T : ID2D1Factory
+        {
+            D2D1CreateFactory(factoryType, typeof(T).GUID, options, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
+        }
+
+        /// <summary>
+        /// Try to create new instance of <see cref="ID2D1Factory"/>.
+        /// </summary>
         /// <param name="factory">The <see cref="ID2D1Factory"/> being created.</param>
         /// <returns>Return the <see cref="Result"/>.</returns>
         public static Result D2D1CreateFactory<T>(out T? factory) where T : ID2D1Factory
@@ -18,20 +46,20 @@ namespace Vortice.Direct2D1
             return D2D1CreateFactory(FactoryType.SingleThreaded, out factory);
         }
 
-            /// <summary>
-            /// Try to create new instance of <see cref="ID2D1Factory"/>.
-            /// </summary>
-            /// <param name="factoryType">The type of factory.</param>
-            /// <param name="factory">The <see cref="ID2D1Factory"/> being created.</param>
-            /// <returns>Return the <see cref="Result"/>.</returns>
-            public static Result D2D1CreateFactory<T>(FactoryType factoryType, out T? factory) where T : ID2D1Factory
+        /// <summary>
+        /// Try to create new instance of <see cref="ID2D1Factory"/>.
+        /// </summary>
+        /// <param name="factoryType">The type of factory.</param>
+        /// <param name="factory">The <see cref="ID2D1Factory"/> being created.</param>
+        /// <returns>Return the <see cref="Result"/>.</returns>
+        public static Result D2D1CreateFactory<T>(FactoryType factoryType, out T? factory) where T : ID2D1Factory
         {
             var options = new FactoryOptions
             {
                 DebugLevel = DebugLevel.None,
             };
 
-            var result = D2D1CreateFactory(factoryType, typeof(T).GUID, options, out IntPtr nativePtr);
+            Result result = D2D1CreateFactory(factoryType, typeof(T).GUID, options, out IntPtr nativePtr);
             if (result.Success)
             {
                 factory = MarshallingHelpers.FromPointer<T>(nativePtr);

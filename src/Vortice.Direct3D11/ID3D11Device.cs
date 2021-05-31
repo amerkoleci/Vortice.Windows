@@ -260,6 +260,11 @@ namespace Vortice.Direct3D11
             return CreateInputLayout(inputElements, inputElements.Length, blob.BufferPointer, blob.BufferSize);
         }
 
+        public ID3D11Query CreateQuery(QueryType queryType, QueryFlags miscFlags = QueryFlags.None)
+        {
+            return CreateQuery(new QueryDescription(queryType, miscFlags));
+        }
+
         /// <summary>
         /// Give a device access to a shared resource created on a different device.
         /// </summary>

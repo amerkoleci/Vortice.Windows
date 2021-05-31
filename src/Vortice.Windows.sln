@@ -45,6 +45,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{0DBFE3CB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.MediaFoundation", "Vortice.MediaFoundation\Vortice.MediaFoundation.csproj", "{B54120C2-217F-44C4-A1C2-DC9D93F09729}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Direct2D1", "Direct2D1", "{4E805E04-239C-4352-841F-5175483FE6A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedTextRenderingApp", "samples\AdvancedTextRenderingApp\AdvancedTextRenderingApp.csproj", "{40EEE371-A385-4515-AA81-9C8AA90C4FCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +123,10 @@ Global
 		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +136,8 @@ Global
 		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
 		{2246B81E-ED94-4DAD-8336-782CEDCD1795} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
 		{61F8DB50-54D3-44C7-A438-FE5201C01DD4} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
+		{4E805E04-239C-4352-841F-5175483FE6A0} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
+		{40EEE371-A385-4515-AA81-9C8AA90C4FCE} = {4E805E04-239C-4352-841F-5175483FE6A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0734700-42E1-4F87-8DD2-0084849DA44A}
