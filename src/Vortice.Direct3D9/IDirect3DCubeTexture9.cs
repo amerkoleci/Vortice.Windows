@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using Vortice.Mathematics;
+using System.Drawing;
 
 namespace Vortice.Direct3D9
 {

@@ -2,10 +2,10 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Drawing;
 using System.Globalization;
 using System.Numerics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
 using Vortice.Direct3D;
 using Vortice.Mathematics;
@@ -135,7 +135,7 @@ namespace Vortice.Direct3D9
         /// <param name="color">The color that will be used to fill the cleared render target.</param>
         /// <param name="zdepth">The value that will be used to fill the cleared depth buffer.</param>
         /// <param name="stencil">The value that will be used to fill the cleared stencil buffer.</param>
-        public void Clear(ClearFlags clearFlags, Color color, float zdepth, int stencil)
+        public void Clear(ClearFlags clearFlags, Vortice.Mathematics.Color color, float zdepth, int stencil)
         {
             Clear_(0, null, clearFlags, Helpers.ToBgra(color), zdepth, stencil);
         }
@@ -160,7 +160,7 @@ namespace Vortice.Direct3D9
         /// <param name="zdepth">The value that will be used to fill the cleared depth buffer.</param>
         /// <param name="stencil">The value that will be used to fill the cleared stencil buffer.</param>
         /// <param name="rectangles">The areas on the surfaces that will be cleared.</param>
-        public void Clear(ClearFlags clearFlags, Color color, float zdepth, int stencil, RawRect[] rectangles)
+        public void Clear(ClearFlags clearFlags, Vortice.Mathematics.Color color, float zdepth, int stencil, RawRect[] rectangles)
         {
             Clear_(rectangles == null ? 0 : rectangles.Length, rectangles, clearFlags, Helpers.ToBgra(color), zdepth, stencil);
         }
@@ -186,7 +186,7 @@ namespace Vortice.Direct3D9
         /// </remarks>	
         /// <param name="surface"> Pointer to the surface to be filled. </param>
         /// <param name="color"> Color used for filling. </param>
-        public void ColorFill(IDirect3DSurface9 surface, in Color color)
+        public void ColorFill(IDirect3DSurface9 surface, in Vortice.Mathematics.Color color)
         {
             ColorFill(surface, null, Helpers.ToBgra(color));
         }
