@@ -26,7 +26,7 @@ namespace Vortice
 
         public Window? MainWindow { get; private set; }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _graphicsDevice?.Dispose();
         }

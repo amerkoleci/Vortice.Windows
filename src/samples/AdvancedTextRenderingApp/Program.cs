@@ -27,9 +27,9 @@ namespace HelloDirect3D11
         public override void DrawGlyphRun(IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun glyphRun, ref GlyphRunDescription glyphRunDescription, IUnknown clientDrawingEffect)
         {
             ID2D1SolidColorBrush brush = _defaultBrush;
-            if (clientDrawingEffect != null && clientDrawingEffect is ID2D1SolidColorBrush)
+            if (clientDrawingEffect is ComObject comObject)
             {
-                brush = (ID2D1SolidColorBrush)clientDrawingEffect;
+                brush = comObject.QueryInterfaceOrNull<ID2D1SolidColorBrush>();
             }
 
             try
@@ -99,6 +99,20 @@ namespace HelloDirect3D11
 
                 var metrics = textLayout.HitTestTextRange(53, 4, 0.0f, 0.0f)[0];
                 textRegionRect = new(metrics.Left + offset.X, metrics.Top + offset.Y, metrics.Width, metrics.Height);
+            }
+
+            public override void Dispose()
+            {
+                if (defaultBrush != null) { defaultBrush.Dispose(); }
+                if (greenBrush != null) { greenBrush.Dispose(); }
+                if (redBrush != null) { redBrush.Dispose(); }
+                if (backgroundBrush != null) { backgroundBrush.Dispose(); }
+
+                _textRenderer.Dispose();
+
+                _renderTarget.Dispose();
+                _d2dFactory.Dispose();
+                _dwriteFactory.Dispose();
             }
 
             private void CreateResources()
