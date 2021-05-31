@@ -1,39 +1,38 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.Numerics;
-using Vortice.DirectWrite;
-using Vortice.WIC;
+using System.Drawing;
 using SharpGen.Runtime;
-using Vortice.DXGI;
-using Vortice.Mathematics;
 using Vortice.DCommon;
+using Vortice.DirectWrite;
+using Vortice.DXGI;
+using Vortice.WIC;
 
 namespace Vortice.Direct2D1
 {
     public partial class ID2D1RenderTarget
     {
-        public Vector2 Dpi
+        public SizeF Dpi
         {
             get
             {
                 GetDpi(out var dpiX, out var dpiY);
-                return new Vector2(dpiX, dpiY);
+                return new SizeF(dpiX, dpiY);
             }
             set
             {
-                SetDpi(value.X, value.Y);
+                SetDpi(value.Width, value.Height);
             }
         }
 
-        public void Clear(System.Drawing.Color clearColor)
+        public void Clear(Color clearColor)
         {
-            Clear(new Color4(clearColor));
+            Clear(new Mathematics.Color4(clearColor));
         }
 
-        public ID2D1SolidColorBrush CreateSolidColorBrush(System.Drawing.Color color, BrushProperties? brushProperties = null)
+        public ID2D1SolidColorBrush CreateSolidColorBrush(Color color, BrushProperties? brushProperties = null)
         {
-            return CreateSolidColorBrush(new Color4(color), brushProperties);
+            return CreateSolidColorBrush(new Mathematics.Color4(color), brushProperties);
         }
 
         public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops)
@@ -79,6 +78,21 @@ namespace Vortice.Direct2D1
         public ID2D1Bitmap CreateSharedBitmap(IWICBitmapLock bitmapLock, BitmapProperties? bitmapProperties)
         {
             return CreateSharedBitmap(typeof(IWICBitmapLock).GUID, bitmapLock.NativePointer, bitmapProperties);
+        }
+
+        public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(CompatibleRenderTargetOptions options)
+        {
+            return CreateCompatibleRenderTarget(null, null, null, options);
+        }
+
+        public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(SizeF desiredSize, CompatibleRenderTargetOptions options)
+        {
+            return CreateCompatibleRenderTarget(desiredSize, null, null, options);
+        }
+
+        public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(DCommon.PixelFormat desiredFormat, CompatibleRenderTargetOptions options)
+        {
+            return CreateCompatibleRenderTarget(null, null, desiredFormat, options);
         }
 
         /// <summary>

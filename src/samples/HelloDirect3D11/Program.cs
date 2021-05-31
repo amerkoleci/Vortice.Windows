@@ -28,7 +28,7 @@ namespace HelloDirect3D11
             {
                 if (Headless)
                 {
-                    _graphicsDevice = new D3D11GraphicsDevice(new Size(800, 600));
+                    _graphicsDevice = new D3D11GraphicsDevice(new System.Drawing.Size(800, 600));
                     _screenshot = true;
                 }
                 else
@@ -199,7 +199,7 @@ namespace HelloDirect3D11
                                 }
 
                                 formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                                frame.WriteSource(formatConverter, new Rectangle(textureDesc.Width, textureDesc.Height));
+                                frame.WriteSource(formatConverter, new System.Drawing.Rectangle(0, 0, textureDesc.Width, textureDesc.Height));
                             }
                         }
                     }

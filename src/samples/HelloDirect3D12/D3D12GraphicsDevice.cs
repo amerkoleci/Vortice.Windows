@@ -17,6 +17,7 @@ using Vortice.Dxc;
 using Vortice.Direct3D12.Shader;
 using Vortice;
 using System.IO;
+using System.Drawing;
 
 namespace HelloDirect3D12
 {
@@ -259,7 +260,7 @@ namespace HelloDirect3D12
             // Set necessary state.
             _commandList.SetGraphicsRootSignature(_rootSignature);
             _commandList.RSSetViewport(new Viewport(Window.ClientSize.Width, Window.ClientSize.Height));
-            _commandList.RSSetScissorRect(new Rectangle(Window.ClientSize.Width, Window.ClientSize.Height));
+            _commandList.RSSetScissorRect(Window.ClientSize.Width, Window.ClientSize.Height);
 
             // Indicate that the back buffer will be used as a render target.
             _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.Present, ResourceStates.RenderTarget);

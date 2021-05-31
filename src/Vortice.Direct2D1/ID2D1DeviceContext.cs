@@ -3,7 +3,7 @@
 
 using System;
 using System.Numerics;
-using Vortice.Mathematics;
+using System.Drawing;
 
 namespace Vortice.Direct2D1
 {

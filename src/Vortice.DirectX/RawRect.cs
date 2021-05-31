@@ -21,7 +21,7 @@
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Vortice.Mathematics;
+using System.Drawing;
 
 namespace Vortice
 {

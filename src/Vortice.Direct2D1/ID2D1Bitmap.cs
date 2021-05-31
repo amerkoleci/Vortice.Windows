@@ -2,19 +2,19 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Drawing;
 using System.Numerics;
-using Vortice.Mathematics;
 
 namespace Vortice.Direct2D1
 {
     public partial class ID2D1Bitmap
     {
-        public Vector2 Dpi
+        public SizeF Dpi
         {
             get
             {
                 GetDpi(out var dpiX, out var dpiY);
-                return new Vector2(dpiX, dpiY);
+                return new SizeF(dpiX, dpiY);
             }
         }
 

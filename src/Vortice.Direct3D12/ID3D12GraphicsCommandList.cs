@@ -4,6 +4,7 @@
 using System;
 using Vortice.Mathematics;
 using System.Runtime.InteropServices;
+using System.Drawing;
 
 namespace Vortice.Direct3D12
 {
@@ -298,6 +299,12 @@ namespace Vortice.Direct3D12
         #endregion
 
         #region ScissorRect
+        public void RSSetScissorRect(int width, int height)
+        {
+            RawRect rect = new(0, 0, width, height);
+            RSSetScissorRects(1, &rect);
+        }
+
         public void RSSetScissorRect(Rectangle rectangle)
         {
             RawRect rect = rectangle;

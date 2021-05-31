@@ -8,6 +8,12 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIDevice
     {
+        public IDXGIAdapter GetAdapter()
+        {
+            GetAdapter(out IDXGIAdapter adapter).CheckError();
+            return adapter;
+        }
+
         public IDXGISurface CreateSurface(IntPtr sharedResource)
         {
             if (sharedResource == IntPtr.Zero)

@@ -70,7 +70,7 @@
 
   <bindings>
     <bind from="DWRITE_MATRIX" to="System.Numerics.Matrix3x2" />
-    <bind from="WICRect" to="Vortice.Mathematics.Rectangle"/>
+    <bind from="WICRect" to="System.Drawing.Rectangle"/>
     <bind from="HBITMAP" to="System.IntPtr"/>
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>
@@ -201,6 +201,9 @@
     <map enum-item="WICBitmapEncoderCache(.*)" name="$1"/>
 
     <map enum="WICBitmapLockFlags" flags="true" none="true"/>
+    <map enum-item="WICBitmapLockRead" name="Read"/>
+    <map enum-item="WICBitmapLockWrite" name="Write"/>
+    
     <remove enum-item=".*_FORCE_DWORD" />
     <remove enum-item=".*_FORCE_UINT" />
 
@@ -458,6 +461,7 @@
     <map param="IWICBitmapSource::CopyPixels::pbBuffer" type="void" />
 
     <!-- IWICBitmapFrameEncode -->
+    <map method="IWICBitmapFrameEncode::Initialize" hresult="true" check="false" />
     <map method="IWICBitmapFrameEncode::SetColorContexts" visibility="internal"/>
     <map param="IWICBitmapFrameEncode::WritePixels::pbPixels" type="void"/>
     <map method="IWICBitmapFrameEncode::WriteSource" visibility="internal"/>

@@ -2,13 +2,15 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
-using Vortice.Mathematics;
+using System.Drawing;
+using SharpGen.Runtime;
 
 namespace Vortice.WIC
 {
     public partial class IWICBitmapFrameEncode
     {
+        public Result Initialize() => Initialize(null);
+
         /// <summary>
         /// Sets the <see cref="IWICColorContext"/> objects for this frame encoder.
         /// </summary>

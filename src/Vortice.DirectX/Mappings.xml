@@ -39,12 +39,6 @@
     <define struct="System.Drawing.RectangleF" sizeof="16" />
 
     <!-- Vortice.Mathematics types -->
-    <define struct="Vortice.Mathematics.Point" sizeof="8" />
-    <define struct="Vortice.Mathematics.PointF" sizeof="8" />
-    <define struct="Vortice.Mathematics.Size" sizeof="8" />
-    <define struct="Vortice.Mathematics.SizeF" sizeof="8" />
-    <define struct="Vortice.Mathematics.Rectangle" sizeof="16" />
-    <define struct="Vortice.Mathematics.RectangleF" sizeof="16" />
     <define struct="Vortice.Mathematics.Color3" sizeof="12" />
     <define struct="Vortice.Mathematics.Color4" sizeof="16" />
     <define struct="Vortice.Mathematics.Int3" sizeof="12" />

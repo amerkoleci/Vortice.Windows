@@ -7,8 +7,9 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Linq;
 using System.Numerics;
-using Vortice.Mathematics;
 using SharpGen.Runtime;
+using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice.Direct2D1
 {

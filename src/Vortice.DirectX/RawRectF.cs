@@ -21,7 +21,7 @@
 
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Vortice.Mathematics;
+using System.Drawing;
 
 namespace Vortice
 {
@@ -65,8 +65,6 @@ namespace Vortice
         {
             return $"{nameof(Left)}: {Left}, {nameof(Top)}: {Top}, {nameof(Right)}: {Right}, {nameof(Bottom)}: {Bottom}";
         }
-
-
 
         /// <summary>
         /// Performs an implicit conversion from <see cre ="RawRectF"/> to <see cref="RectangleF" />.

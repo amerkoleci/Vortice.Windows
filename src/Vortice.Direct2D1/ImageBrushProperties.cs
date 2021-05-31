@@ -2,8 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using Vortice.DXGI;
-using Vortice.Mathematics;
+using System.Drawing;
 
 namespace Vortice.Direct2D1
 {
