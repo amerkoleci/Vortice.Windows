@@ -170,6 +170,9 @@ namespace Vortice.Dxc
             if (options.UseScalarLayout)
                 arguments.Add("-fvk-use-scalar-layout");
 
+            if (options.FlattenResourceArrays)
+                arguments.Add("-fspv-flatten-resource-arrays");
+
             if (includeHandler == null)
             {
                 using (includeHandler = Utils!.CreateDefaultIncludeHandler())

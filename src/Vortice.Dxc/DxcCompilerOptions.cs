@@ -32,5 +32,7 @@ namespace Vortice.Dxc
         public bool UseGlLayout { get; set; } = false;
         public bool UseDxLayout { get; set; } = false;
         public bool UseScalarLayout { get; set; } = false;
+
+        public bool FlattenResourceArrays { get; set; } = false;
     }
 }
