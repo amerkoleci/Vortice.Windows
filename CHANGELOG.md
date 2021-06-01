@@ -13,6 +13,7 @@ Release:     1.9.77 (May 2021)
 - [ENH] Dxc: Update to April 2021.
 - [ENH] General: Move to standard types for Point, PointF, Size, SizeF, Rectangle and RectangleF.
 - [ENH] Direct2D1: Improve mappings.
+- [ENH] DirectWrite: GlyphRun improvements and example for AdvancedText rendering.
 
 -----------------------------------------------
 Release:     1.9.45 (April 2021)

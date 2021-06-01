@@ -338,10 +338,15 @@
     <map struct="DWRITE(.+)" name-tmp="$1" />
 
     <map struct="DWRITE_GLYPH_RUN" native="true" struct-to-class="true" marshal="true" new="false" />
-    <remove field="DWRITE_GLYPH_RUN::fontFace"/>
-    <remove field="DWRITE_GLYPH_RUN::glyphIndices"/>
-    <remove field="DWRITE_GLYPH_RUN::glyphAdvances"/>
-    <remove field="DWRITE_GLYPH_RUN::glyphOffsets"/>
+    <map field="DWRITE_GLYPH_RUN::fontEmSize" name="FontSize" />
+    <map field="DWRITE_GLYPH_RUN::fontFace" visibility="internal" name="FontFacePointer" />
+    <map field="DWRITE_GLYPH_RUN::glyphCount" visibility="internal" />
+    <map field="DWRITE_GLYPH_RUN::glyphIndices" visibility="internal" name="GlyphIndicesPointer" />
+    <map field="DWRITE_GLYPH_RUN::glyphAdvances" visibility="internal" name="GlyphAdvancesPointer" />
+    <map field="DWRITE_GLYPH_RUN::glyphOffsets" visibility="internal" name="GlyphOffsetsPointer" />
+    <map struct="DWRITE_GLYPH_RUN_DESCRIPTION" native="true" struct-to-class="true" marshal="true" new="false" />
+    <map field="DWRITE_GLYPH_RUN_DESCRIPTION::stringLength" visibility="internal" name="TextLength" />
+    <map field="DWRITE_GLYPH_RUN_DESCRIPTION::string" name="Text" />
 
     <!-- d2d1 structs -->
     <map struct="D2D1(.*)" name-tmp="$1" />
@@ -489,6 +494,8 @@
     <map method="IDWriteFactory::((Unr|R)egisterFont(File|Collection)Loader)" visibility="internal" name="$1_" />
     <map param="IDWriteFactory::CreateTextLayout::stringLength" relation="length(string)" />
 
+    <map method="IDWriteFactory\d*::TranslateColorGlyphRun" hresult="true" check="false"/>
+
     <!-- IDWriteTextLayout -->
     <map method="IDWriteTextLayout\d*::GetLineMetrics" hresult="true" check="false"/>
     <map param="IDWriteTextLayout\d*::GetLineMetrics::maxLineCount" relation="length(lineMetrics)" />
@@ -570,6 +577,9 @@
 
     <!-- IDWriteTextAnalysisSource -->
     <map interface="IDWriteTextAnalysisSource\d*" callback="true" callback-dual="false"/>
+
+    <!-- IDWriteColorGlyphRunEnumerator -->
+    <map method="IDWriteColorGlyphRunEnumerator\d*::GetCurrentRun" visibility="internal" name="GetCurrentRun_"  property="false"/>
 
     <!-- IWICBitmapEncoder -->
     <map method="IWICBitmapEncoder::Initialize" visibility="internal" name="Initialize_" />

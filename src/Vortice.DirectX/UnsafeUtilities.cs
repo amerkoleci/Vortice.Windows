@@ -31,6 +31,15 @@ namespace Vortice
             }
         }
 
+        public static IntPtr Read<T>(IntPtr source, T[] values, int count) where T : unmanaged
+        {
+            fixed (void* dstPtr = values)
+            {
+                Unsafe.CopyBlockUnaligned(dstPtr, (void*)source, (uint)(count * sizeof(T)));
+                return source + sizeof(T) * count;
+            }
+        }
+
         public static IntPtr Write<T>(IntPtr destination, ref T value) where T : unmanaged
         {
             fixed (void* valuePtr = &value)

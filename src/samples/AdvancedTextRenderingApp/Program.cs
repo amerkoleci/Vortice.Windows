@@ -24,7 +24,7 @@ namespace HelloDirect3D11
             _defaultBrush = defaultBrush;
         }
 
-        public override void DrawGlyphRun(IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun glyphRun, ref GlyphRunDescription glyphRunDescription, IUnknown clientDrawingEffect)
+        public override void DrawGlyphRun(IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun glyphRun, GlyphRunDescription glyphRunDescription, IUnknown clientDrawingEffect)
         {
             ID2D1SolidColorBrush brush = _defaultBrush;
             if (clientDrawingEffect is ComObject comObject)
@@ -171,15 +171,8 @@ namespace HelloDirect3D11
 
         public static void Main()
         {
-#if DEBUG
-            Configuration.EnableObjectTracking = true;
-#endif
-
             using var app = new TestApplication();
             app.Run();
-#if DEBUG
-            Console.WriteLine(ObjectTracker.ReportActiveObjects());
-#endif
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Vortice.DirectWrite
         public virtual float GetPixelsPerDip(IntPtr clientDrawingContext) => 1.0f;
         public virtual RawBool IsPixelSnappingDisabled(IntPtr clientDrawingContext) => false;
 
-        public virtual void DrawGlyphRun(IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun glyphRun, ref GlyphRunDescription glyphRunDescription, IUnknown clientDrawingEffect)
+        public virtual void DrawGlyphRun(IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun glyphRun, GlyphRunDescription glyphRunDescription, IUnknown clientDrawingEffect)
         {
         }
 
