@@ -55,7 +55,7 @@ namespace Vortice.Direct3D11
         /// </summary>
         /// <param name="view">
         /// An instance of <see cref="ID3D11View"/> for the resource view to discard. 
-        /// The resource that underlies the view must have been created with usage <see cref="Usage.Default"/> or <see cref="Usage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
+        /// The resource that underlies the view must have been created with usage <see cref="ResourceUsage.Default"/> or <see cref="ResourceUsage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
         /// if the debug layer is enabled, the runtime returns an error message.
         /// </param>
         public void DiscardView1(ID3D11View view)
@@ -68,7 +68,7 @@ namespace Vortice.Direct3D11
         /// </summary>
         /// <param name="view">
         /// An instance of <see cref="ID3D11View"/> for the resource view to discard. 
-        /// The resource that underlies the view must have been created with usage <see cref="Usage.Default"/> or <see cref="Usage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
+        /// The resource that underlies the view must have been created with usage <see cref="ResourceUsage.Default"/> or <see cref="ResourceUsage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
         /// if the debug layer is enabled, the runtime returns an error message.
         /// </param>
         /// <param name="rects">An array of <see cref="RawRect"/> structures for the rectangles in the resource view to discard.</param>
@@ -88,7 +88,7 @@ namespace Vortice.Direct3D11
         /// </summary>
         /// <param name="view">
         /// An instance of <see cref="ID3D11View"/> for the resource view to discard. 
-        /// The resource that underlies the view must have been created with usage <see cref="Usage.Default"/> or <see cref="Usage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
+        /// The resource that underlies the view must have been created with usage <see cref="ResourceUsage.Default"/> or <see cref="ResourceUsage.Dynamic"/>, otherwise the runtime drops the call to DiscardView1; 
         /// if the debug layer is enabled, the runtime returns an error message.
         /// </param>
         /// <param name="rects">An <see cref="ReadOnlySpan{RawRect}"/> for the rectangles in the resource view to discard.</param>

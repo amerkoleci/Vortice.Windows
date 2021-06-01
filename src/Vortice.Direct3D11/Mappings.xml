@@ -362,6 +362,9 @@
     <map enum="D3D11_COLOR_WRITE_ENABLE" name="ColorWriteEnable" type="byte" flags="true"  />
     <map enum-item="D3D11_COLOR_WRITE_ENABLE_(.*)" name-tmp="$1" />
 
+    <map enum="D3D(\d+)_USAGE" name="ResourceUsage" />
+    <map enum-item="D3D(\d+)_USAGE_(.*)" name-tmp="$2" />
+
     <map enum="D3D11_CPU_ACCESS_FLAG" name="CpuAccessFlags" />
     <map enum-item="D3D11_CPU_ACCESS_(.*)" name-tmp="$1" />
     <map enum="D3D11_RESOURCE_MISC_FLAG" name="ResourceOptionFlags" />

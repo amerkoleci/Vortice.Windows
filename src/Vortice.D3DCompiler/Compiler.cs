@@ -459,6 +459,30 @@ namespace Vortice.D3DCompiler
                 out blob,
                 out errorBlob);
         }
+
+        public static Blob? CompileFromFile(
+            string fileName,
+            string entryPoint,
+            string profile)
+        {
+            Result result = CompileFromFile(
+                fileName,
+                null,
+                null,
+                entryPoint,
+                profile,
+                ShaderFlags.None,
+                EffectFlags.None,
+                out Blob blob,
+                out Blob errorBlob);
+            if (result.Failure)
+            {
+                errorBlob?.Dispose();
+                return default;
+            }
+
+            return blob;
+        }
         #endregion
 
         public static Blob CreateBlob(PointerSize size)
@@ -467,7 +491,7 @@ namespace Vortice.D3DCompiler
             return blob;
         }
 
-        public static Result Reflect<T>(byte[] shaderBytecode, out T reflection) where T : ComObject
+        public static Result Reflect<T>(byte[] shaderBytecode, out T? reflection) where T : ComObject
         {
             var interfaceGuid = typeof(T).GUID;
             fixed (void* shaderBytecodePtr = shaderBytecode)
@@ -476,7 +500,7 @@ namespace Vortice.D3DCompiler
                 var result = Reflect(new IntPtr(shaderBytecodePtr), srcDataSize, interfaceGuid, out var nativePtr);
                 if (result.Success)
                 {
-                    reflection = CppObject.FromPointer<T>(nativePtr);
+                    reflection = MarshallingHelpers.FromPointer<T>(nativePtr);
                     return result;
                 }
 
@@ -487,7 +511,7 @@ namespace Vortice.D3DCompiler
 
         public static ShaderBytecode CompressShaders(params ShaderBytecode[] shaderBytecodes)
         {
-            Blob blob = null;
+            Blob? blob = default;
             var shaderData = new ShaderData[shaderBytecodes.Length];
             var handles = new GCHandle[shaderBytecodes.Length];
             try

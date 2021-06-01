@@ -32,7 +32,7 @@ namespace Vortice.Direct3D11
             int arraySize = 1,
             int mipLevels = 0, 
             BindFlags bindFlags = BindFlags.ShaderResource,
-            Usage usage = Usage.Default, 
+            ResourceUsage usage = ResourceUsage.Default, 
             CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None, 
             int sampleCount = 1,
             int sampleQuality = 0,

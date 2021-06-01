@@ -184,12 +184,51 @@ namespace Vortice.Direct3D11
             }
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ID3D11Buffer"/> class.
+        /// </summary>
+        /// <typeparam name="T">Type of the data to upload</typeparam>
+        /// <param name="bindFlags">Flags specifying how the buffer will be bound to the pipeline.</param>
+        /// <param name="data">Initial data used to initialize the buffer.</param>
+        /// <param name="sizeInBytes">The size, in bytes, of the buffer. If 0 is specified, sizeof(T) * data.Length is used.</param>
+        /// <param name="usage">The usage pattern for the buffer.</param>
+        /// <param name="accessFlags">Flags specifying how the buffer will be accessible from the CPU.</param>
+        /// <param name="optionFlags">Miscellaneous resource options.</param>
+        /// <param name="structureByteStride">The size (in bytes) of the structure element for structured buffers.</param>
+        /// <returns>An initialized buffer</returns>
+        /// <msdn-id>ff476501</msdn-id>	
+        /// <unmanaged>HRESULT ID3D11Device::CreateBuffer([In] const D3D11_BUFFER_DESC* pDesc,[In, Optional] const D3D11_SUBRESOURCE_DATA* pInitialData,[Out, Fast] ID3D11Buffer** ppBuffer)</unmanaged>	
+        /// <unmanaged-short>ID3D11Device::CreateBuffer</unmanaged-short>	
+        public unsafe ID3D11Buffer CreateBuffer<T>(BindFlags bindFlags, T[] data,
+            int sizeInBytes = 0, ResourceUsage usage = ResourceUsage.Default, CpuAccessFlags accessFlags = CpuAccessFlags.None, ResourceOptionFlags optionFlags = ResourceOptionFlags.None, int structureByteStride = 0) where T : unmanaged
+        {
+            var description = new BufferDescription()
+            {
+                BindFlags = bindFlags,
+                CpuAccessFlags = accessFlags,
+                OptionFlags = optionFlags,
+                SizeInBytes = sizeInBytes == 0 ? sizeof(T) * data.Length : sizeInBytes,
+                Usage = usage,
+                StructureByteStride = structureByteStride
+            };
+
+            fixed (void* dataPtr = &data[0])
+            {
+                return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
+            }
+        }
+
         public unsafe ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
             {
                 return CreateVertexShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
             }
+        }
+
+        public ID3D11VertexShader CreateVertexShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+        {
+            return CreateVertexShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
         }
 
         public unsafe ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
@@ -200,12 +239,22 @@ namespace Vortice.Direct3D11
             }
         }
 
+        public ID3D11PixelShader CreatePixelShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+        {
+            return CreatePixelShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        }
+
         public unsafe ID3D11GeometryShader CreateGeometryShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
             {
                 return CreateGeometryShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
             }
+        }
+
+        public ID3D11GeometryShader CreateGeometryShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+        {
+            return CreateGeometryShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
         }
 
         public unsafe ID3D11HullShader CreateHullShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
@@ -216,6 +265,11 @@ namespace Vortice.Direct3D11
             }
         }
 
+        public ID3D11HullShader CreateHullShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+        {
+            return CreateHullShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        }
+
         public unsafe ID3D11DomainShader CreateDomainShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
@@ -224,12 +278,22 @@ namespace Vortice.Direct3D11
             }
         }
 
+        public ID3D11DomainShader CreateDomainShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+        {
+            return CreateDomainShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        }
+
         public unsafe ID3D11ComputeShader CreateComputeShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
         {
             fixed (void* pBuffer = shaderBytecode)
             {
                 return CreateComputeShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
             }
+        }
+
+        public ID3D11ComputeShader CreateComputeShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+        {
+            return CreateComputeShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
         }
 
         /// <summary>

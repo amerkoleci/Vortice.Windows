@@ -1,9 +1,14 @@
 # Changelog
 
-Current Stable Release:    1.9.77 (May 2021)
+Current Stable Release:    1.9.80 (May 2021)
 
 -----------------------------------------------
-Release:     1.9.77 (May 2021)
+Release:     1.9.XX (June 2021)
+-----------------------------------------------
+- [ENH] Direct3D11: Rename Usage to ResourceUsage and improve CreateBuffer, improve Create shaders with Blob directly.
+
+-----------------------------------------------
+Release:     1.9.80 (May 2021)
 -----------------------------------------------
 - [ENH] Direct2D1: FIX namespace issues and improvements in bindings.
 - [ENH] WIC: Some improvements.
