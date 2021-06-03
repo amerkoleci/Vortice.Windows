@@ -10,6 +10,7 @@ Release:     1.9.XX (June 2021)
 -----------------------------------------------
 Release:     1.9.80 (May 2021)
 -----------------------------------------------
+- [ENH] Direct3D12: Add Create overload which returns result.
 - [ENH] Direct2D1: FIX namespace issues and improvements in bindings.
 - [ENH] WIC: Some improvements.
 - [ENH] DXC: Allow IDxcIncludeHandler subclass, with example in HelloWorldDirect3D12.

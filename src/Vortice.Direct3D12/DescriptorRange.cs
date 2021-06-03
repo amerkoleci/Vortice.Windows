@@ -24,5 +24,18 @@ namespace Vortice.Direct3D12
             RegisterSpace = registerSpace;
             OffsetInDescriptorsFromTableStart = offsetInDescriptorsFromTableStart;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DescriptorRange"/> struct.
+        /// </summary>
+        /// <param name="other">A <see cref="DescriptorRange1"/> to initialize from.</param>
+        public DescriptorRange(DescriptorRange1 other)
+        {
+            RangeType = other.RangeType;
+            NumDescriptors = other.NumDescriptors;
+            BaseShaderRegister = other.BaseShaderRegister;
+            RegisterSpace = other.RegisterSpace;
+            OffsetInDescriptorsFromTableStart = other.OffsetInDescriptorsFromTableStart;
+        }
     }
 }
