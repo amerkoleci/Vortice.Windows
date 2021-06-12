@@ -43,8 +43,8 @@ namespace Vortice.Direct3D
         {
             public IncludeVtbl(int numberOfCallbackMethods) : base(numberOfCallbackMethods + 2)
             {
-                AddMethod(new OpenDelegate(OpenImpl));
-                AddMethod(new CloseDelegate(CloseImpl));
+                AddMethod(new OpenDelegate(OpenImpl), 0u);
+                AddMethod(new CloseDelegate(CloseImpl), 1u);
             }
 
             [UnmanagedFunctionPointer(CallingConvention.StdCall)]
