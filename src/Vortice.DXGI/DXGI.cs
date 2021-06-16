@@ -8,10 +8,25 @@ namespace Vortice.DXGI
 {
     public partial class DXGI
     {
-        public static readonly Guid All = new Guid("e48ae283-da80-490b-87e6-43e9a9cfda08");
-        public static readonly Guid Dx = new Guid("35cdd7fc-13b2-421d-a5d7-7e4451287d64");
-        public static readonly Guid Dxgi = new Guid("25cddaa4-b1c6-47e1-ac3e-98875b5a2e2a");
-        public static readonly Guid App = new Guid("06cd6e01-4219-4ebd-8709-27ed23360c62");
+        /// <summary>
+        /// DXGI_DEBUG_ALL.
+        /// </summary>
+        public static readonly Guid DebugAll = new("e48ae283-da80-490b-87e6-43e9a9cfda08");
+
+        /// <summary>
+        /// DXGI_DEBUG_DX
+        /// </summary>
+        public static readonly Guid DebugDx = new("35cdd7fc-13b2-421d-a5d7-7e4451287d64");
+
+        /// <summary>
+        /// DXGI_DEBUG_DXGI
+        /// </summary>
+        public static readonly Guid DebugDxgi = new("25cddaa4-b1c6-47e1-ac3e-98875b5a2e2a");
+
+        /// <summary>
+        /// DXGI_DEBUG_APP
+        /// </summary>
+        public static readonly Guid DebugApp = new("06cd6e01-4219-4ebd-8709-27ed23360c62");
 
         /// <summary>
         /// Try to create new instance of <see cref="IDXGIFactory1"/>.
@@ -35,14 +50,9 @@ namespace Vortice.DXGI
         /// Try to create new instance of <see cref="IDXGIFactory1"/>.
         /// </summary>
         /// <returns>Return an instance of <see cref="IDXGIFactory1"/> or null if failed.</returns>
-        public static T? CreateDXGIFactory1<T>() where T : IDXGIFactory1
+        public static T CreateDXGIFactory1<T>() where T : IDXGIFactory1
         {
-            Result result = CreateDXGIFactory1(typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            CreateDXGIFactory1(typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
@@ -71,16 +81,11 @@ namespace Vortice.DXGI
         /// </summary>
         /// <param name="debug">Whether to enable debug callback.</param>
         /// <returns>Return an instance of <see cref="IDXGIFactory2"/> or null if failed.</returns>
-        public static IDXGIFactory2? CreateDXGIFactory2<T>(bool debug) where T : IDXGIFactory2
+        public static IDXGIFactory2 CreateDXGIFactory2<T>(bool debug) where T : IDXGIFactory2
         {
             int flags = debug ? CreateFactoryDebug : 0x00;
-            Result result = CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Success)
-            {
-                return MarshallingHelpers.FromPointer<T>(nativePtr);
-            }
-
-            return default;
+            CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         /// <summary>
@@ -165,22 +170,10 @@ namespace Vortice.DXGI
         /// </summary>
         /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
         /// <returns>The <see cref="ComObject"/> to get.</returns>
-        public static T? DXGIGetDebugInterface1<T>() where T : ComObject
+        public static T DXGIGetDebugInterface1<T>() where T : ComObject
         {
-            try
-            {
-                Result result = DXGIGetDebugInterface1(0, typeof(T).GUID, out IntPtr nativePtr);
-                if (result.Failure)
-                {
-                    return default;
-                }
-
-                return MarshallingHelpers.FromPointer<T>(nativePtr);
-            }
-            catch
-            {
-                return default;
-            }
+            DXGIGetDebugInterface1(0, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }

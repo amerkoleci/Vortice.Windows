@@ -590,10 +590,10 @@ namespace HelloDirect3D12Raytracing
             _instanceBuffer.Dispose();
             _vertexBuffer.Dispose();
 
-            if (DXGIGetDebugInterface1(out IDXGIDebug1 dxgiDebug).Success)
+            if (DXGIGetDebugInterface1(out IDXGIDebug1? dxgiDebug).Success)
             {
-                dxgiDebug.ReportLiveObjects(All, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
-                dxgiDebug.Dispose();
+                dxgiDebug!.ReportLiveObjects(DebugAll, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
+                dxgiDebug!.Dispose();
             }
         }
 

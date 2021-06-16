@@ -259,7 +259,7 @@
 
     <remove function="CreateDXGIFactory" />
 
-    <map function="CreateDXGIFactory.*" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
+    <map function="CreateDXGIFactory.*" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" visibility="private" />
     <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
 
     <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />

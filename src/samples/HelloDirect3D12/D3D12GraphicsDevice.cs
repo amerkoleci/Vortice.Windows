@@ -237,10 +237,10 @@ namespace HelloDirect3D12
             _d3d12Device.Dispose();
             DXGIFactory.Dispose();
 
-            if (DXGIGetDebugInterface1(out IDXGIDebug1 dxgiDebug).Success)
+            if (DXGIGetDebugInterface1(out IDXGIDebug1? dxgiDebug).Success)
             {
-                dxgiDebug.ReportLiveObjects(All, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
-                dxgiDebug.Dispose();
+                dxgiDebug!.ReportLiveObjects(DebugAll, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
+                dxgiDebug!.Dispose();
             }
         }
 

@@ -145,10 +145,10 @@ namespace HelloDirect3D11
             SwapChain.Dispose();
             Factory.Dispose();
 
-            if (DXGIGetDebugInterface1(out IDXGIDebug1 dxgiDebug).Success)
+            if (DXGIGetDebugInterface1(out IDXGIDebug1? dxgiDebug).Success)
             {
-                dxgiDebug.ReportLiveObjects(All, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
-                dxgiDebug.Dispose();
+                dxgiDebug!.ReportLiveObjects(DebugAll, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
+                dxgiDebug!.Dispose();
             }
         }
 
@@ -266,13 +266,13 @@ namespace HelloDirect3D11
                 desc.BindFlags = BindFlags.None;
                 desc.OptionFlags &= ResourceOptionFlags.TextureCube;
                 desc.CpuAccessFlags = CpuAccessFlags.Read;
-                desc.Usage = Vortice.Direct3D11.Usage.Staging;
+                desc.Usage = ResourceUsage.Staging;
 
                 stagingTexture = Device.CreateTexture2D(desc);
 
                 DeviceContext.CopyResource(stagingTexture, temp);
             }
-            else if ((desc.Usage == Vortice.Direct3D11.Usage.Staging) && ((desc.CpuAccessFlags & CpuAccessFlags.Read) != CpuAccessFlags.None))
+            else if ((desc.Usage == ResourceUsage.Staging) && ((desc.CpuAccessFlags & CpuAccessFlags.Read) != CpuAccessFlags.None))
             {
                 // Handle case where the source is already a staging texture we can use directly
                 stagingTexture = source;
@@ -283,7 +283,7 @@ namespace HelloDirect3D11
                 desc.BindFlags = 0;
                 desc.OptionFlags &= ResourceOptionFlags.TextureCube;
                 desc.CpuAccessFlags = CpuAccessFlags.Read;
-                desc.Usage = Vortice.Direct3D11.Usage.Staging;
+                desc.Usage = ResourceUsage.Staging;
 
                 stagingTexture = Device.CreateTexture2D(desc);
 
