@@ -21,7 +21,7 @@ namespace HelloDirect3D12
                 validation = true;
 #endif
 
-                _graphicsDevice = new D3D12GraphicsDevice(validation, MainWindow);
+                _graphicsDevice = new D3D12GraphicsDevice(validation, MainWindow!);
             }
         }
 

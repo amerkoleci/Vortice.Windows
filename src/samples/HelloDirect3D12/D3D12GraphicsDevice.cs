@@ -58,20 +58,17 @@ namespace HelloDirect3D12
             Window = window;
 
             if (validation
-                && D3D12GetDebugInterface(out ID3D12Debug debug).Success)
+                && D3D12GetDebugInterface(out ID3D12Debug? debug).Success)
             {
-                debug.EnableDebugLayer();
-                debug.Dispose();
+                debug!.EnableDebugLayer();
+                debug!.Dispose();
             }
             else
             {
                 validation = false;
             }
 
-            if (CreateDXGIFactory2(validation, out DXGIFactory).Failure)
-            {
-                throw new InvalidOperationException("Cannot create IDXGIFactory4");
-            }
+            DXGIFactory = CreateDXGIFactory2<IDXGIFactory4>(validation);
 
             for (int adapterIndex = 0; DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1 adapter).Success; adapterIndex++)
             {
@@ -102,7 +99,7 @@ namespace HelloDirect3D12
             }
 
             // Create Command queue.
-            GraphicsQueue = _d3d12Device.CreateCommandQueue<ID3D12CommandQueue>(CommandListType.Direct);
+            GraphicsQueue = _d3d12Device!.CreateCommandQueue<ID3D12CommandQueue>(CommandListType.Direct);
             GraphicsQueue.Name = "Graphics Queue";
 
             SwapChainDescription1 swapChainDesc = new()
@@ -147,9 +144,9 @@ namespace HelloDirect3D12
                 _commandAllocators[i] = _d3d12Device.CreateCommandAllocator<ID3D12CommandAllocator>(CommandListType.Direct);
             }
 
-            RootSignatureDescription1 rootSignatureDesc = new RootSignatureDescription1(RootSignatureFlags.AllowInputAssemblerInputLayout);
+            RootSignatureDescription1 rootSignatureDesc = new(RootSignatureFlags.AllowInputAssemblerInputLayout);
 
-            _rootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, rootSignatureDesc);
+            _rootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(rootSignatureDesc);
             InputElementDescription[] inputElementDescs = new[]
             {
                 new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
@@ -198,7 +195,7 @@ namespace HelloDirect3D12
             unsafe
             {
                 IntPtr bufferData = _vertexBuffer.Map(0);
-                ReadOnlySpan<VertexPositionColor> src = new ReadOnlySpan<VertexPositionColor>(triangleVertices);
+                ReadOnlySpan<VertexPositionColor> src = new(triangleVertices);
                 MemoryHelpers.CopyMemory(bufferData, src);
                 _vertexBuffer.Unmap(0);
             }
@@ -251,7 +248,7 @@ namespace HelloDirect3D12
             _frameFenceEvent.WaitOne();
         }
 
-        public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string frameName = null)
+        public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string? frameName = null)
         {
             _commandAllocators[_frameIndex].Reset();
             _commandList.Reset(_commandAllocators[_frameIndex], _pipelineState);
@@ -314,7 +311,7 @@ namespace HelloDirect3D12
             return true;
         }
 
-        private static byte[]? CompileBytecode(DxcShaderStage stage, string shaderName, string entryPoint)
+        private static byte[] CompileBytecode(DxcShaderStage stage, string shaderName, string entryPoint)
         {
             string assetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
             string shaderSource = File.ReadAllText(Path.Combine(assetsPath, shaderName));
@@ -324,9 +321,7 @@ namespace HelloDirect3D12
                 using IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint, includeHandler: includeHandler);
                 if (results!.GetStatus().Failure)
                 {
-                    string errors = results!.GetErrors();
-                    Console.WriteLine($"Failed to compile shader: {errors}");
-                    return null;
+                    throw new Exception(results!.GetErrors());
                 }
 
                 return results.GetObjectBytecodeArray();

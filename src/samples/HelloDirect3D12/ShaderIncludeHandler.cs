@@ -44,12 +44,11 @@ namespace HelloDirect3D12
                 return Result.Fail;
             }
 
-            if (!_sourceFiles.TryGetValue(includeFile, out var sourceCodeBlob))
+            if (!_sourceFiles.TryGetValue(includeFile, out SourceCodeBlob sourceCodeBlob))
             {
-                var data = File.ReadAllBytes(includeFile);
+                byte[] data = NewMethod(includeFile);
 
                 sourceCodeBlob = new SourceCodeBlob(data);
-
                 _sourceFiles.Add(includeFile, sourceCodeBlob);
             }
 
@@ -57,6 +56,8 @@ namespace HelloDirect3D12
 
             return Result.Ok;
         }
+
+        private static byte[] NewMethod(string includeFile) => File.ReadAllBytes(includeFile);
 
         private string? GetFilePath(string fileName)
         {

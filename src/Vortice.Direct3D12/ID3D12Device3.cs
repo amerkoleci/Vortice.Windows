@@ -23,24 +23,42 @@ namespace Vortice.Direct3D12
         /// <typeparam name="T"></typeparam>
         /// <param name="address">The address used to create the heap.</param>
         /// <returns></returns>
-        public T? OpenExistingHeapFromAddress<T>(IntPtr address) where T : ID3D12Heap
+        public T OpenExistingHeapFromAddress<T>(IntPtr address) where T : ID3D12Heap
         {
-            if (OpenExistingHeapFromAddress(address, typeof(T).GUID, out IntPtr nativePtr).Failure)
-            {
-                return default;
-            }
-
+            OpenExistingHeapFromAddress(address, typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T? OpenExistingHeapFromFileMapping<T>(IntPtr fileMapping) where T : ID3D12Heap
+        public Result OpenExistingHeapFromAddress<T>(IntPtr address, out T? heap) where T : ID3D12Heap
         {
-            if (OpenExistingHeapFromFileMapping(fileMapping, typeof(T).GUID, out IntPtr nativePtr).Failure)
+            Result result = OpenExistingHeapFromAddress(address, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
             {
-                return default;
+                heap = default;
+                return result;
             }
 
+            heap = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
+        }
+
+        public T OpenExistingHeapFromFileMapping<T>(IntPtr fileMapping) where T : ID3D12Heap
+        {
+            OpenExistingHeapFromFileMapping(fileMapping, typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
+        }
+
+        public Result OpenExistingHeapFromFileMapping<T>(IntPtr fileMapping, out T? heap) where T : ID3D12Heap
+        {
+            Result result = OpenExistingHeapFromFileMapping(fileMapping, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                heap = default;
+                return result;
+            }
+
+            heap = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
         }
     }
 }

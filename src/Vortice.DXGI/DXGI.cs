@@ -81,7 +81,7 @@ namespace Vortice.DXGI
         /// </summary>
         /// <param name="debug">Whether to enable debug callback.</param>
         /// <returns>Return an instance of <see cref="IDXGIFactory2"/> or null if failed.</returns>
-        public static IDXGIFactory2 CreateDXGIFactory2<T>(bool debug) where T : IDXGIFactory2
+        public static T CreateDXGIFactory2<T>(bool debug) where T : IDXGIFactory2
         {
             int flags = debug ? CreateFactoryDebug : 0x00;
             CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr).CheckError();

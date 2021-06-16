@@ -8,15 +8,15 @@ namespace Vortice.DXGI
 {
     public partial class IDXGISwapChain
     {
-        public T? GetBuffer<T>(int index) where T : ComObject
+        public T GetBuffer<T>(int index) where T : ComObject
         {
-            GetBuffer(index, out T? surface);
-            return surface;
+            GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         public Result GetBuffer<T>(int index, out T? surface) where T : ComObject
         {
-            var result = GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr);
+            Result result = GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
             {
                 surface = default;

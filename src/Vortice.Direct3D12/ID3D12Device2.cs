@@ -8,36 +8,40 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device2
     {
-        public unsafe ID3D12PipelineState? CreatePipelineState<TData>(TData data) where TData : unmanaged
+        public ID3D12PipelineState CreatePipelineState<TData>(TData data) where TData : unmanaged
         {
-            PipelineStateStreamDescription description = new PipelineStateStreamDescription
+            unsafe
             {
-                SizeInBytes = sizeof(TData),
-                SubObjectStream = new IntPtr(&data)
-            };
+                PipelineStateStreamDescription description = new()
+                {
+                    SizeInBytes = sizeof(TData),
+                    SubObjectStream = new IntPtr(&data)
+                };
 
-            return CreatePipelineState<ID3D12PipelineState>(description);
+                CreatePipelineState(ref description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr).CheckError();
+                return new ID3D12PipelineState(nativePtr);
+            }
         }
 
-        public unsafe T? CreatePipelineState<T, TData>(TData data)
+        public T CreatePipelineState<T, TData>(TData data)
             where T : ID3D12PipelineState
             where TData : unmanaged
         {
-            PipelineStateStreamDescription description = new PipelineStateStreamDescription
+            unsafe
             {
-                SizeInBytes = sizeof(TData),
-                SubObjectStream = new IntPtr(&data)
-            };
+                PipelineStateStreamDescription description = new()
+                {
+                    SizeInBytes = sizeof(TData),
+                    SubObjectStream = new IntPtr(&data)
+                };
 
-            return CreatePipelineState<T>(description);
+                return CreatePipelineState<T>(description);
+            }
         }
 
-        public T? CreatePipelineState<T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
+        public T CreatePipelineState<T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
         {
-            Result result = CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-                return default;
-
+            CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 

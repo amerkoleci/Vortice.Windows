@@ -11,17 +11,17 @@ namespace Vortice.DXCore
         /// <summary>
         /// DXCORE_ADAPTER_ATTRIBUTE_D3D11_GRAPHICS
         /// </summary>
-        public static readonly Guid D3D11_Graphics = new Guid("8c47866b-7583-450d-f0f0-6bada895af4b");
+        public static readonly Guid D3D11_Graphics = new("8c47866b-7583-450d-f0f0-6bada895af4b");
 
         /// <summary>
         /// DXCORE_ADAPTER_ATTRIBUTE_D3D12_GRAPHICS
         /// </summary>
-        public static readonly Guid D3D12_Graphics = new Guid("0c9ece4d-2f6e-4f01-8c96-e89e331b47b1");
+        public static readonly Guid D3D12_Graphics = new("0c9ece4d-2f6e-4f01-8c96-e89e331b47b1");
 
         /// <summary>
         /// DXCORE_ADAPTER_ATTRIBUTE_D3D12_CORE_COMPUTE
         /// </summary>
-        public static readonly Guid D3D12_CoreCompute = new Guid("248e2800-a793-4724-abaa-23a6de1be090");
+        public static readonly Guid D3D12_CoreCompute = new("248e2800-a793-4724-abaa-23a6de1be090");
 
         /// <summary>
         /// Try to create new instance of <see cref="IDXCoreAdapterFactory"/>.
@@ -45,14 +45,9 @@ namespace Vortice.DXCore
         /// Try to create new instance of <see cref="IDXCoreAdapterFactory"/>.
         /// </summary>
         /// <returns>Return an instance of <see cref="IDXCoreAdapterFactory"/> or null if failed.</returns>
-        public static T? DXCoreCreateAdapterFactory<T>() where T : IDXCoreAdapterFactory
+        public static T DXCoreCreateAdapterFactory<T>() where T : IDXCoreAdapterFactory
         {
-            Result result = DXCoreCreateAdapterFactory(typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            DXCoreCreateAdapterFactory(typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }

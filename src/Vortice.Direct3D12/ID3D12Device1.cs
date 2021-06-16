@@ -9,12 +9,9 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device1
     {
-        public T? CreatePipelineLibrary<T>(Blob blob) where T : ID3D12PipelineLibrary
+        public T CreatePipelineLibrary<T>(Blob blob) where T : ID3D12PipelineLibrary
         {
-            Result result = CreatePipelineLibrary(blob.BufferPointer, blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-                return default;
-
+            CreatePipelineLibrary(blob.BufferPointer, blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 

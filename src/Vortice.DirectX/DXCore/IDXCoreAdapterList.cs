@@ -8,14 +8,9 @@ namespace Vortice.DXCore
 {
     public partial class IDXCoreAdapterList
     {
-        public T? GetAdapter<T>(int index) where T : IDXCoreAdapter
+        public T GetAdapter<T>(int index) where T : IDXCoreAdapter
         {
-            Result result = GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr);
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(adapterPtr);
         }
 
@@ -32,14 +27,9 @@ namespace Vortice.DXCore
             return result;
         }
 
-        public T? GetFactory<T>() where T : IDXCoreAdapterFactory
+        public T GetFactory<T>() where T : IDXCoreAdapterFactory
         {
-            Result result = GetFactory(typeof(T).GUID, out IntPtr factoryPtr);
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            GetFactory(typeof(T).GUID, out IntPtr factoryPtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(factoryPtr);
         }
 

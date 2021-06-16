@@ -8,22 +8,34 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device4
     {
-        public T? CreateCommandList1<T>(CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
+        public T CreateCommandList1<T>(CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
         {
-            Result result = CreateCommandList1(0, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-                return default;
-
+            CreateCommandList1(0, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public T? CreateCommandList1<T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
+        public T CreateCommandList1<T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12GraphicsCommandList1
+        {
+            CreateCommandList1(nodeMask, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
+        }
+
+        public Result CreateCommandList1<T>(CommandListType type, CommandListFlags commandListFlags, out T? commandList) where T : ID3D12GraphicsCommandList1
+        {
+            return CreateCommandList1<T>(0, type, commandListFlags, out commandList);
+        }
+
+        public Result CreateCommandList1<T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags, out T? commandList) where T : ID3D12GraphicsCommandList1
         {
             Result result = CreateCommandList1(nodeMask, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
-                return default;
+            {
+                commandList = default;
+                return result;
+            }
 
-            return MarshallingHelpers.FromPointer<T>(nativePtr);
+            commandList = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
         }
 
         public T? CreateCommittedResource1<T>(

@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using SharpGen.Runtime;
 using Vortice.Direct3D;
 using Vortice.DXGI;
@@ -19,10 +18,10 @@ namespace Vortice.Direct3D12
             FeatureLevel.Level_11_0
         };
 
-        public static readonly Guid ExperimentalShaderModels = new Guid("76f5573e-f13a-40f5-b297-81ce9e18933f");
-        public static readonly Guid TiledResourceTier4 = new Guid("c9c4725f-a81a-4f56-8c5b-c51039d694fb");
-        public static readonly Guid MetaCommand = new Guid("C734C97E-8077-48C8-9FDC-D9D1DD31DD77");
-        public static readonly Guid ComputeOnlyDevices = new Guid("50f7ab08-4b6d-4e14-89a5-5d16cd272594");
+        public static readonly Guid ExperimentalShaderModels = new("76f5573e-f13a-40f5-b297-81ce9e18933f");
+        public static readonly Guid TiledResourceTier4 = new("c9c4725f-a81a-4f56-8c5b-c51039d694fb");
+        public static readonly Guid MetaCommand = new("C734C97E-8077-48C8-9FDC-D9D1DD31DD77");
+        public static readonly Guid ComputeOnlyDevices = new("50f7ab08-4b6d-4e14-89a5-5d16cd272594");
 
         /// <summary>
         /// Gets the highest supported hardware feature level of the primary adapter.
