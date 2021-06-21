@@ -8,7 +8,7 @@
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 
-  <include file="dxgidebug.h" namespace="Vortice.DXGI" attach="true"/>
+  <include file="dxgidebug.h" namespace="Vortice.DXGI.Debug" attach="true" output="Debug" />
 
   <include file="dxgi.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi1_2.h" namespace="Vortice.DXGI" attach="true"/>
@@ -112,6 +112,7 @@
     <map field="DXGI_SWAP_CHAIN_DESC::Windowed" name="IsWindowed" />
     <map field="DXGI_SWAP_CHAIN_DESC[12]?::BufferUsage" name="Usage" type="DXGI_USAGE_ENUM"/>
     <map field="DXGI_SWAP_CHAIN_DESC[12]?::Flags" type="DXGI_SWAP_CHAIN_FLAG" />
+    <map field="DXGI_DECODE_SWAP_CHAIN_DESC::Flags" type="DXGI_SWAP_CHAIN_FLAG" />
 
     <map struct="DXGI_PRESENT_PARAMETERS" native="true" marshal="true" marshalto="true"/>
     <remove field="DXGI_PRESENT_PARAMETERS::.*"/>
@@ -213,6 +214,7 @@
     <map param="IDXGIAdapter3::RegisterVideoMemoryBudgetChangeNotificationEvent::pdwCookie" return="true"/>
 
     <!-- IDXGIDecodeSwapChain -->
+    <map method="IDXGIDecodeSwapChain::PresentBuffer" hresult="true" check="false"/>
     <map param="IDXGIDecodeSwapChain::PresentBuffer::Flags" type="DXGI_PRESENT_FLAGS" />
 
     <!-- IDXGIDevice -->

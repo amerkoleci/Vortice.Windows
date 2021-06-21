@@ -3,7 +3,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Vortice.DXGI
+namespace Vortice.DXGI.Debug
 {
     public partial class InfoQueueFilter
     {

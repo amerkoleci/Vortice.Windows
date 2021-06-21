@@ -18,6 +18,7 @@ using Vortice.Direct3D12.Shader;
 using Vortice;
 using System.IO;
 using System.Drawing;
+using Vortice.DXGI.Debug;
 
 namespace HelloDirect3D12
 {

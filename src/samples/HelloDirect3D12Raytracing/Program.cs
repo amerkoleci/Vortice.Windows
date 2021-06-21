@@ -19,7 +19,7 @@ namespace HelloDirect3D12Raytracing
                 validation = true;
 #endif
 
-                _graphicsDevice = new D3D12GraphicsDevice(validation, MainWindow);
+                _graphicsDevice = new D3D12GraphicsDevice(validation, MainWindow!);
             }
         }
 

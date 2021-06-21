@@ -9,6 +9,7 @@ using Vortice;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
 using Vortice.DXGI;
+using Vortice.DXGI.Debug;
 using Vortice.Mathematics;
 using static Vortice.Direct3D11.D3D11;
 using static Vortice.DXGI.DXGI;

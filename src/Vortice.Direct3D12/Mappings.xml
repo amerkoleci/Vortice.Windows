@@ -96,6 +96,18 @@
     <short name="INV">Inverse</short>
     <short name="INVALID">Invalid</short>
     <!-- D3D12_MESSAGE_ID -->
+    <short name="CREATESHADERRESOURCEVIEW">CreateShaderResourceView</short>
+    <short name="UNRECOGNIZEDFORMAT">UnrecognizedFormat</short>
+    <short name="INVALIDVIDEOPLANESLICE">InvalidVideoPlaneSlice</short>
+    <short name="CREATERENDERTARGETVIEW">CreateRenderTargetView</short>
+    <short name="CREATEUNORDEREDACCESSVIEW">CreateUnorderedAccessView</short>
+    <short name="CREATECOMMANDLIST">CreateCommandList</short>
+    <short name="CREATEVERTEXSHADER">CreateVertexShader</short>
+    <short name="EXECUTECOMMANDLISTS">ExecuteCommandLists</short>
+    <short name="WRONGSWAPCHAINBUFFERREFERENCE">WrongSwapChainBufferReference</short>
+    <short name="SETRENDERTARGETS">SetRenderTargets</short>
+    <short name="INVALIDNUMRENDERTARGETS">InvalidNumRenderTargets</short>
+    <short name="CREATESHAREDRESOURCE">CreateSharedResource</short>
     <short name="ATOMICCOPYBUFFER">AtomicCopyBuffer</short>
     <short name="ACQUIREHANDLEFORCAPTURE">AcquireHandleForCapture</short>
     <short name="INVALIDARRAY">InvalidArray</short>
@@ -255,7 +267,7 @@
     <short name="CREATEDOMAINSHADER">CreateDomainShader</short>
     <short name="INVALIDSHADERTYPE">InvalidShaderType</short>
     <short name="CREATEGEOMETRYSHADER">CreateGeometryShader</short>
-    <short name="REATEGEOMETRYSHADERWITHSTREAMOUTPUT">CreateGeometryShaderWithStreamOutput</short>
+    <short name="CREATEGEOMETRYSHADERWITHSTREAMOUTPUT">CreateGeometryShaderWithStreamOutput</short>
     <short name="CREATEGRAPHICSPIPELINESTATE">CreateGraphicsPipelineState</short>
     <short name="DEPTHSTENCILVIEW">DepthStencilView</short>
     <short name="CREATEHEAP">CreateHeap</short>
@@ -314,6 +326,137 @@
     <short name="VERTEXSHADER">VertexShader</short>
     <short name="SUBOBJECT">SubObject</short>
     <short name="WRITEBUFFERIMMEDIATE">WriteBufferImmediate</short>
+    <short name="GETPRIVATEDATA">GetPrivateData</short>
+    <short name="MOREDATA">MoreData</short>
+    <short name="MISSINGELEMENT">MissingElement</short>
+    <short name="INVALIDNUMENTRIES">InvalidNumEntries</short>
+    <short name="INVALIDPLANESLICE">InvalidPlaneSlice</short>
+    <short name="OUTPUTSTREAMSTRIDEUNUSED">OutputOutputStreamStrideUnused</short>
+    <short name="OUTPUTSLOT0EXPECTED">OutputSlot0Expected</short>
+    <short name="INVALIDOUTPUTSLOT">InvalidOutputSlot</short>
+    <short name="INVALIDCOMPONENTCOUNT">InvalidComponentCount</short>
+    <short name="ONLYONEELEMENTPERSLOT">OnlyOneElementPerSlot</short>
+    <short name="INVALIDCULLMODE">InvalidCullMode</short>
+    <short name="INVALIDSLOPESCALEDDEPTHBIAS">InvalidSlopeScaledDepthBias</short>
+    <short name="INVALIDDEPTHBIASCLAMP">InvalidDepthBiasClamp</short>
+    <short name="GETCOPYABLEFOOTPRINTS">GetCopyableFootprints</short>
+    <short name="VIDEOENCODERHEAP">VideoEncoderHeap</short>
+    <short name="VIDEOENCODER">VideoEncoder</short>
+    <short name="INVALIDDEPTHWRITEMASK">InvalidDepthWriteMask</short>
+    <short name="BLENDOPALPHA">BlendOpAlpha</short>
+    <short name="BLENDOP">BlendOp</short>
+    <short name="SHADERCACHESESSION">ShaderCacheSession</short>
+    <short name="ALREADYPRESENT">AlreadyPresent</short>
+    <short name="STOREVALUE">StoreValue</short>
+    <short name="HASHCOLLISION">HashCollision</short>
+    <short name="INVALIDGAPDEFINITION">InvalidGapDefinition</short>
+    <short name="INVALIDSTARTCOMPONENTANDCOMPONENTCOUNT">InvalidStartComponentAndComponentCount</short>
+    <short name="INVALIDOUTPUTSTREAMSTRIDE">InvalidOutputStreamStride</short>
+    <short name="REPEATEDOUTPUT">RepeatedOutput</short>
+    <short name="MISSINGSEMANTIC">MissingSemantic</short>
+    <short name="CANTHAVEONLYGAPS">CantHaveOnlyGaps</short>
+    <short name="MASKMISMATCH">MaskMismatch</short>
+    <short name="DECLTOOCOMPLEX">DeclTooComplex</short>
+    <short name="MISSINGOUTPUTSIGNATURE">MissingOutputSignature</short>
+    <short name="INVALIDFILLMODE">InvalidFillMode</short>
+    <short name="INVALIDFRONTFACESTENCILFAILOP">InvalidFrontFaceStencilFailOp</short>
+    <short name="INVALIDFRONTFACESTENCILZFAILOP">InvalidFrontFaceStencilZFailOp</short>
+    <short name="INVALIDFRONTFACESTENCILPASSOP">InvalidFrontFaceStencilPassOp</short>
+    <short name="INVALIDFRONTFACESTENCILFUNC">InvalidFrontFaceStencilFunc</short>
+    <short name="INVALIDBACKFACESTENCILFAILOP">InvalidBackFaceStencilFailOp</short>
+    <short name="INVALIDBACKFACESTENCILZFAILOP">InvalidBackFaceStencilZFailOp</short>
+    <short name="INVALIDBACKFACESTENCILPASSOP">InvalidBackFaceStencilPassOp</short>
+    <short name="INVALIDBACKFACESTENCILFUNC">InvalidBackFaceStencilFunc</short>
+    <short name="UNEXPECTEDENTRIES">UnexpectedEntries</short>
+    <short name="UNEXPECTEDSTRIDES">UnexpectedStrides</short>
+    <short name="INVALIDNUMSTRIDES">InvalidNumStrides</short>
+    <short name="DOUBLEFLOATOPSNOTSUPPORTED">DoubleFloatOpsNotSupported</short>
+    <short name="INVALIDFORCEDSAMPLECOUNT">InvalidForcedSampleCount</short>
+    <short name="DOUBLEEXTENSIONSNOTSUPPORTED">DoubleExtensionsNotSupported</short>
+    <short name="NOTSUPPORTED">NotSupported</short>
+    <short name="EMPTYRECT">EmptyRect</short>
+    <short name="CLEARVIEW">ClearView</short>
+    <short name="UPDATETILEMAPPINGS">UpdateTileMappings</short>
+    <short name="ROOTSIGNATURE">RootSignature</short>
+    <short name="QUERYHEAP">QueryHeap</short>
+    <short name="COMMANDQUEUE">CommandQueue</short>
+    <short name="INVALIDMISCFLAGS">InvalidMiscFlags</short>
+    <short name="UNRECOGNIZEDMISCFLAGS">UnrecognizedMiscFlags</short>
+    <short name="UNRECOGNIZEDHEAPTYPE">UnrecognizedHeapType</short>
+    <short name="UNRECOGNIZEDCPUPAGEPROPERTIES">UnrecognizedCpuPageProperties</short>
+    <short name="UNRECOGNIZEDMEMORYPOOL">UnrecognizedMemoryPool</short>
+    <short name="CREATERESOURCEANDHEAP">CreateResourceAndHeap</short>
+    <short name="NULLHEAPPROPERTIES">NullHeapProperties</short>
+    <short name="UNRECOGNIZEDHEAPMISCFLAGS">UnrecognizedHeapMiscFlags</short>
+    <short name="GETCUSTOMHEAPPROPERTIES">GetCustomHeapProperties</short>
+    <short name="REGISTERINDEX">RegisterIndex</short>
+    <short name="COMPONENTTYPE">ComponentType</short>
+    <short name="REGISTERMASK">RegisterMask</short>
+    <short name="SYSTEMVALUE">SystemValue</short>
+    <short name="NEVERWRITTEN">NeverWritten</short>
+    <short name="ALWAYSREADS">AlwaysReads</short>
+    <short name="MINPRECISION">MinPrecision</short>
+    <short name="SEMANTICNAME">SemanticName</short>
+    <short name="VS">VertexShader</short>
+    <short name="PS">PixelShader</short>
+    <short name="CS">ComputeShader</short>
+    <short name="HS">HullShader</short>
+    <short name="DS">DomainShader</short>
+    <short name="NULLRESOURCEPROPERTIES">NullResourceProperties</short>
+    <short name="NULLHEAP">NullHeap</short>
+    <short name="GETRESOURCEALLOCATIONINFO">GetResourceAllocationInfo</short>
+    <short name="INVALIDRDESCS">InvalidRDescs</short>
+    <short name="CREATERESOURCE">CreateResource</short>
+    <short name="UNRECOGNIZEDDIMENSIONALITY">UnrecognizedDimensionality</short>
+    <short name="UNRECOGNIZEDLAYOUT">UnrecognizedLayout</short>
+    <short name="INVALIDMIPLEVELS">InvalidMipLevels</short>
+    <short name="INVALIDSAMPLEDESC">InvalidSampleDesc</short>
+    <short name="INVALIDCLEARVALUE">InvalidClearValue</short>
+    <short name="UNRECOGNIZEDCLEARVALUEFORMAT">UnrecognizedClearValueFormat</short>
+    <short name="CLEARVALUEDENORMFLUSH">ClearValueDenormFlush</short>
+    <short name="GETGPUVIRTUALADDRESS">GetGpuVirtualAddress</short>
+    <short name="BUNDLENOTSUPPORTED">BundleNotSupported</short>
+    <short name="OPENCOMMANDLIST">OpenCommandList</short>
+    <short name="FAILEDCOMMANDLIST">FailedCommandList</short>
+    <short name="FORMATMISMATCH">FormatMismatch</short>
+    <short name="RESOLVESUBRESOURCE">ResolveSubresource</short>
+    <short name="CACHEDBLOBADAPTERMISMATCH">CachedBlobAdapterMismatch</short>
+    <short name="CACHEDBLOBDRIVERVERSIONMISMATCH">CachedBlobDriverVersionMismatch</short>
+    <short name="CACHEDBLOBDESCMISMATCH">CachedBlobDescMismatch</short>
+    <short name="CACHEDBLOBIGNORED">CachedBlobIgnored</short>
+    <short name="GETHEAPPROPERTIES">GetHeapProperties</short>
+    <short name="CREATEPIPELINELIBRARY">CreatePipelineLibrary</short>
+    <short name="INVALIDLIBRARYBLOB">InvalidLibraryBlob</short>
+    <short name="DRIVERVERSIONMISMATCH">DriverVersionMismatch</short>
+    <short name="PIPELINELIBRARY">PipelineLibrary</short>
+    <short name="ADAPTERVERSIONMISMATCH">AdapterVersionMismatch</short>
+    <short name="LOADPIPELINE">LoadPipeline</short>
+    <short name="NAMENOTFOUND">NameNotFound</short>
+    <short name="SETEVENTONMULTIPLEFENCECOMPLETION">SetEventOnMultipleFenceCompletion</short>
+    <short name="VIDEODECODECOMMANDLIST">VideoDecodeCommandList</short>
+    <short name="VIDEODECODESTREAM">VideoDecodeStream</short>
+    <short name="VIDEODECODER">VideoDecoder</short>
+    <short name="SETDEPTHBOUNDS">SetDepthBounds</short>
+    <short name="VIDEODECODECOMMANDQUEUE">VideoDecodeCommandQueue</short>
+    <short name="VIDEOPROCESSCOMMANDLIST">VideoProcessCommandList</short>
+    <short name="VIDEOPROCESSCOMMANDQUEUE">VideoProcessCommandQueue</short>
+    <short name="VIDEOPROCESSOR">VideoProcessor</short>
+    <short name="VIDEOPROCESSSTREAM">VideoProcessStream</short>
+    <short name="RSSETSHADING">RSSetShading</short>
+    <short name="NONZERO">NonZero</short>
+    <short name="CREATEMESHSHADER">CreateMeshShader</short>
+    <short name="CREATEMESHSHADERWITHSTREAMOUTPUT">CreateMeshShaderWithStreamOutput</short>
+    <short name="OUTPUTEXCEEDSMAXSIZE">OutputExceedsMaxSize</short>
+    <short name="GROUPSHAREDEXCEEDSMAXSIZE">GroupSharedExceedsMaxSize</short>
+    <short name="MISMATCHEDASMSPAYLOADSIZE">MismatchedAmplificationShaderMeshShaderPayloadSize</short>
+    <short name="CREATEAMPLIFICATIONSHADER">CreateAmplificationShader</short>
+    <short name="CREATESHADERCACHESESSION">CreateShaderCacheSession</short>
+    <short name="SHADERCACHECONTROL">ShaderCacheControl</short>
+    <short name="DEVELOPERMODE">DeveloperMode</short>
+    <short name="STATEALREADYSET">StateAlreadySet</short>
+    <short name="IGNOREDFLAG">IgnoredFlag</short>
+    <short name="FINDVALUE">FindValue</short>
+    <short name="NOTFOUND">NotFound</short>
   </naming>
 
   <mapping>
@@ -757,7 +900,7 @@
     <!-- ID3D12GraphicsCommandList -->
     <map param="ID3D12GraphicsCommandList::ResourceBarrier::pBarriers" type="void" keep-pointers="true"/>
     <map method="ID3D12GraphicsCommandList::ResourceBarrier" visibility="private"/>
-    
+
     <map method="ID3D12GraphicsCommandList::SetPipelineState" property="false"/>
     <map method="ID3D12GraphicsCommandList::SetComputeRootSignature" property="false"/>
     <map method="ID3D12GraphicsCommandList::SetGraphicsRootSignature" property="false"/>
@@ -769,7 +912,7 @@
 
     <map param="ID3D12GraphicsCommandList::ClearDepthStencilView::pRects" type="void" keep-pointers="true"/>
     <map method="ID3D12GraphicsCommandList::ClearDepthStencilView" visibility="private"/>
-    
+
     <map method="ID3D12GraphicsCommandList::RSSetViewports" visibility="internal"/>
     <map param="ID3D12GraphicsCommandList::RSSetViewports::pViewports" type="void" keep-pointers="true"/>
     <map method="ID3D12GraphicsCommandList::RSSetScissorRects" visibility="internal"/>
@@ -786,7 +929,7 @@
 
     <map method="ID3D12GraphicsCommandList::OMSetRenderTargets" visibility="private"/>
     <map param="ID3D12GraphicsCommandList::OMSetRenderTargets::pRenderTargetDescriptors" type="void" keep-pointers="true"/>
-    
+
     <map method="ID3D12GraphicsCommandList::OMSetBlendFactor" visibility="private" />
     <map param="ID3D12GraphicsCommandList::OMSetBlendFactor::BlendFactor" attribute="in" type="void" keep-pointers="true"/>
 

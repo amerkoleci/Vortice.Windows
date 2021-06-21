@@ -8,12 +8,9 @@ namespace Vortice.Direct3D12
 {
     public partial class ID3D12Device9
     {
-        public T? CreateCommandQueue1<T>(in CommandQueueDescription description, Guid creatorID) where T : ID3D12CommandQueue
+        public T CreateCommandQueue1<T>(in CommandQueueDescription description, Guid creatorID) where T : ID3D12CommandQueue
         {
-            Result result = CreateCommandQueue1(description, creatorID, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-                return default;
-
+            CreateCommandQueue1(description, creatorID, typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
@@ -30,12 +27,9 @@ namespace Vortice.Direct3D12
             return result;
         }
 
-        public T? CreateShaderCacheSession<T>(ShaderCacheSessionDescription description) where T : ID3D12ShaderCacheSession
+        public T CreateShaderCacheSession<T>(ShaderCacheSessionDescription description) where T : ID3D12ShaderCacheSession
         {
-            Result result = CreateShaderCacheSession(ref description, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-                return default;
-
+            CreateShaderCacheSession(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 

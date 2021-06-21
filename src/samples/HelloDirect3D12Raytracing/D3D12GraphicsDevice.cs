@@ -20,6 +20,7 @@ using System.Runtime.InteropServices;
 using Vortice;
 using ShaderResourceViewDimension = Vortice.Direct3D12.ShaderResourceViewDimension;
 using System.IO;
+using Vortice.DXGI.Debug;
 
 namespace HelloDirect3D12Raytracing
 {
@@ -38,7 +39,7 @@ namespace HelloDirect3D12Raytracing
 
         public readonly Window Window;
         public readonly IDXGIFactory4 DXGIFactory;
-        private readonly ID3D12Device5 _d3d12Device;
+        private readonly ID3D12Device5? _d3d12Device;
         private readonly ID3D12InfoQueue? _infoQueue;
         private readonly ID3D12Resource[] _renderTargets;
         private readonly ID3D12DescriptorHeap _rtvHeap;
@@ -72,7 +73,7 @@ namespace HelloDirect3D12Raytracing
         private ulong _frameIndex;
         private int _backbufferIndex;
 
-        public ID3D12Device2 D3D12Device => _d3d12Device;
+        public ID3D12Device2 D3D12Device => _d3d12Device!;
         public ID3D12CommandQueue GraphicsQueue { get; }
 
         public IDXGISwapChain3 SwapChain { get; }
@@ -89,20 +90,17 @@ namespace HelloDirect3D12Raytracing
             Window = window;
 
             {
-                if (validation && D3D12GetDebugInterface(out ID3D12Debug debug).Success)
+                if (validation && D3D12GetDebugInterface(out ID3D12Debug? debug).Success)
                 {
-                    debug.EnableDebugLayer();
-                    debug.Dispose();
+                    debug!.EnableDebugLayer();
+                    debug!.Dispose();
                 }
                 else
                 {
                     validation = false;
                 }
 
-                if (CreateDXGIFactory2(validation, out DXGIFactory).Failure)
-                {
-                    throw new InvalidOperationException("Cannot create IDXGIFactory4");
-                }
+                DXGIFactory = CreateDXGIFactory2<IDXGIFactory4>(validation);
 
                 using (IDXGIFactory6? factory6 = DXGIFactory.QueryInterfaceOrNull<IDXGIFactory6>())
                 {
@@ -110,10 +108,10 @@ namespace HelloDirect3D12Raytracing
                     {
                         for (int adapterIndex = 0;
                             _d3d12Device == null && factory6.EnumAdapterByGpuPreference(adapterIndex, GpuPreference.HighPerformance,
-                            out IDXGIAdapter1 adapter).Success;
+                            out IDXGIAdapter1? adapter).Success;
                             adapterIndex++)
                         {
-                            AdapterDescription1 desc = adapter.Description1;
+                            AdapterDescription1 desc = adapter!.Description1;
 
                             // Don't select the Basic Render Driver adapter.
                             if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
@@ -323,7 +321,7 @@ namespace HelloDirect3D12Raytracing
                     globalRootSignatureStateObject,
                 };
 
-                _raytracingStateObject = _d3d12Device.CreateStateObject<ID3D12StateObject>(new StateObjectDescription(StateObjectType.RaytracingPipeline, stateSubObjects));
+                _raytracingStateObject = _d3d12Device!.CreateStateObject<ID3D12StateObject>(new StateObjectDescription(StateObjectType.RaytracingPipeline, stateSubObjects));
             }
 
             // Create the vertex buffer
@@ -571,7 +569,7 @@ namespace HelloDirect3D12Raytracing
             SwapChain.Dispose();
             _frameFence.Dispose();
             GraphicsQueue.Dispose();
-            _d3d12Device.Dispose();
+            _d3d12Device!.Dispose();
             _infoQueue?.Dispose();
             DXGIFactory.Dispose();
 

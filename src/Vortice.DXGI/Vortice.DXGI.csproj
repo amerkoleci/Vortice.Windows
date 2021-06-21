@@ -13,5 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Debug\" />
+  </ItemGroup>
   
 </Project>

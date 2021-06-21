@@ -7,6 +7,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Description>Direct3D12 bindings.</Description>
   </PropertyGroup>
+
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
   </ItemGroup>

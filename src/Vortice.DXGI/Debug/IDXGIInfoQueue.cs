@@ -4,7 +4,7 @@
 using System;
 using SharpGen.Runtime;
 
-namespace Vortice.DXGI
+namespace Vortice.DXGI.Debug
 {
     public partial class IDXGIInfoQueue
     {
