@@ -463,6 +463,70 @@ namespace Vortice.Direct3D12
         #endregion
 
         #region CreateRootSignature
+        public Result CreateRootSignature<T>(int nodeMask, IntPtr blobWithRootSignature, PointerSize blobLengthInBytes, out T? rootSignature) where T : ID3D12RootSignature
+        {
+            Result result = CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                rootSignature = default;
+                return default;
+            }
+
+            rootSignature = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
+        }
+
+        public Result CreateRootSignature<T>(int nodeMask, Blob blob, out T? rootSignature) where T : ID3D12RootSignature
+        {
+            return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, out rootSignature);
+        }
+
+        public unsafe Result CreateRootSignature<T>(int nodeMask, byte[] blobWithRootSignature, out T? rootSignature) where T : ID3D12RootSignature
+        {
+            fixed (void* pBuffer = blobWithRootSignature)
+            {
+                return CreateRootSignature(nodeMask, (IntPtr)pBuffer, blobWithRootSignature.Length, out rootSignature);
+            }
+        }
+
+        public T CreateRootSignature<T>(int nodeMask, IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
+        {
+            CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
+        }
+
+        public T CreateRootSignature<T>(int nodeMask, Blob blob) where T : ID3D12RootSignature
+        {
+            return CreateRootSignature<T>(nodeMask, blob.BufferPointer, blob.BufferSize);
+        }
+
+        public unsafe T CreateRootSignature<T>(int nodeMask, byte[] blobWithRootSignature) where T : ID3D12RootSignature
+        {
+            fixed (void* pBuffer = blobWithRootSignature)
+            {
+                return CreateRootSignature<T>(nodeMask, (IntPtr)pBuffer, blobWithRootSignature.Length);
+            }
+        }
+
+        public T CreateRootSignature<T>(IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
+        {
+            CreateRootSignature(0, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
+        }
+
+        public T CreateRootSignature<T>(Blob blob) where T : ID3D12RootSignature
+        {
+            return CreateRootSignature<T>(0, blob.BufferPointer, blob.BufferSize);
+        }
+
+        public unsafe T CreateRootSignature<T>(byte[] blobWithRootSignature) where T : ID3D12RootSignature
+        {
+            fixed (void* pBuffer = blobWithRootSignature)
+            {
+                return CreateRootSignature<T>(0, (IntPtr)pBuffer, blobWithRootSignature.Length);
+            }
+        }
+
         public T CreateRootSignature<T>(in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
         {
             return CreateRootSignature<T>(0, description, version);

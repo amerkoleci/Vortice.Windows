@@ -66,6 +66,7 @@
     <short name="UAVS">UnorderedAccessViews</short>
     <short name="UAV">UnorderedAccessView</short>
     <short name="TEXTURE">Texture</short>
+    <short name="TEXTURES">Textures</short>
     <short name="TEXT">Text</short>
     <short name="CUBE">Cube</short>
     <short name="TEX">Texture</short>
