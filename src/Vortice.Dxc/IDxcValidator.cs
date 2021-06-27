@@ -7,7 +7,7 @@ namespace Vortice.Dxc
 {
     public partial class IDxcValidator
     {
-        public IDxcOperationResult Validate(IDxcBlob shader, int flags)
+        public IDxcOperationResult Validate(IDxcBlob shader, DxcValidatorFlags flags)
         {
             Validate(shader, flags, out IDxcOperationResult result).CheckError();
             return result;
