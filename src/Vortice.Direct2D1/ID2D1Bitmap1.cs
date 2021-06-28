@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using SharpGen.Runtime;
 
 namespace Vortice.Direct2D1
 {
@@ -12,17 +11,18 @@ namespace Vortice.Direct2D1
         protected override void DisposeCore(IntPtr nativePointer, bool disposing)
         {
             if (disposing)
-                ReleaseColorContext();
+            {
+                DisposeColorContext();
+            }
 
             base.DisposeCore(nativePointer, disposing);
         }
 
-        private void ReleaseColorContext()
+        private void DisposeColorContext()
         {
             if (ColorContext__ != null)
             {
-                // Don't use Dispose() in order to avoid circular references
-                ((IUnknown)ColorContext__).Release();
+                ColorContext__.Dispose();
                 ColorContext__ = null;
             }
         }
