@@ -13,12 +13,15 @@
 
   <extension>
     <create class="Dxc" visibility="public static" />
+
+    <define enum="Vortice.Dxc.DxcValidatorFlags" underlying="System.Int32" />
   </extension>
 
   <bindings>
     <bind from="uint32_t" to="System.Int32" />
     <bind from="UINT32" to="System.Int32" />
     <bind from="IMalloc" to="SharpGen.Runtime.ComObject" />
+    <bind from="DxcValidatorFlags" to="Vortice.Dxc.DxcValidatorFlags" />
   </bindings>
 
   <naming>
@@ -90,6 +93,7 @@
     <map method="IDxcOperationResult::(.*)" property="false" hresult="true" check="false"/>
 
     <map method="IDxcValidator::(.*)" hresult="true" check="false"/>
+    <map param="IDxcValidator::Validate::Flags" type="DxcValidatorFlags"/>
     <map method="IDxcVersionInfo::(.*)" property="false"  hresult="true" check="false"/>
 
     <map method="IDxcVersionInfo2::(.*)" hresult="true" check="false"/>
