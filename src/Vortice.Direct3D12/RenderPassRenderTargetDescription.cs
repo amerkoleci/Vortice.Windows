@@ -1,6 +1,8 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System.Runtime.InteropServices;
+
 namespace Vortice.Direct3D12
 {
     /// <summary>
@@ -15,7 +17,7 @@ namespace Vortice.Direct3D12
         /// <param name="beginningAccess">The access to the RTV(s) requested at the transition into a render pass.</param>
         /// <param name="endingAccess">The access to the RTV(s) requested at the transition out of a render pass.</param>
         public RenderPassRenderTargetDescription(
-            CpuDescriptorHandle cpuDescriptor, 
+            CpuDescriptorHandle cpuDescriptor,
             RenderPassBeginningAccess beginningAccess,
             RenderPassEndingAccess endingAccess)
         {
@@ -23,5 +25,36 @@ namespace Vortice.Direct3D12
             BeginningAccess = beginningAccess;
             EndingAccess = endingAccess;
         }
+
+        #region Marshal
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        internal struct __Native
+        {
+            public CpuDescriptorHandle CpuDescriptor;
+
+            public RenderPassBeginningAccess BeginningAccess;
+
+            public RenderPassEndingAccess.__Native EndingAccess;
+        }
+
+        internal void __MarshalTo(ref __Native @ref)
+        {
+            @ref.CpuDescriptor = CpuDescriptor;
+            @ref.BeginningAccess = BeginningAccess;
+            EndingAccess.__MarshalTo(ref @ref.EndingAccess);
+        }
+
+        internal void __MarshalFree(ref __Native @ref)
+        {
+            EndingAccess.__MarshalFree(ref @ref.EndingAccess);
+        }
+
+        //internal void __MarshalFrom(ref __Native @ref)
+        //{
+        //    CpuDescriptor = @ref.CpuDescriptor;
+        //    BeginningAccess = @ref.BeginningAccess;
+        //    EndingAccess.__MarshalFrom(ref @ref.EndingAccess);
+        //}
+        #endregion
     }
 }

@@ -37,7 +37,7 @@ namespace HelloDirect3D12
         private readonly ID3D12RootSignature _rootSignature;
         private readonly ID3D12PipelineState _pipelineState;
 
-        private readonly ID3D12GraphicsCommandList _commandList;
+        private readonly ID3D12GraphicsCommandList4 _commandList;
 
         private readonly ID3D12Resource _vertexBuffer;
 
@@ -175,7 +175,7 @@ namespace HelloDirect3D12
             };
 
             _pipelineState = _d3d12Device.CreatePipelineState(pipelineStateStream);
-            _commandList = _d3d12Device.CreateCommandList<ID3D12GraphicsCommandList>(0, CommandListType.Direct, _commandAllocators[0], _pipelineState);
+            _commandList = _d3d12Device.CreateCommandList<ID3D12GraphicsCommandList4>(CommandListType.Direct, _commandAllocators[0], _pipelineState);
             _commandList.Close();
 
             int vertexBufferSize = 3 * Unsafe.SizeOf<VertexPositionColor>();
@@ -263,23 +263,28 @@ namespace HelloDirect3D12
             // Indicate that the back buffer will be used as a render target.
             _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.Present, ResourceStates.RenderTarget);
 
+            CpuDescriptorHandle rtv = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
+            rtv += _backbufferIndex * _rtvDescriptorSize;
+
+            Color4 clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
+
+            var renderPassDesc = new RenderPassRenderTargetDescription(rtv,
+                new RenderPassBeginningAccess(new ClearValue(Format.R8G8B8A8_UNorm, clearColor)),
+                new RenderPassEndingAccess(RenderPassEndingAccessType.Preserve)
+                );
+
+            _commandList.BeginRenderPass(renderPassDesc);
+
             // Call callback.
             draw(Window.ClientSize.Width, Window.ClientSize.Height);
-
-            CpuDescriptorHandle rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
-            rtvHandle += _backbufferIndex * _rtvDescriptorSize;
-
-            _commandList.OMSetRenderTargets(rtvHandle);
-
-            // Record commands.
-            var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
-            _commandList.ClearRenderTargetView(rtvHandle, clearColor);
 
             _commandList.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
             int stride = Unsafe.SizeOf<VertexPositionColor>();
             int vertexBufferSize = 3 * stride;
             _commandList.IASetVertexBuffers(0, new VertexBufferView(_vertexBuffer.GPUVirtualAddress, vertexBufferSize, stride));
             _commandList.DrawInstanced(3, 1, 0, 0);
+
+            _commandList.EndRenderPass();
 
             // Indicate that the back buffer will now be used to present.
             _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.RenderTarget, ResourceStates.Present);

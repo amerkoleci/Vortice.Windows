@@ -19,24 +19,22 @@ namespace Vortice.Direct3D12
         }
 
         /// <summary>
-        /// Initialize new instance of <see cref="RenderPassBeginningAccess"/> struct.
+        /// Initialize new instance of <see cref="RenderPassBeginningAccess"/> struct with <see cref="RenderPassBeginningAccessType.Clear"/> type.
         /// </summary>
-        /// <param name="type">The type of access being requested.</param>
-        /// <param name="clear">Appropriate when Type is <see cref="RenderPassBeginningAccessType.Clear"/>. The clear value to which resource(s) should be cleared.</param>
-        public RenderPassBeginningAccess(RenderPassBeginningAccessType type, in RenderPassBeginningAccessClearParameters clear)
+        /// <param name="clear">The clear value to which resource(s) should be cleared.</param>
+        public RenderPassBeginningAccess(in RenderPassBeginningAccessClearParameters clear)
         {
-            Type = type;
+            Type = RenderPassBeginningAccessType.Clear;
             Clear = clear;
         }
 
         /// <summary>
-        /// Initialize new instance of <see cref="RenderPassBeginningAccess"/> struct.
+        /// Initialize new instance of <see cref="RenderPassBeginningAccess"/> struct with <see cref="RenderPassBeginningAccessType.Clear"/> type.
         /// </summary>
-        /// <param name="type">The type of access being requested.</param>
-        /// <param name="clearValue">Appropriate when Type is <see cref="RenderPassBeginningAccessType.Clear"/>. The clear value to which resource(s) should be cleared.</param>
-        public RenderPassBeginningAccess(RenderPassBeginningAccessType type, in ClearValue clearValue)
+        /// <param name="clearValue">The clear value to which resource(s) should be cleared.</param>
+        public RenderPassBeginningAccess(in ClearValue clearValue)
         {
-            Type = type;
+            Type = RenderPassBeginningAccessType.Clear;
             Clear = new RenderPassBeginningAccessClearParameters(clearValue);
         }
     }

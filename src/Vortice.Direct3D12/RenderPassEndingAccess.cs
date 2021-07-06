@@ -1,10 +1,7 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Runtime.CompilerServices;
-using Vortice.DXGI;
-using SharpGen.Runtime;
+using System.Runtime.InteropServices;
 
 namespace Vortice.Direct3D12
 {
@@ -24,16 +21,40 @@ namespace Vortice.Direct3D12
         }
 
         /// <summary>
-        /// Initialize new instance of <see cref="RenderPassEndingAccess"/> struct.
+        /// Initialize new instance of <see cref="RenderPassEndingAccess"/> struct with <see cref="RenderPassEndingAccessType.Resolve"/> type.
         /// </summary>
-        /// <param name="type">The type of access being requested.</param>
-        /// <param name="resolve">Appropriate when Type is <see cref="RenderPassEndingAccessType.Resolve"/>. Description of the resource to resolve to.</param>
-        public RenderPassEndingAccess(
-            RenderPassEndingAccessType type,
-            RenderPassEndingAccessResolveParameters resolve)
+        /// <param name="resolve">Description of the resource to resolve to.</param>
+        public RenderPassEndingAccess(RenderPassEndingAccessResolveParameters resolve)
         {
-            Type = type;
+            Type = RenderPassEndingAccessType.Resolve;
             Resolve = resolve;
         }
+
+        #region Marshal
+        [StructLayout(LayoutKind.Sequential, Pack = 0, CharSet = CharSet.Unicode)]
+        internal partial struct __Native
+        {
+            public RenderPassEndingAccessType Type;
+            public RenderPassEndingAccessResolveParameters.__Native Resolve;
+        }
+
+        internal void __MarshalTo(ref __Native @ref)
+        {
+            @ref.Type = Type;
+            Resolve?.__MarshalTo(ref @ref.Resolve);
+        }
+
+        internal void __MarshalFrom(ref __Native @ref)
+        {
+            Type = @ref.Type;
+            Resolve = new RenderPassEndingAccessResolveParameters();
+            Resolve.__MarshalFrom(ref @ref.Resolve);
+        }
+
+        internal void __MarshalFree(ref __Native @ref)
+        {
+            Resolve?.__MarshalFree(ref @ref.Resolve);
+        }
+        #endregion Marshal
     }
 }

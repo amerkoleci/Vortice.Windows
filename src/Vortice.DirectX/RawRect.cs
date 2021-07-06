@@ -78,6 +78,6 @@ namespace Vortice
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator RawRect(Rectangle value) => new RawRect(value.Left, value.Top, value.Right, value.Bottom);
+        public static implicit operator RawRect(Rectangle value) => new(value.Left, value.Top, value.Right, value.Bottom);
     }
 }

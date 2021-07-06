@@ -3,7 +3,6 @@
 
 using System;
 using Vortice.Mathematics;
-using System.Runtime.InteropServices;
 using System.Drawing;
 
 namespace Vortice.Direct3D12

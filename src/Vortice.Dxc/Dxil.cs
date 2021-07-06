@@ -22,7 +22,7 @@ namespace Vortice.Dxc
             Result result = DxcCreateInstance(classGuid, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
-                instance = CppObject.FromPointer<T>(nativePtr);
+                instance = MarshallingHelpers.FromPointer<T>(nativePtr);
                 return result;
             }
 

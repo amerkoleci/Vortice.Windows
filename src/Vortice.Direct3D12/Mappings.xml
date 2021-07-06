@@ -697,9 +697,6 @@
     <map struct="D3D12_EXISTING_COLLECTION_DESC" name="ExistingCollectionDescription" struct-to-class="true" marshal="true" />
     <remove field="D3D12_EXISTING_COLLECTION_DESC::.*"/>
 
-    <map struct="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS" name="RenderPassEndingAccessResolveParameters" native="true" struct-to-class="true" marshal="true" marshalto="false"  />
-    <remove field="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS::.*"/>
-
     <map struct="D3D12_VIEW_INSTANCING_DESC" name="ViewInstancingDescription" struct-to-class="true" marshal="true" />
     <remove field="D3D12_VIEW_INSTANCING_DESC::.*"/>
 
@@ -737,6 +734,12 @@
     <remove field="D3D12_RT_FORMAT_ARRAY::.*"/>
 
     <map enum="D3D12_RAYTRACING_INSTANCE_FLAGS" name="RaytracingInstanceFlags" type="byte" />
+
+    <map struct="D3D12_RENDER_PASS_RENDER_TARGET_DESC" name="RenderPassRenderTargetDescription" native="true" marshal="true" />
+    <map struct="D3D12_RENDER_PASS_ENDING_ACCESS" name="RenderPassEndingAccess" native="true" marshal="true" />
+    
+    <map struct="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS" name="RenderPassEndingAccessResolveParameters" native="true" struct-to-class="true" marshal="true" marshalto="false"  />
+    <remove field="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS::.*"/>
 
     <!-- ID3D12Object methods -->
     <map method="ID3D12Object::GetPrivateData" visibility="public" hresult="true" check="false"/>
@@ -953,6 +956,9 @@
     <map method="ID3D12GraphicsCommandList4::InitializeMetaCommand" visibility="private"/>
     <map method="ID3D12GraphicsCommandList4::ExecuteMetaCommand" visibility="private"/>
     <map method="ID3D12GraphicsCommandList4::SetPipelineState1" property="false" />
+
+    <map method="ID3D12GraphicsCommandList4::BeginRenderPass" visibility="private"/>
+    <map param="ID3D12GraphicsCommandList4::BeginRenderPass::pRenderTargets" type="void" keep-pointers="true"/>
 
     <!-- ID3D12DescriptorHeap -->
     <map method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" property="false" />
