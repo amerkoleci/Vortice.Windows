@@ -1034,10 +1034,41 @@
     <map param="ID3D12ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
 
     <!-- Video -->
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_FLAG_0_ALL_LUMA_CHROMA_SLICE_BLOCK_EDGES_ALWAYS_FILTERED" name="AllLumaChromaSliceBlockEdgesAlwaysFiltered"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_FLAG_1_DISABLE_ALL_SLICE_BLOCK_EDGES" name="DisableAllSliceBlockEdges"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_FLAG_2_DISABLE_SLICE_BOUNDARIES_BLOCKS" name="DisableSliceBoundariesBlocks"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_FLAG_3_USE_TWO_STAGE_DEBLOCKING" name="UseTwoStageDeblocking"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_FLAG_4_DISABLE_CHROMA_BLOCK_EDGES" name="DisableChromaBlockEdges"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_FLAG_5_DISABLE_CHROMA_BLOCK_EDGES_AND_LUMA_BOUNDARIES" name="DisableChromaBlockEdgesAndLumaBoundaries"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_FLAG_6_DISABLE_CHROMA_BLOCK_EDGES_AND_USE_LUMA_TWO_STAGE_DEBLOCKING" name="DisableChromaBlockEdgesAndUseLumaTwoStageDeblocking"/>
+
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_0_ALL_LUMA_CHROMA_SLICE_BLOCK_EDGES_ALWAYS_FILTERED" name="AllLumaChromaSliceBlockEdgesAlwaysFiltered"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_1_DISABLE_ALL_SLICE_BLOCK_EDGES" name="DisableAllSliceBlockEdges"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_2_DISABLE_SLICE_BOUNDARIES_BLOCKS" name="DisableSliceBoundariesBlocks"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_3_USE_TWO_STAGE_DEBLOCKING" name="UseTwoStageDeblocking"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_4_DISABLE_CHROMA_BLOCK_EDGES" name="DisableChromaBlockEdges"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_5_DISABLE_CHROMA_BLOCK_EDGES_AND_LUMA_BOUNDARIES" name="DisableChromaBlockEdgesAndLumaBoundaries"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_H264_SLICES_DEBLOCKING_MODE_6_DISABLE_CHROMA_BLOCK_EDGES_AND_USE_LUMA_TWO_STAGE_DEBLOCKING" name="DisableChromaBlockEdgesAndUseLumaTwoStageDeblocking"/>
+
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_HEVC_CUSIZE_(.*)" name="Size$1"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_HEVC_TUSIZE_(.*)" name="Size$1"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_LEVELS_H264_(.*)" name="Level$1"/>
+    <map enum-item="D3D12_VIDEO_ENCODER_LEVELS_HEVC_(.*)" name="Level$1"/>
+
     <remove field="D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS::.*"/>
     <remove field="D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS1::.*"/>
     <remove field="D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS::.*"/>
     <remove field="D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1::.*"/>
+    <remove field="D3D12_VIDEO_ENCODER_PROFILE_DESC::.*"/>
+    <!-- TODO: Until we map -->
+    <remove field="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION_SUPPORT::.*"/>
+    <remove field="D3D12_VIDEO_ENCODER_RATE_CONTROL_CONFIGURATION_PARAMS::.*"/>
+    <remove field="D3D12_VIDEO_ENCODER_CODEC_CONFIGURATION::.*"/>
+    <remove field="D3D12_VIDEO_ENCODER_SEQUENCE_GOP_STRUCTURE::.*"/>
+    <remove field="D3D12_VIDEO_ENCODER_PICTURE_CONTROL_SUBREGIONS_LAYOUT_DATA::.*"/>
+    <remove field="D3D12_VIDEO_ENCODER_LEVEL_SETTING::.*"/>
+    <remove field="D3D12_VIDEO_ENCODER_PICTURE_CONTROL_CODEC_DATA::.*"/>
+    <remove field="D3D12_VIDEO_ENCODER_CODEC_PICTURE_CONTROL_SUPPORT::.*"/>
 
     <map field="D3D12_VIDEO_DECODE_OUTPUT_HISTOGRAM::pBuffer" name="Buffer" />
     <map field="D3D12_VIDEO_PROCESS_INPUT_STREAM::pReferenceTexture2D" name="ReferenceTexture2D" />
@@ -1047,6 +1078,7 @@
     <map struct="D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS1" name="VideoProcessInputStreamArguments1" native="true" marshal="true" />
     <map struct="D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS" name="VideoProcessOutputStreamArguments" native="true" marshal="true" />
     <map struct="D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1" name="VideoDecodeOutputStreamArguments1" struct-to-class="true" marshal="true" />
+    <map struct="D3D12_VIDEO_ENCODER_PROFILE_DESC" name="VideoEncoderProfileDescription" native="true" marshal="true" />
 
     <map param="ID3D12VideoDecodeCommandList::ResourceBarrier::pBarriers" type="void"/>
     <map method="ID3D12VideoDecodeCommandList::ResourceBarrier" visibility="private"/>
