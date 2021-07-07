@@ -24,12 +24,12 @@ In order to compile, make sure **no spaces** are present in the solution path ot
 Also, you need to install **Visual Studio 2019** with the following components:
 
 - [x] Visual C++ Toolset Component
-- [x] Windows 10 - 2004 SDK (10.0.19041.0) Component
-- [x] .NET Core SDK
+- [x] Windows 10 - 2104 SDK (10.0.20348.0) Component
+- [x] .NET5 SDK
 
 ## Download
 
-All packages are available as NuGet packages: [![NuGet](https://img.shields.io/nuget/v/Vortice.Runtime.COM.svg)](https://www.nuget.org/packages?q=Tags%3A%22Vortice.Windows%22)
+All packages are available as NuGet packages: [![NuGet](https://img.shields.io/nuget/v/Vortice.Direct3D12.svg)](https://www.nuget.org/packages?q=Tags%3A%22Vortice.Windows%22,%22Direct3D12%22)
 
 Nightly packages can be downloaded from NuGet as well.
 

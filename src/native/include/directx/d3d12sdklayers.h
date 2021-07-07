@@ -165,8 +165,8 @@ typedef interface ID3D12InfoQueue1 ID3D12InfoQueue1;
 
 
 /* header files for imported files */
-#include "oaidl.h"
-#include "ocidl.h"
+#include "OAIdl.h"
+#include "OCIdl.h"
 #include "d3d12.h"
 
 #ifdef __cplusplus

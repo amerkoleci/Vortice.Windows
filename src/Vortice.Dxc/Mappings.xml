@@ -5,7 +5,7 @@
   <depends>SharpGen.Runtime.COM</depends>
 
   <sdk name="StdLib" />
-  <sdk name="WindowsSdk" version="10.0.19041.0" />
+  <sdk name="WindowsSdk" version="10.0.20348.0" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 
   <include file="windows.h" />

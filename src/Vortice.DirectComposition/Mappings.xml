@@ -6,7 +6,7 @@
   <depends>Vortice.DXGI</depends>
   <depends>Vortice.Direct2D1</depends>
 
-  <sdk name="WindowsSdk" version="10.0.19041.0" />
+  <sdk name="WindowsSdk" version="10.0.20348.0" />
   <sdk name="StdLib" />
 
   <include file="windows.h" />
