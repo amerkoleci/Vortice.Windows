@@ -101,7 +101,7 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="description">Description of the acceleration structure to build.</param>
         /// <param name="postbuildInfoDescriptions">Array of descriptions for post-build info to generate describing properties of the acceleration structure that was built.</param>
-        public void BuildRaytracingAccelerationStructure(BuildRaytracingAccelerationStructureDescription description, RaytracingAccelerationStructurePostbuildInfoDescription[] postbuildInfoDescriptions)
+        public void BuildRaytracingAccelerationStructure(BuildRaytracingAccelerationStructureDescription description, RaytracingAccelerationStructurePostBuildInfoDescription[] postbuildInfoDescriptions)
         {
             BuildRaytracingAccelerationStructure(ref description, postbuildInfoDescriptions.Length, postbuildInfoDescriptions);
         }
@@ -127,7 +127,7 @@ namespace Vortice.Direct3D12
         }
 
         public void EmitRaytracingAccelerationStructurePostbuildInfo(
-            RaytracingAccelerationStructurePostbuildInfoDescription description,
+            RaytracingAccelerationStructurePostBuildInfoDescription description,
             ulong[] sourceAccelerationStructureData)
         {
             EmitRaytracingAccelerationStructurePostbuildInfo(description, sourceAccelerationStructureData.Length, sourceAccelerationStructureData);

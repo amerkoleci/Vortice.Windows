@@ -96,6 +96,14 @@
     <short name="DEST">Destination</short>
     <short name="INV">Inverse</short>
     <short name="INVALID">Invalid</short>
+    <short name="INVERT">Invert</short>
+    <short name="INVERTED">Inverted</short>
+    <short name="INCR">Increment</short>
+    <short name="DECR">Decrement</short>
+    <short name="SAT">Saturate</short>
+    <short name="ANYHIT">AnyHit</short>
+    <short name="INVOCATION">Invocation</short>
+    <short name="POSTBUILD">PostBuild</short>
     <!-- D3D12_MESSAGE_ID -->
     <short name="CREATESHADERRESOURCEVIEW">CreateShaderResourceView</short>
     <short name="UNRECOGNIZEDFORMAT">UnrecognizedFormat</short>
