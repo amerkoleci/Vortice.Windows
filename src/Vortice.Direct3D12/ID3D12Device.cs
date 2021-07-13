@@ -887,6 +887,82 @@ namespace Vortice.Direct3D12
         }
         #endregion
 
+        #region CopyDescriptors
+
+        public unsafe void CopyDescriptors(
+            int numDestDescriptorRanges,
+            CpuDescriptorHandle[] destDescriptorRangeStarts,
+            int[] destDescriptorRangeSizes,
+            int numSrcDescriptorRanges,
+            CpuDescriptorHandle[] srcDescriptorRangeStarts,
+            int[] srcDescriptorRangeSizes,
+            DescriptorHeapType descriptorHeapsType)
+        {
+            fixed (CpuDescriptorHandle* pDestDescriptorRangeStarts = destDescriptorRangeStarts)
+            fixed (int *pDestDescriptorRangeSizes = destDescriptorRangeSizes)
+            fixed (CpuDescriptorHandle* pSrcDescriptorRangeStarts = srcDescriptorRangeStarts)
+            fixed (int* pSrcDescriptorRangeSizes = srcDescriptorRangeSizes)
+                CopyDescriptors(numDestDescriptorRanges, pDestDescriptorRangeStarts, pDestDescriptorRangeSizes,
+                    numSrcDescriptorRanges, pSrcDescriptorRangeStarts, pSrcDescriptorRangeSizes,
+                    descriptorHeapsType);
+        }
+
+        public unsafe void CopyDescriptors(
+            int numDestDescriptorRanges,
+            ReadOnlySpan<CpuDescriptorHandle> destDescriptorRangeStarts,
+            ReadOnlySpan<int> destDescriptorRangeSizes,
+            int numSrcDescriptorRanges,
+            ReadOnlySpan<CpuDescriptorHandle> srcDescriptorRangeStarts,
+            ReadOnlySpan<int> srcDescriptorRangeSizes,
+            DescriptorHeapType descriptorHeapsType)
+        {
+            fixed (CpuDescriptorHandle* pDestDescriptorRangeStarts = destDescriptorRangeStarts)
+            fixed (int *pDestDescriptorRangeSizes = destDescriptorRangeSizes)
+            fixed (CpuDescriptorHandle* pSrcDescriptorRangeStarts = srcDescriptorRangeStarts)
+            fixed (int* pSrcDescriptorRangeSizes = srcDescriptorRangeSizes)
+                CopyDescriptors(numDestDescriptorRanges, pDestDescriptorRangeStarts, pDestDescriptorRangeSizes,
+                    numSrcDescriptorRanges, pSrcDescriptorRangeStarts, pSrcDescriptorRangeSizes,
+                    descriptorHeapsType);
+        }
+
+        #endregion
+
+        #region GetCopyableFootprints
+
+        public unsafe void GetCopyableFootprints(
+            ResourceDescription resourceDesc,
+            int firstSubresource,
+            int numSubresources,
+            ulong baseOffset,
+            PlacedSubresourceFootPrint[] layouts,
+            int[] numRows,
+            ulong[] rowSizeInBytes,
+            out ulong totalBytes)
+        {
+            fixed (PlacedSubresourceFootPrint* pLayouts = layouts)
+            fixed (int* pNumRows = numRows)
+            fixed (ulong* pRowSizeInBytes = rowSizeInBytes)
+                totalBytes = GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, pLayouts, pNumRows, pRowSizeInBytes);
+        }
+
+        public unsafe void GetCopyableFootprints(
+            ResourceDescription resourceDesc,
+            int firstSubresource,
+            int numSubresources,
+            ulong baseOffset,
+            Span<PlacedSubresourceFootPrint> layouts,
+            Span<int> numRows,
+            Span<ulong> rowSizeInBytes,
+            out ulong totalBytes)
+        {
+            fixed (PlacedSubresourceFootPrint* pLayouts = layouts)
+            fixed (int* pNumRows = numRows)
+            fixed (ulong* pRowSizeInBytes = rowSizeInBytes)
+                totalBytes = GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, pLayouts, pNumRows, pRowSizeInBytes);
+        }
+
+        #endregion
+
         public IntPtr CreateSharedHandle(ID3D12DeviceChild deviceChild, SecurityAttributes? attributes, string name)
         {
             return CreateSharedHandlePrivate(deviceChild, attributes, GENERIC_ALL, name);

@@ -68,7 +68,7 @@ namespace Vortice.Direct3D12
             }
         }
 
-        public void UpdateTileMappings(
+        public unsafe void UpdateTileMappings(
             ID3D12Resource resource,
             TiledResourceCoordinate[] resourceRegionStartCoordinates,
             TileRegionSize[] resourceRegionSizes,
@@ -78,16 +78,48 @@ namespace Vortice.Direct3D12
             int[] rangeTileCounts,
             TileMappingFlags flags = TileMappingFlags.None)
         {
-            UpdateTileMappings(resource,
-                resourceRegionStartCoordinates.Length,
-                resourceRegionStartCoordinates,
-                resourceRegionSizes,
-                heap,
-                rangeFlags.Length,
-                rangeFlags,
-                heapRangeStartOffsets,
-                rangeTileCounts,
-                flags);
+            fixed (TiledResourceCoordinate* pResourceRegionStartCoordinates = resourceRegionStartCoordinates)
+            fixed (TileRegionSize* pResourceRegionSizes = resourceRegionSizes)
+            fixed (TileRangeFlags* pRangeFlags = rangeFlags)
+            fixed (int* pHeapRangeStartOffsets = heapRangeStartOffsets)
+            fixed (int* pRangeTileCounts = rangeTileCounts)
+                UpdateTileMappings(resource,
+                    resourceRegionStartCoordinates.Length,
+                    pResourceRegionStartCoordinates,
+                    pResourceRegionSizes,
+                    heap,
+                    rangeFlags.Length,
+                    pRangeFlags,
+                    pHeapRangeStartOffsets,
+                    pRangeTileCounts,
+                    flags);
+        }
+
+        public unsafe void UpdateTileMappings(
+            ID3D12Resource resource,
+            ReadOnlySpan<TiledResourceCoordinate> resourceRegionStartCoordinates,
+            ReadOnlySpan<TileRegionSize> resourceRegionSizes,
+            ID3D12Heap heap,
+            ReadOnlySpan<TileRangeFlags> rangeFlags,
+            ReadOnlySpan<int> heapRangeStartOffsets,
+            ReadOnlySpan<int> rangeTileCounts,
+            TileMappingFlags flags = TileMappingFlags.None)
+        {
+            fixed (TiledResourceCoordinate* pResourceRegionStartCoordinates = resourceRegionStartCoordinates)
+            fixed (TileRegionSize* pResourceRegionSizes = resourceRegionSizes)
+            fixed (TileRangeFlags* pRangeFlags = rangeFlags)
+            fixed (int* pHeapRangeStartOffsets = heapRangeStartOffsets)
+            fixed (int* pRangeTileCounts = rangeTileCounts)
+                UpdateTileMappings(resource,
+                    resourceRegionStartCoordinates.Length,
+                    pResourceRegionStartCoordinates,
+                    pResourceRegionSizes,
+                    heap,
+                    rangeFlags.Length,
+                    pRangeFlags,
+                    pHeapRangeStartOffsets,
+                    pRangeTileCounts,
+                    flags);
         }
     }
 }
