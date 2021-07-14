@@ -745,7 +745,7 @@
 
     <map struct="D3D12_RENDER_PASS_RENDER_TARGET_DESC" name="RenderPassRenderTargetDescription" native="true" marshal="true" />
     <map struct="D3D12_RENDER_PASS_ENDING_ACCESS" name="RenderPassEndingAccess" native="true" marshal="true" />
-    
+
     <map struct="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS" name="RenderPassEndingAccessResolveParameters" native="true" struct-to-class="true" marshal="true" marshalto="false"  />
     <remove field="D3D12_RENDER_PASS_ENDING_ACCESS_RESOLVE_PARAMETERS::.*"/>
 
@@ -777,6 +777,12 @@
     <!-- ID3D12Device methods -->
     <map method="ID3D12Device::CheckFeatureSupport" visibility="internal" check="false"/>
     <map method="ID3D12Device::GetDeviceRemovedReason" check="false"/>
+
+    <map method="ID3D12Device::CopyDescriptors" visibility="private"/>
+    <map param="ID3D12Device::CopyDescriptors::pDestDescriptorRangeStarts" type="void" keep-pointers="true"/>
+    <map param="ID3D12Device::CopyDescriptors::pDestDescriptorRangeSizes" type="void" keep-pointers="true"/>
+    <map param="ID3D12Device::CopyDescriptors::pSrcDescriptorRangeStarts" type="void" keep-pointers="true"/>
+    <map param="ID3D12Device::CopyDescriptors::pSrcDescriptorRangeSizes" type="void" keep-pointers="true"/>
 
     <map method="ID3D12Device::CreateCommittedResource" visibility="private" hresult="true" check="false" />
     <map param="ID3D12Device::CreateCommittedResource::ppvResource" attribute="out" />
@@ -828,12 +834,17 @@
     <map param="ID3D12Device::CreateSampler::pDesc" attribute="in value"/>
     <map method="ID3D12Device::SetStablePowerState" property="false" />
 
+    <map method="ID3D12Device::GetCopyableFootprints" visibility="private"/>
+    <map param="ID3D12Device::GetCopyableFootprints::pResourceDesc" attribute="in value"/>
+    <map param="ID3D12Device::GetCopyableFootprints::pLayouts" type="void" keep-pointers="true"/>
+    <map param="ID3D12Device::GetCopyableFootprints::pNumRows" type="void" keep-pointers="true"/>
+    <map param="ID3D12Device::GetCopyableFootprints::pRowSizeInBytes" type="void" keep-pointers="true"/>
+
     <map method="ID3D12Device::OpenSharedHandle" visibility="private" hresult="true" check="false"/>
     <map method="ID3D12Device::OpenSharedHandleByName" visibility="private" hresult="true" check="false"/>
     <map method="ID3D12Device::Evict" visibility="private"/>
     <map method="ID3D12Device::MakeResident" visibility="private"/>
     <map method="ID3D12Device::GetResourceAllocationInfo" visibility="private"/>
-    <map param="ID3D12Device::GetCopyableFootprints::pResourceDesc" attribute="in value"/>
 
     <!-- ID3D12Device1 methods -->
     <map method="ID3D12Device1::CreatePipelineLibrary" visibility="private" hresult="true" check="false" />
@@ -902,12 +913,18 @@
     <map method="ID3D12Debug3::SetEnableSynchronizedCommandQueueValidation" property="false" />
     <map method="ID3D12Debug3::SetGPUBasedValidationFlags" property="false" />
 
-    <!-- ID3D12Debug3 -->
+    <!-- ID3D12CommandQueue -->
     <map method="ID3D12CommandQueue::ExecuteCommandLists" visibility="private"/>
     <map param="ID3D12CommandQueue::ExecuteCommandLists::ppCommandLists" type="void" />
     <map method="ID3D12CommandQueue::BeginEvent" visibility="private"/>
     <map method="ID3D12CommandQueue::SetMarker" visibility="private"/>
+
     <map method="ID3D12CommandQueue::UpdateTileMappings" visibility="private" hresult="true" check="false"/>
+    <map param="ID3D12CommandQueue::UpdateTileMappings::pResourceRegionStartCoordinates" type="void" keep-pointers="true"/>
+    <map param="ID3D12CommandQueue::UpdateTileMappings::pResourceRegionSizes" type="void" keep-pointers="true"/>
+    <map param="ID3D12CommandQueue::UpdateTileMappings::pRangeFlags" type="void" keep-pointers="true"/>
+    <map param="ID3D12CommandQueue::UpdateTileMappings::pHeapRangeStartOffsets" type="void" keep-pointers="true"/>
+    <map param="ID3D12CommandQueue::UpdateTileMappings::pRangeTileCounts" type="void" keep-pointers="true"/>
 
     <!-- ID3D12GraphicsCommandList -->
     <map param="ID3D12GraphicsCommandList::ResourceBarrier::pBarriers" type="void" keep-pointers="true"/>
