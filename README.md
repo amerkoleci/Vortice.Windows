@@ -29,12 +29,6 @@ Also, you need to install **Visual Studio 2019** with the following components:
 - [x] Windows 10 - 2104 SDK (10.0.20348.0) Component
 - [x] .NET5 SDK
 
-## Download
-
-All packages are available as NuGet packages: [![NuGet](https://img.shields.io/nuget/v/Vortice.Direct3D12.svg)](https://www.nuget.org/packages?q=Tags%3A%22Vortice.Windows%22,%22Direct3D12%22)
-
-Nightly packages can be downloaded from NuGet as well.
-
 ## Projects using Vortice.Windows
 
 - [Wave Engine](https://waveengine.net/)

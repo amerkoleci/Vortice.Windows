@@ -6,8 +6,7 @@ on:
     paths-ignore:
     - 'CHANGELOG.md'
     - 'README.md'
-    - 'changelog.md'
-    - 'readme.md'
+    - 'LICENSE'
   pull_request:
 
 jobs:
