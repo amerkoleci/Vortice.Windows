@@ -13,13 +13,12 @@ namespace Vortice.Direct3D12
         /// <param name="stateAfter">The state after.</param>
         /// <param name="subresource">The subresource.</param>
         /// <exception cref="System.ArgumentNullException">resource</exception>
-        public ResourceTransitionBarrier(ID3D12Resource resource, ResourceStates stateBefore, ResourceStates stateAfter, int subresource = -1)
+        public ResourceTransitionBarrier(ID3D12Resource resource, ResourceStates stateBefore, ResourceStates stateAfter, int subresource = D3D12.ResourceBarrierAllSubResources)
         {
             ResourcePointer = resource.NativePointer;
             Subresource = subresource;
             StateBefore = stateBefore;
             StateAfter = stateAfter;
-            Subresource = subresource;
         }
     }
 }
