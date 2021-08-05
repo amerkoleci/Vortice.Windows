@@ -3,12 +3,13 @@
 Current Stable Release:    1.9.80 (May 2021)
 
 -----------------------------------------------
-Release:     1.9.XX (June 2021)
+Release:     1.9.XX (August 2021)
 -----------------------------------------------
 - [ENH] Direct3D12: Add ID3D12Device.CreateRootSignature with blob creation.
 - [ENH] Direct3D11: Rename Usage to ResourceUsage and improve CreateBuffer, improve Create shaders with Blob directly.
 - [ENH] DXGI: dxgidebug.h under Vortice.DXGI.Debug namespace.
 - [ENH] Direct3D12: Improve Debug MessageID enum values names.
+- [ENH] WinUI: New Vortice.WinUI based on Microsoft.ProjectReunion.WinUI (https://www.nuget.org/packages/Microsoft.ProjectReunion.WinUI/)
 
 -----------------------------------------------
 Release:     1.9.80 (May 2021)

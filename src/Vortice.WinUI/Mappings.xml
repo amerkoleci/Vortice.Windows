@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-winui" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.WinUI</assembly>
+  <namespace>Vortice.WinUI</namespace>
+  <depends>Vortice.DXGI</depends>
+
+  <sdk name="WindowsSdk" version="10.0.20348.0" />
+  <sdk name="StdLib" />
+  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/WinUI</include-dir>
+
+  <include file="microsoft.ui.xaml.window.h" namespace="Vortice.WinUI" attach="true" />
+  <include file="microsoft.ui.xaml.hosting.desktopwindowxamlsource.h" namespace="Vortice.WinUI" attach="true" />
+  <include file="microsoft.ui.xaml.xamlroot.h" namespace="Vortice.WinUI" attach="true" />
+  <include file="microsoft.ui.xaml.media.dxinterop.h" namespace="Vortice.WinUI" attach="true" />
+
+  <extension>
+
+    <create class="WinUI" visibility="public static" />
+  </extension>
+
+  <bindings>
+  </bindings>
+
+  <naming>
+    <short name="(R(\d).*)$">$1</short>
+    <short name="(B(\d).*)$">$1</short>
+    <short name="(G(\d).*)$">$1</short>
+    <short name="(A(\d).*)$">$1</short>
+    <short name="(X(\d).*)$">$1</short>
+    <short name="(BC(\d).*)$">$1</short>
+    <short name="(AYUV)$">$1</short>
+    <short name="(YUY2)$">$1</short>
+    <short name="(NV\d+)$">$1</short>
+    <short name="(AI\d+)$">$1</short>
+    <short name="(IA\d+)$">$1</short>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="UINT8">UInt8</short>
+    <short name="UINT">UInt</short>
+    <short name="SINT">SInt</short>
+    <short name="UNORM">UNorm</short>
+    <short name="SNORM">SNorm</short>
+    <short name="SRGB">SRgb</short>
+  </naming>
+
+  <mapping>
+    <map param="IWindowNative::get_WindowHandle::hWnd" attribute="out" return="true" />
+    <map param="IDesktopWindowXamlSourceNative::get_WindowHandle::hWnd" attribute="out" />
+    <map param="IDesktopWindowXamlSourceNative::PreTranslateMessage::result" attribute="out" />
+
+    <map param="IXamlRootNative::get_HostWindow::hWnd" attribute="out" />
+  </mapping>
+</config>

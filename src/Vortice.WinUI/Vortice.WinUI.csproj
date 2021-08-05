@@ -5,13 +5,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Description>Direct3D11 bindings.</Description>
+    <Description>A .NET bindings for ProjectReunion.WinUI</Description>
   </PropertyGroup>
-  <ItemGroup>
-    <SharpGenMapping Include="Mappings.xml" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <SharpGenMapping Include="Mappings.xml" />
+  </ItemGroup>
+  
 </Project>
