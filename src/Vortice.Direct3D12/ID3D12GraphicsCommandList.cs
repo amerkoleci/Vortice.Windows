@@ -423,18 +423,18 @@ namespace Vortice.Direct3D12
 
         public void BeginEvent(string name)
         {
-            int sizeInQWords = PixHelpers.CalculateNoArgsEventSizeInQWords(name);
-            ulong* buffer = stackalloc ulong[sizeInQWords];
+            int bufferSize = PixHelpers.CalculateNoArgsEventSize(name);
+            void* buffer = stackalloc byte[bufferSize];
             PixHelpers.FormatNoArgsEventToBuffer(buffer, PixHelpers.PixEventType.PIXEvent_BeginEvent_NoArgs, 0, name);
-            BeginEvent(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), sizeInQWords * 8);
+            BeginEvent(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), bufferSize);
         }
 
         public void SetMarker(string name)
         {
-            int sizeInQWords = PixHelpers.CalculateNoArgsEventSizeInQWords(name);
-            ulong* buffer = stackalloc ulong[sizeInQWords];
+            int bufferSize = PixHelpers.CalculateNoArgsEventSize(name);
+            void* buffer = stackalloc byte[bufferSize];
             PixHelpers.FormatNoArgsEventToBuffer(buffer, PixHelpers.PixEventType.PIXEvent_SetMarker_NoArgs, 0, name);
-            SetMarker(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), sizeInQWords * 8);
+            SetMarker(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), bufferSize);
         }
 
         /// <summary>

@@ -24,27 +24,28 @@ namespace Vortice.Direct3D12
         }
 
         /// <summary>
-        /// Calculates the size of the buffer required, in qwords (eight byte chunks).
+        /// Calculates the size of the buffer required, in bytes.
         /// </summary>
         /// <param name="message"> The text to be embedded in the event. </param>
-        /// <returns> The size of the buffer required, in qwords (eight byte chunks). </returns>
-        internal static int CalculateNoArgsEventSizeInQWords(string message)
-        {
-            return 3 /* start marker, color, copy chunk size */ +
-                   message.Length / 4 /* 8 bytes / 2 bytes per character */ +
-                   1 /* null terminator */ +
-                   1 /* end marker */;
-        }
+        /// <returns> The size of the buffer required, in bytes. </returns>
+        internal static int CalculateNoArgsEventSize(string message) =>
+            (3 /* start marker, color, copy chunk size */ +
+            message.Length / 4 /* 8 bytes / 2 bytes per character */ +
+            1 /* null terminator */ +
+            1 /* end marker */) * 8;
 
         /// <summary>
         /// Writes a formatted PIX no-arg event to the given buffer.
         /// </summary>
-        /// <param name="buffer"> The buffer to write to. </param>
+        /// <param name="outputBuffer"> The buffer to write to. </param>
         /// <param name="eventType"> The PIX event type. </param>
         /// <param name="color"> Either a color index, or an RGB color. </param>
         /// <param name="message"> The message to embed in the buffer. </param>
-        internal static unsafe void FormatNoArgsEventToBuffer(ulong* buffer, PixEventType eventType, ulong color, string message)
+        internal static unsafe void FormatNoArgsEventToBuffer(void* outputBuffer, PixEventType eventType, ulong color, string message)
         {
+            // The buffer is written to in quad-word-sized chunks.
+            ulong* buffer = (ulong*)outputBuffer;
+
             // The first word contains the event type and the timestamp.
             // Bits 10-19 (10 bits) for the event type.
             // Bits 20-63 (44 bits) for timestamp (as produced by QueryPerformanceCounter).
