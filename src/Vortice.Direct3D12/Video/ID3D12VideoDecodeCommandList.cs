@@ -69,18 +69,18 @@ namespace Vortice.Direct3D12.Video
 
         public unsafe void BeginEvent(string name)
         {
-            fixed (char* chars = name)
-            {
-                BeginEvent(D3D12.PIX_EVENT_UNICODE_VERSION, new IntPtr(chars), (name.Length + 1) * 2);
-            }
+            int sizeInQWords = PixHelpers.CalculateNoArgsEventSizeInQWords(name);
+            ulong* buffer = stackalloc ulong[sizeInQWords];
+            PixHelpers.FormatNoArgsEventToBuffer(buffer, PixHelpers.PixEventType.PIXEvent_BeginEvent_NoArgs, 0, name);
+            BeginEvent(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), sizeInQWords * 8);
         }
 
         public unsafe void SetMarker(string name)
         {
-            fixed (char* chars = name)
-            {
-                SetMarker(D3D12.PIX_EVENT_UNICODE_VERSION, new IntPtr(chars), (name.Length + 1) * 2);
-            }
+            int sizeInQWords = PixHelpers.CalculateNoArgsEventSizeInQWords(name);
+            ulong* buffer = stackalloc ulong[sizeInQWords];
+            PixHelpers.FormatNoArgsEventToBuffer(buffer, PixHelpers.PixEventType.PIXEvent_SetMarker_NoArgs, 0, name);
+            SetMarker(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), sizeInQWords * 8);
         }
 
 
