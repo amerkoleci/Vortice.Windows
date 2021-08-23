@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
@@ -11,6 +11,7 @@
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
+    <ProjectReference Include="..\Vortice.Multimedia\Vortice.Multimedia.csproj" />
   </ItemGroup>
 
 </Project>

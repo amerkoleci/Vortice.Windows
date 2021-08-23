@@ -75,7 +75,7 @@ namespace Vortice.DirectInput
         /// <param name="bufferSize">The size of the unmanaged buffer.</param>
         /// <param name="bufferPointer">The pointer to the unmanaged buffer.</param>
         /// <returns>An instance of TypeSpecificParameters or null</returns>
-        protected virtual TypeSpecificParameters MarshalFrom(int bufferSize, IntPtr bufferPointer)
+        protected virtual TypeSpecificParameters? MarshalFrom(int bufferSize, IntPtr bufferPointer)
         {
             Init(bufferSize, bufferPointer);
             return this;

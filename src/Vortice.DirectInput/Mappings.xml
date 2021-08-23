@@ -3,7 +3,8 @@
   <assembly>Vortice.DirectInput</assembly>
   <namespace>Vortice.DirectInput</namespace>
   <depends>Vortice.DirectX</depends>
-
+  <depends>Vortice.Multimedia</depends>
+  
   <sdk name="WindowsSdk" version="10.0.20348.0" />
   <sdk name="StdLib" />
 
@@ -28,7 +29,25 @@
   <extension>
     <create class="DInput" visibility="public static" />
     <const from-macro="DIRECTINPUT_VERSION" type="int" name="SdkVersion" class="Vortice.DirectInput.DInput"/>
-    
+
+    <create class="DeviceGuids" visibility="public static"/>
+    <const from-guid="GUID_(SysMouse)" class="Vortice.DirectInput.DeviceGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <const from-guid="GUID_(SysKeyboard)" class="Vortice.DirectInput.DeviceGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <const from-guid="GUID_(Joystick)" class="Vortice.DirectInput.DeviceGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <const from-guid="GUID_(SysMouseEm)" class="Vortice.DirectInput.DeviceGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <const from-guid="GUID_(SysMouseEm2)" class="Vortice.DirectInput.DeviceGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <const from-guid="GUID_(SysKeyboardEm)" class="Vortice.DirectInput.DeviceGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+    <const from-guid="GUID_(SysKeyboardEm2)" class="Vortice.DirectInput.DeviceGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
+
+    <!-- DeviceClass -->
+    <create-cpp enum="DI8DEVCLASS" macro="DI8DEVCLASS_.*"/>
+
+    <!-- DeviceType -->
+    <create-cpp enum="DI8DEVTYPE" macro="DI8DEVTYPE_.*"/>
+
+    <!-- DeviceEnumerationFlags -->
+    <create-cpp enum="DIEDFL" macro="DIEDFL_.*"/>
+
     <!-- EffectFlags -->
     <create-cpp enum="DIEFF" macro="DIEFF_.*"/>
     <!-- EffectType -->
@@ -65,6 +84,25 @@
 
   <mapping>
     <!-- Enums -->
+    <map enum="DI8DEVCLASS" name="DeviceClass"/>
+    <map enum-item="DI8DEVCLASS_(.*)" name-tmp="$1"/>
+    <map enum-item="DI8DEVCLASS_GAMECTRL" name="GameControl"/>
+
+    <map enum="DI8DEVTYPE" name="DeviceType"/>
+    <map enum-item="DI8DEVTYPE_(.*)" name-tmp="$1"/>
+    <map enum-item="DI8DEVTYPE_1STPERSON" name="FirstPerson"/>
+    <map enum-item="DI8DEVTYPE_DEVICECTRL" name="ControlDevice"/>
+    <map enum-item="DI8DEVTYPE_SCREENPOINTER" name="ScreenPointer"/>
+    <remove enum-item="DI8DEVTYPE_LIMITEDGAMESUBTYPE" />
+
+    <map enum="DIEDFL" name="DeviceEnumerationFlags" flags="true"/>
+    <map enum-item="DIEDFL_ALLDEVICES" name="AllDevices"/>
+    <map enum-item="DIEDFL_ATTACHEDONLY" name="AttachedOnly"/>
+    <map enum-item="DIEDFL_FORCEFEEDBACK" name="ForceFeedback"/>
+    <map enum-item="DIEDFL_INCLUDEALIASES" name="IncludeAliases"/>
+    <map enum-item="DIEDFL_INCLUDEPHANTOMS" name="IncludePhantoms"/>
+    <map enum-item="DIEDFL_INCLUDEHIDDEN" name="IncludeHidden"/>
+    
     <map enum="DIEFF" name="EffectFlags" flags="true" none="true"/>
     <map enum-item="DIEFF_(.*)" name-tmp="$1"/>
     <map enum-item="DIEFF_OBJECTIDS" name="ObjectIds"/>
@@ -101,9 +139,12 @@
     <remove struct="DICONFIGUREDEVICESPARAMSW"/>
     <remove struct="DICOLORSET"/>
     <remove struct="DIEFFECT_DX5" />
-
+    <remove struct="DIDEVICEINSTANCEA" />
+    <remove struct="DIDEVICEINSTANCE_DX3|AW]" />
+    <remove struct="DIDEVICEOBJECTINSTANCEA" />
+    
     <!-- Make all dwSize fields in structure hidden by default -->
-    <map field=".*::dwSize" visibility="internal"/>
+    <map field=".*::dwSize" relation="struct-size()" visibility="internal"/>
 
     <!-- 
       DIACTIONW has an inner union that we need to remove.
@@ -170,6 +211,17 @@
 
     <map struct="DICONDITION" name="Condition"/>
     <map struct="DICONSTANTFORCE" name="RawConstantForce" visibility="internal"/>
+
+    <!--DIDEVICEINSTANCEW -->
+    <map struct="DIDEVICEINSTANCEW" name="DeviceInstance"/>
+    <map struct="DIDEVICEINSTANCEW" struct-to-class="true" new="true" />
+    <map field="DIDEVICEINSTANCEW::dwSize" visibility="internal"/>
+    <map field="DIDEVICEINSTANCEW::guidProduct" name="ProductGuid"/>
+    <map field="DIDEVICEINSTANCEW::guidInstance" name="InstanceGuid"/>
+    <map field="DIDEVICEINSTANCEW::guidFFDriver" name="ForceFeedbackDriverGuid"/>
+    <map field="DIDEVICEINSTANCEW::dwDevType" name="RawType" visibility="internal"/>
+    <map field="DIDEVICEINSTANCEW::wUsagePage" type="HID_USAGE_PAGE"/>
+    <map field="DIDEVICEINSTANCEW::wUsage" type="HID_USAGE_ID"/>
     
     <!-- Interfaces -->
     <map interface="IDirectInput8W" name="IDirectInput8" />
@@ -182,6 +234,17 @@
     <remove interface="IDirectInputDevice8A"/>
 
     <map method=".*::Enum.*" visibility="internal"/>
+
+    <!--IDirectInput8W -->
+    <map method="IDirectInput8W::CreateDevice" hresult="true" check="false" visibility="internal"/>
+    <map param="IDirectInput8W::CreateDevice::arg1" type="void" attribute="out" />
+
+    <map method="IDirectInput8W::EnumDevices" hresult="true" check="false" visibility="internal"/>
+    <map param="IDirectInput8W::EnumDevices::arg3" type="DIEDFL" />
+    <map param="IDirectInput8W::FindDevice::arg2" attribute="out" return="true" />
+    <map method="IDirectInput8W::GetDeviceStatus" visibility="internal" check="false"/>
+    <map method="IDirectInput8W::RunControlPanel" visibility="internal" />
+    <map method="IDirectInput8W::Initialize" visibility="internal" />
 
     <remove method="IDirectInput8W::ConfigureDevices"/>
 
@@ -196,7 +259,7 @@
     <remove function="GetdfDIJoystick" />
     <remove function="ShowJoyCPL" />
 
-    <map function="DirectInput.*" dll='"dinput8.dll"' group="Vortice.DirectInput.DInput"  hresult="true" check="false" visibility="internal"/>
+    <map function="DirectInput.*" dll='"dinput8.dll"' group="Vortice.DirectInput.DInput" hresult="true" check="false" visibility="internal"/>
     <map param="DirectInput8Create::ppvOut" attribute="out" return="false"/>
   </mapping>
 </config>

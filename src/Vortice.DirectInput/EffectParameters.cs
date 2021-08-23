@@ -11,14 +11,6 @@ namespace Vortice.DirectInput
     public partial class EffectParameters
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EffectParameters"/> class.
-        /// </summary>
-        public unsafe EffectParameters()
-        {
-            Size = sizeof(__Native);
-        }
-
-        /// <summary>
         /// Optional Envelope structure that describes the envelope to be used by this effect. Not all effect types use envelope. If no envelope is to be applied, the member should be set to null. 
         /// </summary>
         public Envelope Envelope { get; set; }
@@ -124,7 +116,7 @@ namespace Vortice.DirectInput
 
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
-            @ref.Size = this.Size;
+            @ref.Size = sizeof(__Native);
             @ref.Flags = this.Flags;
             @ref.Duration = this.Duration;
             @ref.SamplePeriod = this.SamplePeriod;

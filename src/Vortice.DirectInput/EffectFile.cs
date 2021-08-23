@@ -10,14 +10,6 @@ namespace Vortice.DirectInput
     public partial class EffectFile
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EffectFile"/> class.
-        /// </summary>
-        public unsafe EffectFile()
-        {
-            Size = sizeof(__Native);
-        }
-
-        /// <summary>
         /// Gets or sets the parameters.
         /// </summary>
         /// <value>The parameters.</value>

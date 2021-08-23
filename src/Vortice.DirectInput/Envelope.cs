@@ -7,14 +7,6 @@ namespace Vortice.DirectInput
 {
     public partial class Envelope
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Envelope"/> class.
-        /// </summary>
-        public unsafe Envelope()
-        {
-            Size = sizeof(__Native);
-        }
-
         #region Marshal
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
         internal partial struct __Native
@@ -39,16 +31,15 @@ namespace Vortice.DirectInput
 
         internal void __MarshalFrom(ref __Native @ref)
         {
-            Size = @ref.Size;
             AttackLevel = @ref.AttackLevel;
             AttackTime = @ref.AttackTime;
             FadeLevel = @ref.FadeLevel;
             FadeTime = @ref.FadeTime;
         }
 
-        internal void __MarshalTo(ref __Native @ref)
+        internal unsafe void __MarshalTo(ref __Native @ref)
         {
-            @ref.Size = Size;
+            @ref.Size = sizeof(__Native);
             @ref.AttackLevel = AttackLevel;
             @ref.AttackTime = AttackTime;
             @ref.FadeLevel = FadeLevel;
