@@ -116,16 +116,5 @@ namespace Vortice.Direct2D1
         {
             GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, requiredInputRects, inputDescriptions.Length);
         }
-
-        public ID2D1Effect? CreateEffect(Guid effectGuid)
-        {
-            IntPtr effectPtr = CreateEffect_(effectGuid);
-            if (effectPtr == IntPtr.Zero)
-            {
-                return null;
-            }
-
-            return new ID2D1Effect(effectPtr);
-        }
     }
 }

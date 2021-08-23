@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class EdgeDetection : ID2D1Effect
     {
         public EdgeDetection(ID2D1DeviceContext context)
-             : base(context.CreateEffect_(EffectGuids.EdgeDetection))
+             : base(context.CreateEffect(EffectGuids.EdgeDetection))
         {
         }
 

@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class SpotDiffuse : ID2D1Effect
     {
         public SpotDiffuse(ID2D1DeviceContext context)
-           : base(context.CreateEffect_(EffectGuids.SpotDiffuse))
+           : base(context.CreateEffect(EffectGuids.SpotDiffuse))
         {
         }
 

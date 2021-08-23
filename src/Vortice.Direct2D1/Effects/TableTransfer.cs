@@ -13,7 +13,7 @@ namespace Vortice.Direct2D1.Effects
         private int _alphaTableSize = 2;
 
         public TableTransfer(ID2D1DeviceContext context)
-             : base(context.CreateEffect_(EffectGuids.TableTransfer))
+             : base(context.CreateEffect(EffectGuids.TableTransfer))
         {
         }
 

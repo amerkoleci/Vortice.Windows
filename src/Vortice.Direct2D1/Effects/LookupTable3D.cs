@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class LookupTable3D : ID2D1Effect
     {
         public LookupTable3D(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.LookupTable3D))
+            : base(context.CreateEffect(EffectGuids.LookupTable3D))
         {
         }
 

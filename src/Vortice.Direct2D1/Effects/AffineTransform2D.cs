@@ -9,7 +9,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class AffineTransform2D : ID2D1Effect
     {
         public AffineTransform2D(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.AffineTransform2D))
+            : base(context.CreateEffect(EffectGuids.AffineTransform2D))
         {
         }
 

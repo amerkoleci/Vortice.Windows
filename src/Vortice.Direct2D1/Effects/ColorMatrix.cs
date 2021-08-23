@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public class ColorMatrix : ID2D1Effect
     {
         public ColorMatrix(ID2D1DeviceContext context)
-           : base(context.CreateEffect_(EffectGuids.ColorMatrix))
+           : base(context.CreateEffect(EffectGuids.ColorMatrix))
         {
         }
 

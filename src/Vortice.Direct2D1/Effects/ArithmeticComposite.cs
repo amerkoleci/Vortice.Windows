@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class ArithmeticComposite : ID2D1Effect
     {
         public ArithmeticComposite(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.ArithmeticComposite))
+            : base(context.CreateEffect(EffectGuids.ArithmeticComposite))
         {
         }
 

@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class GaussianBlur : ID2D1Effect
     {
         public GaussianBlur(ID2D1DeviceContext context)
-             : base(context.CreateEffect_(EffectGuids.GaussianBlur))
+             : base(context.CreateEffect(EffectGuids.GaussianBlur))
         {
         }
 

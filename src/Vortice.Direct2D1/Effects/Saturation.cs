@@ -7,7 +7,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Saturation : ID2D1Effect
     {
         public Saturation(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.Saturation))
+            : base(context.CreateEffect(EffectGuids.Saturation))
         {
         }
 

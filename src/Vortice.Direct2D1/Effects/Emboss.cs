@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Emboss : ID2D1Effect
     {
         public Emboss(ID2D1DeviceContext context)
-             : base(context.CreateEffect_(EffectGuids.Emboss))
+             : base(context.CreateEffect(EffectGuids.Emboss))
         {
         }
 

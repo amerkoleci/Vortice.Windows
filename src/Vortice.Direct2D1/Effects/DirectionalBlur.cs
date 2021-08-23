@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class DirectionalBlur : ID2D1Effect
     {
         public DirectionalBlur(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.DirectionalBlur))
+            : base(context.CreateEffect(EffectGuids.DirectionalBlur))
         {
         }
 

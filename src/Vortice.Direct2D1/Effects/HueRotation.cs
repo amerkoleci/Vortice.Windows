@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class HueRotation : ID2D1Effect
     {
         public HueRotation(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.HueRotation))
+            : base(context.CreateEffect(EffectGuids.HueRotation))
         {
         }
 

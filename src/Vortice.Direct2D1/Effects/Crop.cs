@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Crop : ID2D1Effect
     {
         public Crop(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.Crop))
+            : base(context.CreateEffect(EffectGuids.Crop))
         {
         }
 

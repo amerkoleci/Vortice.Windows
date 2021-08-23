@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Morphology : ID2D1Effect
     {
         public Morphology(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.Morphology))
+            : base(context.CreateEffect(EffectGuids.Morphology))
         {
         }
 

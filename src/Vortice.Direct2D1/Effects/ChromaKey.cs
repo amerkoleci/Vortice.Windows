@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class ChromaKey : ID2D1Effect
     {
         public ChromaKey(ID2D1DeviceContext context)
-           : base(context.CreateEffect_(EffectGuids.ChromaKey))
+           : base(context.CreateEffect(EffectGuids.ChromaKey))
         {
         }
 

@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Vignette : ID2D1Effect
     {
         public Vignette(ID2D1DeviceContext context)
-             : base(context.CreateEffect_(EffectGuids.Vignette))
+             : base(context.CreateEffect(EffectGuids.Vignette))
         {
         }
 

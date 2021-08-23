@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Contrast : ID2D1Effect
     {
         public Contrast(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.Contrast))
+            : base(context.CreateEffect(EffectGuids.Contrast))
         {
         }
 

@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class LinearTransfer : ID2D1Effect
     {
         public LinearTransfer(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.LinearTransfer))
+            : base(context.CreateEffect(EffectGuids.LinearTransfer))
         {
         }
 

@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class AlphaMask : ID2D1Effect
     {
         public AlphaMask(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.AlphaMask))
+            : base(context.CreateEffect(EffectGuids.AlphaMask))
         {
         }
 

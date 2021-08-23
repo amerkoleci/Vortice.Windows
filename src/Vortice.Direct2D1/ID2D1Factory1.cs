@@ -45,25 +45,69 @@ namespace Vortice.Direct2D1
             return guids;
         }
 
+        /// <summary>
+        /// Register a <see cref="ID2D1EffectImpl"/> factory.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="effectFactory"></param>
+        public void RegisterEffect<T>(Func<T> effectFactory) where T : ID2D1EffectImpl
+        {
+            Guid effectId = typeof(T).GUID;
+            RegisterEffect<T>(effectFactory, effectId);
+        }
+
+        /// <summary>
+        /// Register a <see cref="ID2D1EffectImpl"/> factory.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="effectFactory"></param>
+        /// <param name="effectId"></param>
+        public void RegisterEffect<T>(Func<T> effectFactory, Guid effectId) where T : ID2D1EffectImpl
+        {
+            CustomEffectFactory factory;
+            lock (_customEffectFactories)
+            {
+                if (_customEffectFactories.ContainsKey(effectId))
+                    throw new ArgumentException("An effect is already registered with this GUID", nameof(effectFactory));
+
+                factory = new CustomEffectFactory(typeof(T), () => effectFactory());
+                _customEffectFactories.Add(effectId, factory);
+            }
+            RegisterEffectFromString(effectId, factory.GetXML(), factory.GetBindings(), factory.Callback);
+        }
+
+        /// <summary>
+        /// Register a <see cref="ID2D1EffectImpl"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of </typeparam>
         public void RegisterEffect<T>() where T : ID2D1EffectImpl, new()
+        {
+            RegisterEffect<T>(typeof(T).GUID);
+        }
+
+        /// <summary>
+        /// Register a <see cref="ID2D1EffectImpl"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of </typeparam>
+        /// <param name="effectId"></param>
+        public void RegisterEffect<T>(Guid effectId) where T : ID2D1EffectImpl, new()
         {
             lock (_customEffectFactories)
             {
-                var effectGuid = typeof(T).GUID;
-                if (_customEffectFactories.ContainsKey(effectGuid))
+                if (_customEffectFactories.ContainsKey(effectId))
                     return;
 
                 var factory = new CustomEffectFactory(typeof(T), () => new T());
-                _customEffectFactories.Add(effectGuid, factory);
-                RegisterEffectFromString(effectGuid, factory.GetXML(), factory.GetBindings(), factory.Callback);
+                _customEffectFactories.Add(effectId, factory);
+                RegisterEffectFromString(effectId, factory.GetXML(), factory.GetBindings(), factory.Callback);
             }
         }
 
-        public void UnregisterEffect<T>() where T : ID2D1EffectImpl, new()
+        public void UnregisterEffect<T>() where T : CustomEffectBase, new()
         {
             lock (_customEffectFactories)
             {
-                var effectGuid = typeof(T).GUID;
+                Guid effectGuid = typeof(T).GUID;
                 if (!_customEffectFactories.ContainsKey(effectGuid))
                     return;
 

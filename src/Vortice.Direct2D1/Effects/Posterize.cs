@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Posterize : ID2D1Effect
     {
         public Posterize(ID2D1DeviceContext context)
-           : base(context.CreateEffect_(EffectGuids.Posterize))
+           : base(context.CreateEffect(EffectGuids.Posterize))
         {
         }
 

@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Flood : ID2D1Effect
     {
         public Flood(ID2D1DeviceContext context)
-             : base(context.CreateEffect_(EffectGuids.Flood))
+             : base(context.CreateEffect(EffectGuids.Flood))
         {
         }
 

@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Border : ID2D1Effect
     {
         public Border(ID2D1DeviceContext context)
-           : base(context.CreateEffect_(EffectGuids.Border))
+           : base(context.CreateEffect(EffectGuids.Border))
         {
         }
 

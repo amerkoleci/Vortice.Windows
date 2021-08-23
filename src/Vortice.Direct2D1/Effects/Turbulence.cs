@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Turbulence : ID2D1Effect
     {
         public Turbulence(ID2D1DeviceContext context)
-           : base(context.CreateEffect_(EffectGuids.Turbulence))
+           : base(context.CreateEffect(EffectGuids.Turbulence))
         {
         }
 

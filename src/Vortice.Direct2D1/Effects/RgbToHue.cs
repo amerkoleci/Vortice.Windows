@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class RgbToHue : ID2D1Effect
     {
         public RgbToHue(ID2D1DeviceContext context)
-           : base(context.CreateEffect_(EffectGuids.RgbToHue))
+           : base(context.CreateEffect(EffectGuids.RgbToHue))
         {
         }
 

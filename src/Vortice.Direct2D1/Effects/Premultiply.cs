@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Premultiply : ID2D1Effect
     {
         public Premultiply(ID2D1DeviceContext context)
-           : base(context.CreateEffect_(EffectGuids.Premultiply))
+           : base(context.CreateEffect(EffectGuids.Premultiply))
         {
         }
 

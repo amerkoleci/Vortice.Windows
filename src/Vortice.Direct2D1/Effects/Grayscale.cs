@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Grayscale : ID2D1Effect
     {
         public Grayscale(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.Grayscale))
+            : base(context.CreateEffect(EffectGuids.Grayscale))
         {
         }
 

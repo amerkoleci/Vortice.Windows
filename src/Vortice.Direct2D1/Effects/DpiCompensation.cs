@@ -6,7 +6,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class DpiCompensation : ID2D1Effect
     {
         public DpiCompensation(ID2D1DeviceContext context)
-             : base(context.CreateEffect_(EffectGuids.DpiCompensation))
+             : base(context.CreateEffect(EffectGuids.DpiCompensation))
         {
         }
 

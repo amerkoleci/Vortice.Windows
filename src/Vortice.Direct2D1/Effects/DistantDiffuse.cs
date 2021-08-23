@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class DistantDiffuse : ID2D1Effect
     {
         public DistantDiffuse(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.DistantDiffuse))
+            : base(context.CreateEffect(EffectGuids.DistantDiffuse))
         {
         }
 

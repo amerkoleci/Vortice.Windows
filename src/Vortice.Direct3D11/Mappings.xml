@@ -727,6 +727,7 @@
     <map field="D3D11_TILE_REGION_SIZE::bUseBox" name="UseBox" />
 
     <!-- d3d11shader -->
+    <map enum-item="D3D11_SHVER_(.*)" name-tmp="$1"/>
     <map struct="D3D11_SHADER_BUFFER_DESC" name="ConstantBufferDescription" />
     <map field="D3D11_SHADER_BUFFER_DESC::uFlags" name="Flags" type="D3D_SHADER_CBUFFER_FLAGS" />
     <map field="D3D11_SHADER_BUFFER_DESC::Variables" name="VariableCount" />

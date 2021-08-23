@@ -9,7 +9,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class HdrToneMap : ID2D1Effect
     {
         public HdrToneMap(ID2D1DeviceContext context)
-            : base(context.CreateEffect_(EffectGuids.HdrToneMap))
+            : base(context.CreateEffect(EffectGuids.HdrToneMap))
         {
         }
 

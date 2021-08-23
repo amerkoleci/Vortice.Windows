@@ -8,7 +8,7 @@ namespace Vortice.Direct2D1.Effects
     public sealed class Shadow : ID2D1Effect
     {
         public Shadow(ID2D1DeviceContext context)
-           : base(context.CreateEffect_(EffectGuids.Shadow))
+           : base(context.CreateEffect(EffectGuids.Shadow))
         {
         }
 
