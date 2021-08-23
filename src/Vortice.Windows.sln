@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedTextRenderingApp", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.WinUI", "Vortice.WinUI\Vortice.WinUI.csproj", "{9BF45C22-6C5B-4468-AD57-151D3E73947C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectInput", "Vortice.DirectInput\Vortice.DirectInput.csproj", "{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{9BF45C22-6C5B-4468-AD57-151D3E73947C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BF45C22-6C5B-4468-AD57-151D3E73947C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BF45C22-6C5B-4468-AD57-151D3E73947C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-dinput" xmlns="urn:SharpGen.Config">
+  <assembly>Vortice.DirectInput</assembly>
+  <namespace>Vortice.DirectInput</namespace>
+  <depends>Vortice.DirectX</depends>
+
+  <sdk name="WindowsSdk" version="10.0.20348.0" />
+  <sdk name="StdLib" />
+
+  <include file="dinput.h" attach="true">
+    <pre>
+      // Redefine FIELD_OFFSET using builtin gcc offsetof in order to use them in enum/variable declarations
+      #define FIELD_OFFSET(type, field) __builtin_offsetof(type,field)
+    </pre>
+    <post>
+
+      // Add JoystickOffsets predefined values
+      #define DIJOFS_SLIDER0 DIJOFS_SLIDER(0)
+      #define DIJOFS_SLIDER1 DIJOFS_SLIDER(1)
+      #define DIJOFS_POINT_OF_VIEW0 DIJOFS_POV(0)
+      #define DIJOFS_POINT_OF_VIEW1 DIJOFS_POV(1)
+      #define DIJOFS_POINT_OF_VIEW2 DIJOFS_POV(2)
+      #define DIJOFS_POINT_OF_VIEW3 DIJOFS_POV(3)
+      #define DIK_UNKNOWN 0
+    </post>
+  </include>
+
+  <extension>
+    <create class="DInput" visibility="public static" />
+    <const from-macro="DIRECTINPUT_VERSION" type="int" name="SdkVersion" class="Vortice.DirectInput.DInput"/>
+    
+    <!-- EffectFlags -->
+    <create-cpp enum="DIEFF" macro="DIEFF_.*"/>
+    <!-- EffectType -->
+    <create-cpp enum="DIEFT" macro="DIEFT_.*" />
+    <!-- EffectParameterFlags -->
+    <create-cpp enum="DIEP" macro="DIEP_.*"/>
+  </extension>
+
+  <bindings>
+  </bindings>
+
+  <naming>
+    <short name="(R(\d).*)$">$1</short>
+    <short name="(B(\d).*)$">$1</short>
+    <short name="(G(\d).*)$">$1</short>
+    <short name="(A(\d).*)$">$1</short>
+    <short name="(X(\d).*)$">$1</short>
+    <short name="(BC(\d).*)$">$1</short>
+    <short name="(AYUV)$">$1</short>
+    <short name="(YUY2)$">$1</short>
+    <short name="(NV\d+)$">$1</short>
+    <short name="(AI\d+)$">$1</short>
+    <short name="(IA\d+)$">$1</short>
+    <short name="DESCRIPTOR">Descriptor</short>
+    <short name="DESCRIPTION">Description</short>
+    <short name="DESC">Description</short>
+    <short name="UINT8">UInt8</short>
+    <short name="UINT">UInt</short>
+    <short name="SINT">SInt</short>
+    <short name="UNORM">UNorm</short>
+    <short name="SNORM">SNorm</short>
+    <short name="SRGB">SRgb</short>
+  </naming>
+
+  <mapping>
+    <!-- Enums -->
+    <map enum="DIEFF" name="EffectFlags" flags="true" none="true"/>
+    <map enum-item="DIEFF_(.*)" name-tmp="$1"/>
+    <map enum-item="DIEFF_OBJECTIDS" name="ObjectIds"/>
+    <map enum-item="DIEFF_OBJECTOFFSETS" name="ObjectOffsets"/>
+
+    <map enum="DIEFT" name="EffectType" flags="true" none="true"/>
+    <map enum-item="DIEFT_(.*)" name-tmp="$1"/>
+    <map enum-item="DIEFT_CONSTANTFORCE" name="ConstantForce"/>
+    <map enum-item="DIEFT_RAMPFORCE" name="RampForce"/>
+    <map enum-item="DIEFT_CUSTOMFORCE" name="CustomForce"/>
+    <map enum-item="DIEFT_FFATTACK" name="Attack"/>
+    <map enum-item="DIEFT_FFFADE" name="Fade"/>
+    <map enum-item="DIEFT_POSNEGCOEFFICIENTS" name="TwoCoefficients"/>
+    <map enum-item="DIEFT_POSNEGSATURATION" name="TwoSaturations"/>
+    <map enum-item="DIEFT_DEADBAND" name="DeadBand"/>
+    <map enum-item="DIEFT_STARTDELAY" name="StartDelay"/>
+
+    <map enum="DIEP" name="EffectParameterFlags" flags="true" none="true"/>
+    <map enum-item="DIEP_(.*)" name-tmp="$1"/>
+    <map enum-item="DIEP_SAMPLEPERIOD" name="SamplePeriod"/>
+    <map enum-item="DIEP_TRIGGERBUTTON" name="TriggerButton"/>
+    <map enum-item="DIEP_TRIGGERREPEATINTERVAL" name="TriggerRepeatInterval"/>
+    <map enum-item="DIEP_TYPESPECIFICPARAMS" name="TypeSpecificParameters"/>
+    <map enum-item="DIEP_STARTDELAY" name="StartDelay"/>
+    <map enum-item="DIEP_ALLPARAMS_DX5" name="AllExceptDelay"/>
+    <map enum-item="DIEP_ALLPARAMS" name="All"/>
+    <map enum-item="DIEP_NORESTART" name="NoRestart"/>
+    <map enum-item="DIEP_NODOWNLOAD" name="NoDownload"/>
+
+    <!-- Structs -->
+    <remove struct="DIACTIONA" />
+    <remove struct="DIACTIONFORMATA" />
+    <remove struct="DICONFIGUREDEVICESPARAMSA" />
+    <remove struct="DICONFIGUREDEVICESPARAMSW"/>
+    <remove struct="DICOLORSET"/>
+    <remove struct="DIEFFECT_DX5" />
+
+    <!-- Make all dwSize fields in structure hidden by default -->
+    <map field=".*::dwSize" visibility="internal"/>
+
+    <!-- 
+      DIACTIONW has an inner union that we need to remove.
+      This struct will be handled differently
+    -->
+    <map field=".*::dw(.+)" name="$1"/>
+    <map field=".*::dwc([A-Z].+)" name="$1"/>
+    <map field=".*::c([A-Z].+)" name="$1"/>
+    <map field=".*::u([A-Z].+)" name="$1"/>
+    <map field=".*::cb([A-Z].+)" name="$1"/>
+    <map field=".*::[wt]sz(.+)" name="$1"/>
+    <map field=".*::[wl]([A-Z].*)" name="$1"/>
+    <map field=".*::tsz(.+)" name="$1"/>
+    <map field=".*::lpv(.+)" name="$1"/>
+    <map field=".*::lptsz(.+)" name="$1"/>
+    <map field=".*::lprg(.+)" name="$1"/>
+    <map field=".*::lpUnk(.+)" name="$1"/>
+    <map field=".*::dwOfs" name="Offset"/>
+    <remove field="DIACTIONW::uResIdString"/>
+    <map field="DIACTIONW::lptszActionName" type="void"/>
+    <map struct="DIACTIONW" name="Action" visibility="internal"/>
+
+    <map struct="DIENVELOPE" name="Envelope"/>
+    <map struct="DIENVELOPE" native="true" struct-to-class="true" marshal="true" new="true" />
+
+
+    <!-- DIEFFESCAPE -->
+    <map struct="DIEFFESCAPE" name="EffectEscape" visibility="internal"/>
+    <map field="DIEFFESCAPE::lpvInBuffer" name="InBufferPointer" visibility="internal"/>
+    <map field="DIEFFESCAPE::cbInBuffer" name="InBufferSize" visibility="internal"/>
+    <map field="DIEFFESCAPE::lpvOutBuffer" name="OutBufferPointer" visibility="internal"/>
+    <map field="DIEFFESCAPE::cbOutBuffer" name="OutBufferSize" visibility="internal"/>
+
+    <!-- DIEFFECTINFO -->
+    <map struct="DIEFFECTINFOW" name="EffectInfo"/>
+    <map struct="DIEFFECTINFOW" native="true" struct-to-class="true" marshal="false" new="true" />
+    <map field="DIEFFECTINFOW::dwSize" visibility="internal"/>
+    <map field="DIEFFECTINFOW::dwEffType" name="Type" type="DIEFT"/>
+    <map field="DIEFFECTINFOW::dwStaticParams" name="StaticParameters" type="DIEP"/>
+    <map field="DIEFFECTINFOW::dwDynamicParams" name="DynamicParameters" type="DIEP"/>
+
+    <!-- DIEFFECT -->
+    <map struct="DIEFFECT" name="EffectParameters"/>
+    <map struct="DIEFFECT" native="true" struct-to-class="true" marshal="true" new="true" />
+    <map field="DIEFFECT::dwSize" visibility="internal"/>
+    <map field="DIEFFECT::dwFlags" type="DIEFF"/>
+    <map field="DIEFFECT::cAxes" name="AxeCount" visibility="internal"/>
+    <map field="DIEFFECT::rgdwAxes" name="AxePointer" visibility="internal"/>
+    <map field="DIEFFECT::rglDirection" name="DirectionPointer" visibility="internal"/>
+    <map field="DIEFFECT::lpEnvelope" name="EnvelopePointer" visibility="internal"/>
+    <map field="DIEFFECT::cbTypeSpecificParams" name="TypeSpecificParamCount" visibility="internal"/>
+    <map field="DIEFFECT::lpvTypeSpecificParams" name="TypeSpecificParamPointer" visibility="internal"/>
+
+    <!-- DIFILEEFFECT -->
+    <map struct="DIFILEEFFECT" name="EffectFile"/>
+    <map struct="DIFILEEFFECT" native="true" struct-to-class="true" marshal="true" new="true" />
+    <map field="DIFILEEFFECT::dwSize" visibility="internal"/>
+    <map field="DIFILEEFFECT::GuidEffect" name="Guid"/>
+    <map field="DIFILEEFFECT::lpDiEffect" name="EffectParametersPointer" visibility="internal"/>
+    <map field="DIFILEEFFECT::szFriendlyName" name="Name"/>
+
+    <!--DIACTIONFORMATW -->
+    <map struct="DIACTIONFORMATW" name="ActionFormat" visibility="internal"/>
+
+    <map struct="DICONDITION" name="Condition"/>
+    <map struct="DICONSTANTFORCE" name="RawConstantForce" visibility="internal"/>
+    
+    <!-- Interfaces -->
+    <map interface="IDirectInput8W" name="IDirectInput8" />
+    <map interface="IDirectInputDevice8W" name="IDirectInputDevice8"/>
+    <map interface="IDirectInputEffect" name="IDirectInputEffect"/>
+
+    <remove interface="IDirectInput[27]?[AW]"/>
+    <remove interface="IDirectInputDevice[27]?[AW]"/>
+    <remove interface="IDirectInput8A"/>
+    <remove interface="IDirectInputDevice8A"/>
+
+    <map method=".*::Enum.*" visibility="internal"/>
+
+    <remove method="IDirectInput8W::ConfigureDevices"/>
+
+    <!--IDirectInputDevice8 -->
+    <map method="IDirectInputDevice8W::BuildActionMap" visibility="internal"/>
+    <map method="IDirectInputDevice8W::SetActionMap" visibility="internal"/>
+    <map method="IDirectInputDevice8W::Escape" visibility="internal" />
+
+    <!-- IDirectInputEffect -->
+    <map method="IDirectInputEffect::Escape" visibility="internal"/>
+
+    <remove function="GetdfDIJoystick" />
+    <remove function="ShowJoyCPL" />
+
+    <map function="DirectInput.*" dll='"dinput8.dll"' group="Vortice.DirectInput.DInput"  hresult="true" check="false" visibility="internal"/>
+    <map param="DirectInput8Create::ppvOut" attribute="out" return="false"/>
+  </mapping>
+</config>

@@ -1,15 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Description>A .NET bindings for ProjectReunion.WinUI</Description>
+    <Description>A .NET bindings for DirectInput</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
+    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
   </ItemGroup>
+
 </Project>
