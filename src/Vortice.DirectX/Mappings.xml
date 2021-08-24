@@ -8,6 +8,7 @@
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 
+  <include file="winerror.h" namespace="Vortice.Win32" output="Win32"/>
   <include file="d3dcommon.h" namespace="Vortice.Direct3D" attach="true" output="Direct3D" />
   <include file="dxcore_interface.h" namespace="Vortice.DXCore" attach="true" output="DXCore" />
   <include file="dxcore.h" namespace="Vortice.DXCore" attach="true" output="DXCore" />
@@ -58,6 +59,8 @@
     <create class="CommonGuid" visibility="public" />
 
     <create class="Vortice.DXCore.DXCore" visibility="public static" />
+
+    <create-cpp enum="VORTICE_ERRORCODE" macro="ERROR_(.*)" />
   </extension>
 
   <bindings>
@@ -194,6 +197,9 @@
   </naming>
 
   <mapping>
+    <map enum="VORTICE_ERRORCODE" assembly="Vortice.DirectX" namespace="Vortice.Win32" name="ErrorCode"/>
+    <map enum-item="ERROR_(.*)" name-tmp="$1" naming="noexpand"/>
+    
     <map enum="D3D(.*)" name-tmp="$1" />
     <map enum-item="D3D(?!_PF_)(.*)" name-tmp="$1" />
     <map enum-item="D3D_INTERPOLATION(.*)" name-tmp="$1" />

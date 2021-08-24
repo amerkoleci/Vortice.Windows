@@ -28,12 +28,23 @@ namespace Vortice.DirectInput
 {
     public partial class IDirectInput8
     {
+        /// <summary>
+        /// Create new device with given Guid.
+        /// </summary>
+        /// <param name="deviceGuid">The device guid or one of <see cref="DeviceGuid"/> predefined types.</param>
+        /// <returns>The instance of <see cref="IDirectInputDevice8"/></returns>
         public IDirectInputDevice8 CreateDevice(Guid deviceGuid)
         {
             CreateDevice(deviceGuid, out IntPtr nativePtr, null).CheckError();
             return new IDirectInputDevice8(nativePtr);
         }
 
+        /// <summary>
+        /// Try to create new device with given Guid.
+        /// </summary>
+        /// <param name="deviceGuid">The device guid or one of <see cref="DeviceGuid"/> predefined types.</param>
+        /// <param name="device">The instance of <see cref="IDirectInputDevice8"/> or null if failed.</param>
+        /// <returns></returns>
         public Result CreateDevice(Guid deviceGuid, out IDirectInputDevice8? device)
         {
             Result result = CreateDevice(deviceGuid, out IntPtr nativePtr, null);
@@ -52,19 +63,19 @@ namespace Vortice.DirectInput
             switch (predefinedDevice)
             {
                 case PredefinedDevice.SysMouse:
-                    return CreateDevice(DeviceGuids.SysMouse);
+                    return CreateDevice(DeviceGuid.SysMouse);
                 case PredefinedDevice.SysKeyboard:
-                    return CreateDevice(DeviceGuids.SysKeyboard);
+                    return CreateDevice(DeviceGuid.SysKeyboard);
                 case PredefinedDevice.Joystick:
-                    return CreateDevice(DeviceGuids.Joystick);
+                    return CreateDevice(DeviceGuid.Joystick);
                 case PredefinedDevice.SysMouseEm:
-                    return CreateDevice(DeviceGuids.SysMouseEm);
+                    return CreateDevice(DeviceGuid.SysMouseEm);
                 case PredefinedDevice.SysMouseEm2:
-                    return CreateDevice(DeviceGuids.SysMouseEm2);
+                    return CreateDevice(DeviceGuid.SysMouseEm2);
                 case PredefinedDevice.SysKeyboardEm:
-                    return CreateDevice(DeviceGuids.SysKeyboardEm);
+                    return CreateDevice(DeviceGuid.SysKeyboardEm);
                 case PredefinedDevice.SysKeyboardEm2:
-                    return CreateDevice(DeviceGuids.SysKeyboardEm2);
+                    return CreateDevice(DeviceGuid.SysKeyboardEm2);
                 default:
                     throw new ArgumentException(nameof(predefinedDevice));
             }
