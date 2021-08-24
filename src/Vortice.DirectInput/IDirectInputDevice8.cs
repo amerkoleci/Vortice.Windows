@@ -143,6 +143,17 @@ namespace Vortice.DirectInput
 
         public MouseUpdate[] GetBufferedMouseData() => GetBufferedData<MouseUpdate>();
 
+        public JoystickState GetCurrentJoystickState()
+        {
+            var value = new JoystickState();
+            GetCurrentJoystickState(ref value);
+            return value;
+        }
+
+        public void GetCurrentJoystickState(ref JoystickState data) => GetCurrentState<JoystickState, RawJoystickState, JoystickUpdate>(ref data);
+
+        public JoystickUpdate[] GetBufferedJoystickData() => GetBufferedData<JoystickUpdate>();
+
         /// <summary>
         /// Sends a hardware-specific command to the force-feedback driver.
         /// </summary>
