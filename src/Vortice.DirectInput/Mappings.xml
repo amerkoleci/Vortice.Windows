@@ -983,7 +983,7 @@
     <map param="IDirectInputDevice8W::SendDeviceData::arg1" attribute="in buffer"/>
     <map param="IDirectInputDevice8W::SendDeviceData::arg2" attribute="inout"/>
 
-    <map method="IDirectInputDevice8W::SetDataFormat" visibility="internal" property="false"/>
+    <map method="IDirectInputDevice8W::SetDataFormat" hresult="true" check="false"  visibility="internal" property="false"/>
     <map method="IDirectInputDevice8W::SetEventNotification" hresult="true" check="false" visibility="internal" property="false"/>
 
     <map method="IDirectInputDevice8W::SetCooperativeLevel" hresult="true" check="false" />

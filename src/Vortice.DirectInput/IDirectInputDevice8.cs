@@ -22,7 +22,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
 using SharpGen.Runtime;
 
@@ -30,6 +33,9 @@ namespace Vortice.DirectInput
 {
     public partial class IDirectInputDevice8
     {
+        private DataFormat? _dataFormat;
+        private readonly Dictionary<string, ObjectDataFormat> _mapNameToObjectFormat = new Dictionary<string, ObjectDataFormat>();
+
         /// <summary>
         /// Gets the created effects.
         /// </summary>
@@ -120,6 +126,33 @@ namespace Vortice.DirectInput
 
             return updates;
         }
+
+        public DeviceObjectInstance GetObjectInfoByName(string name)
+        {
+            return GetObjectInfo(GetFromName(name).Offset, PropertyHowType.Byoffset);
+        }
+
+        public DeviceObjectInstance GetObjectInfoByOffset(int offset)
+        {
+            return GetObjectInfo(offset, PropertyHowType.Byoffset);
+        }
+
+        //public ObjectProperties GetObjectPropertiesByName(string name)
+        //{
+        //    return new ObjectProperties(this, GetFromName(name).Offset, PropertyHowType.Byoffset);
+        //}
+
+        private ObjectDataFormat GetFromName(string name)
+        {
+            ObjectDataFormat objectFormat;
+            if (!_mapNameToObjectFormat.TryGetValue(name, out objectFormat))
+            {
+                throw new ArgumentException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Invalid name [{0}]. Must be in [{1}]", name, string.Join(";", _mapNameToObjectFormat.Keys)));
+            }
+
+            return objectFormat;
+        }
+
 
         public KeyboardState GetCurrentKeyboardState()
         {
@@ -358,5 +391,114 @@ namespace Vortice.DirectInput
             WriteEffectToFile(fileName, effects.Length, effects, (int)(includeNonstandardEffects ? EffectFileFlags.IncludeNonStandard : 0));
         }
 
+        public Result SetDataFormat<TRaw>() where TRaw : unmanaged
+        {
+            var dataFormat = GetDataFormat<TRaw>();
+            return SetDataFormat(dataFormat);
+        }
+
+        private unsafe DataFormat GetDataFormat<TRaw>() where TRaw : unmanaged
+        {
+            if (_dataFormat == null)
+            {
+                // Build DataFormat from IDataFormatProvider
+                if (typeof(IDataFormatProvider).IsAssignableFrom(typeof(TRaw)))
+                {
+                    var provider = (IDataFormatProvider)(new TRaw());
+                    _dataFormat = new DataFormat(provider.Flags)
+                    {
+                        DataSize = sizeof(TRaw),
+                        ObjectsFormat = provider.ObjectsFormat
+                    };
+                }
+                else
+                {
+                    // Build DataFormat from DataFormat and DataObjectFormat attributes
+                    IEnumerable<DataFormatAttribute> dataFormatAttributes = typeof(TRaw).GetCustomAttributes<DataFormatAttribute>(false);
+                    if (dataFormatAttributes.Count() != 1)
+                        throw new InvalidOperationException(
+                            string.Format(System.Globalization.CultureInfo.InvariantCulture, "The structure [{0}] must be marked with DataFormatAttribute or provide a IDataFormatProvider",
+                                            typeof(TRaw).FullName));
+
+                    _dataFormat = new DataFormat(((DataFormatAttribute)dataFormatAttributes.First()).Flags)
+                    {
+                        DataSize = sizeof(TRaw)
+                    };
+
+                    var dataObjects = new List<ObjectDataFormat>();
+
+                    IEnumerable<FieldInfo> fields = typeof(TRaw).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                    // Iterates on fields
+                    foreach (var field in fields)
+                    {
+                        IEnumerable<DataObjectFormatAttribute> dataObjectAttributes = field.GetCustomAttributes<DataObjectFormatAttribute>(false);
+                        if (dataObjectAttributes.Count() > 0)
+                        {
+                            int fieldOffset = Marshal.OffsetOf(typeof(TRaw), field.Name).ToInt32();
+                            int totalSizeOfField = Marshal.SizeOf(field.FieldType);
+                            int offset = fieldOffset;
+                            int numberOfDataObjects = 0;
+
+                            // Count the number of effective sub-field for a field
+                            // A field that contains a fixed array should have sub-field
+                            for (int i = 0; i < dataObjectAttributes.Count(); i++)
+                            {
+                                var attr = dataObjectAttributes.ElementAt(i);
+                                numberOfDataObjects += attr.ArrayCount == 0 ? 1 : attr.ArrayCount;
+                            }
+
+                            // Check that the size of the field is compatible with the number of sub-field
+                            // For a simple field without any array element, sub-field = field
+                            int sizeOfField = totalSizeOfField / numberOfDataObjects;
+                            if ((sizeOfField * numberOfDataObjects) != totalSizeOfField)
+                                throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Field [{0}] has incompatible size [{1}] and number of DataObjectAttributes [{2}]", field.Name, (double)totalSizeOfField / numberOfDataObjects, numberOfDataObjects));
+
+                            int subFieldIndex = 0;
+
+                            // Iterates on attributes
+                            for (int i = 0; i < dataObjectAttributes.Count(); i++)
+                            {
+
+                                var attr = dataObjectAttributes.ElementAt(i);
+                                numberOfDataObjects = attr.ArrayCount == 0 ? 1 : attr.ArrayCount;
+
+                                // Add DataObjectFormat
+                                for (int j = 0; j < numberOfDataObjects; j++)
+                                {
+                                    var dataObject = new ObjectDataFormat(
+                                        string.IsNullOrEmpty(attr.Guid) ? Guid.Empty : new Guid(attr.Guid), offset,
+                                        attr.TypeFlags, attr.Flags, attr.InstanceNumber);
+
+                                    // Use attribute name or fallback to field's name
+                                    string name = (string.IsNullOrEmpty(attr.Name)) ? field.Name : attr.Name;
+                                    name = numberOfDataObjects == 1 ? name : name + subFieldIndex;
+
+                                    dataObject.Name = name;
+                                    dataObjects.Add(dataObject);
+
+                                    offset += sizeOfField;
+                                    subFieldIndex++;
+                                }
+                            }
+                        }
+                    }
+                    _dataFormat.ObjectsFormat = dataObjects.ToArray();
+                }
+
+                for (int i = 0; i < _dataFormat.ObjectsFormat.Length; i++)
+                {
+                    var dataObject = _dataFormat.ObjectsFormat[i];
+
+                    // Map field name to object
+                    if (_mapNameToObjectFormat.ContainsKey(dataObject.Name))
+                        throw new InvalidOperationException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Incorrect field name [{0}]. Field name must be unique", dataObject.Name));
+                    _mapNameToObjectFormat.Add(dataObject.Name, dataObject);
+                }
+
+                // DumpDataFormat(_dataFormat);
+            }
+            return _dataFormat;
+        }
     }
 }
