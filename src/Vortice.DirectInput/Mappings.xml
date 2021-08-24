@@ -796,7 +796,6 @@
     <map struct="DIENVELOPE" name="Envelope"/>
     <map struct="DIENVELOPE" native="true" struct-to-class="true" marshal="true" new="true" />
 
-
     <!-- DIEFFESCAPE -->
     <map struct="DIEFFESCAPE" name="EffectEscape" visibility="internal"/>
     <map field="DIEFFESCAPE::lpvInBuffer" name="InBufferPointer" visibility="internal"/>
@@ -832,9 +831,23 @@
     <map field="DIFILEEFFECT::lpDiEffect" name="EffectParametersPointer" visibility="internal"/>
     <map field="DIFILEEFFECT::szFriendlyName" name="Name"/>
 
-    <!--DIACTIONFORMATW -->
+    <!-- DIACTIONFORMATW -->
     <map struct="DIACTIONFORMATW" name="ActionFormat" visibility="internal"/>
 
+    <!-- DIDEVICEIMAGEINFOW -->
+    <map struct="DIDEVICEIMAGEINFOW" name="DeviceImage"/>
+
+    <!-- DIDEVICEIMAGEINFOHEADERW -->
+    <map struct="DIDEVICEIMAGEINFOHEADERW" name="DeviceImageHeader" native="true" struct-to-class="true" marshal="true" new="true" />
+    <remove field="DIDEVICEIMAGEINFOHEADERW::dwSizeImageInfo"/>
+    <map field="DIDEVICEIMAGEINFOHEADERW::dwcViews" name="ViewCount"/>
+    <map field="DIDEVICEIMAGEINFOHEADERW::dwcButtons" name="ButtonCount"/>
+    <map field="DIDEVICEIMAGEINFOHEADERW::dwcAxes" name="AxeCount"/>
+    <map field="DIDEVICEIMAGEINFOHEADERW::dwcPOVs" name="PovCount"/>
+    <map field="DIDEVICEIMAGEINFOHEADERW::dwBufferSize" visibility="internal"/>
+    <map field="DIDEVICEIMAGEINFOHEADERW::dwBufferUsed" visibility="internal"/>
+    <map field="DIDEVICEIMAGEINFOHEADERW::lprgImageInfoArray" name="ImageInfoArrayPointer" visibility="internal"/>
+    
     <map struct="DICONDITION" name="Condition"/>
     <map struct="DICUSTOMFORCE" name="RawCustomForce" visibility="internal"/>
     <map field="DICUSTOMFORCE::rglForceData" name="ForceDataPointer" />
@@ -852,7 +865,58 @@
     <map field="DIDEVICEINSTANCEW::dwDevType" name="RawType" visibility="internal"/>
     <map field="DIDEVICEINSTANCEW::wUsagePage" type="HID_USAGE_PAGE"/>
     <map field="DIDEVICEINSTANCEW::wUsage" type="HID_USAGE_ID"/>
+
+    <!--DIDEVICEOBJECTINSTANCEW -->
+    <map struct="DIDEVICEOBJECTINSTANCEW" name="DeviceObjectInstance"/>
+    <map struct="DIDEVICEOBJECTINSTANCEW" native="true" struct-to-class="true" marshal="false" new="true" />
+    <map field="DIDEVICEOBJECTINSTANCEW::dwSize" visibility="internal"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::guidType" name="ObjectType"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::dwType" name="ObjectId" type="DIDFT"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::dwOfs" name="Offset"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::dwFlags" name="Aspect" type="DIDOI"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::dwFFMaxForce" name="MaximumForceFeedback"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::dwFFForceResolution" name="ForceFeedbackResolution"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::wCollectionNumber" name="CollectionNumber"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::wDesignatorIndex" name="DesignatorIndex"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::wUsage" name="Usage"/>
+    <map field="DIDEVICEOBJECTINSTANCEW::wUsagePage" name="UsagePage"/>
     
+    <!--DIDATAFORMAT -->
+    <map struct="DIDATAFORMAT" name="DataFormat"/>
+    <map struct="DIDATAFORMAT" visibility="internal" native="true" struct-to-class="true" marshal="true" new="true"/>
+    <map field="DIDATAFORMAT::dwFlags" type="DIDF"/>
+    <!--<map field="DIDATAFORMAT::dwNumObjs" name="ObjectArrayCount" visibility="internal"/>
+    <map field="DIDATAFORMAT::rgodf" type="void" name="ObjectArrayPointer" visibility="internal"/>-->
+    <remove field="DIDATAFORMAT::dwObjSize"/>
+    <remove field="DIDATAFORMAT::dwNumObjs"/>
+    <remove field="DIDATAFORMAT::rgodf"/>
+
+    <!-- DIDEVICEOBJECTDATA -->
+    <map struct="DIDEVICEOBJECTDATA" name="ObjectData" visibility="internal"/>
+    <map field="DIDEVICEOBJECTDATA::dwOfs" name="Offset"/>
+    <map field="DIDEVICEOBJECTDATA::dwData" name="Data"/>
+    <map field="DIDEVICEOBJECTDATA::dwTimeStamp" visibility="internal"/>
+    <map field="DIDEVICEOBJECTDATA::dwSequence" visibility="internal"/>
+    <map field="DIDEVICEOBJECTDATA::uAppData" name="AppDataPointer" visibility="internal"/>
+
+    <map field="DIPROP.*::diph" name="Header"/>
+    <!-- generate MarshalTo for all property objects -->
+    <map struct="DIPROP.*" marshalto="true"/>
+    <map struct="DIPROPHEADER" name="PropertyHeader" visibility="internal"/>
+    <map field="DIPROPHEADER::dwHow" name="Type" type="DIPH"/>
+    <map struct="DIPROPDWORD" name="PropertyInt" visibility="internal"/>
+    <map struct="DIPROPCAL" name="PropertyCalibration" visibility="internal"/>
+    <map struct="DIPROPGUIDANDPATH" name="PropertyGuidAndPath" visibility="internal"/>
+    <map struct="DIPROPPOINTER" name="PropertyPointer" visibility="internal"/>
+    <map struct="DIPROPRANGE" name="PropertyRange" visibility="internal"/>
+    <map struct="DIPROPSTRING" name="PropertyString" visibility="internal"/>
+    <map field="DIPROPSTRING::wsz" name="Text"/>
+
+    <!-- Structure mapped by hand-->
+    <remove struct="DIJOYSTATE2"/>
+    <remove struct="DIMOUSESTATE2"/>
+    <remove struct="DIOBJECTDATAFORMAT"/>
+
     <!-- Interfaces -->
     <map interface="IDirectInput8W" name="IDirectInput8" />
     <map interface="IDirectInputDevice8W" name="IDirectInputDevice8"/>
@@ -882,7 +946,20 @@
     <map method="IDirectInputDevice8W::BuildActionMap" visibility="internal"/>
     <map method="IDirectInputDevice8W::SetActionMap" visibility="internal"/>
     <map method="IDirectInputDevice8W::Escape" visibility="internal" />
+    <map method="IDirectInputDevice8W::SetDataFormat" visibility="internal" property="false"/>
+    <map method="IDirectInputDevice8W::SetEventNotification" visibility="internal" property="false"/>
 
+    <map method="IDirectInputDevice8W::GetDeviceData" visibility="internal"/>
+    <map param="IDirectInputDevice8W::GetDeviceData::arg1" attribute="in buffer" type="void"/>
+    <map param="IDirectInputDevice8W::GetDeviceData::arg2" attribute="inout"/>
+
+    <map method="IDirectInputDevice8W::SendDeviceData" visibility="internal"/>
+    <map param="IDirectInputDevice8W::SendDeviceData::arg1" attribute="in buffer"/>
+    <map param="IDirectInputDevice8W::SendDeviceData::arg2" attribute="inout"/>
+
+    <map method="IDirectInputDevice8W::GetProperty" visibility="internal"/>
+    <map method="IDirectInputDevice8W::SetProperty" visibility="internal"/>
+    
     <!-- IDirectInputEffect -->
     <map method="IDirectInputEffect::Escape" visibility="internal"/>
 
