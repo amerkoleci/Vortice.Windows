@@ -48,12 +48,12 @@ namespace Vortice.DXGI
             return CreateSwapChainForHwnd(deviceOrCommandQueue, hwnd, ref description, fullscreenDescription, restrictToOutput);
         }
 
-        public int RegisterOcclusionStatusEvent(EventWaitHandle waitHandle)
+        public int RegisterOcclusionStatusEvent(WaitHandle waitHandle)
         {
             return RegisterOcclusionStatusEvent(waitHandle.SafeWaitHandle.DangerousGetHandle());
         }
 
-        public int RegisterStereoStatusEvent(EventWaitHandle waitHandle)
+        public int RegisterStereoStatusEvent(WaitHandle waitHandle)
         {
             return RegisterStereoStatusEvent(waitHandle.SafeWaitHandle.DangerousGetHandle());
         }

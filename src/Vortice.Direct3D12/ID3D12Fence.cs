@@ -13,7 +13,7 @@ namespace Vortice.Direct3D12
             SetEventOnCompletion(value, IntPtr.Zero);
         }
 
-        public void SetEventOnCompletion(ulong value, EventWaitHandle? waitHandle)
+        public void SetEventOnCompletion(ulong value, WaitHandle? waitHandle)
         {
             if (waitHandle == null)
             {

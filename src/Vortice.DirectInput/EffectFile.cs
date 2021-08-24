@@ -329,6 +329,23 @@ namespace Vortice.DirectInput
 
             Marshal.FreeHGlobal(Name_);
         }
+
+        internal unsafe void __MarshalFrom(ref __Native @ref)
+        {
+            Guid = @ref.Guid;
+            EffectParametersPointer = @ref.EffectParametersPointer;
+            fixed (void* __ptr = &@ref.Name)
+            {
+                Name = Marshal.PtrToStringAnsi((IntPtr)__ptr, 260);
+            }
+
+            if (EffectParametersPointer != IntPtr.Zero)
+            {
+                Parameters = new EffectParameters();
+                Parameters.__MarshalFrom(ref *(EffectParameters.__Native*)EffectParametersPointer);
+                EffectParametersPointer = IntPtr.Zero;
+            }
+        }
         #endregion Marshal
     }
 }

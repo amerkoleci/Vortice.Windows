@@ -16,7 +16,7 @@ namespace Vortice.Direct3D11
             return CreateSharedHandle(attributes, GENERIC_ALL, name);
         }
 
-        public void SetEventOnCompletion(ulong value, EventWaitHandle waitHandle)
+        public void SetEventOnCompletion(ulong value, WaitHandle waitHandle)
         {
             SetEventOnCompletion(value, waitHandle.SafeWaitHandle.DangerousGetHandle());
         }

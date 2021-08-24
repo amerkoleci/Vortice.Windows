@@ -128,12 +128,12 @@ namespace Vortice.DirectInput
         /// <summary>
         /// Runs Control Panel to enable the user to install a new input device or modify configurations.
         /// </summary>
-        public void RunControlPanel() => RunControlPanel(IntPtr.Zero, 0);
+        public Result RunControlPanel() => RunControlPanel(IntPtr.Zero, 0);
 
         /// <summary>
         /// Runs Control Panel to enable the user to install a new input device or modify configurations.
         /// </summary>
         /// <param name="handle">Handle of the window to be used as the parent window for the subsequent user interface. If this parameter is NULL, no parent window is used.</param>
-        public void RunControlPanel(IntPtr handle) => RunControlPanel(handle, 0);
+        public Result RunControlPanel(IntPtr handle) => RunControlPanel(handle, 0);
     }
 }

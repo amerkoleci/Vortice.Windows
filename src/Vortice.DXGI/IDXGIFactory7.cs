@@ -7,7 +7,7 @@ namespace Vortice.DXGI
 {
     public partial class IDXGIFactory7
     {
-        public int RegisterAdaptersChangedEvent(EventWaitHandle waitHandle)
+        public int RegisterAdaptersChangedEvent(WaitHandle waitHandle)
         {
             return RegisterAdaptersChangedEvent(waitHandle.SafeWaitHandle.DangerousGetHandle());
         }

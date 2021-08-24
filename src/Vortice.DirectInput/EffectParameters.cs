@@ -117,13 +117,13 @@ namespace Vortice.DirectInput
         internal unsafe void __MarshalTo(ref __Native @ref)
         {
             @ref.Size = sizeof(__Native);
-            @ref.Flags = this.Flags;
-            @ref.Duration = this.Duration;
-            @ref.SamplePeriod = this.SamplePeriod;
-            @ref.Gain = this.Gain;
-            @ref.TriggerButton = this.TriggerButton;
-            @ref.TriggerRepeatInterval = this.TriggerRepeatInterval;
-            @ref.StartDelay = this.StartDelay;
+            @ref.Flags = Flags;
+            @ref.Duration = Duration;
+            @ref.SamplePeriod = SamplePeriod;
+            @ref.Gain = Gain;
+            @ref.TriggerButton = TriggerButton;
+            @ref.TriggerRepeatInterval = TriggerRepeatInterval;
+            @ref.StartDelay = StartDelay;
 
             // Marshal Axes and Directions
             @ref.AxeCount = 0;
@@ -161,6 +161,47 @@ namespace Vortice.DirectInput
                 @ref.TypeSpecificParamCount = Parameters.Size;
                 @ref.TypeSpecificParamPointer = Parameters.MarshalTo();
             }
+        }
+
+        internal unsafe void __MarshalFrom(ref __Native @ref)
+        {
+            this.Flags = @ref.Flags;
+            this.Duration = @ref.Duration;
+            this.SamplePeriod = @ref.SamplePeriod;
+            this.Gain = @ref.Gain;
+            this.TriggerButton = @ref.TriggerButton;
+            this.TriggerRepeatInterval = @ref.TriggerRepeatInterval;
+            this.AxeCount = @ref.AxeCount;
+            this.StartDelay = @ref.StartDelay;
+
+            // Marshal Axes and Directions
+            if (AxeCount > 0)
+            {
+                if (@ref.AxePointer != IntPtr.Zero)
+                {
+                    Axes = new int[AxeCount];
+                    Marshal.Copy(@ref.AxePointer, Axes, 0, AxeCount);
+                }
+
+                if (@ref.DirectionPointer != IntPtr.Zero)
+                {
+                    Directions = new int[AxeCount];
+                    Marshal.Copy(@ref.DirectionPointer, Directions, 0, AxeCount);
+                }
+            }
+
+            // Marshal Envelope
+            if (@ref.EnvelopePointer != IntPtr.Zero)
+            {
+                var envelopeNative = *((Envelope.__Native*)@ref.EnvelopePointer);
+                Envelope = new Envelope();
+                Envelope.__MarshalFrom(ref envelopeNative);
+            }
+
+            // Marshal TypeSpecificParameters
+            if (@ref.TypeSpecificParamCount > 0 && @ref.TypeSpecificParamPointer != IntPtr.Zero)
+                Parameters = new TypeSpecificParameters(@ref.TypeSpecificParamCount, @ref.TypeSpecificParamPointer);
+
         }
         #endregion Marshal
     }

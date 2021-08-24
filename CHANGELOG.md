@@ -10,6 +10,7 @@ Release:     1.9.XX (August 2021)
 - [ENH] DXGI: dxgidebug.h under Vortice.DXGI.Debug namespace.
 - [ENH] Direct3D12: Improve Debug MessageID enum values names.
 - [ENH] WinUI: New Vortice.WinUI based on Microsoft.ProjectReunion.WinUI (https://www.nuget.org/packages/Microsoft.ProjectReunion.WinUI/)
+- [ENH] DirectInput: New Vortice.DirectInput support.
 
 -----------------------------------------------
 Release:     1.9.80 (May 2021)

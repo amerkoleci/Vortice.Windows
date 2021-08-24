@@ -7,7 +7,7 @@ namespace Vortice.Direct3D11
 {
     public partial class ID3D11Device4
     {
-        public int RegisterDeviceRemovedEvent(EventWaitHandle waitHandle)
+        public int RegisterDeviceRemovedEvent(WaitHandle waitHandle)
         {
             return RegisterDeviceRemovedEvent(waitHandle.SafeWaitHandle.DangerousGetHandle());
         }

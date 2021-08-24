@@ -23,6 +23,10 @@
       #define DIJOFS_POINT_OF_VIEW2 DIJOFS_POV(2)
       #define DIJOFS_POINT_OF_VIEW3 DIJOFS_POV(3)
       #define DIK_UNKNOWN 0
+
+      #ifndef DIDFT_OPTIONAL
+      #define DIDFT_OPTIONAL 0x80000000
+      #endif
     </post>
   </include>
 
@@ -448,8 +452,8 @@
     <const from-macro="DIHATSWITCH_STRATEGYT_(.*)" type="int" name="$1" class="Vortice.DirectInput.TurnBasedControls"/>
 
     <!-- class Vortice.DirectInput.EffectGuid -->
-    <!--<create class="PropertyGuids" visibility="internal sealed"/>
-    <const from-macro="DIPROP_(.*)" class="Vortice.DirectInput.PropertyGuids" type="System.IntPtr" cpp-type="int" cpp-cast="(int)&amp;" name="$1" visibility="public static readonly">new System.IntPtr($1)</const>-->
+    <create class="PropertyGuids" visibility="internal sealed"/>
+    <!--<const from-macro="DIPROP_(.*)" class="Vortice.DirectInput.PropertyGuids" type="System.IntPtr" cpp-type="int" cpp-cast="(int)&amp;" name="$1" visibility="public static readonly">new System.IntPtr($1)</const>-->
 
     <!-- enum Vortice.DirectInput.CooperativeLevel -->
     <create-cpp enum="DISCL" macro="DISCL_.*"/>
@@ -918,10 +922,6 @@
     <remove struct="DIOBJECTDATAFORMAT"/>
 
     <!-- Interfaces -->
-    <map interface="IDirectInput8W" name="IDirectInput8" />
-    <map interface="IDirectInputDevice8W" name="IDirectInputDevice8"/>
-    <map interface="IDirectInputEffect" name="IDirectInputEffect"/>
-
     <remove interface="IDirectInput[27]?[AW]"/>
     <remove interface="IDirectInputDevice[27]?[AW]"/>
     <remove interface="IDirectInput8A"/>
@@ -930,6 +930,7 @@
     <map method=".*::Enum.*" visibility="internal"/>
 
     <!--IDirectInput8W -->
+    <map interface="IDirectInput8W" name="IDirectInput8" />
     <map method="IDirectInput8W::CreateDevice" hresult="true" check="false" visibility="internal"/>
     <map param="IDirectInput8W::CreateDevice::arg1" type="void" attribute="out" />
 
@@ -937,17 +938,42 @@
     <map param="IDirectInput8W::EnumDevices::arg3" type="DIEDFL" />
     <map param="IDirectInput8W::FindDevice::arg2" attribute="out" return="true" />
     <map method="IDirectInput8W::GetDeviceStatus" visibility="internal" check="false"/>
-    <map method="IDirectInput8W::RunControlPanel" visibility="internal" />
+    <map method="IDirectInput8W::RunControlPanel" hresult="true" check="false"  visibility="internal" />
     <map method="IDirectInput8W::Initialize" visibility="internal" />
 
     <remove method="IDirectInput8W::ConfigureDevices"/>
 
     <!--IDirectInputDevice8 -->
+    <map interface="IDirectInputDevice8W" name="IDirectInputDevice8"/>
+    
+    <map method="IDirectInputDevice8W::Poll" hresult="true" check="false" />
+    <map method="IDirectInputDevice8W::Unacquire" hresult="true" check="false" />
+    
+    <map method="IDirectInputDevice8W::Escape" visibility="internal" />
+    <map param="IDirectInputDevice8W::GetCapabilities::arg0" attribute="out"/>
+
+    <map method="IDirectInputDevice8W::GetDeviceInfo" name="GetInformation"/>
+    <map param="IDirectInputDevice8W::GetDeviceInfo::arg0" attribute="out"/>
+
+    <map method="IDirectInputDevice8W::GetImageInfo" visibility="internal"/>
+
     <map method="IDirectInputDevice8W::BuildActionMap" visibility="internal"/>
     <map method="IDirectInputDevice8W::SetActionMap" visibility="internal"/>
-    <map method="IDirectInputDevice8W::Escape" visibility="internal" />
-    <map method="IDirectInputDevice8W::SetDataFormat" visibility="internal" property="false"/>
-    <map method="IDirectInputDevice8W::SetEventNotification" visibility="internal" property="false"/>
+
+    <map param="IDirectInputDevice8W::GetEffectInfo::arg0" attribute="out" return="true"/>
+    <map param="IDirectInputDevice8W::EnumEffects::arg2" type="DIEFT"/>
+    <map param="IDirectInputDevice8W::EnumEffectsInFile::arg3" type="DIFEF"/>
+
+    <map param="IDirectInputDevice8W::EnumObjects::arg3" type="DIDFT"/>
+
+    <map method="IDirectInputDevice8W::GetObjectInfo" visibility="internal"/>
+    <map param="IDirectInputDevice8W::GetObjectInfo::arg0" attribute="out" return="true"/>
+    <map param="IDirectInputDevice8W::GetObjectInfo::arg2" type="DIPH"/>
+
+    <map method="IDirectInputDevice8W::[SG]etProperty" visibility="internal"/>
+    <map param="IDirectInputDevice8W::[SG]etProperty::arg[01]" type="void" />
+
+    <map method="IDirectInputDevice8W::GetDeviceState" visibility="internal"/>
 
     <map method="IDirectInputDevice8W::GetDeviceData" visibility="internal"/>
     <map param="IDirectInputDevice8W::GetDeviceData::arg1" attribute="in buffer" type="void"/>
@@ -957,11 +983,50 @@
     <map param="IDirectInputDevice8W::SendDeviceData::arg1" attribute="in buffer"/>
     <map param="IDirectInputDevice8W::SendDeviceData::arg2" attribute="inout"/>
 
+    <map method="IDirectInputDevice8W::SetDataFormat" visibility="internal" property="false"/>
+    <map method="IDirectInputDevice8W::SetEventNotification" hresult="true" check="false" visibility="internal" property="false"/>
+
+    <map method="IDirectInputDevice8W::SetCooperativeLevel" hresult="true" check="false" />
+    <map param="IDirectInputDevice8W::SetCooperativeLevel::arg1" type="DISCL"/>
+
+    <map method="IDirectInputDevice8W::Initialize" visibility="internal" />
+    <map method="IDirectInputDevice8W::RunControlPanel" hresult="true" check="false" visibility="internal" />
+    <map method="IDirectInputDevice8W::CreateEffect" hresult="true" check="false" visibility="internal" />
+
+    <map method="IDirectInputDevice8W::GetForceFeedbackState" property="false"/>
+    <map param="IDirectInputDevice8W::GetForceFeedbackState::arg0" attribute="out" return="true" type="DIGFFS"/>
+
+    <map method="IDirectInputDevice8W::SendForceFeedbackCommand"/>
+    <map param="IDirectInputDevice8W::SendForceFeedbackCommand::arg0" type="DISFFC"/>
+
+    <map param="IDirectInputDevice8W::WriteEffectToFile" visibility="internal"/>
+    <map param="IDirectInputDevice8W::WriteEffectToFile::arg2" attribute="in buffer"/>
+
     <map method="IDirectInputDevice8W::GetProperty" visibility="internal"/>
     <map method="IDirectInputDevice8W::SetProperty" visibility="internal"/>
     
     <!-- IDirectInputEffect -->
+    <map method="IDirectInputEffect::Initialize" visibility="internal"/>
+
+    <map method="IDirectInputEffect::GetEffectGuid" name="GetGuid"/>
+    <map param="IDirectInputEffect::GetEffectGuid::arg0" attribute="out"/>
+
+    <map method="IDirectInputEffect::GetEffectStatus" name="GetStatus"/>
+    <map param="IDirectInputEffect::GetEffectStatus::arg0" attribute="out" type="DIEGES"/>
+
+    <map param="IDirectInputEffect::GetParameters::arg0" attribute="out" return="true"/>
+    <map param="IDirectInputEffect::GetParameters::arg1" type="DIEP"/>
+
+    <map param="IDirectInputEffect::SetParameters::arg1" type="DIEP"/>
+
+    <map param="IDirectInputEffect::Start::arg1" type="DIES"/>
+    
     <map method="IDirectInputEffect::Escape" visibility="internal"/>
+
+    <map method="IDirectInputEffect::Start" hresult="true" check="false" />
+    <map method="IDirectInputEffect::Stop" hresult="true" check="false" />
+    <map method="IDirectInputEffect::Unload" hresult="true" check="false" />
+    <map method="IDirectInputEffect::Download" hresult="true" check="false" />
 
     <remove function="GetdfDIJoystick" />
     <remove function="ShowJoyCPL" />

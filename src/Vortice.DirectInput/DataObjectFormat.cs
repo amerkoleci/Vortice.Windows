@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 
 namespace Vortice.DirectInput
 {
-    internal partial class ObjectDataFormat
+    public partial class ObjectDataFormat
     {
         public ObjectDataFormat()
         {
