@@ -774,7 +774,7 @@
     <remove struct="DICOLORSET"/>
     
     <!-- Make all dwSize fields in structure hidden by default -->
-    <map field=".*::dwSize" relation="struct-size()" visibility="internal"/>
+    <map field=".*::dwSize" visibility="internal"/>
 
     <!-- 
       DIACTIONW has an inner union that we need to remove.
@@ -828,13 +828,24 @@
     <map field="DIEFFECT::lpvTypeSpecificParams" name="TypeSpecificParamPointer" visibility="internal"/>
 
     <!-- DIFILEEFFECT -->
-    <map struct="DIFILEEFFECT" name="EffectFile"/>
-    <map struct="DIFILEEFFECT" native="true" struct-to-class="true" marshal="true" new="true" />
+    <map struct="DIFILEEFFECT" name="EffectFile" native="true" struct-to-class="true" marshal="true" new="true" />
     <map field="DIFILEEFFECT::dwSize" visibility="internal"/>
     <map field="DIFILEEFFECT::GuidEffect" name="Guid"/>
     <map field="DIFILEEFFECT::lpDiEffect" name="EffectParametersPointer" visibility="internal"/>
     <map field="DIFILEEFFECT::szFriendlyName" name="Name"/>
 
+    <!-- DIDEVCAPS -->
+    <map struct="DIDEVCAPS" name="Capabilities" />
+    <map field="DIDEVCAPS::dwSize" visibility="internal"/>
+    <map field="DIDEVCAPS::dwAxes" name="AxeCount"/>
+    <map field="DIDEVCAPS::dwButtons" name="ButtonCount"/>
+    <map field="DIDEVCAPS::dwFFDriverVersion" name="DriverVersion"/>
+    <map field="DIDEVCAPS::dwFFMinTimeResolution" name="ForceFeedbackMinimumTimeResolution"/>
+    <map field="DIDEVCAPS::dwFFSamplePeriod" name="ForceFeedbackSamplePeriod"/>
+    <map field="DIDEVCAPS::dwPOVs" name="PovCount"/>
+    <map field="DIDEVCAPS::dwFlags" type="DIDC"/>
+    <map field="DIDEVCAPS::dwDevType" name="RawType" visibility="internal"/>
+    
     <!-- DIACTIONFORMATW -->
     <map struct="DIACTIONFORMATW" name="ActionFormat" visibility="internal"/>
 
@@ -947,13 +958,15 @@
     <map interface="IDirectInputDevice8W" name="IDirectInputDevice8"/>
     
     <map method="IDirectInputDevice8W::Poll" hresult="true" check="false" />
+    <map method="IDirectInputDevice8W::Acquire" hresult="true" check="false" />
     <map method="IDirectInputDevice8W::Unacquire" hresult="true" check="false" />
     
     <map method="IDirectInputDevice8W::Escape" visibility="internal" />
-    <map param="IDirectInputDevice8W::GetCapabilities::arg0" attribute="out"/>
+    <map method="IDirectInputDevice8W::GetCapabilities" hresult="true" check="false"  visibility="internal" property="false"/>
+    <map param="IDirectInputDevice8W::GetCapabilities::arg0" type="void" keep-pointers="true" return="false" />
 
-    <map method="IDirectInputDevice8W::GetDeviceInfo" name="GetInformation"/>
-    <map param="IDirectInputDevice8W::GetDeviceInfo::arg0" attribute="out"/>
+    <map method="IDirectInputDevice8W::GetDeviceInfo" hresult="true" check="false"  visibility="internal" property="false"/>
+    <map param="IDirectInputDevice8W::GetDeviceInfo::arg0" type="void" keep-pointers="true" return="false" />
 
     <map method="IDirectInputDevice8W::GetImageInfo" visibility="internal"/>
 
@@ -1001,9 +1014,6 @@
 
     <map param="IDirectInputDevice8W::WriteEffectToFile" visibility="internal"/>
     <map param="IDirectInputDevice8W::WriteEffectToFile::arg2" attribute="in buffer"/>
-
-    <map method="IDirectInputDevice8W::GetProperty" visibility="internal"/>
-    <map method="IDirectInputDevice8W::SetProperty" visibility="internal"/>
     
     <!-- IDirectInputEffect -->
     <map method="IDirectInputEffect::Initialize" visibility="internal"/>

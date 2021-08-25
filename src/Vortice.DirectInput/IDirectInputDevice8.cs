@@ -36,6 +36,36 @@ namespace Vortice.DirectInput
         private DataFormat? _dataFormat;
         private readonly Dictionary<string, ObjectDataFormat> _mapNameToObjectFormat = new Dictionary<string, ObjectDataFormat>();
 
+        public Capabilities Capabilities
+        {
+            get
+            {
+                unsafe
+                {
+                    Capabilities capabilities = default;
+                    capabilities.Size = sizeof(Capabilities);
+                    GetCapabilities(&capabilities).CheckError();
+                    return capabilities;
+                };
+            }
+        }
+
+        public DeviceInstance DeviceInfo
+        {
+            get
+            {
+                unsafe
+                {
+                    DeviceInstance.__Native deviceInfoNative = DeviceInstance.__NewNative();
+                    GetDeviceInfo(&deviceInfoNative).CheckError();
+
+                    var deviceInfo = new DeviceInstance();
+                    deviceInfo.__MarshalFrom(ref deviceInfoNative);
+                    return deviceInfo;
+                };
+            }
+        }
+
         /// <summary>
         /// Gets the created effects.
         /// </summary>

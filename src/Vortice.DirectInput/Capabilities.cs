@@ -20,7 +20,7 @@
 
 namespace Vortice.DirectInput
 {
-    public partial class DeviceInstance
+    public partial struct Capabilities
     {
         /// <summary>
         /// Gets the type of this device.
@@ -39,15 +39,5 @@ namespace Vortice.DirectInput
         /// 	<c>true</c> if this instance is human interface device; otherwise, <c>false</c>.
         /// </value>
         public bool IsHumanInterfaceDevice => ((RawType & 0x10000) != 0);
-
-        #region Marshal
-        internal static unsafe __Native __NewNative()
-        {
-            __Native native = default;
-            native.Size = sizeof(__Native);
-            return native;
-        }
-
-        #endregion Marshal
     }
 }
