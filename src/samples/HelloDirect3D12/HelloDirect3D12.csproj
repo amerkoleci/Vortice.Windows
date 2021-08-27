@@ -12,8 +12,6 @@
     <ProjectReference Include="..\Vortice.SampleFramework\Vortice.SampleFramework.csproj" />
     
     <!-- Include native libraries in x64. -->
-    <Content Include="..\..\Vortice.Dxc\native\win-x64\dxil.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="..\..\Vortice.Dxc\native\win-x64\dxcompiler.dll" CopyToOutputDirectory="PreserveNewest" />
 
     <Content Include="Assets\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
