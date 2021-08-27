@@ -17,12 +17,12 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)native\win-x64\dxcompiler.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
       <Pack>true</Pack>
     </Content>
     <Content Include="$(MSBuildThisFileDirectory)native\win-x64\dxil.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PackagePath>runtimes/win-x64/native</PackagePath>
+      <PackagePath>lib/$(TargetFramework)</PackagePath>
       <Pack>true</Pack>
     </Content>
   </ItemGroup>
