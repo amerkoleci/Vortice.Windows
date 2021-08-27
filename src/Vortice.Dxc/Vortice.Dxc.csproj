@@ -15,15 +15,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)native\win-x64\dxcompiler.dll">
+    <Content Include="dxcompiler.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
       <Pack>true</Pack>
+      <Visible>false</Visible>
     </Content>
-    <Content Include="$(MSBuildThisFileDirectory)native\win-x64\dxil.dll">
+    <Content Include="dxil.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>lib/$(TargetFramework)</PackagePath>
       <Pack>true</Pack>
+      <Visible>false</Visible>
     </Content>
   </ItemGroup>
 
