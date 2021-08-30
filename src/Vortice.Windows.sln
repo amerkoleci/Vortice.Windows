@@ -55,9 +55,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectInput", "Vort
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{736CFFF1-F854-46D3-B033-E43013E35E7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vortice.Dxc.Test", "Vortice.Dxc.Test\Vortice.Dxc.Test.csproj", "{3AE41313-5D1F-4CF7-B3C9-DAECBA9AA846}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc.Test", "tests\Vortice.Dxc.Test\Vortice.Dxc.Test.csproj", "{3AE41313-5D1F-4CF7-B3C9-DAECBA9AA846}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vortice.D3DCompiler.Test", "Vortice.D3DCompiler.Test\Vortice.D3DCompiler.Test.csproj", "{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3DCompiler.Test", "tests\Vortice.D3DCompiler.Test\Vortice.D3DCompiler.Test.csproj", "{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
