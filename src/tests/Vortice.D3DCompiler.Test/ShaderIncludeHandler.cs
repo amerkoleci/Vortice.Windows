@@ -13,33 +13,11 @@ namespace Vortice.D3DCompiler.Test
     public class ShaderIncludeHandler : CallbackBase, Include
     {
         private readonly List<string> _includeDirectories;
-        private bool _disposedValue;
-
-        public ShadowContainer Shadow { get; set; }
 
         public ShaderIncludeHandler(params string[] includeDirectories)
         {
-            _includeDirectories = new List<string>(includeDirectories);
+            _includeDirectories = new(includeDirectories);
         }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                }
-
-                _disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
 
         public Stream Open(IncludeType type, string fileName, Stream parentStream)
         {
