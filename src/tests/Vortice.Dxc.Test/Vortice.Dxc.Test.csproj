@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Vortice.Dxc\Vortice.Dxc.csproj" />
+    <ProjectReference Include="..\..\Vortice.Dxc\Vortice.Dxc.csproj" />
   </ItemGroup>
 
   <ItemGroup>

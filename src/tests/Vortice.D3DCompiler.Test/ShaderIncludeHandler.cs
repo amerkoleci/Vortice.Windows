@@ -10,7 +10,7 @@ using Vortice.Direct3D;
 
 namespace Vortice.D3DCompiler.Test
 {
-    public class ShaderIncludeHandler : Include
+    public class ShaderIncludeHandler : CallbackBase, Include
     {
         private readonly List<string> _includeDirectories;
         private bool _disposedValue;
