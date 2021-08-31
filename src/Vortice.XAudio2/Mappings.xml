@@ -219,7 +219,7 @@
     <map method="IXAudio2SourceVoice::GetState" visibility="internal" />
     <map method="IXAudio2SourceVoice::GetFrequencyRatio" visibility="internal" />
 
-    <map interface="IXAudio2VoiceCallback" callback="true" />
+    <map interface="IXAudio2VoiceCallback" callback="true" visibility="internal" />
     <map interface="IXAudio2EngineCallback" callback="true" />
 
     <remove interface="IXAudio2Extension"/>

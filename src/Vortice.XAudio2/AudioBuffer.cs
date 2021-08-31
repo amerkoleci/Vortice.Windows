@@ -56,6 +56,17 @@ namespace Vortice.XAudio2
             _ownsBuffer = true;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AudioBuffer" /> class.
+        /// </summary>
+        /// <param name="stream">The stream to get the audio buffer from.</param>
+        public AudioBuffer(DataStream stream)
+        {
+            AudioDataPointer = stream.PositionPointer;
+            Flags = BufferFlags.EndOfStream;
+            AudioBytes = (int)stream.Length;
+        }
+
         public static unsafe AudioBuffer Create<T>(ReadOnlySpan<T> data, BufferFlags flags = BufferFlags.EndOfStream) where T : unmanaged
         {
             int sizeInBytes = data.Length * sizeof(T);

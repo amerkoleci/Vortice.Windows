@@ -16,5 +16,9 @@
       <_Parameter1>Vortice.MediaFoundation, PublicKey=$(VorticePublicKey)</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
+  </ItemGroup>
   
 </Project>

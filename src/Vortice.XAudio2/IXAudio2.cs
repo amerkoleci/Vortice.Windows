@@ -63,14 +63,21 @@ namespace Vortice.XAudio2
             return CreateMasteringVoice(inputChannels, inputSampleRate, 0, null, null, category);
         }
 
+        public IXAudio2SourceVoice CreateSourceVoice(WaveFormat sourceFormat, bool enableCallbackEvents)
+        {
+            return CreateSourceVoice(sourceFormat, VoiceFlags.None, 1.0f, enableCallbackEvents, null);
+        }
+
         public unsafe IXAudio2SourceVoice CreateSourceVoice(
             WaveFormat sourceFormat,
             VoiceFlags flags = VoiceFlags.None,
             float maxFrequencyRatio = 1.0f,
-            IXAudio2VoiceCallback? callback = null,
+            bool enableCallbackEvents = false,
             EffectDescriptor[]? effectDescriptors = null)
         {
             IntPtr waveformatPtr = WaveFormat.MarshalToPtr(sourceFormat);
+            IXAudio2SourceVoice.VoiceCallbackImpl? callback = enableCallbackEvents ? new IXAudio2SourceVoice.VoiceCallbackImpl() : default;
+
             try
             {
                 if (effectDescriptors != null)
@@ -86,12 +93,24 @@ namespace Vortice.XAudio2
                     fixed (void* pEffectDescriptors = &effectDescriptorNatives[0])
                     {
                         effectChain.EffectDescriptorPointer = (IntPtr)pEffectDescriptors;
-                        return CreateSourceVoice(waveformatPtr, flags, maxFrequencyRatio, callback, null, effectChain);
+                        IXAudio2SourceVoice voice = CreateSourceVoice(waveformatPtr, flags, maxFrequencyRatio, callback, null, effectChain);
+                        if (callback != null)
+                        {
+                            callback.Voice = voice;
+                        }
+                        voice._callback = callback;
+                        return voice;
                     }
                 }
                 else
                 {
-                    return CreateSourceVoice(waveformatPtr, flags, maxFrequencyRatio, callback, null, null);
+                    IXAudio2SourceVoice voice = CreateSourceVoice(waveformatPtr, flags, maxFrequencyRatio, callback, null, null);
+                    if (callback != null)
+                    {
+                        callback.Voice = voice;
+                    }
+                    voice._callback = callback;
+                    return voice;
                 }
             }
             finally
