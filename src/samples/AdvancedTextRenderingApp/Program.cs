@@ -11,7 +11,7 @@ using Vortice.DirectWrite;
 using static Vortice.Direct2D1.D2D1;
 using static Vortice.DirectWrite.DWrite;
 
-namespace HelloDirect3D11
+namespace HelloDirectInput
 {
     public class CustomColorRenderer : TextRendererBase
     {
