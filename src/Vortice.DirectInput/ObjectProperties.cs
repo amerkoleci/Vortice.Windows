@@ -20,7 +20,6 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-#if TODO
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -75,7 +74,7 @@ namespace Vortice.DirectInput
         /// <value>The logical range.</value>
         public InputRange LogicalRange
         {
-            get { return GetRange(PropertyGuids.LogicalRange); }
+            get { return GetRange(PropertyGuids.Logicalrange); }
         }
 
         /// <summary>
@@ -107,6 +106,16 @@ namespace Vortice.DirectInput
             get { return GetInt(PropertyGuids.Saturation); }
             set { Set(PropertyGuids.Saturation, value); }
         }
+
+        /// <summary>
+        /// Gets or sets the input buffer size. The buffer size determines the amount of data that the buffer can hold between calls to the <see cref="Device.GetDeviceData"/> method before data is lost. You can set this value to 0 to indicate that the application does not read buffered data from the device. If the buffer size is too large for the device to support it, then the largest possible buffer size is set. However, this property always returns the buffer size set using the <see cref="BufferSize"/> property, even if the buffer cannot be supported because it is too large.
+        /// </summary>
+        /// <value>The size of the buffer.</value>
+        public int BufferSize
+        {
+            get { return GetInt(PropertyGuids.Buffersize); }
+
+            set { Set(PropertyGuids.Buffersize, value); }
+        }
     }
 } 
-#endif

@@ -55,6 +55,10 @@ namespace HelloDirectInput
 
             Result result_ = inputDevice_.SetCooperativeLevel(windowhandle, CooperativeLevel.Exclusive | CooperativeLevel.Foreground);
 
+           inputDevice_.Properties.BufferSize = 16;
+
+            int size = inputDevice_.Properties.BufferSize;
+
             if (directInput.IsDeviceAttached(guid))
             {
                 if (result_.Success)

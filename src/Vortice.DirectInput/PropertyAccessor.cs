@@ -20,7 +20,7 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-#if TODO
+
 using System;
 using System.Runtime.InteropServices;
 
@@ -81,10 +81,12 @@ namespace Vortice.DirectInput
             prop.Data = new UIntPtr(&value);
             Device.GetProperty(guid, new IntPtr(&prop));
 
-            if (prop.Data.ToUInt64() == -1)
+            if ((long)prop.Data.ToUInt64() == (long) -1)
                 return null;
 
-            var handle = GCHandle.FromIntPtr(prop.Data);
+            IntPtr ptr = unchecked((IntPtr)(long)(ulong)prop.Data);
+
+            var handle = GCHandle.FromIntPtr(ptr);
             if (!handle.IsAllocated)
                 return null;
 
@@ -103,16 +105,18 @@ namespace Vortice.DirectInput
             Device.GetProperty(guid, new IntPtr(&prop));
 
             GCHandle handle;
-            if (prop.Data.ToUInt64() != -1)
+            if ((long)prop.Data.ToUInt64() != -1)
             {
-                handle = GCHandle.FromIntPtr(prop.Data);
+                IntPtr ptr = unchecked((IntPtr)(long)(ulong)prop.Data);
+
+                handle = GCHandle.FromIntPtr(ptr);
                 if (handle.IsAllocated)
                     handle.Free();
             }
 
             // Set new object value
             handle = GCHandle.Alloc(value, GCHandleType.Pinned);
-            prop.Data = handle.AddrOfPinnedObject();
+            prop.Data =  unchecked((UIntPtr)(ulong)(long)handle.AddrOfPinnedObject()) ;
             Device.SetProperty(guid, new IntPtr(&prop));
         }
 
@@ -199,7 +203,7 @@ namespace Vortice.DirectInput
 
         internal unsafe void InitHeader<T>(ref PropertyHeader header) where T : struct
         {
-            header.Size = Utilities.SizeOf<T>();
+            header.Size = Marshal.SizeOf<T>();
             header.HeaderSize = sizeof(PropertyHeader);
             header.Type = PropertyType;
             header.Obj = ObjectCode;
@@ -207,4 +211,3 @@ namespace Vortice.DirectInput
     }
 }
 
-#endif

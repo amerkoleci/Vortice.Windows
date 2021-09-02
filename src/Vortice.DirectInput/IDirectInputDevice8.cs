@@ -35,6 +35,7 @@ namespace Vortice.DirectInput
     {
         private DataFormat? _dataFormat;
         private readonly Dictionary<string, ObjectDataFormat> _mapNameToObjectFormat = new Dictionary<string, ObjectDataFormat>();
+        private ObjectProperties _properties;
 
         public Capabilities Capabilities
         {
@@ -63,6 +64,16 @@ namespace Vortice.DirectInput
                     deviceInfo.__MarshalFrom(ref deviceInfoNative);
                     return deviceInfo;
                 };
+            }
+        }
+
+        public ObjectProperties Properties
+        {
+            get
+            {
+                if (_properties == null)
+                    _properties = new ObjectProperties(this, 0, PropertyHowType.Device);
+                return _properties;
             }
         }
 
