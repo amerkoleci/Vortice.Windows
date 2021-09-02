@@ -452,8 +452,8 @@
     <const from-macro="DIHATSWITCH_STRATEGYT_(.*)" type="int" name="$1" class="Vortice.DirectInput.TurnBasedControls"/>
 
     <!-- class Vortice.DirectInput.EffectGuid -->
-    <create class="PropertyGuids" visibility="internal sealed"/>
-    <!--<const from-macro="DIPROP_(.*)" class="Vortice.DirectInput.PropertyGuids" type="System.IntPtr" cpp-type="int" cpp-cast="(int)&amp;" name="$1" visibility="public static readonly">new System.IntPtr($1)</const>-->
+    <!--<create class="PropertyGuids" visibility="internal sealed"/>-->
+    <!--<const from-macro="DIPROP_(.*)" class="Vortice.DirectInput.PropertyGuids" type="System.IntPtr" cpp-type="int" cpp-cast="(int) &amp;" name="$1" visibility="public static readonly">new System.IntPtr($1)</const>-->
 
     <!-- enum Vortice.DirectInput.CooperativeLevel -->
     <create-cpp enum="DISCL" macro="DISCL_.*"/>

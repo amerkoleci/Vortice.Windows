@@ -52,12 +52,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.WinUI", "Vortice.WinUI\Vortice.WinUI.csproj", "{9BF45C22-6C5B-4468-AD57-151D3E73947C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectInput", "Vortice.DirectInput\Vortice.DirectInput.csproj", "{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D} = {2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{736CFFF1-F854-46D3-B033-E43013E35E7C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc.Test", "tests\Vortice.Dxc.Test\Vortice.Dxc.Test.csproj", "{3AE41313-5D1F-4CF7-B3C9-DAECBA9AA846}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3DCompiler.Test", "tests\Vortice.D3DCompiler.Test\Vortice.D3DCompiler.Test.csproj", "{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirectInput", "samples\HelloDirectInput\HelloDirectInput.csproj", "{ABB39205-20AC-4A1F-9066-1339E6F41ED6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,6 +158,10 @@ Global
 		{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB39205-20AC-4A1F-9066-1339E6F41ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB39205-20AC-4A1F-9066-1339E6F41ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB39205-20AC-4A1F-9066-1339E6F41ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB39205-20AC-4A1F-9066-1339E6F41ED6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,6 +175,7 @@ Global
 		{40EEE371-A385-4515-AA81-9C8AA90C4FCE} = {4E805E04-239C-4352-841F-5175483FE6A0}
 		{3AE41313-5D1F-4CF7-B3C9-DAECBA9AA846} = {736CFFF1-F854-46D3-B033-E43013E35E7C}
 		{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE} = {736CFFF1-F854-46D3-B033-E43013E35E7C}
+		{ABB39205-20AC-4A1F-9066-1339E6F41ED6} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0734700-42E1-4F87-8DD2-0084849DA44A}

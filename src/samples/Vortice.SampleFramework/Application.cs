@@ -12,6 +12,7 @@ namespace Vortice
 
         protected IGraphicsDevice? _graphicsDevice;
 
+
         protected Application(bool headless = false)
         {
             Headless = headless;

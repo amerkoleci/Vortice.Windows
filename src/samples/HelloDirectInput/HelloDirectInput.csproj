@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Vortice.Direct2D1\Vortice.Direct2D1.csproj" />
+    <ProjectReference Include="..\..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />
+    <ProjectReference Include="..\..\Vortice.DirectInput\Vortice.DirectInput.csproj" />
+    <ProjectReference Include="..\Vortice.SampleFramework\Vortice.SampleFramework.csproj" />
+  </ItemGroup>
+  
+</Project>
