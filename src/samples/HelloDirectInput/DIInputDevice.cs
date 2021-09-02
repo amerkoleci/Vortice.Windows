@@ -12,17 +12,17 @@ using Vortice.DirectInput;
 
 namespace HelloDirectInput
 {
-    class DirectInputDeviceContainer
+    class DIInputDevice
     {
         protected IDirectInput8? DirectInput;
 
-        protected Dictionary<Guid, DeviceInstance> _keyboards;
-        protected Dictionary<Guid, DeviceInstance> _joysticks;
+        protected Dictionary<Guid, DeviceInstance>? _keyboards;
+        protected Dictionary<Guid, DeviceInstance>? _joysticks;
 
         protected Dictionary<Guid, IDirectInputDevice8> _keyboardDevices;
         protected Dictionary<Guid, IDirectInputDevice8> _joystickDevices;
 
-        public DirectInputDeviceContainer()
+        public DIInputDevice()
         {
             _keyboardDevices = new Dictionary<Guid, IDirectInputDevice8>();
             _joystickDevices = new Dictionary<Guid, IDirectInputDevice8>();
@@ -54,9 +54,6 @@ namespace HelloDirectInput
             }
         }
 
-
-        //==========================================================================================================================//
-
         void InitialiseKeyboardDevice(IDirectInput8 directInput, Guid guid, IntPtr windowhandle)
         {
             IDirectInputDevice8 inputDevice_ = directInput.CreateDevice(guid);
@@ -81,8 +78,6 @@ namespace HelloDirectInput
             }
         }
 
-        //==========================================================================================================================//
-
         void InitialiseJoystickDevice(IDirectInput8 directInput, Guid guid, IntPtr windowhandle)
         {
             IDirectInputDevice8 inputDevice_ = directInput.CreateDevice(guid);
@@ -104,8 +99,6 @@ namespace HelloDirectInput
                 }
             }
         }
-
-        //==========================================================================================================================//
 
         public void GetKeyboardUpdates()
         {
@@ -137,8 +130,6 @@ namespace HelloDirectInput
             }
         }
 
-        //==========================================================================================================================//
-
         public void GetKJoystickUpdates()
         {
             foreach (var joystick in _joystickDevices)
@@ -169,9 +160,6 @@ namespace HelloDirectInput
             }
         }
 
-
-        //==========================================================================================================================//
-
         static public Dictionary<Guid, DeviceInstance> EnumerateAllAttachedKeyboardDevices(IDirectInput8 directInput)
         {
             Dictionary<Guid, DeviceInstance> connectedDeviceList_ = new Dictionary<Guid, DeviceInstance>();
@@ -190,9 +178,6 @@ namespace HelloDirectInput
 
             return connectedDeviceList_;
         }
-
-        //==========================================================================================================================//
-
         static public Dictionary<Guid, DeviceInstance> EnumerateAllAttachedGameDevices(IDirectInput8 directInput)
         {
             Dictionary<Guid, DeviceInstance> connectedDeviceList_ = new Dictionary<Guid, DeviceInstance>();

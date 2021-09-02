@@ -14,7 +14,7 @@ using Vortice.Mathematics;
 using static Vortice.Direct3D11.D3D11;
 using static Vortice.DXGI.DXGI;
 
-namespace HelloDirectInput
+namespace HelloDirect3D11
 {
     public sealed class D3D11GraphicsDevice : IGraphicsDevice
     {
@@ -30,7 +30,7 @@ namespace HelloDirectInput
 
         public readonly Window? Window;
         public readonly Size Size;
-        public readonly IDXGIFactory2 Factory;
+        public readonly IDXGIFactory2? Factory;
         public readonly ID3D11Device1 Device;
         public readonly FeatureLevel FeatureLevel;
         public readonly ID3D11DeviceContext1 DeviceContext;
@@ -149,7 +149,7 @@ namespace HelloDirectInput
             DeviceContext.Dispose();
             Device.Dispose();
             SwapChain.Dispose();
-            Factory.Dispose();
+            Factory?.Dispose();
 
             if (DXGIGetDebugInterface1(out IDXGIDebug1? dxgiDebug).Success)
             {

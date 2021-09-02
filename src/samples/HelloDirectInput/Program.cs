@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using HelloDirectInput;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Diagnostics;
 using Vortice;
@@ -11,7 +12,7 @@ using Vortice.Mathematics;
 using Vortice.WIC;
 using WICPixelFormat = Vortice.WIC.PixelFormat;
 
-namespace HelloDirectInput
+namespace HelloDirect3D11
 {
     public static class Program
     {
@@ -19,13 +20,12 @@ namespace HelloDirectInput
 
         private class TestApplication : Application
         {
-            protected DirectInputDeviceContainer _directInputDevice;
+            protected DIInputDevice _directInputDevice;
 
             public TestApplication(bool headless = false)
                 : base(headless)
             {
             }
-
             protected override void InitializeBeforeRun()
             {
                 if (Headless)
@@ -36,13 +36,10 @@ namespace HelloDirectInput
                 {
                     _graphicsDevice = new D3D11GraphicsDevice(MainWindow!);
 
-                    _directInputDevice = new DirectInputDeviceContainer();
+                    _directInputDevice = new DIInputDevice();
 
                     _directInputDevice.Initialise(MainWindow.Handle);
                 }
-
-
-          
             }
 
             protected override void OnKeyboardEvent(KeyboardKey key, bool pressed)
