@@ -19,7 +19,7 @@ namespace HelloDirectInput
 
         private class TestApplication : Application
         {
-            protected DirectInputDevice _directInputDevice;
+            protected DirectInputDeviceContainer _directInputDevice;
 
             public TestApplication(bool headless = false)
                 : base(headless)
@@ -36,7 +36,7 @@ namespace HelloDirectInput
                 {
                     _graphicsDevice = new D3D11GraphicsDevice(MainWindow!);
 
-                    _directInputDevice = new DirectInputDevice();
+                    _directInputDevice = new DirectInputDeviceContainer();
 
                     _directInputDevice.Initialise(MainWindow.Handle);
                 }

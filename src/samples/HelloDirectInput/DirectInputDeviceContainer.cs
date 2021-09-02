@@ -12,7 +12,7 @@ using Vortice.DirectInput;
 
 namespace HelloDirectInput
 {
-    class DirectInputDevice
+    class DirectInputDeviceContainer
     {
         protected IDirectInput8? DirectInput;
 
@@ -22,7 +22,7 @@ namespace HelloDirectInput
         protected Dictionary<Guid, IDirectInputDevice8> _keyboardDevices;
         protected Dictionary<Guid, IDirectInputDevice8> _joystickDevices;
 
-        public DirectInputDevice()
+        public DirectInputDeviceContainer()
         {
             _keyboardDevices = new Dictionary<Guid, IDirectInputDevice8>();
             _joystickDevices = new Dictionary<Guid, IDirectInputDevice8>();
@@ -63,26 +63,23 @@ namespace HelloDirectInput
 
             Result result_ = inputDevice_.SetCooperativeLevel(windowhandle, CooperativeLevel.NonExclusive | CooperativeLevel.Foreground);
 
+            // play the values back to see that buffersize is working correctly
             inputDevice_.Properties.BufferSize = 16;
 
             int size = inputDevice_.Properties.BufferSize;
 
             if (directInput.IsDeviceAttached(guid))
             {
+
+                result_ = inputDevice_.SetDataFormat<RawKeyboardState>();
+
                 if (result_.Success)
                 {
-                    result_ = inputDevice_.SetDataFormat<RawKeyboardState>();
 
-                    if (result_.Success)
-                    {
-
-                        _keyboardDevices.Add(guid, inputDevice_);
-                    }
+                    _keyboardDevices.Add(guid, inputDevice_);
                 }
             }
         }
-
-
 
         //==========================================================================================================================//
 
@@ -92,24 +89,21 @@ namespace HelloDirectInput
 
             Result result_ = inputDevice_.SetCooperativeLevel(windowhandle, CooperativeLevel.NonExclusive | CooperativeLevel.Foreground);
 
+            // play the values back to see that buffersize is working correctly
             inputDevice_.Properties.BufferSize = 16;
 
             int size = inputDevice_.Properties.BufferSize;
 
             if (directInput.IsDeviceAttached(guid))
             {
+                result_ = inputDevice_.SetDataFormat<RawJoystickState>();
+
                 if (result_.Success)
                 {
-                    result_ = inputDevice_.SetDataFormat<RawJoystickState>();
-
-                    if (result_.Success)
-                    {
-                        _joystickDevices.Add(guid, inputDevice_);
-                    }
+                    _joystickDevices.Add(guid, inputDevice_);
                 }
             }
         }
-
 
         //==========================================================================================================================//
 
@@ -142,7 +136,6 @@ namespace HelloDirectInput
                 }
             }
         }
-
 
         //==========================================================================================================================//
 
@@ -198,7 +191,7 @@ namespace HelloDirectInput
             return connectedDeviceList_;
         }
 
-
+        //==========================================================================================================================//
 
         static public Dictionary<Guid, DeviceInstance> EnumerateAllAttachedGameDevices(IDirectInput8 directInput)
         {
