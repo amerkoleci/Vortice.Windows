@@ -54,6 +54,8 @@ namespace HelloDirectInput
                 ((D3D11GraphicsDevice)_graphicsDevice!).DeviceContext.Flush();
 
                 _directInputDevice.GetKeyboardUpdates();
+
+                _directInputDevice.GetKJoystickUpdates();
             }
 
         }

@@ -14,17 +14,18 @@ namespace HelloDirectInput
 {
     class DirectInputDevice
     {
-        IDirectInput8? DirectInput;
+        protected IDirectInput8? DirectInput;
 
-        Dictionary<Guid, IDirectInputDevice8> _keyboardDevices;
+        protected Dictionary<Guid, DeviceInstance> _keyboards;
+        protected Dictionary<Guid, DeviceInstance> _joysticks;
 
-
-        Dictionary<Guid, DeviceInstance> _keyboards;
-        Dictionary<Guid, DeviceInstance> _joysticks;
+        protected Dictionary<Guid, IDirectInputDevice8> _keyboardDevices;
+        protected Dictionary<Guid, IDirectInputDevice8> _joystickDevices;
 
         public DirectInputDevice()
         {
             _keyboardDevices = new Dictionary<Guid, IDirectInputDevice8>();
+            _joystickDevices = new Dictionary<Guid, IDirectInputDevice8>();
         }
 
         public void Initialise(IntPtr handle)
@@ -37,10 +38,15 @@ namespace HelloDirectInput
 
                 foreach (var item_ in _keyboards)
                 {
-                    InitialiseDevice(DirectInput, item_.Key, handle);
+                    InitialiseKeyboardDevice(DirectInput, item_.Key, handle);
                 }
 
                 _joysticks = EnumerateAllAttachedGameDevices(DirectInput);
+
+                foreach (var item_ in _joysticks)
+                {
+                    InitialiseJoystickDevice(DirectInput, item_.Key, handle);
+                }
             }
             catch (Exception ex)
             {
@@ -49,13 +55,15 @@ namespace HelloDirectInput
         }
 
 
-        void InitialiseDevice(IDirectInput8 directInput, Guid guid, IntPtr windowhandle)
+        //==========================================================================================================================//
+
+        void InitialiseKeyboardDevice(IDirectInput8 directInput, Guid guid, IntPtr windowhandle)
         {
             IDirectInputDevice8 inputDevice_ = directInput.CreateDevice(guid);
 
-            Result result_ = inputDevice_.SetCooperativeLevel(windowhandle, CooperativeLevel.Exclusive | CooperativeLevel.Foreground);
+            Result result_ = inputDevice_.SetCooperativeLevel(windowhandle, CooperativeLevel.NonExclusive | CooperativeLevel.Foreground);
 
-           inputDevice_.Properties.BufferSize = 16;
+            inputDevice_.Properties.BufferSize = 16;
 
             int size = inputDevice_.Properties.BufferSize;
 
@@ -67,14 +75,36 @@ namespace HelloDirectInput
 
                     if (result_.Success)
                     {
-                        result_ = inputDevice_.Acquire();
 
-                        if (result_.Success)
-                        {
-                            KeyboardState data = inputDevice_.GetCurrentKeyboardState();
+                        _keyboardDevices.Add(guid, inputDevice_);
+                    }
+                }
+            }
+        }
 
-                            _keyboardDevices.Add(guid, inputDevice_);
-                        }
+
+
+        //==========================================================================================================================//
+
+        void InitialiseJoystickDevice(IDirectInput8 directInput, Guid guid, IntPtr windowhandle)
+        {
+            IDirectInputDevice8 inputDevice_ = directInput.CreateDevice(guid);
+
+            Result result_ = inputDevice_.SetCooperativeLevel(windowhandle, CooperativeLevel.NonExclusive | CooperativeLevel.Foreground);
+
+            inputDevice_.Properties.BufferSize = 16;
+
+            int size = inputDevice_.Properties.BufferSize;
+
+            if (directInput.IsDeviceAttached(guid))
+            {
+                if (result_.Success)
+                {
+                    result_ = inputDevice_.SetDataFormat<RawJoystickState>();
+
+                    if (result_.Success)
+                    {
+                        _joystickDevices.Add(guid, inputDevice_);
                     }
                 }
             }
@@ -91,12 +121,20 @@ namespace HelloDirectInput
 
                 if (result_.Failure)
                 {
-                    keyboard.Value.Acquire();
+                    result_ = keyboard.Value.Acquire();
+
+                    if (result_.Failure)
+                        return;
                 }
 
                 try
                 {
                     KeyboardUpdate[] bufferedData_ = keyboard.Value.GetBufferedKeyboardData();
+
+                    if (bufferedData_.Length > 0)
+                    {
+                        Trace.WriteLine(bufferedData_[0].ToString());
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -105,6 +143,38 @@ namespace HelloDirectInput
             }
         }
 
+
+        //==========================================================================================================================//
+
+        public void GetKJoystickUpdates()
+        {
+            foreach (var joystick in _joystickDevices)
+            {
+                Result result_ = joystick.Value.Poll();
+
+                if (result_.Failure)
+                {
+                    result_ = joystick.Value.Acquire();
+
+                    if (result_.Failure)
+                        return;
+                }
+
+                try
+                {
+                    JoystickUpdate[] bufferedData_ = joystick.Value.GetBufferedJoystickData();
+
+                    if (bufferedData_.Length > 0)
+                    {
+                        Trace.WriteLine(bufferedData_[0].ToString());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Trace.Write(ex.Message);
+                }
+            }
+        }
 
 
         //==========================================================================================================================//
@@ -121,7 +191,7 @@ namespace HelloDirectInput
                 }
                 else
                 {
-                    Console.WriteLine(deviceInstance_.ProductName + " does not match input type, ignored.");                    
+                    Console.WriteLine(deviceInstance_.ProductName + " does not match input type, ignored.");
                 }
             }
 
