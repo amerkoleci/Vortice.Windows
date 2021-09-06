@@ -1,6 +1,6 @@
 # Vortice.Windows
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/amerkoleci/Vortice.Windows/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/amerkoleci/Vortice.Windows/blob/master/LICENSE)
 [![Build status](https://github.com/amerkoleci/Vortice.Windows/workflows/ci/badge.svg)](https://github.com/amerkoleci/Vortice.Windows/actions)
 [![NuGet](https://img.shields.io/nuget/v/Vortice.Direct3D12.svg)](https://www.nuget.org/packages?q=Tags%3A%22Vortice.Windows%22,%22Direct3D12%22)
 
