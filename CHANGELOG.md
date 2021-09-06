@@ -1,13 +1,13 @@
 # Changelog
 
-Current Stable Release:    1.9.117 (August 2021)
+Current Stable Release:    1.9.130 (August 2021)
 
 -----------------------------------------------
 Release:     1.9.XXX (October 2021)
 -----------------------------------------------
 
 -----------------------------------------------
-Release:     1.9.117 (August 2021)
+Release:     1.9.130 (August 2021)
 -----------------------------------------------
 - [ENH] Direct3D12: Add ID3D12Device.CreateRootSignature with blob creation.
 - [ENH] Direct3D11: Rename Usage to ResourceUsage and improve CreateBuffer, improve Create shaders with Blob directly.
