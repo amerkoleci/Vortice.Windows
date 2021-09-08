@@ -34,6 +34,7 @@ Also, you need to install **Visual Studio 2019** with the following components:
 - [Wave Engine](https://waveengine.net/)
 - [Veldrid](https://github.com/mellinoe/veldrid)
 - [MiniEngine](https://github.com/roy-t/MiniEngine3) 
+- [SharpAudio](https://github.com/feliwir/SharpAudio)
 
 ## Samples
 - Collection of samples [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
