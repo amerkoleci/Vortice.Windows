@@ -26,5 +26,11 @@ namespace Vortice.MediaFoundation
             MFCreateSourceResolver(out IMFSourceResolver sourceResolver).CheckError();
             return sourceResolver;
         }
+
+        public static IMFMediaSource MFCreateDeviceSource(IMFAttributes attributes)
+        {
+            MFCreateDeviceSource(attributes, out IMFMediaSource mediaSource).CheckError();
+            return mediaSource;
+        }
     }
 }
