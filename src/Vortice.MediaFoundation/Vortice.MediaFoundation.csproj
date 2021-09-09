@@ -6,8 +6,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Description>A .NET bindings for Media Foundation</Description>
-    <!-- Don't generate package for now -->
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
