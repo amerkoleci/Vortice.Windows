@@ -1,13 +1,13 @@
 # Changelog
 
-Current Stable Release:    1.9.130 (August 2021)
+Current Stable Release:    1.9.143 (September 2021)
 
 -----------------------------------------------
-Release:     1.9.XXX (October 2021)
+Release:     2.0.XXX (November 2021)
 -----------------------------------------------
 
 -----------------------------------------------
-Release:     1.9.130 (August 2021)
+Release:     1.9.143 (September 2021)
 -----------------------------------------------
 - [ENH] Direct3D12: Add ID3D12Device.CreateRootSignature with blob creation.
 - [ENH] Direct3D11: Rename Usage to ResourceUsage and improve CreateBuffer, improve Create shaders with Blob directly.
@@ -15,6 +15,7 @@ Release:     1.9.130 (August 2021)
 - [ENH] Direct3D12: Improve Debug MessageID enum values names.
 - [ENH] WinUI: New Vortice.WinUI based on Microsoft.ProjectReunion.WinUI (https://www.nuget.org/packages/Microsoft.ProjectReunion.WinUI/)
 - [ENH] DirectInput: New Vortice.DirectInput support.
+- [ENH] MediaFoundation: Preview MediaFoundation support.
 
 -----------------------------------------------
 Release:     1.9.80 (May 2021)
