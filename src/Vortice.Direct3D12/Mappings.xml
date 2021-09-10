@@ -572,9 +572,6 @@
 
     <remove struct="D3D12_MEMCPY_DEST"/>
 
-    <map enum-item="D3D12_ROOT_PARAMETER_32BIT_CONSTANTS" name="Constant32Bits"/>
-    <map enum-item="D3D12_ROOT_PARAMETER_CBV" name="ConstantBufferView"/>
-
     <map enum="D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS" name="MultisampleQualityLevelFlags" flags="true"/>
     <map enum-item="D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_NONE" name="None"/>
     <map enum-item="D3D12_MULTISAMPLE_QUALITY_LEVELS_FLAG_TILED_RESOURCE" name="TiledResource"/>
@@ -632,8 +629,6 @@
     <map param="ID3D12InfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
 
     <map enum-item="D3D12_MESSAGE_ID_(.*)" name-tmp="$1" />
-    <remove enum-item="D3D12_MESSAGE_ID_MAP_INVALID_SUBRESOURCE" />
-    <remove enum-item="D3D12_MESSAGE_ID_UNMAP_INVALID_SUBRESOURCE" />
     <remove enum-item="D3D12_MESSAGE_ID_D3D12_MESSAGES_END" />
     <map struct="D3D12_MESSAGE" marshal="true" new="false" marshalto="true" />
     <map field="D3D12_MESSAGE::pDescription" name="Description" visibility="public"/>
@@ -731,8 +726,6 @@
 
     <map struct="D3D12_BOX" visibility="internal"/>
     <map struct="D3D12_DISCARD_REGION" visibility="internal"/>
-
-    <map field="D3D11_FEATURE_DATA_SHADER_CACHE::SupportFlags" type="D3D11_SHADER_CACHE_SUPPORT_FLAGS" />
 
     <map field="D3D12_CACHED_PIPELINE_STATE::pCachedBlob" name="CachedBlob" />
     <map field="D3D12_CACHED_PIPELINE_STATE::CachedBlobSizeInBytes" name="CachedBlobSizeInBytes" />
@@ -834,11 +827,12 @@
     <map param="ID3D12Device::CreateSampler::pDesc" attribute="in value"/>
     <map method="ID3D12Device::SetStablePowerState" property="false" />
 
-    <map method="ID3D12Device::GetCopyableFootprints" visibility="private"/>
+    <map method="ID3D12Device::GetCopyableFootprints" visibility="internal"/>
     <map param="ID3D12Device::GetCopyableFootprints::pResourceDesc" attribute="in value"/>
     <map param="ID3D12Device::GetCopyableFootprints::pLayouts" type="void" keep-pointers="true"/>
     <map param="ID3D12Device::GetCopyableFootprints::pNumRows" type="void" keep-pointers="true"/>
     <map param="ID3D12Device::GetCopyableFootprints::pRowSizeInBytes" type="void" keep-pointers="true"/>
+    <map param="ID3D12Device::GetCopyableFootprints::pTotalBytes" return="false"/>
 
     <map method="ID3D12Device::OpenSharedHandle" visibility="private" hresult="true" check="false"/>
     <map method="ID3D12Device::OpenSharedHandleByName" visibility="private" hresult="true" check="false"/>
@@ -1090,7 +1084,6 @@
     <remove field="D3D12_VIDEO_ENCODER_CODEC_PICTURE_CONTROL_SUPPORT::.*"/>
 
     <map field="D3D12_VIDEO_DECODE_OUTPUT_HISTOGRAM::pBuffer" name="Buffer" />
-    <map field="D3D12_VIDEO_PROCESS_INPUT_STREAM::pReferenceTexture2D" name="ReferenceTexture2D" />
     <map field="D3D12_VIDEO_PROCESS_INPUT_STREAM::pTexture2D" name="Texture2D" />
 
     <map struct="D3D12_VIDEO_PROCESS_INPUT_STREAM_ARGUMENTS" name="VideoProcessInputStreamArguments" native="true" marshal="true" />

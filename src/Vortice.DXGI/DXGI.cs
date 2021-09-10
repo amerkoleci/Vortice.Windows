@@ -94,56 +94,6 @@ namespace Vortice.DXGI
         /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
         /// <param name="debugInterface">Instance of T.</param>
         /// <returns>The result code.</returns>
-        public static Result DXGIGetDebugInterface<T>(out T? debugInterface) where T : ComObject
-        {
-            try
-            {
-                Result result = DXGIGetDebugInterface(typeof(T).GUID, out IntPtr nativePtr);
-                if (result.Failure)
-                {
-                    debugInterface = null;
-                    return result;
-                }
-
-                debugInterface = MarshallingHelpers.FromPointer<T>(nativePtr);
-                return result;
-            }
-            catch
-            {
-                debugInterface = default;
-                return ResultCode.NotFound;
-            }
-        }
-
-        /// <summary>
-        /// Gets debug interface for given type.
-        /// </summary>
-        /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
-        /// <returns>The <see cref="ComObject"/> to get.</returns>
-        public static ComObject? DXGIGetDebugInterface<T>() where T : ComObject
-        {
-            try
-            {
-                Result result = DXGIGetDebugInterface(typeof(T).GUID, out IntPtr nativePtr);
-                if (result.Failure)
-                {
-                    return default;
-                }
-
-                return MarshallingHelpers.FromPointer<T>(nativePtr);
-            }
-            catch
-            {
-                return default;
-            }
-        }
-
-        /// <summary>
-        /// Gets debug interface for given type.
-        /// </summary>
-        /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
-        /// <param name="debugInterface">Instance of T.</param>
-        /// <returns>The result code.</returns>
         public static Result DXGIGetDebugInterface1<T>(out T? debugInterface) where T : ComObject
         {
             try

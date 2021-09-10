@@ -255,11 +255,11 @@
     <!-- IDXGISurface2 -->
     <map method="IDXGISurface2::GetResource" visibility="private" hresult="true" check="false"/>
 
-    <map function="DXGIGetDebugInterface" dll='"dxgidebug.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" visibility="private" />
     <map function="DXGIGetDebugInterface1" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" visibility="private" />
     <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
 
     <remove function="CreateDXGIFactory" />
+    <remove function="DXGIGetDebugInterface"  />
 
     <map function="CreateDXGIFactory.*" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" visibility="private" />
     <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />

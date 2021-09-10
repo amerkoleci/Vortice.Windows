@@ -5,6 +5,9 @@ Current Stable Release:    1.9.143 (September 2021)
 -----------------------------------------------
 Release:     2.0.XXX (November 2021)
 -----------------------------------------------
+- [CHG] DXGI: Remove legacy DXGIGetDebugInterface function, prefer DXGIGetDebugInterface1.
+- [FIX] Direct3D12: D3D12CreateDevice with return call.
+- [FIX] Direct3D12: GetCopyableFootprints signature and accepting correct null values.
 
 -----------------------------------------------
 Release:     1.9.143 (September 2021)

@@ -899,7 +899,7 @@ namespace Vortice.Direct3D12
             DescriptorHeapType descriptorHeapsType)
         {
             fixed (CpuDescriptorHandle* pDestDescriptorRangeStarts = destDescriptorRangeStarts)
-            fixed (int *pDestDescriptorRangeSizes = destDescriptorRangeSizes)
+            fixed (int* pDestDescriptorRangeSizes = destDescriptorRangeSizes)
             fixed (CpuDescriptorHandle* pSrcDescriptorRangeStarts = srcDescriptorRangeStarts)
             fixed (int* pSrcDescriptorRangeSizes = srcDescriptorRangeSizes)
                 CopyDescriptors(numDestDescriptorRanges, pDestDescriptorRangeStarts, pDestDescriptorRangeSizes,
@@ -917,7 +917,7 @@ namespace Vortice.Direct3D12
             DescriptorHeapType descriptorHeapsType)
         {
             fixed (CpuDescriptorHandle* pDestDescriptorRangeStarts = destDescriptorRangeStarts)
-            fixed (int *pDestDescriptorRangeSizes = destDescriptorRangeSizes)
+            fixed (int* pDestDescriptorRangeSizes = destDescriptorRangeSizes)
             fixed (CpuDescriptorHandle* pSrcDescriptorRangeStarts = srcDescriptorRangeStarts)
             fixed (int* pSrcDescriptorRangeSizes = srcDescriptorRangeSizes)
                 CopyDescriptors(numDestDescriptorRanges, pDestDescriptorRangeStarts, pDestDescriptorRangeSizes,
@@ -934,6 +934,13 @@ namespace Vortice.Direct3D12
             int firstSubresource,
             int numSubresources,
             ulong baseOffset,
+            out ulong totalBytes)
+        {
+            GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, (void*)null, (void*)null, (void*)null, out totalBytes);
+        }
+
+        public unsafe void GetCopyableFootprints(ResourceDescription resourceDesc, int firstSubresource, int numSubresources,
+            ulong baseOffset,
             PlacedSubresourceFootPrint[] layouts,
             int[] numRows,
             ulong[] rowSizeInBytes,
@@ -942,7 +949,9 @@ namespace Vortice.Direct3D12
             fixed (PlacedSubresourceFootPrint* pLayouts = layouts)
             fixed (int* pNumRows = numRows)
             fixed (ulong* pRowSizeInBytes = rowSizeInBytes)
-                totalBytes = GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, pLayouts, pNumRows, pRowSizeInBytes);
+            {
+                GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, pLayouts, pNumRows, pRowSizeInBytes, out totalBytes);
+            }
         }
 
         public unsafe void GetCopyableFootprints(
@@ -958,7 +967,9 @@ namespace Vortice.Direct3D12
             fixed (PlacedSubresourceFootPrint* pLayouts = layouts)
             fixed (int* pNumRows = numRows)
             fixed (ulong* pRowSizeInBytes = rowSizeInBytes)
-                totalBytes = GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, pLayouts, pNumRows, pRowSizeInBytes);
+            {
+                GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, pLayouts, pNumRows, pRowSizeInBytes, out totalBytes);
+            }
         }
 
         #endregion

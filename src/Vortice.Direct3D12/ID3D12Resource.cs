@@ -33,7 +33,7 @@ namespace Vortice.Direct3D12
 
             using(ID3D12Device? device = GetDevice<ID3D12Device>())
             {
-                device!.GetCopyableFootprints(desc, firstSubresource, numSubresources, 0, null, null, null, out ulong requiredSize);
+                device!.GetCopyableFootprints(desc, firstSubresource, numSubresources, 0, out ulong requiredSize);
                 return requiredSize;
             }
         }

@@ -251,7 +251,7 @@ namespace Vortice.Direct3D12
             RSSetViewports(1, &viewport);
         }
 
-        public unsafe void RSSetViewports<T>(T[] viewports) where T : unmanaged
+        public void RSSetViewports<T>(T[] viewports) where T : unmanaged
         {
 #if DEBUG
             if (sizeof(T) != sizeof(Viewport))
@@ -260,13 +260,16 @@ namespace Vortice.Direct3D12
             }
 #endif
 
-            fixed (void* viewportsPtr = &viewports[0])
+            unsafe
             {
-                RSSetViewports(viewports.Length, viewportsPtr);
+                fixed (void* viewportsPtr = &viewports[0])
+                {
+                    RSSetViewports(viewports.Length, viewportsPtr);
+                }
             }
         }
 
-        public unsafe void RSSetViewports<T>(int count, T[] viewports) where T : unmanaged
+        public void RSSetViewports<T>(int count, T[] viewports) where T : unmanaged
         {
 #if DEBUG
             if (sizeof(T) != sizeof(Viewport))
@@ -275,13 +278,16 @@ namespace Vortice.Direct3D12
             }
 #endif
 
-            fixed (void* viewportsPtr = &viewports[0])
+            unsafe
             {
-                RSSetViewports(count, viewportsPtr);
+                fixed (void* viewportsPtr = &viewports[0])
+                {
+                    RSSetViewports(count, viewportsPtr);
+                }
             }
         }
 
-        public unsafe void RSSetViewports<T>(int count, Span<T> viewports) where T : unmanaged
+        public void RSSetViewports<T>(int count, Span<T> viewports) where T : unmanaged
         {
 #if DEBUG
             if (sizeof(T) != sizeof(Viewport))
@@ -289,10 +295,12 @@ namespace Vortice.Direct3D12
                 throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
             }
 #endif
-
-            fixed (void* pViewports = viewports)
+            unsafe
             {
-                RSSetViewports(count, pViewports);
+                fixed (void* pViewports = viewports)
+                {
+                    RSSetViewports(count, pViewports);
+                }
             }
         }
         #endregion

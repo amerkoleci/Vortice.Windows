@@ -181,18 +181,13 @@ namespace Vortice.Direct3D12
             return result;
         }
 
-        public static T? D3D12CreateDevice<T>(IDXGIAdapter? adapter, FeatureLevel minFeatureLevel) where T : ID3D12Device
+        public static T D3D12CreateDevice<T>(IDXGIAdapter? adapter, FeatureLevel minFeatureLevel) where T : ID3D12Device
         {
-            Result result = D3D12CreateDevice(
+            D3D12CreateDevice(
                 adapter != null ? adapter.NativePointer : IntPtr.Zero,
                 minFeatureLevel,
                 typeof(T).GUID,
-                out IntPtr nativePtr);
-
-            if (result.Failure)
-            {
-                return default;
-            }
+                out IntPtr nativePtr).CheckError();
 
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
@@ -215,14 +210,9 @@ namespace Vortice.Direct3D12
             return result;
         }
 
-        public static T? D3D12CreateDevice<T>(IntPtr adapterPtr, FeatureLevel minFeatureLevel) where T : ID3D12Device
+        public static T D3D12CreateDevice<T>(IntPtr adapterPtr, FeatureLevel minFeatureLevel) where T : ID3D12Device
         {
-            Result result = D3D12CreateDevice(adapterPtr, minFeatureLevel, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            D3D12CreateDevice(adapterPtr, minFeatureLevel, typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
@@ -247,15 +237,9 @@ namespace Vortice.Direct3D12
             return result;
         }
 
-        public static T? D3D12GetDebugInterface<T>() where T : ComObject
+        public static T D3D12GetDebugInterface<T>() where T : ComObject
         {
-            Result result = D3D12GetDebugInterface(typeof(T).GUID, out IntPtr nativePtr);
-
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            D3D12GetDebugInterface(typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
