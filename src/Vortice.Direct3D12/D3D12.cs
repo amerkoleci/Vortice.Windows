@@ -52,7 +52,7 @@ namespace Vortice.Direct3D12
         /// <param name="adapter">The <see cref="IDXGIAdapter"/>.</param>
         /// <param name="minFeatureLevel">Thje</param>
         /// <returns>The highest supported hardware feature level.</returns>
-        public static FeatureLevel GetMaxSupportedFeatureLevel(IDXGIAdapter adapter, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
+        public static FeatureLevel GetMaxSupportedFeatureLevel(IDXGIAdapter? adapter, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
         {
             ID3D12Device? device = null;
 
@@ -120,14 +120,11 @@ namespace Vortice.Direct3D12
         /// <param name="adapter">The <see cref="IDXGIAdapter"/> to use.</param>
         /// <param name="minFeatureLevel">Minimum feature level.</param>
         /// <returns>True if supported, false otherwise.</returns>
-        public static bool IsSupported(IDXGIAdapter adapter, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
+        public static bool IsSupported(IDXGIAdapter? adapter, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
         {
-            if (adapter == null)
-                throw new ArgumentNullException(nameof(adapter));
-
             try
             {
-                return D3D12CreateDeviceNoDevice(adapter.NativePointer, minFeatureLevel).Success;
+                return D3D12CreateDeviceNoDevice(adapter != null ? adapter.NativePointer : IntPtr.Zero, minFeatureLevel).Success;
             }
             catch (DllNotFoundException)
             {
@@ -144,9 +141,6 @@ namespace Vortice.Direct3D12
         /// <returns>True if supported, false otherwise.</returns>
         public static bool IsSupported(IntPtr adapterPtr, FeatureLevel minFeatureLevel = FeatureLevel.Level_11_0)
         {
-            if (adapterPtr == IntPtr.Zero)
-                throw new ArgumentNullException(nameof(adapterPtr));
-
             try
             {
                 return D3D12CreateDeviceNoDevice(adapterPtr, minFeatureLevel).Success;

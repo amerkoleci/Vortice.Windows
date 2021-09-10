@@ -6,6 +6,11 @@ namespace Vortice.DXGI
     public partial struct SampleDescription
     {
         /// <summary>
+        /// A <see cref="SampleDescription"/> with Count=1 and Quality=0.
+        /// </summary>
+        public static readonly SampleDescription Default = new(1, 0);
+
+        /// <summary>
         /// Create new instance of <see cref="SampleDescription"/> struct.
         /// </summary>
         /// <param name="count"></param>

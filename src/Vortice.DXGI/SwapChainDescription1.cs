@@ -10,8 +10,11 @@ namespace Vortice.DXGI
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        /// <param name="format"></param>
-        /// <param name="stereo"></param>
+        /// <param name="format">A <see cref="Vortice.DXGI.Format"/> that describes the display format.</param>
+        /// <param name="stereo">
+        /// Specifies whether the full-screen display mode or the swap-chain back buffer is stereo. TRUE if stereo; otherwise, FALSE.
+        /// If you specify stereo, you must also specify a flip-model swap chain (that is, a swap chain that has the <see cref="SwapEffect.FlipSequential"/> value set in the SwapEffect member).
+        /// </param>
         /// <param name="usage"></param>
         /// <param name="bufferCount"></param>
         /// <param name="scaling"></param>
@@ -34,7 +37,7 @@ namespace Vortice.DXGI
             Height = height;
             Format = format;
             Stereo = stereo;
-            SampleDescription = new SampleDescription(1, 0);
+            SampleDescription = SampleDescription.Default;
             Usage = usage;
             BufferCount = bufferCount;
             Scaling = scaling;
