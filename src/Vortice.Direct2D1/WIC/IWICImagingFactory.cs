@@ -34,8 +34,8 @@ namespace Vortice.WIC
         /// <returns>New instance of <see cref="IWICStream"/> or throws exception.</returns>
         public IWICStream CreateStream(string fileName, FileAccess access)
         {
-            var stream = CreateStream_();
-            stream.Initialize(fileName, access);
+            IWICStream stream = CreateStream_();
+            stream.Initialize(fileName, access).CheckError();
             return stream;
         }
 
@@ -46,8 +46,8 @@ namespace Vortice.WIC
         /// <returns>New instance of <see cref="IWICStream"/> or throws exception.</returns>
         public IWICStream CreateStream(IStream comStream)
         {
-            var stream = CreateStream_();
-            stream.Initialize(comStream);
+            IWICStream stream = CreateStream_();
+            stream.Initialize(comStream).CheckError();
             return stream;
         }
 
@@ -56,15 +56,10 @@ namespace Vortice.WIC
         /// </summary>
         /// <param name="stream">The initialize stream.</param>
         /// <returns>New instance of <see cref="IWICStream"/> or throws exception.</returns>
-        public IWICStream? CreateStream(Stream stream)
+        public IWICStream CreateStream(Stream stream)
         {
-            var wicStream = CreateStream_();
-            if (wicStream.Initialize(stream).Failure)
-            {
-                wicStream.Dispose();
-                return null;
-            }
-
+            IWICStream wicStream = CreateStream_();
+            wicStream.Initialize(stream).CheckError();
             return wicStream;
         }
 
@@ -76,8 +71,8 @@ namespace Vortice.WIC
         /// <returns>New instance of <see cref="IWICStream"/> or throws exception.</returns>
         public IWICStream CreateStream<T>(T[] data) where T : unmanaged
         {
-            var wicStream = CreateStream_();
-            wicStream.Initialize(data);
+            IWICStream wicStream = CreateStream_();
+            wicStream.Initialize(data).CheckError();
             return wicStream;
         }
 

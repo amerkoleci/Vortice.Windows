@@ -119,7 +119,7 @@ namespace HelloDirect3D12
                 DXGIFactory.MakeWindowAssociation(window.Handle, WindowAssociationFlags.IgnoreAltEnter);
 
                 SwapChain = swapChain.QueryInterface<IDXGISwapChain3>();
-                _backbufferIndex = SwapChain.GetCurrentBackBufferIndex();
+                _backbufferIndex = SwapChain.CurrentBackBufferIndex;
             }
 
             _rtvHeap = _d3d12Device.CreateDescriptorHeap<ID3D12DescriptorHeap>(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
@@ -312,7 +312,7 @@ namespace HelloDirect3D12
             }
 
             _frameIndex = _frameCount % RenderLatency;
-            _backbufferIndex = SwapChain.GetCurrentBackBufferIndex();
+            _backbufferIndex = SwapChain.CurrentBackBufferIndex;
 
             return true;
         }

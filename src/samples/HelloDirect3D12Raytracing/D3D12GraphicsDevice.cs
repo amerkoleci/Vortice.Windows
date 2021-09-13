@@ -205,7 +205,7 @@ namespace HelloDirect3D12Raytracing
                     DXGIFactory.MakeWindowAssociation(window.Handle, WindowAssociationFlags.IgnoreAltEnter);
 
                     SwapChain = swapChain.QueryInterface<IDXGISwapChain3>();
-                    _backbufferIndex = SwapChain.GetCurrentBackBufferIndex();
+                    _backbufferIndex = SwapChain.CurrentBackBufferIndex;
                 }
             }
 
@@ -672,7 +672,7 @@ namespace HelloDirect3D12Raytracing
             WaitIdle();
 
             _frameIndex = _frameCount % RenderLatency;
-            _backbufferIndex = SwapChain.GetCurrentBackBufferIndex();
+            _backbufferIndex = SwapChain.CurrentBackBufferIndex;
 
             return true;
         }

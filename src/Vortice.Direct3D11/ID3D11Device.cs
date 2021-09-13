@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
@@ -159,7 +159,12 @@ namespace Vortice.Direct3D11
 
         public ID3D11Buffer CreateBuffer(BufferDescription description, IntPtr dataPointer)
         {
-            return CreateBuffer(description, new SubresourceData(dataPointer));
+            return CreateBuffer(description, dataPointer != IntPtr.Zero ? new SubresourceData(dataPointer) : (SubresourceData?)default);
+        }
+
+        public ID3D11Buffer CreateBuffer(BufferDescription description, DataStream data)
+        {
+            return CreateBuffer(description, new SubresourceData(data.PositionPointer, 0, 0));
         }
 
         public unsafe ID3D11Buffer CreateBuffer<T>(ref T data, BufferDescription description) where T : unmanaged
@@ -327,6 +332,48 @@ namespace Vortice.Direct3D11
         public ID3D11Query CreateQuery(QueryType queryType, QueryFlags miscFlags = QueryFlags.None)
         {
             return CreateQuery(new QueryDescription(queryType, miscFlags));
+        }
+
+        public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, DataRectangle[] data)
+        {
+            SubresourceData[] subResourceDatas = new SubresourceData[data.Length];
+            for (int i = 0; i < subResourceDatas.Length; i++)
+            {
+                subResourceDatas[i].DataPointer = data[i].DataPointer;
+                subResourceDatas[i].RowPitch = data[i].Pitch;
+            }
+
+            return CreateTexture2D(description, subResourceDatas);
+        }
+
+        public ID3D11Texture1D CreateTexture1D(int width, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+        {
+            return CreateTexture1D(new Texture1DDescription(width, format, arraySize, mipLevels, bindFlags), initialData);
+        }
+
+        public ID3D11Texture2D CreateTexture2D(int width, int height, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+        {
+            return CreateTexture2D(new Texture2DDescription(width, height, format, arraySize, mipLevels, bindFlags), initialData);
+        }
+
+        public ID3D11Texture2D CreateTexture2DMultisample(int width, int height, int sampleCount, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, BindFlags bindFlags = BindFlags.ShaderResource)
+        {
+            if (sampleCount < 1)
+                throw new ArgumentException(nameof(sampleCount));
+
+            return CreateTexture2D(new Texture2DDescription(width, height, format, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0), null);
+        }
+
+        public ID3D11Texture3D CreateTexture3D(int width, int height, int depth, Format format = Format.R8G8B8A8_UNorm, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+        {
+            return CreateTexture3D(new Texture3DDescription(width, height, depth, format, mipLevels, bindFlags), initialData);
+        }
+
+        public ID3D11Texture2D CreateTextureCube(int size, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+        {
+            var description = new Texture2DDescription(size, size, format, arraySize * 6, mipLevels, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, 1, 0, ResourceOptionFlags.TextureCube);
+
+            return CreateTexture2D(description, initialData);
         }
 
         /// <summary>

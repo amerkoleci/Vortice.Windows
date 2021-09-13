@@ -13,12 +13,9 @@ namespace Vortice.DXGI
             get
             {
                 GetSourceSize(out int width, out int height);
-                return new Size(width, height);
+                return new(width, height);
             }
-            set
-            {
-                SetSourceSize(value.Width, value.Height);
-            }
+            set => SetSourceSize(value.Width, value.Height);
         }
     }
 }

@@ -8,6 +8,15 @@ namespace Vortice.DXGI
 {
     public partial class IDXGISwapChain
     {
+        public bool IsFullscreen
+        {
+            get
+            {
+                GetFullscreenState(out RawBool fullscreen, out _).CheckError();
+                return fullscreen;
+            }
+        }
+
         public T GetBuffer<T>(int index) where T : ComObject
         {
             GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr).CheckError();
@@ -27,19 +36,17 @@ namespace Vortice.DXGI
             return result;
         }
 
-        public void GetFullscreenState(out RawBool fullscreen)
+        public Result GetFullscreenState(out RawBool fullscreen) => GetFullscreenState(out fullscreen, out _);
+
+        public Result SetFullscreenState(bool fullscreen, IDXGIOutput? target = default) => SetFullscreenState(new RawBool(fullscreen), target);
+
+        public Result ResizeTarget(ModeDescription newTargetParameters) => ResizeTarget(ref newTargetParameters);
+
+        public Result ResizeBuffers(int bufferCount, int width, int height, Format newFormat = Format.Unknown)
         {
-            GetFullscreenState(out fullscreen, out _);
+            return ResizeBuffers(bufferCount, width, height, newFormat, SwapChainFlags.None);
         }
 
-        public Result SetFullscreenState(bool fullscreen, IDXGIOutput? target = default)
-        {
-            return SetFullscreenState(new RawBool(fullscreen), target);
-        }
-
-        public Result ResizeTarget(ModeDescription newTargetParameters)
-        {
-            return ResizeTarget(ref newTargetParameters);
-        }
+        public Result Present(int syncInterval) => Present(syncInterval, PresentFlags.None);
     }
 }

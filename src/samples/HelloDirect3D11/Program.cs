@@ -61,6 +61,8 @@ namespace HelloDirect3D11
                 var d3d11GraphicsDevice = ((D3D11GraphicsDevice)_graphicsDevice!);
                 ID3D11Texture2D source = Headless ? d3d11GraphicsDevice!.OffscreenTexture : d3d11GraphicsDevice!.BackBufferTexture;
 
+                path = Path.Combine(AppContext.BaseDirectory, path);
+
                 using (ID3D11Texture2D staging = d3d11GraphicsDevice!.CaptureTexture(source))
                 {
                     staging.DebugName = "STAGING";
@@ -162,8 +164,7 @@ namespace HelloDirect3D11
                     }
 
                     using var wicFactory = new IWICImagingFactory();
-                    using IWICBitmapDecoder decoder = wicFactory.CreateDecoderFromFileName(path);
-
+                    //using IWICBitmapDecoder decoder = wicFactory.CreateDecoderFromFileName(path);
 
                     using Stream stream = File.OpenWrite(path);
                     using IWICStream wicStream = wicFactory.CreateStream(stream);

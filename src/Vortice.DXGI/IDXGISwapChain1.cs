@@ -28,15 +28,29 @@ namespace Vortice.DXGI
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public T? GetCoreWindow<T>() where T : ComObject
+        public T GetCoreWindow<T>() where T : ComObject
+        {
+            GetCoreWindow(typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
+        }
+
+        /// <summary>
+        /// Retrieves the underlying CoreWindow object for this swap-chain object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="coreWindow"></param>
+        /// <returns></returns>
+        public Result GetCoreWindow<T>(out T? coreWindow) where T : ComObject
         {
             Result result = GetCoreWindow(typeof(T).GUID, out IntPtr nativePtr);
             if (result.Failure)
             {
+                coreWindow = default;
                 return default;
             }
 
-            return MarshallingHelpers.FromPointer<T>(nativePtr);
+            coreWindow = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
         }
 
         public unsafe Result Present(int syncInterval, PresentFlags presentFlags, PresentParameters presentParameters)

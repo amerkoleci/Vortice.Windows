@@ -129,7 +129,7 @@ namespace HelloDirect3D11
             else
             {
                 // Create offscreen texture
-                OffscreenTexture = Device.CreateTexture2D(new Texture2DDescription(Format.R8G8B8A8_UNorm, Size.Width, Size.Height, 1, 1, BindFlags.ShaderResource | BindFlags.RenderTarget));
+                OffscreenTexture = Device.CreateTexture2D(Size.Width, Size.Height, Format.R8G8B8A8_UNorm, 1, 1, null, BindFlags.ShaderResource | BindFlags.RenderTarget);
                 RenderTargetView = Device.CreateRenderTargetView(OffscreenTexture);
             }
         }

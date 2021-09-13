@@ -183,12 +183,13 @@
     <map param="IDXGISwapChain::ResizeBuffers::SwapChainFlags" type="DXGI_SWAP_CHAIN_FLAG" />
     <map method="IDXGISwapChain::SetFullscreenState" hresult="true" check="false" visibility="private" />
     <map method="IDXGISwapChain::GetBuffer" hresult="true" check="false" visibility="private" />
-    <map method="IDXGISwapChain::ResizeTarget" hresult="true" check="false" visibility="private"  />
+    <map method="IDXGISwapChain::ResizeTarget" hresult="true" check="false" />
     <map method="IDXGISwapChain::GetContainingOutput" property="false"  />
     <map param="IDXGISwapChain::GetContainingOutput::ppOutput" return="true"/>
+    <map method="IDXGISwapChain::GetFullscreenState" hresult="true" check="false" />
 
     <!-- IDXGISwapChain1 -->
-    <map method="IDXGISwapChain1::GetHwnd" property="false" visibility="private" hresult="true" check="false"  />
+    <map method="IDXGISwapChain1::GetHwnd" property="false" hresult="true" check="false"  />
     <map method="IDXGISwapChain1::GetCoreWindow" property="false" visibility="private" hresult="true" check="false"  />
     <map method="IDXGISwapChain1::Present1" visibility="internal" hresult="true"/>
     <map param="IDXGISwapChain1::Present1::pPresentParameters" type="void"/>
@@ -199,9 +200,9 @@
     <map param="IDXGISwapChain2::GetMatrixTransform::pMatrix" attribute="out" />
 
     <!-- IDXGISwapChain3 -->
-    <map method="IDXGISwapChain3::GetCurrentBackBufferIndex" property="false"  />
     <map param="IDXGISwapChain3::CheckColorSpaceSupport::pColorSpaceSupport" type="DXGI_SWAP_CHAIN_COLOR_SPACE_SUPPORT_FLAG" />
     <map param="IDXGISwapChain3::CheckColorSpaceSupport::pColorSpaceSupport" return="true" />
+    <map method="IDXGISwapChain3::ResizeBuffers1" hresult="true" check="false" />
     <map param="IDXGISwapChain3::ResizeBuffers1::SwapChainFlags" type="DXGI_SWAP_CHAIN_FLAG" />
 
     <!-- IDXGIAdapter -->

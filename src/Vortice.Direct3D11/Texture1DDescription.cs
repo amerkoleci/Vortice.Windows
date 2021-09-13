@@ -14,8 +14,8 @@ namespace Vortice.Direct3D11
         /// <summary>
         /// Initializes a new instance of the <see cref="Texture1DDescription"/> struct.
         /// </summary>
-        /// <param name="format">Texture format.</param>
         /// <param name="width">Texture width (in texels).</param>
+        /// <param name="format">Texture format.</param>
         /// <param name="arraySize">Number of textures in the array.</param>
         /// <param name="mipLevels">The maximum number of mipmap levels in the texture.</param>
         /// <param name="bindFlags">The <see cref="Direct3D11.BindFlags"/> for binding to pipeline stages.</param>
@@ -23,8 +23,8 @@ namespace Vortice.Direct3D11
         /// <param name="cpuAccessFlags">The <see cref="Direct3D11.CpuAccessFlags"/> to specify the types of CPU access allowed.</param>
         /// <param name="optionFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
         public Texture1DDescription(
-            Format format, 
             int width, 
+            Format format = Format.R8G8B8A8_UNorm,
             int arraySize = 1,
             int mipLevels = 0, 
             BindFlags bindFlags = BindFlags.ShaderResource,
