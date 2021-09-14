@@ -106,6 +106,7 @@
     <map field="DXGI_ADAPTER_DESC[123]?::SubSysId" name="SubsystemId" />
     <map field="DXGI_ADAPTER_DESC[12]::Flags" type="DXGI_ADAPTER_FLAG" />
 
+    <map struct="DXGI_ADAPTER_DESC" pack="4"/>
     <map struct="DXGI_ADAPTER_DESC[123]" pack="4"/>
 
     <!-- DXGI_SWAP_CHAIN_DESC -->
