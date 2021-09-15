@@ -5,10 +5,12 @@ Current Stable Release:    1.9.143 (September 2021)
 -----------------------------------------------
 Release:     2.0.XXX (November 2021)
 -----------------------------------------------
-- [CHG] DXGI: Remove legacy DXGIGetDebugInterface function, prefer DXGIGetDebugInterface1.
-- [FIX] Direct3D12: D3D12CreateDevice with return call.
-- [FIX] Direct3D12: GetCopyableFootprints signature and accepting correct null values.
-- [ENH] Direct3D11: Improvements and helper methods for creating buffers and textures.
+- [ENH] MediaFoundation: Improvements in IMMDevice and handle property store in automatic way
+- [ADD] General: Add PropertyStore support in Vortice.DirectX under Win32
+- [CHG] DXGI: Remove legacy DXGIGetDebugInterface function, prefer DXGIGetDebugInterface1
+- [FIX] Direct3D12: D3D12CreateDevice with return call
+- [FIX] Direct3D12: GetCopyableFootprints signature and accepting correct null values
+- [ENH] Direct3D11: Improvements and helper methods for creating buffers and textures
 
 -----------------------------------------------
 Release:     1.9.143 (September 2021)

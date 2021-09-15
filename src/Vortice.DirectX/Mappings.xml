@@ -55,6 +55,8 @@
     <define struct="Vortice.Win32.BitmapInfoHeader" sizeof="40"/>
     <define struct="Vortice.Win32.PropertyKey" sizeof="20"/>
 
+    <define interface="Vortice.Win32.PropertyStore"/>
+
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <const from-guid="WKPDID_D3DDebugObjectNameW" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectNameW">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
@@ -84,6 +86,7 @@
     <bind from="MSG" to="Vortice.Win32.NativeMessage" />
     <bind from="BITMAPINFOHEADER" to="Vortice.Win32.BitmapInfoHeader"/>
     <bind from="PROPERTYKEY" to="Vortice.Win32.PropertyKey"/>
+    <bind from="IPropertyStore" to="Vortice.Win32.PropertyStore"/>
 
     <!-- DXGI -->
     <bind from="DXGI_RGB" to="Vortice.Mathematics.Color3" />

@@ -1,16 +1,16 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System.IO;
+using System;
+using System.Runtime.InteropServices;
 using SharpGen.Runtime;
+using Vortice.Win32;
 
 namespace Vortice.MediaFoundation
 {
     public partial class IMMDevice
     {
-        private const int STGM_READ = 0x00000000;
-        private const int STGM_WRITE = 0x00000001;
-        private const int STGM_READWRITE = 0x00000002;
+        private PropertyStore? _propertyStore;
 
         public DeviceStates State
         {
@@ -21,29 +21,156 @@ namespace Vortice.MediaFoundation
             }
         }
 
-        public Result OpenPropertyStore(FileAccess access, out ComObject properties)
+        public string Id
         {
-            return OpenPropertyStore(ToCOMAccess(access), out properties);
-        }
-
-        public ComObject OpenPropertyStore(FileAccess access)
-        {
-            OpenPropertyStore(ToCOMAccess(access), out ComObject properties).CheckError();
-            return properties;
-        }
-
-        private static int ToCOMAccess(FileAccess access)
-        {
-            switch (access)
+            get
             {
-                default:
-                case FileAccess.Read:
-                    return STGM_READ;
-                case FileAccess.Write:
-                    return STGM_WRITE;
-                case FileAccess.ReadWrite:
-                    return STGM_READWRITE;
+                unsafe
+                {
+                    IntPtr id;
+                    GetId(new IntPtr(&id));
+
+                    var str = new string((char*)id);
+                    Marshal.FreeCoTaskMem(id);
+                    return str;
+                }
             }
         }
+
+        public PropertyStore Properties
+        {
+            get
+            {
+                if (_propertyStore == null)
+                {
+                    OpenPropertyStore();
+                }
+
+                return _propertyStore!;
+            }
+        }
+
+        /// <summary>
+        /// Friendly name for the endpoint
+        /// </summary>
+        public string FriendlyName
+        {
+            get
+            {
+                if (_propertyStore == null)
+                {
+                    OpenPropertyStore();
+                }
+
+                if (_propertyStore!.Contains(PropertyKeys.PKEY_Device_FriendlyName))
+                {
+                    return (string)_propertyStore.GetValue(PropertyKeys.PKEY_Device_FriendlyName).Value;
+                }
+
+                return "Unknown";
+            }
+        }
+
+        /// <summary>
+        /// Friendly name of device
+        /// </summary>
+        public string DeviceFriendlyName
+        {
+            get
+            {
+                if (_propertyStore == null)
+                {
+                    OpenPropertyStore();
+                }
+
+                if (_propertyStore!.Contains(PropertyKeys.PKEY_DeviceInterface_FriendlyName))
+                {
+                    return (string)_propertyStore.GetValue(PropertyKeys.PKEY_DeviceInterface_FriendlyName).Value;
+                }
+
+                return "Unknown";
+            }
+        }
+
+        /// <summary>
+        /// Icon path of device
+        /// </summary>
+        public string IconPath
+        {
+            get
+            {
+                if (_propertyStore == null)
+                {
+                    OpenPropertyStore();
+                }
+
+                if (_propertyStore!.Contains(PropertyKeys.PKEY_Device_IconPath))
+                {
+                    return (string)_propertyStore.GetValue(PropertyKeys.PKEY_Device_IconPath).Value;
+                }
+
+                return "Unknown";
+            }
+        }
+
+        /// <summary>
+        /// Device Instance Id of Device
+        /// </summary>
+        public string InstanceId
+        {
+            get
+            {
+                if (_propertyStore == null)
+                {
+                    OpenPropertyStore();
+                }
+
+                if (_propertyStore!.Contains(PropertyKeys.PKEY_Device_InstanceId))
+                {
+                    return (string)_propertyStore.GetValue(PropertyKeys.PKEY_Device_InstanceId).Value;
+                }
+
+                return "Unknown";
+            }
+        }
+
+        /// <summary>
+        /// Data Flow
+        /// </summary>
+        public DataFlow DataFlow
+        {
+            get
+            {
+                using (IMMEndpoint endPoint = QueryInterface<IMMEndpoint>())
+                {
+                    return endPoint.DataFlow;
+                }
+            }
+        }
+
+
+        public void OpenPropertyStore(StorageAccessMode access = StorageAccessMode.Read)
+        {
+            DisposeProperyStore();
+            OpenPropertyStore((int)access, out _propertyStore);
+        }
+
+        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
+        {
+            base.DisposeCore(nativePointer, disposing);
+
+            DisposeProperyStore();
+        }
+
+        private void DisposeProperyStore()
+        {
+            if (_propertyStore != null)
+            {
+                _propertyStore.Dispose();
+                _propertyStore = null;
+            }
+        }
+
+        public override string ToString() => FriendlyName;
     }
 }
