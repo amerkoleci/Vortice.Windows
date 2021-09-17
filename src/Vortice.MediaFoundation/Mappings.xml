@@ -117,7 +117,7 @@
     <map struct="MF(.*)" name-tmp="$1"/>
 
     <!-- IMFByteStream -->
-    <map interface="IMFByteStream" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
+    <map interface="IMFByteStream" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" callback-name="MFByteStream" />
     <map param="IMFByteStream::*.*::pb" type="void" attribute="in"/>
     <map param="IMFByteStream::Begin[RW].*::punkState" type="void"/>
 
@@ -130,7 +130,10 @@
     <!-- IMFSourceResolver -->
     <map method="IMFSourceResolver::(.*)" hresult="true" check="false"/>
     <map method="IMFSourceResolver::CreateObjectFromURL" visibility="internal"/>
+    <map param="IMFSourceResolver::CreateObjectFromURL::ppObject" attribute="out" type="void"/>
     <map method="IMFSourceResolver::CreateObjectFromByteStream" visibility="internal"/>
+    <map param="IMFSourceResolver::CreateObjectFromByteStream::ppObject" attribute="out" type="void"/>
+    
     
     <!-- IMFMediaEvent -->
     <map param="IMFMediaEvent::GetType::pmet" type="MEDIA_EVENT_TYPES"/>
@@ -150,14 +153,13 @@
 
     <!-- IMFDXGIDeviceManager -->
     <map method="IMFDXGIDeviceManager::(.*)" hresult="true" check="false"/>
-    <map method="MFCreateDXGIDeviceManager" visibility="internal" />
     <map method="IMFDXGIDeviceManager::ResetDevice" visibility="internal" />
     <map method="IMFDXGIDeviceManager::LockDevice" visibility="internal"/>
     <map method="IMFDXGIDeviceManager::UnlockDevice" visibility="internal" />
     
     <!-- Functions -->
     <remove function="IMF.*"/>
-    <map function="MF.*" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MF.*" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" />
     <!--<map function="MFCreateLegacyMediaBufferOnMFMediaBuffer" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />-->
     <remove function="MFCreateLegacyMediaBufferOnMFMediaBuffer"/>
     <remove function="MFInitMediaTypeFromVideoInfoHeader" />
@@ -170,6 +172,7 @@
     <remove function="MFCreateAMMediaTypeFromMFMediaType"/>
 
     <map function="MFStartup" visibility="private" />
+    <map param="MFCreateAttributes::cInitialSize" default="0"/>
     
     <map function="MFCreateVideoPresenter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
     <map function="MFCreateVideoMixer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFoundation" hresult="true" check="false" />
@@ -288,9 +291,16 @@
     <map function="MFCreateAVIMediaSink" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateWAVEMediaSink" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateTrackedSample" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
-    <map function="MFCreateMFByteStreamOnStream" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
-    <map function="MFCreateStreamOnMFByteStream" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+
+    <!-- MFCreateMFByteStreamOnStream -->
+    <map function="MFCreateMFByteStreamOnStream" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" visibility="internal" />
+    <map param="MFCreateMFByteStreamOnStream::ppByteStream" attribute="out fast"/>
+
+    <!--MFCreateMFByteStreamOnStreamEx -->
     <map function="MFCreateMFByteStreamOnStreamEx" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map param="MFCreateMFByteStreamOnStreamEx::ppByteStream" attribute="out fast"/>
+    
+    <map function="MFCreateStreamOnMFByteStream" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateStreamOnMFByteStreamEx" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateMediaTypeFromProperties" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreatePropertiesFromMediaType" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
@@ -308,6 +318,8 @@
 
     <map function="MFCreateVideoSampleFromSurface" dll='"EVR.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
 
+    <map function="MFCreateDXGIDeviceManager" visibility="internal" hresult="true" check="false" />
+    
     <!-- WASAPI -->
     <remove function="ActivateAudioInterfaceAsync"/>
   </mapping>

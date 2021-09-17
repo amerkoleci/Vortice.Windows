@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
 using SharpGen.Runtime;
 using Vortice.Win32;
 
@@ -8,50 +9,90 @@ namespace Vortice.MediaFoundation
 {
     public partial class IMFSourceResolver
     {
-        public IUnknown CreateObjectFromURL(string url, SourceResolverFlags flags)
+        public IMFMediaSource CreateObjectFromURL(string url, SourceResolverFlags flags = SourceResolverFlags.None)
         {
-            CreateObjectFromURL(url, (int)flags, null, out ObjectType objectType, out IUnknown @object).CheckError();
-            return @object;
+            CreateObjectFromURL(url, (int)(flags | SourceResolverFlags.MediaSource), null, out ObjectType objectType, out IntPtr nativePtr).CheckError();
+            if (objectType != ObjectType.MediaSource)
+            {
+                throw new InvalidOperationException("Object type is not MediaSource");
+            }
+
+            return new IMFMediaSource(nativePtr);
         }
 
-        public IUnknown CreateObjectFromURL(string url, SourceResolverFlags flags, out ObjectType objectType)
+        public IMFMediaSource CreateObjectFromURL(string url, SourceResolverFlags flags, PropertyStore propertyStore)
         {
-            CreateObjectFromURL(url, (int)flags, null, out objectType, out IUnknown @object).CheckError();
-            return @object;
+            CreateObjectFromURL(url, (int)(flags | SourceResolverFlags.MediaSource), propertyStore, out ObjectType objectType, out IntPtr nativePtr).CheckError();
+            if (objectType != ObjectType.MediaSource)
+            {
+                throw new InvalidOperationException("Object type is not MediaSource");
+            }
+            return new IMFMediaSource(nativePtr);
         }
 
-        public IUnknown CreateObjectFromURL(string url, SourceResolverFlags flags, PropertyStore propertyStore, out ObjectType objectType)
+        public MFByteStream CreateObjectFromURLAsByteStream(string url, SourceResolverFlags flags = SourceResolverFlags.None)
         {
-            CreateObjectFromURL(url, (int)flags, propertyStore, out objectType, out IUnknown @object).CheckError();
-            return @object;
+            CreateObjectFromURL(url, (int)(flags | SourceResolverFlags.ByteStream), null, out ObjectType objectType, out IntPtr nativePtr).CheckError();
+            if (objectType != ObjectType.ByteStream)
+            {
+                throw new InvalidOperationException("Object type is not ByteStream");
+            }
+
+            return new MFByteStream(nativePtr);
         }
 
-        public Result CreateObjectFromURL(string url, SourceResolverFlags flags, PropertyStore propertyStore, out ObjectType objectType, out IUnknown @object)
+        public MFByteStream CreateObjectFromURLAsByteStream(string url, SourceResolverFlags flags, PropertyStore propertyStore)
         {
-            return CreateObjectFromURL(url, (int)flags, propertyStore, out objectType, out @object);
+            CreateObjectFromURL(url, (int)(flags | SourceResolverFlags.ByteStream), propertyStore, out ObjectType objectType, out IntPtr nativePtr).CheckError();
+            if (objectType != ObjectType.ByteStream)
+            {
+                throw new InvalidOperationException("Object type is not MediaSource");
+            }
+            return new MFByteStream(nativePtr);
         }
 
-        public IUnknown CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags)
+        public IMFMediaSource CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags = SourceResolverFlags.None)
         {
-            CreateObjectFromByteStream(stream, url, (int)flags, null, out ObjectType objectType, out IUnknown @object).CheckError();
-            return @object;
+            CreateObjectFromByteStream(stream, url, (int)(flags | SourceResolverFlags.MediaSource), null, out ObjectType objectType, out IntPtr nativePtr).CheckError();
+            if (objectType != ObjectType.MediaSource)
+            {
+                throw new InvalidOperationException("Object type is not MediaSource");
+            }
+
+            return new IMFMediaSource(nativePtr);
         }
 
-        public IUnknown CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags, out ObjectType objectType)
+        public IMFMediaSource CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags, PropertyStore propertyStore)
         {
-            CreateObjectFromByteStream(stream, url, (int)flags, null, out objectType, out IUnknown @object).CheckError();
-            return @object;
+            CreateObjectFromByteStream(stream, url, (int)(flags | SourceResolverFlags.MediaSource), propertyStore, out ObjectType objectType, out IntPtr nativePtr).CheckError();
+            if (objectType != ObjectType.MediaSource)
+            {
+                throw new InvalidOperationException("Object type is not MediaSource");
+            }
+
+            return new IMFMediaSource(nativePtr);
         }
 
-        public IUnknown CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags, PropertyStore propertyStore, out ObjectType objectType)
+        public MFByteStream CreateObjectFromByteStreamAsByteStream(IMFByteStream stream, string url, SourceResolverFlags flags = SourceResolverFlags.None)
         {
-            CreateObjectFromByteStream(stream, url, (int)flags, propertyStore, out objectType, out IUnknown @object).CheckError();
-            return @object;
+            CreateObjectFromByteStream(stream, url, (int)(flags | SourceResolverFlags.MediaSource), null, out ObjectType objectType, out IntPtr nativePtr).CheckError();
+            if (objectType != ObjectType.ByteStream)
+            {
+                throw new InvalidOperationException("Object type is not ByteStream");
+            }
+
+            return new MFByteStream(nativePtr);
         }
 
-        public Result CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags, PropertyStore propertyStore, out ObjectType objectType, out IUnknown @object)
+        public MFByteStream CreateObjectFromByteStreamAsByteStream(IMFByteStream stream, string url, SourceResolverFlags flags, PropertyStore propertyStore)
         {
-            return CreateObjectFromByteStream(stream, url, (int)flags, propertyStore, out objectType, out @object);
+            CreateObjectFromByteStream(stream, url, (int)(flags | SourceResolverFlags.MediaSource), propertyStore, out ObjectType objectType, out IntPtr nativePtr).CheckError();
+            if (objectType != ObjectType.ByteStream)
+            {
+                throw new InvalidOperationException("Object type is not ByteStream");
+            }
+
+            return new MFByteStream(nativePtr);
         }
     }
 }

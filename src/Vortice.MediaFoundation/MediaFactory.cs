@@ -7,13 +7,7 @@ namespace Vortice.MediaFoundation
 {
     public partial class MediaFactory
     {
-        public static Result MFStartup(bool useLightVersion = false) => MFStartup(Version, useLightVersion ? 1 : 0);
-
-        public static IMFAttributes MFCreateAttributes(int initialSizeInBytes = 0)
-        {
-            MFCreateAttributes(out IMFAttributes attributes, initialSizeInBytes).CheckError();
-            return attributes;
-        }
+        public static void MFStartup(bool useLightVersion = false) => MFStartup(Version, useLightVersion ? 1 : 0);
 
         public static IMFMediaSession MFCreateMediaSession(IMFAttributes configuration)
         {
