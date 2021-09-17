@@ -32,5 +32,12 @@ namespace Vortice.MediaFoundation
             MFCreateDeviceSource(attributes, out IMFMediaSource mediaSource).CheckError();
             return mediaSource;
         }
+
+        public static IMFDXGIDeviceManager MFCreateDXGIDeviceManager()
+        {
+            MFCreateDXGIDeviceManager(out int resetToken, out IMFDXGIDeviceManager deviceManager).CheckError();
+            deviceManager.ResetToken = resetToken;
+            return deviceManager;
+        }
     }
 }

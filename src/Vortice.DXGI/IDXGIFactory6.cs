@@ -21,14 +21,9 @@ namespace Vortice.DXGI
             return result;
         }
 
-        public T? EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference) where T : IDXGIAdapter
+        public T EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference) where T : IDXGIAdapter
         {
-            Result result = EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr);
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(adapterPtr);
         }
     }

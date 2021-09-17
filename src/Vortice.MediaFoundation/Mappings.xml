@@ -115,8 +115,9 @@
     
     <!-- Structs -->
     <map struct="MF(.*)" name-tmp="$1"/>
-    
-    <map interface="IMFByteStream" name="IByteStream" callback-visibility="public" callback="true" callback-dual="true" callback-name="ByteStream"/>
+
+    <!-- IMFByteStream -->
+    <map interface="IMFByteStream" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
     <map param="IMFByteStream::*.*::pb" type="void" attribute="in"/>
     <map param="IMFByteStream::Begin[RW].*::punkState" type="void"/>
 
@@ -146,6 +147,13 @@
     <map method="IMMDevice::GetState" visibility="internal" property="false" />
     <map method="IMMDevice::OpenPropertyStore" visibility="internal" />
     <map method="IMMDevice::GetId" visibility="internal" />
+
+    <!-- IMFDXGIDeviceManager -->
+    <map method="IMFDXGIDeviceManager::(.*)" hresult="true" check="false"/>
+    <map method="MFCreateDXGIDeviceManager" visibility="internal" />
+    <map method="IMFDXGIDeviceManager::ResetDevice" visibility="internal" />
+    <map method="IMFDXGIDeviceManager::LockDevice" visibility="internal"/>
+    <map method="IMFDXGIDeviceManager::UnlockDevice" visibility="internal" />
     
     <!-- Functions -->
     <remove function="IMF.*"/>

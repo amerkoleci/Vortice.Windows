@@ -31,25 +31,25 @@ namespace Vortice.MediaFoundation
             return CreateObjectFromURL(url, (int)flags, propertyStore, out objectType, out @object);
         }
 
-        public IUnknown CreateObjectFromByteStream(IByteStream stream, string url, SourceResolverFlags flags)
+        public IUnknown CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags)
         {
             CreateObjectFromByteStream(stream, url, (int)flags, null, out ObjectType objectType, out IUnknown @object).CheckError();
             return @object;
         }
 
-        public IUnknown CreateObjectFromByteStream(IByteStream stream, string url, SourceResolverFlags flags, out ObjectType objectType)
+        public IUnknown CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags, out ObjectType objectType)
         {
             CreateObjectFromByteStream(stream, url, (int)flags, null, out objectType, out IUnknown @object).CheckError();
             return @object;
         }
 
-        public IUnknown CreateObjectFromByteStream(IByteStream stream, string url, SourceResolverFlags flags, PropertyStore propertyStore, out ObjectType objectType)
+        public IUnknown CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags, PropertyStore propertyStore, out ObjectType objectType)
         {
             CreateObjectFromByteStream(stream, url, (int)flags, propertyStore, out objectType, out IUnknown @object).CheckError();
             return @object;
         }
 
-        public Result CreateObjectFromByteStream(IByteStream stream, string url, SourceResolverFlags flags, PropertyStore propertyStore, out ObjectType objectType, out IUnknown @object)
+        public Result CreateObjectFromByteStream(IMFByteStream stream, string url, SourceResolverFlags flags, PropertyStore propertyStore, out ObjectType objectType, out IUnknown @object)
         {
             return CreateObjectFromByteStream(stream, url, (int)flags, propertyStore, out objectType, out @object);
         }
