@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
@@ -16,14 +16,18 @@
 
   <ItemGroup>
     <Content Include="build\dxcompiler.dll">
+      <Link>dxcompiler.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>build/$(TargetFramework)</PackagePath>
       <Pack>true</Pack>
+      <Visible>false</Visible>
     </Content>
     <Content Include="build\dxil.dll">
+      <Link>dxil.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>build/$(TargetFramework)</PackagePath>
       <Pack>true</Pack>
+      <Visible>false</Visible>
     </Content>
     <Content Include="build\Vortice.Dxc.targets">
       <PackagePath>build/$(TargetFramework)/Vortice.Dxc.targets</PackagePath>
