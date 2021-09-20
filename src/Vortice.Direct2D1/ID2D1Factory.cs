@@ -30,13 +30,15 @@ namespace Vortice.Direct2D1
             return CreateGeometryGroup(fillMode, geometries, geometries.Length);
         }
 
-        public ID2D1RectangleGeometry CreateRectangleGeometry(RectangleF rectangle)
+        public unsafe ID2D1RectangleGeometry CreateRectangleGeometry(RectangleF rectangle)
         {
-            unsafe
-            {
-                RawRectF rawRect = rectangle;
-                return CreateRectangleGeometry(new IntPtr(&rawRect));
-            }
+            RawRectF rawRect = rectangle;
+            return CreateRectangleGeometry(new IntPtr(&rawRect));
+        }
+
+        public unsafe ID2D1RectangleGeometry CreateRectangleGeometry(RawRectF rectangle)
+        {
+            return CreateRectangleGeometry(new IntPtr(&rectangle));
         }
 
         public ID2D1StrokeStyle CreateStrokeStyle(StrokeStyleProperties properties)

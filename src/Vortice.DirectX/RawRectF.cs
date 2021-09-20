@@ -30,7 +30,7 @@ namespace Vortice
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     [DebuggerDisplay("Left: {Left}, Top: {Top}, Right: {Right}, Bottom: {Bottom}")]
-    public struct RawRectF
+    public readonly struct RawRectF
     {
         public RawRectF(float left, float top, float right, float bottom)
         {
@@ -43,22 +43,22 @@ namespace Vortice
         /// <summary>
         /// The left position.
         /// </summary>
-        public float Left;
+        public readonly float Left;
 
         /// <summary>
         /// The top position.
         /// </summary>
-        public float Top;
+        public readonly float Top;
 
         /// <summary>
         /// The right position
         /// </summary>
-        public float Right;
+        public readonly float Right;
 
         /// <summary>
         /// The bottom position.
         /// </summary>
-        public float Bottom;
+        public readonly float Bottom;
 
         /// <inheritdoc/>
         public override string ToString()

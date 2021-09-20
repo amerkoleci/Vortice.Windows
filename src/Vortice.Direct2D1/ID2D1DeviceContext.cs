@@ -29,10 +29,17 @@ namespace Vortice.Direct2D1
             DrawBitmap(bitmap, null, opacity, interpolationMode, sourceRectangle, perspectiveTransform);
         }
 
+        public void DrawBitmap(ID2D1Bitmap bitmap, in RectangleF destinationRectangle, float opacity, InterpolationMode interpolationMode, in RectangleF sourceRectangle, in Matrix4x4 perspectiveTransform)
+        {
+            RawRectF destRect = destinationRectangle;
+            RawRectF sourceRect = sourceRectangle;
+            DrawBitmap(bitmap, (RawRectF?)destRect, opacity, interpolationMode, (RawRectF?)sourceRect, perspectiveTransform);
+        }
+
         public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, in RectangleF sourceRectangle, in Matrix4x4 perspectiveTransform)
         {
             RawRectF sourceRect = sourceRectangle;
-            DrawBitmap(bitmap, null, opacity, interpolationMode, sourceRect, perspectiveTransform);
+            DrawBitmap(bitmap, null, opacity, interpolationMode, (RawRectF?)sourceRect, perspectiveTransform);
         }
 
         public void DrawImage(
