@@ -134,6 +134,21 @@ namespace Vortice.Direct2D1
             DrawBitmap(bitmap, null, opacity, interpolationMode, rawRect);
         }
 
+        /// <summary>
+        /// Draws the specified bitmap after scaling it to the size of the specified rectangle. 	
+        /// </summary>
+        /// <param name="bitmap">The <see cref="ID2D1Bitmap"/> to render.</param>
+        /// <param name="destinationRectangle">The size and position, in device-independent pixels in the render target's coordinate space, of the area to which the bitmap is drawn; If the rectangle is specified but not well-ordered, nothing is drawn, but the render target does not enter an error state.</param>
+        /// <param name="opacity">A value between 0.0f and 1.0f, inclusive, that specifies an opacity value to apply to the bitmap; this value is multiplied against the alpha values of the bitmap's contents.  The default value is 1.0f. </param>
+        /// <param name="interpolationMode">The interpolation mode to use if the bitmap is scaled or rotated by the drawing operation. The default value is <see cref="F:SharpDX.Direct2D1.BitmapInterpolationMode.Linear" />.  </param>
+        /// <param name="sourceRectangle">The size and position, in device-independent pixels in the bitmap's coordinate space, of the area within the bitmap to be drawn; NULL to draw the entire bitmap.  </param>
+        public void DrawBitmap(ID2D1Bitmap bitmap, RectangleF destinationRectangle, float opacity, BitmapInterpolationMode interpolationMode, RectangleF sourceRectangle)
+        {
+            RawRectF rawDestinationRectangle = destinationRectangle;
+            RawRectF rawSourceRectangle = sourceRectangle;
+            DrawBitmap(bitmap, (RawRectF?)rawDestinationRectangle, opacity, interpolationMode, rawSourceRectangle);
+        }
+
         /// <summary>	
         /// Draws the outline of the specified ellipse using the specified brush. 	
         /// </summary>	

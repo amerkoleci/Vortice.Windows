@@ -1,8 +1,7 @@
 <Project>
   <PropertyGroup>
     <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
-    <RepositoryRootDirectory>$(MSBuildThisFileDirectory)../</RepositoryRootDirectory>
-    <BinDir>$(RepositoryRootDirectory)bin</BinDir>
+    <BinDir>$(RepositoryRootDirectory)/bin</BinDir>
     <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
     
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

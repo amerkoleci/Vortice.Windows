@@ -1,68 +1,74 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29001.49
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31710.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX", "Vortice.DirectX\Vortice.DirectX.csproj", "{A9645572-0847-4FDA-90F4-0ACA2C257847}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX", "src\Vortice.DirectX\Vortice.DirectX.csproj", "{A9645572-0847-4FDA-90F4-0ACA2C257847}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D11", "Vortice.Direct3D11\Vortice.Direct3D11.csproj", "{26314741-88F5-4C0A-B34C-09FD714380A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D11", "src\Vortice.Direct3D11\Vortice.Direct3D11.csproj", "{26314741-88F5-4C0A-B34C-09FD714380A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D12", "Vortice.Direct3D12\Vortice.Direct3D12.csproj", "{734F3D9C-F768-425A-A2C4-E3491AD7B4C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D12", "src\Vortice.Direct3D12\Vortice.Direct3D12.csproj", "{734F3D9C-F768-425A-A2C4-E3491AD7B4C7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct2D1", "Vortice.Direct2D1\Vortice.Direct2D1.csproj", "{2182B80A-2BFC-4995-AB1C-BC8EB433FE4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct2D1", "src\Vortice.Direct2D1\Vortice.Direct2D1.csproj", "{2182B80A-2BFC-4995-AB1C-BC8EB433FE4C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3DCompiler", "Vortice.D3DCompiler\Vortice.D3DCompiler.csproj", "{E9F89D5F-AF93-498C-BFB0-61377F461491}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3DCompiler", "src\Vortice.D3DCompiler\Vortice.D3DCompiler.csproj", "{E9F89D5F-AF93-498C-BFB0-61377F461491}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XInput", "src\Vortice.XInput\Vortice.XInput.csproj", "{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc", "src\Vortice.Dxc\Vortice.Dxc.csproj", "{B9511CB1-AF96-4108-BD05-A85973C60AC9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI", "src\Vortice.DXGI\Vortice.DXGI.csproj", "{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XAudio2", "src\Vortice.XAudio2\Vortice.XAudio2.csproj", "{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Multimedia", "src\Vortice.Multimedia\Vortice.Multimedia.csproj", "{8B819A20-F08E-4329-9183-235A58ED0024}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D9", "src\Vortice.Direct3D9\Vortice.Direct3D9.csproj", "{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectComposition", "src\Vortice.DirectComposition\Vortice.DirectComposition.csproj", "{4583371C-617C-4F5A-8514-D23C906F2338}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.MediaFoundation", "src\Vortice.MediaFoundation\Vortice.MediaFoundation.csproj", "{B54120C2-217F-44C4-A1C2-DC9D93F09729}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.WinUI", "src\Vortice.WinUI\Vortice.WinUI.csproj", "{9BF45C22-6C5B-4468-AD57-151D3E73947C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5676F50D-CC54-4DC6-980D-6B68FFF64065}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.SampleFramework", "samples\Vortice.SampleFramework\Vortice.SampleFramework.csproj", "{58C451C2-994B-41E6-80C5-975C23D6ECF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.SampleFramework", "src\samples\Vortice.SampleFramework\Vortice.SampleFramework.csproj", "{58C451C2-994B-41E6-80C5-975C23D6ECF9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D11", "samples\HelloDirect3D11\HelloDirect3D11.csproj", "{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D11", "src\samples\HelloDirect3D11\HelloDirect3D11.csproj", "{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D12", "samples\HelloDirect3D12\HelloDirect3D12.csproj", "{2246B81E-ED94-4DAD-8336-782CEDCD1795}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D12", "src\samples\HelloDirect3D12\HelloDirect3D12.csproj", "{2246B81E-ED94-4DAD-8336-782CEDCD1795}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XInput", "Vortice.XInput\Vortice.XInput.csproj", "{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc", "Vortice.Dxc\Vortice.Dxc.csproj", "{B9511CB1-AF96-4108-BD05-A85973C60AC9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI", "Vortice.DXGI\Vortice.DXGI.csproj", "{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XAudio2", "Vortice.XAudio2\Vortice.XAudio2.csproj", "{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Multimedia", "Vortice.Multimedia\Vortice.Multimedia.csproj", "{8B819A20-F08E-4329-9183-235A58ED0024}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D9", "Vortice.Direct3D9\Vortice.Direct3D9.csproj", "{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectComposition", "Vortice.DirectComposition\Vortice.DirectComposition.csproj", "{4583371C-617C-4F5A-8514-D23C906F2338}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D12Raytracing", "samples\HelloDirect3D12Raytracing\HelloDirect3D12Raytracing.csproj", "{61F8DB50-54D3-44C7-A438-FE5201C01DD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D12Raytracing", "src\samples\HelloDirect3D12Raytracing\HelloDirect3D12Raytracing.csproj", "{61F8DB50-54D3-44C7-A438-FE5201C01DD4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{0DBFE3CB-7EB1-469D-9F87-40D414DEF509}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		CHANGELOG.md = CHANGELOG.md
 		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 		global.json = global.json
+		LICENSE = LICENSE
+		NuGet.Config = NuGet.Config
+		README.md = README.md
 		version.json = version.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.MediaFoundation", "Vortice.MediaFoundation\Vortice.MediaFoundation.csproj", "{B54120C2-217F-44C4-A1C2-DC9D93F09729}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Direct2D1", "Direct2D1", "{4E805E04-239C-4352-841F-5175483FE6A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedTextRenderingApp", "samples\AdvancedTextRenderingApp\AdvancedTextRenderingApp.csproj", "{40EEE371-A385-4515-AA81-9C8AA90C4FCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedTextRenderingApp", "src\samples\AdvancedTextRenderingApp\AdvancedTextRenderingApp.csproj", "{40EEE371-A385-4515-AA81-9C8AA90C4FCE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.WinUI", "Vortice.WinUI\Vortice.WinUI.csproj", "{9BF45C22-6C5B-4468-AD57-151D3E73947C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectInput", "Vortice.DirectInput\Vortice.DirectInput.csproj", "{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectInput", "src\Vortice.DirectInput\Vortice.DirectInput.csproj", "{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D} = {2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{736CFFF1-F854-46D3-B033-E43013E35E7C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc.Test", "tests\Vortice.Dxc.Test\Vortice.Dxc.Test.csproj", "{3AE41313-5D1F-4CF7-B3C9-DAECBA9AA846}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc.Test", "src\tests\Vortice.Dxc.Test\Vortice.Dxc.Test.csproj", "{3AE41313-5D1F-4CF7-B3C9-DAECBA9AA846}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3DCompiler.Test", "tests\Vortice.D3DCompiler.Test\Vortice.D3DCompiler.Test.csproj", "{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3DCompiler.Test", "src\tests\Vortice.D3DCompiler.Test\Vortice.D3DCompiler.Test.csproj", "{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirectInput", "samples\HelloDirectInput\HelloDirectInput.csproj", "{ABB39205-20AC-4A1F-9066-1339E6F41ED6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirectInput", "src\samples\HelloDirectInput\HelloDirectInput.csproj", "{ABB39205-20AC-4A1F-9066-1339E6F41ED6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,18 +96,6 @@ Global
 		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9F89D5F-AF93-498C-BFB0-61377F461491}.Release|Any CPU.Build.0 = Release|Any CPU
-		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Release|Any CPU.Build.0 = Release|Any CPU
 		{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{000197C6-6CC3-4658-BF7A-F9BAF9BBF5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -130,22 +124,34 @@ Global
 		{4583371C-617C-4F5A-8514-D23C906F2338}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4583371C-617C-4F5A-8514-D23C906F2338}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4583371C-617C-4F5A-8514-D23C906F2338}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B54120C2-217F-44C4-A1C2-DC9D93F09729}.Release|Any CPU.Build.0 = Release|Any CPU
-		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9BF45C22-6C5B-4468-AD57-151D3E73947C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9BF45C22-6C5B-4468-AD57-151D3E73947C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BF45C22-6C5B-4468-AD57-151D3E73947C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BF45C22-6C5B-4468-AD57-151D3E73947C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58C451C2-994B-41E6-80C5-975C23D6ECF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2246B81E-ED94-4DAD-8336-782CEDCD1795}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61F8DB50-54D3-44C7-A438-FE5201C01DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40EEE371-A385-4515-AA81-9C8AA90C4FCE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}.Release|Any CPU.ActiveCfg = Release|Any CPU

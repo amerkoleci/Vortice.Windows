@@ -1,4 +1,3 @@
-
 name: ci
 
 on:
@@ -41,7 +40,7 @@ jobs:
         setAllVars: true
 
     - name: Pack
-      run: dotnet pack src --configuration Release --output build/packages
+      run: dotnet pack Vortice.Windows.sln --configuration Release --output build/packages
 
     - name: Publish to NuGet
       if: github.event_name == 'push'
