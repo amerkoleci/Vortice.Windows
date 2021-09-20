@@ -61,5 +61,23 @@ namespace Vortice.Dxc.Test
                 Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
             }
         }
+
+        [Fact]
+        public void DxcDefineTest()
+        {
+            string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "TriangleSingleFile.hlsl"));
+
+            var defines = new DxcDefine[] { new DxcDefine { Name = "TEST", Value = "1" } };
+
+            using IDxcResult? results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", defines: defines);
+
+            Assert.True(results!.GetStatus().Success);
+
+            var shaderCode = results.GetObjectBytecodeArray();
+
+            Assert.True(shaderCode.Length > 0);
+
+            Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
+        }
     }
 }
