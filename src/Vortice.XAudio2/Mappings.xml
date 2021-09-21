@@ -159,6 +159,9 @@
     <map struct="XAUDIO2_BUFFER" native="true" struct-to-class="true" marshal="false" new="false" />
     <map field="XAUDIO2_BUFFER::pAudioData" name="AudioDataPointer" />
 
+    <!-- XAUDIO2FX_REVERB_PARAMETERS -->
+    <map struct="XAUDIO2FX_REVERB_PARAMETERS" name="ReverbParameters" pack="1" />
+
     <!-- XAUDIO2_BUFFER_WMA -->
     <map struct="XAUDIO2_BUFFER_WMA" visibility="internal"/>
     <map field="XAUDIO2_BUFFER_WMA::pDecodedPacketCumulativeBytes" name="DecodedPacketCumulativeBytesPointer" />
