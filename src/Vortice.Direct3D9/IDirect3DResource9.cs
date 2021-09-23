@@ -45,29 +45,5 @@ namespace Vortice.Direct3D9
                 }
             }
         }
-
-        protected override void NativePointerUpdated(IntPtr oldNativePointer)
-        {
-            ReleaseDevice();
-            base.NativePointerUpdated(oldNativePointer);
-        }
-
-        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
-        {
-            if (disposing)
-                ReleaseDevice();
-
-            base.DisposeCore(nativePointer, disposing);
-        }
-
-        private void ReleaseDevice()
-        {
-            if (Device__ != null)
-            {
-                // Don't use Dispose() in order to avoid circular references with DeviceContext
-                ((IUnknown)Device__).Release();
-                Device__ = null;
-            }
-        }
     }
 }

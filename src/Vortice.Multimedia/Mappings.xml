@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-multimedia" xmlns="urn:SharpGen.Config">
-  <assembly>Vortice.Multimedia</assembly>
   <namespace>Vortice.Multimedia</namespace>
 
   <sdk name="WindowsSdk" version="10.0.20348.0" />
@@ -23,7 +22,7 @@
   </include-prolog>
   <include file="windows.h" />
 
-  <include file="hidusage.h" namespace="Vortice.Multimedia" output="Multimedia" attach="true">
+  <include file="hidusage.h" namespace="Vortice.Multimedia"  attach="true">
     <post>
       // Additionnals HID_USAGE_PAGES*
       #define HID_USAGE_PAGE_MEDICAL  0x40
@@ -45,7 +44,7 @@
   </include>
 
   <!-- Include mmreg.h before audiodefs.h in order to avoid redefinition problem -->
-  <include file="mmreg.h" namespace="Vortice.Multimedia" output="Multimedia" attach="true">
+  <include file="mmreg.h" namespace="Vortice.Multimedia"  attach="true">
     <pre>
       #define NOMMIDS           1
       #define NONEWWAVE         1
@@ -57,7 +56,7 @@
     </pre>
   </include>
 
-  <include file="audiosessiontypes.h" namespace="Vortice.Multimedia" output="Multimedia" attach="true" />
+  <include file="audiosessiontypes.h" namespace="Vortice.Multimedia"  attach="true" />
   
   <extension>
     <define struct="Vortice.Multimedia.WaveFormat" sizeof="18" marshal="true" />

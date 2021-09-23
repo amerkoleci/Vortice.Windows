@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-dxc" xmlns="urn:SharpGen.Config">
-  <assembly>Vortice.Dxc</assembly>
   <namespace>Vortice.Dxc</namespace>
   <depends>SharpGen.Runtime.COM</depends>
 

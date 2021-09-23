@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-xaudio2" xmlns="urn:SharpGen.Config">
-  <assembly>Vortice.XAudio2</assembly>
   <namespace>Vortice.XAudio2</namespace>
   <depends>SharpGen.Runtime.COM</depends>
   <depends>Vortice.Multimedia</depends>
@@ -10,8 +9,8 @@
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include</include-dir>
 
   <include file="xaudio2redist.h" attach="true" />
-  <include file="xaudio2fxredist.h" attach="true" namespace="Vortice.XAudio2.Fx" output="Fx" />
-  <include file="x3daudioredist.h" attach="true" output="X3DAudio" />
+  <include file="xaudio2fxredist.h" attach="true" namespace="Vortice.XAudio2.Fx" />
+  <include file="x3daudioredist.h" attach="true" />
 
   <extension>
     <define struct="System.Drawing.Point" sizeof="8" />
@@ -57,7 +56,7 @@
     <const from-macro="XAUDIO2_VOICE_NOSAMPLESPLAYED" type="int" cpp-type="int" name="NoSamplesPlayed" class="Vortice.XAudio2.IXAudio2SourceVoice" visibility="private const" />
 
     <create class="ResultCode" visibility="public"/>
-    <const from-macro="XAUDIO2_E_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.XAudio2.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="XAUDIO2_E_(.*)"   cpp-type="int" name="$1" class="Vortice.XAudio2.ResultCode" result="true" />
 
     <define struct="Vortice.XAudio2.X3DAudioHandle" sizeof="20" />
     <create-cpp enum="X3DAudioCalculateFlags" macro="X3DAUDIO_CALCULATE_.*" />

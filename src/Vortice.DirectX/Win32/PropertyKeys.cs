@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.InteropServices;
+using SharpGen.Runtime.Win32;
 
 namespace Vortice.Win32
 {
@@ -36,15 +36,15 @@ namespace Vortice.Win32
         /// </summary>
         public static readonly PropertyKey PKEY_AudioEndpoint_GUID = new PropertyKey(new Guid(0x1da5d803, unchecked((short)0xd492), 0x4edd, 0x8c, 0x23, 0xe0, 0xc0, 0xff, 0xee, 0x7f, 0x0e), 4);
         /// <summary>
-        /// PKEY_AudioEndpoint_Disable_SysFx 
+        /// PKEY_AudioEndpoint_Disable_SysFx
         /// </summary>
         public static readonly PropertyKey PKEY_AudioEndpoint_Disable_SysFx = new PropertyKey(new Guid(0x1da5d803, unchecked((short)0xd492), 0x4edd, 0x8c, 0x23, 0xe0, 0xc0, 0xff, 0xee, 0x7f, 0x0e), 5);
         /// <summary>
-        /// PKEY_AudioEndpoint_FullRangeSpeakers 
+        /// PKEY_AudioEndpoint_FullRangeSpeakers
         /// </summary>
         public static readonly PropertyKey PKEY_AudioEndpoint_FullRangeSpeakers = new PropertyKey(new Guid(0x1da5d803, unchecked((short)0xd492), 0x4edd, 0x8c, 0x23, 0xe0, 0xc0, 0xff, 0xee, 0x7f, 0x0e), 6);
         /// <summary>
-        /// PKEY_AudioEndpoint_Supports_EventDriven_Mode 
+        /// PKEY_AudioEndpoint_Supports_EventDriven_Mode
         /// </summary>
         public static readonly PropertyKey PKEY_AudioEndpoint_Supports_EventDriven_Mode = new PropertyKey(new Guid(0x1da5d803, unchecked((short)0xd492), 0x4edd, 0x8c, 0x23, 0xe0, 0xc0, 0xff, 0xee, 0x7f, 0x0e), 7);
         /// <summary>
@@ -52,7 +52,7 @@ namespace Vortice.Win32
         /// </summary>
         public static readonly PropertyKey PKEY_AudioEndpoint_JackSubType = new PropertyKey(new Guid(0x1da5d803, unchecked((short)0xd492), 0x4edd, 0x8c, 0x23, 0xe0, 0xc0, 0xff, 0xee, 0x7f, 0x0e), 8);
         /// <summary>
-        /// PKEY_AudioEngine_DeviceFormat 
+        /// PKEY_AudioEngine_DeviceFormat
         /// </summary>
         public static readonly PropertyKey PKEY_AudioEngine_DeviceFormat = new PropertyKey(new Guid(unchecked((int)0xf19f064d), 0x82c, 0x4e27, 0xbc, 0x73, 0x68, 0x82, 0xa1, 0xbb, 0x8e, 0x4c), 0);
         /// <summary>

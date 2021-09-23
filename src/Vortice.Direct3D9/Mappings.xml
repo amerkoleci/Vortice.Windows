@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-direct3d9" xmlns="urn:SharpGen.Config">
-  <assembly>Vortice.Direct3D9</assembly>
   <namespace>Vortice.Direct3D9</namespace>
   <depends>Vortice.DirectX</depends>
 

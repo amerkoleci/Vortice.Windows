@@ -58,7 +58,7 @@ namespace Vortice.DirectWrite
         {
             FontFace = (@ref.FontFace == IntPtr.Zero) ? null : new IDWriteFontFace(@ref.FontFace);
             if (FontFace != null)
-                ((IUnknown)FontFace).AddRef();
+                FontFace.AddRef();
 
             FontSize = @ref.FontEmSize;
             GlyphCount = @ref.GlyphCount;

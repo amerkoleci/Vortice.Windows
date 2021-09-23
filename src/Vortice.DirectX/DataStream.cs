@@ -91,7 +91,7 @@ namespace Vortice
         {
             Debug.Assert(sizeInBytes > 0);
 
-            _buffer = (byte*)MemoryHelpers.AllocateMemory(sizeInBytes);
+            _buffer = (byte*)MemoryHelpers.AllocateMemory((nuint)sizeInBytes);
             _size = sizeInBytes;
             _ownsBuffer = true;
             CanRead = canRead;
@@ -133,7 +133,7 @@ namespace Vortice
 
             if (makeCopy)
             {
-                _buffer = (byte*)MemoryHelpers.AllocateMemory(sizeInBytes);
+                _buffer = (byte*)MemoryHelpers.AllocateMemory((nuint)sizeInBytes);
                 Unsafe.CopyBlockUnaligned(_buffer, buffer, (uint)sizeInBytes);
             }
             else

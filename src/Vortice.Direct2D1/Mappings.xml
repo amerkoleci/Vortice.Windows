@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-direct2d1" xmlns="urn:SharpGen.Config">
-  <assembly>Vortice.Direct2D1</assembly>
   <namespace>Vortice.Direct2D1</namespace>
   <depends>Vortice.DXGI</depends>
 
@@ -28,10 +27,10 @@
     <attach>D2DERR_(.*)</attach>
   </include>
 
-  <include file="DWrite.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
-  <include file="DWrite_1.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
-  <include file="DWrite_2.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
-  <include file="DWrite_3.h" namespace="Vortice.DirectWrite" attach="true" output="DWrite" />
+  <include file="DWrite.h" namespace="Vortice.DirectWrite" attach="true" />
+  <include file="DWrite_1.h" namespace="Vortice.DirectWrite" attach="true" />
+  <include file="DWrite_2.h" namespace="Vortice.DirectWrite" attach="true" />
+  <include file="DWrite_3.h" namespace="Vortice.DirectWrite" attach="true" />
 
   <extension>
     <create class="Vortice.WIC.WIC" visibility="public static"/>
@@ -50,7 +49,7 @@
     <const from-guid="CLSID_WIC(.*)Decoder" class="Vortice.WIC.BitmapDecoderGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
 
     <create class="Vortice.WIC.ResultCode" visibility="public"/>
-    <const from-macro="WINCODEC_ERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.WIC.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="WINCODEC_ERR_(.*)" cpp-type="int" name="$1" class="Vortice.WIC.ResultCode" result="true" />
 
     <create class="Vortice.DirectWrite.DWrite" visibility="public static" />
     <create class="D2D1" visibility="public static" />
@@ -65,7 +64,7 @@
     <const from-guid="CLSID_D2D1(.*)" class="Vortice.Direct2D1.EffectGuids" type="System.Guid" name="$1">new System.Guid("$1")</const>
 
     <create class="ResultCode" visibility="public"/>
-    <const from-macro="D2DERR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct2D1.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="D2DERR_(.*)" cpp-type="int" name="$1" class="Vortice.Direct2D1.ResultCode" result="true" />
   </extension>
 
   <bindings>
@@ -203,7 +202,7 @@
     <map enum="WICBitmapLockFlags" flags="true" none="true"/>
     <map enum-item="WICBitmapLockRead" name="Read"/>
     <map enum-item="WICBitmapLockWrite" name="Write"/>
-    
+
     <remove enum-item=".*_FORCE_DWORD" />
     <remove enum-item=".*_FORCE_UINT" />
 
@@ -412,10 +411,10 @@
     <map interface="ID2D1DrawTransform" callback="true" callback-dual="true" callback-visibility="internal"/>
 
     <!-- ID2D1ComputeTransform -->
-    <map interface="ID2D1ComputeTransform"  callback="true" callback-dual="true" callback-visibility="internal"/>
+    <map interface="ID2D1ComputeTransform" callback="true" callback-dual="true" callback-visibility="internal"/>
 
     <!-- ID2D1SourceTransform -->
-    <map interface="ID2D1SourceTransform"  callback="true" callback-dual="true" callback-visibility="internal" />
+    <map interface="ID2D1SourceTransform" callback="true" callback-dual="true" callback-visibility="internal" />
 
     <!-- ID2D1TransformGraph -->
 
@@ -581,7 +580,8 @@
 
     <!-- IWICBitmapEncoder -->
     <map method="IWICBitmapEncoder::Initialize" visibility="internal" name="Initialize_" />
-    <map param="IWICBitmapEncoder::CreateNewFrame::ppIFrameEncode" attribute="out" return="true"/>
+    <map param="IWICBitmapEncoder::CreateNewFrame::ppIFrameEncode" return="true" />
+    <map param="IWICBitmapEncoder::CreateNewFrame::ppIEncoderOptions" attribute="out optional" />
 
     <!--IWICBitmapClipper -->
     <map method="IWICBitmapClipper::Initialize" hresult="true" check="false" />
@@ -694,7 +694,7 @@
 
     <map interface="ID2D(\d+).*Sink\d?" callback="true" callback-dual="true" callback-visibility="internal" />
 
-    <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.WIC.WIC" visibility="internal" hresult="true" check="false"  />
+    <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.WIC.WIC" visibility="internal" hresult="true" check="false" />
     <map function="WICConvertBitmapSource" name="WICConvertBitmapSource_" />
     <map function="WICCreateBitmapFromSection" name="WICCreateBitmapFromSection_" />
 
