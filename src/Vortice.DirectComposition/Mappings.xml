@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-dcomp" xmlns="urn:SharpGen.Config">
-  <assembly>Vortice.DirectComposition</assembly>
   <namespace>Vortice.DirectComposition</namespace>
   <depends>Vortice.DirectX</depends>
   <depends>Vortice.DXGI</depends>
@@ -16,7 +15,7 @@
   
   <extension>
     <create class="ResultCode" visibility="public static" />
-    <const from-macro="DCOMPOSITION_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct3D11.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DCOMPOSITION_ERROR_(.*)" cpp-type="int" name="$1" class="Vortice.Direct3D11.ResultCode" result="true" />
 
     <create class="DComp" visibility="public" />
   </extension>

@@ -38,7 +38,7 @@ namespace Vortice.Direct3D9
         public DataBox LockBox(int level, LockFlags flags)
         {
             var lockedRect = LockBox(level, IntPtr.Zero, flags);
-            return new DataBox(lockedRect.BitsPointer, lockedRect.RowPitch, lockedRect.SlicePitch);
+            return new DataBox(lockedRect.Bits, lockedRect.RowPitch, lockedRect.SlicePitch);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Vortice.Direct3D9
             unsafe
             {
                 var lockedRect = LockBox(level, new IntPtr(&box), flags);
-                return new DataBox(lockedRect.BitsPointer, lockedRect.RowPitch, lockedRect.SlicePitch);
+                return new DataBox(lockedRect.Bits, lockedRect.RowPitch, lockedRect.SlicePitch);
             }
         }
     }

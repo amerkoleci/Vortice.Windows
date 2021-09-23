@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using SharpGen.Runtime;
 
 namespace Vortice.Dxc
 {
@@ -16,9 +17,14 @@ namespace Vortice.Dxc
         {
             if (includeHandler == null)
             {
-                using (includeHandler = Utils!.CreateDefaultIncludeHandler())
+                includeHandler = Utils!.CreateDefaultIncludeHandler();
+                try
                 {
                     return Compiler!.Compile(shaderSource, arguments, includeHandler);
+                }
+                finally
+                {
+                    MemoryHelpers.Dispose(ref includeHandler);
                 }
             }
             else
@@ -216,17 +222,7 @@ namespace Vortice.Dxc
                 arguments.AddRange(additionalArguments);
             }
 
-            if (includeHandler == null)
-            {
-                using (includeHandler = Utils!.CreateDefaultIncludeHandler())
-                {
-                    return Compiler!.Compile(source, arguments.ToArray(), includeHandler);
-                }
-            }
-            else
-            {
-                return Compiler!.Compile(source, arguments.ToArray(), includeHandler);
-            }
+            return Compile(source, arguments.ToArray(), includeHandler);
         }
 
         private static string GetShaderProfile(DxcShaderStage shaderStage, DxcShaderModel shaderModel)

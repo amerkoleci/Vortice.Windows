@@ -170,8 +170,7 @@ namespace HelloDirect3D11
                     using IWICStream wicStream = wicFactory.CreateStream(stream);
                     using IWICBitmapEncoder encoder = wicFactory.CreateEncoder(format, wicStream);
                     // Create a Frame encoder
-                    var props = new SharpGen.Runtime.Win32.PropertyBag();
-                    var frame = encoder.CreateNewFrame(props);
+                    var frame = encoder.CreateNewFrame(out var props);
                     frame.Initialize(props);
                     frame.SetSize(textureDesc.Width, textureDesc.Height);
                     frame.SetResolution(72, 72);
@@ -224,8 +223,11 @@ namespace HelloDirect3D11
             Configuration.EnableObjectTracking = true;
 #endif
 
-            using var app = new TestApplication(headless: false);
-            app.Run();
+            {
+                using var app = new TestApplication(headless: false);
+                app.Run();
+            }
+
 #if DEBUG
             Console.WriteLine(ObjectTracker.ReportActiveObjects());
 #endif

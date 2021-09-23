@@ -4,13 +4,14 @@
 using System;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
+using SharpGen.Runtime.Win32;
 using Vortice.Win32;
 
 namespace Vortice.MediaFoundation
 {
     public partial class IMMDevice
     {
-        private PropertyStore? _propertyStore;
+        private IPropertyStore? _propertyStore;
 
         public DeviceStates State
         {
@@ -37,7 +38,7 @@ namespace Vortice.MediaFoundation
             }
         }
 
-        public PropertyStore Properties
+        public IPropertyStore Properties
         {
             get
             {
@@ -62,9 +63,9 @@ namespace Vortice.MediaFoundation
                     OpenPropertyStore();
                 }
 
-                if (_propertyStore!.Contains(PropertyKeys.PKEY_Device_FriendlyName))
+                if (_propertyStore!.TryGetValue(PropertyKeys.PKEY_Device_FriendlyName, out Variant variant))
                 {
-                    return (string)_propertyStore.GetValue(PropertyKeys.PKEY_Device_FriendlyName).Value;
+                    return (string)variant.Value;
                 }
 
                 return "Unknown";
@@ -83,9 +84,9 @@ namespace Vortice.MediaFoundation
                     OpenPropertyStore();
                 }
 
-                if (_propertyStore!.Contains(PropertyKeys.PKEY_DeviceInterface_FriendlyName))
+                if (_propertyStore!.TryGetValue(PropertyKeys.PKEY_DeviceInterface_FriendlyName, out Variant variant))
                 {
-                    return (string)_propertyStore.GetValue(PropertyKeys.PKEY_DeviceInterface_FriendlyName).Value;
+                    return (string)variant.Value;
                 }
 
                 return "Unknown";
@@ -104,9 +105,9 @@ namespace Vortice.MediaFoundation
                     OpenPropertyStore();
                 }
 
-                if (_propertyStore!.Contains(PropertyKeys.PKEY_Device_IconPath))
+                if (_propertyStore!.TryGetValue(PropertyKeys.PKEY_Device_IconPath, out Variant variant))
                 {
-                    return (string)_propertyStore.GetValue(PropertyKeys.PKEY_Device_IconPath).Value;
+                    return (string)variant.Value;
                 }
 
                 return "Unknown";
@@ -125,9 +126,9 @@ namespace Vortice.MediaFoundation
                     OpenPropertyStore();
                 }
 
-                if (_propertyStore!.Contains(PropertyKeys.PKEY_Device_InstanceId))
+                if (_propertyStore!.TryGetValue(PropertyKeys.PKEY_Device_InstanceId, out Variant variant))
                 {
-                    return (string)_propertyStore.GetValue(PropertyKeys.PKEY_Device_InstanceId).Value;
+                    return (string)variant.Value;
                 }
 
                 return "Unknown";
@@ -151,7 +152,7 @@ namespace Vortice.MediaFoundation
 
         public void OpenPropertyStore(StorageAccessMode access = StorageAccessMode.Read)
         {
-            DisposeProperyStore();
+            DisposePropertyStore();
             OpenPropertyStore((int)access, out _propertyStore);
         }
 
@@ -159,10 +160,10 @@ namespace Vortice.MediaFoundation
         {
             base.DisposeCore(nativePointer, disposing);
 
-            DisposeProperyStore();
+            DisposePropertyStore();
         }
 
-        private void DisposeProperyStore()
+        private void DisposePropertyStore()
         {
             if (_propertyStore != null)
             {

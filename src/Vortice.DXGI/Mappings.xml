@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-dxgi" xmlns="urn:SharpGen.Config">
-  <assembly>Vortice.DXGI</assembly>
   <namespace>Vortice.DXGI</namespace>
   <depends>Vortice.DirectX</depends>
 
@@ -8,7 +7,7 @@
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 
-  <include file="dxgidebug.h" namespace="Vortice.DXGI.Debug" attach="true" output="Debug" />
+  <include file="dxgidebug.h" namespace="Vortice.DXGI.Debug" attach="true" />
 
   <include file="dxgi.h" namespace="Vortice.DXGI" attach="true"/>
   <include file="dxgi1_2.h" namespace="Vortice.DXGI" attach="true"/>
@@ -30,7 +29,7 @@
     <create-cpp enum="DXGI_SHARED_RESOURCE_FLAGS" macro="DXGI_SHARED_RESOURCE_.*" />
 
     <create class="Vortice.DXGI.ResultCode" visibility="public"/>
-    <const from-macro="DXGI_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.DXGI.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="DXGI_ERROR_(.*)" cpp-type="int" name="$1" class="Vortice.DXGI.ResultCode" result="true" />
     <const from-macro="DXGI_(CREATE_FACTORY_DEBUG)" type="int" cpp-type="int" name="$1" class="Vortice.DXGI.DXGI" />
 
     <create class="DXGI" visibility="public static" />
@@ -88,7 +87,7 @@
 
     <!-- dxgi structs -->
     <map struct="DXGI(.+)" name-tmp="$1" />
-    <map struct="DXGI_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true"   />
+    <map struct="DXGI_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true" />
 
     <map method="IDXGIInfoQueue::GetMessageW" name="GetMessage" />
     <map method="IDXGIInfoQueue::GetMessageW?" visibility="internal"/>
@@ -98,7 +97,7 @@
     <map method="IDXGIInfoQueue::GetRetrievalFilter" visibility="internal"/>
     <map param="IDXGIInfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
 
-    <map struct="DXGI_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true"  />
+    <map struct="DXGI_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true" />
     <remove field="DXGI_INFO_QUEUE_FILTER_DESC::.*"/>
 
     <map field=".*::(.*)DescW?" name="$1Description" />
@@ -180,18 +179,18 @@
     <map method="IDXGISwapChain::GetFrameStatistics" hresult="true" check="false" property="false" name="GetFrameStatistics"/>
     <map method="IDXGISwapChain::Present" hresult="true" check="false" visibility="public" />
     <map param="IDXGISwapChain::Present::Flags" type="DXGI_PRESENT_FLAGS" />
-    <map method="IDXGISwapChain::ResizeBuffers" hresult="true" check="false"  />
+    <map method="IDXGISwapChain::ResizeBuffers" hresult="true" check="false" />
     <map param="IDXGISwapChain::ResizeBuffers::SwapChainFlags" type="DXGI_SWAP_CHAIN_FLAG" />
     <map method="IDXGISwapChain::SetFullscreenState" hresult="true" check="false" visibility="private" />
     <map method="IDXGISwapChain::GetBuffer" hresult="true" check="false" visibility="private" />
     <map method="IDXGISwapChain::ResizeTarget" hresult="true" check="false" />
-    <map method="IDXGISwapChain::GetContainingOutput" property="false"  />
+    <map method="IDXGISwapChain::GetContainingOutput" property="false" />
     <map param="IDXGISwapChain::GetContainingOutput::ppOutput" return="true"/>
     <map method="IDXGISwapChain::GetFullscreenState" hresult="true" check="false" />
 
     <!-- IDXGISwapChain1 -->
-    <map method="IDXGISwapChain1::GetHwnd" property="false" hresult="true" check="false"  />
-    <map method="IDXGISwapChain1::GetCoreWindow" property="false" visibility="private" hresult="true" check="false"  />
+    <map method="IDXGISwapChain1::GetHwnd" property="false" hresult="true" check="false" />
+    <map method="IDXGISwapChain1::GetCoreWindow" property="false" visibility="private" hresult="true" check="false" />
     <map method="IDXGISwapChain1::Present1" visibility="internal" hresult="true"/>
     <map param="IDXGISwapChain1::Present1::pPresentParameters" type="void"/>
     <map param="IDXGISwapChain1::Present1::PresentFlags" type="DXGI_PRESENT_FLAGS" />
@@ -261,7 +260,7 @@
     <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
 
     <remove function="CreateDXGIFactory" />
-    <remove function="DXGIGetDebugInterface"  />
+    <remove function="DXGIGetDebugInterface" />
 
     <map function="CreateDXGIFactory.*" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" visibility="private" />
     <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
@@ -281,7 +280,7 @@
     <map method="IDXGIOutput5::DuplicateOutput1" visibility="private" name="DuplicateOutput1_" />
     <map param="IDXGIOutput5::DuplicateOutput1::ppOutputDuplication" attribute="out" return="true"/>
 
-    <!-- IDXGIFactoryMedia  -->
+    <!-- IDXGIFactoryMedia -->
     <map method="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle" visibility="private" />
     <map param="IDXGIFactoryMedia::CreateDecodeSwapChainForCompositionSurfaceHandle::ppSwapChain" return="true"/>
     <map method="IDXGIFactoryMedia::CreateSwapChainForCompositionSurfaceHandle" visibility="private" />

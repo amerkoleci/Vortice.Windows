@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-direct3d11" xmlns="urn:SharpGen.Config">
-  <assembly>Vortice.Direct3D11</assembly>
   <namespace>Vortice.Direct3D11</namespace>
   <depends>Vortice.DXGI</depends>
 
@@ -17,15 +16,15 @@
   <include file="d3d11_3.h" namespace="Vortice.Direct3D11" attach="true"/>
   <include file="d3d11_4.h" namespace="Vortice.Direct3D11" attach="true"/>
   <include file="d3d11on12.h" namespace="Vortice.Direct3D11" attach="true"/>
-  <include file="d3d11shader.h" namespace="Vortice.Direct3D11.Shader" attach="true" output="Shader" />
-  <include file="d3d11sdklayers.h" namespace="Vortice.Direct3D11.Debug" attach="true" output="Debug" />
+  <include file="d3d11shader.h" namespace="Vortice.Direct3D11.Shader" attach="true" />
+  <include file="d3d11sdklayers.h" namespace="Vortice.Direct3D11.Debug" attach="true" />
   
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="Vortice.Direct3D11.D3D11" type="int" name="SdkVersion" />
     <create class="D3D11" visibility="public static" />
 
     <create class="ResultCode" visibility="public static" />
-    <const from-macro="D3D11_ERROR_(.*)" type="SharpGen.Runtime.ResultDescriptor" cpp-type="int" name="$1" class="Vortice.Direct3D11.ResultCode" visibility="public static readonly">new SharpGen.Runtime.ResultDescriptor($1, "$3", "$0", "$2")</const>
+    <const from-macro="D3D11_ERROR_(.*)" cpp-type="int" name="$1" class="Vortice.Direct3D11.ResultCode" result="true" />
 
     <const from-macro="D3D11_REQ_MIP_LEVELS" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="MaximumMipLevels" />
     <const from-macro="D3D11_REQ_RESOURCE_SIZE_IN_MEGABYTES_EXPRESSION_A_TERM" class="Vortice.Direct3D11.ID3D11Resource" type="int" name="ResourceSizeInMegabytes" />
@@ -479,7 +478,7 @@
     <map enum="D3D11_COUNTER" name="CounterKind" />
     <map enum="D3D11_FORMAT_SUPPORT" flags="true" none="true" />
     <map enum="D3D11_FORMAT_SUPPORT2" flags="true" none="true" />
-    <map enum="D3D11_COLOR_WRITE_ENABLE" name="ColorWriteEnable" type="byte" flags="true"  />
+    <map enum="D3D11_COLOR_WRITE_ENABLE" name="ColorWriteEnable" type="byte" flags="true" />
     <map enum-item="D3D11_COLOR_WRITE_ENABLE_(.*)" name-tmp="$1" />
 
     <map enum="D3D(\d+)_USAGE" name="ResourceUsage" />
@@ -557,7 +556,7 @@
     <map field="D3D11_SUBRESOURCE_DATA::SysMemPitch" name="RowPitch" />
     <map field="D3D11_SUBRESOURCE_DATA::SysMemSlicePitch" name="SlicePitch" />
 
-    <map struct="D3D11_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true"   />
+    <map struct="D3D11_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true" />
 
     <map method="ID3D11InfoQueue::GetMessageW" name="GetMessage" />
     <map method="ID3D11InfoQueue::GetMessageW?" visibility="internal"/>
@@ -567,7 +566,7 @@
     <map method="ID3D11InfoQueue::GetRetrievalFilter" visibility="internal"/>
     <map param="ID3D11InfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
 
-    <map struct="D3D11_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true"  />
+    <map struct="D3D11_INFO_QUEUE_FILTER_DESC" name="InfoQueueFilterDescription" struct-to-class="true" marshal="true" />
     <remove field="D3D11_INFO_QUEUE_FILTER_DESC::.*"/>
 
     <map enum="D3D11_DSV_FLAG" name="DepthStencilViewFlags" />

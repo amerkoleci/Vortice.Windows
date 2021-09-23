@@ -30,7 +30,7 @@ namespace Vortice.Direct3D9
         public DataRectangle LockRect(LockFlags flags)
         {
             var lockedRect = LockRect(IntPtr.Zero, flags);
-            return new DataRectangle(lockedRect.BitsPointer, lockedRect.Pitch);
+            return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Vortice.Direct3D9
         {
             RawRect rawRect = rect;
             var lockedRect = LockRect(new IntPtr(&rawRect), flags);
-            return new DataRectangle(lockedRect.BitsPointer, lockedRect.Pitch);
+            return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
         }
     }
 }

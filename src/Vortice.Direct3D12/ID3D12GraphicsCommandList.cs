@@ -483,7 +483,7 @@ namespace Vortice.Direct3D12
             DiscardResource(resource, new DiscardRegion
             {
                 NumRects = 0,
-                RectsPointer = IntPtr.Zero,
+                Rects = IntPtr.Zero,
                 FirstSubresource = firstSubresource,
                 NumSubresources = numSubresources
             });
@@ -504,7 +504,7 @@ namespace Vortice.Direct3D12
                 DiscardResource(resource, new DiscardRegion
                 {
                     NumRects = rectCount,
-                    RectsPointer = (IntPtr)rectsPtr,
+                    Rects = (IntPtr)rectsPtr,
                     FirstSubresource = firstSubresource,
                     NumSubresources = numSubresources
                 });
@@ -525,7 +525,7 @@ namespace Vortice.Direct3D12
                 DiscardResource(resource, new DiscardRegion
                 {
                     NumRects = rects.Length,
-                    RectsPointer = (IntPtr)rectsPtr,
+                    Rects = (IntPtr)rectsPtr,
                     FirstSubresource = firstSubresource,
                     NumSubresources = numSubresources
                 });

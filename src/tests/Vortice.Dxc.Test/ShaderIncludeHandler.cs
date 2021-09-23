@@ -20,14 +20,12 @@ namespace Vortice.Dxc.Test
             _includeDirectories = includeDirectories;
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void DisposeCore(bool disposing)
         {
             foreach (var pinnedObject in _sourceFiles.Values)
                 pinnedObject?.Dispose();
 
             _sourceFiles.Clear();
-
-            base.Dispose(disposing);
         }
 
         public Result LoadSource(string fileName, out IDxcBlob includeSource)

@@ -3,10 +3,10 @@
     <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
     <BinDir>$(MSBuildThisFileDirectory)/bin</BinDir>
     <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
-    
+
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable> 
+    <Nullable>enable</Nullable>
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
@@ -32,7 +32,7 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Vortice.snk</AssemblyOriginatorKeyFile>
 
     <!-- Packages versions -->
-    <SharpGenVersion>2.0.0-beta.9</SharpGenVersion>
+    <SharpGenVersion>2.0.0-beta.10</SharpGenVersion>
     <VorticeMathematicsVersion>1.3.21</VorticeMathematicsVersion>
   </PropertyGroup>
 
