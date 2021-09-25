@@ -41,8 +41,14 @@
     <define enum="Vortice.MediaFoundation.MediaEventTypes" sizeof="4" />
     <define enum="Vortice.MediaFoundation.DeviceStates" sizeof="4" />
 
-
-    <ifdef name="DIRECTX11_1">
+    <create visibility="public static" class="AsfProfileAttributeKeys" />
+    <create visibility="public static" class="AsfSplitterAttributeKeys" />
+    <create visibility="public static" class="AsfStreamConfigAttributeKeys" />
+    <create visibility="public static" class="AudioRendererAttributeKeys" />
+    <create visibility="public static" class="ByteStreamAttributeKeys" />
+    <create visibility="public static" class="CaptureDeviceAttributeKeys" />
+    <create visibility="public static" class="TransformCategoryGuids" />
+    
       <create visibility="public static" class="CaptureEngineAttributeKeys" />
       <create visibility="public static" class="DeviceStreamAttributeKeys" />
       <create visibility="public static" class="MediaAttributeKeys" />
@@ -109,7 +115,6 @@
 
       <const from-guid="MF_STREAM_SINK_SUPPORTS_HW_CONNECTION" class="Vortice.MediaFoundation.MediaAttributeKeys" type="MediaAttributeKey&lt;bool&gt;" name="SupportsHardwareConnection">new MediaAttributeKey&lt;bool&gt;("$1", "SupportsHardwareConnection")</const>
       <const from-guid="MF_STREAM_SINK_SUPPORTS_ROTATION" class="Vortice.MediaFoundation.MediaAttributeKeys" type="MediaAttributeKey&lt;bool&gt;" name="SupportsRotation">new MediaAttributeKey&lt;bool&gt;("$1", "SupportsRotation")</const>
-    </ifdef>
 
     <create visibility="public static" class="DLNAMediaSinkAttributeKeys" />
     <create visibility="public static" class="EventAttributeKeys" />
