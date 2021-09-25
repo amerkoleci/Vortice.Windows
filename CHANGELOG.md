@@ -55,7 +55,7 @@ KEY CHANGES:
 - [ENH] General: Integrate MIT licensed headers from (https://github.com/microsoft/DirectX-Headers)
 - [ENH] DXCore: Add support for DXCore.
 - [ENH] Direct3D12: Add Video binding generation.
-- [ENH] General: Add DataStream from Vortice.
+- [ENH] General: Add DataStream from SharpDX.
 - [ENH] Dxc: Bindings generated from headers for DirectX Shader Compiler and bring in parity with latest release.
 - [ENH] Direct3D12: Pipeline State stream object support and amplification and mesh shader support.
 
