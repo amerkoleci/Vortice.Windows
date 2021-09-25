@@ -64,7 +64,7 @@ namespace Vortice.DirectInput
         /// Sets the characteristics of an effect.
         /// </summary>
         /// <param name="parameters">The parameters of this effect.</param>
-        /// <returns>A <see cref = "T:SharpDX.Result" /> object describing the result of the operation.</returns>
+        /// <returns>A <see cref = "T:Vortice.Result" /> object describing the result of the operation.</returns>
         public void SetParameters(EffectParameters parameters) => SetParameters(parameters, EffectParameterFlags.All);
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Vortice.DirectInput
         /// <summary>
         /// Begins playing an effect. If the effect is already playing, it is restarted from the beginning. If the effect has not been downloaded or has been modified since its last download, it is downloaded before being started. This default behavior can be suppressed by passing the <see cref="EffectPlayFlags.NoDownload"/> flag.
         /// </summary>
-        /// <param name="iterations">Number of times to play the effect in sequence. The envelope is re-articulated with each iteration. To play the effect exactly once, pass 1. To play the effect repeatedly until explicitly stopped, pass -1. To play the effect until explicitly stopped without re-articulating the envelope, modify the effect parameters with the <see cref="SetParameters(SharpDX.DirectInput.EffectParameters,SharpDX.DirectInput.EffectParameterFlags)"/>method, and change the Duration member to -1. </param>
+        /// <param name="iterations">Number of times to play the effect in sequence. The envelope is re-articulated with each iteration. To play the effect exactly once, pass 1. To play the effect repeatedly until explicitly stopped, pass -1. To play the effect until explicitly stopped without re-articulating the envelope, modify the effect parameters with the <see cref="SetParameters(Vortice.DirectInput.EffectParameters,Vortice.DirectInput.EffectParameterFlags)"/>method, and change the Duration member to -1. </param>
         /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
         public Result Start(int iterations) => Start(iterations, EffectPlayFlags.None);
     }

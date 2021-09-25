@@ -49,7 +49,7 @@ namespace Vortice.Direct2D1
         /// Describes the intersection between this geometry and the specified geometry. The comparison is performed by using the specified flattening tolerance.	
         /// </summary>	
         /// <remarks>	
-        /// When interpreting the returned relation value, it is important to remember that the member <see cref="F:SharpDX.Direct2D1.GeometryRelation.IsContained" /> of the  D2D1_GEOMETRY_RELATION enumeration type means that this geometry is contained  inside inputGeometry, not that this geometry contains inputGeometry.  For  more information about how to interpret other possible return values, see <see cref="T:SharpDX.Direct2D1.GeometryRelation" />. 	
+        /// When interpreting the returned relation value, it is important to remember that the member <see cref="F:Vortice.Direct2D1.GeometryRelation.IsContained" /> of the  D2D1_GEOMETRY_RELATION enumeration type means that this geometry is contained  inside inputGeometry, not that this geometry contains inputGeometry.  For  more information about how to interpret other possible return values, see <see cref="T:Vortice.Direct2D1.GeometryRelation" />. 	
         /// </remarks>	
         /// <param name="inputGeometry">The geometry to test.  </param>
         /// <returns>When this method returns, contains a reference to a value that describes how this geometry is related to inputGeometry. You must allocate storage for this parameter.   </returns>
@@ -63,7 +63,7 @@ namespace Vortice.Direct2D1
         /// Describes the intersection between this geometry and the specified geometry. The comparison is performed by using the specified flattening tolerance.	
         /// </summary>	
         /// <remarks>	
-        /// When interpreting the returned relation value, it is important to remember that the member <see cref="F:SharpDX.Direct2D1.GeometryRelation.IsContained" /> of the  D2D1_GEOMETRY_RELATION enumeration type means that this geometry is contained  inside inputGeometry, not that this geometry contains inputGeometry.  For  more information about how to interpret other possible return values, see <see cref="T:SharpDX.Direct2D1.GeometryRelation" />. 	
+        /// When interpreting the returned relation value, it is important to remember that the member <see cref="F:Vortice.Direct2D1.GeometryRelation.IsContained" /> of the  D2D1_GEOMETRY_RELATION enumeration type means that this geometry is contained  inside inputGeometry, not that this geometry contains inputGeometry.  For  more information about how to interpret other possible return values, see <see cref="T:Vortice.Direct2D1.GeometryRelation" />. 	
         /// </remarks>	
         /// <param name="inputGeometry">The geometry to test.  </param>
         /// <param name="flatteningTolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometries. Smaller values produce more accurate results but cause slower execution.  </param>

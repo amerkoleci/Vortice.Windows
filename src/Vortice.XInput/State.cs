@@ -21,7 +21,7 @@ namespace Vortice.XInput
         public int PacketNumber;
 
         /// <summary>
-        /// <dd> <p> <strong><see cref="T:SharpDX.XInput.Gamepad" /></strong> structure containing the current state of an Xbox 360 Controller.</p> </dd>
+        /// <dd> <p> <strong><see cref="T:Vortice.XInput.Gamepad" /></strong> structure containing the current state of an Xbox 360 Controller.</p> </dd>
         /// </summary>
         public Gamepad Gamepad;
     }

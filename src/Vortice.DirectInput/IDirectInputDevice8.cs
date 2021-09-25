@@ -385,7 +385,7 @@ namespace Vortice.DirectInput
         /// Specifies an event that is to be set when the device state changes. It is also used to turn off event notification.
         /// </summary>
         /// <param name="eventHandle">Handle to the event that is to be set when the device state changes. DirectInput uses the Microsoft Win32 SetEvent function on the handle when the state of the device changes. If the eventHandle parameter is null, notification is disabled.</param>
-        /// <returns>A <see cref = "T:SharpDX.Result" /> object describing the result of the operation.</returns>
+        /// <returns>A <see cref = "T:Vortice.Result" /> object describing the result of the operation.</returns>
         public Result SetEventNotification(WaitHandle? eventHandle)
         {
             if (eventHandle == null)
