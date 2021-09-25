@@ -126,7 +126,7 @@ namespace Vortice.Direct2D1
         /// </summary>	
         /// <param name="bitmap">The <see cref="ID2D1Bitmap"/> to render.</param>
         /// <param name="opacity">A value between 0.0f and 1.0f, inclusive, that specifies an opacity value to apply to the bitmap; this value is multiplied against the alpha values of the bitmap's contents.  The default value is 1.0f. </param>
-        /// <param name="interpolationMode">The interpolation mode to use if the bitmap is scaled or rotated by the drawing operation. The default value is <see cref="F:SharpDX.Direct2D1.BitmapInterpolationMode.Linear" />.  </param>
+        /// <param name="interpolationMode">The interpolation mode to use if the bitmap is scaled or rotated by the drawing operation. The default value is <see cref="F:Vortice.Direct2D1.BitmapInterpolationMode.Linear" />.  </param>
         /// <param name="sourceRectangle">The size and position, in device-independent pixels in the bitmap's coordinate space, of the area within the bitmap to be drawn; NULL to draw the entire bitmap.  </param>
         public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, BitmapInterpolationMode interpolationMode, RectangleF sourceRectangle)
         {
@@ -140,7 +140,7 @@ namespace Vortice.Direct2D1
         /// <param name="bitmap">The <see cref="ID2D1Bitmap"/> to render.</param>
         /// <param name="destinationRectangle">The size and position, in device-independent pixels in the render target's coordinate space, of the area to which the bitmap is drawn; If the rectangle is specified but not well-ordered, nothing is drawn, but the render target does not enter an error state.</param>
         /// <param name="opacity">A value between 0.0f and 1.0f, inclusive, that specifies an opacity value to apply to the bitmap; this value is multiplied against the alpha values of the bitmap's contents.  The default value is 1.0f. </param>
-        /// <param name="interpolationMode">The interpolation mode to use if the bitmap is scaled or rotated by the drawing operation. The default value is <see cref="F:SharpDX.Direct2D1.BitmapInterpolationMode.Linear" />.  </param>
+        /// <param name="interpolationMode">The interpolation mode to use if the bitmap is scaled or rotated by the drawing operation. The default value is <see cref="F:Vortice.Direct2D1.BitmapInterpolationMode.Linear" />.  </param>
         /// <param name="sourceRectangle">The size and position, in device-independent pixels in the bitmap's coordinate space, of the area within the bitmap to be drawn; NULL to draw the entire bitmap.  </param>
         public void DrawBitmap(ID2D1Bitmap bitmap, RectangleF destinationRectangle, float opacity, BitmapInterpolationMode interpolationMode, RectangleF sourceRectangle)
         {
@@ -324,7 +324,7 @@ namespace Vortice.Direct2D1
         }
 
         /// <summary>	
-        /// Draws the specified text using the format information provided by an <see cref="T:SharpDX.DirectWrite.TextFormat" /> object. 	
+        /// Draws the specified text using the format information provided by an <see cref="T:Vortice.DirectWrite.TextFormat" /> object. 	
         /// </summary>
         /// <remarks>
         /// To create an <see cref="IDWriteTextFormat"/> object, create an <see cref="IDWriteFactory"/> and call its CreateTextFormat method.
@@ -333,7 +333,7 @@ namespace Vortice.Direct2D1
         /// <param name="textFormat">An object that describes formatting details of the text to draw, such as the font, the font size, and flow direction.   </param>
         /// <param name="layoutRect">The size and position of the area in which the text is drawn.  </param>
         /// <param name="defaultForegroundBrush">The brush used to paint the text. </param>
-        /// <param name="options">A value that indicates whether the text should be snapped to pixel boundaries and whether the text should be clipped to the layout rectangle. The default value is <see cref="F:SharpDX.Direct2D1.DrawTextOptions.None" />, which indicates that text should be snapped to pixel boundaries and it should not be clipped to the layout rectangle. </param>
+        /// <param name="options">A value that indicates whether the text should be snapped to pixel boundaries and whether the text should be clipped to the layout rectangle. The default value is <see cref="F:Vortice.Direct2D1.DrawTextOptions.None" />, which indicates that text should be snapped to pixel boundaries and it should not be clipped to the layout rectangle. </param>
         public void DrawText(string text, IDWriteTextFormat textFormat, RectangleF layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options)
         {
             RawRectF rawLayoutRect = layoutRect;
@@ -341,7 +341,7 @@ namespace Vortice.Direct2D1
         }
 
         /// <summary>	
-        /// Draws the specified text using the format information provided by an <see cref="T:SharpDX.DirectWrite.TextFormat" /> object. 	
+        /// Draws the specified text using the format information provided by an <see cref="T:Vortice.DirectWrite.TextFormat" /> object. 	
         /// </summary>
         /// <remarks>
         /// To create an <see cref="IDWriteTextFormat"/> object, create an <see cref="IDWriteFactory"/> and call its CreateTextFormat method.
@@ -350,7 +350,7 @@ namespace Vortice.Direct2D1
         /// <param name="textFormat">An object that describes formatting details of the text to draw, such as the font, the font size, and flow direction.   </param>
         /// <param name="layoutRect">The size and position of the area in which the text is drawn.  </param>
         /// <param name="defaultForegroundBrush">The brush used to paint the text. </param>
-        /// <param name="options">A value that indicates whether the text should be snapped to pixel boundaries and whether the text should be clipped to the layout rectangle. The default value is <see cref="F:SharpDX.Direct2D1.DrawTextOptions.None" />, which indicates that text should be snapped to pixel boundaries and it should not be clipped to the layout rectangle. </param>
+        /// <param name="options">A value that indicates whether the text should be snapped to pixel boundaries and whether the text should be clipped to the layout rectangle. The default value is <see cref="F:Vortice.Direct2D1.DrawTextOptions.None" />, which indicates that text should be snapped to pixel boundaries and it should not be clipped to the layout rectangle. </param>
         /// <param name="measuringMode">A value that indicates how glyph metrics are used to measure text when it is formatted.  The default value is DWRITE_MEASURING_MODE_NATURAL.  </param>
         public void DrawText(string text, IDWriteTextFormat textFormat, RectangleF layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options, MeasuringMode measuringMode)
         {
