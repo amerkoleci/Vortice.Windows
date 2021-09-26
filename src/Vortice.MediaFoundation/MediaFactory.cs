@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
 using SharpGen.Runtime;
 
 namespace Vortice.MediaFoundation
@@ -33,5 +34,21 @@ namespace Vortice.MediaFoundation
             deviceManager.ResetToken = resetToken;
             return deviceManager;
         }
+
+        public static IMFTopologyNode MFCreateTopologyNode(TopologyType nodeType)
+        {
+            MFCreateTopologyNode(nodeType, out IMFTopologyNode node).CheckError();
+            return node;
+        }
+
+
+        unsafe public static void MFCreateAttributes(IMFAttributes parent, int clientSize)
+        {
+            System.IntPtr attributes_ = System.IntPtr.Zero;
+            attributes_ = parent?.NativePointer ?? System.IntPtr.Zero;
+
+            MFCreateAttributes_(&attributes_, clientSize);
+        }
+
     }
 }

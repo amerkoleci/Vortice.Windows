@@ -19,6 +19,7 @@
   <include file="mftransform.h" attach="true"/>
   <include file="mmdeviceapi.h" attach="true"/>
   <include file="mfplay.h" attach="true"/>
+  <include file="mfmediaengine.h" attach="true"/>
   <include file="mfapi.h" attach="true">
     <pre>
       #undef DIRECT3D_VERSION
@@ -85,18 +86,22 @@
     <const from-guid="MF_VIDEO_PROCESSOR_ROTATION" class="Vortice.MediaFoundation.MediaAttributeKeys" type="System.Guid" name="VideoProcessorRotation">new MediaAttributeKey&lt;int&gt;("$1", "VideoProcessorRotation")</const>
     <const from-guid="MF_VIDEODSP_MODE" class="Vortice.MediaFoundation.MediaAttributeKeys" type="System.Guid" name="VideodspMode">new MediaAttributeKey&lt;int&gt;("$1", "VideodspMode")</const>
     <const from-guid="MF_XVP_DISABLE_FRC" class="Vortice.MediaFoundation.MediaAttributeKeys" type="System.Guid" name="XvpDisableFrc">new MediaAttributeKey&lt;bool&gt;("$1", "XvpDisableFrc")</const>
-    <const from-guid="MF_MEDIA_ENGINE_AUDIO_CATEGORY" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;Vortice.Multimedia.AudioStreamCategory&gt;" name="AudioCategory">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_AUDIO_ENDPOINT_ROLE" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;Vortice.Multimedia.AudioEndpointRole&gt;" name="AudioEndpointRole">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_CALLBACK" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="Callback">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_CONTENT_PROTECTION_FLAGS" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;MediaEngineProtectionFlags&gt;" name="ContentProtectionFlags">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_CONTENT_PROTECTION_MANAGER" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="ContentProtectionManager">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_DXGI_MANAGER" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;DXGIDeviceManager&gt;" name="DxgiManager">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_EXTENSION" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;MediaEngineExtension&gt;" name="Extension">new System.Guid("$1")</const>
+
+<!--
+    <const from-guid="MF_MEDIA_ENGINE_AUDIO_CATEGORY" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;Vortice.Multimedia.AudioStreamCategory&gt;" name="AudioCategory">new MediaAttributeKey&lt;Vortice.Multimedia.AudioStreamCategory&gt;("$1", "AudioCategory")</const>
+    <const from-guid="MF_MEDIA_ENGINE_AUDIO_ENDPOINT_ROLE" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;Vortice.Multimedia.AudioEndpointRole&gt;" name="AudioEndpointRole">new MediaAttributeKey&lt;Vortice.Multimedia.AudioEndpointRole&gt;("$1", "AudioEndpointRole")</const>
+    <const from-guid="MF_MEDIA_ENGINE_CALLBACK" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;" name="Callback">new MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;("$1", "Callback")</const>
+    <const from-guid="MF_MEDIA_ENGINE_CONTENT_PROTECTION_FLAGS" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;MediaEngineProtectionFlags&gt;" name="ContentProtectionFlags">new MediaAttributeKey&lt;MediaEngineProtectionFlags&gt;("$1", "ContentProtectionFlags")</const>
+    <const from-guid="MF_MEDIA_ENGINE_CONTENT_PROTECTION_MANAGER" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;" name="ContentProtectionManager">new MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;("$1", "ContentProtectionManager")</const>
+    <const from-guid="MF_MEDIA_ENGINE_DXGI_MANAGER" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;IMFDXGIDeviceManager&gt;" name="IMFDxgiManager">new MediaAttributeKey&lt;IMFDXGIDeviceManager&gt;("$1", "DxgiManager")</const>
+    <const from-guid="MF_MEDIA_ENGINE_EXTENSION" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;MediaEngineExtension&gt;" name="Extension">new MediaAttributeKey&lt;MediaEngineExtension&gt;("$1", "Extension")</const>
     <const from-guid="MF_MEDIA_ENGINE_OPM_HWND" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;System.IntPtr&gt;" name="OpmHwnd">new MediaAttributeKey&lt;System.IntPtr&gt;("$1", "OpmHwnd")</const>
-    <const from-guid="MF_MEDIA_ENGINE_OPM_IWINDOW" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="OpmIwindow">new MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;("$1", "OpmIwindow")</const>
+    <const from-guid="MF_MEDIA_ENGINE_OPM_IWINDOW" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;" name="OpmIwindow">new MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;("$1", "OpmIwindow")</const>
     <const from-guid="MF_MEDIA_ENGINE_PLAYBACK_HWND" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;System.IntPtr&gt;" name="PlaybackHwnd">new MediaAttributeKey&lt;System.IntPtr&gt;("$1", "PlaybackHwnd")</const>
-    <const from-guid="MF_MEDIA_ENGINE_PLAYBACK_VISUAL" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="PlaybackVisual">new MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;("$1", "PlaybackVisual")</const>
-    <const from-guid="MF_MEDIA_ENGINE_VIDEO_OUTPUT_FORMAT" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="VideoOutputFormat">new MediaAttributeKey&lt;int&gt;("$1", "VideoOutputFormat")</const>
+    <const from-guid="MF_MEDIA_ENGINE_PLAYBACK_VISUAL" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;" name="PlaybackVisual">new MediaAttributeKey&lt;Vortice.ComObject&gt;("$1", "PlaybackVisual")</const>
+    <const from-guid="MF_MEDIA_ENGINE_VIDEO_OUTPUT_FORMAT" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;int&gt;" name="VideoOutputFormat">new MediaAttributeKey&lt;int&gt;("$1", "VideoOutputFormat")</const>
+  -->  
+
 
     <const from-guid="MF_MPEG4SINK_MOOV_BEFORE_MDAT" class="Vortice.MediaFoundation.Mpeg4MediaSinkAttributeKeys" type="System.Guid" name="MoovBeforeMdat">new MediaAttributeKey&lt;int&gt;("$1", "MoovBeforeMdat")</const>
     <const from-guid="MF_MPEG4SINK_SPSPPS_PASSTHROUGH" class="Vortice.MediaFoundation.Mpeg4MediaSinkAttributeKeys" type="System.Guid" name="SpsppsPassthrough">new MediaAttributeKey&lt;bool&gt;("$1", "SpsppsPassthrough")</const>
@@ -691,8 +696,7 @@
 
     <map function="MFStartup" visibility="private" />
     <map param="MFCreateAttributes::cInitialSize" default="0"/>
-    <map param="MFCreateAttributes::ppMFAttributes" attribute="out fast"/>
-
+    
     <map function="MFCreateVideoPresenter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateVideoMixer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateVideoMixerAndPresenter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
@@ -839,10 +843,57 @@
 
     <map function="MFCreateDXGIDeviceManager" visibility="internal" hresult="true" check="false" />
 
-
+    <!-- MFStreamDescriptor -->
+    <map function="GetStreamDescriptorByIndex" dll='"mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
 
 
     <!-- WASAPI -->
     <remove function="ActivateAudioInterfaceAsync"/>
+
+    <!-- 
+    <map interface="IMFAttributes" name="MediaAttributes"/>
+    <map method="IMFAttributes::GetItem" visibility="internal"/>
+    <map param="IMFAttributes::GetItem::pValue" attribute="in" type="void"/>
+    <map param="IMFAttributes::GetItemType::pType" return="true"/>
+
+    <map method="IMFAttributes::CompareItem" visibility="internal"/>
+    <map param="IMFAttributes::CompareItem::pbResult" return="true"/>
+
+    <map param="IMFAttributes::Compare::pbResult" return="true"/>
+
+    <map method="IMFAttributes::GetUINT32" visibility="internal"/>
+    <map method="IMFAttributes::GetUINT32" name="GetInt"/>
+    <map param="IMFAttributes::GetUINT32::punValue" return="true"/>
+
+    <map method="IMFAttributes::GetUINT64" visibility="internal"/>
+    <map method="IMFAttributes::GetUINT64" name="GetLong"/>
+    <map param="IMFAttributes::GetUINT64::punValue" return="true"/>
+
+    <map method="IMFAttributes::GetDouble" visibility="internal"/>
+    <map method="IMFAttributes::GetGUID" visibility="internal"/>
+    <map param="IMFAttributes::GetDouble::pfValue" return="true"/>
+    <map param="IMFAttributes::GetGUID::pguidValue" return="true"/>
+
+    <map method="IMFAttributes::GetString.*" visibility="internal"/>
+    <map method="IMFAttributes::GetAllocatedString" visibility="internal"/>
+    <map param="IMFAttributes::GetStringLength::pcchLength" return="true"/>
+
+    <map method="IMFAttributes::GetBlob.*" visibility="internal"/>
+    <map method="IMFAttributes::GetAllocatedBlob" visibility="internal"/>
+    <map param="IMFAttributes::GetBlob::pBuf" type="void" attribute="in"/>
+    <map param="IMFAttributes::GetBlobSize::pcbBlobSize" return="true"/>
+    <map method="IMFAttributes::SetBlob"    visibility="internal" />
+    <map param="IMFAttributes::SetBlob::pBuf" type="void" attribute="in"/>
+
+    <map method="IMFAttributes::GetUnknown" visibility="internal"/>
+
+    <map method="IMFAttributes::SetItem"    name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetUINT32"  name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetUINT64"  name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetDouble"  name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetGUID"    name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetString"  name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetUnknown" name="Set" visibility="internal" />
+     -->
   </mapping>
 </config>
