@@ -11,6 +11,8 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
 
+    <Version>2.0.20-beta1</Version>
+
     <PackageTags>Vortice.Windows Vortice Graphics gamedev Direct3D DirectX Core Standard Game Direct3D11 Direct3D12 XAudio2 XInput Dxc</PackageTags>
     <Company>Amer Koleci</Company>
     <Authors>Amer Koleci</Authors>
@@ -37,11 +39,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.4.231">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

@@ -48,9 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{0DBFE3CB
 		Directory.Build.targets = Directory.Build.targets
 		global.json = global.json
 		LICENSE = LICENSE
-		NuGet.Config = NuGet.Config
 		README.md = README.md
-		version.json = version.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Direct2D1", "Direct2D1", "{4E805E04-239C-4352-841F-5175483FE6A0}"
