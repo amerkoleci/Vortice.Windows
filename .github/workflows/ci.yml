@@ -39,7 +39,7 @@ jobs:
       if: github.event_name == 'push'
       run: |
           dotnet nuget add source "https://nuget.pkg.github.com/amerkoleci/index.json" --name "github" --username "amerkoleci" --password "${{secrets.GITHUB_TOKEN}}"
-          dotnet nuget push "**/*.nupkg" -s "github" -k "${{secrets.GITHUB_TOKEN}}" --skip-duplicate
+          dotnet nuget push "build/packages/**/*.nupkg" -s "github" -k "${{secrets.GITHUB_TOKEN}}" --skip-duplicate
           if ( "${{github.ref}}" -match "^refs/tags/[0-9]+\.[0-9]+\.[0-9]+$" ) {
               dotnet nuget push build\packages\**\*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{secrets.NUGET_TOKEN}} --skip-duplicate
           } else {
