@@ -66,7 +66,7 @@ namespace HelloMediaFoundation
 
             using (IDXGIAdapter1? adapter = GetHardwareAdapter())
             {
-                DeviceCreationFlags creationFlags = DeviceCreationFlags.BgraSupport;
+                DeviceCreationFlags creationFlags = DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport;
 #if DEBUG
                 if (SdkLayersAvailable())
                 {
