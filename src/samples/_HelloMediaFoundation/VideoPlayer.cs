@@ -25,8 +25,9 @@ namespace HelloMediaFoundation
         protected IMFTopology _playBackTopology;
         protected ID3D11Device1 _parentDevice;
         protected object _lockObject;
+        protected IMFMediaSession _mediaSession;
 
-        private  VideoPlayer() : base(IntPtr.Zero)
+        private VideoPlayer() : base(IntPtr.Zero)
         {
 
         }
@@ -35,8 +36,10 @@ namespace HelloMediaFoundation
         {
             _lockObject = new object();
 
-            
+
         }
+
+ 
 
         public bool Initialise(ID3D11Device1 device, string Url, Window parentForm)
         {
@@ -44,7 +47,7 @@ namespace HelloMediaFoundation
             {
                 try
                 {
-                    
+                    _mediaSession?.Close();
 
                     _parentDevice = device;
 
@@ -54,36 +57,39 @@ namespace HelloMediaFoundation
 
                         IMFAttributes attributes_ = MediaFactory.MFCreateAttributes();
 
-                        if (MediaFactory.MFCreateMediaSession(attributes_, out IMFMediaSession mediaSession_).Success)
+
+                        ID3D11Multithread multithread = device.QueryInterface<ID3D11Multithread>();
+                        multithread.SetMultithreadProtected(true);
+
+                        if (!File.Exists(Url))
                         {
-                            ID3D11Multithread multithread = device.QueryInterface<ID3D11Multithread>();
-                            multithread.SetMultithreadProtected(true);
-
-                            if (!File.Exists(Url))
-                            {
-                                return false;
-                            }
-
-                            if (MediaFactory.MFCreateSourceResolver(out IMFSourceResolver resolver_).Success)
-                            {
-                                IMFMediaSource source_ = resolver_.CreateObjectFromURL(Url);
-
-                                IMFPresentationDescriptor presentationDescriptor_ = source_.CreatePresentationDescriptor();
-
-                                MediaFactory.MFCreateTopology(out _playBackTopology);
-
-                                int prentationCount_ = presentationDescriptor_.StreamDescriptorCount;
-
-                                HandleRef ref_ = new HandleRef(parentForm, parentForm.Handle);
-
-                                for (int i = 0; i < prentationCount_; i++)
-                                {                            
-                                    AddBranchToPartialTopology(_playBackTopology, source_, presentationDescriptor_, i, ref_);
-                                }
-                            }
+                            return false;
                         }
 
-                        mediaSession_.BeginGetEvent(this, null);
+                        if (MediaFactory.MFCreateSourceResolver(out IMFSourceResolver resolver_).Success)
+                        {
+                            IMFMediaSource source_ = resolver_.CreateObjectFromURL(Url);
+
+                            IMFPresentationDescriptor presentationDescriptor_ = source_.CreatePresentationDescriptor();
+
+                            MediaFactory.MFCreateTopology(out _playBackTopology);
+
+                            int prentationCount_ = presentationDescriptor_.StreamDescriptorCount;
+
+                            HandleRef ref_ = new HandleRef(parentForm, parentForm.Handle);
+
+                            for (int i = 0; i < prentationCount_; i++)
+                            {
+                                AddBranchToPartialTopology(_playBackTopology, source_, presentationDescriptor_, i, ref_);
+                            }
+
+                            if (MediaFactory.MFCreateMediaSession(attributes_, out _mediaSession).Success)
+                            {
+                                _mediaSession.SetTopology(SessionSetTopologyFlags.None, _playBackTopology);
+
+                                _mediaSession.BeginGetEvent(this, null);
+                            }
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -109,7 +115,7 @@ namespace HelloMediaFoundation
             IMFTopologyNode? pSourceNode = null;
             IMFTopologyNode? pOutputNode = null;
 
-  
+
 
             try
             {
@@ -180,7 +186,7 @@ namespace HelloMediaFoundation
         }
 
         //================================================================================================================================================================================================================
- 
+
         void AddSourceNode(
                             IMFTopology pTopology,           // Topology.
                             IMFMediaSource pSource,          // Media source.
