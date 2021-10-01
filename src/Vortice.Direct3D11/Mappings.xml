@@ -628,6 +628,9 @@
     <map method="ID3D11Resource::GetType" name="GetDimension" />
 
     <!-- ID3D11Device methods -->
+    <map method="ID3D11Device::GetPrivateData" visibility="public" hresult="true" check="false"/>
+    <map method="ID3D11Device::SetPrivateData" visibility="public" hresult="true" check="false"/>
+    
     <map method="ID3D(\d+)Device[123]?::GetImmediateContext[123]?" persist="true"/>
     <map method="ID3D(\d+)Device::GetDeviceRemovedReason" check="false"/>
     <map method="ID3D(\d+)Device::CheckFormatSupport" check="false" />

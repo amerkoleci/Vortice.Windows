@@ -3,7 +3,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using SharpGen.Runtime;
 
 namespace Vortice.Direct3D11
 {
@@ -12,22 +11,19 @@ namespace Vortice.Direct3D11
         /// <summary>
         /// Gets or sets the debug-name for this object.
         /// </summary>
-        public string DebugName
+        public unsafe string DebugName
         {
             get
             {
-                unsafe
+                byte* pname = stackalloc byte[1024];
+                int size = 1024 - 1;
+                if (GetPrivateData(CommonGuid.DebugObjectName, ref size, new IntPtr(pname)).Failure)
                 {
-                    byte* pname = stackalloc byte[1024];
-                    int size = 1024 - 1;
-                    if (GetPrivateData(CommonGuid.DebugObjectName, ref size, new IntPtr(pname)).Failure)
-                    {
-                        return string.Empty;
-                    }
-
-                    pname[size] = 0;
-                    return Marshal.PtrToStringAnsi(new IntPtr(pname));
+                    return string.Empty;
                 }
+
+                pname[size] = 0;
+                return Marshal.PtrToStringAnsi(new IntPtr(pname));
             }
             set
             {

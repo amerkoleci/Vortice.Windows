@@ -26,22 +26,22 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 # avoid shallow clone so nbgv can do its work.
 
     - name: Install .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
 
-    - name: Version
-      uses: aarnott/nbgv@v0.4.0
-      with:
-        setAllVars: true
-
     - name: Pack
       run: dotnet pack Vortice.Windows.sln --configuration Release --output build/packages
 
     - name: Publish to NuGet
       if: github.event_name == 'push'
-      run: dotnet nuget push build\packages\**\*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_TOKEN}}
+      run: |
+          dotnet nuget add source "https://nuget.pkg.github.com/amerkoleci/index.json" --name "github" --username "amerkoleci" --password "${{secrets.GITHUB_TOKEN}}"
+          dotnet nuget push "build/packages/**/*.nupkg" -s "github" -k "${{secrets.GITHUB_TOKEN}}" --skip-duplicate
+          if ( "${{github.ref}}" -match "^refs/tags/[0-9]+\.[0-9]+\.[0-9]+$" ) {
+              dotnet nuget push build\packages\**\*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{secrets.NUGET_TOKEN}} --skip-duplicate
+          } else {
+              echo "publish is only enabled by tagging with a release tag"
+          }
