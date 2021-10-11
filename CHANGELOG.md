@@ -5,6 +5,7 @@ Current Stable Release:    1.9.143 (September 2021)
 -----------------------------------------------
 Release:     2.0.XXX (November 2021)
 -----------------------------------------------
+- [ENH] MediaFoundation: Map IMFAsyncResult, IMFAsyncCallback and IMFAttributes + add missing VideoFormatGuids
 - [ENH] MediaFoundation: Improvements in IMMDevice and handle property store in automatic way
 - [ADD] General: Add PropertyStore support in Vortice.DirectX under Win32
 - [CHG] DXGI: Remove legacy DXGIGetDebugInterface function, prefer DXGIGetDebugInterface1

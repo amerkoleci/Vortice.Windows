@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
 using SharpGen.Runtime;
 
 namespace Vortice.MediaFoundation
@@ -32,6 +33,54 @@ namespace Vortice.MediaFoundation
             MFCreateDXGIDeviceManager(out int resetToken, out IMFDXGIDeviceManager deviceManager).CheckError();
             deviceManager.ResetToken = resetToken;
             return deviceManager;
+        }
+
+        public static IMFPresentationClock MFCreatePresentationClock()
+        {
+            MFCreatePresentationClock(out IMFPresentationClock presentationClock).CheckError();
+            return presentationClock;
+        }
+
+        public static IMFTopology MFCreateTopology()
+        {
+            MFCreateTopology(out IMFTopology topology).CheckError();
+            return topology;
+        }
+
+        public static IMFTopologyNode MFCreateTopologyNode(TopologyType nodeType)
+        {
+            MFCreateTopologyNode(nodeType, out IMFTopologyNode node).CheckError();
+            return node;
+        }
+
+        public static IMFPresentationTimeSource MFCreateSystemTimeSource()
+        {
+            MFCreateSystemTimeSource(out IMFPresentationTimeSource systemTimeSource).CheckError();
+            return systemTimeSource;
+        }
+
+        public static IMFMediaTypeHandler MFCreateSimpleTypeHandler()
+        {
+            MFCreateSimpleTypeHandler(out IMFMediaTypeHandler handler).CheckError();
+            return handler;
+        }
+
+        public static IMFMediaSink MFCreateAudioRenderer(IMFAttributes audioAttributes)
+        {
+            MFCreateAudioRenderer(audioAttributes, out IMFMediaSink sink).CheckError();
+            return sink;
+        }
+
+        public static IMFActivate MFCreateAudioRendererActivate()
+        {
+            MFCreateAudioRendererActivate(out IMFActivate activate).CheckError();
+            return activate;
+        }
+
+        public static IMFActivate MFCreateVideoRendererActivate(IntPtr hwndVideo)
+        {
+            MFCreateVideoRendererActivate(hwndVideo, out IMFActivate activate).CheckError();
+            return activate;
         }
     }
 }

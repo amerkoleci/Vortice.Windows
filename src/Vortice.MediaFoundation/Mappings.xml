@@ -595,6 +595,9 @@
     <map enum="MFASYNC_CALLBACK_QUEUE" name="WorkQueueType"/>
     <map enum-item="MFASYNC_CALLBACK_QUEUE_(.*)" name-tmp="$1"/>
 
+    <map enum="MFASYNC_CALLBACK_FLAGS" name="AsyncCallbackFlags" none="true" flags="true"/>
+    <map enum-item="MFASYNC_(.*)_CALLBACK" name-tmp="$1"/>
+
     <map enum="#MF_RESOLUTION_MEDIASOURCE" name="SourceResolverFlags" none="true" flags="true"/>
     <map enum-item="MF_RESOLUTION_(.*)" name-tmp="$1"/>
 
@@ -633,13 +636,75 @@
 
     <!-- Structs -->
     <map struct="MF(.*)" name-tmp="$1"/>
+    <map struct="MFVIDEOFORMAT" name-tmp="VideoFormat"/>
 
     <!-- IMFByteStream -->
     <map interface="IMFByteStream" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" callback-name="MFByteStream" />
     <map param="IMFByteStream::*.*::pb" type="void" attribute="in"/>
     <map param="IMFByteStream::Begin[RW].*::punkState" type="void"/>
 
-    <!-- Interfaces -->
+    <!-- IMFAsyncResult -->
+    <map method="IMFAsyncResult::.*" property="false" visibility="internal"/>
+    <map param="IMFAsyncResult::GetState::ppunkState" type="void" return="false"/>
+    <map method="IMFAsyncResult::GetObjectW" name="GetObject" visibility="public"/>
+    <map method="IMFAsyncResult::GetStatus" return="true" check="false"/>
+    <remove inteface="MFASYNCRESULT" />
+
+    <!-- IMFAsyncCallback -->
+    <map interface="IMFAsyncCallback" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" callback-name="MFAsyncCallback" />
+    <map method="IMFAsyncCallback::.*" property="false" hresult="true" check="false"/>
+    <map param="IMFAsyncCallback::GetParameters::pdwFlags" type="MFASYNC_CALLBACK_FLAGS"/>
+    
+    <!-- IMFAsyncCallback -->
+    <map interface="IMFAsyncCallbackLogging" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" callback-name="MFAsyncCallbackLogging" />
+
+    <!-- IMFAttributes -->
+    <map interface="IMFAttributes" name="IMFAttributes"/>
+    <map method="IMFAttributes::GetItem" visibility="internal"/>
+    <map param="IMFAttributes::GetItem::pValue" attribute="in" type="void"/>
+    <map param="IMFAttributes::GetItemType::pType" return="true"/>
+
+    <map method="IMFAttributes::CompareItem" visibility="internal"/>
+    <map param="IMFAttributes::CompareItem::pbResult" return="true"/>
+
+    <map param="IMFAttributes::Compare::pbResult" return="true"/>
+
+    <map method="IMFAttributes::GetUINT32" visibility="internal"/>
+    <map method="IMFAttributes::GetUINT32" name="GetInt"/>
+    <map param="IMFAttributes::GetUINT32::punValue" return="true"/>
+
+    <map method="IMFAttributes::GetUINT64" visibility="internal"/>
+    <map method="IMFAttributes::GetUINT64" name="GetLong"/>
+    <map param="IMFAttributes::GetUINT64::punValue" return="true"/>
+
+    <map method="IMFAttributes::GetDouble" visibility="internal"/>
+    <map method="IMFAttributes::GetGUID" visibility="internal"/>
+    <map param="IMFAttributes::GetDouble::pfValue" return="true"/>
+    <map param="IMFAttributes::GetGUID::pguidValue" return="true"/>
+
+    <map method="IMFAttributes::GetString.*" visibility="internal"/>
+    <map method="IMFAttributes::GetAllocatedString" visibility="internal"/>
+    <map param="IMFAttributes::GetStringLength::pcchLength" return="true"/>
+
+    <map method="IMFAttributes::GetBlob.*" visibility="internal"/>
+    <map method="IMFAttributes::GetAllocatedBlob" visibility="internal"/>
+    <map param="IMFAttributes::GetBlob::pBuf" type="void" attribute="in"/>
+    <map param="IMFAttributes::GetBlobSize::pcbBlobSize" return="true"/>
+    <map method="IMFAttributes::SetBlob"    visibility="internal" />
+    <map param="IMFAttributes::SetBlob::pBuf" type="void" attribute="in"/>
+
+    <map method="IMFAttributes::GetUnknown" visibility="internal"/>
+
+    <map method="IMFAttributes::SetItem"    name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetUINT32"  name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetUINT64"  name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetDouble"  name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetGUID"    name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetString"  name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetUnknown" name="Set" visibility="internal" />
+
+    <map method="IMFAttributes::GetItemByIndex" visibility="internal"/>
+    
     <!-- IMFMediaSession -->
     <map method="IMFMediaSession::(.*)" hresult="true" check="false"/>
     <map param="IMFMediaSession::GetFullTopology::dwGetFullTopologyFlags" type="MFSESSION_SETTOPOLOGY_FLAGS"/>
@@ -691,7 +756,7 @@
 
     <map function="MFStartup" visibility="private" />
     <map param="MFCreateAttributes::cInitialSize" default="0"/>
-    <map param="MFCreateAttributes::ppMFAttributes" attribute="out fast"/>
+    <map param="MFCreateAttributes::ppMFAttributes" attribute="out" return="true"/>
 
     <map function="MFCreateVideoPresenter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateVideoMixer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
