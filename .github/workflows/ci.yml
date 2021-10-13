@@ -27,10 +27,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Install .NET
+    - name: Setup .NET 5.0
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 5.0.201
 
     - name: Pack
       run: dotnet pack Vortice.Windows.sln --configuration Release --output build/packages
