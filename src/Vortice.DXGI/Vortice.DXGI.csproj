@@ -6,14 +6,10 @@
     <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <Description>A .NET bindings for DXGI</Description>
   </PropertyGroup>
+  
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Debug\" />
   </ItemGroup>
   
 </Project>

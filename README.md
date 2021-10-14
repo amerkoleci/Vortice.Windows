@@ -29,7 +29,7 @@ Also, you need to install **Visual Studio 2019** with the following components:
 
 - [x] Visual C++ Toolset Component
 - [x] Windows 10 - 2104 SDK (10.0.20348.0) Component
-- [x] .NET5 SDK
+- [x] .NET 5 SDK 5.0.402
 
 ## Projects using Vortice.Windows
 

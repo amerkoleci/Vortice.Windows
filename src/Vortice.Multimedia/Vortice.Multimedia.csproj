@@ -6,18 +6,13 @@
     <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <Description>A multimedia bindings and utilities</Description>
   </PropertyGroup>
-  <ItemGroup>
-    <SharpGenMapping Include="Mappings.xml" />
-  </ItemGroup>
 
   <ItemGroup>
+    <SharpGenMapping Include="Mappings.xml" />
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>Vortice.MediaFoundation, PublicKey=$(VorticePublicKey)</_Parameter1>
     </AssemblyAttribute>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
   </ItemGroup>
-  
+
 </Project>
