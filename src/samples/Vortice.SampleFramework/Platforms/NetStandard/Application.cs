@@ -5,34 +5,38 @@ using System;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Vortice.Win32;
-using static Vortice.Win32.Kernel32;
 using static Vortice.Win32.User32;
+using static Windows.Win32.PInvoke;
+using Windows.Win32.Foundation;
+using win32 = global::Windows.Win32;
+using static Windows.Win32.UI.WindowsAndMessaging.PEEK_MESSAGE_REMOVE_TYPE;
+using static Windows.Win32.UI.WindowsAndMessaging.WNDCLASS_STYLES;
 
 namespace Vortice
 {
+
     public abstract partial class Application : IDisposable
     {
         public const string WindowClassName = "VorticeWindow";
-        public readonly IntPtr HInstance = GetModuleHandle(null);
+        internal readonly Windows.Win32.FreeLibrarySafeHandle HInstance = GetModuleHandle((string)null);
 
         private unsafe void PlatformConstruct()
         {
             fixed (char* lpszClassName = WindowClassName)
             {
-                var wndClassEx = new WNDCLASSEX
+                var wndClassEx = new win32.UI.WindowsAndMessaging.WNDCLASSEXW
                 {
-                    Size = Unsafe.SizeOf<WNDCLASSEX>(),
-                    Styles = WindowClassStyles.CS_HREDRAW | WindowClassStyles.CS_VREDRAW | WindowClassStyles.CS_OWNDC,
-                    WindowProc = &ProcessWindowMessage,
-                    InstanceHandle = HInstance,
-                    CursorHandle = LoadCursorW(IntPtr.Zero, IDC_ARROW),
-                    BackgroundBrushHandle = IntPtr.Zero,
-                    IconHandle = IntPtr.Zero,
-                    ClassName = (ushort*)lpszClassName
+                    cbSize = (uint)Unsafe.SizeOf<win32.UI.WindowsAndMessaging.WNDCLASSEXW>(),
+                    style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
+                    lpfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)(delegate*<HWND, uint, WPARAM, LPARAM, LRESULT>)&ProcessWindowMessage,
+                    hInstance = (HINSTANCE)HInstance.DangerousGetHandle(),
+                    hCursor = LoadCursor(default, new PCWSTR(IDC_ARROW)),
+                    hbrBackground = default,
+                    hIcon = default,
+                    lpszClassName = lpszClassName
                 };
 
-                ushort atom = RegisterClassExW(&wndClassEx);
+                ushort atom = RegisterClassEx(&wndClassEx);
 
                 if (atom == 0)
                 {
@@ -53,19 +57,18 @@ namespace Vortice
         {
             InitializeBeforeRun();
 
-            Message msg;
+            win32.UI.WindowsAndMessaging.MSG msg;
 
             while (!_exitRequested)
             {
                 if (!_paused)
                 {
-                    const uint PM_REMOVE = 1;
-                    if (PeekMessageW(&msg, IntPtr.Zero, 0, 0, PM_REMOVE) != 0)
+                    if (PeekMessage(out msg, default, 0, 0, PM_REMOVE) != false)
                     {
                         _ = TranslateMessage(&msg);
-                        _ = DispatchMessageW(&msg);
+                        _ = DispatchMessage(&msg);
 
-                        if (msg.Value == WM_QUIT)
+                        if (msg.message == WM_QUIT)
                         {
                             _exitRequested = true;
                             break;
@@ -76,13 +79,13 @@ namespace Vortice
                 }
                 else
                 {
-                    var ret = GetMessageW(&msg, IntPtr.Zero, 0, 0);
-                    if (ret == 0)
+                    BOOL ret = GetMessage(out msg, default, 0, 0);
+                    if (ret.Value == 0)
                     {
                         _exitRequested = true;
                         break;
                     }
-                    else if (ret == -1)
+                    else if (ret.Value == -1)
                     {
                         //Log.Error("[Win32] - Failed to get message");
                         _exitRequested = true;
@@ -91,16 +94,18 @@ namespace Vortice
                     else
                     {
                         _ = TranslateMessage(&msg);
-                        _ = DispatchMessageW(&msg);
+                        _ = DispatchMessage(&msg);
                     }
                 }
             }
         }
 
-        [UnmanagedCallersOnly]
-        private static nint ProcessWindowMessage(IntPtr hWnd, uint message, nuint wParam, nint lParam)
+        // https://github.com/microsoft/CsWin32/issues/222
+        //[UnmanagedCallersOnly]
+        //[UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
+        private static LRESULT ProcessWindowMessage(HWND hWnd, uint message, WPARAM wParam, LPARAM lParam)
         {
-            if (message == WM_ACTIVATEAPP)
+            if (message ==  WM_ACTIVATEAPP)
             {
                 if (wParam != 0)
                 {
@@ -111,7 +116,7 @@ namespace Vortice
                     Application.Current?.OnDeactivated();
                 }
 
-                return DefWindowProcW(hWnd, message, wParam, lParam);
+                return DefWindowProc(hWnd, message, wParam, lParam);
             }
 
             switch (message)
@@ -128,7 +133,7 @@ namespace Vortice
                     break;
             }
 
-            return DefWindowProcW(hWnd, message, wParam, lParam);
+            return DefWindowProc(hWnd, message, wParam, lParam);
         }
 
         private static void OnKey(uint message, nuint wParam, nint lParam)
