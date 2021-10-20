@@ -14,8 +14,9 @@
     <PackageReference Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" Condition="'$(TargetFrameworkIdentifier)' != '.NETCoreApp'" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Vortice.Multimedia\Vortice.Multimedia.csproj" />
+    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
   </ItemGroup>
 
 </Project>

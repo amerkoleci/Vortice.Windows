@@ -8,8 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <ProjectReference Include="..\Vortice.Multimedia\Vortice.Multimedia.csproj" />
   </ItemGroup>
 
 </Project>

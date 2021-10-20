@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31815.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX", "src\Vortice.DirectX\Vortice.DirectX.csproj", "{A9645572-0847-4FDA-90F4-0ACA2C257847}"
 EndProject
@@ -19,8 +19,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI", "src\Vortice.DXGI\Vortice.DXGI.csproj", "{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XAudio2", "src\Vortice.XAudio2\Vortice.XAudio2.csproj", "{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Multimedia", "src\Vortice.Multimedia\Vortice.Multimedia.csproj", "{8B819A20-F08E-4329-9183-235A58ED0024}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D9", "src\Vortice.Direct3D9\Vortice.Direct3D9.csproj", "{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}"
 EndProject
@@ -116,10 +114,6 @@ Global
 		{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B819A20-F08E-4329-9183-235A58ED0024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B819A20-F08E-4329-9183-235A58ED0024}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B819A20-F08E-4329-9183-235A58ED0024}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B819A20-F08E-4329-9183-235A58ED0024}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}.Release|Any CPU.ActiveCfg = Release|Any CPU
