@@ -3,7 +3,8 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <!--<TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>-->
     <Description>A .NET bindings for ProjectReunion.WinUI</Description>
   </PropertyGroup>
 

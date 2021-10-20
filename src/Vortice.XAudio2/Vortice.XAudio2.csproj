@@ -3,19 +3,14 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <!--<TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>-->
     <RootNamespace>Vortice.XAudio2</RootNamespace>
     <Description>XAudio2 and X3DAudio bindings</Description>
-    <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <PackageReference Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" Condition="'$(TargetFrameworkIdentifier)' != '.NETCoreApp'" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
   </ItemGroup>
 
