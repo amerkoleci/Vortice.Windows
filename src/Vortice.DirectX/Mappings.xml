@@ -7,6 +7,22 @@
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 
+  <include-prolog>
+    // Use unicode
+    #define UNICODE
+
+    // for SAL annotations
+    #define _PREFAST_
+
+    // To force GUID to be declared
+    #define INITGUID
+
+    #define _ALLOW_KEYWORD_MACROS
+
+    // Wrap all declspec for code-gen
+    #define __declspec(x) __attribute__((annotate(#x)))
+  </include-prolog>
+
   <include file="winerror.h" namespace="Vortice.Win32" />
   <include file="d3dcommon.h" namespace="Vortice.Direct3D" attach="true" />
   <include file="dxcore_interface.h" namespace="Vortice.DXCore" attach="true" />
@@ -16,6 +32,44 @@
   <include file="dxgitype.h" namespace="Vortice.DXGI" attach="true" />
 
   <include file="dcommon.h" namespace="Vortice.DCommon" attach="true" />
+
+  <!-- Multimedia -->
+
+  <include file="hidusage.h" namespace="Vortice.Multimedia"  attach="true">
+    <post>
+      // Additionnals HID_USAGE_PAGES*
+      #define HID_USAGE_PAGE_MEDICAL  0x40
+      #define HID_USAGE_PAGE_MONITOR_PAGE0 0x80
+      #define HID_USAGE_PAGE_MONITOR_PAGE1 0x81
+      #define HID_USAGE_PAGE_MONITOR_PAGE2 0x82
+      #define HID_USAGE_PAGE_MONITOR_PAGE3 0x83
+      #define HID_USAGE_PAGE_POWER_PAGE0 0x84
+      #define HID_USAGE_PAGE_POWER_PAGE1 0x85
+      #define HID_USAGE_PAGE_POWER_PAGE2 0x86
+      #define HID_USAGE_PAGE_POWER_PAGE3 0x87
+      #define HID_USAGE_PAGE_BARCODE 0x8C
+      #define HID_USAGE_PAGE_SCALE 0x8D
+      #define HID_USAGE_PAGE_MSR 0x8E
+
+      // The Usage typedef doesn't exist when compiling for STORE_APP so we define it here
+      #define USAGE USHORT
+    </post>
+  </include>
+
+  <!-- Include mmreg.h before audiodefs.h in order to avoid redefinition problem -->
+  <include file="mmreg.h" namespace="Vortice.Multimedia"  attach="true">
+    <pre>
+      #define NOMMIDS           1
+      #define NONEWWAVE         1
+      #define NONEWRIFF         1
+      #define NOJPEGDIB         1
+      #define NONEWIC           1
+      #define NOBITMAP          1
+      #define WAVE_FORMAT_PCM   1
+    </pre>
+  </include>
+
+  <include file="audiosessiontypes.h" namespace="Vortice.Multimedia"  attach="true" />
 
   <extension>
     <define struct="Vortice.RawRect" sizeof="16" />
@@ -60,9 +114,24 @@
     <create class="Vortice.DXCore.DXCore" visibility="public static" />
 
     <create-cpp enum="VORTICE_ERRORCODE" macro="ERROR_(.*)" />
+
+    <!-- Multimedia -->
+    <define struct="Vortice.Multimedia.WaveFormat" sizeof="18" marshal="true" />
+    <define struct="Vortice.Multimedia.WaveFormatExtensible" sizeof="18" marshal="true" custom-new="true"/>
+
+    <!-- audiosessiontypes.h -->
+    <create-cpp enum="AUDCLNT_STREAMFLAGS" macro="AUDCLNT_STREAMFLAGS_.*" />
+    <create-cpp enum="AUDCLNT_SESSIONFLAGS" macro="AUDCLNT_SESSIONFLAGS_.*" />
+
+    <create-cpp enum="SPEAKER_FLAGS" macro="SPEAKER_.*" />
+    <create-cpp enum="HID_USAGE_PAGE" macro="HID_USAGE_PAGE_.*" />
+    <create-cpp enum="HID_USAGE_ID" macro="HID_USAGE_[^P].*" />
+    <!--<create-cpp enum="WAVE_FORMAT_ENCODING" macro="WAVE_FORMAT_(.*)" />-->
   </extension>
 
   <bindings>
+    <bind from="unsigned short" to="System.UInt16" />
+    <bind from="uint16_t" to="System.UInt16" />
     <bind from="uint32_t" to="System.Int32" />
     <bind from="UINT32" to="System.Int32" />
     <bind from="UINT" to="System.Int32" />
@@ -100,6 +169,11 @@
     <bind from="D2D_MATRIX_4X3_F" to="Vortice.Mathematics.Matrix4x3" />
     <bind from="D2D_MATRIX_4X4_F" to="System.Numerics.Matrix4x4" />
     <bind from="D2D_MATRIX_5X4_F" to="Vortice.Mathematics.Matrix5x4" />
+
+    <!-- Multimedia -->
+    <bind from="WAVEFORMATEX" to="Vortice.Multimedia.WaveFormat" />
+    <bind from="tWAVEFORMATEX" to="Vortice.Multimedia.WaveFormat" />
+    <bind from="WAVEFORMATEXTENSIBLE" to="Vortice.Multimedia.WaveFormatExtensible" />
   </bindings>
 
   <naming>
@@ -193,6 +267,14 @@
     <short name="VERTEXFRAGMENT">VertexFragment</short>
     <short name="VERTEXSHADER">VertexShader</short>
     <short name="SHAREDEXP">SharedExp</short>
+    <short name="CROSSPROCESS">CrossProcess</short>
+    <short name="LOOPBACK">LoopBack</short>
+    <short name="EVENTCALLBACK">EventCallback</short>
+    <short name="NOPERSIST">NoPersist</short>
+    <short name="RATEADJUST">RateAdjust</short>
+    <short name="AUTOCONVERTPCM">AutoConvertPCM</short>
+    <short name="EXPIREWHENUNOWNED">ExpireWhenUnowned</short>
+    <short name="HIDEWHENEXPIRED">HideWhenExpired</short>
   </naming>
 
   <mapping>
@@ -310,5 +392,36 @@
     <map enum="DWRITE(.+)" name-tmp="$1" />
     <map struct="D2D1(.*)" name-tmp="$1" />
     <map struct="DWRITE(.+)" name-tmp="$1" />
+
+    <!-- Multimedia -->
+    <!-- audiosessiontypes.h -->
+    <map enum="AUDCLNT_SHAREMODE" name="AudioClientShareMode" />
+    <map enum-item="AudioSessionState(.*)" name="$1"/>
+
+    <map enum="AUDCLNT_STREAMFLAGS" name="AudioClientStreamFlags" flags="true" none="true" namespace="Vortice.Multimedia"/>
+    <map enum="AUDCLNT_SESSIONFLAGS" name="AudioClientSessionFlags" flags="true" none="true" namespace="Vortice.Multimedia"/>
+    <map enum-item="AudioCategory_(.*)" name="$1"/>
+
+    <map enum="SPEAKER_FLAGS" name="Speakers" flags="true" none="true" namespace="Vortice.Multimedia"/>
+    <map enum-item="SPEAKER_2POINT1" name="TwoPointOne" />
+    <map enum-item="SPEAKER_4POINT1" name="FourPointOne" />
+    <map enum-item="SPEAKER_5POINT1" name="FivePointOne" />
+    <map enum-item="SPEAKER_7POINT1" name="SevenPointOne" />
+    <map enum-item="SPEAKER_5POINT1_SURROUND" name="FivePointOneSurround" />
+    <map enum-item="SPEAKER_7POINT1_SURROUND" name="SevenPointOneSurround" />
+
+    <!-- class Vortice.Multimedia.UsagePage -->
+    <map enum="HID_USAGE_PAGE" name="UsagePage" type="short" namespace="Vortice.Multimedia"/>
+    <map enum-item="HID_USAGE_PAGE_(.*)" name-tmp="$1" naming="noexpand"/>
+
+    <!-- class Vortice.Multimedia.UsageId -->
+    <map enum="HID_USAGE_ID" name="UsageId" type="short" namespace="Vortice.Multimedia"/>
+    <map enum-item="HID_USAGE_([^P].*)" name-tmp="$1" naming="noexpand"/>
+
+    <!-- class Vortice.Multimedia.WaveFormatEncoding-->
+    <!--<map enum="WAVE_FORMAT_ENCODING" name="WaveFormatEncoding" type="short"/>-->
+    <map enum-item="WAVE_FORMAT_(.*)" name-tmp="$1" naming="noexpand" />
+    <map enum-item="WAVE_FORMAT_([0-9].*)" name-tmp="Tag$1" />
+    <map enum-item="WAVE_FORMAT_GSM610" name-tmp="DefaultGsm610" />
   </mapping>
 </config>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
@@ -35,11 +35,19 @@ namespace Vortice.MediaFoundation
             return deviceManager;
         }
 
-        public static IMFTopologyNode MFCreateTopologyNode(TopologyType nodeType)
+
+        public static IMFPresentationClock MFCreatePresentationClock()
         {
-            MFCreateTopologyNode(nodeType, out IMFTopologyNode node).CheckError();
-            return node;
+            MFCreatePresentationClock(out IMFPresentationClock presentationClock).CheckError();
+            return presentationClock;
         }
+
+        public static IMFTopology MFCreateTopology()
+        {
+            MFCreateTopology(out IMFTopology topology).CheckError();
+            return topology;
+        }
+
 
 
         unsafe public static void MFCreateAttributes(IMFAttributes parent, int clientSize)

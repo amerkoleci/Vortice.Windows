@@ -6,19 +6,29 @@ using System.Diagnostics;
 using System.Drawing;
 using Vortice.Win32;
 using static Vortice.Win32.User32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
+using static Windows.Win32.PInvoke;
+using static Windows.Win32.UI.WindowsAndMessaging.WINDOW_STYLE;
+using static Windows.Win32.UI.WindowsAndMessaging.WINDOW_EX_STYLE;
+using static Windows.Win32.UI.WindowsAndMessaging.SYSTEM_METRICS_INDEX;
+using static Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD;
 
 namespace Vortice
 {
     public sealed partial class Window
     {
         private const int CW_USEDEFAULT = unchecked((int)0x80000000);
+        private HWND hWnd;
+
+        public nint Handle => hWnd.Value;
 
         private unsafe void PlatformConstruct()
         {
             int x = 0;
             int y = 0;
-            WindowStyles style = 0;
-            WindowExStyles styleEx = 0;
+            WINDOW_STYLE style = 0;
+            WINDOW_EX_STYLE styleEx = 0;
             const bool resizable = true;
 
             // Setup the screen settings depending on whether it is running in full screen or in windowed mode.
@@ -34,8 +44,8 @@ namespace Vortice
             {
                 if (ClientSize.Width > 0 && ClientSize.Height > 0)
                 {
-                    int screenWidth = GetSystemMetrics(SystemMetrics.SM_CXSCREEN);
-                    int screenHeight = GetSystemMetrics(SystemMetrics.SM_CYSCREEN);
+                    int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+                    int screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
                     // Place the window in the middle of the screen.WS_EX_APPWINDOW
                     x = (screenWidth - ClientSize.Width) / 2;
@@ -44,72 +54,69 @@ namespace Vortice
 
                 if (resizable)
                 {
-                    style = WindowStyles.WS_OVERLAPPEDWINDOW;
+                    style = WS_OVERLAPPEDWINDOW;
                 }
                 else
                 {
-                    style = WindowStyles.WS_POPUP | WindowStyles.WS_BORDER | WindowStyles.WS_CAPTION | WindowStyles.WS_SYSMENU;
+                    style = WS_POPUP | WS_BORDER | WS_CAPTION | WS_SYSMENU;
                 }
 
-                styleEx = WindowExStyles.WS_EX_APPWINDOW | WindowExStyles.WS_EX_WINDOWEDGE;
+                styleEx = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
             }
-            style |= WindowStyles.WS_CLIPCHILDREN | WindowStyles.WS_CLIPSIBLINGS;
+            style |= WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
 
             int windowWidth;
             int windowHeight;
 
             if (ClientSize.Width > 0 && ClientSize.Height > 0)
             {
-                var rect = new RawRect(0, 0, ClientSize.Width, ClientSize.Height);
+                var rect = new RECT
+                {
+                    right = ClientSize.Width,
+                    bottom = ClientSize.Height
+                };
 
                 // Adjust according to window styles
-                AdjustWindowRectEx(&rect, (uint)style, 0, (uint)styleEx);
+                AdjustWindowRectEx(&rect, style, default, styleEx);
 
-                windowWidth = rect.Right - rect.Left;
-                windowHeight = rect.Bottom - rect.Top;
+                windowWidth = rect.right - rect.left;
+                windowHeight = rect.bottom - rect.top;
             }
             else
             {
                 x = y = windowWidth = windowHeight = CW_USEDEFAULT;
             }
 
-            fixed (char* lpszClassName = Application.WindowClassName)
-            {
-                fixed (char* lpWindowName = Title)
-                {
-                    Handle = CreateWindowExW(
-                    (uint)styleEx,
-                    (ushort*)lpszClassName,
-                    (ushort*)lpWindowName,
-                    (uint)style,
-                    x,
-                    y,
-                    windowWidth,
-                    windowHeight,
-                    IntPtr.Zero,
-                    IntPtr.Zero,
-                    IntPtr.Zero,
-                    null
-                    );
+            hWnd = CreateWindowEx(
+                styleEx,
+                Application.WindowClassName,
+                Title,
+                style,
+                x,
+                y,
+                windowWidth,
+                windowHeight,
+                default,
+                default,
+                default,
+                null
+            );
 
-                    if (Handle == IntPtr.Zero)
-                    {
-                        return;
-                    }
-                }
+            if (hWnd.Value == IntPtr.Zero)
+            {
+                return;
             }
 
-            ShowWindow(Handle, (int)ShowWindowCommand.Normal);
+            ShowWindow(hWnd, SW_NORMAL);
             ClientSize = new Size(windowWidth, windowHeight);
         }
 
         public void Destroy()
         {
-            IntPtr hwnd = Handle;
-            if (hwnd != IntPtr.Zero)
+            if (hWnd != IntPtr.Zero)
             {
-                IntPtr destroyHandle = hwnd;
-                Handle = IntPtr.Zero;
+                HWND destroyHandle = hWnd;
+                hWnd = default;
 
                 Debug.WriteLine($"[WIN32] - Destroying window: {destroyHandle}");
                 DestroyWindow(destroyHandle);

@@ -13,6 +13,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Vortice.DirectX\Vortice.DirectX.csproj" />
+    
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.588-beta">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

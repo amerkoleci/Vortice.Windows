@@ -10,7 +10,7 @@ namespace Vortice
     {
         public string Title { get; private set; }
         public Size ClientSize { get; private set; }
-        public IntPtr Handle { get; private set; }
+        
 
         public Window(string title, int width, int height)
         {

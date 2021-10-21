@@ -59,12 +59,10 @@ namespace HelloDirect3D11
             Window = window;
             Size = size;
 
-            if (CreateDXGIFactory1(out Factory).Failure)
-            {
-                throw new InvalidOperationException("Cannot create IDXGIFactory1");
-            }
 
-            using (IDXGIAdapter1? adapter = GetHardwareAdapter())
+            Factory = CreateDXGIFactory1<IDXGIFactory2>();
+
+            using (IDXGIAdapter1 adapter = GetHardwareAdapter())
             {
                 DeviceCreationFlags creationFlags = DeviceCreationFlags.BgraSupport;
 #if DEBUG
@@ -74,8 +72,11 @@ namespace HelloDirect3D11
                 }
 #endif
 
+                var adapterDescription = adapter.Description1;
+                System.Console.WriteLine($"Adapter: '{adapterDescription.Description}', DedicatedVideoMemory: {adapterDescription.DedicatedVideoMemory}, DedicatedSystemMemory: {adapterDescription.DedicatedSystemMemory}");
+
                 if (D3D11CreateDevice(
-                    adapter!,
+                    adapter,
                     DriverType.Unknown,
                     creationFlags,
                     s_featureLevels,
@@ -85,7 +86,7 @@ namespace HelloDirect3D11
                     // For more information on WARP, see:
                     // http://go.microsoft.com/fwlink/?LinkId=286690
                     D3D11CreateDevice(
-                        null,
+                        IntPtr.Zero,
                         DriverType.Warp,
                         creationFlags,
                         s_featureLevels,
@@ -153,18 +154,19 @@ namespace HelloDirect3D11
             }
         }
 
-        private IDXGIAdapter1? GetHardwareAdapter()
+        private IDXGIAdapter1 GetHardwareAdapter()
         {
-            IDXGIAdapter1? adapter = null;
-            IDXGIFactory6 factory6 = Factory.QueryInterfaceOrNull<IDXGIFactory6>();
+            IDXGIFactory6? factory6 = Factory.QueryInterfaceOrNull<IDXGIFactory6>();
             if (factory6 != null)
             {
                 for (int adapterIndex = 0;
-                    factory6.EnumAdapterByGpuPreference(adapterIndex, GpuPreference.HighPerformance, out adapter).Success;
+                    factory6.EnumAdapterByGpuPreference(adapterIndex, GpuPreference.HighPerformance, out IDXGIAdapter1? adapter).Success;
                     adapterIndex++)
                 {
                     if (adapter == null)
+                    {
                         continue;
+                    }
 
                     AdapterDescription1 desc = adapter.Description1;
 
@@ -177,31 +179,27 @@ namespace HelloDirect3D11
 
                     return adapter;
                 }
-
 
                 factory6.Dispose();
             }
 
-            if (adapter == null)
+            for (int adapterIndex = 0;
+                Factory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
+                adapterIndex++)
             {
-                for (int adapterIndex = 0;
-                    Factory.EnumAdapters1(adapterIndex, out adapter).Success;
-                    adapterIndex++)
+                AdapterDescription1 desc = adapter.Description1;
+
+                if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
                 {
-                    AdapterDescription1 desc = adapter.Description1;
-
-                    if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
-                    {
-                        // Don't select the Basic Render Driver adapter.
-                        adapter.Dispose();
-                        continue;
-                    }
-
-                    return adapter;
+                    // Don't select the Basic Render Driver adapter.
+                    adapter.Dispose();
+                    continue;
                 }
+
+                return adapter;
             }
 
-            return adapter;
+            throw new InvalidOperationException("Cannot detect D3D11 adapter");
         }
 
         public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string? frameName = null)

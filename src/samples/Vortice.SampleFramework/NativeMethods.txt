@@ -1,0 +1,14 @@
+﻿GetModuleHandle
+PeekMessage
+TranslateMessage
+DispatchMessage
+GetMessage
+RegisterClassEx
+DefWindowProc
+LoadCursor
+PostQuitMessage
+CreateWindowEx
+DestroyWindow
+ShowWindow
+GetSystemMetrics
+AdjustWindowRectEx

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-xaudio2" xmlns="urn:SharpGen.Config">
   <namespace>Vortice.XAudio2</namespace>
-  <depends>SharpGen.Runtime.COM</depends>
-  <depends>Vortice.Multimedia</depends>
+  <depends>Vortice.DirectX</depends>
 
   <sdk name="WindowsSdk" version="10.0.20348.0" />
   <sdk name="StdLib" />
@@ -156,7 +155,7 @@
     <map field="XAUDIO2_BUFFER::Flags" type="XAUDIO2_BUFFER_FLAGS" />
     <map field="XAUDIO2_BUFFER::pContext" name="Context" />
     <map struct="XAUDIO2_BUFFER" native="true" struct-to-class="true" marshal="false" new="false" />
-    <map field="XAUDIO2_BUFFER::pAudioData" name="AudioDataPointer" />
+    <map field="XAUDIO2_BUFFER::pAudioData" name="AudioDataPointer" type="void" keep-pointers="true" />
 
     <!-- XAUDIO2FX_REVERB_PARAMETERS -->
     <map struct="XAUDIO2FX_REVERB_PARAMETERS" name="ReverbParameters" pack="1" />

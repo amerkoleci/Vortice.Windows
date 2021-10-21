@@ -13,11 +13,11 @@ namespace Vortice.XAudio2
     {
         private readonly bool _ownsBuffer;
 
-        private AudioBuffer(BufferFlags flags, IntPtr data, int sizeInBytes, bool ownsBuffer)
+        private unsafe AudioBuffer(BufferFlags flags, void* data, int sizeInBytes, bool ownsBuffer)
         {
             Flags = flags;
             AudioBytes = sizeInBytes;
-            AudioDataPointer = data;
+            AudioDataPointer = new IntPtr(data);
             _ownsBuffer = ownsBuffer;
         }
 
@@ -35,11 +35,11 @@ namespace Vortice.XAudio2
             _ownsBuffer = false;
         }
 
-        public AudioBuffer(int sizeInBytes, BufferFlags flags = BufferFlags.EndOfStream)
+        public unsafe AudioBuffer(int sizeInBytes, BufferFlags flags = BufferFlags.EndOfStream)
         {
             Flags = flags;
             AudioBytes = sizeInBytes;
-            AudioDataPointer = MemoryHelpers.AllocateMemory(sizeInBytes);
+            AudioDataPointer = new IntPtr(MemoryHelpers.AllocateMemory((nuint)sizeInBytes));
             _ownsBuffer = true;
         }
 
@@ -47,7 +47,7 @@ namespace Vortice.XAudio2
         {
             Flags = flags;
             AudioBytes = data.Length;
-            AudioDataPointer = MemoryHelpers.AllocateMemory(data.Length);
+            AudioDataPointer = new IntPtr(MemoryHelpers.AllocateMemory((nuint)data.Length));
             fixed (void* dataPtr = &data[0])
             {
                 Unsafe.CopyBlockUnaligned(AudioDataPointer.ToPointer(), dataPtr, (uint)data.Length);
@@ -60,15 +60,15 @@ namespace Vortice.XAudio2
         /// Initializes a new instance of the <see cref="AudioBuffer" /> class.
         /// </summary>
         /// <param name="stream">The stream to get the audio buffer from.</param>
+        /// <param name="flags"></param>
         public AudioBuffer(DataStream stream, BufferFlags flags = BufferFlags.EndOfStream)
         {
             int length = (int)stream.Length - (int)stream.Position;
 
-            AudioDataPointer = MemoryHelpers.AllocateMemory(length);
-
             unsafe
             {
-                Unsafe.CopyBlockUnaligned(AudioDataPointer.ToPointer(), stream.PositionPointer.ToPointer(), (uint)length);
+                AudioDataPointer = new(MemoryHelpers.AllocateMemory((nuint)length));
+                MemoryHelpers.CopyMemory(AudioDataPointer, stream.PositionPointer, length);
             }
 
             Flags = flags;
@@ -80,7 +80,7 @@ namespace Vortice.XAudio2
         public static unsafe AudioBuffer Create<T>(ReadOnlySpan<T> data, BufferFlags flags = BufferFlags.EndOfStream) where T : unmanaged
         {
             int sizeInBytes = data.Length * sizeof(T);
-            IntPtr dataPtr = MemoryHelpers.AllocateMemory(data.Length);
+            void* dataPtr = MemoryHelpers.AllocateMemory((nuint)data.Length);
             MemoryHelpers.CopyMemory(dataPtr, data);
             return new AudioBuffer(flags, dataPtr, sizeInBytes, true);
         }

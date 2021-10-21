@@ -4,7 +4,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!--<TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>-->
     <RootNamespace>Vortice</RootNamespace>
     <Description>Core DirectX library.</Description>
   </PropertyGroup>
@@ -18,6 +18,10 @@
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>Vortice.D3DCompiler, PublicKey=$(VorticePublicKey)</_Parameter1>
+    </AssemblyAttribute>
+
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Vortice.MediaFoundation, PublicKey=$(VorticePublicKey)</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
