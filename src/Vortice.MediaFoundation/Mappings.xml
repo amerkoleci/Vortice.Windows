@@ -696,7 +696,8 @@
 
     <map function="MFStartup" visibility="private" />
     <map param="MFCreateAttributes::cInitialSize" default="0"/>
-
+    <map param="MFCreateAttributes::ppMFAttributes" attribute="out" return="true"/>
+    
     <map function="MFCreateVideoPresenter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateVideoMixer" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateVideoMixerAndPresenter" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
