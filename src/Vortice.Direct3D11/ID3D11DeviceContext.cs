@@ -275,6 +275,7 @@ namespace Vortice.Direct3D11
         {
             return GetData(data, IntPtr.Zero, 0, flags) == Result.Ok;
         }
+
         /// <summary>
         ///   Gets data from the GPU asynchronously.
         /// </summary>

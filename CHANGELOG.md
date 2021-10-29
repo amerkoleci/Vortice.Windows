@@ -5,6 +5,7 @@ Current Stable Release:    1.9.143 (September 2021)
 -----------------------------------------------
 Release:     2.0.XXX (November 2021)
 -----------------------------------------------
+- [ENH] Build: Update to 10.0.22000.0 SDK
 - [ENH] General: Add .NET 5.0 TFM
 - [ENH] MediaFoundation: Map IMFAsyncResult, IMFAsyncCallback and IMFAttributes + add missing VideoFormatGuids
 - [ENH] MediaFoundation: Improvements in IMMDevice and handle property store in automatic way

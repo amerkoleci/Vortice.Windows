@@ -3,7 +3,7 @@
   <namespace>Vortice.Direct2D1</namespace>
   <depends>Vortice.DXGI</depends>
 
-  <sdk name="WindowsSdk" version="10.0.20348.0" />
+  <sdk name="WindowsSdk" version="10.0.22000.0" />
   <sdk name="StdLib" />
 
   <include file="d2dbasetypes.h" attach="true"/>

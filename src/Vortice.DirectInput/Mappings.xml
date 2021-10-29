@@ -3,7 +3,7 @@
   <namespace>Vortice.DirectInput</namespace>
   <depends>Vortice.DirectX</depends>
   
-  <sdk name="WindowsSdk" version="10.0.20348.0" />
+  <sdk name="WindowsSdk" version="10.0.22000.0" />
   <sdk name="StdLib" />
 
   <include file="dinput.h" attach="true">
