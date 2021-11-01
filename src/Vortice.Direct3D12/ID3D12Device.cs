@@ -26,7 +26,7 @@ namespace Vortice.Direct3D12
                         HighestVersion = RootSignatureVersion.Version11
                     };
 
-                    if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), sizeof(FeatureDataRootSignature)).Failure)
+                    if (CheckFeatureSupport(Feature.RootSignature, &featureData, sizeof(FeatureDataRootSignature)).Failure)
                     {
                         _highestRootSignatureVersion = RootSignatureVersion.Version11;
                     }
@@ -43,15 +43,15 @@ namespace Vortice.Direct3D12
         public unsafe T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
         {
             T featureSupport = default;
-            CheckFeatureSupport(feature, new IntPtr(&featureSupport), sizeof(T));
+            CheckFeatureSupport(feature, &featureSupport, sizeof(T));
             return featureSupport;
         }
 
         public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
         {
-            fixed (void* featureSupportPtr = &featureSupport)
+            fixed (T* featureSupportPtr = &featureSupport)
             {
-                return CheckFeatureSupport(feature, (IntPtr)featureSupportPtr, sizeof(T)).Success;
+                return CheckFeatureSupport(feature, featureSupportPtr, sizeof(T)).Success;
             }
         }
 
@@ -68,7 +68,7 @@ namespace Vortice.Direct3D12
                     MaxSupportedFeatureLevel = FeatureLevel.Level_11_0
                 };
 
-                if (CheckFeatureSupport(Feature.FeatureLevels, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataFeatureLevels>()).Success)
+                if (CheckFeatureSupport(Feature.FeatureLevels, &featureData, sizeof(FeatureDataFeatureLevels)).Success)
                 {
                     return featureData.MaxSupportedFeatureLevel;
                 }
@@ -164,7 +164,7 @@ namespace Vortice.Direct3D12
                 HighestShaderModel = highestShaderModel
             };
 
-            if (CheckFeatureSupport(Feature.ShaderModel, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataShaderModel>()).Success)
+            if (CheckFeatureSupport(Feature.ShaderModel, &featureData, sizeof(FeatureDataShaderModel)).Success)
             {
                 return featureData.HighestShaderModel;
             }
@@ -179,7 +179,7 @@ namespace Vortice.Direct3D12
                 HighestVersion = highestVersion
             };
 
-            if (CheckFeatureSupport(Feature.RootSignature, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataRootSignature>()).Success)
+            if (CheckFeatureSupport(Feature.RootSignature, &featureData, sizeof(FeatureDataRootSignature)).Success)
             {
                 return featureData.HighestVersion;
             }
@@ -189,12 +189,12 @@ namespace Vortice.Direct3D12
 
         public unsafe bool CheckFormatSupport(Format format, out FormatSupport1 formatSupport1, out FormatSupport2 formatSupport2)
         {
-            var featureData = new FeatureDataFormatSupport
+            FeatureDataFormatSupport featureData = new()
             {
                 Format = format
             };
 
-            if (CheckFeatureSupport(Feature.FormatSupport, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataFormatSupport>()).Failure)
+            if (CheckFeatureSupport(Feature.FormatSupport, &featureData, sizeof(FeatureDataFormatSupport)).Failure)
             {
                 formatSupport1 = FormatSupport1.None;
                 formatSupport2 = FormatSupport2.None;
@@ -208,14 +208,14 @@ namespace Vortice.Direct3D12
 
         public unsafe int CheckMultisampleQualityLevels(Format format, int sampleCount, MultisampleQualityLevelFlags flags = MultisampleQualityLevelFlags.None)
         {
-            FeatureDataMultisampleQualityLevels featureData = new FeatureDataMultisampleQualityLevels
+            FeatureDataMultisampleQualityLevels featureData = new()
             {
                 Format = format,
                 SampleCount = sampleCount,
                 Flags = flags
             };
 
-            if (CheckFeatureSupport(Feature.MultisampleQualityLevels, new IntPtr(&featureData), Unsafe.SizeOf<FeatureDataMultisampleQualityLevels>()).Failure)
+            if (CheckFeatureSupport(Feature.MultisampleQualityLevels, &featureData, sizeof(FeatureDataMultisampleQualityLevels)).Failure)
             {
                 return 0;
             }
@@ -230,7 +230,7 @@ namespace Vortice.Direct3D12
                 Format = format
             };
 
-            if (CheckFeatureSupport(Feature.FormatInfo, new IntPtr(&featureData), sizeof(FeatureDataFormatInfo)).Failure)
+            if (CheckFeatureSupport(Feature.FormatInfo, &featureData, sizeof(FeatureDataFormatInfo)).Failure)
             {
                 return 0;
             }
@@ -240,12 +240,12 @@ namespace Vortice.Direct3D12
 
         public unsafe FeatureDataCommandQueuePriority CheckCommandQueuePriority(CommandListType commandListType)
         {
-            var featureData = new FeatureDataCommandQueuePriority
+            FeatureDataCommandQueuePriority featureData = new()
             {
                 CommandListType = commandListType,
             };
 
-            if (CheckFeatureSupport(Feature.CommandQueuePriority, new IntPtr(&featureData), sizeof(FeatureDataFormatInfo)).Failure)
+            if (CheckFeatureSupport(Feature.CommandQueuePriority, &featureData, sizeof(FeatureDataFormatInfo)).Failure)
             {
                 return default;
             }
@@ -348,6 +348,35 @@ namespace Vortice.Direct3D12
         public T CreateCommandQueue<T>(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
         {
             return CreateCommandQueue<T>(new CommandQueueDescription(type, priority, flags, nodeMask));
+        }
+
+        public Result CreateCommandQueue(in CommandQueueDescription description, out ID3D12CommandQueue? commandQueue)
+        {
+            Result result = CreateCommandQueue(description, typeof(ID3D12CommandQueue).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                commandQueue = default;
+                return result;
+            }
+
+            commandQueue = new(nativePtr);
+            return result;
+        }
+
+        public ID3D12CommandQueue CreateCommandQueue(in CommandQueueDescription description)
+        {
+            CreateCommandQueue(description, typeof(ID3D12CommandQueue).GUID, out IntPtr nativePtr).CheckError();
+            return new ID3D12CommandQueue(nativePtr);
+        }
+
+        public ID3D12CommandQueue CreateCommandQueue(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
+        {
+            return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask));
+        }
+
+        public ID3D12CommandQueue CreateCommandQueue(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
+        {
+            return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask));
         }
         #endregion
 

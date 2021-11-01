@@ -768,6 +768,7 @@
 
     <!-- ID3D12Device methods -->
     <map method="ID3D12Device::CheckFeatureSupport" visibility="internal" check="false"/>
+    <map param="ID3D12Device::CheckFeatureSupport::pFeatureSupportData" type="void" keep-pointers="true"/>
     <map method="ID3D12Device::GetDeviceRemovedReason" check="false"/>
 
     <map method="ID3D12Device::CopyDescriptors" visibility="private"/>

@@ -141,6 +141,7 @@
     <!-- IDXGIFactory -->
     <map method="IDXGIFactory::EnumAdapters" hresult="true" check="false"/>
 
+    <map method="IDXGIFactory::MakeWindowAssociation" hresult="true" check="false"/>
     <map param="IDXGIFactory::MakeWindowAssociation::Flags" type="DXGI_MWA_FLAGS" />
     <map param="IDXGIFactory::CreateSoftwareAdapter::ppAdapter" return="true" />
     <map method="IDXGIFactory::GetWindowAssociation" property="false" />
