@@ -103,13 +103,13 @@ namespace HelloDirect3D11
             {
                 IntPtr hwnd = window.Handle;
 
-                SwapChainDescription1 swapChainDescription = new SwapChainDescription1()
+                SwapChainDescription1 swapChainDescription = new()
                 {
                     Width = window.ClientSize.Width,
                     Height = window.ClientSize.Height,
                     Format = Format.R8G8B8A8_UNorm,
                     BufferCount = FrameCount,
-                    Usage = Vortice.DXGI.Usage.RenderTargetOutput,
+                    BufferUsage = Vortice.DXGI.Usage.RenderTargetOutput,
                     SampleDescription = new SampleDescription(1, 0),
                     Scaling = Scaling.Stretch,
                     SwapEffect = SwapEffect.FlipDiscard,

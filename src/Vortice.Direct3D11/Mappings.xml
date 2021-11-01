@@ -778,6 +778,8 @@
     <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="public"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" attribute="in"/>
 
+    <!--<map param="ID3D11DeviceContext::IASetVertexBuffers::pStrides" type="void" keep-pointers="true"/>-->
+
     <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="public"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pDepthStencilView" type="void"/>

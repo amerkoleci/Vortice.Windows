@@ -315,7 +315,7 @@ namespace Vortice.Direct3D11
 
         public ID3D11BlendState OMGetBlendState()
         {
-            OMGetBlendState(out var blendState, out _, out _);
+            OMGetBlendState(out ID3D11BlendState blendState, out _, out _);
             return blendState;
         }
 

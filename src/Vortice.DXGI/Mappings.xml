@@ -115,8 +115,7 @@
     <map struct="DXGI_ADAPTER_DESC[123]" pack="4"/>
 
     <!-- DXGI_SWAP_CHAIN_DESC -->
-    <map field="DXGI_SWAP_CHAIN_DESC::Windowed" name="IsWindowed" />
-    <map field="DXGI_SWAP_CHAIN_DESC[12]?::BufferUsage" name="Usage" type="DXGI_USAGE_ENUM"/>
+    <map field="DXGI_SWAP_CHAIN_DESC[12]?::BufferUsage" type="DXGI_USAGE_ENUM"/>
     <map field="DXGI_SWAP_CHAIN_DESC[12]?::Flags" type="DXGI_SWAP_CHAIN_FLAG" />
     <map field="DXGI_DECODE_SWAP_CHAIN_DESC::Flags" type="DXGI_SWAP_CHAIN_FLAG" />
 
@@ -154,11 +153,17 @@
     <map method="IDXGIFactory1::EnumAdapters1" hresult="true" check="false"/>
 
     <!-- IDXGIFactory2 -->
-    <map method="IDXGIFactory2::CreateSwapChainForComposition" visibility="private" />
+    <map param="IDXGIFactory2::CreateSwapChainForComposition::pDesc" attribute="in value" />
+    <map param="IDXGIFactory2::CreateSwapChainForComposition::pRestrictToOutput" default="null" />
     <map param="IDXGIFactory2::CreateSwapChainForComposition::ppSwapChain" return="true"/>
-    <map method="IDXGIFactory2::CreateSwapChainForCoreWindow" visibility="private" />
+
+    <map param="IDXGIFactory2::CreateSwapChainForCoreWindow::pDesc" attribute="in value" />
+    <map param="IDXGIFactory2::CreateSwapChainForCoreWindow::pRestrictToOutput" default="null" />
     <map param="IDXGIFactory2::CreateSwapChainForCoreWindow::ppSwapChain" return="true"/>
-    <map method="IDXGIFactory2::CreateSwapChainForHwnd" visibility="private" />
+
+    <map param="IDXGIFactory2::CreateSwapChainForHwnd::pDesc" attribute="in value" />
+    <map param="IDXGIFactory2::CreateSwapChainForHwnd::pFullscreenDesc" default="null" />
+    <map param="IDXGIFactory2::CreateSwapChainForHwnd::pRestrictToOutput" default="null" />
     <map param="IDXGIFactory2::CreateSwapChainForHwnd::ppSwapChain" return="true"/>
 
     <map param="IDXGIFactory2::GetSharedResourceAdapterLuid::pLuid" return="true"/>

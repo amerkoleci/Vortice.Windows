@@ -109,7 +109,7 @@ namespace HelloDirect3D12
                 Width = window.ClientSize.Width,
                 Height = window.ClientSize.Height,
                 Format = Format.R8G8B8A8_UNorm,
-                Usage = Usage.RenderTargetOutput,
+                BufferUsage = Usage.RenderTargetOutput,
                 SwapEffect = SwapEffect.FlipDiscard,
                 SampleDescription = new SampleDescription(1, 0)
             };

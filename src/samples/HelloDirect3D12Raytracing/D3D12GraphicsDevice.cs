@@ -189,13 +189,13 @@ namespace HelloDirect3D12Raytracing
                 // Create Command queue.
                 GraphicsQueue = _d3d12Device.CreateCommandQueue<ID3D12CommandQueue>(CommandListType.Direct);
 
-                SwapChainDescription1 swapChainDesc = new SwapChainDescription1
+                SwapChainDescription1 swapChainDesc = new()
                 {
                     BufferCount = RenderLatency,
                     Width = window.ClientSize.Width,
                     Height = window.ClientSize.Height,
                     Format = Format.R8G8B8A8_UNorm,
-                    Usage = Usage.RenderTargetOutput,
+                    BufferUsage = Usage.RenderTargetOutput,
                     SwapEffect = SwapEffect.FlipDiscard,
                     SampleDescription = new SampleDescription(1, 0)
                 };
