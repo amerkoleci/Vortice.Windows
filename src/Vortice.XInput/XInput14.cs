@@ -43,7 +43,7 @@ namespace Vortice.XInput
             return XInputGetAudioDeviceIds(dwUserIndex, renderDeviceId, renderCount, captureDeviceId, captureCount);
         }
 
-        [DllImport("xinput1_4.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("xinput1_4.dll", EntryPoint = "#100", CallingConvention = CallingConvention.StdCall)]
         private static extern int XInputGetState(int dwUserIndex, out State state);
 
         [DllImport("xinput1_4.dll", CallingConvention = CallingConvention.StdCall)]
