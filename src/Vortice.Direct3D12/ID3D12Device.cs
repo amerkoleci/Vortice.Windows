@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
-using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
 using Vortice.Direct3D;
@@ -14,6 +13,19 @@ namespace Vortice.Direct3D12
     {
         private const int GENERIC_ALL = 0x10000000;
         private RootSignatureVersion? _highestRootSignatureVersion;
+
+        public long AdapterLuid
+        {
+            get
+            {
+                unsafe
+                {
+                    long result;
+                    ((delegate* unmanaged[Stdcall]<IntPtr, long*, void>)this[GetAdapterLuid__vtbl_index])(NativePointer, &result);
+                    return result;
+                }
+            }
+        }
 
         public unsafe RootSignatureVersion HighestRootSignatureVersion
         {

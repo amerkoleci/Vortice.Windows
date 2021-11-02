@@ -99,6 +99,8 @@ namespace HelloDirect3D12
                 }
             }
 
+            var luid = _d3d12Device.AdapterLuid;
+
             // Create Command queue.
             GraphicsQueue = _d3d12Device!.CreateCommandQueue<ID3D12CommandQueue>(CommandListType.Direct);
             GraphicsQueue.Name = "Graphics Queue";

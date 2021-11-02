@@ -7,6 +7,7 @@ using SharpGen.Runtime;
 
 namespace Vortice.DXGI
 {
+    [StructLayout(LayoutKind.Sequential, Pack = 4)]
     public partial struct AdapterDescription1
     {
         public string Description;
