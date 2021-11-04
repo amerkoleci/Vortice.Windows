@@ -44,7 +44,7 @@ namespace Vortice.XInput
         }
 
 
-        [DllImport("xinput9_1_0.dll", EntryPoint = "#100", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("xinput9_1_0.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern int XInputGetState(int dwUserIndex, out State state);
 
         [DllImport("xinput9_1_0.dll", CallingConvention = CallingConvention.StdCall)]

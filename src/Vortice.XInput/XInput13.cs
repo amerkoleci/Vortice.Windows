@@ -43,7 +43,7 @@ namespace Vortice.XInput
             throw new NotSupportedException("XInputGetAudioDeviceIds is not supported on XInput1.3");
         }
 
-        [DllImport("xinput1_3.dll", EntryPoint = "#100", CallingConvention = CallingConvention.StdCall)]
+        [DllImport("xinput1_3.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern int XInputGetState(int dwUserIndex, out State state);
 
         [DllImport("xinput1_3.dll", CallingConvention = CallingConvention.StdCall)]
