@@ -13,6 +13,13 @@ namespace Vortice.XInput
         private static readonly IXInput s_xInput;
         public static readonly XInputVersion Version;
 
+        /// <summary>
+        /// When true, allows the use of the unofficial XInputGetState entry point
+        /// which enables reporting the Guide button status. As this is an unofficial
+        /// API, the default is false. 
+        /// </summary>
+        public static bool AllowUnofficialAPI { get; set; } = false;
+
         private static unsafe bool IsWindows7
         {
             get
@@ -32,12 +39,12 @@ namespace Vortice.XInput
         {
             if (IsUAP())
             {
-                s_xInput = new XInput14();
+                s_xInput = new XInput14(() => AllowUnofficialAPI);
                 Version = XInputVersion.Version14;
             }
             if (LoadLibrary("xinput1_4.dll") != IntPtr.Zero)
             {
-                s_xInput = new XInput14();
+                s_xInput = new XInput14(() => AllowUnofficialAPI);
                 Version = XInputVersion.Version14;
             }
             else if (LoadLibrary("xinput1_3.dll") != IntPtr.Zero)

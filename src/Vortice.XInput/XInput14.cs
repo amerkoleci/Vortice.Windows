@@ -8,9 +8,16 @@ namespace Vortice.XInput
 {
     internal unsafe class XInput14 : IXInput
     {
+        private Func<bool> allowUnofficialAPI;
+
+        internal XInput14(Func<bool> allowUnofficialAPI)
+        {
+            this.allowUnofficialAPI = allowUnofficialAPI;
+        }
+
         int IXInput.XInputGetState(int userIndex, out State state)
         {
-            return XInputGetState(userIndex, out state);
+            return allowUnofficialAPI() ? XInputGetStateUnofficial(userIndex, out state) : XInputGetState(userIndex, out state);
         }
 
         int IXInput.XInputSetState(int userIndex, Vibration vibration)
@@ -42,6 +49,9 @@ namespace Vortice.XInput
         {
             return XInputGetAudioDeviceIds(dwUserIndex, renderDeviceId, renderCount, captureDeviceId, captureCount);
         }
+
+        [DllImport("xinput1_4.dll", EntryPoint = "#100", CallingConvention = CallingConvention.StdCall)]
+        private static extern int XInputGetStateUnofficial(int dwUserIndex, out State state);
 
         [DllImport("xinput1_4.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern int XInputGetState(int dwUserIndex, out State state);
