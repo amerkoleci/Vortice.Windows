@@ -780,11 +780,15 @@
 
     <!--<map param="ID3D11DeviceContext::IASetVertexBuffers::pStrides" type="void" keep-pointers="true"/>-->
 
-    <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="public"/>
+    <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="private"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pDepthStencilView" type="void"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
-    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void" keep-pointers="true" />
+
+    <map method="ID3D11DeviceContext::CSSetUnorderedAccessViews" visibility="private"/>
+    <map param="ID3D11DeviceContext::CSSetUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
+    <map param="ID3D11DeviceContext::CSSetUnorderedAccessViews::pUAVInitialCounts" type="void" keep-pointers="true" />
 
     <map method="ID3D11DeviceContext::SOSetTargets" visibility="public" />
     <map param="ID3D11DeviceContext::SOSetTargets::ppSOTargets" type="void" attribute="in"/>
