@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 namespace Vortice.XInput
 {
-    internal unsafe class XInput14 : IXInput
+    internal class XInput14 : IXInput
     {
         private Func<bool> allowUnofficialAPI;
 
@@ -22,7 +22,7 @@ namespace Vortice.XInput
 
         int IXInput.XInputSetState(int userIndex, Vibration vibration)
         {
-            return XInputSetState(userIndex, &vibration);
+            return XInputSetState(userIndex, ref vibration);
         }
 
         void IXInput.XInputEnable(int enable)
@@ -57,7 +57,7 @@ namespace Vortice.XInput
         private static extern int XInputGetState(int dwUserIndex, out State state);
 
         [DllImport("xinput1_4.dll", CallingConvention = CallingConvention.StdCall)]
-        private static extern int XInputSetState(int dwUserIndex, Vibration* pVibration);
+        private static extern int XInputSetState(int dwUserIndex, ref Vibration pVibration);
 
         [DllImport("xinput1_4.dll", CallingConvention = CallingConvention.StdCall)]
         private static extern void XInputEnable(int enable);
