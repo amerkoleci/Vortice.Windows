@@ -1,12 +1,16 @@
-name: ci
+name: Build
 
 on:
   push:
+    branches:
+      - 'main'
     paths-ignore:
-    - 'CHANGELOG.md'
-    - 'README.md'
-    - 'LICENSE'
+      - '*.md'
+      - 'LICENSE'
   pull_request:
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
 
 jobs:
   CheckSkipCI:
@@ -26,6 +30,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Setup .NET 6.0
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.100
 
     - name: Setup .NET 5.0
       uses: actions/setup-dotnet@v1
