@@ -393,6 +393,26 @@ namespace Vortice.Direct3D12
         #endregion
 
         #region CreateDescriptorHeap
+        public ID3D12DescriptorHeap CreateDescriptorHeap(in DescriptorHeapDescription description) 
+        {
+            CreateDescriptorHeap(description, typeof(ID3D12DescriptorHeap).GUID, out IntPtr nativePtr).CheckError();
+
+            return new ID3D12DescriptorHeap(nativePtr);
+        }
+
+        public Result CreateDescriptorHeap(in DescriptorHeapDescription description, out ID3D12DescriptorHeap? descriptorHeap)
+        {
+            Result result = CreateDescriptorHeap(description, typeof(ID3D12DescriptorHeap).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                descriptorHeap = default;
+                return result;
+            }
+
+            descriptorHeap = new ID3D12DescriptorHeap(nativePtr);
+            return result;
+        }
+
         public T CreateDescriptorHeap<T>(in DescriptorHeapDescription description) where T : ID3D12DescriptorHeap
         {
             CreateDescriptorHeap(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
@@ -462,6 +482,26 @@ namespace Vortice.Direct3D12
         #endregion
 
         #region CreateFence
+        public ID3D12Fence CreateFence(ulong initialValue = 0, FenceFlags flags = FenceFlags.None) 
+        {
+            CreateFence(initialValue, flags, typeof(ID3D12Fence).GUID, out IntPtr nativePtr).CheckError();
+
+            return new ID3D12Fence(nativePtr);
+        }
+
+        public Result CreateFence(ulong initialValue, FenceFlags flags, out ID3D12Fence? fence) 
+        {
+            Result result = CreateFence(initialValue, flags, typeof(ID3D12Fence).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                fence = default;
+                return result;
+            }
+
+            fence = new ID3D12Fence(nativePtr);
+            return result;
+        }
+
         public T CreateFence<T>(ulong initialValue = 0, FenceFlags flags = FenceFlags.None) where T : ID3D12Fence
         {
             CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
@@ -632,6 +672,7 @@ namespace Vortice.Direct3D12
             return CreateRootSignature<T>(0, new VersionedRootSignatureDescription(description));
         }
 
+
         public T CreateRootSignature<T>(int nodeMask, in RootSignatureDescription1 description) where T : ID3D12RootSignature
         {
             return CreateRootSignature<T>(nodeMask, new VersionedRootSignatureDescription(description));
@@ -661,6 +702,17 @@ namespace Vortice.Direct3D12
         public Result CreateRootSignature<T>(in VersionedRootSignatureDescription description, out T? rootSignature) where T : ID3D12RootSignature
         {
             return CreateRootSignature<T>(0, description, out rootSignature);
+        }
+
+        public ID3D12RootSignature CreateRootSignature(in RootSignatureDescription1 description)
+        {
+            return CreateRootSignature(0, new VersionedRootSignatureDescription(description));
+        }
+
+        public ID3D12RootSignature CreateRootSignature(int nodeMask, in VersionedRootSignatureDescription description)
+        {
+            CreateRootSignature(nodeMask, description, out ID3D12RootSignature? rootSignature).CheckError();
+            return rootSignature!;
         }
 
         public Result CreateRootSignature<T>(int nodeMask, in VersionedRootSignatureDescription description, out T? rootSignature) where T : ID3D12RootSignature

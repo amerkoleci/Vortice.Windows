@@ -102,7 +102,7 @@ namespace HelloDirect3D12
             var luid = _d3d12Device.AdapterLuid;
 
             // Create Command queue.
-            GraphicsQueue = _d3d12Device!.CreateCommandQueue<ID3D12CommandQueue>(CommandListType.Direct);
+            GraphicsQueue = _d3d12Device!.CreateCommandQueue(CommandListType.Direct);
             GraphicsQueue.Name = "Graphics Queue";
 
             SwapChainDescription1 swapChainDesc = new()
@@ -124,7 +124,7 @@ namespace HelloDirect3D12
                 _backbufferIndex = SwapChain.CurrentBackBufferIndex;
             }
 
-            _rtvHeap = _d3d12Device.CreateDescriptorHeap<ID3D12DescriptorHeap>(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
+            _rtvHeap = _d3d12Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
             _rtvDescriptorSize = _d3d12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.RenderTargetView);
 
             // Create frame resources.
@@ -149,7 +149,7 @@ namespace HelloDirect3D12
 
             RootSignatureDescription1 rootSignatureDesc = new(RootSignatureFlags.AllowInputAssemblerInputLayout);
 
-            _rootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(rootSignatureDesc);
+            _rootSignature = _d3d12Device.CreateRootSignature(rootSignatureDesc);
             InputElementDescription[] inputElementDescs = new[]
             {
                 new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
@@ -160,7 +160,7 @@ namespace HelloDirect3D12
 
             byte[] pixelShaderByteCode = CompileBytecode(DxcShaderStage.Pixel, "Triangle.hlsl", "PSMain");
 
-            PipelineStateStream pipelineStateStream = new PipelineStateStream
+            PipelineStateStream pipelineStateStream = new()
             {
                 RootSignature = _rootSignature,
                 VertexShader = new ShaderBytecode(vertexShaderByteCode),
@@ -204,7 +204,7 @@ namespace HelloDirect3D12
             }
 
             // Create synchronization objects.
-            _frameFence = _d3d12Device.CreateFence<ID3D12Fence>(0);
+            _frameFence = _d3d12Device.CreateFence(0);
             _frameFenceEvent = new AutoResetEvent(false);
         }
 

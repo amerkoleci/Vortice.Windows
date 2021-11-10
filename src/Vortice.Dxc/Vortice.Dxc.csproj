@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
@@ -14,24 +14,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="build\dxcompiler.dll">
-      <Link>dxcompiler.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PackagePath>build/$(TargetFramework)</PackagePath>
-      <Pack>true</Pack>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="build\dxil.dll">
-      <Link>dxil.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PackagePath>build/$(TargetFramework)</PackagePath>
-      <Pack>true</Pack>
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="build\Vortice.Dxc.targets">
-      <PackagePath>build/$(TargetFramework)/Vortice.Dxc.targets</PackagePath>
-      <Pack>true</Pack>
-    </Content>
+    <Content Include="build\net461\Vortice.Dxc.props" PackagePath="build\net461\Vortice.Dxc.props" />
+    <None Include="runtimes\win-x64\native\dxil.dll"
+              Link="runtimes\win-x64\native\dxil.dll"
+              Visible="False"
+              CopyToOutputDirectory="PreserveNewest"
+              PackFolder="runtimes\win-x64\native" />
+    <None Include="runtimes\win-x64\native\dxcompiler.dll"
+              Link="runtimes\win-x64\native\dxcompiler.dll"
+              Visible="False"
+              CopyToOutputDirectory="PreserveNewest"
+              PackFolder="runtimes\win-x64\native" />
   </ItemGroup>
 
 </Project>
