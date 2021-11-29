@@ -19,20 +19,11 @@ namespace Vortice.Direct3D12
 
         private readonly Union _union;
 
-        public ResourceTransitionBarrier Transition
-        {
-            get => _union.Transition;
-        }
+        public ResourceTransitionBarrier Transition => _union.Transition;
 
-        public ResourceAliasingBarrier Aliasing
-        {
-            get => _union.Aliasing;
-        }
+        public ResourceAliasingBarrier Aliasing => _union.Aliasing;
 
-        public ResourceUnorderedAccessViewBarrier UnorderedAccessView
-        {
-            get => _union.UnorderedAccessView;
-        }
+        public ResourceUnorderedAccessViewBarrier UnorderedAccessView => _union.UnorderedAccessView;
 
         /// <summary>
         /// Initializes a new transition instance of <see cref="ResourceBarrier"/> struct.

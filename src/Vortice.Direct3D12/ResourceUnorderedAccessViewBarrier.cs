@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System;
+
 namespace Vortice.Direct3D12
 {
     public partial struct ResourceUnorderedAccessViewBarrier
@@ -10,9 +12,9 @@ namespace Vortice.Direct3D12
         /// </summary>
         /// <param name="resource">The resource.</param>
         /// <exception cref="System.ArgumentNullException">resourceBefore</exception>
-        public ResourceUnorderedAccessViewBarrier(ID3D12Resource resource)
+        public ResourceUnorderedAccessViewBarrier(ID3D12Resource? resource)
         {
-            ResourcePointer = resource.NativePointer;
+            ResourcePointer = resource != null ?  resource.NativePointer : IntPtr.Zero;
         }
     }
 }
