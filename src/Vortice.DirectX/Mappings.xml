@@ -106,7 +106,8 @@
 
     <define struct="Vortice.Win32.NativeMessage" sizeof="28" />
     <define struct="Vortice.Win32.BitmapInfoHeader" sizeof="40"/>
-
+    <define struct="Vortice.Luid" sizeof="8" />
+    
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <const from-guid="WKPDID_D3DDebugObjectNameW" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectNameW">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
@@ -135,7 +136,7 @@
     <bind from="uint32_t" to="System.Int32" />
     <bind from="UINT32" to="System.Int32" />
     <bind from="UINT" to="System.Int32" />
-    <bind from="LUID" to="System.Int64"/>
+    <bind from="LUID" to="Vortice.Luid"/>
     <bind from="HWND" to="System.IntPtr"/>
     <bind from="HDC" to="System.IntPtr"/>
     <bind from="HINSTANCE" to="System.IntPtr"/>

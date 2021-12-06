@@ -37,7 +37,7 @@ namespace Vortice.DXCore
             return MarshallingHelpers.FromPointer<T>(adapterListPtr);
         }
 
-        public Result GetAdapterByLuid<T>(long adapterLUID, out T? adapter) where T : IDXCoreAdapter
+        public Result GetAdapterByLuid<T>(Luid adapterLUID, out T? adapter) where T : IDXCoreAdapter
         {
             Result result = GetAdapterByLuid(adapterLUID, typeof(T).GUID, out IntPtr adapterPtr);
             if (result.Failure)
@@ -50,7 +50,7 @@ namespace Vortice.DXCore
             return result;
         }
 
-        public T GetAdapterByLuid<T>(long adapterLUID) where T : IDXCoreAdapter
+        public T GetAdapterByLuid<T>(Luid adapterLUID) where T : IDXCoreAdapter
         {
             GetAdapterByLuid(adapterLUID, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(adapterPtr);

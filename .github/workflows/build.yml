@@ -5,27 +5,19 @@ on:
     branches:
       - 'main'
     paths-ignore:
+      - 'docs/**'
       - '*.md'
-      - 'LICENSE'
   pull_request:
     paths-ignore:
+      - 'docs/**'
       - '*.md'
-      - 'LICENSE'
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: false
 
 jobs:
-  CheckSkipCI:
-    runs-on: ubuntu-latest
-    if: |
-      !contains(github.event.head_commit.message, '[skip ci]') &&
-      !contains(github.event.pull_request.title, '[skip ci]') &&
-      !contains(github.event.head_commit.message, '[skip-ci]') &&
-      !contains(github.event.pull_request.title, '[skip-ci]')
-    steps:
-      - run: exit 0
-
   build:
     runs-on: windows-latest
-    needs: [CheckSkipCI]
 
     steps:
     - name: Checkout

@@ -31,7 +31,7 @@ namespace Vortice.DXGI
         /// <param name="adapterLuid">A unique value that identifies the adapter.</param>
         /// <param name="adapter">The adapter instance of <see cref="IDXGIAdapter"/>, make sure to dispose the instance.</param>
         /// <returns>The <see cref="Result"/>.</returns>
-        public Result EnumAdapterByLuid<T>(long adapterLuid, out T? adapter) where T : IDXGIAdapter
+        public Result EnumAdapterByLuid<T>(Luid adapterLuid, out T? adapter) where T : IDXGIAdapter
         {
             Result result = EnumAdapterByLuid(adapterLuid, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)

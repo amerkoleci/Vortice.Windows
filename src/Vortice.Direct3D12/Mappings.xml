@@ -515,7 +515,8 @@
 
     <map enum="D3D12_FORMAT_SUPPORT1" flags="true"/>
     <map enum="D3D12_FORMAT_SUPPORT2" flags="true"/>
-    <map enum="D3D12_RESOURCE_STATES" flags="true"/>
+    <map enum="D3D12_RESOURCE_STATES" flags="true" type="uint" />
+    
     <!-- D3D_SHADER_MODEL -->
     <map enum="D3D_SHADER_MODEL" name="ShaderModel"/>
     <map enum-item="D3D_SHADER_MODEL_5_1" name="Model5_1"/>

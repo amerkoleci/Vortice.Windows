@@ -74,7 +74,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{E9F88B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XInput", "XInput", "{D6C81421-5674-418A-BDF9-A0B0DCD86E7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloXInput", "src\samples\XInput\HelloXInput.csproj", "{22715E14-5C28-4F04-A56A-96DAC417287F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloXInput", "src\samples\XInput\HelloXInput.csproj", "{22715E14-5C28-4F04-A56A-96DAC417287F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
