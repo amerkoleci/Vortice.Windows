@@ -374,6 +374,7 @@
 
     <!-- DXGI -->
     <map enum="DXGI(.+)" name-tmp="$1" />
+    <map enum="DXGI_FORMAT_" type="uint" />
     <map enum-item="DXGI_FORMAT_.*" naming="underscore" />
     <map enum-item="DXGI_FORMAT_420_OPAQUE" name="Opaque420" />
     <map struct="DXGI(.+)" name-tmp="$1" />

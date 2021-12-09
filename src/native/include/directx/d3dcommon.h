@@ -9,7 +9,7 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 8.01.0625 */
+ /* File created by MIDL compiler version 8.01.0627 */
 /* @@MIDL_FILE_HEADING(  ) */
 
 
@@ -44,7 +44,7 @@
 #endif
 
 #ifndef DECLSPEC_XFGVIRT
-#if _CONTROL_FLOW_GUARD_XFG
+#if defined(_CONTROL_FLOW_GUARD_XFG)
 #define DECLSPEC_XFGVIRT(base, func) __declspec(xfg_virtual(base, func))
 #else
 #define DECLSPEC_XFGVIRT(base, func)
@@ -733,6 +733,11 @@ enum _D3D_SHADER_VARIABLE_TYPE
         D3D_SVT_MIN12INT	= 55,
         D3D_SVT_MIN16INT	= 56,
         D3D_SVT_MIN16UINT	= 57,
+        D3D_SVT_INT16	= 58,
+        D3D_SVT_UINT16	= 59,
+        D3D_SVT_FLOAT16	= 60,
+        D3D_SVT_INT64	= 61,
+        D3D_SVT_UINT64	= 62,
         D3D10_SVT_VOID	= D3D_SVT_VOID,
         D3D10_SVT_BOOL	= D3D_SVT_BOOL,
         D3D10_SVT_INT	= D3D_SVT_INT,
