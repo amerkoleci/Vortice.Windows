@@ -753,7 +753,8 @@
     <remove function="MFInitAMMediaTypeFromMFMediaType" />
     <remove function="MFCreateAMMediaTypeFromMFMediaType"/>
 
-    <map function="MFStartup" visibility="private" />
+    <map function="MFStartup" visibility="private" hresult="true" check="false" />
+    <map function="MFShutdown" hresult="true" check="false" />
     <map param="MFCreateAttributes::cInitialSize" default="0"/>
     <map param="MFCreateAttributes::ppMFAttributes" attribute="out" return="true"/>
 

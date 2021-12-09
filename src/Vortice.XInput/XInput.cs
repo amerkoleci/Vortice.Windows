@@ -41,7 +41,9 @@ namespace Vortice.XInput
             {
                 s_xInput = new XInput14(() => AllowUnofficialAPI);
                 Version = XInputVersion.Version14;
+                return;
             }
+
             if (LoadLibrary("xinput1_4.dll") != IntPtr.Zero)
             {
                 s_xInput = new XInput14(() => AllowUnofficialAPI);
