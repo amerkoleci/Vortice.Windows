@@ -72,7 +72,7 @@ namespace Vortice.Direct3D12
         }
 
         /// <inheritdoc/>
-		public override bool Equals(object obj) => obj is InputElementDescription value && Equals(ref value);
+		public override bool Equals(object? obj) => obj is InputElementDescription value && Equals(ref value);
 
         /// <summary>
         /// Determines whether the specified <see cref="InputElementDescription"/> is equal to this instance.

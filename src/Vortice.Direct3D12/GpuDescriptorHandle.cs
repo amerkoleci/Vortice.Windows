@@ -62,7 +62,7 @@ namespace Vortice.Direct3D12
         public override int GetHashCode() => Ptr.GetHashCode();
 
         /// <inheritdoc/>
-		public override bool Equals(object obj) => obj is GpuDescriptorHandle handle && Equals(ref handle);
+		public override bool Equals(object? obj) => obj is GpuDescriptorHandle handle && Equals(ref handle);
 
         /// <inheritdoc/>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

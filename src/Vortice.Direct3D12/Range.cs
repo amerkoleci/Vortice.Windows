@@ -26,7 +26,7 @@ namespace Vortice.Direct3D12
         }
 
         /// <inheritdoc/>
-		public override bool Equals(object obj) => obj is Range value && Equals(value);
+		public override bool Equals(object? obj) => obj is Range value && Equals(value);
 
         /// <summary>
         /// Determines whether the specified <see cref="Range"/> is equal to this instance.

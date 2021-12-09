@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
@@ -45,7 +46,7 @@ namespace Vortice.Direct3D12
 
         internal unsafe void __MarshalFree(ref __Native @ref)
         {
-            if (@ref.pArgumentDescs != null)
+            if (@ref.pArgumentDescs != IntPtr.Zero)
             {
                 Marshal.FreeHGlobal(@ref.pArgumentDescs);
             }
@@ -60,10 +61,10 @@ namespace Vortice.Direct3D12
                 @ref.pArgumentDescs = UnsafeUtilities.Alloc<IndirectArgumentDescription>(@ref.NumArgumentDescs);
                 fixed (void* indirectArgumentsPtr = &IndirectArguments![0])
                 {
-                    MemoryHelpers.CopyMemory(
-                        @ref.pArgumentDescs,
-                        (IntPtr)indirectArgumentsPtr,
-                        @ref.NumArgumentDescs * sizeof(IndirectArgumentDescription));
+                    Unsafe.CopyBlockUnaligned(
+                        (void*)@ref.pArgumentDescs,
+                        indirectArgumentsPtr,
+                        (uint)(@ref.NumArgumentDescs * sizeof(IndirectArgumentDescription)));
                 }
             }
             @ref.NodeMask = NodeMask;
