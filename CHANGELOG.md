@@ -5,6 +5,8 @@ Current Stable Release:    1.9.143 (September 2021)
 -----------------------------------------------
 Release:     2.0.XXX (December 2021)
 -----------------------------------------------
+- [ENH] DXC: Update to December 2021 with HLSL 2021 Preview.
+- [ENH] Direct3D12: Update to Agility SDK 1.700.10.
 - [ENH] DirectX: Add Luid support.
 - [ENH] Build: Add .NET 6.0 SDK support
 - [ENH] Build: Update to 10.0.22000.0 SDK
