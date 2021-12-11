@@ -271,6 +271,53 @@ namespace Vortice.Direct3D11
             }
         }
 
+        public static unsafe Result D3D11CreateDeviceAndSwapChain(
+            IDXGIAdapter? adapter,
+            DriverType driverType,
+            DeviceCreationFlags flags,
+            FeatureLevel[] featureLevels,
+            SwapChainDescription? swapChainDesc,
+            out IDXGISwapChain? swapChain,
+            out ID3D11Device? device,
+            out FeatureLevel? featureLevel,
+            out ID3D11DeviceContext? immediateContext)
+        {
+            IntPtr adapterPtr = adapter != null ? adapter.NativePointer : IntPtr.Zero;
+            
+            fixed (void* featureLevelPtr = &featureLevel)
+            fixed (FeatureLevel* featureLevelsPtr = featureLevels)
+            {
+                SwapChainDescription swapChainDescIn;
+
+                if (swapChainDesc != null)
+                    swapChainDescIn = swapChainDesc.Value;
+
+                IntPtr swapChainPtr = IntPtr.Zero;
+                IntPtr devicePtr = IntPtr.Zero;
+                IntPtr immediateContextPtr = IntPtr.Zero;
+
+                Result result = D3D11CreateDeviceAndSwapChain_(
+                    (void*)adapterPtr,
+                    (int)driverType,
+                    null,
+                    (int)flags,
+                    featureLevelsPtr,
+                    featureLevels != null ? featureLevels.Length : 0,
+                    SdkVersion,
+                    swapChainDesc == null ? (void*)0 : &swapChainDescIn,
+                    &swapChainPtr,
+                    &devicePtr,
+                    featureLevelPtr,
+                    &immediateContextPtr);
+
+                swapChain = swapChainPtr != IntPtr.Zero ? new IDXGISwapChain(swapChainPtr) : null;
+                device = devicePtr != IntPtr.Zero ? new ID3D11Device(devicePtr) : null;
+                immediateContext = immediateContextPtr != IntPtr.Zero ? new ID3D11DeviceContext(immediateContextPtr) : null;
+
+                return result;
+            }
+        }
+
         #region RawD3D11CreateDevice Methods
         private static Result RawD3D11CreateDeviceNoContext(
             IntPtr adapterPtr,
