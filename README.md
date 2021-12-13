@@ -33,7 +33,7 @@ Also, you need to install **Visual Studio 2019** with the following components:
 
 ## Projects using Vortice.Windows
 
-- [Wave Engine](https://waveengine.net/)
+- [Evergine](https://evergine.com/)
 - [Veldrid](https://github.com/mellinoe/veldrid)
 - [MiniEngine](https://github.com/roy-t/MiniEngine3) 
 - [SharpAudio](https://github.com/feliwir/SharpAudio)
