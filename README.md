@@ -27,7 +27,7 @@ Also, you need to install **Visual Studio 2019** with the following components:
 
 - [x] Visual C++ Toolset Component
 - [x] Windows 11 SDK (10.0.22000.0)
-- [x] .NET 5.0 SDK v5.0.402
+- [x] .NET 6.0 SDK v6.0.100
 
 ## Projects using Vortice.Windows
 
