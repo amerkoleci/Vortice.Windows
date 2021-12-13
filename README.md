@@ -8,8 +8,6 @@
 
 This library targets .NET Standard 2.0, .NET 5.0 and .NET 6.0 using modern .NET API, see [CHANGELOG](https://github.com/amerkoleci/Vortice.Windows/blob/main/CHANGELOG.md) for list of changes between commits.
 
-Packages are available at: https://github.com/amerkoleci?tab=packages or via the NuGet Feed URL: https://nuget.pkg.github.com/amerkoleci/index.json
-
 ## Sponsors
 Please consider [SPONSOR](https://github.com/sponsors/amerkoleci) me to further help development and to allow faster issue triaging and new features to be implemented.
 **_NOTE:_** **any feature request** would require a [sponsor](https://github.com/sponsors/amerkoleci) in order to allow faster implementation and allow this project to continue.
