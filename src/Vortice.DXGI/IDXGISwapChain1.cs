@@ -58,8 +58,8 @@ namespace Vortice.DXGI
             bool hasScrollRectangle = presentParameters.ScrollRectangle.HasValue;
             bool hasScrollOffset = presentParameters.ScrollOffset.HasValue;
 
-            RawRect scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle.Value : new RawRect();
-            Point scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset.Value : default;
+            RawRect scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle!.Value : new RawRect();
+            Point scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset!.Value : default;
 
             fixed (void* pDirtyRects = presentParameters.DirtyRectangles)
             {

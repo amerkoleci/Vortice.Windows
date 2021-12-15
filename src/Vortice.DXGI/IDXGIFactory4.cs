@@ -11,6 +11,8 @@ namespace Vortice.DXGI
         /// <summary>
         /// Gets the default warp adapter.
         /// </summary>
+        /// <typeparam name="T">An instance of <see cref="IDXGIAdapter"/></typeparam>
+        /// <param name="adapter">The adapter instance of <see cref="IDXGIAdapter"/>, make sure to dispose the instance.</param>
         /// <returns>The warp adapter.</returns>
         public Result EnumWarpAdapter<T>(out T? adapter) where T : IDXGIAdapter
         {
@@ -23,6 +25,17 @@ namespace Vortice.DXGI
 
             adapter = null;
             return result;
+        }
+
+        /// <summary>
+        /// Gets the default warp adapter.
+        /// </summary>
+        /// <typeparam name="T">An instance of <see cref="IDXGIAdapter"/> class.</typeparam>
+        /// <returns>The adapter instance of <see cref="IDXGIAdapter"/>, make sure to dispose the instance.</returns>
+        public T EnumWarpAdapter<T>() where T : IDXGIAdapter
+        {
+            EnumWarpAdapter(typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
         /// <summary>
@@ -42,6 +55,18 @@ namespace Vortice.DXGI
 
             adapter = null;
             return result;
+        }
+
+        /// <summary>
+        ///  Gets the adapter for the specified LUID.
+        /// </summary>
+        /// <typeparam name="T">An instance of <see cref="IDXGIAdapter"/> class.</typeparam>
+        /// <param name="adapterLuid">A unique value that identifies the adapter.</param>
+        /// <returns>The adapter instance of <see cref="IDXGIAdapter"/>, make sure to dispose the instance.</returns>
+        public T EnumAdapterByLuid<T>(Luid adapterLuid) where T : IDXGIAdapter
+        {
+            EnumAdapterByLuid(adapterLuid, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
     }
 }
