@@ -775,7 +775,7 @@
     <map param="ID3D11DeviceContext::OMSetBlendState::SampleMask" default="-1"/>
     <map param="ID3D11DeviceContext::OMSetDepthStencilState::StencilRef" default="0"/>
     
-    <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="public"/>
+    <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="private"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" attribute="in"/>
 
     <!--<map param="ID3D11DeviceContext::IASetVertexBuffers::pStrides" type="void" keep-pointers="true"/>-->

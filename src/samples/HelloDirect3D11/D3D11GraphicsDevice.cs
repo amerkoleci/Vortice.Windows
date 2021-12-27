@@ -34,7 +34,7 @@ namespace HelloDirect3D11
         public readonly ID3D11Device1 Device;
         public readonly FeatureLevel FeatureLevel;
         public readonly ID3D11DeviceContext1 DeviceContext;
-        public readonly IDXGISwapChain1 SwapChain;
+        public readonly IDXGISwapChain1? SwapChain;
         public readonly ID3D11Texture2D? BackBufferTexture;
         public readonly ID3D11Texture2D? OffscreenTexture;
         public readonly ID3D11RenderTargetView RenderTargetView;
@@ -71,9 +71,6 @@ namespace HelloDirect3D11
                     creationFlags |= DeviceCreationFlags.Debug;
                 }
 #endif
-
-                var adapterDescription = adapter.Description1;
-                System.Console.WriteLine($"Adapter: '{adapterDescription.Description}', DedicatedVideoMemory: {adapterDescription.DedicatedVideoMemory}, DedicatedSystemMemory: {adapterDescription.DedicatedSystemMemory}");
 
                 if (D3D11CreateDevice(
                     adapter,
@@ -144,7 +141,7 @@ namespace HelloDirect3D11
             DeviceContext.Flush();
             DeviceContext.Dispose();
             Device.Dispose();
-            SwapChain.Dispose();
+            SwapChain?.Dispose();
             Factory.Dispose();
 
             if (DXGIGetDebugInterface1(out IDXGIDebug1? dxgiDebug).Success)

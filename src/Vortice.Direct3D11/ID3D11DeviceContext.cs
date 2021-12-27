@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Amer Koleci and Contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -62,15 +61,10 @@ namespace Vortice.Direct3D11
 
         public unsafe void OMSetRenderTargets(int renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
         {
-            IntPtr* renderTargetViewsPtr = (IntPtr*)0;
-            if (renderTargetViewsCount > 0)
+            IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViewsCount];
+            for (int i = 0; i < renderTargetViewsCount; i++)
             {
-                var tempPtr = stackalloc IntPtr[renderTargetViewsCount];
-                renderTargetViewsPtr = tempPtr;
-                for (int i = 0; i < renderTargetViewsCount; i++)
-                {
-                    renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
-                }
+                renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
             }
 
             OMSetRenderTargets(renderTargetViewsCount, (IntPtr)renderTargetViewsPtr, depthStencilView);
@@ -81,7 +75,7 @@ namespace Vortice.Direct3D11
             IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
             for (int i = 0; i < renderTargetViews.Length; i++)
             {
-                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
+                renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
             }
 
             OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
@@ -92,7 +86,7 @@ namespace Vortice.Direct3D11
             IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
             for (int i = 0; i < renderTargetViews.Length; i++)
             {
-                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
+                renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
             }
 
             OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
