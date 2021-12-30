@@ -761,9 +761,11 @@
     <map method="ID3D12Resource::WriteToSubresource" hresult="true" check="false"/>
     <map method="ID3D12Resource::ReadFromSubresource" hresult="true" check="false"/>
 
-    <map param="ID3D12Resource::Map::pReadRange" default="null"/>
+    <map method="ID3D12Resource::Map" hresult="true" check="false"/>
     <map param="ID3D12Resource::Unmap::pWrittenRange" default="null"/>
-    <map param="ID3D12Resource::Map::ppData" attribute="out" return="true"/>
+    <!--<map param="ID3D12Resource::Map::ppData" attribute="out" return="true"/>-->
+    <map param="ID3D12Resource::Map::pReadRange" default="null"/>
+    <map param="ID3D12Resource::Map::ppData" default="null" type="void" keep-pointers="true" />
     <map param="ID3D12Resource::ReadFromSubresource::pDstData" attribute="in value"/>
     <map param="ID3D12Resource::ReadFromSubresource::pSrcBox" default="null"/>
 

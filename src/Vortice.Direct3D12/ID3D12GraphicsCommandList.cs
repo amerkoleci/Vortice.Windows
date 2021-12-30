@@ -536,5 +536,96 @@ namespace Vortice.Direct3D12
         {
             Reset(commandAllocator, null);
         }
+
+        internal static unsafe void MemcpySubresource(MemCpyDest* pDest,
+            void* pResourceData, SubresourceInfo* pSrc,
+            nuint RowSizeInBytes, uint NumRows, uint NumSlices)
+        {
+            for (var z = 0u; z < NumSlices; ++z)
+            {
+                var pDestSlice = (byte*)pDest->pData + pDest->SlicePitch * z;
+                var pSrcSlice = ((byte*)pResourceData + pSrc->Offset) + pSrc->DepthPitch * (nint)z;
+
+                for (var y = 0u; y < NumRows; ++y)
+                {
+                    Buffer.MemoryCopy(
+                        pSrcSlice + pSrc->RowPitch * (nint)y,
+                        pDestSlice + pDest->RowPitch * y,
+                        (ulong)RowSizeInBytes,
+                        (ulong)RowSizeInBytes
+                    );
+                }
+            }
+        }
+
+        public ulong UpdateSubresources(ID3D12Resource destinationResource, ID3D12Resource intermediate,
+            int firstSubresource, int numSubresources,
+            ulong RequiredSize,
+            PlacedSubresourceFootPrint[] pLayouts,
+            uint[] numRows,
+            ulong[] rowSizesInBytes,
+            void* resourceData,
+            SubresourceInfo* pSrcData)
+        {
+            var IntermediateDesc = intermediate.Description;
+            var DestinationDesc = destinationResource.Description;
+
+            if (IntermediateDesc.Dimension != ResourceDimension.Buffer ||
+                IntermediateDesc.Width < RequiredSize + pLayouts[0].Offset ||
+                RequiredSize > unchecked((nuint)(-1)) ||
+                (DestinationDesc.Dimension == ResourceDimension.Buffer && (firstSubresource != 0 || numSubresources != 1)))
+            {
+                return 0;
+            }
+
+            byte* pData;
+            var hr = intermediate.Map(0, (void**)&pData);
+
+            if (hr.Failure)
+            {
+                return 0;
+            }
+
+            for (int i = 0; i < numSubresources; ++i)
+            {
+                if (rowSizesInBytes[i] > unchecked((nuint)(-1)))
+                {
+                    return 0;
+                }
+
+                MemCpyDest DestData = new MemCpyDest
+                {
+                    pData = pData + pLayouts[i].Offset,
+                    RowPitch = (nuint)pLayouts[i].Footprint.RowPitch,
+                    SlicePitch = (nuint)(pLayouts[i].Footprint.RowPitch * numRows[i])
+                };
+
+                MemcpySubresource(&DestData, resourceData, &pSrcData[i], (nuint)rowSizesInBytes[i], numRows[i], (uint)pLayouts[i].Footprint.Depth);
+            }
+            intermediate.Unmap(0, null);
+
+            if (DestinationDesc.Dimension == ResourceDimension.Buffer)
+            {
+                CopyBufferRegion(destinationResource, 0, intermediate, pLayouts[0].Offset, (ulong)pLayouts[0].Footprint.Width);
+            }
+            else
+            {
+                for (int i = 0; i < numSubresources; ++i)
+                {
+                    TextureCopyLocation dst = new(destinationResource, i + firstSubresource);
+                    TextureCopyLocation src = new(intermediate, pLayouts[i]);
+                    CopyTextureRegion(dst, 0, 0, 0, src, (Box?)null);
+                }
+            }
+            return RequiredSize;
+        }
+    }
+
+    internal unsafe struct MemCpyDest
+    {
+        public void* pData;
+
+        public nuint RowPitch;
+        public nuint SlicePitch;
     }
 }

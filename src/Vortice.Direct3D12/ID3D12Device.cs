@@ -266,6 +266,71 @@ namespace Vortice.Direct3D12
         }
 
         #region CreateCommittedResource
+        public ID3D12Resource CreateCommittedResource(HeapProperties heapProperties,
+            HeapFlags heapFlags,
+            ResourceDescription description,
+            ResourceStates initialResourceState,
+            ClearValue? optimizedClearValue = null)
+        {
+            CreateCommittedResource(
+                ref heapProperties,
+                heapFlags,
+                ref description,
+                initialResourceState,
+                optimizedClearValue,
+                typeof(ID3D12Resource).GUID,
+                out IntPtr nativePtr).CheckError();
+
+            return new(nativePtr);
+        }
+
+        public Result CreateCommittedResource(HeapProperties heapProperties, HeapFlags heapFlags, ResourceDescription description, ResourceStates initialResourceState, out ID3D12Resource? resource)
+        {
+            Result result = CreateCommittedResource(
+                ref heapProperties,
+                heapFlags,
+                ref description,
+                initialResourceState,
+                null,
+                typeof(ID3D12Resource).GUID,
+                out IntPtr nativePtr);
+
+            if (result.Failure)
+            {
+                resource = default;
+                return result;
+            }
+
+            resource = new ID3D12Resource(nativePtr);
+            return result;
+        }
+
+        public Result CreateCommittedResource(HeapProperties heapProperties,
+            HeapFlags heapFlags,
+            ResourceDescription description,
+            ResourceStates initialResourceState,
+            ClearValue? optimizedClearValue,
+            out ID3D12Resource? resource) 
+        {
+            Result result = CreateCommittedResource(
+                ref heapProperties,
+                heapFlags,
+                ref description,
+                initialResourceState,
+                optimizedClearValue,
+                typeof(ID3D12Resource).GUID,
+                out IntPtr nativePtr);
+
+            if (result.Failure)
+            {
+                resource = default;
+                return result;
+            }
+
+            resource = new ID3D12Resource(nativePtr);
+            return result;
+        }
+
         public T CreateCommittedResource<T>(HeapProperties heapProperties,
             HeapFlags heapFlags,
             ResourceDescription description,
@@ -393,7 +458,7 @@ namespace Vortice.Direct3D12
         #endregion
 
         #region CreateDescriptorHeap
-        public ID3D12DescriptorHeap CreateDescriptorHeap(in DescriptorHeapDescription description) 
+        public ID3D12DescriptorHeap CreateDescriptorHeap(in DescriptorHeapDescription description)
         {
             CreateDescriptorHeap(description, typeof(ID3D12DescriptorHeap).GUID, out IntPtr nativePtr).CheckError();
 
@@ -482,14 +547,14 @@ namespace Vortice.Direct3D12
         #endregion
 
         #region CreateFence
-        public ID3D12Fence CreateFence(ulong initialValue = 0, FenceFlags flags = FenceFlags.None) 
+        public ID3D12Fence CreateFence(ulong initialValue = 0, FenceFlags flags = FenceFlags.None)
         {
             CreateFence(initialValue, flags, typeof(ID3D12Fence).GUID, out IntPtr nativePtr).CheckError();
 
             return new ID3D12Fence(nativePtr);
         }
 
-        public Result CreateFence(ulong initialValue, FenceFlags flags, out ID3D12Fence? fence) 
+        public Result CreateFence(ulong initialValue, FenceFlags flags, out ID3D12Fence? fence)
         {
             Result result = CreateFence(initialValue, flags, typeof(ID3D12Fence).GUID, out IntPtr nativePtr);
             if (result.Failure)

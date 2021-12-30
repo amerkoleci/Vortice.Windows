@@ -197,9 +197,9 @@ namespace HelloDirect3D12
 
             unsafe
             {
-                IntPtr bufferData = _vertexBuffer.Map(0);
+                Span<VertexPositionColor> bufferData = _vertexBuffer.Map<VertexPositionColor>(0, 3);
                 ReadOnlySpan<VertexPositionColor> src = new(triangleVertices);
-                MemoryHelpers.CopyMemory(bufferData, src);
+                src.CopyTo(bufferData);
                 _vertexBuffer.Unmap(0);
             }
 

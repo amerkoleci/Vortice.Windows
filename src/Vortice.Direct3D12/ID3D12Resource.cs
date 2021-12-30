@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using SharpGen.Runtime;
 using Vortice.Mathematics;
 
@@ -27,11 +26,27 @@ namespace Vortice.Direct3D12
             }
         }
 
+        public unsafe Result Map(int subresource, void* data) => Map(subresource, null, data);
+
+        public unsafe Span<T> Map<T>(int subresource, int length) where T : unmanaged
+        {
+            void* data;
+            Map(subresource, null, &data).CheckError();
+            return new Span<T>(data, length);
+        }
+
+        public unsafe T* Map<T>(int subresource) where T : unmanaged
+        {
+            T* data;
+            Map(subresource, null, &data).CheckError();
+            return data;
+        }
+
         public ulong GetRequiredIntermediateSize(int firstSubresource, int numSubresources)
         {
             ResourceDescription desc = GetDescription();
 
-            using(ID3D12Device? device = GetDevice<ID3D12Device>())
+            using (ID3D12Device? device = GetDevice<ID3D12Device>())
             {
                 device!.GetCopyableFootprints(desc, firstSubresource, numSubresources, 0, out ulong requiredSize);
                 return requiredSize;

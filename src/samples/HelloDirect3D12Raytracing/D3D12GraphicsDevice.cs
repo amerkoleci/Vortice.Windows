@@ -181,13 +181,13 @@ namespace HelloDirect3D12Raytracing
                 }
 
                 // Create synchronization objects.
-                _frameFence = _d3d12Device.CreateFence<ID3D12Fence>(0);
+                _frameFence = _d3d12Device.CreateFence(0);
                 _frameFenceEvent = new AutoResetEvent(false);
             }
 
             {
                 // Create Command queue.
-                GraphicsQueue = _d3d12Device.CreateCommandQueue<ID3D12CommandQueue>(CommandListType.Direct);
+                GraphicsQueue = _d3d12Device.CreateCommandQueue(CommandListType.Direct);
 
                 SwapChainDescription1 swapChainDesc = new()
                 {
@@ -337,17 +337,14 @@ namespace HelloDirect3D12Raytracing
 
                 int vertexBufferSize = 3 * vertexStride;
 
-                _vertexBuffer = _d3d12Device.CreateCommittedResource<ID3D12Resource>(new HeapProperties(HeapType.Upload),
-                                                                              HeapFlags.None,
+                _vertexBuffer = _d3d12Device.CreateCommittedResource(new HeapProperties(HeapType.Upload),
+                        HeapFlags.None,
                                                                               ResourceDescription.Buffer((ulong)vertexBufferSize),
                                                                               ResourceStates.GenericRead);
 
-                var vertexBufferData = new ReadOnlySpan<Vertex>(triangleVertices);
-
-                var vertexBufferDataPointer = _vertexBuffer.Map(0);
-
-                MemoryHelpers.CopyMemory(vertexBufferDataPointer, vertexBufferData);
-
+                Span<Vertex> bufferData = _vertexBuffer.Map<Vertex>(0, 3);
+                ReadOnlySpan<Vertex> src = new(triangleVertices);
+                src.CopyTo(bufferData);
                 _vertexBuffer.Unmap(0);
             }
 
@@ -426,11 +423,11 @@ namespace HelloDirect3D12Raytracing
                     ResourceDescription.Buffer((ulong)sizeof(RaytracingInstanceDescription)),
                     ResourceStates.GenericRead);
 
-                var instanceBufferDataPointer = _instanceBuffer.Map(0);
+                RaytracingInstanceDescription* instanceBufferDataPointer = _instanceBuffer.Map<RaytracingInstanceDescription>(0);
 
                 unsafe
                 {
-                    *(RaytracingInstanceDescription*)instanceBufferDataPointer = instanceDescription;
+                    *instanceBufferDataPointer = instanceDescription;
                 }
 
                 _instanceBuffer.Unmap(0);
@@ -530,23 +527,25 @@ namespace HelloDirect3D12Raytracing
                                                                                    ResourceDescription.Buffer((ulong)shaderBindingTableSize),
                                                                                    ResourceStates.GenericRead);
 
-                var shaderBindingTableBufferDataPointer = _shaderBindingTableBuffer.Map(0);
+                byte* shaderBindingTableBufferDataPointer;
+                _shaderBindingTableBuffer.Map(0, &shaderBindingTableBufferDataPointer).CheckError();
 
-                MemoryHelpers.CopyMemory(shaderBindingTableBufferDataPointer + _shaderBindingTableEntrySize * 0, _raytracingStateObjectProperties.GetShaderIdentifier("RayGen"), D3D12.ShaderIdentifierSizeInBytes);
+
+                Unsafe.CopyBlockUnaligned((void*)shaderBindingTableBufferDataPointer, (void*)_raytracingStateObjectProperties.GetShaderIdentifier("RayGen"), D3D12.ShaderIdentifierSizeInBytes);
 
                 unsafe
                 {
                     *(GpuDescriptorHandle*)(shaderBindingTableBufferDataPointer + _shaderBindingTableEntrySize * 0 + D3D12.ShaderIdentifierSizeInBytes) = _shaderViewHeap.GetGPUDescriptorHandleForHeapStart();
                 }
 
-                MemoryHelpers.CopyMemory(shaderBindingTableBufferDataPointer + _shaderBindingTableEntrySize * 1, _raytracingStateObjectProperties.GetShaderIdentifier("HitGroup"), D3D12.ShaderIdentifierSizeInBytes);
+                Unsafe.CopyBlockUnaligned(shaderBindingTableBufferDataPointer + _shaderBindingTableEntrySize * 1, (void*)_raytracingStateObjectProperties.GetShaderIdentifier("HitGroup"), D3D12.ShaderIdentifierSizeInBytes);
 
                 unsafe
                 {
                     *(ulong*)(shaderBindingTableBufferDataPointer + _shaderBindingTableEntrySize * 1 + D3D12.ShaderIdentifierSizeInBytes) = _vertexBuffer.GPUVirtualAddress;
                 }
 
-                MemoryHelpers.CopyMemory(shaderBindingTableBufferDataPointer + _shaderBindingTableEntrySize * 2, _raytracingStateObjectProperties.GetShaderIdentifier("Miss"), D3D12.ShaderIdentifierSizeInBytes);
+                Unsafe.CopyBlockUnaligned(shaderBindingTableBufferDataPointer + _shaderBindingTableEntrySize * 2, (void*)_raytracingStateObjectProperties.GetShaderIdentifier("Miss"), D3D12.ShaderIdentifierSizeInBytes);
 
                 _shaderBindingTableBuffer.Unmap(0);
             }
