@@ -29,18 +29,6 @@ namespace Vortice.Dxc
             return stringHandlesPtr;
         }
 
-        public static void Free(IntPtr* pointers, int count)
-        {
-            if (pointers == null) return;
-
-            for (int i = 0; i < count; i++)
-            {
-                Free(pointers[i]);
-            }
-
-            Free(pointers);
-        }
-
         public static void Free(IntPtr pointer) => Marshal.FreeHGlobal(pointer);
 
         public static void Free(void* pointer) => Free(new IntPtr(pointer));

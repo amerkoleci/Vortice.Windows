@@ -716,7 +716,6 @@
     <map method="IMFSourceResolver::CreateObjectFromByteStream" visibility="internal"/>
     <map param="IMFSourceResolver::CreateObjectFromByteStream::ppObject" attribute="out" type="void"/>
 
-
     <!-- IMFMediaEvent -->
     <map param="IMFMediaEvent::GetType::pmet" type="MEDIA_EVENT_TYPES"/>
 
@@ -738,6 +737,8 @@
     <map method="IMFDXGIDeviceManager::ResetDevice" visibility="internal" />
     <map method="IMFDXGIDeviceManager::LockDevice" visibility="internal"/>
     <map method="IMFDXGIDeviceManager::UnlockDevice" visibility="internal" />
+
+    <map interface="IMMNotificationClient" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
 
     <!-- Functions -->
     <remove function="IMF.*"/>
