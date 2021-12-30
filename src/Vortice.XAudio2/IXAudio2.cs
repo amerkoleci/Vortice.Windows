@@ -55,12 +55,48 @@ namespace Vortice.XAudio2
             base.DisposeCore(nativePointer, disposing);
         }
 
-        public IXAudio2MasteringVoice CreateMasteringVoice(
+        public unsafe IXAudio2MasteringVoice CreateMasteringVoice(
             int inputChannels = DefaultChannels,
             int inputSampleRate = DefaultSampleRate,
-            AudioStreamCategory category = AudioStreamCategory.GameEffects)
+            AudioStreamCategory category = AudioStreamCategory.GameEffects,
+            string deviceId = "",
+            EffectDescriptor[]? effectDescriptors = null)
         {
-            return CreateMasteringVoice(inputChannels, inputSampleRate, 0, null, null, category);
+            if (effectDescriptors != null)
+            {
+                var effectChain = new EffectChain();
+                var effectDescriptorNatives = new EffectDescriptor.__Native[effectDescriptors.Length];
+                for (int i = 0; i < effectDescriptorNatives.Length; i++)
+                {
+                    effectDescriptors[i].__MarshalTo(ref effectDescriptorNatives[i]);
+                }
+
+                effectChain.EffectCount = effectDescriptorNatives.Length;
+                fixed (void* pEffectDescriptors = &effectDescriptorNatives[0])
+                {
+                    effectChain.EffectDescriptorPointer = (IntPtr)pEffectDescriptors;
+
+                    if (string.IsNullOrEmpty(deviceId))
+                    {
+                        return CreateMasteringVoice(inputChannels, inputSampleRate, 0, null, effectChain, category);
+                    }
+                    else
+                    {
+                        return CreateMasteringVoice(inputChannels, inputSampleRate, 0, deviceId, effectChain, category);
+                    }
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(deviceId))
+                {
+                    return CreateMasteringVoice(inputChannels, inputSampleRate, 0, null, null, category);
+                }
+                else
+                {
+                    return CreateMasteringVoice(inputChannels, inputSampleRate, 0, deviceId, null, category);
+                }
+            }
         }
 
         public IXAudio2SourceVoice CreateSourceVoice(WaveFormat sourceFormat, bool enableCallbackEvents)
