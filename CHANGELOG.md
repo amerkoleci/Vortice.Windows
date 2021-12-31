@@ -1,9 +1,9 @@
 # Changelog
 
-Current Stable Release:    1.9.143 (September 2021)
+Current Stable Release:    2.1.0 (December 2021)
 
 -----------------------------------------------
-Release:     2.0.XXX (December 2021)
+Release:     2.1.0 (December 2021)
 -----------------------------------------------
 - [ENH] DXC: Update to December 2021 with HLSL 2021 Preview.
 - [ENH] Direct3D12: Update to Agility SDK 1.700.10.
