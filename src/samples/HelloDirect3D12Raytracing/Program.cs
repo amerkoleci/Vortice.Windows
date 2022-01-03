@@ -1,40 +1,38 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice;
-using System;
 using SharpGen.Runtime.Diagnostics;
 using SharpGen.Runtime;
 
-namespace HelloDirect3D12Raytracing
+namespace HelloDirect3D12Raytracing;
+
+public static class Program
 {
-    public static class Program
+    private class TestApplication : Application
     {
-        private class TestApplication : Application
+        protected override void InitializeBeforeRun()
         {
-            protected override void InitializeBeforeRun()
-            {
-                var validation = false;
+            var validation = false;
 #if DEBUG
-                validation = true;
+            validation = true;
 #endif
 
-                _graphicsDevice = new D3D12GraphicsDevice(validation, MainWindow!);
-            }
+            _graphicsDevice = new D3D12GraphicsDevice(validation, MainWindow!);
         }
+    }
 
-        public static void Main()
-        {
+    public static void Main()
+    {
 #if DEBUG
-            Configuration.EnableObjectTracking = true;
+        Configuration.EnableObjectTracking = true;
 #endif
 
-            using (var app = new TestApplication())
-                app.Run();
+        using (var app = new TestApplication())
+            app.Run();
 
 #if DEBUG
-            Console.WriteLine(ObjectTracker.ReportActiveObjects());
+        Console.WriteLine(ObjectTracker.ReportActiveObjects());
 #endif
-        }
     }
 }

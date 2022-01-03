@@ -1,5 +1,5 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D11;
 
@@ -21,7 +21,7 @@ public partial struct RasterizerDescription
     /// <summary>
     /// A built-in description with settings for culling primitives with counter-clockwise winding order.
     /// </summary>
-    public static readonly RasterizerDescription Cullback = new(CullMode.Back, FillMode.Solid);
+    public static readonly RasterizerDescription CullBack = new(CullMode.Back, FillMode.Solid);
 
     /// <summary>
     /// A built-in description with settings for not culling any primitives and wireframe fill mode.

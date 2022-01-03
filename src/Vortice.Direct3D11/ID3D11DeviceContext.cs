@@ -1,5 +1,5 @@
-﻿// Copyright (c) Amer Koleci and Contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Drawing;
 using System.Runtime.CompilerServices;
@@ -7,1806 +7,1805 @@ using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using Vortice.Mathematics;
 
-namespace Vortice.Direct3D11
+namespace Vortice.Direct3D11;
+
+public unsafe partial class ID3D11DeviceContext
 {
-    public unsafe partial class ID3D11DeviceContext
+    /// <summary>
+    /// D3D11_KEEP_RENDER_TARGETS_AND_DEPTH_STENCIL
+    /// </summary>
+    public const int KeepRenderTargetsAndDepthStencil = -1;
+
+    /// <summary>
+    /// D3D11_KEEP_UNORDERED_ACCESS_VIEWS
+    /// </summary>
+    public const int KeepUnorderedAccessViews = -1;
+
+    private static readonly int[] s_NegativeOnes = new int[8]
     {
-        /// <summary>
-        /// D3D11_KEEP_RENDER_TARGETS_AND_DEPTH_STENCIL
-        /// </summary>
-        public const int KeepRenderTargetsAndDepthStencil = -1;
-
-        /// <summary>
-        /// D3D11_KEEP_UNORDERED_ACCESS_VIEWS
-        /// </summary>
-        public const int KeepUnorderedAccessViews = -1;
-
-        private static readonly int[] s_NegativeOnes = new int[8]
-        {
             KeepUnorderedAccessViews, KeepUnorderedAccessViews, KeepUnorderedAccessViews,
             KeepUnorderedAccessViews, KeepUnorderedAccessViews, KeepUnorderedAccessViews,
             KeepUnorderedAccessViews, KeepUnorderedAccessViews
-        };
+    };
 
-        private bool? _supportsCommandLists;
+    private bool? _supportsCommandLists;
 
-        public void ClearRenderTargetView(ID3D11RenderTargetView renderTargetView, System.Drawing.Color color)
+    public void ClearRenderTargetView(ID3D11RenderTargetView renderTargetView, System.Drawing.Color color)
+    {
+        ClearRenderTargetView(renderTargetView, new Color4(color));
+    }
+
+    public void OMSetBlendState(ID3D11BlendState blendState, System.Drawing.Color blendFactor)
+    {
+        OMSetBlendState(blendState, new Color4(blendFactor));
+    }
+
+    public void OMSetBlendState(ID3D11BlendState blendState, System.Drawing.Color blendFactor, int sampleMask)
+    {
+        OMSetBlendState(blendState, new Color4(blendFactor), sampleMask);
+    }
+
+    /// <summary>
+    /// Unsets the render targets.
+    /// </summary>
+    public void UnsetRenderTargets()
+    {
+        OMSetRenderTargets(0, IntPtr.Zero, null);
+    }
+
+    public void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView? depthStencilView = default)
+    {
+        IntPtr renderTargetViewPtr = renderTargetView == null ? IntPtr.Zero : renderTargetView.NativePointer;
+        OMSetRenderTargets(1, new IntPtr(&renderTargetViewPtr), depthStencilView);
+    }
+
+    public unsafe void OMSetRenderTargets(int renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
+    {
+        IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViewsCount];
+        for (int i = 0; i < renderTargetViewsCount; i++)
         {
-            ClearRenderTargetView(renderTargetView, new Color4(color));
+            renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
         }
 
-        public void OMSetBlendState(ID3D11BlendState blendState, System.Drawing.Color blendFactor)
+        OMSetRenderTargets(renderTargetViewsCount, (IntPtr)renderTargetViewsPtr, depthStencilView);
+    }
+
+    public unsafe void OMSetRenderTargets(ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
+    {
+        IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+        for (int i = 0; i < renderTargetViews.Length; i++)
         {
-            OMSetBlendState(blendState, new Color4(blendFactor));
+            renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
         }
 
-        public void OMSetBlendState(ID3D11BlendState blendState, System.Drawing.Color blendFactor, int sampleMask)
+        OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
+    }
+
+    public unsafe void OMSetRenderTargets(ReadOnlySpan<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
+    {
+        IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+        for (int i = 0; i < renderTargetViews.Length; i++)
         {
-            OMSetBlendState(blendState, new Color4(blendFactor), sampleMask);
+            renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
         }
 
-        /// <summary>
-        /// Unsets the render targets.
-        /// </summary>
-        public void UnsetRenderTargets()
+        OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
+    }
+
+    public unsafe void OMSetUnorderedAccessView(int startSlot, ID3D11UnorderedAccessView unorderedAccessView, int uavInitialCount = -1)
+    {
+        IntPtr unorderedAccessViewPtr = unorderedAccessView != null ? unorderedAccessView.NativePointer : IntPtr.Zero;
+
+        OMSetRenderTargetsAndUnorderedAccessViews(
+            KeepRenderTargetsAndDepthStencil, IntPtr.Zero, IntPtr.Zero,
+            startSlot, 1, new IntPtr(&unorderedAccessViewPtr), &uavInitialCount
+            );
+    }
+
+    public unsafe void OMUnsetUnorderedAccessView(int startSlot, int uavInitialCount = -1)
+    {
+        OMSetRenderTargetsAndUnorderedAccessViews(
+            KeepRenderTargetsAndDepthStencil, IntPtr.Zero, IntPtr.Zero,
+            startSlot, 1, IntPtr.Zero, &uavInitialCount
+            );
+    }
+
+    public unsafe void OMSetUnorderedAccessViews(int uavStartSlot, int unorderedAccessViewCount, ID3D11UnorderedAccessView[] unorderedAccessViews)
+    {
+        IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViewCount];
+        for (int i = 0; i < unorderedAccessViewCount; i++)
         {
-            OMSetRenderTargets(0, IntPtr.Zero, null);
+            unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
         }
 
-        public void OMSetRenderTargets(ID3D11RenderTargetView renderTargetView, ID3D11DepthStencilView? depthStencilView = default)
+        fixed (int* negativeOnesPtr = &s_NegativeOnes[0])
         {
-            IntPtr renderTargetViewPtr = renderTargetView == null ? IntPtr.Zero : renderTargetView.NativePointer;
-            OMSetRenderTargets(1, new IntPtr(&renderTargetViewPtr), depthStencilView);
-        }
-
-        public unsafe void OMSetRenderTargets(int renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
-        {
-            IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViewsCount];
-            for (int i = 0; i < renderTargetViewsCount; i++)
-            {
-                renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
-            }
-
-            OMSetRenderTargets(renderTargetViewsCount, (IntPtr)renderTargetViewsPtr, depthStencilView);
-        }
-
-        public unsafe void OMSetRenderTargets(ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
-        {
-            IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
-            for (int i = 0; i < renderTargetViews.Length; i++)
-            {
-                renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
-            }
-
-            OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
-        }
-
-        public unsafe void OMSetRenderTargets(ReadOnlySpan<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
-        {
-            IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
-            for (int i = 0; i < renderTargetViews.Length; i++)
-            {
-                renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
-            }
-
-            OMSetRenderTargets(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr, depthStencilView);
-        }
-
-        public unsafe void OMSetUnorderedAccessView(int startSlot, ID3D11UnorderedAccessView unorderedAccessView, int uavInitialCount = -1)
-        {
-            IntPtr unorderedAccessViewPtr = unorderedAccessView != null ? unorderedAccessView.NativePointer : IntPtr.Zero;
-
             OMSetRenderTargetsAndUnorderedAccessViews(
                 KeepRenderTargetsAndDepthStencil, IntPtr.Zero, IntPtr.Zero,
-                startSlot, 1, new IntPtr(&unorderedAccessViewPtr), &uavInitialCount
-                );
+                uavStartSlot, unorderedAccessViewCount, (IntPtr)unorderedAccessViewsPtr,
+                negativeOnesPtr);
+        }
+    }
+
+    public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+        ID3D11RenderTargetView renderTargetView,
+        ID3D11DepthStencilView depthStencilView,
+        int startSlot,
+        ID3D11UnorderedAccessView[] unorderedAccessViews)
+    {
+        // Marshal array.
+        IntPtr renderTargetViewsPtr = renderTargetView.NativePointer;
+
+        IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+        int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
+        for (int i = 0; i < unorderedAccessViews.Length; i++)
+        {
+            unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
+            uavInitialCounts[i] = -1;
         }
 
-        public unsafe void OMUnsetUnorderedAccessView(int startSlot, int uavInitialCount = -1)
+        OMSetRenderTargetsAndUnorderedAccessViews(1, renderTargetViewsPtr,
+            depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
+            startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
+            uavInitialCounts);
+    }
+
+    public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+        ID3D11RenderTargetView[] renderTargetViews,
+        ID3D11DepthStencilView depthStencilView,
+        int startSlot,
+        ID3D11UnorderedAccessView[] unorderedAccessViews)
+    {
+        nint* renderTargetViewsPtr = stackalloc nint[renderTargetViews.Length];
+        for (int i = 0; i < renderTargetViews.Length; i++)
         {
-            OMSetRenderTargetsAndUnorderedAccessViews(
-                KeepRenderTargetsAndDepthStencil, IntPtr.Zero, IntPtr.Zero,
-                startSlot, 1, IntPtr.Zero, &uavInitialCount
-                );
+            renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
         }
 
-        public unsafe void OMSetUnorderedAccessViews(int uavStartSlot, int unorderedAccessViewCount, ID3D11UnorderedAccessView[] unorderedAccessViews)
+        nint* unorderedAccessViewsPtr = stackalloc nint[unorderedAccessViews.Length];
+        int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
+        for (int i = 0; i < unorderedAccessViews.Length; i++)
         {
-            IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViewCount];
-            for (int i = 0; i < unorderedAccessViewCount; i++)
-            {
-                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
-            }
-
-            fixed (int* negativeOnesPtr = &s_NegativeOnes[0])
-            {
-                OMSetRenderTargetsAndUnorderedAccessViews(
-                    KeepRenderTargetsAndDepthStencil, IntPtr.Zero, IntPtr.Zero,
-                    uavStartSlot, unorderedAccessViewCount, (IntPtr)unorderedAccessViewsPtr,
-                    negativeOnesPtr);
-            }
+            unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
+            uavInitialCounts[i] = -1;
         }
 
-        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
-            ID3D11RenderTargetView renderTargetView,
-            ID3D11DepthStencilView depthStencilView,
-            int startSlot,
-            ID3D11UnorderedAccessView[] unorderedAccessViews)
+        OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr,
+            depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
+            startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
+            uavInitialCounts);
+    }
+
+    public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+        ID3D11RenderTargetView[] renderTargetViews,
+        ID3D11DepthStencilView depthStencilView,
+        int uavStartSlot,
+        ID3D11UnorderedAccessView[] unorderedAccessViews,
+        int[] uavInitialCounts)
+    {
+        OMSetRenderTargetsAndUnorderedAccessViews(
+            renderTargetViews.Length, renderTargetViews, depthStencilView,
+            uavStartSlot, unorderedAccessViews.Length, unorderedAccessViews, uavInitialCounts
+            );
+    }
+
+    public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+        int renderTargetViewsCount,
+        ID3D11RenderTargetView[] renderTargetViews,
+        ID3D11DepthStencilView depthStencilView,
+        int startSlot,
+        int unorderedAccessViewsCount,
+        ID3D11UnorderedAccessView[] unorderedAccessViews)
+    {
+        var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+        for (int i = 0; i < renderTargetViews.Length; i++)
         {
-            // Marshal array.
-            IntPtr renderTargetViewsPtr = renderTargetView.NativePointer;
+            renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
+        }
 
-            IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
-            int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
-            for (int i = 0; i < unorderedAccessViews.Length; i++)
-            {
-                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
-                uavInitialCounts[i] = -1;
-            }
+        var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+        for (int i = 0; i < unorderedAccessViews.Length; i++)
+        {
+            unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
+        }
 
-            OMSetRenderTargetsAndUnorderedAccessViews(1, renderTargetViewsPtr,
+        fixed (int* negativeOnesPtr = &s_NegativeOnes[0])
+        {
+            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
+                (IntPtr)renderTargetViewsPtr,
                 depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
-                startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
-                uavInitialCounts);
+                startSlot,
+                unorderedAccessViewsCount,
+                (IntPtr)unorderedAccessViewsPtr,
+                negativeOnesPtr);
+        }
+    }
+
+    public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
+        int renderTargetViewsCount,
+        ID3D11RenderTargetView[] renderTargetViews,
+        ID3D11DepthStencilView depthStencilView,
+        int startSlot,
+        int unorderedAccessViewsCount,
+        ID3D11UnorderedAccessView[] unorderedAccessViews,
+        int[] uavInitialCounts)
+    {
+        nint* renderTargetViewsPtr = stackalloc nint[renderTargetViews.Length];
+        for (int i = 0; i < renderTargetViews.Length; i++)
+        {
+            renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
         }
 
-        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
-            ID3D11RenderTargetView[] renderTargetViews,
-            ID3D11DepthStencilView depthStencilView,
-            int startSlot,
-            ID3D11UnorderedAccessView[] unorderedAccessViews)
+        var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
+        for (int i = 0; i < unorderedAccessViews.Length; i++)
         {
-            nint* renderTargetViewsPtr = stackalloc nint[renderTargetViews.Length];
-            for (int i = 0; i < renderTargetViews.Length; i++)
-            {
-                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
-            }
+            unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
+        }
 
-            nint* unorderedAccessViewsPtr = stackalloc nint[unorderedAccessViews.Length];
-            int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
-            for (int i = 0; i < unorderedAccessViews.Length; i++)
-            {
-                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
-                uavInitialCounts[i] = -1;
-            }
-
-            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViews.Length, (IntPtr)renderTargetViewsPtr,
+        fixed (int* pUAVInitialCounts = &uavInitialCounts[0])
+        {
+            OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
+                (IntPtr)renderTargetViewsPtr,
                 depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
-                startSlot, unorderedAccessViews.Length, (IntPtr)unorderedAccessViewsPtr,
-                uavInitialCounts);
+                startSlot,
+                unorderedAccessViewsCount,
+                (IntPtr)unorderedAccessViewsPtr,
+                pUAVInitialCounts);
         }
+    }
 
-        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
-            ID3D11RenderTargetView[] renderTargetViews,
-            ID3D11DepthStencilView depthStencilView,
-            int uavStartSlot,
-            ID3D11UnorderedAccessView[] unorderedAccessViews,
-            int[] uavInitialCounts)
+    public ID3D11CommandList FinishCommandList(bool restoreState)
+    {
+        FinishCommandList(restoreState, out ID3D11CommandList result).CheckError();
+        return result;
+    }
+
+    public bool IsDataAvailable(ID3D11Asynchronous data)
+    {
+        return GetData(data, IntPtr.Zero, 0, AsyncGetDataFlags.None) == Result.Ok;
+    }
+
+    public bool IsDataAvailable(ID3D11Asynchronous data, AsyncGetDataFlags flags)
+    {
+        return GetData(data, IntPtr.Zero, 0, flags) == Result.Ok;
+    }
+
+    /// <summary>
+    ///   Gets data from the GPU asynchronously.
+    /// </summary>
+    /// <param name = "data">The asynchronous data provider.</param>
+    /// <param name = "flags">Flags specifying how the command should operate.</param>
+    /// <returns>The data retrieved from the GPU.</returns>
+    public DataStream GetData(ID3D11Asynchronous data, AsyncGetDataFlags flags = AsyncGetDataFlags.None)
+    {
+        var result = new DataStream(data.DataSize, true, true);
+        GetData(data, result.BasePointer, (int)result.Length, flags);
+        return result;
+    }
+
+    public T GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags) where T : unmanaged
+    {
+        GetData(data, flags, out T result);
+        return result;
+    }
+
+    public unsafe bool GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags, out T result) where T : unmanaged
+    {
+        result = default;
+        fixed (void* resultPtr = &result)
         {
-            OMSetRenderTargetsAndUnorderedAccessViews(
-                renderTargetViews.Length, renderTargetViews, depthStencilView,
-                uavStartSlot, unorderedAccessViews.Length, unorderedAccessViews, uavInitialCounts
-                );
+            return GetData(data, (IntPtr)resultPtr, sizeof(T), flags) == Result.Ok;
         }
+    }
 
-        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
-            int renderTargetViewsCount,
-            ID3D11RenderTargetView[] renderTargetViews,
-            ID3D11DepthStencilView depthStencilView,
-            int startSlot,
-            int unorderedAccessViewsCount,
-            ID3D11UnorderedAccessView[] unorderedAccessViews)
+    public unsafe bool GetData<T>(ID3D11Asynchronous data, out T result) where T : unmanaged
+    {
+        result = default;
+        fixed (void* resultPtr = &result)
         {
-            var renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
-            for (int i = 0; i < renderTargetViews.Length; i++)
-            {
-                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
-            }
-
-            var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
-            for (int i = 0; i < unorderedAccessViews.Length; i++)
-            {
-                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
-            }
-
-            fixed (int* negativeOnesPtr = &s_NegativeOnes[0])
-            {
-                OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
-                    (IntPtr)renderTargetViewsPtr,
-                    depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
-                    startSlot,
-                    unorderedAccessViewsCount,
-                    (IntPtr)unorderedAccessViewsPtr,
-                    negativeOnesPtr);
-            }
+            return GetData(data, (IntPtr)resultPtr, sizeof(T), AsyncGetDataFlags.None) == Result.Ok;
         }
+    }
 
-        public unsafe void OMSetRenderTargetsAndUnorderedAccessViews(
-            int renderTargetViewsCount,
-            ID3D11RenderTargetView[] renderTargetViews,
-            ID3D11DepthStencilView depthStencilView,
-            int startSlot,
-            int unorderedAccessViewsCount,
-            ID3D11UnorderedAccessView[] unorderedAccessViews,
-            int[] uavInitialCounts)
+    public ID3D11BlendState OMGetBlendState()
+    {
+        OMGetBlendState(out ID3D11BlendState blendState, out _, out _);
+        return blendState;
+    }
+
+    public ID3D11BlendState OMGetBlendState(out Color4 blendFactor)
+    {
+        OMGetBlendState(out ID3D11BlendState blendState, out blendFactor, out _);
+        return blendState;
+    }
+
+    public ID3D11BlendState OMGetBlendState(out Color4 blendFactor, out int sampleMask)
+    {
+        OMGetBlendState(out ID3D11BlendState blendState, out blendFactor, out sampleMask);
+        return blendState;
+    }
+
+    #region Viewport
+    public void RSSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f)
+    {
+        var viewport = new Viewport(x, y, width, height, minDepth, maxDepth);
+        RSSetViewports(1, &viewport);
+    }
+
+    public void RSSetViewport(Viewport viewport)
+    {
+        RSSetViewports(1, &viewport);
+    }
+
+    public void RSSetViewports(Viewport[] viewports)
+    {
+        fixed (Viewport* pViewports = viewports)
         {
-            nint* renderTargetViewsPtr = stackalloc nint[renderTargetViews.Length];
-            for (int i = 0; i < renderTargetViews.Length; i++)
-            {
-                renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
-            }
-
-            var unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
-            for (int i = 0; i < unorderedAccessViews.Length; i++)
-            {
-                unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
-            }
-
-            fixed (int* pUAVInitialCounts = &uavInitialCounts[0])
-            {
-                OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
-                    (IntPtr)renderTargetViewsPtr,
-                    depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
-                    startSlot,
-                    unorderedAccessViewsCount,
-                    (IntPtr)unorderedAccessViewsPtr,
-                    pUAVInitialCounts);
-            }
+            RSSetViewports(viewports.Length, pViewports);
         }
+    }
 
-        public ID3D11CommandList FinishCommandList(bool restoreState)
+    public void RSSetViewports(int count, Viewport[] viewports)
+    {
+        fixed (Viewport* pViewports = viewports)
         {
-            FinishCommandList(restoreState, out ID3D11CommandList result).CheckError();
-            return result;
+            RSSetViewports(count, pViewports);
         }
+    }
 
-        public bool IsDataAvailable(ID3D11Asynchronous data)
+    public void RSSetViewports(Span<Viewport> viewports)
+    {
+        fixed (Viewport* pViewports = viewports)
         {
-            return GetData(data, IntPtr.Zero, 0, AsyncGetDataFlags.None) == Result.Ok;
+            RSSetViewports(viewports.Length, pViewports);
         }
+    }
 
-        public bool IsDataAvailable(ID3D11Asynchronous data, AsyncGetDataFlags flags)
-        {
-            return GetData(data, IntPtr.Zero, 0, flags) == Result.Ok;
-        }
-
-        /// <summary>
-        ///   Gets data from the GPU asynchronously.
-        /// </summary>
-        /// <param name = "data">The asynchronous data provider.</param>
-        /// <param name = "flags">Flags specifying how the command should operate.</param>
-        /// <returns>The data retrieved from the GPU.</returns>
-        public DataStream GetData(ID3D11Asynchronous data, AsyncGetDataFlags flags = AsyncGetDataFlags.None)
-        {
-            var result = new DataStream(data.DataSize, true, true);
-            GetData(data, result.BasePointer, (int)result.Length, flags);
-            return result;
-        }
-
-        public T GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags) where T : unmanaged
-        {
-            GetData(data, flags, out T result);
-            return result;
-        }
-
-        public unsafe bool GetData<T>(ID3D11Asynchronous data, AsyncGetDataFlags flags, out T result) where T : unmanaged
-        {
-            result = default;
-            fixed (void* resultPtr = &result)
-            {
-                return GetData(data, (IntPtr)resultPtr, sizeof(T), flags) == Result.Ok;
-            }
-        }
-
-        public unsafe bool GetData<T>(ID3D11Asynchronous data, out T result) where T : unmanaged
-        {
-            result = default;
-            fixed (void* resultPtr = &result)
-            {
-                return GetData(data, (IntPtr)resultPtr, sizeof(T), AsyncGetDataFlags.None) == Result.Ok;
-            }
-        }
-
-        public ID3D11BlendState OMGetBlendState()
-        {
-            OMGetBlendState(out ID3D11BlendState blendState, out _, out _);
-            return blendState;
-        }
-
-        public ID3D11BlendState OMGetBlendState(out Color4 blendFactor)
-        {
-            OMGetBlendState(out ID3D11BlendState blendState, out blendFactor, out _);
-            return blendState;
-        }
-
-        public ID3D11BlendState OMGetBlendState(out Color4 blendFactor, out int sampleMask)
-        {
-            OMGetBlendState(out ID3D11BlendState blendState, out blendFactor, out sampleMask);
-            return blendState;
-        }
-
-        #region Viewport
-        public void RSSetViewport(float x, float y, float width, float height, float minDepth = 0.0f, float maxDepth = 1.0f)
-        {
-            var viewport = new Viewport(x, y, width, height, minDepth, maxDepth);
-            RSSetViewports(1, &viewport);
-        }
-
-        public void RSSetViewport(Viewport viewport)
-        {
-            RSSetViewports(1, &viewport);
-        }
-
-        public void RSSetViewports(Viewport[] viewports)
-        {
-            fixed (Viewport* pViewports = viewports)
-            {
-                RSSetViewports(viewports.Length, pViewports);
-            }
-        }
-
-        public void RSSetViewports(int count, Viewport[] viewports)
-        {
-            fixed (Viewport* pViewports = viewports)
-            {
-                RSSetViewports(count, pViewports);
-            }
-        }
-
-        public void RSSetViewports(Span<Viewport> viewports)
-        {
-            fixed (Viewport* pViewports = viewports)
-            {
-                RSSetViewports(viewports.Length, pViewports);
-            }
-        }
-
-        public void RSSetViewport<T>(T viewport) where T : unmanaged
-        {
+    public void RSSetViewport<T>(T viewport) where T : unmanaged
+    {
 #if DEBUG
-            if (sizeof(T) != sizeof(Viewport))
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewport));
-            }
+        if (sizeof(T) != sizeof(Viewport))
+        {
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewport));
+        }
 #endif
 
-            RSSetViewports(1, &viewport);
-        }
+        RSSetViewports(1, &viewport);
+    }
 
-        public void RSSetViewports<T>(T[] viewports) where T : unmanaged
-        {
+    public void RSSetViewports<T>(T[] viewports) where T : unmanaged
+    {
 #if DEBUG
-            if (sizeof(T) != sizeof(Viewport))
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
-            }
+        if (sizeof(T) != sizeof(Viewport))
+        {
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+        }
 #endif
 
-            fixed (void* viewportsPtr = &viewports[0])
-            {
-                RSSetViewports(viewports.Length, viewportsPtr);
-            }
-        }
-
-        public void RSSetViewports<T>(Span<T> viewports) where T : unmanaged
+        fixed (T* viewportsPtr = &viewports[0])
         {
+            RSSetViewports(viewports.Length, viewportsPtr);
+        }
+    }
+
+    public void RSSetViewports<T>(Span<T> viewports) where T : unmanaged
+    {
 #if DEBUG
-            if (sizeof(T) != sizeof(Viewport))
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
-            }
+        if (sizeof(T) != sizeof(Viewport))
+        {
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+        }
 #endif
 
-            fixed (void* viewportsPtr = viewports)
-            {
-                RSSetViewports(viewports.Length, viewportsPtr);
-            }
-        }
-
-        /// <summary>
-        /// Get the number of bound viewports.
-        /// </summary>
-        /// <returns></returns>
-        public int RSGetViewports()
+        fixed (T* viewportsPtr = viewports)
         {
-            int numViewports = 0;
-            RSGetViewports(ref numViewports, IntPtr.Zero);
-            return numViewports;
+            RSSetViewports(viewports.Length, viewportsPtr);
         }
+    }
 
-        public unsafe Viewport RSGetViewport()
+    /// <summary>
+    /// Get the number of bound viewports.
+    /// </summary>
+    /// <returns></returns>
+    public unsafe int RSGetViewports()
+    {
+        int numViewports = 0;
+        RSGetViewports(ref numViewports, (void*)null);
+        return numViewports;
+    }
+
+    public unsafe Viewport RSGetViewport()
+    {
+        int numViewports = 1;
+        Viewport viewport = default;
+        RSGetViewports(ref numViewports, (void*)&viewport);
+        return viewport;
+    }
+
+    public unsafe void RSGetViewport(ref Viewport viewport)
+    {
+        int numViewports = 1;
+        fixed (Viewport* viewportPtr = &viewport)
         {
-            int numViewports = 1;
-            Viewport viewport = default;
-            RSGetViewports(ref numViewports, new IntPtr(&viewport));
-            return viewport;
+            RSGetViewports(ref numViewports, viewportPtr);
         }
+    }
 
-        public unsafe void RSGetViewport(ref Viewport viewport)
+    public unsafe void RSGetViewports(Viewport[] viewports)
+    {
+        int numViewports = viewports.Length;
+        fixed (Viewport* viewportsPtr = &viewports[0])
         {
-            int numViewports = 1;
-            fixed (void* viewportPtr = &viewport)
-            {
-                RSGetViewports(ref numViewports, (IntPtr)viewportPtr);
-            }
+            RSGetViewports(ref numViewports, (void*)viewportsPtr);
         }
+    }
 
-        public unsafe void RSGetViewports(Viewport[] viewports)
+    public unsafe void RSGetViewports(Span<Viewport> viewports)
+    {
+        fixed (Viewport* viewportsPtr = &MemoryMarshal.GetReference(viewports))
         {
             int numViewports = viewports.Length;
-            fixed (void* viewportsPtr = &viewports[0])
-            {
-                RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
-            }
+            RSGetViewports(ref numViewports, (void*)viewportsPtr);
         }
+    }
 
-        public unsafe void RSGetViewports(Span<Viewport> viewports)
-        {
-            fixed (Viewport* viewportsPtr = &MemoryMarshal.GetReference(viewports))
-            {
-                int numViewports = viewports.Length;
-                RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
-            }
-        }
-
-        public unsafe void RSGetViewports<T>(ref int count, T[] viewports) where T : unmanaged
-        {
+    public unsafe void RSGetViewports<T>(ref int count, T[] viewports) where T : unmanaged
+    {
 #if DEBUG
-            if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
-            }
+        if (sizeof(T) != sizeof(Viewport))
+        {
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+        }
 #endif
 
-            fixed (void* viewportsPtr = &viewports[0])
-            {
-                RSGetViewports(ref count, (IntPtr)viewportsPtr);
-            }
-        }
-
-        public unsafe void RSGetViewports<T>(Span<T> viewports) where T : unmanaged
+        fixed (T* viewportsPtr = &viewports[0])
         {
+            RSGetViewports(ref count, viewportsPtr);
+        }
+    }
+
+    public unsafe void RSGetViewports<T>(Span<T> viewports) where T : unmanaged
+    {
 #if DEBUG
-            if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
-            }
+        if (sizeof(T) != sizeof(Viewport))
+        {
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
+        }
 #endif
 
-            fixed (void* viewportsPtr = viewports)
-            {
-                int numViewports = viewports.Length;
-                RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
-            }
-        }
-
-        /// <summary>
-        /// Get the array of viewports bound  to the rasterizer stage.
-        /// </summary>
-        /// <typeparam name="T">An array of viewports,  must be size of <see cref="Viewport"/>.</typeparam>
-        /// <param name="viewports"></param>
-        public unsafe void RSGetViewports<T>(T[] viewports) where T : unmanaged
+        fixed (T* viewportsPtr = viewports)
         {
-#if DEBUG
-            if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
-            }
-#endif
-
             int numViewports = viewports.Length;
-            fixed (void* viewportsPtr = &viewports[0])
-            {
-                RSGetViewports(ref numViewports, (IntPtr)viewportsPtr);
-            }
+            RSGetViewports(ref numViewports, viewportsPtr);
         }
+    }
 
-        /// <summary>	
-        /// Get the array of viewports bound  to the rasterizer stage.	
-        /// </summary>	
-        /// <returns>An array of viewports, must be size of <see cref="Viewport"/></returns>
-        public T[] RSGetViewports<T>() where T : unmanaged
-        {
+    /// <summary>
+    /// Get the array of viewports bound  to the rasterizer stage.
+    /// </summary>
+    /// <typeparam name="T">An array of viewports,  must be size of <see cref="Viewport"/>.</typeparam>
+    /// <param name="viewports"></param>
+    public unsafe void RSGetViewports<T>(T[] viewports) where T : unmanaged
+    {
 #if DEBUG
-            if (Unsafe.SizeOf<T>() != Unsafe.SizeOf<Viewport>())
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}");
-            }
-#endif
-            int numViewports = 0;
-            RSGetViewports(ref numViewports, IntPtr.Zero);
-            T[] viewports = new T[numViewports];
-            RSGetViewports(viewports);
-            return viewports;
-        }
-
-        public unsafe void RSGetViewports(ref int count, Viewport[] viewports)
+        if (sizeof(T) != sizeof(Viewport))
         {
-            fixed (void* viewportsPtr = &viewports[0])
-            {
-                RSGetViewports(ref count, (IntPtr)viewportsPtr);
-            }
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
         }
-
-        public unsafe void RSGetViewports(ref int count, Span<Viewport> viewports)
-        {
-            fixed (Viewport* viewportsPtr = &MemoryMarshal.GetReference(viewports))
-            {
-                RSGetViewports(ref count, (IntPtr)viewportsPtr);
-            }
-        }
-
-        public unsafe void RSGetViewports(ref int count, Viewport* viewports)
-        {
-            RSGetViewports(ref count, (IntPtr)viewports);
-        }
-        #endregion
-
-        #region ScissorRect
-        /// <summary>
-        /// Get the number of bound scissor rectangles.
-        /// </summary>
-        /// <returns></returns>
-        public int RSGetScissorRects()
-        {
-            int numRects = 0;
-            RSGetScissorRects(ref numRects, IntPtr.Zero);
-            return numRects;
-        }
-
-        public void RSSetScissorRect(int x, int y, int width, int height)
-        {
-            RawRect rawRect = new RawRect(x, y, x + width, y + height);
-            RSSetScissorRects(1, &rawRect);
-        }
-
-        public void RSSetScissorRect(int width, int height)
-        {
-            RawRect rect = new(0, 0, width, height);
-            RSSetScissorRects(1, &rect);
-        }
-
-        public void RSSetScissorRect(in Rectangle rectangle)
-        {
-            RawRect rawRect = rectangle;
-            RSSetScissorRects(1, &rawRect);
-        }
-
-        public void RSSetScissorRect(RawRect rectangle)
-        {
-            RSSetScissorRects(1, &rectangle);
-        }
-
-        public void RSSetScissorRects(RawRect[] rectangles)
-        {
-            fixed (RawRect* pRects = rectangles)
-            {
-                RSSetScissorRects(rectangles.Length, pRects);
-            }
-        }
-
-        public void RSSetScissorRects(int count, RawRect[] rectangles)
-        {
-            fixed (RawRect* pRects = rectangles)
-            {
-                RSSetScissorRects(count, pRects);
-            }
-        }
-
-        public void RSSetScissorRects(Span<RawRect> rectangles)
-        {
-            fixed (RawRect* pRects = rectangles)
-            {
-                RSSetScissorRects(rectangles.Length, pRects);
-            }
-        }
-
-        public void RSSetScissorRects(int count, Span<RawRect> rectangles)
-        {
-            fixed (RawRect* pRects = rectangles)
-            {
-                RSSetScissorRects(count, pRects);
-            }
-        }
-
-        public void RSSetScissorRect<T>(T rect) where T : unmanaged
-        {
-#if DEBUG
-            if (sizeof(T) != Unsafe.SizeOf<RawRect>())
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rect));
-            }
 #endif
 
-            RSSetScissorRects(1, &rect);
-        }
-
-        public void RSSetScissorRects<T>(T[] rects) where T : unmanaged
+        int numViewports = viewports.Length;
+        fixed (T* viewportsPtr = &viewports[0])
         {
+            RSGetViewports(ref numViewports, viewportsPtr);
+        }
+    }
+
+    /// <summary>	
+    /// Get the array of viewports bound  to the rasterizer stage.	
+    /// </summary>	
+    /// <returns>An array of viewports, must be size of <see cref="Viewport"/></returns>
+    public T[] RSGetViewports<T>() where T : unmanaged
+    {
 #if DEBUG
-            if (sizeof(T) != Unsafe.SizeOf<RawRect>())
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rects));
-            }
+        if (sizeof(T) != sizeof(Viewport))
+        {
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}");
+        }
+#endif
+        int numViewports = 0;
+        RSGetViewports(ref numViewports, (void*)null);
+        T[] viewports = new T[numViewports];
+        RSGetViewports(viewports);
+        return viewports;
+    }
+
+    public unsafe void RSGetViewports(ref int count, Viewport[] viewports)
+    {
+        fixed (Viewport* viewportsPtr = &viewports[0])
+        {
+            RSGetViewports(ref count, (void*)viewportsPtr);
+        }
+    }
+
+    public unsafe void RSGetViewports(ref int count, Span<Viewport> viewports)
+    {
+        fixed (Viewport* viewportsPtr = &MemoryMarshal.GetReference(viewports))
+        {
+            RSGetViewports(ref count, (void*)viewportsPtr);
+        }
+    }
+
+    public unsafe void RSGetViewports(ref int count, Viewport* viewports)
+    {
+        RSGetViewports(ref count, (void*)viewports);
+    }
+    #endregion
+
+    #region ScissorRect
+    /// <summary>
+    /// Get the number of bound scissor rectangles.
+    /// </summary>
+    /// <returns></returns>
+    public int RSGetScissorRects()
+    {
+        int numRects = 0;
+        RSGetScissorRects(ref numRects, IntPtr.Zero);
+        return numRects;
+    }
+
+    public void RSSetScissorRect(int x, int y, int width, int height)
+    {
+        RawRect rawRect = new RawRect(x, y, x + width, y + height);
+        RSSetScissorRects(1, &rawRect);
+    }
+
+    public void RSSetScissorRect(int width, int height)
+    {
+        RawRect rect = new(0, 0, width, height);
+        RSSetScissorRects(1, &rect);
+    }
+
+    public void RSSetScissorRect(in Rectangle rectangle)
+    {
+        RawRect rawRect = rectangle;
+        RSSetScissorRects(1, &rawRect);
+    }
+
+    public void RSSetScissorRect(RawRect rectangle)
+    {
+        RSSetScissorRects(1, &rectangle);
+    }
+
+    public void RSSetScissorRects(RawRect[] rectangles)
+    {
+        fixed (RawRect* pRects = rectangles)
+        {
+            RSSetScissorRects(rectangles.Length, pRects);
+        }
+    }
+
+    public void RSSetScissorRects(int count, RawRect[] rectangles)
+    {
+        fixed (RawRect* pRects = rectangles)
+        {
+            RSSetScissorRects(count, pRects);
+        }
+    }
+
+    public void RSSetScissorRects(Span<RawRect> rectangles)
+    {
+        fixed (RawRect* pRects = rectangles)
+        {
+            RSSetScissorRects(rectangles.Length, pRects);
+        }
+    }
+
+    public void RSSetScissorRects(int count, Span<RawRect> rectangles)
+    {
+        fixed (RawRect* pRects = rectangles)
+        {
+            RSSetScissorRects(count, pRects);
+        }
+    }
+
+    public void RSSetScissorRect<T>(T rect) where T : unmanaged
+    {
+#if DEBUG
+        if (sizeof(T) != Unsafe.SizeOf<RawRect>())
+        {
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rect));
+        }
 #endif
 
-            fixed (void* rectPtr = &rects[0])
-            {
-                RSSetScissorRects(rects.Length, rectPtr);
-            }
-        }
+        RSSetScissorRects(1, &rect);
+    }
 
-        public unsafe void RSSetScissorRects<T>(int numRects, T[] rects) where T : unmanaged
-        {
+    public void RSSetScissorRects<T>(T[] rects) where T : unmanaged
+    {
 #if DEBUG
-            if (sizeof(T) != Unsafe.SizeOf<RawRect>())
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rects));
-            }
+        if (sizeof(T) != Unsafe.SizeOf<RawRect>())
+        {
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rects));
+        }
 #endif
 
-            fixed (void* rectPtr = &rects[0])
-            {
-                RSSetScissorRects(numRects, rectPtr);
-            }
-        }
-
-        public unsafe void RSSetScissorRects<T>(Span<T> rects) where T : unmanaged
+        fixed (void* rectPtr = &rects[0])
         {
+            RSSetScissorRects(rects.Length, rectPtr);
+        }
+    }
+
+    public unsafe void RSSetScissorRects<T>(int numRects, T[] rects) where T : unmanaged
+    {
 #if DEBUG
-            if (sizeof(T) != Unsafe.SizeOf<RawRect>())
-            {
-                throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rects));
-            }
+        if (sizeof(T) != Unsafe.SizeOf<RawRect>())
+        {
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rects));
+        }
 #endif
-            fixed (void* rectsPtr = rects)
-            {
-                RSSetScissorRects(rects.Length, rectsPtr);
-            }
-        }
 
-        public unsafe RawRect RSGetScissorRect()
+        fixed (void* rectPtr = &rects[0])
         {
-            int numRects = 1;
-            var rect = new RawRect();
-            RSGetScissorRects(ref numRects, new IntPtr(&rect));
-            return rect;
+            RSSetScissorRects(numRects, rectPtr);
         }
+    }
 
-        public unsafe void RSGetScissorRect(ref RawRect rect)
+    public unsafe void RSSetScissorRects<T>(Span<T> rects) where T : unmanaged
+    {
+#if DEBUG
+        if (sizeof(T) != Unsafe.SizeOf<RawRect>())
         {
-            int numRects = 1;
-            fixed (void* rectPtr = &rect)
-            {
-                RSGetScissorRects(ref numRects, (IntPtr)rectPtr);
-            }
+            throw new ArgumentException($"Type T must have same size and layout as {nameof(RawRect)}", nameof(rects));
         }
+#endif
+        fixed (void* rectsPtr = rects)
+        {
+            RSSetScissorRects(rects.Length, rectsPtr);
+        }
+    }
 
-        public unsafe void RSGetScissorRects(RawRect[] rects)
+    public unsafe RawRect RSGetScissorRect()
+    {
+        int numRects = 1;
+        var rect = new RawRect();
+        RSGetScissorRects(ref numRects, new IntPtr(&rect));
+        return rect;
+    }
+
+    public unsafe void RSGetScissorRect(ref RawRect rect)
+    {
+        int numRects = 1;
+        fixed (void* rectPtr = &rect)
+        {
+            RSGetScissorRects(ref numRects, (IntPtr)rectPtr);
+        }
+    }
+
+    public unsafe void RSGetScissorRects(RawRect[] rects)
+    {
+        int numRects = rects.Length;
+        fixed (void* rectsPtr = &rects[0])
+        {
+            RSGetScissorRects(ref numRects, (IntPtr)rectsPtr);
+        }
+    }
+
+    public unsafe void RSGetScissorRects(Span<RawRect> rects)
+    {
+        fixed (RawRect* rectsPtr = &MemoryMarshal.GetReference(rects))
         {
             int numRects = rects.Length;
-            fixed (void* rectsPtr = &rects[0])
+            RSGetScissorRects(ref numRects, (IntPtr)rectsPtr);
+        }
+    }
+
+    public unsafe void RSGetScissorRects(ref int count, RawRect[] rects)
+    {
+        fixed (void* rectsPtr = &rects[0])
+        {
+            RSGetScissorRects(ref count, (IntPtr)rectsPtr);
+        }
+    }
+
+    public unsafe void RSGetScissorRects(ref int count, RawRect* rects)
+    {
+        RSGetScissorRects(ref count, (IntPtr)rects);
+    }
+    #endregion
+
+    /// <summary>
+    /// Set the target output buffers for the stream-output stage of the pipeline.
+    /// </summary>
+    /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
+    /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
+    public void SOSetTargets(ID3D11Buffer[] targets, int[]? offsets = null)
+    {
+        SOSetTargets(targets.Length, targets, offsets);
+    }
+
+    /// <summary>
+    /// Set the target output buffers for the stream-output stage of the pipeline.
+    /// </summary>
+    /// <param name="buffersCount">The number of buffer to bind to the device. A maximum of four output buffers can be set. If less than four are defined by the call, the remaining buffer slots are set to null.</param>
+    /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
+    /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
+    public unsafe void SOSetTargets(int buffersCount, ID3D11Buffer[] targets, int[]? offsets = null)
+    {
+        IntPtr* targetsPtr = stackalloc IntPtr[buffersCount];
+        for (int i = 0; i < buffersCount; i++)
+        {
+            targetsPtr[i] = targets[i] != null ? targets[i].NativePointer : IntPtr.Zero;
+        }
+
+        if (offsets != null && offsets.Length > 0)
+        {
+            fixed (int* offsetsPtr = &offsets[0])
             {
-                RSGetScissorRects(ref numRects, (IntPtr)rectsPtr);
+                SOSetTargets(buffersCount, (IntPtr)targetsPtr,
+                    offsets?.Length > 0 ? (IntPtr)offsetsPtr : IntPtr.Zero
+                    );
             }
         }
-
-        public unsafe void RSGetScissorRects(Span<RawRect> rects)
-        {
-            fixed (RawRect* rectsPtr = &MemoryMarshal.GetReference(rects))
-            {
-                int numRects = rects.Length;
-                RSGetScissorRects(ref numRects, (IntPtr)rectsPtr);
-            }
-        }
-
-        public unsafe void RSGetScissorRects(ref int count, RawRect[] rects)
-        {
-            fixed (void* rectsPtr = &rects[0])
-            {
-                RSGetScissorRects(ref count, (IntPtr)rectsPtr);
-            }
-        }
-
-        public unsafe void RSGetScissorRects(ref int count, RawRect* rects)
-        {
-            RSGetScissorRects(ref count, (IntPtr)rects);
-        }
-        #endregion
-
-        /// <summary>
-        /// Set the target output buffers for the stream-output stage of the pipeline.
-        /// </summary>
-        /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
-        /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
-        public void SOSetTargets(ID3D11Buffer[] targets, int[]? offsets = null)
-        {
-            SOSetTargets(targets.Length, targets, offsets);
-        }
-
-        /// <summary>
-        /// Set the target output buffers for the stream-output stage of the pipeline.
-        /// </summary>
-        /// <param name="buffersCount">The number of buffer to bind to the device. A maximum of four output buffers can be set. If less than four are defined by the call, the remaining buffer slots are set to null.</param>
-        /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
-        /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
-        public unsafe void SOSetTargets(int buffersCount, ID3D11Buffer[] targets, int[]? offsets = null)
-        {
-            IntPtr* targetsPtr = stackalloc IntPtr[buffersCount];
-            for (int i = 0; i < buffersCount; i++)
-            {
-                targetsPtr[i] = targets[i] != null ? targets[i].NativePointer : IntPtr.Zero;
-            }
-
-            if (offsets != null && offsets.Length > 0)
-            {
-                fixed (int* offsetsPtr = &offsets[0])
-                {
-                    SOSetTargets(buffersCount, (IntPtr)targetsPtr,
-                        offsets?.Length > 0 ? (IntPtr)offsetsPtr : IntPtr.Zero
-                        );
-                }
-            }
-            else
-            {
-                SOSetTargets(buffersCount, (IntPtr)targetsPtr, IntPtr.Zero);
-            }
-        }
-
-
-        /// <summary>
-        /// Unsets the render targets.
-        /// </summary>
-        public void UnsetSOTargets()
-        {
-            SOSetTargets(0, IntPtr.Zero, IntPtr.Zero);
-        }
-
-        public void IASetVertexBuffer(int slot, ID3D11Buffer buffer, int stride, int offset = 0)
-        {
-            unsafe
-            {
-                IntPtr pVertexBuffers = buffer == null ? IntPtr.Zero : buffer.NativePointer;
-                IASetVertexBuffers(slot, 1, new IntPtr(&pVertexBuffers), new IntPtr(&stride), new IntPtr(&offset));
-            }
-        }
-
-        public void IASetVertexBuffer(int slot, VertexBufferView vertexBufferView)
-        {
-            int stride = vertexBufferView.Stride;
-            int offset = vertexBufferView.Offset;
-            IntPtr pVertexBuffers = vertexBufferView.Buffer == null ? IntPtr.Zero : vertexBufferView.Buffer.NativePointer;
-            unsafe
-            {
-                IASetVertexBuffers(slot, 1, new IntPtr(&pVertexBuffers), new IntPtr(&stride), new IntPtr(&offset));
-            }
-        }
-
-        public void IASetVertexBuffers(int firstSlot, VertexBufferView[] vertexBufferViews)
-        {
-            IASetVertexBuffers(firstSlot, vertexBufferViews.Length, vertexBufferViews);
-        }
-
-        public unsafe void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, VertexBufferView[] vertexBufferViews)
-        {
-            IntPtr* vertexBuffers = stackalloc IntPtr[vertexBufferViewsCount];
-            int* strides = stackalloc int[vertexBufferViewsCount];
-            int* offsets = stackalloc int[vertexBufferViewsCount];
-            for (int i = 0; i < vertexBufferViewsCount; i++)
-            {
-                vertexBuffers[i] = (vertexBufferViews[i].Buffer == null) ? IntPtr.Zero : vertexBufferViews[i].Buffer.NativePointer;
-                strides[i] = vertexBufferViews[i].Stride;
-                offsets[i] = vertexBufferViews[i].Offset;
-            }
-            IASetVertexBuffers(firstSlot, vertexBufferViewsCount, new IntPtr(vertexBuffers), new IntPtr(strides), new IntPtr(offsets));
-        }
-
-        #region VertexShader
-        public void VSSetShader(ID3D11VertexShader vertexShader)
-        {
-            VSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11VertexShader>(vertexShader), IntPtr.Zero, 0);
-        }
-
-        public void VSSetShader(ID3D11VertexShader vertexShader, ID3D11ClassInstance[] classInstances)
-        {
-            VSSetShader(vertexShader, classInstances, classInstances.Length);
-        }
-
-        public void VSSetShader(ID3D11VertexShader vertexShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            VSSetShader(vertexShader, classInstances, classInstancesCount);
-        }
-
-        public void VSUnsetConstantBuffer(int slot)
-        {
-            VSSetConstantBuffers(slot, 1, IntPtr.Zero);
-        }
-
-        public void VSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
-        {
-            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
-            {
-                VSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void VSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            VSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void VSUnsetSampler(int slot, ID3D11SamplerState? sampler)
-        {
-            VSSetSamplers(slot, 1, IntPtr.Zero);
-        }
-
-        public void VSSetSampler(int slot, ID3D11SamplerState? sampler)
-        {
-            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
-            unsafe
-            {
-                VSSetSamplers(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void VSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            VSSetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void VSUnsetShaderResource(int slot)
-        {
-            VSSetShaderResources(slot, 1, IntPtr.Zero);
-        }
-
-        public void VSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
-        {
-            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
-            unsafe
-            {
-                VSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void VSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            VSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-
-        public ID3D11VertexShader VSGetShader()
-        {
-            int count = 0;
-            VSGetShader(out ID3D11VertexShader shader, null, ref count);
-            return shader;
-        }
-
-        public ID3D11VertexShader VSGetShader(ID3D11ClassInstance[] classInstances)
-        {
-            int count = classInstances.Length;
-            VSGetShader(out ID3D11VertexShader shader, classInstances, ref count);
-            return shader;
-        }
-
-        public ID3D11VertexShader VSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            VSGetShader(out ID3D11VertexShader shader, classInstances, ref classInstancesCount);
-            return shader;
-        }
-
-        public void VSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            VSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void VSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            VSGetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void VSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            VSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-        #endregion
-
-        #region PixelShader
-        public void PSSetShader(ID3D11PixelShader pixelShader)
-        {
-            PSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11PixelShader>(pixelShader), IntPtr.Zero, 0);
-        }
-
-        public void PSSetShader(ID3D11PixelShader pixelShader, ID3D11ClassInstance[] classInstances)
-        {
-            PSSetShader(pixelShader, classInstances, classInstances.Length);
-        }
-
-        public void PSSetShader(ID3D11PixelShader pixelShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            PSSetShader(pixelShader, classInstances, classInstancesCount);
-        }
-
-        public void PSUnsetConstantBuffer(int slot)
-        {
-            PSSetConstantBuffers(slot, 1, IntPtr.Zero);
-        }
-
-        public void PSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
-        {
-            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
-            {
-                PSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void PSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            PSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void PSUnsetSampler(int slot)
-        {
-            PSSetSamplers(slot, 1, IntPtr.Zero);
-        }
-
-        public void PSSetSampler(int slot, ID3D11SamplerState? sampler)
-        {
-            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
-            unsafe
-            {
-                PSSetSamplers(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void PSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            PSSetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void PSUnsetShaderResource(int slot)
-        {
-            PSSetShaderResources(slot, 1, IntPtr.Zero);
-        }
-
-        public void PSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
-        {
-            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
-            unsafe
-            {
-                PSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void PSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            PSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-
-        public ID3D11PixelShader PSGetShader()
-        {
-            int count = 0;
-            PSGetShader(out ID3D11PixelShader shader, null, ref count);
-            return shader;
-        }
-
-        public ID3D11PixelShader PSGetShader(ID3D11ClassInstance[] classInstances)
-        {
-            int count = classInstances.Length;
-            PSGetShader(out ID3D11PixelShader shader, classInstances, ref count);
-            return shader;
-        }
-
-        public ID3D11PixelShader PSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            PSGetShader(out ID3D11PixelShader shader, classInstances, ref classInstancesCount);
-            return shader;
-        }
-
-        public void PSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            PSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void PSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            PSGetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void PSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            PSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-        #endregion
-
-        #region DomainShader
-        public void DSSetShader(ID3D11DomainShader domainShader)
-        {
-            DSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11DomainShader>(domainShader), IntPtr.Zero, 0);
-        }
-
-        public void DSSetShader(ID3D11DomainShader domainShader, ID3D11ClassInstance[] classInstances)
-        {
-            DSSetShader(domainShader, classInstances, classInstances.Length);
-        }
-
-        public void DSSetShader(ID3D11DomainShader domainShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            DSSetShader(domainShader, classInstances, classInstancesCount);
-        }
-
-        public void DSUnsetConstantBuffer(int slot)
-        {
-            DSSetConstantBuffers(slot, 1, IntPtr.Zero);
-        }
-
-        public void DSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
-        {
-            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
-            {
-                DSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void DSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            DSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void DSUnsetSampler(int slot)
-        {
-            DSSetSamplers(slot, 1, IntPtr.Zero);
-        }
-
-        public void DSSetSampler(int slot, ID3D11SamplerState? sampler)
-        {
-            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
-            unsafe
-            {
-                DSSetSamplers(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void DSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            DSSetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void DSUnsetShaderResource(int slot)
-        {
-            DSSetShaderResources(slot, 1, IntPtr.Zero);
-        }
-
-        public void DSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
-        {
-            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
-            unsafe
-            {
-                DSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void DSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            DSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-
-        public ID3D11DomainShader DSGetShader()
-        {
-            int count = 0;
-            DSGetShader(out ID3D11DomainShader shader, null, ref count);
-            return shader;
-        }
-
-        public ID3D11DomainShader DSGetShader(ID3D11ClassInstance[] classInstances)
-        {
-            int count = classInstances.Length;
-            DSGetShader(out ID3D11DomainShader shader, classInstances, ref count);
-            return shader;
-        }
-
-        public ID3D11DomainShader DSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            DSGetShader(out ID3D11DomainShader shader, classInstances, ref classInstancesCount);
-            return shader;
-        }
-
-        public void DSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            DSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void DSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            DSGetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void DSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            DSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-        #endregion
-
-        #region HullShader
-        public void HSSetShader(ID3D11HullShader hullShader)
-        {
-            HSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11HullShader>(hullShader), IntPtr.Zero, 0);
-        }
-
-        public void HSSetShader(ID3D11HullShader hullShader, ID3D11ClassInstance[] classInstances)
-        {
-            HSSetShader(hullShader, classInstances, classInstances.Length);
-        }
-
-        public void HSSetShader(ID3D11HullShader hullShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            HSSetShader(hullShader, classInstances, classInstancesCount);
-        }
-
-        public void HSUnsetConstantBuffer(int slot)
-        {
-            HSSetConstantBuffers(slot, 1, IntPtr.Zero);
-        }
-
-        public void HSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
-        {
-            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
-            {
-                HSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void HSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            HSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void HSUnsetSampler(int slot)
-        {
-            HSSetSamplers(slot, 1, IntPtr.Zero);
-        }
-
-        public void HSSetSampler(int slot, ID3D11SamplerState? sampler)
-        {
-            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
-            unsafe
-            {
-                HSSetSamplers(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void HSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            HSSetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void HSUnsetShaderResource(int slot)
-        {
-            HSSetShaderResources(slot, 1, IntPtr.Zero);
-        }
-
-        public void HSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
-        {
-            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
-            unsafe
-            {
-                HSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void HSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            HSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-
-        public ID3D11HullShader HSGetShader()
-        {
-            int count = 0;
-            HSGetShader(out ID3D11HullShader shader, null, ref count);
-            return shader;
-        }
-
-        public ID3D11HullShader HSGetShader(ID3D11ClassInstance[] classInstances)
-        {
-            int count = classInstances.Length;
-            HSGetShader(out ID3D11HullShader shader, classInstances, ref count);
-            return shader;
-        }
-
-        public ID3D11HullShader HSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            HSGetShader(out ID3D11HullShader shader, classInstances, ref classInstancesCount);
-            return shader;
-        }
-
-        public void HSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            HSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void HSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            HSGetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void HSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            HSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-        #endregion
-
-        #region GeometryShader
-        public void GSSetShader(ID3D11GeometryShader geometryShader)
-        {
-            GSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11GeometryShader>(geometryShader), IntPtr.Zero, 0);
-        }
-
-        public void GSSetShader(ID3D11GeometryShader geometryShader, ID3D11ClassInstance[] classInstances)
-        {
-            GSSetShader(geometryShader, classInstances, classInstances.Length);
-        }
-
-        public void GSSetShader(ID3D11GeometryShader geometryShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            GSSetShader(geometryShader, classInstances, classInstancesCount);
-        }
-
-        public void GSUnsetConstantBuffer(int slot)
-        {
-            GSSetConstantBuffers(slot, 1, IntPtr.Zero);
-        }
-
-        public void GSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
-        {
-            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            unsafe
-            {
-                GSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void GSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            GSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void GSUnsetSampler(int slot)
-        {
-            GSSetSamplers(slot, 1, IntPtr.Zero);
-        }
-
-        public unsafe void GSSetSampler(int slot, ID3D11SamplerState? sampler)
-        {
-            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
-            GSSetSamplers(slot, 1, new IntPtr(&nativePtr));
-        }
-
-        public void GSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            GSSetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void GSUnsetShaderResource(int slot)
-        {
-            GSSetShaderResources(slot, 1, IntPtr.Zero);
-        }
-
-
-        public void GSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
-        {
-            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
-            unsafe
-            {
-                GSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
-            }
-        }
-
-        public void GSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            GSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-
-        public ID3D11GeometryShader GSGetShader()
-        {
-            int count = 0;
-            GSGetShader(out ID3D11GeometryShader shader, null, ref count);
-            return shader;
-        }
-
-        public ID3D11GeometryShader GSGetShader(ID3D11ClassInstance[] classInstances)
-        {
-            int count = classInstances.Length;
-            GSGetShader(out ID3D11GeometryShader shader, classInstances, ref count);
-            return shader;
-        }
-
-        public ID3D11GeometryShader GSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            GSGetShader(out ID3D11GeometryShader shader, classInstances, ref classInstancesCount);
-            return shader;
-        }
-
-        public void GSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            GSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void GSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            GSGetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void GSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            GSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-        #endregion
-
-        #region ComputeShader
-        public void CSSetShader(ID3D11ComputeShader computeShader)
-        {
-            CSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11ComputeShader>(computeShader), IntPtr.Zero, 0);
-        }
-
-        public void CSSetShader(ID3D11ComputeShader computeShader, ID3D11ClassInstance[] classInstances)
-        {
-            CSSetShader(computeShader, classInstances, classInstances.Length);
-        }
-
-        public void CSSetShader(ID3D11ComputeShader computeShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+        else
         {
-            CSSetShader(computeShader, classInstances, classInstancesCount);
+            SOSetTargets(buffersCount, (IntPtr)targetsPtr, IntPtr.Zero);
         }
+    }
 
-        public void CSUnsetConstantBuffer(int slot)
-        {
-            CSSetConstantBuffers(slot, 1, IntPtr.Zero);
-        }
-
-        public unsafe void CSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
-        {
-            IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-            CSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
-        }
-
-        public void CSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            CSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
-
-        public void CSUnsetSampler(int slot)
-        {
-            CSSetSamplers(slot, 1, IntPtr.Zero);
-        }
-
-        public unsafe void CSSetSampler(int slot, ID3D11SamplerState? sampler)
-        {
-            IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
-            CSSetSamplers(slot, 1, new IntPtr(&nativePtr));
-        }
-
-        public void CSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            CSSetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void CSUnsetShaderResource(int slot)
-        {
-            CSSetShaderResources(slot, 1, IntPtr.Zero);
-        }
-
-        public unsafe void CSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
-        {
-            IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
-            CSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
-        }
-
-        public void CSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            CSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
-
-        public ID3D11ComputeShader CSGetShader()
-        {
-            int count = 0;
-            CSGetShader(out ID3D11ComputeShader shader, null, ref count);
-            return shader;
-        }
-
-        public ID3D11ComputeShader CSGetShader(ID3D11ClassInstance[] classInstances)
-        {
-            int count = classInstances.Length;
-            CSGetShader(out ID3D11ComputeShader shader, classInstances, ref count);
-            return shader;
-        }
-
-        public ID3D11ComputeShader CSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
-        {
-            CSGetShader(out ID3D11ComputeShader shader, classInstances, ref classInstancesCount);
-            return shader;
-        }
-
-        public void CSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
-        {
-            CSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
-        }
 
-        public void CSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
-        {
-            CSGetSamplers(startSlot, samplers.Length, samplers);
-        }
-
-        public void CSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
-        {
-            CSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
-        }
+    /// <summary>
+    /// Unsets the render targets.
+    /// </summary>
+    public void UnsetSOTargets()
+    {
+        SOSetTargets(0, IntPtr.Zero, IntPtr.Zero);
+    }
 
-        public unsafe void CSSetUnorderedAccessView(int slot, ID3D11UnorderedAccessView unorderedAccessView)
+    public void IASetVertexBuffer(int slot, ID3D11Buffer buffer, int stride, int offset = 0)
+    {
+        unsafe
         {
-            IntPtr nativePtr = unorderedAccessView == null ? IntPtr.Zero : unorderedAccessView.NativePointer;
-            int uavInitialCount = -1;
-            CSSetUnorderedAccessViews(slot, 1, new IntPtr(&nativePtr), &uavInitialCount);
+            IntPtr pVertexBuffers = buffer == null ? IntPtr.Zero : buffer.NativePointer;
+            IASetVertexBuffers(slot, 1, new IntPtr(&pVertexBuffers), new IntPtr(&stride), new IntPtr(&offset));
         }
+    }
 
-        public unsafe void CSSetUnorderedAccessView(int slot, ID3D11UnorderedAccessView unorderedAccessView, int uavInitialCount)
+    public void IASetVertexBuffer(int slot, VertexBufferView vertexBufferView)
+    {
+        int stride = vertexBufferView.Stride;
+        int offset = vertexBufferView.Offset;
+        IntPtr pVertexBuffers = vertexBufferView.Buffer == null ? IntPtr.Zero : vertexBufferView.Buffer.NativePointer;
+        unsafe
         {
-            IntPtr nativePtr = unorderedAccessView == null ? IntPtr.Zero : unorderedAccessView.NativePointer;
-            CSSetUnorderedAccessViews(slot, 1, new IntPtr(&nativePtr), &uavInitialCount);
+            IASetVertexBuffers(slot, 1, new IntPtr(&pVertexBuffers), new IntPtr(&stride), new IntPtr(&offset));
         }
+    }
 
-        public unsafe void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews)
+    public void IASetVertexBuffers(int firstSlot, VertexBufferView[] vertexBufferViews)
+    {
+        IASetVertexBuffers(firstSlot, vertexBufferViews.Length, vertexBufferViews);
+    }
+
+    public unsafe void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, VertexBufferView[] vertexBufferViews)
+    {
+        IntPtr* vertexBuffers = stackalloc IntPtr[vertexBufferViewsCount];
+        int* strides = stackalloc int[vertexBufferViewsCount];
+        int* offsets = stackalloc int[vertexBufferViewsCount];
+        for (int i = 0; i < vertexBufferViewsCount; i++)
+        {
+            vertexBuffers[i] = (vertexBufferViews[i].Buffer == null) ? IntPtr.Zero : vertexBufferViews[i].Buffer.NativePointer;
+            strides[i] = vertexBufferViews[i].Stride;
+            offsets[i] = vertexBufferViews[i].Offset;
+        }
+        IASetVertexBuffers(firstSlot, vertexBufferViewsCount, new IntPtr(vertexBuffers), new IntPtr(strides), new IntPtr(offsets));
+    }
+
+    #region VertexShader
+    public void VSSetShader(ID3D11VertexShader vertexShader)
+    {
+        VSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11VertexShader>(vertexShader), IntPtr.Zero, 0);
+    }
+
+    public void VSSetShader(ID3D11VertexShader vertexShader, ID3D11ClassInstance[] classInstances)
+    {
+        VSSetShader(vertexShader, classInstances, classInstances.Length);
+    }
+
+    public void VSSetShader(ID3D11VertexShader vertexShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        VSSetShader(vertexShader, classInstances, classInstancesCount);
+    }
+
+    public void VSUnsetConstantBuffer(int slot)
+    {
+        VSSetConstantBuffers(slot, 1, IntPtr.Zero);
+    }
+
+    public void VSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    {
+        IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+        unsafe
+        {
+            VSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void VSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        VSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void VSUnsetSampler(int slot, ID3D11SamplerState? sampler)
+    {
+        VSSetSamplers(slot, 1, IntPtr.Zero);
+    }
+
+    public void VSSetSampler(int slot, ID3D11SamplerState? sampler)
+    {
+        IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+        unsafe
+        {
+            VSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void VSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        VSSetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void VSUnsetShaderResource(int slot)
+    {
+        VSSetShaderResources(slot, 1, IntPtr.Zero);
+    }
+
+    public void VSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
+    {
+        IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+        unsafe
+        {
+            VSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void VSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        VSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+
+    public ID3D11VertexShader VSGetShader()
+    {
+        int count = 0;
+        VSGetShader(out ID3D11VertexShader shader, null, ref count);
+        return shader;
+    }
+
+    public ID3D11VertexShader VSGetShader(ID3D11ClassInstance[] classInstances)
+    {
+        int count = classInstances.Length;
+        VSGetShader(out ID3D11VertexShader shader, classInstances, ref count);
+        return shader;
+    }
+
+    public ID3D11VertexShader VSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        VSGetShader(out ID3D11VertexShader shader, classInstances, ref classInstancesCount);
+        return shader;
+    }
+
+    public void VSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        VSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void VSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        VSGetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void VSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        VSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+    #endregion
+
+    #region PixelShader
+    public void PSSetShader(ID3D11PixelShader pixelShader)
+    {
+        PSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11PixelShader>(pixelShader), IntPtr.Zero, 0);
+    }
+
+    public void PSSetShader(ID3D11PixelShader pixelShader, ID3D11ClassInstance[] classInstances)
+    {
+        PSSetShader(pixelShader, classInstances, classInstances.Length);
+    }
+
+    public void PSSetShader(ID3D11PixelShader pixelShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        PSSetShader(pixelShader, classInstances, classInstancesCount);
+    }
+
+    public void PSUnsetConstantBuffer(int slot)
+    {
+        PSSetConstantBuffers(slot, 1, IntPtr.Zero);
+    }
+
+    public void PSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    {
+        IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+        unsafe
+        {
+            PSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void PSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        PSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void PSUnsetSampler(int slot)
+    {
+        PSSetSamplers(slot, 1, IntPtr.Zero);
+    }
+
+    public void PSSetSampler(int slot, ID3D11SamplerState? sampler)
+    {
+        IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+        unsafe
+        {
+            PSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void PSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        PSSetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void PSUnsetShaderResource(int slot)
+    {
+        PSSetShaderResources(slot, 1, IntPtr.Zero);
+    }
+
+    public void PSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
+    {
+        IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+        unsafe
+        {
+            PSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void PSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        PSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+
+    public ID3D11PixelShader PSGetShader()
+    {
+        int count = 0;
+        PSGetShader(out ID3D11PixelShader shader, null, ref count);
+        return shader;
+    }
+
+    public ID3D11PixelShader PSGetShader(ID3D11ClassInstance[] classInstances)
+    {
+        int count = classInstances.Length;
+        PSGetShader(out ID3D11PixelShader shader, classInstances, ref count);
+        return shader;
+    }
+
+    public ID3D11PixelShader PSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        PSGetShader(out ID3D11PixelShader shader, classInstances, ref classInstancesCount);
+        return shader;
+    }
+
+    public void PSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        PSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void PSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        PSGetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void PSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        PSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+    #endregion
+
+    #region DomainShader
+    public void DSSetShader(ID3D11DomainShader domainShader)
+    {
+        DSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11DomainShader>(domainShader), IntPtr.Zero, 0);
+    }
+
+    public void DSSetShader(ID3D11DomainShader domainShader, ID3D11ClassInstance[] classInstances)
+    {
+        DSSetShader(domainShader, classInstances, classInstances.Length);
+    }
+
+    public void DSSetShader(ID3D11DomainShader domainShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        DSSetShader(domainShader, classInstances, classInstancesCount);
+    }
+
+    public void DSUnsetConstantBuffer(int slot)
+    {
+        DSSetConstantBuffers(slot, 1, IntPtr.Zero);
+    }
+
+    public void DSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    {
+        IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+        unsafe
+        {
+            DSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void DSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        DSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void DSUnsetSampler(int slot)
+    {
+        DSSetSamplers(slot, 1, IntPtr.Zero);
+    }
+
+    public void DSSetSampler(int slot, ID3D11SamplerState? sampler)
+    {
+        IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+        unsafe
+        {
+            DSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void DSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        DSSetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void DSUnsetShaderResource(int slot)
+    {
+        DSSetShaderResources(slot, 1, IntPtr.Zero);
+    }
+
+    public void DSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
+    {
+        IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+        unsafe
+        {
+            DSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void DSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        DSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+
+    public ID3D11DomainShader DSGetShader()
+    {
+        int count = 0;
+        DSGetShader(out ID3D11DomainShader shader, null, ref count);
+        return shader;
+    }
+
+    public ID3D11DomainShader DSGetShader(ID3D11ClassInstance[] classInstances)
+    {
+        int count = classInstances.Length;
+        DSGetShader(out ID3D11DomainShader shader, classInstances, ref count);
+        return shader;
+    }
+
+    public ID3D11DomainShader DSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        DSGetShader(out ID3D11DomainShader shader, classInstances, ref classInstancesCount);
+        return shader;
+    }
+
+    public void DSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        DSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void DSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        DSGetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void DSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        DSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+    #endregion
+
+    #region HullShader
+    public void HSSetShader(ID3D11HullShader hullShader)
+    {
+        HSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11HullShader>(hullShader), IntPtr.Zero, 0);
+    }
+
+    public void HSSetShader(ID3D11HullShader hullShader, ID3D11ClassInstance[] classInstances)
+    {
+        HSSetShader(hullShader, classInstances, classInstances.Length);
+    }
+
+    public void HSSetShader(ID3D11HullShader hullShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        HSSetShader(hullShader, classInstances, classInstancesCount);
+    }
+
+    public void HSUnsetConstantBuffer(int slot)
+    {
+        HSSetConstantBuffers(slot, 1, IntPtr.Zero);
+    }
+
+    public void HSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    {
+        IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+        unsafe
+        {
+            HSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void HSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        HSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void HSUnsetSampler(int slot)
+    {
+        HSSetSamplers(slot, 1, IntPtr.Zero);
+    }
+
+    public void HSSetSampler(int slot, ID3D11SamplerState? sampler)
+    {
+        IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+        unsafe
+        {
+            HSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void HSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        HSSetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void HSUnsetShaderResource(int slot)
+    {
+        HSSetShaderResources(slot, 1, IntPtr.Zero);
+    }
+
+    public void HSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
+    {
+        IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+        unsafe
+        {
+            HSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void HSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        HSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+
+    public ID3D11HullShader HSGetShader()
+    {
+        int count = 0;
+        HSGetShader(out ID3D11HullShader shader, null, ref count);
+        return shader;
+    }
+
+    public ID3D11HullShader HSGetShader(ID3D11ClassInstance[] classInstances)
+    {
+        int count = classInstances.Length;
+        HSGetShader(out ID3D11HullShader shader, classInstances, ref count);
+        return shader;
+    }
+
+    public ID3D11HullShader HSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        HSGetShader(out ID3D11HullShader shader, classInstances, ref classInstancesCount);
+        return shader;
+    }
+
+    public void HSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        HSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void HSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        HSGetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void HSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        HSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+    #endregion
+
+    #region GeometryShader
+    public void GSSetShader(ID3D11GeometryShader geometryShader)
+    {
+        GSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11GeometryShader>(geometryShader), IntPtr.Zero, 0);
+    }
+
+    public void GSSetShader(ID3D11GeometryShader geometryShader, ID3D11ClassInstance[] classInstances)
+    {
+        GSSetShader(geometryShader, classInstances, classInstances.Length);
+    }
+
+    public void GSSetShader(ID3D11GeometryShader geometryShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        GSSetShader(geometryShader, classInstances, classInstancesCount);
+    }
+
+    public void GSUnsetConstantBuffer(int slot)
+    {
+        GSSetConstantBuffers(slot, 1, IntPtr.Zero);
+    }
+
+    public void GSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    {
+        IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+        unsafe
+        {
+            GSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void GSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        GSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void GSUnsetSampler(int slot)
+    {
+        GSSetSamplers(slot, 1, IntPtr.Zero);
+    }
+
+    public unsafe void GSSetSampler(int slot, ID3D11SamplerState? sampler)
+    {
+        IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+        GSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+    }
+
+    public void GSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        GSSetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void GSUnsetShaderResource(int slot)
+    {
+        GSSetShaderResources(slot, 1, IntPtr.Zero);
+    }
+
+
+    public void GSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
+    {
+        IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+        unsafe
+        {
+            GSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+        }
+    }
+
+    public void GSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        GSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+
+    public ID3D11GeometryShader GSGetShader()
+    {
+        int count = 0;
+        GSGetShader(out ID3D11GeometryShader shader, null, ref count);
+        return shader;
+    }
+
+    public ID3D11GeometryShader GSGetShader(ID3D11ClassInstance[] classInstances)
+    {
+        int count = classInstances.Length;
+        GSGetShader(out ID3D11GeometryShader shader, classInstances, ref count);
+        return shader;
+    }
+
+    public ID3D11GeometryShader GSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        GSGetShader(out ID3D11GeometryShader shader, classInstances, ref classInstancesCount);
+        return shader;
+    }
+
+    public void GSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        GSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void GSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        GSGetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void GSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        GSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+    #endregion
+
+    #region ComputeShader
+    public void CSSetShader(ID3D11ComputeShader computeShader)
+    {
+        CSSetShader(MarshallingHelpers.ToCallbackPtr<ID3D11ComputeShader>(computeShader), IntPtr.Zero, 0);
+    }
+
+    public void CSSetShader(ID3D11ComputeShader computeShader, ID3D11ClassInstance[] classInstances)
+    {
+        CSSetShader(computeShader, classInstances, classInstances.Length);
+    }
+
+    public void CSSetShader(ID3D11ComputeShader computeShader, int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        CSSetShader(computeShader, classInstances, classInstancesCount);
+    }
+
+    public void CSUnsetConstantBuffer(int slot)
+    {
+        CSSetConstantBuffers(slot, 1, IntPtr.Zero);
+    }
+
+    public unsafe void CSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    {
+        IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
+        CSSetConstantBuffers(slot, 1, new IntPtr(&nativePtr));
+    }
+
+    public void CSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        CSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void CSUnsetSampler(int slot)
+    {
+        CSSetSamplers(slot, 1, IntPtr.Zero);
+    }
+
+    public unsafe void CSSetSampler(int slot, ID3D11SamplerState? sampler)
+    {
+        IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
+        CSSetSamplers(slot, 1, new IntPtr(&nativePtr));
+    }
+
+    public void CSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        CSSetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void CSUnsetShaderResource(int slot)
+    {
+        CSSetShaderResources(slot, 1, IntPtr.Zero);
+    }
+
+    public unsafe void CSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
+    {
+        IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
+        CSSetShaderResources(slot, 1, new IntPtr(&nativePtr));
+    }
+
+    public void CSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        CSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+
+    public ID3D11ComputeShader CSGetShader()
+    {
+        int count = 0;
+        CSGetShader(out ID3D11ComputeShader shader, null, ref count);
+        return shader;
+    }
+
+    public ID3D11ComputeShader CSGetShader(ID3D11ClassInstance[] classInstances)
+    {
+        int count = classInstances.Length;
+        CSGetShader(out ID3D11ComputeShader shader, classInstances, ref count);
+        return shader;
+    }
+
+    public ID3D11ComputeShader CSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    {
+        CSGetShader(out ID3D11ComputeShader shader, classInstances, ref classInstancesCount);
+        return shader;
+    }
+
+    public void CSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    {
+        CSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+    }
+
+    public void CSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    {
+        CSGetSamplers(startSlot, samplers.Length, samplers);
+    }
+
+    public void CSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    {
+        CSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+    }
+
+    public unsafe void CSSetUnorderedAccessView(int slot, ID3D11UnorderedAccessView unorderedAccessView)
+    {
+        IntPtr nativePtr = unorderedAccessView == null ? IntPtr.Zero : unorderedAccessView.NativePointer;
+        int uavInitialCount = -1;
+        CSSetUnorderedAccessViews(slot, 1, new IntPtr(&nativePtr), &uavInitialCount);
+    }
+
+    public unsafe void CSSetUnorderedAccessView(int slot, ID3D11UnorderedAccessView unorderedAccessView, int uavInitialCount)
+    {
+        IntPtr nativePtr = unorderedAccessView == null ? IntPtr.Zero : unorderedAccessView.NativePointer;
+        CSSetUnorderedAccessViews(slot, 1, new IntPtr(&nativePtr), &uavInitialCount);
+    }
+
+    public unsafe void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews)
+    {
+        int numUAVs = unorderedAccessViews.Length;
+        nint* ppUnorderedAccessViews = stackalloc nint[numUAVs];
+        int* pUAVInitialCounts = stackalloc int[numUAVs];
+
+        for (int i = 0; i < numUAVs; i++)
+        {
+            ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
+            pUAVInitialCounts[i] = -1;
+        }
+
+        CSSetUnorderedAccessViews(startSlot, numUAVs, (IntPtr)ppUnorderedAccessViews, pUAVInitialCounts);
+    }
+
+    public unsafe void CSSetUnorderedAccessViews(int startSlot, int numUAVs, ID3D11UnorderedAccessView[] unorderedAccessViews)
+    {
+        IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
+        int* pUAVInitialCounts = stackalloc int[numUAVs];
+
+        for (int i = 0; i < numUAVs; i++)
+        {
+            ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
+            pUAVInitialCounts[i] = -1;
+        }
+
+        CSSetUnorderedAccessViews(startSlot, numUAVs, (IntPtr)ppUnorderedAccessViews, pUAVInitialCounts);
+    }
+
+    public unsafe void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews, int[] uavInitialCounts)
+    {
+        int numUAVs = unorderedAccessViews.Length;
+        IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
+        for (int i = 0; i < numUAVs; i++)
+        {
+            ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
+        }
+
+        fixed (int* pUAVInitialCounts = &uavInitialCounts[0])
         {
-            int numUAVs = unorderedAccessViews.Length;
-            nint* ppUnorderedAccessViews = stackalloc nint[numUAVs];
-            int* pUAVInitialCounts = stackalloc int[numUAVs];
-
-            for (int i = 0; i < numUAVs; i++)
-            {
-                ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
-                pUAVInitialCounts[i] = -1;
-            }
-
             CSSetUnorderedAccessViews(startSlot, numUAVs, (IntPtr)ppUnorderedAccessViews, pUAVInitialCounts);
         }
+    }
 
-        public unsafe void CSSetUnorderedAccessViews(int startSlot, int numUAVs, ID3D11UnorderedAccessView[] unorderedAccessViews)
+    public unsafe void CSSetUnorderedAccessViews(int startSlot, int numUAVs, ID3D11UnorderedAccessView[] unorderedAccessViews, int[] uavInitialCounts)
+    {
+        IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
+        for (int i = 0; i < numUAVs; i++)
         {
-            IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
-            int* pUAVInitialCounts = stackalloc int[numUAVs];
+            ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
+        }
 
-            for (int i = 0; i < numUAVs; i++)
-            {
-                ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
-                pUAVInitialCounts[i] = -1;
-            }
-
+        fixed (int* pUAVInitialCounts = &uavInitialCounts[0])
+        {
             CSSetUnorderedAccessViews(startSlot, numUAVs, (IntPtr)ppUnorderedAccessViews, pUAVInitialCounts);
         }
+    }
 
-        public unsafe void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews, int[] uavInitialCounts)
+    public unsafe void CSUnsetUnorderedAccessView(int slot, int uavInitialCount = -1)
+    {
+        IntPtr nullPtr = IntPtr.Zero;
+        CSSetUnorderedAccessViews(slot, 1, new IntPtr(&nullPtr), &uavInitialCount);
+    }
+
+    #endregion
+
+    #region Map/Unmap
+    /// <summary>
+    /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
+    /// </summary>
+    /// <param name="resource">The resource.</param>
+    /// <param name="mode">The mode.</param>
+    /// <param name="flags">The flags.</param>
+    public MappedSubresource Map(ID3D11Buffer resource, MapMode mode, MapFlags flags = MapFlags.None)
+    {
+        return Map(resource, 0, mode, flags);
+    }
+
+    /// <summary>
+    /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
+    /// </summary>
+    /// <param name="resource">The resource.</param>
+    /// <param name="mipSlice">The mip slice.</param>
+    /// <param name="arraySlice">The array slice.</param>
+    /// <param name="mode">The mode.</param>
+    /// <param name="flags">The flags.</param>
+    /// <param name="subresource">The mapped subresource index.</param>
+    /// <param name="mipSize">Size of the selected miplevel.</param>
+    public MappedSubresource Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int subresource, out int mipSize)
+    {
+        subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
+        return Map(resource, subresource, mode, flags);
+    }
+
+    /// <summary>
+    /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
+    /// </summary>
+    /// <param name="resource">The resource.</param>
+    /// <param name="mipSlice">The mip slice.</param>
+    /// <param name="arraySlice">The array slice.</param>
+    /// <param name="mode">The mode.</param>
+    /// <param name="flags">The flags.</param>
+    /// <param name="mipSize">Size of the selected miplevel.</param>
+    public MappedSubresource Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int mipSize)
+    {
+        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
+        return Map(resource, subresource, mode, flags);
+    }
+
+    public Span<T> Map<T>(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
+    {
+        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
+        MappedSubresource mapped = Map(resource, subresource, mode, flags);
+        Span<byte> source = new(mapped.DataPointer.ToPointer(), mipSize * mapped.RowPitch);
+        return MemoryMarshal.Cast<byte, T>(source);
+    }
+
+    public void Unmap(ID3D11Buffer buffer) => Unmap(buffer, 0);
+
+    public void Unmap(ID3D11Resource resource, int mipSlice, int arraySlice)
+    {
+        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out _);
+        Unmap(resource, subresource);
+    }
+    #endregion
+
+    #region UpdateSubresource
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <typeparam name="T">Type of the data to upload</typeparam>
+    /// <param name="value">A reference to the data to upload.</param>
+    /// <param name="resource">The destination resource.</param>
+    /// <param name="subresource">The destination subresource.</param>
+    /// <param name="rowPitch">The row pitch.</param>
+    /// <param name="depthPitch">The depth pitch.</param>
+    /// <param name="region">The region</param>
+    public unsafe void UpdateSubresource<T>(ref T value, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    {
+        fixed (void* valuePtr = &value)
         {
-            int numUAVs = unorderedAccessViews.Length;
-            IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
-            for (int i = 0; i < numUAVs; i++)
-            {
-                ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
-            }
-
-            fixed (int* pUAVInitialCounts = &uavInitialCounts[0])
-            {
-                CSSetUnorderedAccessViews(startSlot, numUAVs, (IntPtr)ppUnorderedAccessViews, pUAVInitialCounts);
-            }
+            UpdateSubresource(resource, subresource, region, (IntPtr)valuePtr, rowPitch, depthPitch);
         }
+    }
 
-        public unsafe void CSSetUnorderedAccessViews(int startSlot, int numUAVs, ID3D11UnorderedAccessView[] unorderedAccessViews, int[] uavInitialCounts)
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <typeparam name="T">Type of the data to upload</typeparam>
+    /// <param name="data">A reference to the data to upload.</param>
+    /// <param name="resource">The destination resource.</param>
+    /// <param name="subresource">The destination subresource.</param>
+    /// <param name="rowPitch">The row pitch.</param>
+    /// <param name="depthPitch">The depth pitch.</param>
+    /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
+    public unsafe void UpdateSubresource<T>(T[] data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    {
+        fixed (void* dataPtr = &data[0])
         {
-            IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
-            for (int i = 0; i < numUAVs; i++)
-            {
-                ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
-            }
-
-            fixed (int* pUAVInitialCounts = &uavInitialCounts[0])
-            {
-                CSSetUnorderedAccessViews(startSlot, numUAVs, (IntPtr)ppUnorderedAccessViews, pUAVInitialCounts);
-            }
+            UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
         }
+    }
 
-        public unsafe void CSUnsetUnorderedAccessView(int slot, int uavInitialCount = -1)
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <typeparam name="T">Type of the data to upload</typeparam>
+    /// <param name="data">A reference to the data to upload.</param>
+    /// <param name="resource">The destination resource.</param>
+    /// <param name="subresource">The destination subresource.</param>
+    /// <param name="rowPitch">The row pitch.</param>
+    /// <param name="depthPitch">The depth pitch.</param>
+    /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
+    public unsafe void UpdateSubresource<T>(Span<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    {
+        fixed (void* dataPtr = data)
         {
-            IntPtr nullPtr = IntPtr.Zero;
-            CSSetUnorderedAccessViews(slot, 1, new IntPtr(&nullPtr), &uavInitialCount);
+            UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
         }
+    }
 
-        #endregion
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <param name="source">The source data.</param>
+    /// <param name="resource">The destination resource.</param>
+    /// <param name="subresource">The destination subresource.</param>
+    public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, int subresource = 0)
+    {
+        UpdateSubresource(resource, subresource, null, source.DataPointer, source.RowPitch, source.DepthPitch);
+    }
 
-        #region Map/Unmap
-        /// <summary>
-        /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
-        /// </summary>
-        /// <param name="resource">The resource.</param>
-        /// <param name="mode">The mode.</param>
-        /// <param name="flags">The flags.</param>
-        public MappedSubresource Map(ID3D11Buffer resource, MapMode mode, MapFlags flags = MapFlags.None)
-        {
-            return Map(resource, 0, mode, flags);
-        }
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <param name="source">The source data.</param>
+    /// <param name="resource">The destination resource.</param>
+    /// <param name="subresource">The destination subresource.</param>
+    /// <param name="region">The destination region within the resource.</param>
+    public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, int subresource, Box region)
+    {
+        UpdateSubresource(resource, subresource, region, source.DataPointer, source.RowPitch, source.DepthPitch);
+    }
 
-        /// <summary>
-        /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
-        /// </summary>
-        /// <param name="resource">The resource.</param>
-        /// <param name="mipSlice">The mip slice.</param>
-        /// <param name="arraySlice">The array slice.</param>
-        /// <param name="mode">The mode.</param>
-        /// <param name="flags">The flags.</param>
-        /// <param name="subresource">The mapped subresource index.</param>
-        /// <param name="mipSize">Size of the selected miplevel.</param>
-        public MappedSubresource Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int subresource, out int mipSize)
-        {
-            subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
-            return Map(resource, subresource, mode, flags);
-        }
-
-        /// <summary>
-        /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
-        /// </summary>
-        /// <param name="resource">The resource.</param>
-        /// <param name="mipSlice">The mip slice.</param>
-        /// <param name="arraySlice">The array slice.</param>
-        /// <param name="mode">The mode.</param>
-        /// <param name="flags">The flags.</param>
-        /// <param name="mipSize">Size of the selected miplevel.</param>
-        public MappedSubresource Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int mipSize)
-        {
-            int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
-            return Map(resource, subresource, mode, flags);
-        }
-
-        public Span<T> Map<T>(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
-        {
-            int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
-            MappedSubresource mapped = Map(resource, subresource, mode, flags);
-            Span<byte> source = new(mapped.DataPointer.ToPointer(), mipSize * mapped.RowPitch);
-            return MemoryMarshal.Cast<byte, T>(source);
-        }
-
-        public void Unmap(ID3D11Buffer buffer) => Unmap(buffer, 0);
-
-        public void Unmap(ID3D11Resource resource, int mipSlice, int arraySlice)
-        {
-            int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out _);
-            Unmap(resource, subresource);
-        }
-        #endregion
-
-        #region UpdateSubresource
-        /// <summary>
-        /// Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <typeparam name="T">Type of the data to upload</typeparam>
-        /// <param name="value">A reference to the data to upload.</param>
-        /// <param name="resource">The destination resource.</param>
-        /// <param name="subresource">The destination subresource.</param>
-        /// <param name="rowPitch">The row pitch.</param>
-        /// <param name="depthPitch">The depth pitch.</param>
-        /// <param name="region">The region</param>
-        public unsafe void UpdateSubresource<T>(ref T value, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <typeparam name="T">Type of the data to upload</typeparam>
+    /// <param name="value">A reference to the data to upload.</param>
+    /// <param name="resource">The destination resource.</param>
+    /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+    /// <param name="subresource">The destination subresource.</param>
+    /// <param name="rowPitch">The row pitch.</param>
+    /// <param name="depthPitch">The depth pitch.</param>
+    /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+    /// <remarks>
+    /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+    /// </remarks>
+    public void UpdateSubresourceSafe<T>(ref T value, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
+    {
+        unsafe
         {
             fixed (void* valuePtr = &value)
             {
-                UpdateSubresource(resource, subresource, region, (IntPtr)valuePtr, rowPitch, depthPitch);
+                UpdateSubresourceSafe(resource, subresource, null, (IntPtr)valuePtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
             }
         }
+    }
 
-        /// <summary>
-        /// Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <typeparam name="T">Type of the data to upload</typeparam>
-        /// <param name="data">A reference to the data to upload.</param>
-        /// <param name="resource">The destination resource.</param>
-        /// <param name="subresource">The destination subresource.</param>
-        /// <param name="rowPitch">The row pitch.</param>
-        /// <param name="depthPitch">The depth pitch.</param>
-        /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
-        public unsafe void UpdateSubresource<T>(T[] data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <typeparam name="T">Type of the data to upload</typeparam>
+    /// <param name="data">A reference to the data to upload.</param>
+    /// <param name="resource">The destination resource.</param>
+    /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+    /// <param name="subresource">The destination subresource.</param>
+    /// <param name="rowPitch">The row pitch.</param>
+    /// <param name="depthPitch">The depth pitch.</param>
+    /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+    /// <remarks>
+    /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+    /// </remarks>
+    public void UpdateSubresourceSafe<T>(T[] data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
+    {
+        unsafe
         {
             fixed (void* dataPtr = &data[0])
-            {
-                UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
-            }
-        }
-
-        /// <summary>
-        /// Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <typeparam name="T">Type of the data to upload</typeparam>
-        /// <param name="data">A reference to the data to upload.</param>
-        /// <param name="resource">The destination resource.</param>
-        /// <param name="subresource">The destination subresource.</param>
-        /// <param name="rowPitch">The row pitch.</param>
-        /// <param name="depthPitch">The depth pitch.</param>
-        /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
-        public unsafe void UpdateSubresource<T>(Span<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
-        {
-            fixed (void* dataPtr = data)
-            {
-                UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
-            }
-        }
-
-        /// <summary>
-        /// Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <param name="source">The source data.</param>
-        /// <param name="resource">The destination resource.</param>
-        /// <param name="subresource">The destination subresource.</param>
-        public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, int subresource = 0)
-        {
-            UpdateSubresource(resource, subresource, null, source.DataPointer, source.RowPitch, source.DepthPitch);
-        }
-
-        /// <summary>
-        /// Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <param name="source">The source data.</param>
-        /// <param name="resource">The destination resource.</param>
-        /// <param name="subresource">The destination subresource.</param>
-        /// <param name="region">The destination region within the resource.</param>
-        public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, int subresource, Box region)
-        {
-            UpdateSubresource(resource, subresource, region, source.DataPointer, source.RowPitch, source.DepthPitch);
-        }
-
-        /// <summary>
-        /// Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <typeparam name="T">Type of the data to upload</typeparam>
-        /// <param name="value">A reference to the data to upload.</param>
-        /// <param name="resource">The destination resource.</param>
-        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
-        /// <param name="subresource">The destination subresource.</param>
-        /// <param name="rowPitch">The row pitch.</param>
-        /// <param name="depthPitch">The depth pitch.</param>
-        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
-        /// <remarks>
-        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
-        /// </remarks>
-        public void UpdateSubresourceSafe<T>(ref T value, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
-        {
-            unsafe
-            {
-                fixed (void* valuePtr = &value)
-                {
-                    UpdateSubresourceSafe(resource, subresource, null, (IntPtr)valuePtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <typeparam name="T">Type of the data to upload</typeparam>
-        /// <param name="data">A reference to the data to upload.</param>
-        /// <param name="resource">The destination resource.</param>
-        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
-        /// <param name="subresource">The destination subresource.</param>
-        /// <param name="rowPitch">The row pitch.</param>
-        /// <param name="depthPitch">The depth pitch.</param>
-        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
-        /// <remarks>
-        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
-        /// </remarks>
-        public void UpdateSubresourceSafe<T>(T[] data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
-        {
-            unsafe
-            {
-                fixed (void* dataPtr = &data[0])
-                {
-                    UpdateSubresourceSafe(resource, subresource, null, (IntPtr)dataPtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <typeparam name="T">Type of the data to upload</typeparam>
-        /// <param name="data">A reference to the data to upload.</param>
-        /// <param name="resource">The destination resource.</param>
-        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
-        /// <param name="subresource">The destination subresource.</param>
-        /// <param name="rowPitch">The row pitch.</param>
-        /// <param name="depthPitch">The depth pitch.</param>
-        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
-        /// <remarks>
-        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
-        /// </remarks>
-        public unsafe void UpdateSubresourceSafe<T>(Span<T> data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
-        {
-            fixed (void* dataPtr = data)
             {
                 UpdateSubresourceSafe(resource, subresource, null, (IntPtr)dataPtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
             }
         }
-
-        /// <summary>
-        ///   Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <param name = "source">The source data.</param>
-        /// <param name = "resource">The destination resource.</param>
-        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
-        /// <param name = "subresource">The destination subresource.</param>
-        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
-        /// <remarks>
-        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
-        /// </remarks>
-        public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, bool isCompressedResource = false)
-        {
-            UpdateSubresourceSafe(resource, subresource, null, source.DataPointer, source.RowPitch, source.DepthPitch, srcBytesPerElement, isCompressedResource);
-        }
-
-        /// <summary>
-        /// Copies data from the CPU to to a non-mappable subresource region.
-        /// </summary>
-        /// <param name = "source">The source data.</param>
-        /// <param name = "resource">The destination resource.</param>
-        /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
-        /// <param name = "subresource">The destination subresource.</param>
-        /// <param name = "region">The destination region within the resource.</param>
-        /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
-        /// <remarks>
-        /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
-        /// </remarks>
-        public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, int srcBytesPerElement, int subresource, Box region, bool isCompressedResource = false)
-        {
-            UpdateSubresourceSafe(resource, subresource, region, source.DataPointer, source.RowPitch, source.DepthPitch, srcBytesPerElement, isCompressedResource);
-        }
-
-        internal unsafe bool UpdateSubresourceSafe(
-            ID3D11Resource dstResource, int dstSubresource, Box? dstBox,
-            IntPtr pSrcData, int srcRowPitch, int srcDepthPitch, int srcBytesPerElement, bool isCompressedResource)
-        {
-
-            bool needWorkaround = false;
-
-            // Check thread support just once as it won't change during the life of this instance.
-            if (!_supportsCommandLists.HasValue)
-            {
-                Device.CheckThreadingSupport(out var supportsConcurrentResources, out var supportsCommandLists);
-                _supportsCommandLists = supportsCommandLists;
-            }
-
-            if (dstBox.HasValue)
-            {
-                if (ContextType == DeviceContextType.Deferred)
-                {
-                    // If this deferred context doesn't support command list, we need to perform the workaround
-                    needWorkaround = !_supportsCommandLists.Value;
-                }
-            }
-
-            // Adjust the pSrcData pointer if needed
-            IntPtr pAdjustedSrcData = pSrcData;
-            if (needWorkaround)
-            {
-                Box alignedBox = dstBox!.Value;
-
-                // convert from pixels to blocks
-                if (isCompressedResource)
-                {
-                    alignedBox = new Box(alignedBox.Left / 4, alignedBox.Top / 4, alignedBox.Front, alignedBox.Right / 4, alignedBox.Bottom / 4, alignedBox.Back);
-                }
-
-                pAdjustedSrcData = (IntPtr)(((byte*)pSrcData) - (alignedBox.Front * srcDepthPitch) - (alignedBox.Top * srcRowPitch) - (alignedBox.Left * srcBytesPerElement));
-            }
-
-            UpdateSubresource(dstResource, dstSubresource, dstBox, pAdjustedSrcData, srcRowPitch, srcDepthPitch);
-
-            return needWorkaround;
-        }
-        #endregion
     }
+
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <typeparam name="T">Type of the data to upload</typeparam>
+    /// <param name="data">A reference to the data to upload.</param>
+    /// <param name="resource">The destination resource.</param>
+    /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+    /// <param name="subresource">The destination subresource.</param>
+    /// <param name="rowPitch">The row pitch.</param>
+    /// <param name="depthPitch">The depth pitch.</param>
+    /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+    /// <remarks>
+    /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+    /// </remarks>
+    public unsafe void UpdateSubresourceSafe<T>(Span<T> data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
+    {
+        fixed (void* dataPtr = data)
+        {
+            UpdateSubresourceSafe(resource, subresource, null, (IntPtr)dataPtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
+        }
+    }
+
+    /// <summary>
+    ///   Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <param name = "source">The source data.</param>
+    /// <param name = "resource">The destination resource.</param>
+    /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+    /// <param name = "subresource">The destination subresource.</param>
+    /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+    /// <remarks>
+    /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+    /// </remarks>
+    public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, bool isCompressedResource = false)
+    {
+        UpdateSubresourceSafe(resource, subresource, null, source.DataPointer, source.RowPitch, source.DepthPitch, srcBytesPerElement, isCompressedResource);
+    }
+
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <param name = "source">The source data.</param>
+    /// <param name = "resource">The destination resource.</param>
+    /// <param name="srcBytesPerElement">The size in bytes per pixel/block element.</param>
+    /// <param name = "subresource">The destination subresource.</param>
+    /// <param name = "region">The destination region within the resource.</param>
+    /// <param name="isCompressedResource">if set to <c>true</c> the resource is a block/compressed resource</param>
+    /// <remarks>
+    /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
+    /// </remarks>
+    public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, int srcBytesPerElement, int subresource, Box region, bool isCompressedResource = false)
+    {
+        UpdateSubresourceSafe(resource, subresource, region, source.DataPointer, source.RowPitch, source.DepthPitch, srcBytesPerElement, isCompressedResource);
+    }
+
+    internal unsafe bool UpdateSubresourceSafe(
+        ID3D11Resource dstResource, int dstSubresource, Box? dstBox,
+        IntPtr pSrcData, int srcRowPitch, int srcDepthPitch, int srcBytesPerElement, bool isCompressedResource)
+    {
+
+        bool needWorkaround = false;
+
+        // Check thread support just once as it won't change during the life of this instance.
+        if (!_supportsCommandLists.HasValue)
+        {
+            Device.CheckThreadingSupport(out var supportsConcurrentResources, out var supportsCommandLists);
+            _supportsCommandLists = supportsCommandLists;
+        }
+
+        if (dstBox.HasValue)
+        {
+            if (ContextType == DeviceContextType.Deferred)
+            {
+                // If this deferred context doesn't support command list, we need to perform the workaround
+                needWorkaround = !_supportsCommandLists.Value;
+            }
+        }
+
+        // Adjust the pSrcData pointer if needed
+        IntPtr pAdjustedSrcData = pSrcData;
+        if (needWorkaround)
+        {
+            Box alignedBox = dstBox!.Value;
+
+            // convert from pixels to blocks
+            if (isCompressedResource)
+            {
+                alignedBox = new Box(alignedBox.Left / 4, alignedBox.Top / 4, alignedBox.Front, alignedBox.Right / 4, alignedBox.Bottom / 4, alignedBox.Back);
+            }
+
+            pAdjustedSrcData = (IntPtr)(((byte*)pSrcData) - (alignedBox.Front * srcDepthPitch) - (alignedBox.Top * srcRowPitch) - (alignedBox.Left * srcBytesPerElement));
+        }
+
+        UpdateSubresource(dstResource, dstSubresource, dstBox, pAdjustedSrcData, srcRowPitch, srcDepthPitch);
+
+        return needWorkaround;
+    }
+    #endregion
 }

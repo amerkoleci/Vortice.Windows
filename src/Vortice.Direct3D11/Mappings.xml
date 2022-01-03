@@ -640,7 +640,7 @@
     <map method="ID3D(\d+)Device::CheckCounterInfo" property="false" check="false" name="CheckCounterInfo" />
     <map param="ID3D(\d+)Device::CheckCounterInfo::pCounterInfo" return="true" />
     <map method="ID3D11Device::CheckFeatureSupport" visibility="internal" check="false"/>
-    <map param="ID3D11Device::CheckFeatureSupport::pFeatureSupportData" attribute="in" type="void" />
+    <map param="ID3D11Device::CheckFeatureSupport::pFeatureSupportData" type="void" keep-pointers="true"/>
     <map method="ID3D11Device::GetCreationFlags" type="D3D11_CREATE_DEVICE_FLAG"/>
     <map param="ID3D11Device::CreateBlendState::pBlendStateDesc" attribute="in value" />
     <map param="ID3D11Device::CreateBlendState::ppBlendState" attribute="out" return="true"/>
@@ -767,7 +767,7 @@
     <map method="ID3D11DeviceContext::RSSetScissorRects" visibility="internal" />
     <map param="ID3D11DeviceContext::RSSetScissorRects::pRects" type="void" keep-pointers="true"/>
     <map method="ID3D11DeviceContext::RSGetViewports" visibility="internal" />
-    <map param="ID3D11DeviceContext::RSGetViewports::pViewports" type="void" />
+    <map param="ID3D11DeviceContext::RSGetViewports::pViewports" type="void" keep-pointers="true"/>
     <map method="ID3D11DeviceContext::RSSetViewports" visibility="internal" />
     <map param="ID3D11DeviceContext::RSSetViewports::pViewports" type="void" keep-pointers="true"/>
     <map param="ID3D11DeviceContext::OMGetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" />

@@ -203,7 +203,6 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
         DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
         DeviceContext.OMSetRenderTargets(RenderTargetView, /*depthStencil*/null);
-
         DeviceContext.RSSetViewport(new Viewport(Size.Width, Size.Height));
 
         // Call callback.
