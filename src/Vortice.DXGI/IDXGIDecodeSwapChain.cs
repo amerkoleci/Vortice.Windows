@@ -1,29 +1,28 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Drawing;
 using SharpGen.Runtime;
 
-namespace Vortice.DXGI
-{
-    public partial class IDXGIDecodeSwapChain
-    {
-        public Size DestSize
-        {
-            get
-            {
-                GetDestSize(out int width, out int height);
-                return new Size(width, height);
-            }
-            set
-            {
-                SetDestSize(value.Width, value.Height);
-            }
-        }
+namespace Vortice.DXGI;
 
-        public Result PresentBuffer(int bufferToPresent, int syncInterval)
+public partial class IDXGIDecodeSwapChain
+{
+    public Size DestSize
+    {
+        get
         {
-            return PresentBuffer(bufferToPresent, syncInterval, PresentFlags.None);
+            GetDestSize(out int width, out int height);
+            return new Size(width, height);
         }
+        set
+        {
+            SetDestSize(value.Width, value.Height);
+        }
+    }
+
+    public Result PresentBuffer(int bufferToPresent, int syncInterval)
+    {
+        return PresentBuffer(bufferToPresent, syncInterval, PresentFlags.None);
     }
 }

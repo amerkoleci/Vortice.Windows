@@ -120,6 +120,7 @@
     <remove field="DXGI_PRESENT_PARAMETERS::.*"/>
 
     <map struct="DXGI_SHARED_RESOURCE" visibility="internal"/>
+    <map struct="DXGI_MAPPED_RECT" visibility="internal" />
 
     <!--<map interface="IDXGI(.+)" name-tmp="$1" />-->
     <map method=".*::(.*)DescW?" name="$1Description" />
@@ -256,8 +257,8 @@
     <map param="IDXGIResource1::CreateSharedHandle::pHandle" return="true"/>
 
     <!-- IDXGISurface -->
-    <map param="IDXGISurface::Map::pLockedRect" attribute="out" return="true" />
-    <map param="IDXGISurface::Map::MapFlags" type="DXGI_MAP_FLAGS" />
+    <map method="IDXGISurface::(.*)" hresult="true" check="false"/>
+    <map method="IDXGISurface::Map" visibility="internal" hresult="true" check="false"/>
 
     <!-- IDXGISurface1 -->
     <map param="IDXGISurface1::GetDC::phdc" attribute="out" return="true" />
@@ -265,6 +266,12 @@
     <!-- IDXGISurface2 -->
     <map method="IDXGISurface2::GetResource" visibility="private" hresult="true" check="false"/>
 
+    <!-- IDXGIOutputDuplication -->
+    <map method="IDXGIOutputDuplication::(.*)" hresult="true" check="false"/>
+    <map method="IDXGIOutputDuplication::MapDesktopSurface" visibility="internal" hresult="true" check="false"/>
+    <!--<map param="IDXGIOutputDuplication::MapDesktopSurface::phdc" attribute="out" return="true" />-->
+    
+    
     <map function="DXGIGetDebugInterface1" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" visibility="private" />
     <map param="DXGIGetDebugInterface.*?::ppDebug" attribute="out" />
 

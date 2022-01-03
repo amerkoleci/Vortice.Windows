@@ -18,36 +18,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Runtime.InteropServices;
 
-namespace Vortice
+namespace Vortice;
+
+/// <summary>
+/// Provides access to data organized in 2D.
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+public readonly struct DataRectangle
 {
     /// <summary>
-    /// Provides access to data organized in 2D.
+    /// Initializes a new instance of the <see cref="DataRectangle"/> class.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public readonly struct DataRectangle
+    /// <param name="dataPointer">The data pointer.</param>
+    /// <param name="pitch">The pitch.</param>
+    public DataRectangle(IntPtr dataPointer, int pitch)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DataRectangle"/> class.
-        /// </summary>
-        /// <param name="dataPointer">The data pointer.</param>
-        /// <param name="pitch">The pitch.</param>
-        public DataRectangle(IntPtr dataPointer, int pitch)
-        {
-            DataPointer = dataPointer;
-            Pitch = pitch;
-        }
-
-        /// <summary>
-        /// Pointer to the data.
-        /// </summary>
-        public readonly IntPtr DataPointer;
-
-        /// <summary>
-        /// Gets the number of bytes per row.
-        /// </summary>
-        public readonly int Pitch;
+        DataPointer = dataPointer;
+        Pitch = pitch;
     }
+
+    /// <summary>
+    /// Pointer to the data.
+    /// </summary>
+    public readonly IntPtr DataPointer;
+
+    /// <summary>
+    /// Gets the number of bytes per row.
+    /// </summary>
+    public readonly int Pitch;
 }
