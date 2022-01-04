@@ -1,10 +1,10 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Mathematics;
 
-namespace Vortice.Direct3D11.Shader
-{
+namespace Vortice.Direct3D11.Shader;
+
     public partial class ID3D11ShaderReflection
     {
         private ShaderParameterDescription[] _inputParameters;
@@ -16,7 +16,7 @@ namespace Vortice.Direct3D11.Shader
         {
             get
             {
-                GetThreadGroupSize(out var x, out var y, out var z);
+                GetThreadGroupSize(out int x, out int y, out int z);
                 return new Int3(x, y, z);
             }
         }
@@ -28,7 +28,7 @@ namespace Vortice.Direct3D11.Shader
                 if (_inputParameters == null)
                 {
                     _inputParameters = new ShaderParameterDescription[Description.InputParameters];
-                    for (var i = 0; i < Description.InputParameters; i++)
+                    for (int i = 0; i < Description.InputParameters; i++)
                     {
                         _inputParameters[i] = GetInputParameterDescription(i);
                     }
@@ -91,9 +91,8 @@ namespace Vortice.Direct3D11.Shader
 
         public int GetThreadGroupSize(out Int3 size)
         {
-            var totalSize = GetThreadGroupSize(out var x, out var y, out var z);
+            int totalSize = GetThreadGroupSize(out int x, out int y, out int z);
             size = new Int3(x, y, z);
             return totalSize;
         }
     }
-}

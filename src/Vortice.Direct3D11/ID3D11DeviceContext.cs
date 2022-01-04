@@ -762,24 +762,18 @@ public unsafe partial class ID3D11DeviceContext
         SOSetTargets(0, IntPtr.Zero, IntPtr.Zero);
     }
 
-    public void IASetVertexBuffer(int slot, ID3D11Buffer buffer, int stride, int offset = 0)
+    public unsafe void IASetVertexBuffer(int slot, ID3D11Buffer buffer, int stride, int offset = 0)
     {
-        unsafe
-        {
-            IntPtr pVertexBuffers = buffer == null ? IntPtr.Zero : buffer.NativePointer;
-            IASetVertexBuffers(slot, 1, new IntPtr(&pVertexBuffers), new IntPtr(&stride), new IntPtr(&offset));
-        }
+        IntPtr pVertexBuffers = buffer == null ? IntPtr.Zero : buffer.NativePointer;
+        IASetVertexBuffers(slot, 1, &pVertexBuffers, &stride, &offset);
     }
 
-    public void IASetVertexBuffer(int slot, VertexBufferView vertexBufferView)
+    public unsafe void IASetVertexBuffer(int slot, VertexBufferView vertexBufferView)
     {
         int stride = vertexBufferView.Stride;
         int offset = vertexBufferView.Offset;
         IntPtr pVertexBuffers = vertexBufferView.Buffer == null ? IntPtr.Zero : vertexBufferView.Buffer.NativePointer;
-        unsafe
-        {
-            IASetVertexBuffers(slot, 1, new IntPtr(&pVertexBuffers), new IntPtr(&stride), new IntPtr(&offset));
-        }
+        IASetVertexBuffers(slot, 1, &pVertexBuffers, &stride, &offset);
     }
 
     public void IASetVertexBuffers(int firstSlot, VertexBufferView[] vertexBufferViews)
@@ -798,7 +792,7 @@ public unsafe partial class ID3D11DeviceContext
             strides[i] = vertexBufferViews[i].Stride;
             offsets[i] = vertexBufferViews[i].Offset;
         }
-        IASetVertexBuffers(firstSlot, vertexBufferViewsCount, new IntPtr(vertexBuffers), new IntPtr(strides), new IntPtr(offsets));
+        IASetVertexBuffers(firstSlot, vertexBufferViewsCount, vertexBuffers, strides, offsets);
     }
 
     #region VertexShader

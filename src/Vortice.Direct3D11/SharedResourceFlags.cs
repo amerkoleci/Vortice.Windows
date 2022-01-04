@@ -1,19 +1,16 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
+namespace Vortice.Direct3D11;
 
-namespace Vortice.Direct3D11
+[Flags]
+public enum SharedResourceFlags : uint
 {
-    [Flags]
-    public enum SharedResourceFlags : uint
-    {
-        None = 0,
-        Write = 1,
-        Read = 0x80000000,
-        GenericWrite = 0x40000000,
-        GenericRead = 0x80000000,
-        GenericExecute = 0x20000000,
-        GenericAll = 0x10000000
-    }
+    None = 0,
+    Write = 1,
+    Read = 0x80000000,
+    GenericWrite = 0x40000000,
+    GenericRead = 0x80000000,
+    GenericExecute = 0x20000000,
+    GenericAll = 0x10000000
 }

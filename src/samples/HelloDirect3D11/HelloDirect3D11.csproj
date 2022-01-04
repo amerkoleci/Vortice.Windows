@@ -5,9 +5,16 @@
     <TargetFramework>net6.0-windows</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Vortice.D3DCompiler\Vortice.D3DCompiler.csproj" />
     <ProjectReference Include="..\..\Vortice.Direct2D1\Vortice.Direct2D1.csproj" />
     <ProjectReference Include="..\..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />
     <ProjectReference Include="..\Vortice.SampleFramework\Vortice.SampleFramework.csproj" />
+
+	  <Content Include="Assets\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Assets\" />
+	</ItemGroup>
   
 </Project>

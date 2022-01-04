@@ -25,7 +25,7 @@ public class ShaderIncludeHandler : CallbackBase, IDxcIncludeHandler
         _sourceFiles.Clear();
     }
 
-    public Result LoadSource(string fileName, out IDxcBlob includeSource)
+    public Result LoadSource(string fileName, out IDxcBlob? includeSource)
     {
         if (fileName.StartsWith("./"))
             fileName = fileName.Substring(2);

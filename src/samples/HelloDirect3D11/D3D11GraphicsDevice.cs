@@ -2,9 +2,11 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Drawing;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
 using Vortice;
+using Vortice.D3DCompiler;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
 using Vortice.DXGI;
@@ -37,6 +39,11 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     public readonly ID3D11Texture2D? BackBufferTexture;
     public readonly ID3D11Texture2D? OffscreenTexture;
     public readonly ID3D11RenderTargetView RenderTargetView;
+
+    private readonly ID3D11Buffer _vertexBuffer;
+    private readonly ID3D11VertexShader _vertexShader;
+    private readonly ID3D11PixelShader _pixelShader;
+    private readonly ID3D11InputLayout _inputLayout;
 
     public static bool IsSupported()
     {
@@ -129,10 +136,36 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             OffscreenTexture = Device.CreateTexture2D(Size.Width, Size.Height, Format.R8G8B8A8_UNorm, 1, 1, null, BindFlags.ShaderResource | BindFlags.RenderTarget);
             RenderTargetView = Device.CreateRenderTargetView(OffscreenTexture);
         }
+
+        VertexPositionColor[] triangleVertices = new VertexPositionColor[]
+        {
+            new VertexPositionColor(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
+            new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
+            new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
+        };
+        _vertexBuffer = Device.CreateBuffer(BindFlags.VertexBuffer, triangleVertices);
+
+        InputElementDescription[] inputElementDescs = new[]
+        {
+            new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
+            new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
+        };
+
+        byte[] vertexShaderByteCode = CompileBytecode("Triangle.hlsl", "VSMain", "vs_4_0");
+        byte[] pixelShaderByteCode = CompileBytecode("Triangle.hlsl", "PSMain", "ps_4_0");
+
+        _vertexShader = Device.CreateVertexShader(vertexShaderByteCode);
+        _pixelShader = Device.CreatePixelShader(pixelShaderByteCode);
+        _inputLayout = Device.CreateInputLayout(inputElementDescs, vertexShaderByteCode);
     }
 
     public void Dispose()
     {
+        _vertexBuffer.Dispose();
+        _vertexShader.Dispose();
+        _pixelShader.Dispose();
+        _inputLayout.Dispose();
+
         BackBufferTexture?.Dispose();
         OffscreenTexture?.Dispose();
         RenderTargetView.Dispose();
@@ -198,12 +231,19 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         throw new InvalidOperationException("Cannot detect D3D11 adapter");
     }
 
-    public bool DrawFrame(Action<int, int> draw, [CallerMemberName] string? frameName = null)
+    public unsafe bool DrawFrame(Action<int, int> draw, [CallerMemberName] string? frameName = null)
     {
         var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
         DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
         DeviceContext.OMSetRenderTargets(RenderTargetView, /*depthStencil*/null);
         DeviceContext.RSSetViewport(new Viewport(Size.Width, Size.Height));
+
+        DeviceContext.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
+        DeviceContext.VSSetShader(_vertexShader);
+        DeviceContext.PSSetShader(_pixelShader);
+        DeviceContext.IASetInputLayout(_inputLayout);
+        DeviceContext.IASetVertexBuffer(0, _vertexBuffer, sizeof(VertexPositionColor));
+        DeviceContext.Draw(3, 0);
 
         // Call callback.
         draw(Size.Width, Size.Height);
@@ -285,5 +325,14 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         }
 
         return stagingTexture;
+    }
+
+    private static byte[] CompileBytecode(string shaderName, string entryPoint, string profile)
+    {
+        string assetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
+        string shaderFile = Path.Combine(assetsPath, shaderName);
+        //string shaderSource = File.ReadAllText(Path.Combine(assetsPath, shaderName));
+
+        return Compiler.CompileFromFile(shaderFile, entryPoint, profile);
     }
 }

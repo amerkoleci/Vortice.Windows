@@ -18,7 +18,7 @@
   <include file="d3d11on12.h" namespace="Vortice.Direct3D11" attach="true"/>
   <include file="d3d11shader.h" namespace="Vortice.Direct3D11.Shader" attach="true" />
   <include file="d3d11sdklayers.h" namespace="Vortice.Direct3D11.Debug" attach="true" />
-  
+
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="Vortice.Direct3D11.D3D11" type="int" name="SdkVersion" />
     <create class="D3D11" visibility="public static" />
@@ -44,6 +44,8 @@
     <const from-macro="D3D11_DEFAULT_DEPTH_BIAS" class="Vortice.Direct3D11.RasterizerDescription" type="int" name="DefaultDepthBias" />
     <const from-macro="D3D11_DEFAULT_DEPTH_BIAS_CLAMP" class="Vortice.Direct3D11.RasterizerDescription" type="float" name="DefaultDepthBiasClamp" />
     <const from-macro="D3D11_DEFAULT_SLOPE_SCALED_DEPTH_BIAS" class="Vortice.Direct3D11.RasterizerDescription" type="float" name="DefaultSlopeScaledDepthBias" />
+
+    <const from-macro="D3D11_MAX_MAXANISOTROPY" class="Vortice.Direct3D11.SamplerDescription" type="int" name="MaxMaxAnisotropy" />
 
     <const from-macro="D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="CommonShaderConstantBufferSlotCount" />
     <const from-macro="D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="CommonShaderSamplerSlotCount" />
@@ -497,7 +499,7 @@
     <map enum="D3D11_CLEAR_FLAG" name="DepthStencilClearFlags" />
     <map enum="D3D11_COMPARISON_FUNC" name="ComparisonFunction" />
     <map enum="D3D11_STENCIL_OP" name="StencilOperation" />
-    
+
     <map enum="D3D11_BIND_FLAG" name="BindFlags" />
     <map enum="D3D11_MAP" name="MapMode" />
     <map enum="D3D11_MAP_FLAG" name="MapFlags" />
@@ -539,7 +541,7 @@
     <map field="D3D11_BUFFER_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
     <map field="D3D11_BUFFER_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
     <map field="D3D11_BUFFER_DESC::ByteWidth" name="SizeInBytes" />
-    
+
     <map field="D3D11_TEXTURE1D_DESC::BindFlags" type="D3D11_BIND_FLAG" />
     <map field="D3D11_TEXTURE1D_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
     <map field="D3D11_TEXTURE1D_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
@@ -588,7 +590,7 @@
 
     <map enum-item="D3D11_BLEND_OP_REV_SUBTRACT" name="ReverseSubtract"/>
     <map struct="D3D11_BLEND_DESC" marshalto="true"/>
-    
+
     <map struct="D3D11_DEPTH_STENCILOP_DESC" name="DepthStencilOperationDescription" />
 
     <map field="D3D11_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
@@ -619,7 +621,7 @@
 
     <map struct="D3D11_DRAW_INSTANCED_INDIRECT_ARGS" name="DrawInstancedIndirectArguments" />
     <map struct="D3D11_DRAW_INDEXED_INSTANCED_INDIRECT_ARGS" name="DrawIndexedInstancedIndirectArguments" />
-    
+
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
     <map method="ID3D11DeviceChild::GetPrivateData" visibility="public" hresult="true" check="false"/>
@@ -630,7 +632,7 @@
     <!-- ID3D11Device methods -->
     <map method="ID3D11Device::GetPrivateData" visibility="public" hresult="true" check="false"/>
     <map method="ID3D11Device::SetPrivateData" visibility="public" hresult="true" check="false"/>
-    
+
     <map method="ID3D(\d+)Device[123]?::GetImmediateContext[123]?" persist="true"/>
     <map method="ID3D(\d+)Device::GetDeviceRemovedReason" check="false"/>
     <map method="ID3D(\d+)Device::CheckFormatSupport" check="false" />
@@ -668,6 +670,8 @@
     <map param="ID3D11Device::CreateHullShader::ppHullShader" attribute="out" return="true"/>
     <map method="ID3D11Device::CreateInputLayout" visibility="private" />
     <map param="ID3D11Device::CreateInputLayout::ppInputLayout" attribute="out" return="true"/>
+
+    <map param="ID3D11Device::CreatePixelShader::pShaderBytecode" type="void" keep-pointers="true"/>
     <map param="ID3D11Device::CreatePixelShader::pClassLinkage" default="null"/>
     <map param="ID3D11Device::CreatePixelShader::ppPixelShader" attribute="out" return="true"/>
     <map param="ID3D11Device::CreatePredicate::ppPredicate" attribute="out" return="true"/>
@@ -691,6 +695,8 @@
     <map param="ID3D11Device::CreateTexture3D::ppTexture3D" attribute="out" return="true"/>
     <map param="ID3D11Device::CreateUnorderedAccessView::pDesc" default="null"/>
     <map param="ID3D11Device::CreateUnorderedAccessView::ppUAView" attribute="out" return="true"/>
+
+    <map param="ID3D11Device::CreateVertexShader::pShaderBytecode" type="void" keep-pointers="true"/>
     <map param="ID3D11Device::CreateVertexShader::pClassLinkage" default="null"/>
     <map param="ID3D11Device::CreateVertexShader::ppVertexShader" attribute="out" return="true"/>
     <map method="ID3D11Device::OpenSharedResource" visibility="private" hresult="true" check="false"/>
@@ -735,7 +741,7 @@
     <map param="ID3D11Device3::CreateTexture3D1::ppTexture3D" attribute="out" return="true"/>
     <map param="ID3D11Device3::ReadFromSubresource::pDstData" attribute="in value"/>
     <map param="ID3D11Device3::ReadFromSubresource::pSrcBox" default="null"/>
-    
+
     <!-- ID3D11Device4 -->
     <map param="ID3D11Device4::RegisterDeviceRemovedEvent::pdwCookie" return="true"/>
 
@@ -774,11 +780,13 @@
     <map param="ID3D11DeviceContext::OMSetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" default="null"/>
     <map param="ID3D11DeviceContext::OMSetBlendState::SampleMask" default="-1"/>
     <map param="ID3D11DeviceContext::OMSetDepthStencilState::StencilRef" default="0"/>
-    
+
     <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="private"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" attribute="in"/>
 
-    <!--<map param="ID3D11DeviceContext::IASetVertexBuffers::pStrides" type="void" keep-pointers="true"/>-->
+    <map param="ID3D11DeviceContext::IASetVertexBuffers::ppVertexBuffers" type="void" keep-pointers="true"/>
+    <map param="ID3D11DeviceContext::IASetVertexBuffers::pStrides" type="void" keep-pointers="true"/>
+    <map param="ID3D11DeviceContext::IASetVertexBuffers::pOffsets" type="void" keep-pointers="true"/>
 
     <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="private"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
@@ -802,7 +810,7 @@
     <map param="ID3D11DeviceContext::IAGetInputLayout::ppInputLayout" return="true" />
     <map param="ID3D11DeviceContext::IAGetPrimitiveTopology::pTopology" return="true" />
     <map param="ID3D11DeviceContext::RSGetState::ppRasterizerState" return="true" />
-    
+
     <map method="ID3D11DeviceContext::[A-Z][A-Z]SetShader" visibility="internal"/>
     <map param="ID3D11DeviceContext::[A-Z][A-Z]GetShader::pNumClassInstances" attribute="inout" />
 
@@ -889,7 +897,7 @@
 
     <map method="ID3D11ShaderReflectionVariable::GetType" name="GetVariableType" />
     <map param="ID3D11ShaderReflectionConstantBuffer::GetDesc::pDesc" attribute="out" />
-    
+
     <!-- ID3DUserDefinedAnnotation -->
     <map method="ID3DUserDefinedAnnotation::SetMarker" property="false" />
 
@@ -898,6 +906,7 @@
 
     <!--ID3D11VideoDevice2 -->
     <map method="ID3D11VideoDevice2::CheckFeatureSupport" visibility="internal" hresult="true" check="false" />
+    <map param="ID3D11VideoDevice2::CheckFeatureSupport::pFeatureSupportData" type="void" keep-pointers="true"/>
 
     <!--ID3D11VideoProcessorEnumerator -->
     <map method="ID3D11VideoProcessorEnumerator::(.*)" hresult="true" check="false" />
@@ -910,6 +919,6 @@
     <map field="D3D11_VIDEO_PROCESSOR_CAPS::InputFormatCaps" name="InputFormatCaps" type="D3D11_VIDEO_PROCESSOR_FORMAT_CAPS" />
     <map field="D3D11_VIDEO_PROCESSOR_CAPS::AutoStreamCaps" name="AutoStreamCaps" type="D3D11_VIDEO_PROCESSOR_AUTO_STREAM_CAPS" />
     <map field="D3D11_VIDEO_PROCESSOR_CAPS::StereoCaps" name="StereoCaps" type="D3D11_VIDEO_PROCESSOR_STEREO_CAPS" />
-    
+
   </mapping>
 </config>

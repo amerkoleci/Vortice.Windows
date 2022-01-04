@@ -1,18 +1,15 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
+namespace Vortice.Direct3D11.Shader;
 
-namespace Vortice.Direct3D11.Shader
+[Flags]
+public enum RegisterComponentMaskFlags : byte
 {
-    [Flags]
-    public enum RegisterComponentMaskFlags : byte
-    {
-        None = 0,
-        ComponentX = 1,
-        ComponentY = 2,
-        ComponentZ = 4,
-        ComponentW = 8,
-        All
-    }
+    None = 0,
+    ComponentX = 1,
+    ComponentY = 2,
+    ComponentZ = 4,
+    ComponentW = 8,
+    All
 }

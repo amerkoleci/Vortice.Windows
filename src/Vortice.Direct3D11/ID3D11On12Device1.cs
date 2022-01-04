@@ -1,22 +1,28 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
 using SharpGen.Runtime;
 
-namespace Vortice.Direct3D11
-{
-    public partial class ID3D11On12Device1
-    {
-        public T? GetD3D12Device<T>() where T : ComObject
-        {
-            var result = GetD3D12Device(typeof(T).GUID, out IntPtr devicePtr);
-            if (result.Failure)
-            {
-                return default;
-            }
+namespace Vortice.Direct3D11;
 
-            return MarshallingHelpers.FromPointer<T>(devicePtr);
+public partial class ID3D11On12Device1
+{
+    public Result GetD3D12Device<T>(out T? device) where T : ComObject
+    {
+        Result result = GetD3D12Device(typeof(T).GUID, out IntPtr devicePtr);
+        if (result.Failure)
+        {
+            device = default;
+            return result;
         }
+
+        device = MarshallingHelpers.FromPointer<T>(devicePtr);
+        return result;
+    }
+
+    public T GetD3D12Device<T>() where T : ComObject
+    {
+        GetD3D12Device(typeof(T).GUID, out IntPtr devicePtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(devicePtr);
     }
 }

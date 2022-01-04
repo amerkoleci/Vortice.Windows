@@ -1,28 +1,27 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-namespace Vortice.Direct3D11
+namespace Vortice.Direct3D11;
+
+/// <summary>
+/// Describes a vertex buffer view.
+/// </summary>
+public readonly struct VertexBufferView
 {
-    /// <summary>
-    /// Describes a vertex buffer view.
-    /// </summary>
-    public readonly struct VertexBufferView
-    {
-        public readonly ID3D11Buffer Buffer;
-        public readonly int Stride;
-        public readonly int Offset;
+    public readonly ID3D11Buffer Buffer;
+    public readonly int Stride;
+    public readonly int Offset;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="VertexBufferView"/> struct.
-        /// </summary>
-        /// <param name="buffer">The <see cref="ID3D11Buffer"/> to bind.</param>
-        /// <param name="stride">Specifies the size in bytes of each vertex entry.</param>
-        /// <param name="offset">Offset.</param>
-        public VertexBufferView(ID3D11Buffer buffer, int stride, int offset = 0)
-        {
-            Buffer = buffer;
-            Stride = stride;
-            Offset = offset;
-        }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VertexBufferView"/> struct.
+    /// </summary>
+    /// <param name="buffer">The <see cref="ID3D11Buffer"/> to bind.</param>
+    /// <param name="stride">Specifies the size in bytes of each vertex entry.</param>
+    /// <param name="offset">Offset.</param>
+    public VertexBufferView(ID3D11Buffer buffer, int stride, int offset = 0)
+    {
+        Buffer = buffer;
+        Stride = stride;
+        Offset = offset;
     }
 }

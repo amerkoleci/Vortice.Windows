@@ -1,34 +1,23 @@
-###############################################################################
-# EditorConfig is awesome: http://EditorConfig.org
-###############################################################################
+# editorconfig.org
 
-###############################################################################
-# Top-most EditorConfig file
-###############################################################################
+# top-most EditorConfig file
 root = true
 
-###############################################################################
-# Set default behavior to:
-#   a UTF-8 encoding,
-#   Unix-style line endings,
-#   a newline ending the file,
-#   4 space indentation, and
-#   trimming of trailing whitespace
-###############################################################################
+# Default settings:
+# A newline ending every file
+# Use 4 spaces as indentation
 [*]
-charset = utf-8
-end_of_line = lf
 insert_final_newline = true
 indent_style = space
 indent_size = 4
 trim_trailing_whitespace = true
 
+# Generated code
+[*{_AssemblyInfo.cs,.notsupported.cs,AsmOffsets.cs}]
+generated_code = true
+
 [project.json]
 indent_size = 2
-
-# Generated code
-[*{_AssemblyInfo.cs,.notsupported.cs}]
-generated_code = true
 
 # C# files
 [*.cs]

@@ -241,28 +241,28 @@ public partial class ID3D11Device
 
     public unsafe ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        fixed (void* pBuffer = shaderBytecode)
+        fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateVertexShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateVertexShader(pBuffer, shaderBytecode.Length, classLinkage);
         }
     }
 
-    public ID3D11VertexShader CreateVertexShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public unsafe ID3D11VertexShader CreateVertexShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        return CreateVertexShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        return CreateVertexShader((void*)shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
     }
 
     public unsafe ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        fixed (void* pBuffer = shaderBytecode)
+        fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreatePixelShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            return CreatePixelShader(pBuffer, shaderBytecode.Length, classLinkage);
         }
     }
 
-    public ID3D11PixelShader CreatePixelShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public unsafe ID3D11PixelShader CreatePixelShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        return CreatePixelShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        return CreatePixelShader((void*)shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
     }
 
     public unsafe ID3D11GeometryShader CreateGeometryShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)

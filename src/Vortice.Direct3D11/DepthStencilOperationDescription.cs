@@ -1,5 +1,5 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D11;
 
@@ -8,7 +8,7 @@ public partial struct DepthStencilOperationDescription
     /// <summary>
     /// A built-in description with default values.
     /// </summary>
-    public static readonly DepthStencilOperationDescription Default = new DepthStencilOperationDescription(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Keep, ComparisonFunction.Always);
+    public static readonly DepthStencilOperationDescription Default = new(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Keep, ComparisonFunction.Always);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DepthStencilOperationDescription"/> struct.

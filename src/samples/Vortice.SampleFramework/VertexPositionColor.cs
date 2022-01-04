@@ -4,7 +4,7 @@
 using System.Numerics;
 using Vortice.Mathematics;
 
-namespace HelloDirect3D12;
+namespace Vortice;
 
 public readonly struct VertexPositionColor
 {
