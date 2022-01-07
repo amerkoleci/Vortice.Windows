@@ -7,9 +7,9 @@
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include</include-dir>
 
-  <include file="xaudio2redist.h" attach="true" />
-  <include file="xaudio2fxredist.h" attach="true" namespace="Vortice.XAudio2.Fx" />
-  <include file="x3daudioredist.h" attach="true" />
+  <include file="xaudio2.h" attach="true" />
+  <include file="xaudio2fx.h" attach="true" namespace="Vortice.XAudio2.Fx" />
+  <include file="x3daudio.h" attach="true" />
 
   <extension>
     <define struct="System.Drawing.Point" sizeof="8" />
@@ -135,7 +135,7 @@
     <map enum="XAUDIO2_(.*)" name-tmp="$1" />
     <map enum="XAUDIO2_LOG_TYPE" flags="true" />
     <map enum="XAUDIO2_FLAGS" name="XAudio2Flags" />
-    <map enum="XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER" name="ProcessorSpecifier"/>
+    <map enum="XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER" name="ProcessorSpecifier" type="uint"/>
     <map enum-item="XAUDIO2_USE_DEFAULT_PROCESSOR" name="UseDefaultProcessor" />
     <map enum-item="XAUDIO2_ANY_PROCESSOR" name="AnyProcessor" />
     <map enum-item="XAUDIO2_DEFAULT_PROCESSOR" name="DefaultProcessor" />

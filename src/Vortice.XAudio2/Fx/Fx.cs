@@ -87,18 +87,58 @@ namespace Vortice.XAudio2.Fx
             return result;
         }
 
-        public static Result CreateAudioVolumeMeter(out ComObject volumeMeter) => XAudio2Native.CreateAudioVolumeMeter(out volumeMeter);
-        public static ComObject CreateAudioVolumeMeter()
+        public static Result CreateAudioVolumeMeter<T>(out T? volumeMeter) where T : ComObject
         {
-            XAudio2Native.CreateAudioVolumeMeter(out ComObject volumeMeter).CheckError();
-            return volumeMeter;
+            unsafe
+            {
+                IntPtr reverbPtr = default;
+                Result result = XAudio2Native.CreateAudioVolumeMeter(0u, &reverbPtr);
+                if (result.Failure)
+                {
+                    volumeMeter = default;
+                    return result;
+                }
+
+                volumeMeter = MarshallingHelpers.FromPointer<T>(reverbPtr);
+                return result;
+            }
         }
 
-        public static Result CreateAudioReverb(out ComObject reverb) => XAudio2Native.CreateAudioReverb(out reverb);
-        public static ComObject CreateAudioReverb()
+        public static T CreateAudioVolumeMeter<T>() where T : ComObject
         {
-            XAudio2Native.CreateAudioReverb(out ComObject reverb).CheckError();
-            return reverb;
+            unsafe
+            {
+                IntPtr reverbPtr = default;
+                XAudio2Native.CreateAudioVolumeMeter(0u, &reverbPtr).CheckError();
+                return MarshallingHelpers.FromPointer<T>(reverbPtr);
+            }
+        }
+
+        public static Result CreateAudioReverb<T>(out T? reverb) where T : ComObject
+        {
+            unsafe
+            {
+                IntPtr reverbPtr = default;
+                Result result = XAudio2Native.CreateAudioReverb(0u, &reverbPtr);
+                if (result.Failure)
+                {
+                    reverb = default;
+                    return result;
+                }
+
+                reverb = MarshallingHelpers.FromPointer<T>(reverbPtr);
+                return result;
+            }
+        }
+
+        public static T CreateAudioReverb<T>() where T : ComObject
+        {
+            unsafe
+            {
+                IntPtr reverbPtr = default;
+                XAudio2Native.CreateAudioReverb(0u, &reverbPtr).CheckError();
+                return MarshallingHelpers.FromPointer<T>(reverbPtr);
+            }
         }
     }
 }

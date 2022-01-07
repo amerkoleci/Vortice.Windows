@@ -16,12 +16,28 @@
 
 #include <sdkddkver.h>
 
+#if(_WIN32_WINNT < _WIN32_WINNT_WIN8)
+#error "This version of XAudio2 is available only in Windows 8 or later. Use the XAudio2 headers and libraries from XAudio2Redist with applications that target Windows 7. See https://aka.ms/xaudio2redist."
+#endif // (_WIN32_WINNT < _WIN32_WINNT_WIN8)
+
+#include <winapifamily.h>
+
+#pragma region Application Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_TV_APP | WINAPI_PARTITION_TV_TITLE | WINAPI_PARTITION_GAMES)
+
 // Current name of the DLL shipped in the same SDK as this header.
 // The name reflects the current version
-#define XAUDIO2_DLL_A  "xaudio2_9redist.dll"
-#define XAUDIO2_DLL_W L"xaudio2_9redist.dll"
-#define XAUDIO2D_DLL_A  "xaudio2_9redist.dll"
-#define XAUDIO2D_DLL_W L"xaudio2_9redist.dll"
+#if(_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+    #define XAUDIO2_DLL_A  "xaudio2_9.dll"
+    #define XAUDIO2_DLL_W L"xaudio2_9.dll"
+    #define XAUDIO2D_DLL_A  "xaudio2_9d.dll"
+    #define XAUDIO2D_DLL_W L"xaudio2_9d.dll"
+#else
+    #define XAUDIO2_DLL_A  "xaudio2_8.dll"
+    #define XAUDIO2_DLL_W L"xaudio2_8.dll"
+    #define XAUDIO2D_DLL_A  "xaudio2_8.dll"
+    #define XAUDIO2D_DLL_W L"xaudio2_8.dll"
+#endif
 
 #ifdef UNICODE
     #define XAUDIO2_DLL XAUDIO2_DLL_W
@@ -41,19 +57,31 @@
 #include <basetyps.h>
 
 #ifdef __cplusplus
+    // Compiling with C++ for Windows 10 and later
+#if (NTDDI_VERSION >= NTDDI_WIN10)
     // XAudio 2.9
     interface __declspec(uuid("2B02E3CF-2E0B-4ec3-BE45-1B2A3FE7210D")) IXAudio2;
     interface __declspec(uuid("84ac29bb-d619-44d2-b197-e4acf7df3ed6")) IXAudio2Extension;
     // Vortice.Windows patch (SharpGenTools doesn't support bellow semantic)
     //EXTERN_C const GUID DECLSPEC_SELECTANY IID_IXAudio2Extension = __uuidof(IXAudio2Extension);
+    DEFINE_GUID(IID_IXAudio2Extension, 0x84ac29bb, 0xd619, 0x44d2, 0xb1, 0x97, 0xe4, 0xac, 0xf7, 0xdf, 0x3e, 0xd6);
+#else // #if (NTDDI_VERSION >= NTDDI_WIN10)
+    // Compiling with C++ for Windows 8 or 8.1
+    // XAudio 2.8
+    interface __declspec(uuid("60d8dac8-5aa1-4e8e-b597-2f5e2883d484")) IXAudio2;
+#endif // #if (NTDDI_VERSION >= NTDDI_WIN10)
+    // Vortice.Windows patch (SharpGenTools doesn't support bellow semantic)
     //EXTERN_C const GUID DECLSPEC_SELECTANY IID_IXAudio2 = __uuidof(IXAudio2);
     DEFINE_GUID(IID_IXAudio2, 0x2B02E3CF, 0x2E0B, 0x4ec3, 0xBE, 0x45, 0x1B, 0x2A, 0x3F, 0xE7, 0x21, 0x0D);
-    DEFINE_GUID(IID_IXAudio2Extension, 0x84ac29bb, 0xd619, 0x44d2, 0xb1, 0x97, 0xe4, 0xac, 0xf7, 0xdf, 0x3e, 0xd6);
-
 #else // #ifdef __cplusplus
+#if (NTDDI_VERSION >= NTDDI_WIN10)
     // Compiling with C for Windows 10 and later
     DEFINE_GUID(IID_IXAudio2,           0x2B02E3CF, 0x2E0B, 0x4ec3, 0xBE, 0x45, 0x1B, 0x2A, 0x3F, 0xE7, 0x21, 0x0D);
     DEFINE_GUID(IID_IXAudio2Extension,  0x84ac29bb, 0xd619, 0x44d2, 0xb1, 0x97, 0xe4, 0xac, 0xf7, 0xdf, 0x3e, 0xd6);
+#else // #if (NTDDI_VERSION >= NTDDI_WIN10)
+    // Compiling with C for Windows 8 or 8.1
+    DEFINE_GUID(IID_IXAudio2,           0x60d8dac8, 0x5aa1, 0x4e8e, 0xb5, 0x97, 0x2f, 0x5e, 0x28, 0x83, 0xd4, 0x84);
+#endif // #if (NTDDI_VERSION >= NTDDI_WIN10)
 #endif // #ifdef __cplusplus
 
 
@@ -64,31 +92,6 @@
 #include <sal.h>               // Markers for documenting API semantics
 #include <mmreg.h>             // Basic data types and constants for audio work
 #include <audiosessiontypes.h> // For AUDIO_STREAM_CATEGORY
-
-// The Windows 7 version of audiosessiontypes.h does not define AUDIO_STREAM_CATEGORY, so if we are targeting
-// Windows 7 we might have to define it here, depending on which SDK is used.
-#if _WIN32_WINNT < _WIN32_WINNT_WIN8
-
-// If we are compiling for Windows 7, we might be using the Windows 7 Platform SDK, which does not have AUDIO_STREAM_CATEGORY.
-// But we might be using a newer SDK (such as the Win8 Platform SDK), which has AUDIO_STREAM_CATEGORY.
-// Determine if we are using the Windows 7 Platform SDK by checking if WAVE_FORMAT_WM9_SPECTRUM_ANALYZER is defined.
-#ifndef WAVE_FORMAT_WM9_SPECTRUM_ANALYZER
-typedef enum _AUDIO_STREAM_CATEGORY
-{
-    AudioCategory_Other = 0,
-    AudioCategory_ForegroundOnlyMedia = 1,
-    AudioCategory_Communications = 3,
-    AudioCategory_Alerts = 4,
-    AudioCategory_SoundEffects = 5,
-    AudioCategory_GameEffects = 6,
-    AudioCategory_GameMedia = 7,
-    AudioCategory_GameChat = 8,
-    AudioCategory_Speech = 9,
-    AudioCategory_Movie = 10,
-    AudioCategory_Media = 11,
-} AUDIO_STREAM_CATEGORY;
-#endif /* WAVE_FORMAT_WM9_SPECTRUM_ANALYZER */
-#endif /* NTDDI_VERSION < NTDDI_WIN8 */
 
 // All structures defined in this file use tight field packing
 #pragma pack(push, 1)
@@ -226,11 +229,13 @@ typedef UINT32 XAUDIO2_PROCESSOR;
 #define Processor32 0x80000000
 #define XAUDIO2_ANY_PROCESSOR 0xffffffff
 
+#if (NTDDI_VERSION >= NTDDI_WIN10_19H1)
 // This value indicates that XAudio2 will choose the default processor by itself. The actual value chosen
 // may vary depending on the hardware platform.
 #define XAUDIO2_USE_DEFAULT_PROCESSOR 0x00000000
+#endif
 
-// This definition is included for backwards compatibilty. New implementations should use
+// This definition is included for backwards compatibilty. Implementations targeting Games and WIN10_19H1 and later, should use
 // XAUDIO2_USE_DEFAULT_PROCESSOR instead to let XAudio2 select the appropriate default processor for the hardware platform.
 #define XAUDIO2_DEFAULT_PROCESSOR Processor1
 
@@ -1220,7 +1225,7 @@ __inline float XAudio2CutoffFrequencyToRadians(float CutoffFrequency, UINT32 Sam
     {
         return XAUDIO2_MAX_FILTER_FREQUENCY;
     }
-    return 2.0f * sinf((float)M_PI * CutoffFrequency / SampleRate);
+    return 2.0f * sinf((float)M_PI * CutoffFrequency / (float)SampleRate);
 }
 
 // Convert from radian frequencies back to absolute frequencies in Hertz
@@ -1239,7 +1244,7 @@ __inline float XAudio2CutoffFrequencyToOnePoleCoefficient(float CutoffFrequency,
     {
         return XAUDIO2_MAX_FILTER_FREQUENCY;
     }
-    return ( 1.0f - powf(1.0f - 2.0f * CutoffFrequency / SampleRate, 2.0f) );
+    return ( 1.0f - powf(1.0f - 2.0f * CutoffFrequency / (float)SampleRate, 2.0f) );
 }
 
 
@@ -1267,13 +1272,68 @@ __inline float XAudio2CutoffFrequencyToOnePoleCoefficient(float CutoffFrequency,
 // We're an xaudio2 client
 #define XAUDIO2_STDAPI EXTERN_C DECLSPEC_IMPORT HRESULT STDAPICALLTYPE
 
+#if (NTDDI_VERSION >= NTDDI_WIN10_RS5) && WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+XAUDIO2_STDAPI XAudio2CreateWithVersionInfo(_Outptr_ IXAudio2** ppXAudio2,
+    UINT32 Flags X2DEFAULT(0),
+    XAUDIO2_PROCESSOR XAudio2Processor X2DEFAULT(XAUDIO2_DEFAULT_PROCESSOR),
+    DWORD ntddiVersion X2DEFAULT(NTDDI_VERSION));
+
+// Definition of XAudio2Create for Desktop apps targeting RS5 and newer
+inline HRESULT XAudio2Create(_Outptr_ IXAudio2** ppXAudio2,
+    UINT32 Flags X2DEFAULT(0),
+    XAUDIO2_PROCESSOR XAudio2Processor X2DEFAULT(XAUDIO2_DEFAULT_PROCESSOR))
+{
+    // When compiled for RS5 or later, try to invoke XAudio2CreateWithVersionInfo.
+    // Need to use LoadLibrary in case the app is running on an older OS.
+    typedef HRESULT(__stdcall *XAudio2CreateWithVersionInfoFunc)(_Outptr_ IXAudio2**, UINT32, XAUDIO2_PROCESSOR, DWORD);
+    typedef HRESULT(__stdcall *XAudio2CreateInfoFunc)(_Outptr_ IXAudio2**, UINT32, XAUDIO2_PROCESSOR);
+
+    static HMODULE s_dllInstance = NULL;
+    static XAudio2CreateWithVersionInfoFunc s_pfnAudio2CreateWithVersion = NULL;
+    static XAudio2CreateInfoFunc s_pfnAudio2Create = NULL;
+
+    if (s_dllInstance == NULL)
+    {
+        s_dllInstance = LoadLibraryEx(XAUDIO2_DLL, NULL, LOAD_LIBRARY_SEARCH_SYSTEM32);
+        if (s_dllInstance == NULL)
+        {
+            return HRESULT_FROM_WIN32(GetLastError());
+        }
+
+        s_pfnAudio2CreateWithVersion = (XAudio2CreateWithVersionInfoFunc)(void*)GetProcAddress(s_dllInstance, "XAudio2CreateWithVersionInfo");
+        if (s_pfnAudio2CreateWithVersion == NULL)
+        {
+            s_pfnAudio2Create = (XAudio2CreateInfoFunc)(void*)GetProcAddress(s_dllInstance, "XAudio2Create");
+            if (s_pfnAudio2Create == NULL)
+            {
+                return HRESULT_FROM_WIN32(GetLastError());
+            }
+        }
+    }
+
+    if (s_pfnAudio2CreateWithVersion != NULL)
+    {
+        return (*s_pfnAudio2CreateWithVersion)(ppXAudio2, Flags, XAudio2Processor, NTDDI_VERSION);
+    }
+    return (*s_pfnAudio2Create)(ppXAudio2, Flags, XAudio2Processor);
+}
+#elif (NTDDI_VERSION <= NTDDI_WIN10_RS5)
+// Definition of XAudio2Create for Non-Desktop apps on RS5 and older, and Desktop apps on RS4 and older
+XAUDIO2_STDAPI XAudio2Create(_Outptr_ IXAudio2** ppXAudio2, UINT32 Flags X2DEFAULT(0),
+    XAUDIO2_PROCESSOR XAudio2Processor X2DEFAULT(XAUDIO2_DEFAULT_PROCESSOR));
+#else
+// Definition of XAudio2Create for Non-Desktop apps targeting an OS release greater than RS5
 XAUDIO2_STDAPI XAudio2Create(_Outptr_ IXAudio2** ppXAudio2, UINT32 Flags X2DEFAULT(0),
     XAUDIO2_PROCESSOR XAudio2Processor X2DEFAULT(XAUDIO2_USE_DEFAULT_PROCESSOR));
+#endif
 
 // Undo the #pragma pack(push, 1) directive at the top of this file
 #pragma pack(pop)
 
 #endif // #ifndef GUID_DEFS_ONLY
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_TV_APP | WINAPI_PARTITION_TV_TITLE | WINAPI_PARTITION_GAMES) */
+#pragma endregion
 
 #endif // #ifndef __XAUDIO2_INCLUDED__
 

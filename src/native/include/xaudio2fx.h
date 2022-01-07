@@ -14,6 +14,17 @@
 #ifndef __XAUDIO2FX_INCLUDED__
 #define __XAUDIO2FX_INCLUDED__
 
+#include <sdkddkver.h>
+
+#if(_WIN32_WINNT < _WIN32_WINNT_WIN8)
+#error "This version of XAudio2 is available only in Windows 8 or later. Use the XAudio2 headers and libraries from the DirectX SDK with applications that target Windows 7 and earlier versions."
+#endif // (_WIN32_WINNT < _WIN32_WINNT_WIN8)
+
+#include <winapifamily.h>
+
+#pragma region Application Family
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_TV_APP | WINAPI_PARTITION_TV_TITLE | WINAPI_PARTITION_GAMES)
+
 #ifdef __cplusplus
 // XAudio 2.8
 class __declspec(uuid("4FC3B166-972A-40CF-BC37-7DB03DB2FBA3")) AudioVolumeMeter;
@@ -132,7 +143,10 @@ typedef struct XAUDIO2FX_REVERB_PARAMETERS
     UINT32 ReflectionsDelay;    // [0, 300] in ms
     BYTE ReverbDelay;           // [0, 85] in ms
     BYTE RearDelay;             // 7.1: [0, 20] in ms, all other: [0, 5] in ms
+#if(_WIN32_WINNT >= _WIN32_WINNT_WIN10)
     BYTE SideDelay;             // 7.1: [0, 5] in ms, all other: not used, but still validated
+#endif
+
 
     // Indexed parameters
     BYTE PositionLeft;          // [0, 30] no units
@@ -256,8 +270,10 @@ typedef struct XAUDIO2FX_REVERB_I3DL2_PARAMETERS
 __inline void ReverbConvertI3DL2ToNative
 (
     _In_ const XAUDIO2FX_REVERB_I3DL2_PARAMETERS* pI3DL2,
-    _Out_ XAUDIO2FX_REVERB_PARAMETERS* pNative,
-    BOOL sevenDotOneReverb DEFAULT(TRUE)
+    _Out_ XAUDIO2FX_REVERB_PARAMETERS* pNative
+#if(_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+    ,  BOOL sevenDotOneReverb DEFAULT(TRUE)
+#endif
 )
 {
     float reflectionsDelay;
@@ -266,6 +282,7 @@ __inline void ReverbConvertI3DL2ToNative
     // RoomRolloffFactor is ignored
 
     // These parameters have no equivalent in I3DL2
+#if(_WIN32_WINNT >= _WIN32_WINNT_WIN10)
     if(sevenDotOneReverb)
     {
         pNative->RearDelay = XAUDIO2FX_REVERB_DEFAULT_7POINT1_REAR_DELAY; // 20
@@ -275,6 +292,9 @@ __inline void ReverbConvertI3DL2ToNative
         pNative->RearDelay = XAUDIO2FX_REVERB_DEFAULT_REAR_DELAY; // 5
     }
     pNative->SideDelay = XAUDIO2FX_REVERB_DEFAULT_7POINT1_SIDE_DELAY; // 5
+#else
+    pNative->RearDelay = XAUDIO2FX_REVERB_DEFAULT_REAR_DELAY; // 5
+#endif
     pNative->PositionLeft = XAUDIO2FX_REVERB_DEFAULT_POSITION; // 6
     pNative->PositionRight = XAUDIO2FX_REVERB_DEFAULT_POSITION; // 6
     pNative->PositionMatrixLeft = XAUDIO2FX_REVERB_DEFAULT_POSITION_MATRIX; // 27
@@ -322,8 +342,8 @@ __inline void ReverbConvertI3DL2ToNative
     }
     pNative->ReverbDelay = (BYTE)reverbDelay;
 
-    pNative->ReflectionsGain = pI3DL2->Reflections / 100.0f;
-    pNative->ReverbGain = pI3DL2->Reverb / 100.0f;
+    pNative->ReflectionsGain = (float)pI3DL2->Reflections / 100.0f;
+    pNative->ReverbGain = (float)pI3DL2->Reverb / 100.0f;
     pNative->EarlyDiffusion = (BYTE)(15.0f * pI3DL2->Diffusion / 100.0f);
     pNative->LateDiffusion = pNative->EarlyDiffusion;
     pNative->Density = pI3DL2->Density;
@@ -376,6 +396,9 @@ __inline void ReverbConvertI3DL2ToNative
 #pragma pack(pop)
 
 #endif // #ifndef GUID_DEFS_ONLY
+
+#endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_TV_APP | WINAPI_PARTITION_TV_TITLE | WINAPI_PARTITION_GAMES) */
+#pragma endregion
 
 #endif // #ifndef __XAUDIO2FX_INCLUDED__
 
