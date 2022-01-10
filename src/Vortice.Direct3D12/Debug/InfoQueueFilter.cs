@@ -1,54 +1,49 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.InteropServices;
+namespace Vortice.Direct3D12.Debug;
 
-namespace Vortice.Direct3D12.Debug
+public partial class InfoQueueFilter
 {
-    public partial class InfoQueueFilter
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    internal struct __Native
     {
-        #region Marshal
-        [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        internal struct __Native
+        public InfoQueueFilterDescription.__Native AllowList;
+
+        public InfoQueueFilterDescription.__Native DenyList;
+
+        internal void __MarshalFree()
         {
-            public InfoQueueFilterDescription.__Native AllowList;
+            AllowList.__MarshalFree();
+            DenyList.__MarshalFree();
+        }
+    }
 
-            public InfoQueueFilterDescription.__Native DenyList;
+    internal void __MarshalFree(ref __Native @ref)
+    {
+        @ref.__MarshalFree();
+    }
 
-            internal void __MarshalFree()
-            {
-                AllowList.__MarshalFree();
-                DenyList.__MarshalFree();
-            }
+    internal void __MarshalFrom(ref __Native @ref)
+    {
+        AllowList = new InfoQueueFilterDescription();
+        AllowList.__MarshalFrom(ref @ref.AllowList);
+        DenyList = new InfoQueueFilterDescription();
+        DenyList.__MarshalFrom(ref @ref.DenyList);
+    }
+
+    internal void __MarshalTo(ref __Native @ref)
+    {
+        @ref.AllowList = default;
+        if (AllowList != null)
+        {
+            AllowList.__MarshalTo(ref @ref.AllowList);
         }
 
-        internal void __MarshalFree(ref __Native @ref)
+        @ref.DenyList = default;
+        if (DenyList != null)
         {
-            @ref.__MarshalFree();
+            DenyList.__MarshalTo(ref @ref.DenyList);
         }
-
-        internal void __MarshalFrom(ref __Native @ref)
-        {
-            AllowList = new InfoQueueFilterDescription();
-            AllowList.__MarshalFrom(ref @ref.AllowList);
-            DenyList = new InfoQueueFilterDescription();
-            DenyList.__MarshalFrom(ref @ref.DenyList);
-        }
-
-        internal void __MarshalTo(ref __Native @ref)
-        {
-            @ref.AllowList = default;
-            if (AllowList != null)
-            {
-                AllowList.__MarshalTo(ref @ref.AllowList);
-            }
-
-            @ref.DenyList = default;
-            if (DenyList != null)
-            {
-                DenyList.__MarshalTo(ref @ref.DenyList);
-            }
-        }
-        #endregion
     }
 }

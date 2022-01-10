@@ -1013,6 +1013,8 @@
     <map function="D3D12SerializeVersionedRootSignature" hresult="true" check="false"/>
     <map method="ID3D12CommandList::GetType" name="GetCommandListType" />
 
+    <map field="D3D12_GPU_DESCRIPTOR_HANDLE::ptr" name="ptr"/>
+
     <map struct="D3D12_CACHED_PIPELINE_STATE::pCachedBlob" name="CachedBlobPointer"/>
     <map field="D3D12_GLOBAL_ROOT_SIGNATURE::pGlobalRootSignature" name="RootSignature"/>
     <map field="D3D12_LOCAL_ROOT_SIGNATURE::pLocalRootSignature" name="RootSignature"/>

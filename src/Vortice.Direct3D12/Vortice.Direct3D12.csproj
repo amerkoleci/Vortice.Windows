@@ -9,9 +9,8 @@
 
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
+    <Using Include="System.Runtime.InteropServices" />
+    <Using Include="SharpGen.Runtime" />
     <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
   </ItemGroup>
 
