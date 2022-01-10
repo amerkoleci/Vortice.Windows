@@ -1,30 +1,26 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using SharpGen.Runtime;
+namespace Vortice.DXGI;
 
-namespace Vortice.DXGI
+public partial class IDXGIFactory6
 {
-    public partial class IDXGIFactory6
+    public Result EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference, out T? adapter) where T : IDXGIAdapter
     {
-        public Result EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference, out T? adapter) where T : IDXGIAdapter
+        Result result = EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr);
+        if (result.Success)
         {
-            Result result = EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr);
-            if (result.Success)
-            {
-                adapter = MarshallingHelpers.FromPointer<T>(adapterPtr);
-                return result;
-            }
-
-            adapter = null;
+            adapter = MarshallingHelpers.FromPointer<T>(adapterPtr);
             return result;
         }
 
-        public T EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference) where T : IDXGIAdapter
-        {
-            EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(adapterPtr);
-        }
+        adapter = null;
+        return result;
+    }
+
+    public T EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference) where T : IDXGIAdapter
+    {
+        EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(adapterPtr);
     }
 }
