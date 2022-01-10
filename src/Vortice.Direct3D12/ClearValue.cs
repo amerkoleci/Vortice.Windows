@@ -62,7 +62,7 @@ public partial struct ClearValue
     /// </param>
     /// <param name="depth">Specifies the depth value.</param>
     /// <param name="stencil">Specifies the stencil value.</param>
-    public ClearValue(Format format, float depth, byte stencil) : this()
+    public ClearValue(Format format, float depth, byte stencil = 0) : this()
     {
         Format = format;
         DepthStencil = new DepthStencilValue(depth, stencil);

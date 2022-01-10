@@ -22,6 +22,14 @@ public static class Program
 
             _graphicsDevice = new D3D12GraphicsDevice(validation, MainWindow!);
         }
+
+        protected override void OnKeyboardEvent(KeyboardKey key, bool pressed)
+        {
+            if (key == KeyboardKey.Space && pressed)
+            {
+                ((D3D12GraphicsDevice)_graphicsDevice).UseRenderPass = !((D3D12GraphicsDevice)_graphicsDevice).UseRenderPass;
+            }
+        }
     }
 
     private unsafe static void TestDXCore()

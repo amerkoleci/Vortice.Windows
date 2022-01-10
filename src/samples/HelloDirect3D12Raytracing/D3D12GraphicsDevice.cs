@@ -225,7 +225,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
             _commandAllocators = new ID3D12CommandAllocator[RenderLatency];
             for (int i = 0; i < RenderLatency; i++)
             {
-                _commandAllocators[i] = _d3d12Device.CreateCommandAllocator<ID3D12CommandAllocator>(CommandListType.Direct);
+                _commandAllocators[i] = _d3d12Device.CreateCommandAllocator(CommandListType.Direct);
             }
 
             _commandList = _d3d12Device.CreateCommandList<ID3D12GraphicsCommandList4>(0, CommandListType.Direct, _commandAllocators[0]);

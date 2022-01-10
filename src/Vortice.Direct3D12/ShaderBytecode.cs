@@ -1,83 +1,84 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using System.Runtime.InteropServices;
-using SharpGen.Runtime;
+using static Vortice.UnsafeUtilities;
+using System.Runtime.CompilerServices;
 
-namespace Vortice.Direct3D12
+namespace Vortice.Direct3D12;
+
+/// <summary>
+/// Describes shader data.
+/// </summary>
+public partial class ShaderBytecode
 {
-    /// <summary>
-    /// Describes shader data.
-    /// </summary>
-    public partial class ShaderBytecode
+    public byte[]? Data { get; set; }
+
+    public ShaderBytecode()
     {
-        public byte[]? Data { get; set; }
-
-        public ShaderBytecode()
-        {
-        }
-
-        public ShaderBytecode(byte[] data)
-        {
-            Data = data;
-        }
-
-        public ShaderBytecode(IntPtr bytecode, PointerSize length)
-        {
-            Data = new byte[length];
-            UnsafeUtilities.Read(bytecode, Data);
-        }
-
-        public static implicit operator ShaderBytecode(byte[] buffer)
-        {
-            return new ShaderBytecode(buffer);
-        }
-
-        #region Marshal
-        [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        internal struct __Native
-        {
-            public IntPtr Bytecode;
-
-            public PointerSize Length;
-
-            internal void __MarshalFree()
-            {
-                if (Bytecode != IntPtr.Zero)
-                {
-                    Marshal.FreeHGlobal(Bytecode);
-                }
-            }
-        }
-
-        internal unsafe void __MarshalFree(ref __Native @ref)
-        {
-            @ref.__MarshalFree();
-        }
-
-        internal unsafe void __MarshalFrom(ref __Native @ref)
-        {
-            Data = new byte[@ref.Length];
-            if (@ref.Length > 0)
-            {
-                UnsafeUtilities.Read(@ref.Bytecode, Data);
-            }
-        }
-
-        internal unsafe void __MarshalTo(ref __Native @ref)
-        {
-            if (Data?.Length > 0)
-            {
-                @ref.Bytecode = UnsafeUtilities.AllocToPointer(Data);
-                @ref.Length = Data.Length;
-            }
-            else
-            {
-                @ref.Bytecode = IntPtr.Zero;
-                @ref.Length = 0;
-            }
-        }
-        #endregion
     }
+
+    public ShaderBytecode(byte[] data)
+    {
+        Data = data;
+    }
+
+    public ShaderBytecode(IntPtr bytecode, PointerSize length)
+    {
+        Data = new byte[length];
+        UnsafeUtilities.Read(bytecode, Data);
+    }
+
+    public static implicit operator ShaderBytecode(byte[] buffer)
+    {
+        return new ShaderBytecode(buffer);
+    }
+
+    #region Marshal
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    internal unsafe struct __Native
+    {
+        public void* pShaderBytecode;
+
+        public nuint BytecodeLength;
+
+        internal void __MarshalFree()
+        {
+            if (pShaderBytecode != null)
+            {
+                Marshal.FreeHGlobal((IntPtr)pShaderBytecode);
+            }
+        }
+    }
+
+    internal unsafe void __MarshalFree(ref __Native @ref)
+    {
+        @ref.__MarshalFree();
+    }
+
+    internal unsafe void __MarshalFrom(ref __Native @ref)
+    {
+        Data = new byte[@ref.BytecodeLength];
+        if (@ref.BytecodeLength > 0)
+        {
+            fixed (void* dstPtr = Data)
+            {
+                Unsafe.CopyBlockUnaligned(dstPtr, @ref.pShaderBytecode, (uint)(@ref.BytecodeLength));
+            }
+        }
+    }
+
+    internal unsafe void __MarshalTo(ref __Native @ref)
+    {
+        if (Data?.Length > 0)
+        {
+            @ref.pShaderBytecode = AllocWithData(Data);
+            @ref.BytecodeLength = (uint)Data.Length;
+        }
+        else
+        {
+            @ref.pShaderBytecode = null;
+            @ref.BytecodeLength = 0;
+        }
+    }
+    #endregion
 }

@@ -24,9 +24,14 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
     public readonly Window Window;
     public readonly IDXGIFactory4 DXGIFactory;
     private readonly ID3D12Device2 _d3d12Device;
-    private readonly ID3D12DescriptorHeap _rtvHeap;
+    private readonly ID3D12DescriptorHeap _rtvDescriptorHeap;
     private readonly int _rtvDescriptorSize;
     private readonly ID3D12Resource[] _renderTargets;
+
+    private readonly Format _depthStencilFormat;
+    private readonly ID3D12Resource? _depthStencilTexture;
+    private readonly ID3D12DescriptorHeap? _dsvDescriptorHeap;
+
     private readonly ID3D12CommandAllocator[] _commandAllocators;
 
     private readonly ID3D12RootSignature _rootSignature;
@@ -42,9 +47,11 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
     private ulong _frameIndex;
     private int _backbufferIndex;
 
+    public bool UseRenderPass { get; set; } = true;
+
     public static bool IsSupported() => D3D12.IsSupported(FeatureLevel.Level_12_0);
 
-    public D3D12GraphicsDevice(bool validation, Window window)
+    public D3D12GraphicsDevice(bool validation, Window window, Format depthStencilFormat = Format.D32_Float)
     {
         if (!IsSupported())
         {
@@ -52,6 +59,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         }
 
         Window = window;
+        _depthStencilFormat = depthStencilFormat;
 
         if (validation
             && D3D12GetDebugInterface(out ID3D12Debug? debug).Success)
@@ -94,8 +102,6 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             }
         }
 
-        var luid = _d3d12Device.AdapterLuid;
-
         // Create Command queue.
         GraphicsQueue = _d3d12Device!.CreateCommandQueue(CommandListType.Direct);
         GraphicsQueue.Name = "Graphics Queue";
@@ -119,12 +125,38 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             _backbufferIndex = SwapChain.CurrentBackBufferIndex;
         }
 
-        _rtvHeap = _d3d12Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
+        _rtvDescriptorHeap = _d3d12Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
         _rtvDescriptorSize = _d3d12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.RenderTargetView);
+
+
+        if (_depthStencilFormat != Format.Unknown)
+        {
+            ResourceDescription depthStencilDesc = ResourceDescription.Texture2D(_depthStencilFormat, (ulong)swapChainDesc.Width, swapChainDesc.Height, 1, 1);
+            depthStencilDesc.Flags |= ResourceFlags.AllowDepthStencil;
+
+            ClearValue depthOptimizedClearValue = new ClearValue(_depthStencilFormat, 1.0f, 0);
+
+            _depthStencilTexture = _d3d12Device.CreateCommittedResource(
+                new HeapProperties(HeapType.Default),
+                HeapFlags.None,
+                depthStencilDesc,
+                ResourceStates.DepthWrite,
+                depthOptimizedClearValue);
+            _depthStencilTexture.Name = "DepthStencil Texture";
+
+            DepthStencilViewDescription dsViewDesc = new()
+            {
+                Format = _depthStencilFormat,
+                ViewDimension = DepthStencilViewDimension.Texture2D
+            };
+
+            _dsvDescriptorHeap = _d3d12Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.DepthStencilView, 1));
+            _d3d12Device.CreateDepthStencilView(_depthStencilTexture, dsViewDesc, _dsvDescriptorHeap.GetCPUDescriptorHandleForHeapStart());
+        }
 
         // Create frame resources.
         {
-            CpuDescriptorHandle rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
+            CpuDescriptorHandle rtvHandle = _rtvDescriptorHeap.GetCPUDescriptorHandleForHeapStart();
 
             // Create a RTV for each frame.
             _renderTargets = new ID3D12Resource[RenderLatency];
@@ -139,7 +171,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         _commandAllocators = new ID3D12CommandAllocator[RenderLatency];
         for (int i = 0; i < RenderLatency; i++)
         {
-            _commandAllocators[i] = _d3d12Device.CreateCommandAllocator<ID3D12CommandAllocator>(CommandListType.Direct);
+            _commandAllocators[i] = _d3d12Device.CreateCommandAllocator(CommandListType.Direct);
         }
 
         RootSignatureDescription1 rootSignatureDesc = new(RootSignatureFlags.AllowInputAssemblerInputLayout);
@@ -165,9 +197,9 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             PrimitiveTopology = PrimitiveTopologyType.Triangle,
             RasterizerState = RasterizerDescription.CullCounterClockwise,
             BlendState = BlendDescription.Opaque,
-            DepthStencilState = DepthStencilDescription.None,
+            DepthStencilState = DepthStencilDescription.Default,
             RenderTargetFormats = new[] { Format.R8G8B8A8_UNorm },
-            DepthStencilFormat = Format.Unknown,
+            DepthStencilFormat = _depthStencilFormat,
             SampleDescription = new SampleDescription(1, 0)
         };
 
@@ -223,7 +255,9 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         }
         _commandList.Dispose();
 
-        _rtvHeap.Dispose();
+        _depthStencilTexture?.Dispose();
+        _dsvDescriptorHeap?.Dispose();
+        _rtvDescriptorHeap.Dispose();
         _pipelineState.Dispose();
         _rootSignature.Dispose();
         SwapChain.Dispose();
@@ -232,11 +266,13 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         _d3d12Device.Dispose();
         DXGIFactory.Dispose();
 
+#if DEBUG
         if (DXGIGetDebugInterface1(out IDXGIDebug1? dxgiDebug).Success)
         {
             dxgiDebug!.ReportLiveObjects(DebugAll, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
             dxgiDebug!.Dispose();
         }
+#endif
     }
 
     public void WaitIdle()
@@ -254,23 +290,47 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
 
         // Set necessary state.
         _commandList.SetGraphicsRootSignature(_rootSignature);
-        _commandList.RSSetViewport(new Viewport(Window.ClientSize.Width, Window.ClientSize.Height));
-        _commandList.RSSetScissorRect(Window.ClientSize.Width, Window.ClientSize.Height);
 
         // Indicate that the back buffer will be used as a render target.
         _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.Present, ResourceStates.RenderTarget);
 
-        CpuDescriptorHandle rtv = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
-        rtv += _backbufferIndex * _rtvDescriptorSize;
+        CpuDescriptorHandle rtvDescriptor = new(_rtvDescriptorHeap.GetCPUDescriptorHandleForHeapStart(), _backbufferIndex, _rtvDescriptorSize);
+        CpuDescriptorHandle? dsvDescriptor = _dsvDescriptorHeap != null ? _dsvDescriptorHeap.GetCPUDescriptorHandleForHeapStart() : null;
 
         Color4 clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
 
-        var renderPassDesc = new RenderPassRenderTargetDescription(rtv,
-            new RenderPassBeginningAccess(new ClearValue(Format.R8G8B8A8_UNorm, clearColor)),
-            new RenderPassEndingAccess(RenderPassEndingAccessType.Preserve)
-            );
+        if (UseRenderPass)
+        {
+            var renderPassDesc = new RenderPassRenderTargetDescription(rtvDescriptor,
+                new RenderPassBeginningAccess(new ClearValue(Format.R8G8B8A8_UNorm, clearColor)),
+                new RenderPassEndingAccess(RenderPassEndingAccessType.Preserve)
+                );
 
-        _commandList.BeginRenderPass(renderPassDesc);
+            RenderPassDepthStencilDescription? depthStencil = default;
+            if (_dsvDescriptorHeap != null)
+            {
+                depthStencil = new RenderPassDepthStencilDescription(
+                    _dsvDescriptorHeap.GetCPUDescriptorHandleForHeapStart(),
+                    new RenderPassBeginningAccess(new ClearValue(_depthStencilFormat, 1.0f, 0)),
+                    new RenderPassEndingAccess(RenderPassEndingAccessType.Discard)
+                    );
+            }
+
+            _commandList.BeginRenderPass(renderPassDesc, depthStencil);
+        }
+        else
+        {
+            _commandList.OMSetRenderTargets(rtvDescriptor, false, dsvDescriptor);
+            _commandList.ClearRenderTargetView(rtvDescriptor, clearColor);
+
+            if (dsvDescriptor.HasValue)
+            {
+                _commandList.ClearDepthStencilView(dsvDescriptor.Value, ClearFlags.Depth, 1.0f, 0);
+            }
+        }
+
+        _commandList.RSSetViewport(new Viewport(Window.ClientSize.Width, Window.ClientSize.Height));
+        _commandList.RSSetScissorRect(Window.ClientSize.Width, Window.ClientSize.Height);
 
         // Call callback.
         draw(Window.ClientSize.Width, Window.ClientSize.Height);
@@ -281,7 +341,10 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         _commandList.IASetVertexBuffers(0, new VertexBufferView(_vertexBuffer.GPUVirtualAddress, vertexBufferSize, stride));
         _commandList.DrawInstanced(3, 1, 0, 0);
 
-        _commandList.EndRenderPass();
+        if (UseRenderPass)
+        {
+            _commandList.EndRenderPass();
+        }
 
         // Indicate that the back buffer will now be used to present.
         _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.RenderTarget, ResourceStates.Present);

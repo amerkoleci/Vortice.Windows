@@ -19,12 +19,12 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
         InitOffsetted(out this, other, offsetScaledByIncrementSize);
     }
 
-    public CpuDescriptorHandle(in CpuDescriptorHandle other, int offsetInDescriptors, uint descriptorIncrementSize)
+    public CpuDescriptorHandle(in CpuDescriptorHandle other, int offsetInDescriptors, int descriptorIncrementSize)
     {
         InitOffsetted(out this, other, offsetInDescriptors, descriptorIncrementSize);
     }
 
-    public CpuDescriptorHandle Offset(int offsetInDescriptors, uint descriptorIncrementSize)
+    public CpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
     {
         ptr = unchecked((nuint)((long)ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize)));
         return this;
@@ -41,7 +41,7 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
         InitOffsetted(out this, @base, offsetScaledByIncrementSize);
     }
 
-    public void InitOffsetted(in CpuDescriptorHandle @base, int offsetInDescriptors, uint descriptorIncrementSize)
+    public void InitOffsetted(in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
     {
         InitOffsetted(out this, @base, offsetInDescriptors, descriptorIncrementSize);
     }
@@ -51,7 +51,7 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
         handle.ptr = (nuint)((long)@base.ptr + (long)offsetScaledByIncrementSize);
     }
 
-    public static void InitOffsetted(out CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetInDescriptors, uint descriptorIncrementSize)
+    public static void InitOffsetted(out CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
     {
         handle.ptr = (nuint)((long)@base.ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize));
     }

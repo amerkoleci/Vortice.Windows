@@ -21,11 +21,11 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
 {
     private static readonly FeatureLevel[] s_featureLevels = new[]
     {
-            FeatureLevel.Level_11_1,
-            FeatureLevel.Level_11_0,
-            FeatureLevel.Level_10_1,
-            FeatureLevel.Level_10_0
-        };
+        FeatureLevel.Level_11_1,
+        FeatureLevel.Level_11_0,
+        FeatureLevel.Level_10_1,
+        FeatureLevel.Level_10_0
+    };
 
     private const int FrameCount = 2;
 
@@ -176,11 +176,13 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         SwapChain?.Dispose();
         Factory.Dispose();
 
+#if DEBUG
         if (DXGIGetDebugInterface1(out IDXGIDebug1? dxgiDebug).Success)
         {
             dxgiDebug!.ReportLiveObjects(DebugAll, ReportLiveObjectFlags.Summary | ReportLiveObjectFlags.IgnoreInternal);
             dxgiDebug!.Dispose();
         }
+#endif
     }
 
     private IDXGIAdapter1 GetHardwareAdapter()
@@ -264,7 +266,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     public ID3D11Texture2D? CaptureTexture(ID3D11Texture2D source)
     {
         ID3D11Texture2D? stagingTexture;
-        var desc = source.Description;
+        Texture2DDescription desc = source.Description;
 
         if (desc.ArraySize > 1 || desc.MipLevels > 1)
         {

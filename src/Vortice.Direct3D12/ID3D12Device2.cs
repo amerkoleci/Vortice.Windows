@@ -1,61 +1,52 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using SharpGen.Runtime;
+namespace Vortice.Direct3D12;
 
-namespace Vortice.Direct3D12
+public unsafe partial class ID3D12Device2
 {
-    public partial class ID3D12Device2
+    public ID3D12PipelineState CreatePipelineState<TData>(TData data) where TData : unmanaged
     {
-        public ID3D12PipelineState CreatePipelineState<TData>(TData data) where TData : unmanaged
+
+        PipelineStateStreamDescription description = new()
         {
-            unsafe
-            {
-                PipelineStateStreamDescription description = new()
-                {
-                    SizeInBytes = sizeof(TData),
-                    SubObjectStream = new IntPtr(&data)
-                };
+            SizeInBytes = sizeof(TData),
+            SubObjectStream = new IntPtr(&data)
+        };
 
-                CreatePipelineState(ref description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr).CheckError();
-                return new ID3D12PipelineState(nativePtr);
-            }
-        }
+        CreatePipelineState(ref description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr).CheckError();
+        return new ID3D12PipelineState(nativePtr);
+    }
 
-        public T CreatePipelineState<T, TData>(TData data)
-            where T : ID3D12PipelineState
-            where TData : unmanaged
+    public T CreatePipelineState<T, TData>(TData data)
+        where T : ID3D12PipelineState
+        where TData : unmanaged
+    {
+        PipelineStateStreamDescription description = new()
         {
-            unsafe
-            {
-                PipelineStateStreamDescription description = new()
-                {
-                    SizeInBytes = sizeof(TData),
-                    SubObjectStream = new IntPtr(&data)
-                };
+            SizeInBytes = sizeof(TData),
+            SubObjectStream = new IntPtr(&data)
+        };
 
-                return CreatePipelineState<T>(description);
-            }
-        }
+        return CreatePipelineState<T>(description);
+    }
 
-        public T CreatePipelineState<T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
+    public T CreatePipelineState<T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
+    {
+        CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(nativePtr);
+    }
+
+    public Result CreatePipelineState<T>(PipelineStateStreamDescription description, out T? pipelineState) where T : ID3D12PipelineState
+    {
+        Result result = CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr);
+        if (result.Failure)
         {
-            CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(nativePtr);
-        }
-
-        public Result CreatePipelineState<T>(PipelineStateStreamDescription description, out T? pipelineState) where T : ID3D12PipelineState
-        {
-            Result result = CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-            {
-                pipelineState = default;
-                return result;
-            }
-
-            pipelineState = MarshallingHelpers.FromPointer<T>(nativePtr);
+            pipelineState = default;
             return result;
         }
+
+        pipelineState = MarshallingHelpers.FromPointer<T>(nativePtr);
+        return result;
     }
 }

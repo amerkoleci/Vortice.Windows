@@ -7,19 +7,19 @@ namespace Vortice.Direct3D12;
 
 public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
 {
-    public static GpuDescriptorHandle DEFAULT => default;
+    public static GpuDescriptorHandle Default => default;
 
     public GpuDescriptorHandle(in GpuDescriptorHandle other, int offsetScaledByIncrementSize)
     {
         InitOffsetted(out this, other, offsetScaledByIncrementSize);
     }
 
-    public GpuDescriptorHandle(in GpuDescriptorHandle other, int offsetInDescriptors, uint descriptorIncrementSize)
+    public GpuDescriptorHandle(in GpuDescriptorHandle other, int offsetInDescriptors, int descriptorIncrementSize)
     {
         InitOffsetted(out this, other, offsetInDescriptors, descriptorIncrementSize);
     }
 
-    public GpuDescriptorHandle Offset(int offsetInDescriptors, uint descriptorIncrementSize)
+    public GpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
     {
         ptr = (ulong)((long)ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize));
         return this;
@@ -36,7 +36,7 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
         InitOffsetted(out this, @base, offsetScaledByIncrementSize);
     }
 
-    public void InitOffsetted(in GpuDescriptorHandle @base, int offsetInDescriptors, uint descriptorIncrementSize)
+    public void InitOffsetted(in GpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
     {
         InitOffsetted(out this, @base, offsetInDescriptors, descriptorIncrementSize);
     }
@@ -46,7 +46,7 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
         handle.ptr = (ulong)((long)@base.ptr + (long)offsetScaledByIncrementSize);
     }
 
-    public static void InitOffsetted(out GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetInDescriptors, uint descriptorIncrementSize)
+    public static void InitOffsetted(out GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
     {
         handle.ptr = (ulong)((long)@base.ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize));
     }

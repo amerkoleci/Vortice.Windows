@@ -853,6 +853,7 @@
 
     <!-- ID3D12Device1 methods -->
     <map method="ID3D12Device1::CreatePipelineLibrary" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device1::CreatePipelineLibrary::pLibraryBlob" type="void" keep-pointers="true"/>
     <map param="ID3D12Device1::CreatePipelineLibrary::ppPipelineLibrary" attribute="out" />
 
     <!-- ID3D12Device2 methods -->
@@ -920,7 +921,7 @@
 
     <!-- ID3D12CommandQueue -->
     <map method="ID3D12CommandQueue::ExecuteCommandLists" visibility="private"/>
-    <map param="ID3D12CommandQueue::ExecuteCommandLists::ppCommandLists" type="void" />
+    <map param="ID3D12CommandQueue::ExecuteCommandLists::ppCommandLists" type="void" keep-pointers="true"/>
     <map method="ID3D12CommandQueue::BeginEvent" visibility="private"/>
     <map method="ID3D12CommandQueue::SetMarker" visibility="private"/>
 

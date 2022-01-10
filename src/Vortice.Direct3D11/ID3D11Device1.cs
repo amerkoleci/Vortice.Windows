@@ -2,7 +2,6 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Direct3D;
-using SharpGen.Runtime;
 
 namespace Vortice.Direct3D11;
 
