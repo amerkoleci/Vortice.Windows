@@ -6,10 +6,10 @@
     <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
     <Description>Direct3D11 bindings.</Description>
   </PropertyGroup>
+
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-  </ItemGroup>
-  <ItemGroup>
+    <Using Include="SharpGen.Runtime" />
     <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
   </ItemGroup>
 

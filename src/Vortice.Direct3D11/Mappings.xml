@@ -54,6 +54,7 @@
     <const from-macro="D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="InputAssemblerVertexInputResourceSlotCount" />
 
     <define enum="Vortice.Direct3D11.Shader.RegisterComponentMaskFlags" sizeof="1" />
+    <define struct="Vortice.Direct3D11.VideoProcessorColorSpace" sizeof="4" />
   </extension>
 
   <bindings>
@@ -455,6 +456,8 @@
     <short name="UNSUPPORTEDCONTEXTTTYPEFORQUERY">UnsupportedContextTypeForQuery</short>
     <short name="JPEGENCODE">JPEGEncode</short>
     <short name="JPEGDECODE">JPEGDecode</short>
+    <short name="SATURATION">Saturation</short>
+    <short name="ADJUSTMENT">Adjustment</short>
   </naming>
 
   <mapping>
@@ -920,5 +923,8 @@
     <map field="D3D11_VIDEO_PROCESSOR_CAPS::AutoStreamCaps" name="AutoStreamCaps" type="D3D11_VIDEO_PROCESSOR_AUTO_STREAM_CAPS" />
     <map field="D3D11_VIDEO_PROCESSOR_CAPS::StereoCaps" name="StereoCaps" type="D3D11_VIDEO_PROCESSOR_STEREO_CAPS" />
 
+    <map struct="D3D11_VIDEO_PROCESSOR_COLOR_SPACE" name="VideoProcessorColorSpace" marshal="false" />
+    <remove field="D3D11_VIDEO_PROCESSOR_COLOR_SPACE::.*"/>
+    
   </mapping>
 </config>
