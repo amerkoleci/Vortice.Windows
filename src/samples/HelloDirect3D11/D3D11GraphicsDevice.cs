@@ -40,6 +40,9 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     public readonly ID3D11Texture2D? OffscreenTexture;
     public readonly ID3D11RenderTargetView RenderTargetView;
 
+    public readonly ID3D11Texture2D? DepthStencilTexture;
+    public readonly ID3D11DepthStencilView? DepthStencilView;
+
     private readonly ID3D11Buffer _vertexBuffer;
     private readonly ID3D11VertexShader _vertexShader;
     private readonly ID3D11PixelShader _pixelShader;
@@ -50,17 +53,17 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         return true;
     }
 
-    public D3D11GraphicsDevice(Window window)
-        : this(window, window.ClientSize)
+    public D3D11GraphicsDevice(Window window, Format depthStencilFormat = Format.D32_Float)
+        : this(window, window.ClientSize, depthStencilFormat)
     {
     }
 
-    public D3D11GraphicsDevice(Size size)
-        : this(null, size)
+    public D3D11GraphicsDevice(Size size, Format depthStencilFormat = Format.D32_Float)
+        : this(null, size, depthStencilFormat)
     {
     }
 
-    private D3D11GraphicsDevice(Window? window, Size size)
+    private D3D11GraphicsDevice(Window? window, Size size, Format depthStencilFormat = Format.D32_Float)
     {
         Window = window;
         Size = size;
@@ -137,6 +140,12 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             RenderTargetView = Device.CreateRenderTargetView(OffscreenTexture);
         }
 
+        if (depthStencilFormat != Format.Unknown)
+        {
+            DepthStencilTexture = Device.CreateTexture2D(Size.Width, Size.Height, depthStencilFormat, 1, 1, null, BindFlags.DepthStencil);
+            DepthStencilView = Device.CreateDepthStencilView(DepthStencilTexture!, new DepthStencilViewDescription(DepthStencilTexture, DepthStencilViewDimension.Texture2D));
+        }
+
         VertexPositionColor[] triangleVertices = new VertexPositionColor[]
         {
             new VertexPositionColor(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
@@ -169,6 +178,9 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         BackBufferTexture?.Dispose();
         OffscreenTexture?.Dispose();
         RenderTargetView.Dispose();
+        DepthStencilTexture?.Dispose();
+        DepthStencilView?.Dispose();
+
         DeviceContext.ClearState();
         DeviceContext.Flush();
         DeviceContext.Dispose();
@@ -237,8 +249,14 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     {
         var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
         DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
-        DeviceContext.OMSetRenderTargets(RenderTargetView, /*depthStencil*/null);
+        if (DepthStencilView != null)
+        {
+            DeviceContext.ClearDepthStencilView(DepthStencilView, DepthStencilClearFlags.Depth, 1.0f, 0);
+        }
+
+        DeviceContext.OMSetRenderTargets(RenderTargetView, DepthStencilView);
         DeviceContext.RSSetViewport(new Viewport(Size.Width, Size.Height));
+        DeviceContext.RSSetScissorRect(Size.Width, Size.Height);
 
         DeviceContext.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
         DeviceContext.VSSetShader(_vertexShader);

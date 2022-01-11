@@ -1,16 +1,14 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.InteropServices;
-
 namespace Vortice.Direct3D11;
 
-public partial class ID3D11DeviceChild
+public unsafe partial class ID3D11DeviceChild
 {
     /// <summary>
     /// Gets or sets the debug-name for this object.
     /// </summary>
-    public unsafe string DebugName
+    public string DebugName
     {
         get
         {

@@ -1,19 +1,17 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.InteropServices;
-using SharpGen.Runtime;
 using Vortice.Direct3D;
 using Vortice.DXGI;
 
 namespace Vortice.Direct3D11;
 
-public partial class ID3D11Device
+public unsafe partial class ID3D11Device
 {
     /// <summary>
     /// Gets or sets the debug-name for this object.
     /// </summary>
-    public unsafe string DebugName
+    public string DebugName
     {
         get
         {
@@ -35,21 +33,21 @@ public partial class ID3D11Device
             }
             else
             {
-                var namePtr = Marshal.StringToHGlobalAnsi(value);
+                IntPtr namePtr = Marshal.StringToHGlobalAnsi(value);
                 SetPrivateData(CommonGuid.DebugObjectName, value.Length, namePtr);
                 Marshal.FreeHGlobal(namePtr);
             }
         }
     }
 
-    public unsafe T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
+    public T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
     {
         T featureSupport = default;
         CheckFeatureSupport(feature, &featureSupport, sizeof(T));
         return featureSupport;
     }
 
-    public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
+    public bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
     {
         fixed (T* featureSupportPtr = &featureSupport)
         {
@@ -65,7 +63,7 @@ public partial class ID3D11Device
     /// <returns>
     /// A <see cref="Result"/> object describing the result of the operation.
     /// </returns>
-    public unsafe Result CheckThreadingSupport(out bool supportsConcurrentResources, out bool supportsCommandLists)
+    public Result CheckThreadingSupport(out bool supportsConcurrentResources, out bool supportsCommandLists)
     {
         FeatureDataThreading support = default;
         Result result = CheckFeatureSupport(Feature.Threading, &support, sizeof(FeatureDataThreading));
@@ -144,7 +142,7 @@ public partial class ID3D11Device
         return CheckFeatureSupport<FeatureDataShaderCache>(Feature.ShaderCache);
     }
 
-    public unsafe FormatSupport CheckFeatureFormatSupport(Format format)
+    public FormatSupport CheckFeatureFormatSupport(Format format)
     {
         FeatureDataFormatSupport support = default;
         support.InFormat = format;
@@ -156,7 +154,7 @@ public partial class ID3D11Device
         return support.OutFormatSupport;
     }
 
-    public unsafe FormatSupport2 CheckFeatureFormatSupport2(Format format)
+    public FormatSupport2 CheckFeatureFormatSupport2(Format format)
     {
         FeatureDataFormatSupport2 support = default;
         support.InFormat = format;
@@ -183,7 +181,7 @@ public partial class ID3D11Device
         return CreateBuffer(description, new SubresourceData(data.PositionPointer, 0, 0));
     }
 
-    public unsafe ID3D11Buffer CreateBuffer<T>(ref T data, BufferDescription description) where T : unmanaged
+    public ID3D11Buffer CreateBuffer<T>(ref T data, BufferDescription description) where T : unmanaged
     {
         if (description.SizeInBytes == 0)
             description.SizeInBytes = sizeof(T);
@@ -194,12 +192,23 @@ public partial class ID3D11Device
         }
     }
 
-    public unsafe ID3D11Buffer CreateBuffer<T>(T[] data, BufferDescription description) where T : unmanaged
+    public ID3D11Buffer CreateBuffer<T>(T[] data, BufferDescription description) where T : unmanaged
     {
         if (description.SizeInBytes == 0)
             description.SizeInBytes = sizeof(T) * data.Length;
 
-        fixed (void* dataPtr = &data[0])
+        fixed (T* dataPtr = data)
+        {
+            return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
+        }
+    }
+
+    public ID3D11Buffer CreateBuffer<T>(Span<T> data, BufferDescription description) where T : unmanaged
+    {
+        if (description.SizeInBytes == 0)
+            description.SizeInBytes = sizeof(T) * data.Length;
+
+        fixed (T* dataPtr = data)
         {
             return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
         }
@@ -220,7 +229,7 @@ public partial class ID3D11Device
     /// <msdn-id>ff476501</msdn-id>	
     /// <unmanaged>HRESULT ID3D11Device::CreateBuffer([In] const D3D11_BUFFER_DESC* pDesc,[In, Optional] const D3D11_SUBRESOURCE_DATA* pInitialData,[Out, Fast] ID3D11Buffer** ppBuffer)</unmanaged>	
     /// <unmanaged-short>ID3D11Device::CreateBuffer</unmanaged-short>	
-    public unsafe ID3D11Buffer CreateBuffer<T>(BindFlags bindFlags, T[] data,
+    public ID3D11Buffer CreateBuffer<T>(BindFlags bindFlags, T[] data,
         int sizeInBytes = 0, ResourceUsage usage = ResourceUsage.Default, CpuAccessFlags accessFlags = CpuAccessFlags.None, ResourceOptionFlags optionFlags = ResourceOptionFlags.None, int structureByteStride = 0) where T : unmanaged
     {
         var description = new BufferDescription()
@@ -239,7 +248,7 @@ public partial class ID3D11Device
         }
     }
 
-    public unsafe ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -247,12 +256,12 @@ public partial class ID3D11Device
         }
     }
 
-    public unsafe ID3D11VertexShader CreateVertexShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11VertexShader CreateVertexShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        return CreateVertexShader((void*)shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        return CreateVertexShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public unsafe ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -260,61 +269,61 @@ public partial class ID3D11Device
         }
     }
 
-    public unsafe ID3D11PixelShader CreatePixelShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11PixelShader CreatePixelShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        return CreatePixelShader((void*)shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        return CreatePixelShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public unsafe ID3D11GeometryShader CreateGeometryShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11GeometryShader CreateGeometryShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        fixed (void* pBuffer = shaderBytecode)
+        fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateGeometryShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateGeometryShader(pBuffer, shaderBytecode.Length, classLinkage);
         }
     }
 
     public ID3D11GeometryShader CreateGeometryShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        return CreateGeometryShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        return CreateGeometryShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public unsafe ID3D11HullShader CreateHullShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11HullShader CreateHullShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        fixed (void* pBuffer = shaderBytecode)
+        fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateHullShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateHullShader(pBuffer, shaderBytecode.Length, classLinkage);
         }
     }
 
     public ID3D11HullShader CreateHullShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        return CreateHullShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        return CreateHullShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public unsafe ID3D11DomainShader CreateDomainShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11DomainShader CreateDomainShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        fixed (void* pBuffer = shaderBytecode)
+        fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateDomainShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateDomainShader(pBuffer, shaderBytecode.Length, classLinkage);
         }
     }
 
     public ID3D11DomainShader CreateDomainShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        return CreateDomainShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        return CreateDomainShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public unsafe ID3D11ComputeShader CreateComputeShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11ComputeShader CreateComputeShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        fixed (void* pBuffer = shaderBytecode)
+        fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateComputeShader((IntPtr)pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateComputeShader(pBuffer, shaderBytecode.Length, classLinkage);
         }
     }
 
     public ID3D11ComputeShader CreateComputeShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
-        return CreateComputeShader(shaderBytecode.BufferPointer, shaderBytecode.BufferSize, classLinkage);
+        return CreateComputeShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
     /// <summary>
@@ -325,12 +334,9 @@ public partial class ID3D11Device
     /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
     public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, byte[] shaderBytecode)
     {
-        unsafe
+        fixed (byte* pBuffer = shaderBytecode)
         {
-            fixed (void* pBuffer = shaderBytecode)
-            {
-                return CreateInputLayout(inputElements, inputElements.Length, (IntPtr)pBuffer, shaderBytecode.Length);
-            }
+            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, shaderBytecode.Length);
         }
     }
 
@@ -342,12 +348,22 @@ public partial class ID3D11Device
     /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
     public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, Blob blob)
     {
-        return CreateInputLayout(inputElements, inputElements.Length, blob.BufferPointer, blob.BufferSize);
+        return CreateInputLayout(inputElements, inputElements.Length, blob.BufferPointer.ToPointer(), blob.BufferSize);
     }
 
     public ID3D11Query CreateQuery(QueryType queryType, QueryFlags miscFlags = QueryFlags.None)
     {
         return CreateQuery(new QueryDescription(queryType, miscFlags));
+    }
+
+    public ID3D11Texture1D CreateTexture1D(int width, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    {
+        return CreateTexture1D(new Texture1DDescription(width, format, arraySize, mipLevels, bindFlags), initialData);
+    }
+
+    public ID3D11Texture2D CreateTexture2D(int width, int height, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    {
+        return CreateTexture2D(new Texture2DDescription(width, height, format, arraySize, mipLevels, bindFlags), initialData);
     }
 
     public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, DataRectangle[] data)
@@ -360,16 +376,6 @@ public partial class ID3D11Device
         }
 
         return CreateTexture2D(description, subResourceDatas);
-    }
-
-    public ID3D11Texture1D CreateTexture1D(int width, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
-    {
-        return CreateTexture1D(new Texture1DDescription(width, format, arraySize, mipLevels, bindFlags), initialData);
-    }
-
-    public ID3D11Texture2D CreateTexture2D(int width, int height, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
-    {
-        return CreateTexture2D(new Texture2DDescription(width, height, format, arraySize, mipLevels, bindFlags), initialData);
     }
 
     public ID3D11Texture2D CreateTexture2DMultisample(int width, int height, int sampleCount, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, BindFlags bindFlags = BindFlags.ShaderResource)
@@ -398,14 +404,9 @@ public partial class ID3D11Device
     /// <typeparam name="T">Type of <see cref="ID3D11Resource"/> </typeparam>
     /// <param name="handle">A handle to the resource to open.</param>
     /// <returns>Instance of <see cref="ID3D11Resource"/>.</returns>
-    public T? OpenSharedResource<T>(IntPtr handle) where T : ID3D11Resource
+    public T OpenSharedResource<T>(IntPtr handle) where T : ID3D11Resource
     {
-        Result result = OpenSharedResource(handle, typeof(T).GUID, out IntPtr nativePtr);
-        if (result.Failure)
-        {
-            return default;
-        }
-
+        OpenSharedResource(handle, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr);
     }
 

@@ -26,25 +26,41 @@ public partial class ID3D11Device1
     /// <typeparam name="T">A handle to the resource to open.</typeparam>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public T? OpenSharedResource1<T>(IntPtr handle) where T : ID3D11Resource
+    public T OpenSharedResource1<T>(IntPtr handle) where T : ID3D11Resource
     {
-        var result = OpenSharedResource1(handle, typeof(T).GUID, out var nativePtr);
-        if (result.Failure)
-        {
-            return default;
-        }
-
+        OpenSharedResource1(handle, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr);
     }
 
-    public T? OpenSharedResourceByName<T>(string name, SharedResourceFlags access) where T : ID3D11Resource
+    public Result OpenSharedResource1<T>(IntPtr handle, out T? resource) where T : ID3D11Resource
     {
-        var result = OpenSharedResourceByName(name, (int)access, typeof(T).GUID, out IntPtr nativePtr);
-        if (result.Failure)
+        Result result = OpenSharedResource1(handle, typeof(T).GUID, out IntPtr nativePtr);
+        if (result.Success)
         {
-            return default;
+            resource = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
         }
 
+        resource = default;
+        return result;
+    }
+
+    public T OpenSharedResourceByName<T>(string name, SharedResourceFlags access) where T : ID3D11Resource
+    {
+        OpenSharedResourceByName(name, (int)access, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr);
+    }
+
+    public Result OpenSharedResourceByName<T>(string name, SharedResourceFlags access, out T? resource) where T : ID3D11Resource
+    {
+        Result result = OpenSharedResourceByName(name, (int)access, typeof(T).GUID, out IntPtr nativePtr);
+        if (result.Success)
+        {
+            resource = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
+        }
+
+        resource = default;
+        return result;
     }
 }

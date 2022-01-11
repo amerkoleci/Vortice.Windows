@@ -52,7 +52,10 @@
     <const from-macro="D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="CommonShaderInputResourceSlotCount" />
     <const from-macro="D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="ViewportAndScissorRectObjectCountPerPipeline" />
     <const from-macro="D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="InputAssemblerVertexInputResourceSlotCount" />
-
+    <const from-macro="D3D11_REQ_CONSTANT_BUFFER_ELEMENT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="ConstantBufferElementCount" />
+    <const from-macro="D3D11_VIEWPORT_BOUNDS_MAX" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="ViewportBoundsMax" />
+    <const from-macro="D3D11_VIEWPORT_BOUNDS_MIN" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="ViewportBoundsMin" />
+    
     <define enum="Vortice.Direct3D11.Shader.RegisterComponentMaskFlags" sizeof="1" />
     <define struct="Vortice.Direct3D11.VideoProcessorColorSpace" sizeof="4" />
   </extension>
@@ -654,6 +657,7 @@
     <map param="ID3D11Device::CreateBuffer::pInitialData" default="null" />
     <map param="ID3D11Device::CreateBuffer::ppBuffer" attribute="out" return="true"/>
     <map param="ID3D11Device::CreateClassLinkage::ppLinkage" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateComputeShader::pShaderBytecode" type="void" keep-pointers="true"/>
     <map param="ID3D11Device::CreateComputeShader::pClassLinkage" default="null"/>
     <map param="ID3D11Device::CreateComputeShader::ppComputeShader" attribute="out" return="true"/>
     <map param="ID3D11Device::CreateCounter::ppCounter" attribute="out" return="true"/>
@@ -663,15 +667,20 @@
     <map param="ID3D11Device::CreateDepthStencilState::ppDepthStencilState" attribute="out" return="true"/>
     <map param="ID3D11Device::CreateDepthStencilView::pDesc" default="null"/>
     <map param="ID3D11Device::CreateDepthStencilView::ppDepthStencilView" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateDomainShader::pShaderBytecode" type="void" keep-pointers="true"/>
     <map param="ID3D11Device::CreateDomainShader::pClassLinkage" default="null"/>
     <map param="ID3D11Device::CreateDomainShader::ppDomainShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateGeometryShader::pShaderBytecode" type="void" keep-pointers="true"/>
     <map param="ID3D11Device::CreateGeometryShader::pClassLinkage" default="null"/>
     <map param="ID3D11Device::CreateGeometryShader::ppGeometryShader" attribute="out" return="true"/>
     <map param="ID3D11Device::CreateGeometryShaderWithStreamOutput::pClassLinkage" default="null"/>
     <map param="ID3D11Device::CreateGeometryShaderWithStreamOutput::ppGeometryShader" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateHullShader::pShaderBytecode" type="void" keep-pointers="true"/>
     <map param="ID3D11Device::CreateHullShader::pClassLinkage" default="null"/>
     <map param="ID3D11Device::CreateHullShader::ppHullShader" attribute="out" return="true"/>
     <map method="ID3D11Device::CreateInputLayout" visibility="private" />
+    <map param="ID3D11Device::CreateInputLayout::pInputElementDescs" keep-pointers="true"/>
+    <map param="ID3D11Device::CreateInputLayout::pShaderBytecodeWithInputSignature" type="void" keep-pointers="true"/>
     <map param="ID3D11Device::CreateInputLayout::ppInputLayout" attribute="out" return="true"/>
 
     <map param="ID3D11Device::CreatePixelShader::pShaderBytecode" type="void" keep-pointers="true"/>
@@ -749,11 +758,11 @@
     <map param="ID3D11Device4::RegisterDeviceRemovedEvent::pdwCookie" return="true"/>
 
     <!-- ID3D11Device5 -->
-    <map method="ID3D11Device5::CreateFence" visibility="private"/>
+    <map method="ID3D11Device5::CreateFence" visibility="private" hresult="true" check="false"/>
     <map param="ID3D11Device5::CreateFence::Flags" type="D3D11_FENCE_FLAG" />
-    <map param="ID3D11Device5::CreateFence::ppFence" attribute="out" type="ID3D11Fence" return="true"/>
-    <map method="ID3D11Device5::OpenSharedFence" visibility="private"/>
-    <map param="ID3D11Device5::OpenSharedFence::ppFence" attribute="out" type="ID3D11Fence" return="true"/>
+    <map param="ID3D11Device5::CreateFence::ppFence" attribute="out" return="false"/>
+    <map method="ID3D11Device5::OpenSharedFence" visibility="private" hresult="true" check="false"/>
+    <map param="ID3D11Device5::OpenSharedFence::ppFence" attribute="out" return="false"/>
 
     <map method="ID3D11Fence::CreateSharedHandle" visibility="private" />
     <map param="ID3D11Fence::CreateSharedHandle::pHandle" attribute="out" return="true"/>
@@ -785,25 +794,21 @@
     <map param="ID3D11DeviceContext::OMSetDepthStencilState::StencilRef" default="0"/>
 
     <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="private"/>
-    <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" attribute="in"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" keep-pointers="true" />
 
     <map param="ID3D11DeviceContext::IASetVertexBuffers::ppVertexBuffers" type="void" keep-pointers="true"/>
     <map param="ID3D11DeviceContext::IASetVertexBuffers::pStrides" type="void" keep-pointers="true"/>
     <map param="ID3D11DeviceContext::IASetVertexBuffers::pOffsets" type="void" keep-pointers="true"/>
 
     <map method="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews" visibility="private"/>
-    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppRenderTargetViews" type="void" keep-pointers="true" />
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pDepthStencilView" type="void"/>
-    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
+    <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::ppUnorderedAccessViews" type="void" keep-pointers="true" />
     <map param="ID3D11DeviceContext::OMSetRenderTargetsAndUnorderedAccessViews::pUAVInitialCounts" type="void" keep-pointers="true" />
 
-    <map method="ID3D11DeviceContext::CSSetUnorderedAccessViews" visibility="private"/>
-    <map param="ID3D11DeviceContext::CSSetUnorderedAccessViews::ppUnorderedAccessViews" type="void"/>
-    <map param="ID3D11DeviceContext::CSSetUnorderedAccessViews::pUAVInitialCounts" type="void" keep-pointers="true" />
-
-    <map method="ID3D11DeviceContext::SOSetTargets" visibility="public" />
-    <map param="ID3D11DeviceContext::SOSetTargets::ppSOTargets" type="void" attribute="in"/>
-    <map param="ID3D11DeviceContext::SOSetTargets::pOffsets" type="void" attribute="in"/>
+    <map method="ID3D11DeviceContext::SOSetTargets" visibility="private" />
+    <map param="ID3D11DeviceContext::SOSetTargets::ppSOTargets" type="void" keep-pointers="true" />
+    <map param="ID3D11DeviceContext::SOSetTargets::pOffsets" type="void" keep-pointers="true" />
 
     <map method="ID3D11DeviceContext::GetData" hresult="true" check="false" />
     <map param="ID3D11DeviceContext::GetData::GetDataFlags" type="D3D11_ASYNC_GETDATA_FLAG" />
@@ -814,20 +819,37 @@
     <map param="ID3D11DeviceContext::IAGetPrimitiveTopology::pTopology" return="true" />
     <map param="ID3D11DeviceContext::RSGetState::ppRasterizerState" return="true" />
 
-    <map method="ID3D11DeviceContext::[A-Z][A-Z]SetShader" visibility="internal"/>
     <map param="ID3D11DeviceContext::[A-Z][A-Z]GetShader::pNumClassInstances" attribute="inout" />
 
     <map param="ID3D11DeviceContext::CopySubresourceRegion::pSrcBox" default="null"/>
 
+    <map method="ID3D11DeviceContext::[A-Z][A-Z]SetConstantBuffers" visibility="private"/>
+    <map param="ID3D11DeviceContext::[A-Z][A-Z]SetConstantBuffers::ppConstantBuffers" type="void" keep-pointers="true"/>
+
+    <map method="ID3D11DeviceContext::[A-Z][A-Z]SetSamplers" visibility="private"/>
+    <map param="ID3D11DeviceContext::[A-Z][A-Z]SetSamplers::ppSamplers" type="void" keep-pointers="true"/>
+
+    <map method="ID3D11DeviceContext::[A-Z][A-Z]SetShaderResources" visibility="private"/>
+    <map param="ID3D11DeviceContext::[A-Z][A-Z]SetShaderResources::ppShaderResourceViews" type="void" keep-pointers="true"/>
+    
+    <map method="ID3D11DeviceContext::CSSetUnorderedAccessViews" visibility="private"/>
+    <map param="ID3D11DeviceContext::CSSetUnorderedAccessViews::ppUnorderedAccessViews" type="void" keep-pointers="true" />
+    <map param="ID3D11DeviceContext::CSSetUnorderedAccessViews::pUAVInitialCounts" type="void" keep-pointers="true" />
+    
     <!-- ID3D11DeviceContext1 -->
     <map method="ID3D11DeviceContext1::ClearView" visibility="private"/>
-    <map param="ID3D11DeviceContext1::ClearView::pRect" type="void" />
+    <map param="ID3D11DeviceContext1::ClearView::pRect" type="void" keep-pointers="true"/>
     <map param="ID3D11DeviceContext1::ClearView::Color" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0"/>
     <map param="ID3D11DeviceContext1::SwapDeviceContextState::ppPreviousState" attribute="out" return="true"/>
     <map method="ID3D11DeviceContext1::DiscardView1" visibility="private"/>
     <map param="ID3D11DeviceContext1::DiscardView1::pRects" type="void" />
     <map param="ID3D11DeviceContext1::CopySubresourceRegion1::CopyFlags" type="D3D11_COPY_FLAGS" />
     <map param="ID3D11DeviceContext1::UpdateSubresource1::CopyFlags" type="D3D11_COPY_FLAGS" />
+
+    <map method="ID3D11DeviceContext1::[A-Z][A-Z]SetConstantBuffers1" visibility="private"/>
+    <map param="ID3D11DeviceContext1::[A-Z][A-Z]SetConstantBuffers1::ppConstantBuffers" type="void" keep-pointers="true"/>
+    <map param="ID3D11DeviceContext1::[A-Z][A-Z]SetConstantBuffers1::pFirstConstant" type="void" keep-pointers="true"/>
+    <map param="ID3D11DeviceContext1::[A-Z][A-Z]SetConstantBuffers1::pNumConstants" type="void" keep-pointers="true"/>
 
     <!-- ID3D11On12Device -->
     <map method="ID3D11On12Device::CreateWrappedResource" visibility="private"/>

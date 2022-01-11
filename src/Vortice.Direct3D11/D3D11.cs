@@ -1,7 +1,6 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using SharpGen.Runtime;
 using Vortice.Direct3D;
 using Vortice.DXGI;
 

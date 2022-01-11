@@ -1,8 +1,6 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using SharpGen.Runtime;
-
 namespace Vortice.DXGI;
 
 public partial class IDXGIAdapter
@@ -14,16 +12,11 @@ public partial class IDXGIAdapter
     /// Make sure to dispose the <see cref="IDXGIAdapter"/> instance.
     /// </remarks>
     /// <param name="index">The index to get from.</param>
-    /// <returns>Instance of <see cref="IDXGIAdapter"/> or null if not found.</returns>
-    public IDXGIOutput? GetOutput(int index)
+    /// <returns>Instance of <see cref="IDXGIOutput"/> or null if not found.</returns>
+    public IDXGIOutput GetOutput(int index)
     {
-        Result result = EnumOutputs(index, out IDXGIOutput adapter);
-        if (result.Failure)
-        {
-            return null;
-        }
-
-        return adapter;
+        EnumOutputs(index, out IDXGIOutput output).CheckError();
+        return output;
     }
 
     public bool CheckInterfaceSupport<T>() where T : ComObject

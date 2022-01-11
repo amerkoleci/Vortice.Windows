@@ -19,7 +19,6 @@
   <include file="windows.ui.xaml.media.dxinterop.h" namespace="Vortice.DXGI" attach="true" />
 
   <extension>
-
     <create-cpp enum="DXGI_PRESENT_FLAGS" macro="DXGI_PRESENT_.*" />
     <create-cpp enum="DXGI_USAGE_ENUM" macro="DXGI_USAGE_.*" />
     <create-cpp enum="DXGI_RESOURCE_PRIORITY" macro="DXGI_RESOURCE_.*" />
@@ -83,7 +82,6 @@
     <map enum="DXGI_ENUM_MODES_FLAGS" name="DisplayModeEnumerationFlags" flags="true" none="false"/>
     <map enum="DXGI_MAP_FLAGS" flags="true" none="false" />
     <remove enum-item=".*_FORCE_DWORD" />
-    <remove enum-item=".*_FORCE_UINT" />
 
     <!-- dxgi structs -->
     <map struct="DXGI(.+)" name-tmp="$1" />
