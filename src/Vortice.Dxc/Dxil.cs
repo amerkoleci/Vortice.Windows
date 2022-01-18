@@ -10,10 +10,10 @@ namespace Vortice.Dxc
     public static partial class Dxil
     {
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static IDxcValidator? CreateDxilValidator()
+        public static IDxcValidator CreateDxilValidator()
         {
             DxilCreateInstance(Dxc.CLSID_DxcValidator, out IDxcValidator? result).CheckError();
-            return result;
+            return result!;
         }
 
 
