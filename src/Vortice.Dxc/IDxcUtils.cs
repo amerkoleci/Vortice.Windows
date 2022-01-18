@@ -48,17 +48,17 @@ namespace Vortice.Dxc
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public IDxcCompilerArgs? BuildArguments(string sourceName, string entryPoint, string targetProfile, string[] arguments, DxcDefine[] defines)
+        public IDxcCompilerArgs BuildArguments(string sourceName, string entryPoint, string targetProfile, string[] arguments, DxcDefine[] defines)
         {
-            BuildArguments(sourceName, entryPoint, targetProfile, arguments, defines, out IDxcCompilerArgs? args);
-            return args;
+            BuildArguments(sourceName, entryPoint, targetProfile, arguments, defines, out IDxcCompilerArgs? args).CheckError();
+            return args!;
         }
 
-        public IDxcCompilerArgs? BuildArguments(string sourceName, string entryPoint, string targetProfile,
+        public IDxcCompilerArgs BuildArguments(string sourceName, string entryPoint, string targetProfile,
             string[] arguments, int argumentsCount, DxcDefine[] defines, int defineCount)
         {
-            BuildArguments(sourceName, entryPoint, targetProfile, arguments, argumentsCount, defines, defineCount, out IDxcCompilerArgs? args);
-            return args;
+            BuildArguments(sourceName, entryPoint, targetProfile, arguments, argumentsCount, defines, defineCount, out IDxcCompilerArgs? args).CheckError();
+            return args!;
         }
 
         public unsafe Result BuildArguments(string sourceName, string entryPoint, string targetProfile,

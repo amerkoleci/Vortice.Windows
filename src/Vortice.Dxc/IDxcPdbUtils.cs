@@ -7,13 +7,9 @@ namespace Vortice.Dxc
 {
     public partial class IDxcPdbUtils
     {
-        public IDxcResult? CompileForFullPDB()
+        public IDxcResult CompileForFullPDB()
         {
-            if (CompileForFullPDB(out IDxcResult result).Failure)
-            {
-                return default;
-            }
-
+            CompileForFullPDB(out IDxcResult result).CheckError();
             return result;
         }
     }

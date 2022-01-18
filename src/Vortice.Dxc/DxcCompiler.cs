@@ -10,10 +10,10 @@ namespace Vortice.Dxc
 {
     public static class DxcCompiler
     {
-        public static readonly IDxcUtils? Utils = Dxc.CreateDxcUtils();
-        public static readonly IDxcCompiler3? Compiler = Dxc.CreateDxcCompiler3();
+        public static readonly IDxcUtils Utils = Dxc.CreateDxcUtils();
+        public static readonly IDxcCompiler3 Compiler = Dxc.CreateDxcCompiler3();
 
-        public static IDxcResult? Compile(string shaderSource, string[] arguments, IDxcIncludeHandler? includeHandler = null)
+        public static IDxcResult Compile(string shaderSource, string[] arguments, IDxcIncludeHandler? includeHandler = null)
         {
             if (includeHandler == null)
             {
@@ -33,7 +33,7 @@ namespace Vortice.Dxc
             }
         }
 
-        public static IDxcResult? Compile(DxcShaderStage shaderStage, string source, string entryPoint,
+        public static IDxcResult Compile(DxcShaderStage shaderStage, string source, string entryPoint,
             DxcCompilerOptions? options = null,
             string? fileName = null,
             DxcDefine[]? defines = null,

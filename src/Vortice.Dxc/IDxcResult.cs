@@ -49,38 +49,23 @@ namespace Vortice.Dxc
             }
         }
 
-        public IDxcBlob? GetOutput(DxcOutKind kind)
+        public IDxcBlob GetOutput(DxcOutKind kind)
         {
-            Result result = GetOutput(kind, typeof(IDxcBlob).GUID, out IntPtr nativePtr, IntPtr.Zero);
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            GetOutput(kind, typeof(IDxcBlob).GUID, out IntPtr nativePtr, IntPtr.Zero).CheckError();
             return new IDxcBlob(nativePtr);
         }
 
 
-        public T? GetOutput<T>(DxcOutKind kind) where T : ComObject
+        public T GetOutput<T>(DxcOutKind kind) where T : ComObject
         {
-            Result result = GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, IntPtr.Zero);
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, IntPtr.Zero).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
-        public unsafe T? GetOutput<T>(DxcOutKind kind, out IDxcBlobUtf16? outputName) where T : ComObject
+        public unsafe T GetOutput<T>(DxcOutKind kind, out IDxcBlobUtf16? outputName) where T : ComObject
         {
             IntPtr outputNamePtr = IntPtr.Zero;
-            Result result = GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, new IntPtr(&outputNamePtr));
-            if (result.Failure)
-            {
-                outputName = default;
-                return default;
-            }
+            GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, new IntPtr(&outputNamePtr)).CheckError();
 
             outputName = new IDxcBlobUtf16(outputNamePtr);
             return MarshallingHelpers.FromPointer<T>(nativePtr);

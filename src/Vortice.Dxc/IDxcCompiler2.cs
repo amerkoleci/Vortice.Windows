@@ -9,7 +9,7 @@ namespace Vortice.Dxc
 {
     public partial class IDxcCompiler2
     {
-        public IDxcOperationResult? CompileWithDebug(IDxcBlob source,
+        public IDxcOperationResult CompileWithDebug(IDxcBlob source,
             string sourceName,
             string entryPoint,
             string targetProfile,
@@ -30,7 +30,7 @@ namespace Vortice.Dxc
                 out debugBlobName, out debugBlob);
         }
 
-        public unsafe IDxcOperationResult? CompileWithDebug(IDxcBlob source,
+        public unsafe IDxcOperationResult CompileWithDebug(IDxcBlob source,
             string sourceName,
             string entryPoint,
             string targetProfile,
@@ -52,7 +52,7 @@ namespace Vortice.Dxc
                     argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
                 }
 
-                Result hr = CompileWithDebug(source,
+                CompileWithDebug(source,
                     sourceName,
                     entryPoint, targetProfile,
                     (IntPtr)argumentsPtr, argumentsCount,
@@ -60,7 +60,7 @@ namespace Vortice.Dxc
                     includeHandler,
                     out IDxcOperationResult? result,
                     new IntPtr(&debugBlobNameOut),
-                    out debugBlob);
+                    out debugBlob).CheckError();
 
                 if (debugBlobNameOut != IntPtr.Zero)
                 {
@@ -71,13 +71,7 @@ namespace Vortice.Dxc
                     debugBlobName = string.Empty;
                 }
 
-                if (hr.Failure)
-                {
-                    result = default;
-                    return default;
-                }
-
-                return result;
+                return result!;
             }
             finally
             {
