@@ -3,13 +3,12 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <Description>DirectComposition bindings.</Description>
   </PropertyGroup>
+  
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Vortice.Direct2D1\Vortice.Direct2D1.csproj" />
   </ItemGroup>
 

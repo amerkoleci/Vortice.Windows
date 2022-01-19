@@ -6,9 +6,9 @@ using Vortice.DXGI;
 
 namespace Vortice.Direct3D11;
 
-public static partial class D3D11
+public static unsafe partial class D3D11
 {
-    public static Result D3D11CreateDevice(IDXGIAdapter adapter, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
+    public static Result D3D11CreateDevice(IDXGIAdapter? adapter, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
         out ID3D11Device? device)
     {
         return RawD3D11CreateDeviceNoContext(
@@ -20,13 +20,13 @@ public static partial class D3D11
             out _);
     }
 
-    public static Result D3D11CreateDevice(IDXGIAdapter adapter, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
+    public static Result D3D11CreateDevice(IDXGIAdapter? adapter, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
         out ID3D11Device device, out ID3D11DeviceContext immediateContext)
     {
         return D3D11CreateDevice(adapter, driverType, flags, featureLevels, out device, out _, out immediateContext);
     }
 
-    public static Result D3D11CreateDevice(IDXGIAdapter adapter, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
+    public static Result D3D11CreateDevice(IDXGIAdapter? adapter, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
         out ID3D11Device device, out FeatureLevel featureLevel, out ID3D11DeviceContext immediateContext)
     {
         Result result = D3D11CreateDevice(
@@ -46,12 +46,14 @@ public static partial class D3D11
             return result;
         }
 
+#if TEST
         if (immediateContext != null)
         {
             device.AddRef();
             device.ImmediateContext__ = immediateContext;
             immediateContext.Device__ = device;
         }
+#endif
 
         return result;
     }
@@ -91,17 +93,19 @@ public static partial class D3D11
             return result;
         }
 
+#if TEST
         if (immediateContext != null)
         {
             device.AddRef();
             device.ImmediateContext__ = immediateContext;
             immediateContext.Device__ = device;
         }
+#endif
 
         return result;
     }
 
-    public static unsafe Result D3D11On12CreateDevice(
+    public static Result D3D11On12CreateDevice(
         IUnknown d3d12Device,
         DeviceCreationFlags flags,
         FeatureLevel[] featureLevels,
@@ -257,19 +261,16 @@ public static partial class D3D11
     /// <returns>True if available, false otherwise.</returns>
     public static bool SdkLayersAvailable()
     {
-        unsafe
-        {
-            Result result = D3D11CreateDevice_(
-                null, (int)DriverType.Null,
-                null, (int)DeviceCreationFlags.Debug,
-                null, 0,
-                SdkVersion,
-                null, null, null);
-            return result.Success;
-        }
+        Result result = D3D11CreateDevice_(
+            null, (int)DriverType.Null,
+            null, (int)DeviceCreationFlags.Debug,
+            null, 0,
+            SdkVersion,
+            null, null, null);
+        return result.Success;
     }
 
-    public static unsafe Result D3D11CreateDeviceAndSwapChain(
+    public static Result D3D11CreateDeviceAndSwapChain(
         IDXGIAdapter? adapter,
         DriverType driverType,
         DeviceCreationFlags flags,
@@ -316,7 +317,7 @@ public static partial class D3D11
         }
     }
 
-    #region RawD3D11CreateDevice Methods
+#region RawD3D11CreateDevice Methods
     private static Result RawD3D11CreateDeviceNoContext(
         IntPtr adapterPtr,
         DriverType driverType,
@@ -325,31 +326,28 @@ public static partial class D3D11
         out ID3D11Device? device,
         out FeatureLevel featureLevel)
     {
-        unsafe
+        device = default;
+        fixed (void* featureLevelsPtr = &featureLevels[0])
+        fixed (void* featureLevelPtr = &featureLevel)
         {
-            device = default;
-            fixed (void* featureLevelsPtr = &featureLevels[0])
-            fixed (void* featureLevelPtr = &featureLevel)
-            {
-                IntPtr devicePtr = IntPtr.Zero;
-                Result result = D3D11CreateDevice_(
-                    (void*)adapterPtr,
-                    (int)driverType,
-                    null,
-                    (int)flags,
-                    featureLevels != null && featureLevels.Length > 0 ? featureLevelsPtr : null,
-                    featureLevels?.Length ?? 0,
-                    SdkVersion,
-                    &devicePtr,
-                    featureLevelPtr,
-                    null);
+            IntPtr devicePtr = IntPtr.Zero;
+            Result result = D3D11CreateDevice_(
+                (void*)adapterPtr,
+                (int)driverType,
+                null,
+                (int)flags,
+                featureLevels != null && featureLevels.Length > 0 ? featureLevelsPtr : null,
+                featureLevels?.Length ?? 0,
+                SdkVersion,
+                &devicePtr,
+                featureLevelPtr,
+                null);
 
-                if (result.Success && devicePtr != IntPtr.Zero)
-                {
-                    device = new ID3D11Device(devicePtr);
-                }
-                return result;
+            if (result.Success && devicePtr != IntPtr.Zero)
+            {
+                device = new ID3D11Device(devicePtr);
             }
+            return result;
         }
     }
 
@@ -398,5 +396,5 @@ public static partial class D3D11
             }
         }
     }
-    #endregion
+#endregion
 }

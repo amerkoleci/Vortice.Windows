@@ -29,7 +29,7 @@ internal static unsafe class XAudio2Native
 
     private static IntPtr LoadXAudioLibrary()
     {
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
         IntPtr libraryHandle;
         if(NativeLibrary.TryLoad("xaudio2_9.dll", out libraryHandle))
         {

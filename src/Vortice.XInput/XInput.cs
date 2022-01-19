@@ -1,259 +1,268 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
+namespace Vortice.XInput;
 
-namespace Vortice.XInput
+public static unsafe class XInput
 {
-    public static class XInput
+    private static readonly IntPtr s_xinputLibrary;
+    private static readonly delegate* unmanaged[Stdcall]<int, out State, int> s_XInputGetState;
+    private static readonly delegate* unmanaged[Stdcall]<int, Vibration*, int> s_XInputSetState;
+    private static readonly delegate* unmanaged[Stdcall]<int, DeviceQueryType, out Capabilities, int> s_XInputGetCapabilities;
+
+    private static readonly delegate* unmanaged[Stdcall]<int, void> s_XInputEnable;
+    private static readonly delegate* unmanaged[Stdcall]<int, BatteryDeviceType, out BatteryInformation, int> s_XInputGetBatteryInformation;
+    private static readonly delegate* unmanaged[Stdcall]<int, out Keystroke, int> s_XInputGetKeystroke;
+    private static readonly delegate* unmanaged[Stdcall]<int, IntPtr, IntPtr, IntPtr, IntPtr, uint> s_XInputGetAudioDeviceIds;
+
+    public static readonly XInputVersion Version = XInputVersion.Invalid;
+
+    /// <summary>
+    /// When true, allows the use of the unofficial XInputGetState entry point
+    /// which enables reporting the Guide button status. As this is an unofficial
+    /// API, the default is false. 
+    /// </summary>
+    public static bool AllowUnofficialAPI { get; set; } = false;
+
+    static XInput()
     {
-        private static int s_isInAppContainer = -1;
-        private static readonly IXInput s_xInput;
-        public static readonly XInputVersion Version;
-
-        /// <summary>
-        /// When true, allows the use of the unofficial XInputGetState entry point
-        /// which enables reporting the Guide button status. As this is an unofficial
-        /// API, the default is false. 
-        /// </summary>
-        public static bool AllowUnofficialAPI { get; set; } = false;
-
-        private static unsafe bool IsWindows7
+        s_xinputLibrary = LoadXInputLibrary(out Version);
+        if (Version == XInputVersion.Invalid)
         {
-            get
-            {
-                var osvi = new OSVERSIONINFOEX
-                {
-                    dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX)
-                };
-                var result = GetVersionExW(ref osvi);
-                Debug.Assert(result == 0);
-                var WindowsVersion = new Version(osvi.dwMajorVersion, osvi.dwMinorVersion, osvi.dwBuildNumber);
-                return WindowsVersion.Major == 6 && WindowsVersion.Minor == 1;
-            }
+            throw new PlatformNotSupportedException("XInput is not supported");
         }
 
-        static XInput()
+        if (AllowUnofficialAPI)
         {
-            if (IsUAP())
-            {
-                s_xInput = new XInput14(() => AllowUnofficialAPI);
-                Version = XInputVersion.Version14;
-                return;
-            }
-
-            if (LoadLibrary("xinput1_4.dll") != IntPtr.Zero)
-            {
-                s_xInput = new XInput14(() => AllowUnofficialAPI);
-                Version = XInputVersion.Version14;
-            }
-            else if (LoadLibrary("xinput1_3.dll") != IntPtr.Zero)
-            {
-                s_xInput = new XInput13();
-                Version = XInputVersion.Version13;
-            }
-            else if (LoadLibrary("xinput9_1_0.dll") != IntPtr.Zero)
-            {
-                s_xInput = new XInput910();
-                Version = XInputVersion.Version910;
-            }
-            else
-            {
-                throw new PlatformNotSupportedException("XInput is not supported");
-            }
+            s_XInputGetState = (delegate* unmanaged[Stdcall]<int, out State, int>)GetExport("#100");
+        }
+        else
+        {
+            s_XInputGetState = (delegate* unmanaged[Stdcall]<int, out State, int>)GetExport("XInputGetState");
         }
 
-        private static bool IsUAP()
+        s_XInputSetState = (delegate* unmanaged[Stdcall]<int, Vibration*, int>)GetExport("XInputSetState");
+        s_XInputGetCapabilities = (delegate* unmanaged[Stdcall]<int, DeviceQueryType, out Capabilities, int>)GetExport("XInputGetCapabilities");
+
+        if (Version != XInputVersion.Version910)
         {
-            // This actually checks whether code is running in a modern app. 
-            // Currently this is the only situation where we run in app container.
-            // If we want to distinguish the two cases in future,
-            // EnvironmentHelpers.IsAppContainerProcess in desktop code shows how to check for the AC token.
-            if (s_isInAppContainer != -1)
-                return s_isInAppContainer == 1;
-
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || IsWindows7)
-            {
-                s_isInAppContainer = 0;
-                return false;
-            }
-
-            byte[] buffer = Array.Empty<byte>();
-            uint bufferSize = 0;
-            try
-            {
-                int result = GetCurrentApplicationUserModelId(ref bufferSize, buffer);
-                switch (result)
-                {
-                    case 15703: // APPMODEL_ERROR_NO_APPLICATION
-                        s_isInAppContainer = 0;
-                        break;
-                    case 0:     // ERROR_SUCCESS
-                    case 122:   // ERROR_INSUFFICIENT_BUFFER
-                                // Success is actually insufficent buffer as we're really only looking for
-                                // not NO_APPLICATION and we're not actually giving a buffer here. The
-                                // API will always return NO_APPLICATION if we're not running under a
-                                // WinRT process, no matter what size the buffer is.
-                        s_isInAppContainer = 1;
-                        break;
-                    default:
-                        throw new InvalidOperationException($"Failed to get AppId, result was {result}.");
-                }
-            }
-            catch (Exception e)
-            {
-                // We could catch this here, being friendly with older portable surface area should we
-                // desire to use this method elsewhere.
-                if (e.GetType().FullName.Equals("System.EntryPointNotFoundException", StringComparison.Ordinal))
-                {
-                    // API doesn't exist, likely pre Win8
-                    s_isInAppContainer = 0;
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return s_isInAppContainer == 1;
+            s_XInputEnable = (delegate* unmanaged[Stdcall]<int, void>)GetExport("XInputEnable");
+            s_XInputGetBatteryInformation = (delegate* unmanaged[Stdcall]<int, BatteryDeviceType, out BatteryInformation, int>)GetExport("XInputGetBatteryInformation");
+            s_XInputGetKeystroke = (delegate* unmanaged[Stdcall]<int, out Keystroke, int>)GetExport("XInputGetKeystroke");
         }
 
-
-        /// <summary>
-        /// Retrieves the current state of the specified controller.
-        /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value from 0 to 3.</param>
-        /// <param name="state">Instance of <see cref="State"/> struct.</param>
-        /// <returns>True if success, false if not connected or error.</returns>
-        public static bool GetState(int userIndex, out State state)
+        if (Version == XInputVersion.Version14)
         {
-            return s_xInput!.XInputGetState(userIndex, out state) == 0;
+            s_XInputGetAudioDeviceIds = (delegate* unmanaged[Stdcall]<int, IntPtr, IntPtr, IntPtr, IntPtr, uint>)GetExport("XInputGetAudioDeviceIds");
         }
-
-        /// <summary>
-        /// Sets the gamepad vibration.
-        /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value from 0 to 3.</param>
-        /// <param name="leftMotor">The level of the left vibration motor. Valid values are between 0.0 and 1.0, where 0.0 signifies no motor use and 1.0 signifies max vibration.</param>
-        /// <param name="rightMotor">The level of the right vibration motor. Valid values are between 0.0 and 1.0, where 0.0 signifies no motor use and 1.0 signifies max vibration.</param>
-        /// <returns>True if succeed, false otherwise.</returns>
-        public static bool SetVibration(int userIndex, float leftMotor, float rightMotor)
-        {
-            var vibration = new Vibration
-            {
-                LeftMotorSpeed = (ushort)(leftMotor * ushort.MaxValue),
-                RightMotorSpeed = (ushort)(rightMotor * ushort.MaxValue)
-            };
-            return s_xInput!.XInputSetState(userIndex, vibration) == 0;
-        }
-
-        /// <summary>
-        /// Sets the gamepad vibration.
-        /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value from 0 to 3.</param>
-        /// <param name="leftMotorSpeed">The level of the left vibration motor speed.</param>
-        /// <param name="rightMotorSpeed">The level of the right vibration motor speed.</param>
-        /// <returns>True if succeed, false otherwise.</returns>
-        public static bool SetVibration(int userIndex, ushort leftMotorSpeed, ushort rightMotorSpeed)
-        {
-            var vibration = new Vibration
-            {
-                LeftMotorSpeed = leftMotorSpeed,
-                RightMotorSpeed = rightMotorSpeed
-            };
-            return s_xInput!.XInputSetState(userIndex, vibration) == 0;
-        }
-
-        /// <summary>
-        /// Sets the gamepad vibration.
-        /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value from 0 to 3.</param>
-        /// <param name="vibration">The <see cref="Vibration"/> to set.</param>
-        /// <returns>True if succeed, false otherwise.</returns>
-        public static bool SetVibration(int userIndex, Vibration vibration)
-        {
-            return s_xInput.XInputSetState(userIndex, vibration) == 0;
-        }
-
-        /// <summary>
-        /// Sets the reporting.
-        /// </summary>
-        /// <param name="enableReporting">if set to <c>true</c> [enable reporting].</param>
-        public static void SetReporting(bool enableReporting)
-        {
-            s_xInput.XInputEnable(enableReporting ? 1 : 0);
-        }
-
-        /// <summary>
-        /// Retrieves the battery type and charge status of a wireless controller.
-        /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
-        /// <param name="batteryDeviceType">Type of the battery device.</param>
-        /// <returns>Instance of <see cref="BatteryInformation"/>.</returns>
-        public static BatteryInformation GetBatteryInformation(int userIndex, BatteryDeviceType batteryDeviceType)
-        {
-            s_xInput.XInputGetBatteryInformation(userIndex, batteryDeviceType, out var result);
-            return result;
-        }
-
-        /// <summary>
-        /// Retrieves the battery type and charge status of a wireless controller.
-        /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
-        /// <param name="batteryDeviceType">Type of the battery device.</param>
-        /// <param name="batteryInformation">The battery information.</param>
-        /// <returns>True if succeed, false otherwise.</returns>
-        public static bool GetBatteryInformation(int userIndex, BatteryDeviceType batteryDeviceType, out BatteryInformation batteryInformation)
-        {
-            return s_xInput.XInputGetBatteryInformation(userIndex, batteryDeviceType, out batteryInformation) == 0;
-        }
-
-        /// <summary>
-        /// Retrieves the capabilities and features of a connected controller.
-        /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
-        /// <param name="deviceQueryType">Type of the device query.</param>
-        /// <param name="capabilities">The capabilities of this controller.</param>
-        /// <returns>True if the controller is connected and succeed, false otherwise.</returns>
-        public static bool GetCapabilities(int userIndex, DeviceQueryType deviceQueryType, out Capabilities capabilities)
-        {
-            return s_xInput.XInputGetCapabilities(userIndex, deviceQueryType, out capabilities) == 0;
-        }
-
-        /// <summary>
-        /// Retrieves a gamepad input event.
-        /// </summary>
-        /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
-        /// <param name="keystroke">The keystroke.</param>
-        /// <returns>False if the controller is not connected and no new keys have been pressed, true otherwise.</returns>
-        public static bool GetKeystroke(int userIndex, out Keystroke keystroke)
-        {
-            return s_xInput.XInputGetKeystroke(userIndex, out keystroke) == 0;
-        }
-
-
-        #region PINVOKE
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern IntPtr LoadLibrary(string lpFileName);
-
-        [DllImport("kernel32.dll", ExactSpelling = true)]
-        private static extern int GetCurrentApplicationUserModelId(ref uint applicationUserModelIdLength, byte[] applicationUserModelId);
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private unsafe struct OSVERSIONINFOEX
-        {
-            internal int dwOSVersionInfoSize;
-            internal int dwMajorVersion;
-            internal int dwMinorVersion;
-            internal int dwBuildNumber;
-            internal uint dwPlatformId;
-            internal fixed char szCSDVersion[128];
-        }
-
-        [DllImport("kernel32.dll", ExactSpelling = true)]
-        private static extern int GetVersionExW(ref OSVERSIONINFOEX lpVersionInformation);
-        #endregion
     }
+
+    /// <summary>
+    /// Retrieves the current state of the specified controller.
+    /// </summary>
+    /// <param name="userIndex">Index of the user's controller. Can be a value from 0 to 3.</param>
+    /// <param name="state">Instance of <see cref="State"/> struct.</param>
+    /// <returns>True if success, false if not connected or error.</returns>
+    public static bool GetState(int userIndex, out State state)
+    {
+        return s_XInputGetState(userIndex, out state) == 0;
+    }
+
+    /// <summary>
+    /// Sets the gamepad vibration.
+    /// </summary>
+    /// <param name="userIndex">Index of the user's controller. Can be a value from 0 to 3.</param>
+    /// <param name="leftMotor">The level of the left vibration motor. Valid values are between 0.0 and 1.0, where 0.0 signifies no motor use and 1.0 signifies max vibration.</param>
+    /// <param name="rightMotor">The level of the right vibration motor. Valid values are between 0.0 and 1.0, where 0.0 signifies no motor use and 1.0 signifies max vibration.</param>
+    /// <returns>True if succeed, false otherwise.</returns>
+    public static bool SetVibration(int userIndex, float leftMotor, float rightMotor)
+    {
+        var vibration = new Vibration
+        {
+            LeftMotorSpeed = (ushort)(leftMotor * ushort.MaxValue),
+            RightMotorSpeed = (ushort)(rightMotor * ushort.MaxValue)
+        };
+
+        return s_XInputSetState(userIndex, &vibration) == 0;
+    }
+
+    /// <summary>
+    /// Sets the gamepad vibration.
+    /// </summary>
+    /// <param name="userIndex">Index of the user's controller. Can be a value from 0 to 3.</param>
+    /// <param name="leftMotorSpeed">The level of the left vibration motor speed.</param>
+    /// <param name="rightMotorSpeed">The level of the right vibration motor speed.</param>
+    /// <returns>True if succeed, false otherwise.</returns>
+    public static bool SetVibration(int userIndex, ushort leftMotorSpeed, ushort rightMotorSpeed)
+    {
+        var vibration = new Vibration
+        {
+            LeftMotorSpeed = leftMotorSpeed,
+            RightMotorSpeed = rightMotorSpeed
+        };
+
+        return s_XInputSetState(userIndex, &vibration) == 0;
+    }
+
+    /// <summary>
+    /// Sets the gamepad vibration.
+    /// </summary>
+    /// <param name="userIndex">Index of the user's controller. Can be a value from 0 to 3.</param>
+    /// <param name="vibration">The <see cref="Vibration"/> to set.</param>
+    /// <returns>True if succeed, false otherwise.</returns>
+    public static bool SetVibration(int userIndex, Vibration vibration)
+    {
+        return s_XInputSetState(userIndex, &vibration) == 0;
+    }
+
+    /// <summary>
+    /// Sets the reporting.
+    /// </summary>
+    /// <param name="enableReporting">if set to <c>true</c> [enable reporting].</param>
+    public static void SetReporting(bool enableReporting)
+    {
+        if (Version == XInputVersion.Version910)
+        {
+            ThrowNotSupportedXInput91("XInputEnable");
+        }
+
+        s_XInputEnable(enableReporting ? 1 : 0);
+    }
+
+    /// <summary>
+    /// Retrieves the battery type and charge status of a wireless controller.
+    /// </summary>
+    /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
+    /// <param name="batteryDeviceType">Type of the battery device.</param>
+    /// <returns>Instance of <see cref="BatteryInformation"/>.</returns>
+    public static BatteryInformation GetBatteryInformation(int userIndex, BatteryDeviceType batteryDeviceType)
+    {
+        if (Version == XInputVersion.Version910)
+        {
+            ThrowNotSupportedXInput91("XInputGetBatteryInformation");
+        }
+
+        s_XInputGetBatteryInformation(userIndex, batteryDeviceType, out BatteryInformation result);
+        return result;
+    }
+
+    /// <summary>
+    /// Retrieves the battery type and charge status of a wireless controller.
+    /// </summary>
+    /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
+    /// <param name="batteryDeviceType">Type of the battery device.</param>
+    /// <param name="batteryInformation">The battery information.</param>
+    /// <returns>True if succeed, false otherwise.</returns>
+    public static bool GetBatteryInformation(int userIndex, BatteryDeviceType batteryDeviceType, out BatteryInformation batteryInformation)
+    {
+        return s_XInputGetBatteryInformation(userIndex, batteryDeviceType, out batteryInformation) == 0;
+    }
+
+    /// <summary>
+    /// Retrieves the capabilities and features of a connected controller.
+    /// </summary>
+    /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
+    /// <param name="deviceQueryType">Type of the device query.</param>
+    /// <param name="capabilities">The capabilities of this controller.</param>
+    /// <returns>True if the controller is connected and succeed, false otherwise.</returns>
+    public static bool GetCapabilities(int userIndex, DeviceQueryType deviceQueryType, out Capabilities capabilities)
+    {
+        return s_XInputGetCapabilities(userIndex, deviceQueryType, out capabilities) == 0;
+    }
+
+    /// <summary>
+    /// Retrieves a gamepad input event.
+    /// </summary>
+    /// <param name="userIndex">Index of the user's controller. Can be a value in the range 0–3. </param>
+    /// <param name="keystroke">The keystroke.</param>
+    /// <returns>False if the controller is not connected and no new keys have been pressed, true otherwise.</returns>
+    public static bool GetKeystroke(int userIndex, out Keystroke keystroke)
+    {
+        if (Version == XInputVersion.Version910)
+        {
+            ThrowNotSupportedXInput91("XInputGetKeystroke");
+        }
+
+        return s_XInputGetKeystroke(userIndex, out keystroke) == 0;
+    }
+
+    public static uint GetAudioDeviceIds(int userIndex, IntPtr renderDeviceId, IntPtr renderCount, IntPtr captureDeviceId, IntPtr captureCount)
+    {
+        if (Version != XInputVersion.Version14)
+        {
+            throw new NotSupportedException($"XInputGetAudioDeviceIds is only supported on XInput 1.4");
+        }
+
+        return s_XInputGetAudioDeviceIds(userIndex, renderDeviceId, renderCount, captureDeviceId, captureCount);
+    }
+
+    private static void ThrowNotSupportedXInput91(string name)
+    {
+        throw new NotSupportedException($"{name} is not supported on XInput9.1.0");
+    }
+
+#if NET6_0_OR_GREATER
+    private static IntPtr LoadXInputLibrary(out XInputVersion version)
+    {
+        if (NativeLibrary.TryLoad("xinput1_4.dll", out IntPtr libraryHandle))
+        {
+            version = XInputVersion.Version14;
+            return libraryHandle;
+        }
+        else if (NativeLibrary.TryLoad("xinput1_3.dll", out libraryHandle))
+        {
+            version = XInputVersion.Version13;
+            return libraryHandle;
+        }
+        else if (NativeLibrary.TryLoad("xinput9_1_0.dll", out libraryHandle))
+        {
+            version = XInputVersion.Version910;
+            return libraryHandle;
+        }
+
+        version = XInputVersion.Invalid;
+        return IntPtr.Zero;
+    }
+
+    private static IntPtr GetExport(string name) => NativeLibrary.GetExport(s_xinputLibrary, name);
+
+#else
+    private static IntPtr LoadXInputLibrary(out XInputVersion version)
+    {
+        IntPtr libraryHandle = LoadLibrary("xinput1_4.dll");
+        if (libraryHandle != IntPtr.Zero)
+        {
+            version = XInputVersion.Version14;
+            return libraryHandle;
+        }
+
+        libraryHandle = LoadLibrary("xinput1_3.dll");
+        if (libraryHandle != IntPtr.Zero)
+        {
+            version = XInputVersion.Version13;
+            return libraryHandle;
+        }
+
+        libraryHandle = LoadLibrary("xinput9_1_0.dll");
+        if (libraryHandle != IntPtr.Zero)
+        {
+            version = XInputVersion.Version910;
+            return libraryHandle;
+        }
+
+        version = XInputVersion.Invalid;
+        return libraryHandle;
+    }
+
+    private static IntPtr GetExport(string name) => GetProcAddress(s_xinputLibrary, name);
+
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Ansi)]
+    private static extern IntPtr LoadLibrary(string lpFileName);
+
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Ansi)]
+    private static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+
+    [DllImport("Kernel32", SetLastError = true, CharSet = CharSet.Ansi)]
+    private static extern void FreeLibrary(IntPtr hModule);
+#endif
 }

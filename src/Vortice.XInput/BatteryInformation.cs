@@ -1,24 +1,21 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.InteropServices;
+namespace Vortice.XInput;
 
-namespace Vortice.XInput
+/// <summary>
+/// Contains information on battery type and charge state.
+/// </summary>
+[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+public readonly struct BatteryInformation
 {
     /// <summary>
-    /// Contains information on battery type and charge state.
+    /// The type of battery.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public readonly struct BatteryInformation
-    {
-        /// <summary>
-        /// The type of battery.
-        /// </summary>
-        public readonly BatteryType BatteryType;
+    public readonly BatteryType BatteryType;
 
-        /// <summary>
-        /// The charge state of the battery.
-        /// </summary>
-        public readonly BatteryLevel BatteryLevel;
-    }
+    /// <summary>
+    /// The charge state of the battery.
+    /// </summary>
+    public readonly BatteryLevel BatteryLevel;
 }

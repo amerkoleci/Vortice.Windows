@@ -1,200 +1,187 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SharpGen.Runtime;
 using Vortice.DirectInput;
 
-namespace HelloDirectInput
+namespace HelloDirectInput;
+
+public sealed class DIInputDevice
 {
-    class DIInputDevice
+    private readonly IDirectInput8 _directInput;
+
+    protected Dictionary<Guid, DeviceInstance> _keyboards;
+    protected Dictionary<Guid, DeviceInstance> _joysticks;
+
+    protected Dictionary<Guid, IDirectInputDevice8> _keyboardDevices;
+    protected Dictionary<Guid, IDirectInputDevice8> _joystickDevices;
+
+    public DIInputDevice()
     {
-        protected IDirectInput8? DirectInput;
+        _directInput = DInput.DirectInput8Create();
 
-        protected Dictionary<Guid, DeviceInstance>? _keyboards;
-        protected Dictionary<Guid, DeviceInstance>? _joysticks;
+        _keyboardDevices = new Dictionary<Guid, IDirectInputDevice8>();
+        _joystickDevices = new Dictionary<Guid, IDirectInputDevice8>();
+    }
 
-        protected Dictionary<Guid, IDirectInputDevice8> _keyboardDevices;
-        protected Dictionary<Guid, IDirectInputDevice8> _joystickDevices;
-
-        public DIInputDevice()
+    public void Initialize(IntPtr handle)
+    {
+        try
         {
-            _keyboardDevices = new Dictionary<Guid, IDirectInputDevice8>();
-            _joystickDevices = new Dictionary<Guid, IDirectInputDevice8>();
+            _keyboards = EnumerateAllAttachedKeyboardDevices(_directInput);
+
+            foreach (Guid item in _keyboards.Keys)
+            {
+                InitializeKeyboardDevice(_directInput, item, handle);
+            }
+
+            _joysticks = EnumerateAllAttachedGameDevices(_directInput);
+
+            foreach (Guid item in _joysticks.Keys)
+            {
+                InitializeJoystickDevice(_directInput, item, handle);
+            }
         }
-
-        public void Initialise(IntPtr handle)
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    private void InitializeKeyboardDevice(IDirectInput8 directInput, Guid guid, IntPtr windowhandle)
+    {
+        IDirectInputDevice8 inputDevice = directInput.CreateDevice(guid);
+        inputDevice.SetCooperativeLevel(windowhandle, CooperativeLevel.NonExclusive | CooperativeLevel.Foreground);
+
+        // Play the values back to see that buffersize is working correctly
+        inputDevice.Properties.BufferSize = 16;
+
+        if (directInput.IsDeviceAttached(guid))
+        {
+            Result result = inputDevice.SetDataFormat<RawKeyboardState>();
+
+            if (result.Success)
+            {
+                _keyboardDevices.Add(guid, inputDevice);
+            }
+        }
+    }
+
+    private void InitializeJoystickDevice(IDirectInput8 directInput, Guid guid, IntPtr windowhandle)
+    {
+        IDirectInputDevice8 inputDevice = directInput.CreateDevice(guid);
+        inputDevice.SetCooperativeLevel(windowhandle, CooperativeLevel.NonExclusive | CooperativeLevel.Foreground);
+
+        // Play the values back to see that buffersize is working correctly
+        inputDevice.Properties.BufferSize = 16;
+
+        if (directInput.IsDeviceAttached(guid))
+        {
+            Result result = inputDevice.SetDataFormat<RawJoystickState>();
+
+            if (result.Success)
+            {
+                _joystickDevices.Add(guid, inputDevice);
+            }
+        }
+    }
+
+    public void GetKeyboardUpdates()
+    {
+        foreach (IDirectInputDevice8 keyboard in _keyboardDevices.Values)
+        {
+            Result result = keyboard.Poll();
+
+            if (result.Failure)
+            {
+                result = keyboard.Acquire();
+
+                if (result.Failure)
+                    return;
+            }
+
             try
             {
-                DirectInput = DInput.DirectInput8Create();
+                KeyboardUpdate[] bufferedData = keyboard.GetBufferedKeyboardData();
 
-                _keyboards = EnumerateAllAttachedKeyboardDevices(DirectInput);
-
-                foreach (var item_ in _keyboards)
+                if (bufferedData.Length > 0)
                 {
-                    InitialiseKeyboardDevice(DirectInput, item_.Key, handle);
-                }
-
-                _joysticks = EnumerateAllAttachedGameDevices(DirectInput);
-
-                foreach (var item_ in _joysticks)
-                {
-                    InitialiseJoystickDevice(DirectInput, item_.Key, handle);
+                    Console.WriteLine(bufferedData[0].ToString());
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.Write(ex.Message);
             }
         }
+    }
 
-        void InitialiseKeyboardDevice(IDirectInput8 directInput, Guid guid, IntPtr windowhandle)
+    public void GetKJoystickUpdates()
+    {
+        foreach (var joystick in _joystickDevices)
         {
-            IDirectInputDevice8 inputDevice_ = directInput.CreateDevice(guid);
+            Result result_ = joystick.Value.Poll();
 
-            Result result_ = inputDevice_.SetCooperativeLevel(windowhandle, CooperativeLevel.NonExclusive | CooperativeLevel.Foreground);
-
-            // play the values back to see that buffersize is working correctly
-            inputDevice_.Properties.BufferSize = 16;
-
-            int size = inputDevice_.Properties.BufferSize;
-
-            if (directInput.IsDeviceAttached(guid))
+            if (result_.Failure)
             {
-
-                result_ = inputDevice_.SetDataFormat<RawKeyboardState>();
-
-                if (result_.Success)
-                {
-
-                    _keyboardDevices.Add(guid, inputDevice_);
-                }
-            }
-        }
-
-        void InitialiseJoystickDevice(IDirectInput8 directInput, Guid guid, IntPtr windowhandle)
-        {
-            IDirectInputDevice8 inputDevice_ = directInput.CreateDevice(guid);
-
-            Result result_ = inputDevice_.SetCooperativeLevel(windowhandle, CooperativeLevel.NonExclusive | CooperativeLevel.Foreground);
-
-            // play the values back to see that buffersize is working correctly
-            inputDevice_.Properties.BufferSize = 16;
-
-            int size = inputDevice_.Properties.BufferSize;
-
-            if (directInput.IsDeviceAttached(guid))
-            {
-                result_ = inputDevice_.SetDataFormat<RawJoystickState>();
-
-                if (result_.Success)
-                {
-                    _joystickDevices.Add(guid, inputDevice_);
-                }
-            }
-        }
-
-        public void GetKeyboardUpdates()
-        {
-            foreach (var keyboard in _keyboardDevices)
-            {
-                Result result_ = keyboard.Value.Poll();
+                result_ = joystick.Value.Acquire();
 
                 if (result_.Failure)
-                {
-                    result_ = keyboard.Value.Acquire();
-
-                    if (result_.Failure)
-                        return;
-                }
-
-                try
-                {
-                    KeyboardUpdate[] bufferedData_ = keyboard.Value.GetBufferedKeyboardData();
-
-                    if (bufferedData_.Length > 0)
-                    {
-                        Trace.WriteLine(bufferedData_[0].ToString());
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Trace.Write(ex.Message);
-                }
+                    return;
             }
-        }
 
-        public void GetKJoystickUpdates()
-        {
-            foreach (var joystick in _joystickDevices)
+            try
             {
-                Result result_ = joystick.Value.Poll();
+                JoystickUpdate[] bufferedData_ = joystick.Value.GetBufferedJoystickData();
 
-                if (result_.Failure)
+                if (bufferedData_.Length > 0)
                 {
-                    result_ = joystick.Value.Acquire();
-
-                    if (result_.Failure)
-                        return;
-                }
-
-                try
-                {
-                    JoystickUpdate[] bufferedData_ = joystick.Value.GetBufferedJoystickData();
-
-                    if (bufferedData_.Length > 0)
-                    {
-                        Trace.WriteLine(bufferedData_[0].ToString());
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Trace.Write(ex.Message);
+                    Trace.WriteLine(bufferedData_[0].ToString());
                 }
             }
-        }
-
-        static public Dictionary<Guid, DeviceInstance> EnumerateAllAttachedKeyboardDevices(IDirectInput8 directInput)
-        {
-            Dictionary<Guid, DeviceInstance> connectedDeviceList_ = new Dictionary<Guid, DeviceInstance>();
-
-            foreach (DeviceInstance deviceInstance_ in directInput.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly))
+            catch (Exception ex)
             {
-                if (deviceInstance_.Type == Vortice.DirectInput.DeviceType.Keyboard)
-                {
-                    connectedDeviceList_.Add(deviceInstance_.InstanceGuid, deviceInstance_);
-                }
-                else
-                {
-                    Console.WriteLine(deviceInstance_.ProductName + " does not match input type, ignored.");
-                }
+                Trace.Write(ex.Message);
             }
-
-            return connectedDeviceList_;
         }
-        static public Dictionary<Guid, DeviceInstance> EnumerateAllAttachedGameDevices(IDirectInput8 directInput)
+    }
+
+    public static Dictionary<Guid, DeviceInstance> EnumerateAllAttachedKeyboardDevices(IDirectInput8 directInput)
+    {
+        Dictionary<Guid, DeviceInstance> result = new();
+
+        foreach (DeviceInstance deviceInstance in directInput.GetDevices(DeviceClass.Keyboard, DeviceEnumerationFlags.AttachedOnly))
         {
-            Dictionary<Guid, DeviceInstance> connectedDeviceList_ = new Dictionary<Guid, DeviceInstance>();
-
-            foreach (DeviceInstance deviceInstance_ in directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly))
+            if (deviceInstance.Type == DeviceType.Keyboard)
             {
-                if (deviceInstance_.Type == Vortice.DirectInput.DeviceType.Gamepad || deviceInstance_.Type == Vortice.DirectInput.DeviceType.Joystick)
-                {
-                    connectedDeviceList_.Add(deviceInstance_.InstanceGuid, deviceInstance_);
-                }
-                else
-                {
-                    Console.WriteLine(deviceInstance_.ProductName + " does not match input type, ignored.");
-                }
+                result.Add(deviceInstance.InstanceGuid, deviceInstance);
             }
-
-            return connectedDeviceList_;
+            else
+            {
+                Console.WriteLine(deviceInstance.ProductName + " does not match input type, ignored.");
+            }
         }
+
+        return result;
+    }
+
+    static public Dictionary<Guid, DeviceInstance> EnumerateAllAttachedGameDevices(IDirectInput8 directInput)
+    {
+        Dictionary<Guid, DeviceInstance> connectedDeviceList_ = new Dictionary<Guid, DeviceInstance>();
+
+        foreach (DeviceInstance deviceInstance_ in directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly))
+        {
+            if (deviceInstance_.Type == Vortice.DirectInput.DeviceType.Gamepad || deviceInstance_.Type == Vortice.DirectInput.DeviceType.Joystick)
+            {
+                connectedDeviceList_.Add(deviceInstance_.InstanceGuid, deviceInstance_);
+            }
+            else
+            {
+                Console.WriteLine(deviceInstance_.ProductName + " does not match input type, ignored.");
+            }
+        }
+
+        return connectedDeviceList_;
     }
 }
