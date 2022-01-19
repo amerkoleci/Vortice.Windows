@@ -18,9 +18,9 @@ namespace Vortice.Dxc.Test
         {
             string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "TriangleSingleFile.hlsl"));
 
-            using IDxcResult? results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
+            using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
 
-            Assert.True(results!.GetStatus().Success);
+            Assert.True(results.GetStatus().Success);
 
             var shaderCode = results.GetObjectBytecodeArray();
 
@@ -34,9 +34,9 @@ namespace Vortice.Dxc.Test
         {
             string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "TriangleError.hlsl"));
 
-            using IDxcResult? results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
+            using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
 
-            Assert.True(results!.GetStatus().Failure);
+            Assert.True(results.GetStatus().Failure);
 
             var error = results.GetErrors();
 
@@ -50,9 +50,9 @@ namespace Vortice.Dxc.Test
 
             using (var includeHandler = new ShaderIncludeHandler(AssetsPath))
             {
-                using IDxcResult? results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", includeHandler: includeHandler);
+                using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", includeHandler: includeHandler);
 
-                Assert.True(results!.GetStatus().Success);
+                Assert.True(results.GetStatus().Success);
 
                 var shaderCode = results.GetObjectBytecodeArray();
 
@@ -69,9 +69,9 @@ namespace Vortice.Dxc.Test
 
             var defines = new DxcDefine[] { new DxcDefine { Name = "TEST", Value = "1" } };
 
-            using IDxcResult? results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", defines: defines);
+            using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", defines: defines);
 
-            Assert.True(results!.GetStatus().Success);
+            Assert.True(results.GetStatus().Success);
 
             var shaderCode = results.GetObjectBytecodeArray();
 

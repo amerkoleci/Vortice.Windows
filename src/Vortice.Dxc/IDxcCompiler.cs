@@ -15,7 +15,7 @@ namespace Vortice.Dxc
         }
 
         #region Compile
-        public IDxcOperationResult? Compile(IDxcBlob source,
+        public IDxcOperationResult Compile(IDxcBlob source,
             string sourceName,
             string entryPoint,
             string targetProfile,
@@ -34,7 +34,7 @@ namespace Vortice.Dxc
                 includeHandler);
         }
 
-        public unsafe IDxcOperationResult? Compile(IDxcBlob source,
+        public unsafe IDxcOperationResult Compile(IDxcBlob source,
             string sourceName,
             string entryPoint,
             string targetProfile,
@@ -52,20 +52,13 @@ namespace Vortice.Dxc
                     argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
                 }
 
-                Result hr = Compile(source, sourceName,
+                Compile(source, sourceName,
                     entryPoint, targetProfile,
                     (IntPtr)argumentsPtr, argumentsCount,
                     defines,
                     includeHandler,
-                    out IDxcOperationResult? result);
-
-                if (hr.Failure)
-                {
-                    result = default;
-                    return result;
-                }
-
-                return result;
+                    out IDxcOperationResult? result).CheckError();
+                return result!;
             }
             finally
             {
@@ -142,7 +135,7 @@ namespace Vortice.Dxc
         #endregion Compile
 
         #region Preprocess
-        public IDxcOperationResult? Preprocess(IDxcBlob source,
+        public IDxcOperationResult Preprocess(IDxcBlob source,
             string sourceName,
             string[] arguments,
             DxcDefine[] defines,
@@ -157,7 +150,7 @@ namespace Vortice.Dxc
                 includeHandler);
         }
 
-        public unsafe IDxcOperationResult? Preprocess(IDxcBlob source,
+        public unsafe IDxcOperationResult Preprocess(IDxcBlob source,
             string sourceName,
             string[] arguments,
             int argumentsCount,
@@ -173,19 +166,13 @@ namespace Vortice.Dxc
                     argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
                 }
 
-                Result hr = Preprocess(source, sourceName,
+                Preprocess(source, sourceName,
                     (IntPtr)argumentsPtr, argumentsCount,
                     defines,
                     includeHandler,
-                    out IDxcOperationResult? result);
+                    out IDxcOperationResult? result).CheckError();
 
-                if (hr.Failure)
-                {
-                    result = default;
-                    return default;
-                }
-
-                return result;
+                return result!;
             }
             finally
             {

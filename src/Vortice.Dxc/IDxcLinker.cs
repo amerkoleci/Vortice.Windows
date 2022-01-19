@@ -8,16 +8,16 @@ namespace Vortice.Dxc
 {
     public partial class IDxcLinker
     {
-        public IDxcOperationResult? Link(string entryName, string targetProfile, string[] libNames, string[] arguments)
+        public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, string[] arguments)
         {
-            Link(entryName, targetProfile, libNames, arguments, out IDxcOperationResult? result);
-            return result;
+            Link(entryName, targetProfile, libNames, arguments, out IDxcOperationResult? result).CheckError();
+            return result!;
         }
 
-        public IDxcOperationResult? Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount)
+        public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount)
         {
-            Link(entryName, targetProfile, libNames, libCount, arguments, argumentsCount, out IDxcOperationResult? result);
-            return result;
+            Link(entryName, targetProfile, libNames, libCount, arguments, argumentsCount, out IDxcOperationResult? result).CheckError();
+            return result!;
         }
 
         public unsafe Result Link(string entryName, string targetProfile, string[] libNames, string[] arguments, out IDxcOperationResult? result)

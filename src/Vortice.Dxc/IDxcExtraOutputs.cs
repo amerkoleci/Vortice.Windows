@@ -8,14 +8,9 @@ namespace Vortice.Dxc
 {
     public partial class IDxcExtraOutputs
     {
-        public T? GetOutput<T>(int index, out IDxcBlobUtf16 outputType, out IDxcBlobUtf16 outputName) where T : IDxcBlob
+        public T GetOutput<T>(int index, out IDxcBlobUtf16 outputType, out IDxcBlobUtf16 outputName) where T : IDxcBlob
         {
-            Result result = GetOutput(index, typeof(T).GUID, out IntPtr nativePtr, out outputType, out outputName);
-            if (result.Failure)
-            {
-                return default;
-            }
-
+            GetOutput(index, typeof(T).GUID, out IntPtr nativePtr, out outputType, out outputName).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr);
         }
 
