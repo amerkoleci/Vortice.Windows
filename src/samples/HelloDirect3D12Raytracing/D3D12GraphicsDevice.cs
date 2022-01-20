@@ -645,11 +645,11 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
         // Copy the output buffer to the back buffer
         _commandList.ResourceBarrierTransition(_outputBuffer, ResourceStates.UnorderedAccess, ResourceStates.CopySource);
-        _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.Present, ResourceStates.CopyDestination);
+        _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.Present, ResourceStates.CopyDest);
         _commandList.CopyResource(_renderTargets[_backbufferIndex], _outputBuffer);
 
         // Indicate that the back buffer will now be used to present.
-        _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.CopyDestination, ResourceStates.Present);
+        _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.CopyDest, ResourceStates.Present);
         _commandList.EndEvent();
         _commandList.Close();
 

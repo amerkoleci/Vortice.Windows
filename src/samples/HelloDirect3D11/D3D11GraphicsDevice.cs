@@ -145,7 +145,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             DepthStencilView = Device.CreateDepthStencilView(DepthStencilTexture!, new DepthStencilViewDescription(DepthStencilTexture, DepthStencilViewDimension.Texture2D));
         }
 
-        VertexPositionColor[] triangleVertices = new VertexPositionColor[]
+        Span<VertexPositionColor> triangleVertices = new VertexPositionColor[]
         {
             new VertexPositionColor(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
             new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
@@ -159,8 +159,8 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
         };
 
-        byte[] vertexShaderByteCode = CompileBytecode("Triangle.hlsl", "VSMain", "vs_4_0");
-        byte[] pixelShaderByteCode = CompileBytecode("Triangle.hlsl", "PSMain", "ps_4_0");
+        Span<byte> vertexShaderByteCode = CompileBytecode("Triangle.hlsl", "VSMain", "vs_4_0");
+        Span<byte> pixelShaderByteCode = CompileBytecode("Triangle.hlsl", "PSMain", "ps_4_0");
 
         _vertexShader = Device.CreateVertexShader(vertexShaderByteCode);
         _pixelShader = Device.CreatePixelShader(pixelShaderByteCode);
@@ -347,7 +347,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         return stagingTexture;
     }
 
-    private static byte[] CompileBytecode(string shaderName, string entryPoint, string profile)
+    private static Span<byte> CompileBytecode(string shaderName, string entryPoint, string profile)
     {
         string assetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
         string shaderFile = Path.Combine(assetsPath, shaderName);

@@ -8,9 +8,9 @@ namespace Vortice.Direct3D;
 
 public unsafe partial class Blob
 {
-    public byte[] GetBytes()
+    public Span<byte> GetBytes()
     {
-        byte[] result = new byte[GetBufferSize()];
+        Span<byte> result = new byte[GetBufferSize()];
         fixed (byte* pResult = result)
         {
             Unsafe.CopyBlockUnaligned(pResult, (void*)GetBufferPointer(), (uint)result.Length);

@@ -459,7 +459,7 @@ public unsafe static partial class Compiler
             out errorBlob);
     }
 
-    public static byte[] CompileFromFile(
+    public static Span<byte> CompileFromFile(
         string fileName,
         string entryPoint,
         string profile)
@@ -475,7 +475,7 @@ public unsafe static partial class Compiler
             out Blob blob,
             out _).CheckError();
 
-        byte[] result = blob.GetBytes();
+        Span<byte> result = blob.GetBytes();
         blob.Dispose();
         return result;
     }
@@ -483,17 +483,24 @@ public unsafe static partial class Compiler
 
     public static Blob CreateBlob(PointerSize size)
     {
-        CreateBlob(size, out var blob).CheckError();
+        CreateBlob(size, out Blob blob).CheckError();
         return blob;
     }
 
-    public static Result Reflect<T>(byte[] shaderBytecode, out T? reflection) where T : ComObject
+    public static T Reflect<T>(Span<byte> shaderBytecode) where T : ComObject
     {
-        var interfaceGuid = typeof(T).GUID;
-        fixed (void* shaderBytecodePtr = shaderBytecode)
+        fixed (byte* shaderBytecodePtr = shaderBytecode)
         {
-            PointerSize srcDataSize = shaderBytecode.Length;
-            var result = Reflect(new IntPtr(shaderBytecodePtr), srcDataSize, interfaceGuid, out var nativePtr);
+            Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
+        }
+    }
+
+    public static Result Reflect<T>(Span<byte> shaderBytecode, out T? reflection) where T : ComObject
+    {
+        fixed (byte* shaderBytecodePtr = shaderBytecode)
+        {
+            Result result = Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
                 reflection = MarshallingHelpers.FromPointer<T>(nativePtr);

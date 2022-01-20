@@ -171,9 +171,18 @@ public unsafe partial class ID3D11Device
         return CreateDeferredContext(0);
     }
 
+    public ID3D11Buffer CreateBuffer(BufferDescription description, SubresourceData? initialData = default)
+    {
+        CreateBuffer(description, initialData, out ID3D11Buffer buffer).CheckError();
+        return buffer;
+    }
+
     public ID3D11Buffer CreateBuffer(BufferDescription description, IntPtr dataPointer)
     {
-        return CreateBuffer(description, dataPointer != IntPtr.Zero ? new SubresourceData(dataPointer) : (SubresourceData?)default);
+        CreateBuffer(description,
+            dataPointer != IntPtr.Zero ? new SubresourceData(dataPointer) : (SubresourceData?)default,
+            out ID3D11Buffer buffer).CheckError();
+        return buffer;
     }
 
     public ID3D11Buffer CreateBuffer(BufferDescription description, DataStream data)
@@ -181,23 +190,12 @@ public unsafe partial class ID3D11Device
         return CreateBuffer(description, new SubresourceData(data.PositionPointer, 0, 0));
     }
 
-    public ID3D11Buffer CreateBuffer<T>(ref T data, BufferDescription description) where T : unmanaged
+    public ID3D11Buffer CreateBuffer<T>(in T data, BufferDescription description) where T : unmanaged
     {
         if (description.SizeInBytes == 0)
             description.SizeInBytes = sizeof(T);
 
-        fixed (void* dataPtr = &data)
-        {
-            return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
-        }
-    }
-
-    public ID3D11Buffer CreateBuffer<T>(T[] data, BufferDescription description) where T : unmanaged
-    {
-        if (description.SizeInBytes == 0)
-            description.SizeInBytes = sizeof(T) * data.Length;
-
-        fixed (T* dataPtr = data)
+        fixed (T* dataPtr = &data)
         {
             return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
         }
@@ -226,10 +224,7 @@ public unsafe partial class ID3D11Device
     /// <param name="optionFlags">Miscellaneous resource options.</param>
     /// <param name="structureByteStride">The size (in bytes) of the structure element for structured buffers.</param>
     /// <returns>An initialized buffer</returns>
-    /// <msdn-id>ff476501</msdn-id>	
-    /// <unmanaged>HRESULT ID3D11Device::CreateBuffer([In] const D3D11_BUFFER_DESC* pDesc,[In, Optional] const D3D11_SUBRESOURCE_DATA* pInitialData,[Out, Fast] ID3D11Buffer** ppBuffer)</unmanaged>	
-    /// <unmanaged-short>ID3D11Device::CreateBuffer</unmanaged-short>	
-    public ID3D11Buffer CreateBuffer<T>(BindFlags bindFlags, T[] data,
+    public ID3D11Buffer CreateBuffer<T>(BindFlags bindFlags, Span<T> data,
         int sizeInBytes = 0, ResourceUsage usage = ResourceUsage.Default, CpuAccessFlags accessFlags = CpuAccessFlags.None, ResourceOptionFlags optionFlags = ResourceOptionFlags.None, int structureByteStride = 0) where T : unmanaged
     {
         var description = new BufferDescription()
@@ -242,13 +237,13 @@ public unsafe partial class ID3D11Device
             StructureByteStride = structureByteStride
         };
 
-        fixed (void* dataPtr = &data[0])
+        fixed (T* dataPtr = data)
         {
             return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
         }
     }
 
-    public ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11VertexShader CreateVertexShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -261,7 +256,7 @@ public unsafe partial class ID3D11Device
         return CreateVertexShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11PixelShader CreatePixelShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -274,7 +269,7 @@ public unsafe partial class ID3D11Device
         return CreatePixelShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public ID3D11GeometryShader CreateGeometryShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11GeometryShader CreateGeometryShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -332,7 +327,7 @@ public unsafe partial class ID3D11Device
     /// <param name="inputElements">An array of the input-assembler stage input data types; each type is described by an element description</param>
     /// <param name="shaderBytecode">A pointer to the compiled shader. The compiled shader code contains a input signature which is validated against the array of elements.</param>
     /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
-    public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, byte[] shaderBytecode)
+    public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, Span<byte> shaderBytecode)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {

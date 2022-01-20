@@ -727,7 +727,6 @@
     <map struct="D3D12_BOX" visibility="internal"/>
     <map struct="D3D12_DISCARD_REGION" visibility="internal"/>
 
-    <map field="D3D12_CACHED_PIPELINE_STATE::pCachedBlob" name="CachedBlob" />
     <map field="D3D12_CACHED_PIPELINE_STATE::CachedBlobSizeInBytes" name="CachedBlobSizeInBytes" />
 
     <map struct="D3D12_RT_FORMAT_ARRAY" visibility="internal" marshal="true" />

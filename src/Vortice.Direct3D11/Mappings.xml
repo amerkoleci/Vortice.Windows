@@ -655,9 +655,10 @@
     <map param="ID3D11Device::CreateBlendState::pBlendStateDesc" attribute="in value" />
     <map param="ID3D11Device::CreateBlendState::ppBlendState" attribute="out" return="true"/>
 
+    <map method="ID3D11Device::CreateBuffer" hresult="true" check="false"/>
     <map param="ID3D11Device::CreateBuffer::pDesc" attribute="in value" />
-    <map param="ID3D11Device::CreateBuffer::pInitialData" default="null" />
-    <map param="ID3D11Device::CreateBuffer::ppBuffer" attribute="out" return="true"/>
+    <map param="ID3D11Device::CreateBuffer::ppBuffer" attribute="out" return="false"/>
+    
     <map param="ID3D11Device::CreateClassLinkage::ppLinkage" attribute="out" return="true"/>
     <map param="ID3D11Device::CreateComputeShader::pShaderBytecode" type="void" keep-pointers="true"/>
     <map param="ID3D11Device::CreateComputeShader::pClassLinkage" default="null"/>
@@ -772,7 +773,11 @@
     <!-- ID3D11DeviceContext -->
     <map method="ID3D11DeviceContext::GetType" name="GetContextType" />
     <map param="ID3D11DeviceContext::ClearDepthStencilView::ClearFlags" type="D3D11_CLEAR_FLAG" />
+
+    <map method="ID3D11DeviceContext::Map" hresult="true" check="false" />
     <map param="ID3D11DeviceContext::Map::MapFlags" type="D3D11_MAP_FLAG" />
+    <map param="ID3D11DeviceContext::Map::pMappedResource" attribute="out" return="false"/>
+    
     <map method="ID3D11DeviceContext::FinishCommandList" hresult="true" check="false" />
     <!--<map param="ID3D11DeviceContext::FinishCommandList::ppCommandList" attribute="out fast" />-->
     <map param="ID3D11DeviceContext::ClearRenderTargetView::ColorRGBA" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" />
@@ -815,7 +820,7 @@
 
     <map method="ID3D11DeviceContext::GetData" hresult="true" check="false" />
     <map param="ID3D11DeviceContext::GetData::GetDataFlags" type="D3D11_ASYNC_GETDATA_FLAG" />
-    <map param="ID3D11DeviceContext::Map::pMappedResource" attribute="out" return="true"/>
+    
     <map param="ID3D11DeviceContext::GetPredication::ppPredicate" attribute="out" return="true"/>
 
     <map param="ID3D11DeviceContext::IAGetInputLayout::ppInputLayout" return="true" />

@@ -1717,20 +1717,13 @@ public unsafe partial class ID3D11DeviceContext
         CSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
     }
 
-    public void CSSetUnorderedAccessView(int slot, ID3D11UnorderedAccessView unorderedAccessView)
-    {
-        IntPtr nativePtr = unorderedAccessView == null ? IntPtr.Zero : unorderedAccessView.NativePointer;
-        int uavInitialCount = -1;
-        CSSetUnorderedAccessViews(slot, 1, &nativePtr, &uavInitialCount);
-    }
-
-    public void CSSetUnorderedAccessView(int slot, ID3D11UnorderedAccessView unorderedAccessView, int uavInitialCount)
+    public void CSSetUnorderedAccessView(int slot, ID3D11UnorderedAccessView? unorderedAccessView, int uavInitialCount = KeepUnorderedAccessViews)
     {
         IntPtr nativePtr = unorderedAccessView == null ? IntPtr.Zero : unorderedAccessView.NativePointer;
         CSSetUnorderedAccessViews(slot, 1, &nativePtr, &uavInitialCount);
     }
 
-    public unsafe void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews)
+    public void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews)
     {
         int numUAVs = unorderedAccessViews.Length;
         IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
@@ -1739,7 +1732,7 @@ public unsafe partial class ID3D11DeviceContext
         for (int i = 0; i < numUAVs; i++)
         {
             ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
-            pUAVInitialCounts[i] = -1;
+            pUAVInitialCounts[i] = KeepUnorderedAccessViews;
         }
 
         CSSetUnorderedAccessViews(startSlot, numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
@@ -1759,7 +1752,7 @@ public unsafe partial class ID3D11DeviceContext
         CSSetUnorderedAccessViews(startSlot, numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
     }
 
-    public unsafe void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews, int[] uavInitialCounts)
+    public void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews, int[] uavInitialCounts)
     {
         int numUAVs = unorderedAccessViews.Length;
         IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
@@ -1768,7 +1761,7 @@ public unsafe partial class ID3D11DeviceContext
             ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
         }
 
-        fixed (int* pUAVInitialCounts = &uavInitialCounts[0])
+        fixed (int* pUAVInitialCounts = uavInitialCounts)
         {
             CSSetUnorderedAccessViews(startSlot, numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
         }
@@ -1801,6 +1794,12 @@ public unsafe partial class ID3D11DeviceContext
     #endregion
 
     #region Map/Unmap
+    public MappedSubresource Map(ID3D11Resource resource, int subresource, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None)
+    {
+        Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
+        return mappedSubresource;
+    }
+
     /// <summary>
     /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
     /// </summary>
@@ -1809,7 +1808,8 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="flags">The flags.</param>
     public MappedSubresource Map(ID3D11Buffer resource, MapMode mode, MapFlags flags = MapFlags.None)
     {
-        return Map(resource, 0, mode, flags);
+        Map(resource, 0, mode, flags, out MappedSubresource mappedSubresource).CheckError();
+        return mappedSubresource;
     }
 
     /// <summary>
@@ -1825,7 +1825,8 @@ public unsafe partial class ID3D11DeviceContext
     public MappedSubresource Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int subresource, out int mipSize)
     {
         subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
-        return Map(resource, subresource, mode, flags);
+        Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
+        return mappedSubresource;
     }
 
     /// <summary>
@@ -1837,17 +1838,18 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="mode">The mode.</param>
     /// <param name="flags">The flags.</param>
     /// <param name="mipSize">Size of the selected miplevel.</param>
-    public MappedSubresource Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int mipSize)
+    /// <param name="mappedSubresource"></param>
+    public Result Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int mipSize, out MappedSubresource mappedSubresource)
     {
         int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
-        return Map(resource, subresource, mode, flags);
+        return Map(resource, subresource, mode, flags, out mappedSubresource);
     }
 
     public Span<T> Map<T>(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
     {
         int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
-        MappedSubresource mapped = Map(resource, subresource, mode, flags);
-        Span<byte> source = new(mapped.DataPointer.ToPointer(), mipSize * mapped.RowPitch);
+        Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
+        Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mipSize * mappedSubresource.RowPitch);
         return MemoryMarshal.Cast<byte, T>(source);
     }
 
@@ -1871,9 +1873,9 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="depthPitch">The depth pitch.</param>
     /// <param name="region">The region</param>
-    public unsafe void UpdateSubresource<T>(ref T value, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    public void UpdateSubresource<T>(in T value, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
     {
-        fixed (void* valuePtr = &value)
+        fixed (T* valuePtr = &value)
         {
             UpdateSubresource(resource, subresource, region, (IntPtr)valuePtr, rowPitch, depthPitch);
         }
@@ -1889,9 +1891,9 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="depthPitch">The depth pitch.</param>
     /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
-    public unsafe void UpdateSubresource<T>(T[] data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    public void UpdateSubresource<T>(T[] data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
     {
-        fixed (void* dataPtr = &data[0])
+        fixed (T* dataPtr = data)
         {
             UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
         }
@@ -1907,9 +1909,9 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="depthPitch">The depth pitch.</param>
     /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
-    public unsafe void UpdateSubresource<T>(Span<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    public void UpdateSubresource<T>(Span<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
     {
-        fixed (void* dataPtr = data)
+        fixed (T* dataPtr = data)
         {
             UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
         }
@@ -1954,12 +1956,9 @@ public unsafe partial class ID3D11DeviceContext
     /// </remarks>
     public void UpdateSubresourceSafe<T>(ref T value, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
     {
-        unsafe
+        fixed (T* valuePtr = &value)
         {
-            fixed (void* valuePtr = &value)
-            {
-                UpdateSubresourceSafe(resource, subresource, null, (IntPtr)valuePtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
-            }
+            UpdateSubresourceSafe(resource, subresource, null, (IntPtr)valuePtr, rowPitch, depthPitch, srcBytesPerElement, isCompressedResource);
         }
     }
 

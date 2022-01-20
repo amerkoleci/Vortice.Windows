@@ -448,7 +448,7 @@ public unsafe partial class ID3D12GraphicsCommandList
     /// This method uses the GPU to copy texture data between two locations.
     /// Both the source and the destination may reference texture data located within either a buffer resource or a texture resource.
     /// </summary>
-    /// <param name="destination">Specifies the destination <see cref="TextureCopyLocation"/>. The subresource referred to must be in the <see cref="ResourceStates.CopyDestination"/> state.</param>
+    /// <param name="destination">Specifies the destination <see cref="TextureCopyLocation"/>. The subresource referred to must be in the <see cref="ResourceStates.CopyDest"/> state.</param>
     /// <param name="destinationX">The x-coordinate of the upper left corner of the destination region.</param>
     /// <param name="destinationY">The y-coordinate of the upper left corner of the destination region. For a 1D subresource, this must be zero.</param>
     /// <param name="destinationZ">The z-coordinate of the upper left corner of the destination region. For a 1D or 2D subresource, this must be zero.</param>

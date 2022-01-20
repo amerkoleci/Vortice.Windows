@@ -84,19 +84,11 @@
     <map enum-item="D3D(.*)" name-tmp="$1" />
     <map enum="D3DCOMPILE_(.+)" name-tmp="$1" />
     <map enum="D3DCOMPILER_(.+)" name-tmp="$1" />
-    <map enum="D3D11(.*)" name-tmp="$1" />
-    <map enum-item="D3D11(.*)" name-tmp="$1" />
-    <map enum="D3D12(.*)" name-tmp="$1" />
-    <map enum-item="D3D12(.*)" name-tmp="$1" />
     <map enum-item="D3DCOMPILE_EFFECT_CHILD_EFFECT" name="ChildEffect" />
     <map enum-item="D3DCOMPILE_EFFECT_ALLOW_SLOW_OPS" name="AllowSlowOperations" />
     <map enum-item="D3D_CT_RESOURCE_BIND_INFO" name="ResourceBinding" />
     <map enum-item="D3D_DISASM_(.*)" name-tmp="$1" />
-    <map enum-item="D3D11_REGISTER_COMPONENT_MASK_(.*)" name-tmp="$1" />
-    <map enum-item="D3D12_REGISTER_COMPONENT_MASK_(.*)" name-tmp="$1" />
     <map enum-item="D3DCOMPILE_(\w[^F].*)" name-tmp="$1" />
-    <map enum="D3D11_SHADER_VERSION_TYPE" name="ShaderVersion" />
-    <map enum="D3D12_SHADER_VERSION_TYPE" name="ShaderVersion" />
     <map enum-item="D3D11_SHVER_(.*)" name-tmp="$1" />
     <map enum-item="D3D12_SHVER_(.*)" name-tmp="$1" />
     <map enum="D3D_BLOB_PART" name="ShaderBytecodePart" />
@@ -121,7 +113,9 @@
     <map param="D3DCompile::pDefines" attribute="in buffer optional" />
     <map param="D3DPreprocess::pDefines" attribute="in buffer optional" />
     <map function="D3DGet.*SignatureBlob" check="false" />
-    <map function="D3DReflect" check="false" />
+    <map function="D3DReflect" hresult="true" check="false"/>
+    <map param="D3DReflect::pSrcData" type="void" keep-pointers="true"/>
+    
     <map function="D3DStripShader" check="false" />
 
     <map param="D3DGetTraceInstructionOffsets::pOffsets" attribute="out" return="true"/>

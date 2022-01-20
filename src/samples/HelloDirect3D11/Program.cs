@@ -4,7 +4,6 @@
 using SharpGen.Runtime;
 using SharpGen.Runtime.Diagnostics;
 using Vortice;
-using Vortice.Direct3D;
 using Vortice.Direct3D11;
 using Vortice.Mathematics;
 using Vortice.WIC;
@@ -216,24 +215,16 @@ public static class Program
         }
     }
 
-    private static void MemoryLeak()
-    {
-        D3D11.D3D11CreateDevice(null, DriverType.Hardware, DeviceCreationFlags.BgraSupport, new FeatureLevel[] { FeatureLevel.Level_11_0 }, out ID3D11Device device, out _, out ID3D11DeviceContext context);
-        System.Threading.Thread.Sleep(500);
-        context.ClearState();
-        context.Flush();
-        context.Dispose();
-        device.Dispose();
-    }
-
     public static void Main()
     {
 #if DEBUG
         Configuration.EnableObjectTracking = true;
 #endif
 
-        using TestApplication app = new(headless: false);
-        app.Run();
+        using (TestApplication app = new(headless: false))
+        {
+            app.Run();
+        }
 
 #if DEBUG
         Console.WriteLine(ObjectTracker.ReportActiveObjects());
