@@ -52,10 +52,15 @@ public partial class CommandSignatureDescription
     internal unsafe void __MarshalTo(ref __Native @ref)
     {
         @ref.ByteStride = ByteStride;
-        @ref.NumArgumentDescs = IndirectArguments?.Length ?? 0;
-        if (@ref.NumArgumentDescs > 0)
+        if (IndirectArguments?.Length > 0)
         {
+            @ref.NumArgumentDescs = IndirectArguments.Length;
             @ref.pArgumentDescs = AllocWithData(IndirectArguments);
+        }
+        else
+        {
+            @ref.NumArgumentDescs = 0;
+            @ref.pArgumentDescs = null;
         }
         @ref.NodeMask = NodeMask;
     }

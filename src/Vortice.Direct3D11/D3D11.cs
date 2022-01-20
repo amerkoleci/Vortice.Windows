@@ -46,15 +46,6 @@ public static unsafe partial class D3D11
             return result;
         }
 
-#if TEST
-        if (immediateContext != null)
-        {
-            device.AddRef();
-            device.ImmediateContext__ = immediateContext;
-            immediateContext.Device__ = device;
-        }
-#endif
-
         return result;
     }
 
@@ -93,15 +84,6 @@ public static unsafe partial class D3D11
             return result;
         }
 
-#if TEST
-        if (immediateContext != null)
-        {
-            device.AddRef();
-            device.ImmediateContext__ = immediateContext;
-            immediateContext.Device__ = device;
-        }
-#endif
-
         return result;
     }
 
@@ -125,13 +107,6 @@ public static unsafe partial class D3D11
         if (result.Failure)
         {
             return result;
-        }
-
-        if (immediateContext != null)
-        {
-            device.AddRef();
-            device.ImmediateContext__ = immediateContext;
-            immediateContext.Device__ = device;
         }
 
         return result;

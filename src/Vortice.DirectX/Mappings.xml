@@ -71,6 +71,10 @@
 
   <include file="audiosessiontypes.h" namespace="Vortice.Multimedia"  attach="true" />
 
+  <include file="d3d12.h" namespace="Vortice.Direct3D12">
+    <attach>D3D12_RESOURCE_STATES</attach>
+  </include>
+
   <extension>
     <define struct="Vortice.RawRect" sizeof="16" />
     <define struct="Vortice.RawRectF" sizeof="16" />
@@ -283,6 +287,7 @@
     <map enum-item="ERROR_(.*)" name-tmp="$1" naming="noexpand"/>
 
     <map enum="D3D(.*)" name-tmp="$1" />
+    <map enum="D3D(\d+)(.*)" name-tmp="$2" />
     <map enum-item="D3D(?!_PF_)(.*)" name-tmp="$1" />
     <map enum-item="D3D_INTERPOLATION(.*)" name-tmp="$1" />
     <remove enum-item="D3D(\d+)_CBF_USERPACKED.*"/>
@@ -425,5 +430,10 @@
     <map enum-item="WAVE_FORMAT_(.*)" name-tmp="$1" naming="noexpand" />
     <map enum-item="WAVE_FORMAT_([0-9].*)" name-tmp="Tag$1" />
     <map enum-item="WAVE_FORMAT_GSM610" name-tmp="DefaultGsm610" />
+
+    <!-- d3d12 -->
+    <map enum="D3D12_RESOURCE_STATES" flags="true" type="uint" />
+    <map enum-item="D3D12_RESOURCE_STATE(.*)" name-tmp="$1" />
+    
   </mapping>
 </config>

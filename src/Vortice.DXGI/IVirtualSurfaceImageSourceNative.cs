@@ -1,26 +1,23 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
+namespace Vortice.DXGI;
 
-namespace Vortice.DXGI
+public partial class IVirtualSurfaceImageSourceNative
 {
-    public partial class IVirtualSurfaceImageSourceNative
+    /// <summary>
+    /// Gets the set of regions that must be updated on the shared surface.
+    /// </summary>
+    public RawRect[] UpdateRectangles
     {
-        /// <summary>
-        /// Gets the set of regions that must be updated on the shared surface.
-        /// </summary>
-        public RawRect[] UpdateRectangles
+        get
         {
-            get
-            {
-                if (GetUpdateRectCount(out var count).Failure)
-                    return Array.Empty<RawRect>();
+            if (GetUpdateRectCount(out int count).Failure)
+                return Array.Empty<RawRect>();
 
-                var regionToUpdate = new RawRect[count];
-                GetUpdateRects(regionToUpdate, count);
-                return regionToUpdate;
-            }
+            var regionToUpdate = new RawRect[count];
+            GetUpdateRects(regionToUpdate, count);
+            return regionToUpdate;
         }
     }
 }

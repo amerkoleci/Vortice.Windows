@@ -120,6 +120,9 @@
     <map struct="DXGI_SHARED_RESOURCE" visibility="internal"/>
     <map struct="DXGI_MAPPED_RECT" visibility="internal" />
 
+    <map struct="DXGI_DISPLAY_COLOR_SPACE" name="DisplayColorSpace" />
+    <remove field="DXGI_DISPLAY_COLOR_SPACE::.*"/>
+
     <!--<map interface="IDXGI(.+)" name-tmp="$1" />-->
     <map method=".*::(.*)DescW?" name="$1Description" />
     <map method=".*::(.*)Desc1" name="$1Description1" />

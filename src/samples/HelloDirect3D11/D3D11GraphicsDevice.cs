@@ -68,7 +68,6 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         Window = window;
         Size = size;
 
-
         Factory = CreateDXGIFactory1<IDXGIFactory2>();
 
         using (IDXGIAdapter1 adapter = GetHardwareAdapter())
@@ -220,6 +219,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
                     continue;
                 }
 
+                factory6.Dispose();
                 return adapter;
             }
 

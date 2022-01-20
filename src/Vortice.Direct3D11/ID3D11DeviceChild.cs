@@ -14,7 +14,7 @@ public unsafe partial class ID3D11DeviceChild
         {
             byte* pname = stackalloc byte[1024];
             int size = 1024 - 1;
-            if (GetPrivateData(CommonGuid.DebugObjectName, ref size, new IntPtr(pname)).Failure)
+            if (GetPrivateData(CommonGuid.DebugObjectName, ref size, pname).Failure)
             {
                 return string.Empty;
             }
@@ -26,12 +26,12 @@ public unsafe partial class ID3D11DeviceChild
         {
             if (string.IsNullOrEmpty(value))
             {
-                SetPrivateData(CommonGuid.DebugObjectName, 0, IntPtr.Zero);
+                SetPrivateData(CommonGuid.DebugObjectName, 0, null);
             }
             else
             {
-                var namePtr = Marshal.StringToHGlobalAnsi(value);
-                SetPrivateData(CommonGuid.DebugObjectName, value.Length, namePtr);
+                IntPtr namePtr = Marshal.StringToHGlobalAnsi(value);
+                SetPrivateData(CommonGuid.DebugObjectName, value.Length, namePtr.ToPointer());
                 Marshal.FreeHGlobal(namePtr);
             }
         }

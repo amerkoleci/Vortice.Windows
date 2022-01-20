@@ -631,8 +631,10 @@
     <!-- ID3D11DeviceChild methods -->
     <map method="ID3D11DeviceChild::GetDevice" persist="true"/>
     <map method="ID3D11DeviceChild::GetPrivateData" visibility="public" hresult="true" check="false"/>
+    <map param="ID3D11DeviceChild::GetPrivateData::pData" type="void" keep-pointers="true"/>
     <map method="ID3D11DeviceChild::SetPrivateData" visibility="public" hresult="true" check="false"/>
-
+    <map param="ID3D11DeviceChild::SetPrivateData::pData" type="void" keep-pointers="true"/>
+    
     <map method="ID3D11Resource::GetType" name="GetDimension" />
 
     <!-- ID3D11Device methods -->
@@ -852,12 +854,12 @@
     <map param="ID3D11DeviceContext1::[A-Z][A-Z]SetConstantBuffers1::pNumConstants" type="void" keep-pointers="true"/>
 
     <!-- ID3D11On12Device -->
-    <map method="ID3D11On12Device::CreateWrappedResource" visibility="private"/>
-    <map param="ID3D11On12Device::CreateWrappedResource::InState" type="int" override-native-type="true" />
-    <map param="ID3D11On12Device::CreateWrappedResource::OutState" type="int" override-native-type="true" />
-    <map param="ID3D11On12Device::CreateWrappedResource::ppResource11" type="ID3D11Resource" return="true" />
-    <map method="ID3D11On12Device::AcquireWrappedResources" name="AcquireWrappedResources_" visibility="private"/>
-    <map method="ID3D11On12Device::ReleaseWrappedResources" name="ReleaseWrappedResources_" visibility="private"/>
+    <map field="D3D11_RESOURCE_FLAGS::BindFlags" type="D3D11_BIND_FLAG" />
+    <map field="D3D11_RESOURCE_FLAGS::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_RESOURCE_FLAGS::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+
+    <map method="ID3D11On12Device::CreateWrappedResource" visibility="private" hresult="true" check="false"/>
+    <map param="ID3D11On12Device::CreateWrappedResource::ppResource11" attribute="out" return="false" />
     <map method="ID3D11On12Device1::GetD3D12Device" visibility="private" check="false" />
 
     <!-- ID3D11DeviceContext2 -->

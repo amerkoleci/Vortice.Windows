@@ -1,34 +1,38 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using SharpGen.Runtime;
+using Vortice.Direct3D12;
 
 namespace Vortice.Direct3D11;
 
 public partial class ID3D11On12Device
 {
-    public ID3D11Resource CreateWrappedResource(IUnknown d3d12Resource, ResourceFlags flags, int inState, int outState)
+    public T CreateWrappedResource<T>(IUnknown d3d12Resource, ResourceFlags flags, ResourceStates inState, ResourceStates outState) where T : ID3D11Resource
     {
-        return CreateWrappedResource(d3d12Resource, flags, inState, outState, typeof(ID3D11Resource).GUID);
+        CreateWrappedResource(d3d12Resource, flags, inState, outState, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(nativePtr);
     }
 
-    public void AcquireWrappedResources(params ID3D11Resource[] resources)
+    public Result CreateWrappedResource<T>(IUnknown d3d12Resource, ResourceFlags flags, ResourceStates inState, ResourceStates outState, out T? resource11) where T : ID3D11Resource
     {
-        AcquireWrappedResources_(resources, resources.Length);
+        Result result = CreateWrappedResource(d3d12Resource, flags, inState, outState, typeof(T).GUID, out IntPtr nativePtr);
+        if (result.Success)
+        {
+            resource11 = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
+        }
+
+        resource11 = null;
+        return result;
     }
 
-    public void AcquireWrappedResources(ID3D11Resource[] resources, int count)
+    public void AcquireWrappedResources(ID3D11Resource[] resources)
     {
-        AcquireWrappedResources_(resources, count);
+        AcquireWrappedResources(resources, resources.Length);
     }
 
-    public void ReleaseWrappedResources(params ID3D11Resource[] resources)
+    public void ReleaseWrappedResources(ID3D11Resource[] resources)
     {
-        ReleaseWrappedResources_(resources, resources.Length);
-    }
-
-    public void ReleaseWrappedResources(ID3D11Resource[] resources, int count)
-    {
-        ReleaseWrappedResources_(resources, count);
+        ReleaseWrappedResources(resources, resources.Length);
     }
 }
