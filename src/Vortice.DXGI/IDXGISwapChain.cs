@@ -1,8 +1,6 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using SharpGen.Runtime;
-
 namespace Vortice.DXGI;
 
 public partial class IDXGISwapChain
@@ -14,6 +12,12 @@ public partial class IDXGISwapChain
             GetFullscreenState(out RawBool fullscreen, out _).CheckError();
             return fullscreen;
         }
+    }
+
+    public IDXGIOutput GetContainingOutput()
+    {
+        GetContainingOutput(out IDXGIOutput output).CheckError();
+        return output;
     }
 
     public T GetBuffer<T>(int index) where T : ComObject
@@ -46,5 +50,8 @@ public partial class IDXGISwapChain
         return ResizeBuffers(bufferCount, width, height, newFormat, SwapChainFlags.None);
     }
 
-    public Result Present(int syncInterval) => Present(syncInterval, PresentFlags.None);
+    public Result Present(int syncInterval)
+    {
+        return Present(syncInterval, PresentFlags.None);
+    }
 }

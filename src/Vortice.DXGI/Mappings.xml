@@ -195,8 +195,9 @@
     <map method="IDXGISwapChain::SetFullscreenState" hresult="true" check="false" visibility="private" />
     <map method="IDXGISwapChain::GetBuffer" hresult="true" check="false" visibility="private" />
     <map method="IDXGISwapChain::ResizeTarget" hresult="true" check="false" />
-    <map method="IDXGISwapChain::GetContainingOutput" property="false" />
-    <map param="IDXGISwapChain::GetContainingOutput::ppOutput" return="true"/>
+    
+    <map method="IDXGISwapChain::GetContainingOutput" hresult="true" check="false" property="false" />
+    <map param="IDXGISwapChain::GetContainingOutput::ppOutput" attribute="out" return="false"/>
     <map method="IDXGISwapChain::GetFullscreenState" hresult="true" check="false" />
 
     <!-- IDXGISwapChain1 -->

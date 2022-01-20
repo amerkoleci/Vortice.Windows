@@ -12,6 +12,7 @@ Release:     2.1.1 (February 2022)
 -----------------------------------------------
 Release:     2.1.0 (December 2021)
 -----------------------------------------------
+- [FIX] DXGI: IDXGISwapChain::GetContainingOutput with Result.
 - [ENH] ID3D12On12: Improve binding logic.
 - [ENH] General: Move D3D12_RESOURCE_STATES to Vortice.DirectX as used from ID3D12On12.
 - [ENH] DXC: Update to December 2021 with HLSL 2021 Preview.
