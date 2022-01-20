@@ -798,6 +798,7 @@
     <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="private"/>
     <map param="ID3D11DeviceContext::OMSetRenderTargets::ppRenderTargetViews" type="void" keep-pointers="true" />
 
+    <map method="ID3D11DeviceContext::IASetVertexBuffers" visibility="private"/>
     <map param="ID3D11DeviceContext::IASetVertexBuffers::ppVertexBuffers" type="void" keep-pointers="true"/>
     <map param="ID3D11DeviceContext::IASetVertexBuffers::pStrides" type="void" keep-pointers="true"/>
     <map param="ID3D11DeviceContext::IASetVertexBuffers::pOffsets" type="void" keep-pointers="true"/>

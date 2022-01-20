@@ -161,13 +161,13 @@ public unsafe partial class ID3D11DeviceContext
         int startSlot,
         ID3D11UnorderedAccessView[] unorderedAccessViews)
     {
-        nint* renderTargetViewsPtr = stackalloc nint[renderTargetViews.Length];
+        IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
         for (int i = 0; i < renderTargetViews.Length; i++)
         {
             renderTargetViewsPtr[i] = renderTargetViews[i].NativePointer;
         }
 
-        nint* unorderedAccessViewsPtr = stackalloc nint[unorderedAccessViews.Length];
+        IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViews.Length];
         int* uavInitialCounts = stackalloc int[unorderedAccessViews.Length];
         for (int i = 0; i < unorderedAccessViews.Length; i++)
         {
@@ -563,7 +563,7 @@ public unsafe partial class ID3D11DeviceContext
 
     public void RSSetScissorRect(int x, int y, int width, int height)
     {
-        RawRect rawRect = new (x, y, x + width, y + height);
+        RawRect rawRect = new(x, y, x + width, y + height);
         RSSetScissorRects(1, &rawRect);
     }
 
@@ -784,6 +784,40 @@ public unsafe partial class ID3D11DeviceContext
     public void IASetVertexBuffers(int firstSlot, VertexBufferView[] vertexBufferViews)
     {
         IASetVertexBuffers(firstSlot, vertexBufferViews.Length, vertexBufferViews);
+    }
+
+    public void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, ID3D11Buffer[] vertexBuffers, int[] strides, int[] offsets)
+    {
+        IntPtr* vertexBuffersPtr = stackalloc IntPtr[vertexBufferViewsCount];
+        for (int i = 0; i < vertexBufferViewsCount; i++)
+        {
+            vertexBuffersPtr[i] = (vertexBuffers[i] == null) ? IntPtr.Zero : vertexBuffers[i].NativePointer;
+        }
+
+        fixed (int* pStrides = strides)
+        {
+            fixed (int* pOffsets = offsets)
+            {
+                IASetVertexBuffers(firstSlot, vertexBufferViewsCount, vertexBuffersPtr, pStrides, pOffsets);
+            }
+        }
+    }
+
+    public void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, ID3D11Buffer[] vertexBuffers, Span<int> strides, Span<int> offsets)
+    {
+        IntPtr* vertexBuffersPtr = stackalloc IntPtr[vertexBufferViewsCount];
+        for (int i = 0; i < vertexBufferViewsCount; i++)
+        {
+            vertexBuffersPtr[i] = (vertexBuffers[i] == null) ? IntPtr.Zero : vertexBuffers[i].NativePointer;
+        }
+
+        fixed (int* pStrides = strides)
+        {
+            fixed (int* pOffsets = offsets)
+            {
+                IASetVertexBuffers(firstSlot, vertexBufferViewsCount, vertexBuffersPtr, pStrides, pOffsets);
+            }
+        }
     }
 
     public void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, VertexBufferView[] vertexBufferViews)
