@@ -12,12 +12,6 @@
   <include file="x3daudio.h" attach="true" />
 
   <extension>
-    <define struct="System.Drawing.Point" sizeof="8" />
-    <define struct="System.Drawing.PointF" sizeof="8" />
-    <define struct="System.Drawing.Size" sizeof="8" />
-    <define struct="System.Drawing.SizeF" sizeof="8" />
-    <define struct="System.Drawing.Rectangle" sizeof="16" />
-    <define struct="System.Drawing.RectangleF" sizeof="16" />
     <define struct="System.Numerics.Vector2" sizeof="8" />
     <define struct="System.Numerics.Vector3" sizeof="12" />
     <define struct="System.Numerics.Vector4" sizeof="16" />

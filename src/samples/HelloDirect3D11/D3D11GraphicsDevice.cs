@@ -1,7 +1,6 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
@@ -30,7 +29,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     private const int FrameCount = 2;
 
     public readonly Window? Window;
-    public readonly Size Size;
+    public readonly SizeI Size;
     public readonly IDXGIFactory2 Factory;
     public readonly ID3D11Device1 Device;
     public readonly FeatureLevel FeatureLevel;
@@ -58,12 +57,12 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     {
     }
 
-    public D3D11GraphicsDevice(Size size, Format depthStencilFormat = Format.D32_Float)
+    public D3D11GraphicsDevice(SizeI size, Format depthStencilFormat = Format.D32_Float)
         : this(null, size, depthStencilFormat)
     {
     }
 
-    private D3D11GraphicsDevice(Window? window, Size size, Format depthStencilFormat = Format.D32_Float)
+    private D3D11GraphicsDevice(Window? window, SizeI size, Format depthStencilFormat = Format.D32_Float)
     {
         Window = window;
         Size = size;

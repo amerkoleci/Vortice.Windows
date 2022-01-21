@@ -1,19 +1,18 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
-using SharpGen.Runtime;
+using Vortice.Mathematics;
 
 namespace Vortice.DXGI;
 
 public partial class IDXGIDecodeSwapChain
 {
-    public Size DestSize
+    public SizeI DestSize
     {
         get
         {
             GetDestSize(out int width, out int height);
-            return new Size(width, height);
+            return new(width, height);
         }
         set
         {

@@ -19,8 +19,7 @@
 // THE SOFTWARE.
 
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice;
 
@@ -66,16 +65,16 @@ public readonly struct RawRect
     }
 
     /// <summary>
-    /// Performs an implicit conversion from <see cre ="RawRect"/> to <see cref="System.Drawing.Rectangle" />.
+    /// Performs an implicit conversion from <see cre ="RawRect"/> to <see cref="RectangleI" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator Rectangle(RawRect value) => Rectangle.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
+    public static implicit operator RectangleI(RawRect value) => RectangleI.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
 
     /// <summary>
-    /// Performs an implicit conversion from <see cre ="Rectangle"/> to <see cref="RawRect" />.
+    /// Performs an implicit conversion from <see cre ="RectangleI"/> to <see cref="RawRect" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator RawRect(Rectangle value) => new(value.Left, value.Top, value.Right, value.Bottom);
+    public static implicit operator RawRect(RectangleI value) => new(value.Left, value.Top, value.Right, value.Bottom);
 }

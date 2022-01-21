@@ -1,7 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice.Win32;
 
@@ -13,5 +13,5 @@ public readonly struct NativeMessage
     public readonly nuint wParam;
     public readonly nint lParam;
     public readonly uint time;
-    public readonly Point pt;
+    public readonly PointI pt;
 }

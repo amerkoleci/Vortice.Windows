@@ -28,27 +28,6 @@ public unsafe partial class ID3D11DeviceContext1
         }
     }
 
-    public void ClearView(ID3D11View view, System.Drawing.Color color)
-    {
-        ClearView(view, new Color4(color));
-    }
-
-    public void ClearView(ID3D11View view, System.Drawing.Color color, RawRect[] rects)
-    {
-        fixed (RawRect* pRects = rects)
-        {
-            ClearView(view, new Color4(color), pRects, rects.Length);
-        }
-    }
-
-    public void ClearView(ID3D11View view, System.Drawing.Color color, Span<RawRect> rects)
-    {
-        fixed (RawRect* pRects = rects)
-        {
-            ClearView(view, new Color4(color), pRects, rects.Length);
-        }
-    }
-
     /// <summary>
     /// Discards the specified elements in a resource view from the device context.
     /// </summary>

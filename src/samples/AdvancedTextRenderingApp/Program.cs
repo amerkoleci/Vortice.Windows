@@ -6,6 +6,7 @@ using Vortice;
 using Vortice.DCommon;
 using Vortice.Direct2D1;
 using Vortice.DirectWrite;
+using Vortice.Mathematics;
 using static Vortice.Direct2D1.D2D1;
 using static Vortice.DirectWrite.DWrite;
 
@@ -33,7 +34,7 @@ public class CustomColorRenderer : TextRendererBase
         try
         {
             _renderTarget.DrawGlyphRun(
-                new System.Drawing.PointF(baselineOriginX, baselineOriginY),
+                new Point(baselineOriginX, baselineOriginY),
                 glyphRun,
                 brush,
                 measuringMode);
@@ -68,9 +69,9 @@ public static class Program
         private Vortice.Mathematics.Color4 bgcolor = new(0.1f, 0.1f, 0.1f, 1.0f);
 
         //This is the offset where we start our text layout
-        private System.Drawing.PointF offset = new(202.0f, 250.0f);
-        private System.Drawing.RectangleF fullTextBackground;
-        private System.Drawing.RectangleF textRegionRect;
+        private Point offset = new(202.0f, 250.0f);
+        private Rectangle fullTextBackground;
+        private Rectangle textRegionRect;
 
         public TestApplication()
             : base(false)
@@ -130,10 +131,10 @@ public static class Program
                 new RenderTargetProperties(),
                 wtp);
 
-            defaultBrush = _renderTarget.CreateSolidColorBrush(System.Drawing.Color.White);
-            greenBrush = _renderTarget.CreateSolidColorBrush(System.Drawing.Color.Green);
-            redBrush = _renderTarget.CreateSolidColorBrush(System.Drawing.Color.Red);
-            backgroundBrush = _renderTarget.CreateSolidColorBrush(new Vortice.Mathematics.Color4(0.3f, 0.3f, 0.3f, 0.5f));
+            defaultBrush = _renderTarget.CreateSolidColorBrush(Colors.White);
+            greenBrush = _renderTarget.CreateSolidColorBrush(Colors.Green);
+            redBrush = _renderTarget.CreateSolidColorBrush(Colors.Red);
+            backgroundBrush = _renderTarget.CreateSolidColorBrush(new Color4(0.3f, 0.3f, 0.3f, 0.5f));
 
             //_textRenderer.AssignResources(renderTarget, defaultBrush);
         }

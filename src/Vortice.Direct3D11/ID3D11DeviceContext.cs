@@ -1,7 +1,6 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
 using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
 
@@ -28,17 +27,17 @@ public unsafe partial class ID3D11DeviceContext
 
     private bool? _supportsCommandLists;
 
-    public void ClearRenderTargetView(ID3D11RenderTargetView renderTargetView, System.Drawing.Color color)
+    public void ClearRenderTargetView(ID3D11RenderTargetView renderTargetView, in Color color)
     {
         ClearRenderTargetView(renderTargetView, new Color4(color));
     }
 
-    public void OMSetBlendState(ID3D11BlendState blendState, System.Drawing.Color blendFactor)
+    public void OMSetBlendState(ID3D11BlendState blendState, in Color blendFactor)
     {
         OMSetBlendState(blendState, new Color4(blendFactor));
     }
 
-    public void OMSetBlendState(ID3D11BlendState blendState, System.Drawing.Color blendFactor, int sampleMask)
+    public void OMSetBlendState(ID3D11BlendState blendState, in Color blendFactor, int sampleMask)
     {
         OMSetBlendState(blendState, new Color4(blendFactor), sampleMask);
     }
@@ -573,7 +572,7 @@ public unsafe partial class ID3D11DeviceContext
         RSSetScissorRects(1, &rect);
     }
 
-    public void RSSetScissorRect(in Rectangle rectangle)
+    public void RSSetScissorRect(in RectangleI rectangle)
     {
         RawRect rawRect = rectangle;
         RSSetScissorRects(1, &rawRect);

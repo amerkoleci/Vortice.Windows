@@ -1,7 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice.WIC;
 
@@ -34,7 +34,7 @@ public unsafe partial class IWICBitmapFrameEncode
     /// Sets the output image dimensions for the frame.
     /// </summary>
     /// <param name="size">The width and height of the output image.</param>
-    public void SetSize(Size size)
+    public void SetSize(SizeI size)
     {
         SetSize(size.Width, size.Height);
     }
@@ -94,7 +94,7 @@ public unsafe partial class IWICBitmapFrameEncode
     /// </summary>
     /// <param name="bitmapSource">The bitmap source to encode.</param>
     /// <param name="rectangle">The size rectangle of the bitmap source.</param>
-    public void WriteSource(IWICBitmapSource bitmapSource, Rectangle rectangle)
+    public void WriteSource(IWICBitmapSource bitmapSource, RectangleI rectangle)
     {
         WriteSource(bitmapSource, &rectangle);
     }

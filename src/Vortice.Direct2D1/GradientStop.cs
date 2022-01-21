@@ -26,7 +26,7 @@ public partial struct GradientStop
     /// </summary>
     /// <param name="position">A value that indicates the relative position of the gradient stop in the brush. This value must be in the [0.0f, 1.0f] range if the gradient stop is to be seen explicitly.</param>
     /// <param name="color">The color of the gradient stop.</param>
-    public GradientStop(float position, in System.Drawing.Color color)
+    public GradientStop(float position, in Color color)
     {
         Position = position;
         Color = new Color4(color);

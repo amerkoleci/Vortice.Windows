@@ -1,8 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
-using SharpGen.Runtime;
+using Vortice.Mathematics;
 
 namespace Vortice.DXGI;
 
@@ -58,7 +57,7 @@ public partial class IDXGISwapChain1
         bool hasScrollOffset = presentParameters.ScrollOffset.HasValue;
 
         RawRect scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle!.Value : new RawRect();
-        Point scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset!.Value : default;
+        PointI scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset!.Value : default;
 
         fixed (void* pDirtyRects = presentParameters.DirtyRectangles)
         {

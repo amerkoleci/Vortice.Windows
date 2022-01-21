@@ -20,64 +20,62 @@
 // THE SOFTWARE.
 
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Drawing;
+using Vortice.Mathematics;
 
-namespace Vortice
+namespace Vortice;
+
+/// <summary>
+/// Defines a floating-point rectangle (Left, Top, Right, Bottom)
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 4)]
+[DebuggerDisplay("Left: {Left}, Top: {Top}, Right: {Right}, Bottom: {Bottom}")]
+public readonly struct RawRectF
 {
-    /// <summary>
-    /// Defines a floating-point rectangle (Left, Top, Right, Bottom)
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
-    [DebuggerDisplay("Left: {Left}, Top: {Top}, Right: {Right}, Bottom: {Bottom}")]
-    public readonly struct RawRectF
+    public RawRectF(float left, float top, float right, float bottom)
     {
-        public RawRectF(float left, float top, float right, float bottom)
-        {
-            Left = left;
-            Top = top;
-            Right = right;
-            Bottom = bottom;
-        }
-
-        /// <summary>
-        /// The left position.
-        /// </summary>
-        public readonly float Left;
-
-        /// <summary>
-        /// The top position.
-        /// </summary>
-        public readonly float Top;
-
-        /// <summary>
-        /// The right position
-        /// </summary>
-        public readonly float Right;
-
-        /// <summary>
-        /// The bottom position.
-        /// </summary>
-        public readonly float Bottom;
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            return $"{nameof(Left)}: {Left}, {nameof(Top)}: {Top}, {nameof(Right)}: {Right}, {nameof(Bottom)}: {Bottom}";
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cre ="RawRectF"/> to <see cref="RectangleF" />.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator RectangleF(RawRectF value) => new RectangleF(value.Left, value.Top, value.Right - value.Left, value.Bottom - value.Top);
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cre ="RectangleF"/> to <see cref="RawRectF" />.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator RawRectF(RectangleF value) => new RawRectF(value.Left, value.Top, value.Right, value.Bottom);
+        Left = left;
+        Top = top;
+        Right = right;
+        Bottom = bottom;
     }
+
+    /// <summary>
+    /// The left position.
+    /// </summary>
+    public readonly float Left;
+
+    /// <summary>
+    /// The top position.
+    /// </summary>
+    public readonly float Top;
+
+    /// <summary>
+    /// The right position
+    /// </summary>
+    public readonly float Right;
+
+    /// <summary>
+    /// The bottom position.
+    /// </summary>
+    public readonly float Bottom;
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"{nameof(Left)}: {Left}, {nameof(Top)}: {Top}, {nameof(Right)}: {Right}, {nameof(Bottom)}: {Bottom}";
+    }
+
+    /// <summary>
+    /// Performs an implicit conversion from <see cre ="RawRectF"/> to <see cref="Rectangle" />.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>The result of the conversion.</returns>
+    public static implicit operator Rectangle(RawRectF value) => new(value.Left, value.Top, value.Right - value.Left, value.Bottom - value.Top);
+
+    /// <summary>
+    /// Performs an implicit conversion from <see cre ="Rectangle"/> to <see cref="RawRectF" />.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>The result of the conversion.</returns>
+    public static implicit operator RawRectF(Rectangle value) => new(value.Left, value.Top, value.Right, value.Bottom);
 }

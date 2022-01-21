@@ -69,7 +69,7 @@
 
   <bindings>
     <bind from="DWRITE_MATRIX" to="System.Numerics.Matrix3x2" />
-    <bind from="WICRect" to="System.Drawing.Rectangle"/>
+    <bind from="WICRect" to="Vortice.Mathematics.RectangleI"/>
     <bind from="HBITMAP" to="System.IntPtr"/>
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>
@@ -204,7 +204,6 @@
     <map enum-item="WICBitmapLockWrite" name="Write"/>
 
     <remove enum-item=".*_FORCE_DWORD" />
-    <remove enum-item=".*_FORCE_UINT" />
 
     <!-- DWRITE enums -->
     <map enum="DWRITE(.+)" name-tmp="$1" />
@@ -262,7 +261,6 @@
     <map enum="D2D1_GAMMATRANSFER_PROP" name="GammaTransferProperties"/>
     <map enum="D2D1_GAUSSIANBLUR_OPTIMIZATION" name="GaussianBlurOptimization"/>
     <map enum="D2D1_GAUSSIANBLUR_PROP" name="GaussianBlurProperties"/>
-    <map enum="D2D1_HIGHQUALITYSCALE_PROP" name="HighQualityScaleProperties"/>
     <map enum="D2D1_HISTOGRAM_PROP" name="HistogramProperties"/>
     <map enum="D2D1_HUEROTATION_PROP" name="HueRotationProperties"/>
     <map enum="D2D1_LINEARTRANSFER_PROP" name="LinearTransferProperties"/>

@@ -33,7 +33,7 @@ public partial struct ClearValue
     /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
     /// </param>
     /// <param name="color">Specifies a RGBA clear color.</param>
-    public ClearValue(Format format, System.Drawing.Color color) : this()
+    public ClearValue(Format format, in Color color) : this()
     {
         Format = format;
         Color = new Color4(color);

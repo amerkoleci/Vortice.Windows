@@ -2,12 +2,12 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Numerics;
+using Vortice.Mathematics;
 using Vortice.DirectWrite;
-using System.Drawing;
 
 namespace Vortice.Direct2D1;
 
-public partial class ID2D1Factory
+public unsafe partial class ID2D1Factory
 {
     public ID2D1DrawingStateBlock CreateDrawingStateBlock()
     {
@@ -29,7 +29,7 @@ public partial class ID2D1Factory
         return CreateGeometryGroup(fillMode, geometries, geometries.Length);
     }
 
-    public unsafe ID2D1RectangleGeometry CreateRectangleGeometry(RectangleF rectangle)
+    public ID2D1RectangleGeometry CreateRectangleGeometry(in Rectangle rectangle)
     {
         RawRectF rawRect = rectangle;
         return CreateRectangleGeometry(new IntPtr(&rawRect));

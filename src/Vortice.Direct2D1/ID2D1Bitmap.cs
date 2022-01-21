@@ -1,18 +1,18 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice.Direct2D1;
 
-public partial class ID2D1Bitmap
+public unsafe partial class ID2D1Bitmap
 {
-    public SizeF Dpi
+    public Size Dpi
     {
         get
         {
             GetDpi(out float dpiX, out float dpiY);
-            return new SizeF(dpiX, dpiY);
+            return new(dpiX, dpiY);
         }
     }
 
@@ -21,12 +21,12 @@ public partial class ID2D1Bitmap
         CopyFromBitmap(null, sourceBitmap, null);
     }
 
-    public void CopyFromBitmap(Point destinationPoint, ID2D1Bitmap sourceBitmap)
+    public void CopyFromBitmap(PointI destinationPoint, ID2D1Bitmap sourceBitmap)
     {
         CopyFromBitmap(destinationPoint, sourceBitmap, null);
     }
 
-    public void CopyFromBitmap(Point destinationPoint, ID2D1Bitmap sourceBitmap, Rectangle sourceArea)
+    public void CopyFromBitmap(PointI destinationPoint, ID2D1Bitmap sourceBitmap, RectangleI sourceArea)
     {
         RawRect rawSourceArea = sourceArea;
         CopyFromBitmap(destinationPoint, sourceBitmap, rawSourceArea);
@@ -45,7 +45,7 @@ public partial class ID2D1Bitmap
         }
     }
 
-    public unsafe void CopyFromMemory<T>(T[] data, int pitch) where T : unmanaged
+    public void CopyFromMemory<T>(T[] data, int pitch) where T : unmanaged
     {
         fixed (void* dataPtr = data)
         {
@@ -53,7 +53,7 @@ public partial class ID2D1Bitmap
         }
     }
 
-    public unsafe void CopyFromMemory<T>(Span<T> data, int pitch) where T : unmanaged
+    public void CopyFromMemory<T>(Span<T> data, int pitch) where T : unmanaged
     {
         fixed (void* dataPtr = data)
         {
@@ -61,7 +61,7 @@ public partial class ID2D1Bitmap
         }
     }
 
-    public unsafe void CopyFromMemory(Rectangle destinationArea, byte[] data, int pitch)
+    public void CopyFromMemory(RectangleI destinationArea, byte[] data, int pitch)
     {
         fixed (void* dataPtr = &data[0])
         {
@@ -70,7 +70,7 @@ public partial class ID2D1Bitmap
         }
     }
 
-    public unsafe void CopyFromMemory<T>(Rectangle destinationArea, T[] data, int pitch) where T : unmanaged
+    public void CopyFromMemory<T>(RectangleI destinationArea, T[] data, int pitch) where T : unmanaged
     {
         fixed (void* dataPtr = data)
         {
@@ -79,7 +79,7 @@ public partial class ID2D1Bitmap
         }
     }
 
-    public unsafe void CopyFromMemory<T>(Rectangle destinationArea, Span<T> data, int pitch) where T : unmanaged
+    public void CopyFromMemory<T>(RectangleI destinationArea, Span<T> data, int pitch) where T : unmanaged
     {
         fixed (void* dataPtr = data)
         {
@@ -93,12 +93,12 @@ public partial class ID2D1Bitmap
         CopyFromRenderTarget(null, renderTarget, null);
     }
 
-    public void CopyFromRenderTarget(Point destinationPoint, ID2D1RenderTarget renderTarget)
+    public void CopyFromRenderTarget(PointI destinationPoint, ID2D1RenderTarget renderTarget)
     {
         CopyFromRenderTarget(destinationPoint, renderTarget, null);
     }
 
-    public void CopyFromRenderTarget(Point destinationPoint, ID2D1RenderTarget renderTarget, Rectangle sourceArea)
+    public void CopyFromRenderTarget(PointI destinationPoint, ID2D1RenderTarget renderTarget, RectangleI sourceArea)
     {
         RawRect rawSourceArea = sourceArea;
         CopyFromRenderTarget(destinationPoint, renderTarget, rawSourceArea);

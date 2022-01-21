@@ -2,7 +2,6 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Mathematics;
-using System.Drawing;
 
 namespace Vortice.Direct3D12;
 
@@ -62,12 +61,12 @@ public unsafe partial class ID3D12GraphicsCommandList
         }
     }
 
-    public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color)
+    public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color color)
     {
         ClearRenderTargetView(renderTargetView, new Color4(color), 0, (void*)null);
     }
 
-    public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color, RawRect[] rects)
+    public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color color, RawRect[] rects)
     {
         fixed (RawRect* pRects = rects)
         {
@@ -75,7 +74,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         }
     }
 
-    public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in System.Drawing.Color color, int rectsCount, RawRect[] rects)
+    public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color color, int rectsCount, RawRect[] rects)
     {
         fixed (RawRect* pRects = rects)
         {
@@ -170,7 +169,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, rectangles.Length, rectangles);
     }
 
-    public void OMSetBlendFactor(System.Drawing.Color blendFactor)
+    public void OMSetBlendFactor(in Color blendFactor)
     {
         OMSetBlendFactor(new Color4(blendFactor));
     }
@@ -311,7 +310,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         RSSetScissorRects(1, &rect);
     }
 
-    public void RSSetScissorRect(Rectangle rectangle)
+    public void RSSetScissorRect(RectangleI rectangle)
     {
         RawRect rect = rectangle;
         RSSetScissorRects(1, &rect);
