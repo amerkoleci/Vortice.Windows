@@ -8,6 +8,9 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Using Include="System.Runtime.InteropServices" />
+    <Using Include="SharpGen.Runtime" />
+
     <SharpGenMapping Include="Mappings.xml" />
     <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
   </ItemGroup>

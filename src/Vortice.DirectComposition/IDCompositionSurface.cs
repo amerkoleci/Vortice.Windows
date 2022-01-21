@@ -1,31 +1,28 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
 using System.Drawing;
-using SharpGen.Runtime;
 
-namespace Vortice.DirectComposition
+namespace Vortice.DirectComposition;
+
+public partial class IDCompositionSurface
 {
-    public partial class IDCompositionSurface
+    public T BeginDraw<T>(RawRect? updateRect, out Point updateOffset) where T : ComObject
     {
-        public T BeginDraw<T>(RawRect? updateRect, out Point updateOffset) where T : ComObject
-        {
-            BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out updateOffset).CheckError();
-            return MarshallingHelpers.FromPointer<T>(updateObjectPtr);
-        }
+        BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out updateOffset).CheckError();
+        return MarshallingHelpers.FromPointer<T>(updateObjectPtr);
+    }
 
-        public Result BeginDraw<T>(RawRect? updateRect, out T? updateObject, out Point updateOffset) where T : ComObject
+    public Result BeginDraw<T>(RawRect? updateRect, out T? updateObject, out Point updateOffset) where T : ComObject
+    {
+        Result result = BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out updateOffset);
+        if (result.Failure)
         {
-            Result result = BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out updateOffset);
-            if (result.Failure)
-            {
-                updateObject = default;
-                return result;
-            }
-
-            updateObject = MarshallingHelpers.FromPointer<T>(updateObjectPtr);
+            updateObject = default;
             return result;
         }
+
+        updateObject = MarshallingHelpers.FromPointer<T>(updateObjectPtr);
+        return result;
     }
 }

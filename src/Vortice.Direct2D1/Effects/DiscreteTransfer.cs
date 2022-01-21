@@ -1,160 +1,157 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
+namespace Vortice.Direct2D1.Effects;
 
-namespace Vortice.Direct2D1.Effects
+public sealed class DiscreteTransfer : ID2D1Effect
 {
-    public sealed class DiscreteTransfer : ID2D1Effect
+    private int _redTableSize = 2;
+    private int _greenTableSize = 2;
+    private int _blueTableSize = 2;
+    private int _alphaTableSize = 2;
+
+    public DiscreteTransfer(ID2D1DeviceContext context)
+        : base(context.CreateEffect(EffectGuids.DiscreteTransfer))
     {
-        private int _redTableSize = 2;
-        private int _greenTableSize = 2;
-        private int _blueTableSize = 2;
-        private int _alphaTableSize = 2;
+    }
 
-        public DiscreteTransfer(ID2D1DeviceContext context)
-            : base(context.CreateEffect(EffectGuids.DiscreteTransfer))
+    public DiscreteTransfer(ID2D1EffectContext context)
+        : base(context.CreateEffect(EffectGuids.DiscreteTransfer))
+    {
+    }
+
+
+    public unsafe float[] RedTable
+    {
+        get
         {
-        }
-
-        public DiscreteTransfer(ID2D1EffectContext context)
-            : base(context.CreateEffect(EffectGuids.DiscreteTransfer))
-        {
-        }
-
-
-        public unsafe float[] RedTable
-        {
-            get
+            var table = new float[_redTableSize];
+            fixed (void* tablePtr = &table[0])
             {
-                var table = new float[_redTableSize];
-                fixed (void* tablePtr = &table[0])
-                {
-                    GetValue((int)DiscreteTransferProperties.RedTable, PropertyType.Blob, (IntPtr)tablePtr, sizeof(float) * _redTableSize);
-                }
-                return table;
+                GetValue((int)DiscreteTransferProperties.RedTable, PropertyType.Blob, tablePtr, sizeof(float) * _redTableSize);
             }
-            set
+            return table;
+        }
+        set
+        {
+            if (value.Length == 0)
             {
-                if (value.Length == 0)
-                {
-                    throw new ArgumentException("RedTable length cannot be 0");
-                }
+                throw new ArgumentException("RedTable length cannot be 0");
+            }
 
-                _redTableSize = value.Length;
-                fixed (void* valuePtr = &value[0])
-                {
-                    SetValue((int)DiscreteTransferProperties.RedTable, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * _redTableSize);
-                }
+            _redTableSize = value.Length;
+            fixed (void* valuePtr = &value[0])
+            {
+                SetValue((int)DiscreteTransferProperties.RedTable, PropertyType.Blob, valuePtr, sizeof(float) * _redTableSize);
             }
         }
+    }
 
-        public unsafe float[] GreenTable
+    public unsafe float[] GreenTable
+    {
+        get
         {
-            get
+            var table = new float[_greenTableSize];
+            fixed (void* tablePtr = &table[0])
             {
-                var table = new float[_greenTableSize];
-                fixed (void* tablePtr = &table[0])
-                {
-                    GetValue((int)DiscreteTransferProperties.GreenTable, PropertyType.Blob, (IntPtr)tablePtr, sizeof(float) * _greenTableSize);
-                }
-                return table;
+                GetValue((int)DiscreteTransferProperties.GreenTable, PropertyType.Blob, tablePtr, sizeof(float) * _greenTableSize);
             }
-            set
-            {
-                if (value.Length == 0)
-                {
-                    throw new ArgumentException("GreenTable length cannot be 0");
-                }
-
-                _greenTableSize = value.Length;
-                fixed (void* valuePtr = &value[0])
-                {
-                    SetValue((int)DiscreteTransferProperties.GreenTable, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * _greenTableSize);
-                }
-            }
+            return table;
         }
-
-        public unsafe float[] BlueTable
+        set
         {
-            get
+            if (value.Length == 0)
             {
-                var table = new float[_blueTableSize];
-                fixed (void* tablePtr = &table[0])
-                {
-                    GetValue((int)DiscreteTransferProperties.BlueTable, PropertyType.Blob, (IntPtr)tablePtr, sizeof(float) * _blueTableSize);
-                }
-                return table;
+                throw new ArgumentException("GreenTable length cannot be 0");
             }
-            set
-            {
-                if (value.Length == 0)
-                {
-                    throw new ArgumentException("BlueTable length cannot be 0");
-                }
 
-                _blueTableSize = value.Length;
-                fixed (void* valuePtr = &value[0])
-                {
-                    SetValue((int)DiscreteTransferProperties.BlueTable, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * _blueTableSize);
-                }
+            _greenTableSize = value.Length;
+            fixed (void* valuePtr = &value[0])
+            {
+                SetValue((int)DiscreteTransferProperties.GreenTable, PropertyType.Blob, valuePtr, sizeof(float) * _greenTableSize);
             }
         }
+    }
 
-        public unsafe float[] AlphaTable
+    public unsafe float[] BlueTable
+    {
+        get
         {
-            get
+            var table = new float[_blueTableSize];
+            fixed (void* tablePtr = &table[0])
             {
-                var table = new float[_alphaTableSize];
-                fixed (void* tablePtr = &table[0])
-                {
-                    GetValue((int)DiscreteTransferProperties.AlphaTable, PropertyType.Blob, (IntPtr)tablePtr, sizeof(float) * _alphaTableSize);
-                }
-                return table;
+                GetValue((int)DiscreteTransferProperties.BlueTable, PropertyType.Blob, tablePtr, sizeof(float) * _blueTableSize);
             }
-            set
+            return table;
+        }
+        set
+        {
+            if (value.Length == 0)
             {
-                if (value.Length == 0)
-                {
-                    throw new ArgumentException("AlphaTable length cannot be 0");
-                }
+                throw new ArgumentException("BlueTable length cannot be 0");
+            }
 
-                _alphaTableSize = value.Length;
-                fixed (void* valuePtr = &value[0])
-                {
-                    SetValue((int)DiscreteTransferProperties.AlphaTable, PropertyType.Blob, (IntPtr)valuePtr, sizeof(float) * _alphaTableSize);
-                }
+            _blueTableSize = value.Length;
+            fixed (void* valuePtr = &value[0])
+            {
+                SetValue((int)DiscreteTransferProperties.BlueTable, PropertyType.Blob, valuePtr, sizeof(float) * _blueTableSize);
             }
         }
+    }
 
-        public bool RedDisable
+    public unsafe float[] AlphaTable
+    {
+        get
         {
-            set => SetValue((int)DiscreteTransferProperties.RedDisable, value);
-            get => GetBoolValue((int)DiscreteTransferProperties.RedDisable);
+            var table = new float[_alphaTableSize];
+            fixed (void* tablePtr = &table[0])
+            {
+                GetValue((int)DiscreteTransferProperties.AlphaTable, PropertyType.Blob, tablePtr, sizeof(float) * _alphaTableSize);
+            }
+            return table;
         }
+        set
+        {
+            if (value.Length == 0)
+            {
+                throw new ArgumentException("AlphaTable length cannot be 0");
+            }
 
-        public bool GreenDisable
-        {
-            set => SetValue((int)DiscreteTransferProperties.GreenDisable, value);
-            get => GetBoolValue((int)DiscreteTransferProperties.GreenDisable);
+            _alphaTableSize = value.Length;
+            fixed (void* valuePtr = &value[0])
+            {
+                SetValue((int)DiscreteTransferProperties.AlphaTable, PropertyType.Blob, valuePtr, sizeof(float) * _alphaTableSize);
+            }
         }
+    }
 
-        public bool BlueDisable
-        {
-            set => SetValue((int)DiscreteTransferProperties.BlueDisable, value);
-            get => GetBoolValue((int)DiscreteTransferProperties.BlueDisable);
-        }
+    public bool RedDisable
+    {
+        set => SetValue((int)DiscreteTransferProperties.RedDisable, value);
+        get => GetBoolValue((int)DiscreteTransferProperties.RedDisable);
+    }
 
-        public bool AlphaDisable
-        {
-            set => SetValue((int)DiscreteTransferProperties.AlphaDisable, value);
-            get => GetBoolValue((int)DiscreteTransferProperties.AlphaDisable);
-        }
+    public bool GreenDisable
+    {
+        set => SetValue((int)DiscreteTransferProperties.GreenDisable, value);
+        get => GetBoolValue((int)DiscreteTransferProperties.GreenDisable);
+    }
 
-        public bool ClampOutput
-        {
-            set => SetValue((int)DiscreteTransferProperties.ClampOutput, value);
-            get => GetBoolValue((int)DiscreteTransferProperties.ClampOutput);
-        }
+    public bool BlueDisable
+    {
+        set => SetValue((int)DiscreteTransferProperties.BlueDisable, value);
+        get => GetBoolValue((int)DiscreteTransferProperties.BlueDisable);
+    }
+
+    public bool AlphaDisable
+    {
+        set => SetValue((int)DiscreteTransferProperties.AlphaDisable, value);
+        get => GetBoolValue((int)DiscreteTransferProperties.AlphaDisable);
+    }
+
+    public bool ClampOutput
+    {
+        set => SetValue((int)DiscreteTransferProperties.ClampOutput, value);
+        get => GetBoolValue((int)DiscreteTransferProperties.ClampOutput);
     }
 }

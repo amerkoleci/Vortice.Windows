@@ -421,10 +421,10 @@
 
     <!-- ID2D1DrawInfo -->
     <map method="ID2D1DrawInfo::SetVertexShaderConstantBuffer" visibility="internal"/>
-    <map param="ID2D1DrawInfo::SetVertexShaderConstantBuffer::buffer" type="void"/>
+    <map param="ID2D1DrawInfo::SetVertexShaderConstantBuffer::buffer" type="void" keep-pointers="true"/>
 
     <map method="ID2D1DrawInfo::SetPixelShaderConstantBuffer" visibility="internal"/>
-    <map param="ID2D1DrawInfo::SetPixelShaderConstantBuffer::buffer" type="void"/>
+    <map param="ID2D1DrawInfo::SetPixelShaderConstantBuffer::buffer" type="void" keep-pointers="true"/>
 
     <!-- ID2D1Bitmap1 -->
     <map param="ID2D1Bitmap1::Map::mappedRect" return="true"/>
@@ -447,8 +447,8 @@
     <map param="ID2D1Geometry::StrokeContainsPoint::contains" return="true" />
 
     <!-- ID2D1Properties -->
-    <map param="ID2D1Properties::GetValue::data" type="void"/>
-    <map param="ID2D1Properties::SetValue::data" type="void"/>
+    <map param="ID2D1Properties::GetValue::data" type="void" keep-pointers="true"/>
+    <map param="ID2D1Properties::SetValue::data" type="void" keep-pointers="true"/>
 
     <!--IWICStream-->
     <map method="IWICStream::InitializeFrom.*" visibility="internal" hresult="true" check="false" />
@@ -460,15 +460,15 @@
 
     <!--IWICBitmapSource -->
     <map method="IWICBitmapSource::CopyPixels" visibility="internal"/>
-    <map param="IWICBitmapSource::CopyPixels::prc" type="void" attribute="in"/>
-    <map param="IWICBitmapSource::CopyPixels::pbBuffer" type="void" />
+    <map param="IWICBitmapSource::CopyPixels::prc" type="void" keep-pointers="true"/>
+    <map param="IWICBitmapSource::CopyPixels::pbBuffer" type="void" keep-pointers="true"/>
 
     <!-- IWICBitmapFrameEncode -->
     <map method="IWICBitmapFrameEncode::Initialize" hresult="true" check="false" />
     <map method="IWICBitmapFrameEncode::SetColorContexts" visibility="internal"/>
-    <map param="IWICBitmapFrameEncode::WritePixels::pbPixels" type="void"/>
+    <map param="IWICBitmapFrameEncode::WritePixels::pbPixels" type="void" keep-pointers="true"/>
     <map method="IWICBitmapFrameEncode::WriteSource" visibility="internal"/>
-    <map param="IWICBitmapFrameEncode::WriteSource::prc" type="void" attribute="in"/>
+    <map param="IWICBitmapFrameEncode::WriteSource::prc" type="void" keep-pointers="true"/>
 
     <!--IWICBitmap -->
     <map method="IWICBitmap::Lock" visibility="internal"/>

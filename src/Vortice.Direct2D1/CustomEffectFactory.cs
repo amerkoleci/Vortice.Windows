@@ -1,10 +1,8 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Numerics;
-using SharpGen.Runtime;
 using System.Drawing;
 using Vortice.Mathematics;
 
