@@ -1,8 +1,6 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.InteropServices;
-using SharpGen.Runtime;
 using Vortice.Direct3D;
 
 namespace Vortice.D3DCompiler;

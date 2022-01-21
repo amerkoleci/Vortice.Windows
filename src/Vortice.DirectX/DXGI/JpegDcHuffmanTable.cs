@@ -1,20 +1,19 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-namespace Vortice.DXGI
+namespace Vortice.DXGI;
+
+/// <summary>
+/// Describes a JPEG AC huffman table.
+/// </summary>
+public unsafe partial struct JpegDcHuffmanTable
 {
     /// <summary>
-    /// Describes a JPEG AC huffman table.
+    /// The number of codes for each code length.
     /// </summary>
-    public unsafe partial struct JpegDcHuffmanTable
-    {
-        /// <summary>
-        /// The number of codes for each code length.
-        /// </summary>
-        public fixed byte CodeCounts[16];
-        /// <summary>
-        /// The Huffman code values, in order of increasing code length.
-        /// </summary>
-        public fixed byte CodeValues[162];
-    }
+    public fixed byte CodeCounts[16];
+    /// <summary>
+    /// The Huffman code values, in order of increasing code length.
+    /// </summary>
+    public fixed byte CodeValues[162];
 }

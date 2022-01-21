@@ -372,10 +372,14 @@
     <map method="IDXCoreAdapter::GetFactory" visibility="private" hresult="true" check="false" />
     <map method="IDXCoreAdapter::GetPropertySize" hresult="true" check="false" />
     <map method="IDXCoreAdapter::GetProperty" hresult="true" check="false" />
-    <map param="IDXCoreAdapter::GetProperty::propertyData" type="void" attribute="in" />
+    <map param="IDXCoreAdapter::GetProperty::propertyData" type="void" keep-pointers="true"/>
     <map method="IDXCoreAdapter::SetState" visibility="private" hresult="true" check="false" />
+    <map param="IDXCoreAdapter::SetState::inputStateDetails" type="void" keep-pointers="true"/>
+    <map param="IDXCoreAdapter::SetState::inputData" type="void" keep-pointers="true"/>
+    
     <map method="IDXCoreAdapter::QueryState" visibility="private" hresult="true" check="false" />
-    <map param="IDXCoreAdapter::QueryState::outputBuffer" type="void" attribute="in" />
+    <map param="IDXCoreAdapter::QueryState::inputStateDetails" type="void" keep-pointers="true"/>
+    <map param="IDXCoreAdapter::QueryState::outputBuffer" type="void" keep-pointers="true"/>
 
     <!-- DXGI -->
     <map enum="DXGI(.+)" name-tmp="$1" />

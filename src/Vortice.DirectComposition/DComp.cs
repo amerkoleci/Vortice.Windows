@@ -1,13 +1,10 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using SharpGen.Runtime;
 using Vortice.Direct2D1;
 using Vortice.DXGI;
 
-namespace Vortice.DirectComposition
-{
+namespace Vortice.DirectComposition;
     public static partial class DComp
     {
         /// <summary>

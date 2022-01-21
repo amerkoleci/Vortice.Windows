@@ -1,54 +1,50 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using SharpGen.Runtime;
+namespace Vortice.DXCore;
 
-namespace Vortice.DXCore
+public partial class IDXCoreAdapterList
 {
-    public partial class IDXCoreAdapterList
+    public T GetAdapter<T>(int index) where T : IDXCoreAdapter
     {
-        public T GetAdapter<T>(int index) where T : IDXCoreAdapter
-        {
-            GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(adapterPtr);
-        }
+        GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(adapterPtr);
+    }
 
-        public Result GetAdapter<T>(int index, out T? adapter) where T : IDXCoreAdapter
+    public Result GetAdapter<T>(int index, out T? adapter) where T : IDXCoreAdapter
+    {
+        Result result = GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr);
+        if (result.Failure)
         {
-            Result result = GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr);
-            if (result.Failure)
-            {
-                adapter = default;
-                return result;
-            }
-
-            adapter = MarshallingHelpers.FromPointer<T>(adapterPtr);
+            adapter = default;
             return result;
         }
 
-        public T GetFactory<T>() where T : IDXCoreAdapterFactory
-        {
-            GetFactory(typeof(T).GUID, out IntPtr factoryPtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(factoryPtr);
-        }
+        adapter = MarshallingHelpers.FromPointer<T>(adapterPtr);
+        return result;
+    }
 
-        public Result GetFactory<T>(out T? factory) where T : IDXCoreAdapterFactory
-        {
-            Result result = GetFactory(typeof(T).GUID, out IntPtr factoryPtr);
-            if (result.Failure)
-            {
-                factory = default;
-                return result;
-            }
+    public T GetFactory<T>() where T : IDXCoreAdapterFactory
+    {
+        GetFactory(typeof(T).GUID, out IntPtr factoryPtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(factoryPtr);
+    }
 
-            factory = MarshallingHelpers.FromPointer<T>(factoryPtr);
+    public Result GetFactory<T>(out T? factory) where T : IDXCoreAdapterFactory
+    {
+        Result result = GetFactory(typeof(T).GUID, out IntPtr factoryPtr);
+        if (result.Failure)
+        {
+            factory = default;
             return result;
         }
 
-        public Result Sort(AdapterPreference[] preferences)
-        {
-            return Sort(preferences.Length, preferences);
-        }
+        factory = MarshallingHelpers.FromPointer<T>(factoryPtr);
+        return result;
+    }
+
+    public Result Sort(AdapterPreference[] preferences)
+    {
+        return Sort(preferences.Length, preferences);
     }
 }
