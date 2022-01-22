@@ -253,5 +253,48 @@ namespace Vortice.Direct3D12
         {
             D3D12EnableExperimentalFeatures(features.Length, features, IntPtr.Zero, null);
         }
+
+        private static Result D3D12CreateVersionedRootSignatureDeserializer<T>(IntPtr signatureData, PointerSize signatureDataLength, out T? device) where T : ID3D12VersionedRootSignatureDeserializer
+        {
+            Result result = D3D12CreateVersionedRootSignatureDeserializer(
+                signatureData,
+                signatureDataLength,
+                typeof(T).GUID,
+                out IntPtr nativePtr);
+
+            if (result.Failure)
+            {
+                device = default;
+                return result;
+            }
+
+            device = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
+        }
+
+        public static unsafe Result D3D12CreateVersionedRootSignatureDeserializer<T>(byte[] signatureData, out T? device) where T : ID3D12VersionedRootSignatureDeserializer
+        {
+            fixed (void* dataPtr = signatureData)
+            {
+                return D3D12CreateVersionedRootSignatureDeserializer(new IntPtr(dataPtr), signatureData.Length, out device);
+            }
+        }
+
+        public static Result D3D12CreateVersionedRootSignatureDeserializer<T>(Blob signatureData, out T? device) where T : ID3D12VersionedRootSignatureDeserializer
+        {
+            return D3D12CreateVersionedRootSignatureDeserializer(signatureData.BufferPointer, signatureData.BufferSize, out device);
+        }
+
+        public static T D3D12CreateVersionedRootSignatureDeserializer<T>(byte[] signatureData) where T : ID3D12VersionedRootSignatureDeserializer
+        {
+            D3D12CreateVersionedRootSignatureDeserializer(signatureData, out T? result).CheckError();
+            return result!;
+        }
+
+        public static T D3D12CreateVersionedRootSignatureDeserializer<T>(Blob signatureData) where T : ID3D12VersionedRootSignatureDeserializer
+        {
+            D3D12CreateVersionedRootSignatureDeserializer(signatureData, out T? result).CheckError();
+            return result!;
+        }
     }
 }
