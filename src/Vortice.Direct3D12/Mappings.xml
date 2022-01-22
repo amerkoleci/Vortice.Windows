@@ -1004,12 +1004,16 @@
     <map method="ID3D12PipelineLibrary1::LoadPipeline" visibility="private"/>
     <map param="ID3D12PipelineLibrary1::LoadPipeline::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
 
+    <!-- ID3D12VersionedRootSignatureDeserializer methods -->
+    <map method="ID3D12VersionedRootSignatureDeserializer::GetRootSignatureDescAtVersion" name="GetRootSignatureDescAtVersion_" visibility="private"/>
+
     <map function="D3D12.*" dll='"d3d12.dll"' group="Vortice.Direct3D12.D3D12" visibility="internal" />
     <map function="D3D12CreateDevice" check="false"/>
     <map param="D3D12CreateDevice::pAdapter" type="void" attribute="in"/>
     <map function="D3D12GetDebugInterface" hresult="true" check="false"/>
     <map function="D3D12SerializeRootSignature" hresult="true" check="false"/>
     <map function="D3D12SerializeVersionedRootSignature" hresult="true" check="false"/>
+    <map function="D3D12CreateVersionedRootSignatureDeserializer" hresult="true" check="false"/>
     <map method="ID3D12CommandList::GetType" name="GetCommandListType" />
 
     <map field="D3D12_GPU_DESCRIPTOR_HANDLE::ptr" name="ptr"/>
