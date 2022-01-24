@@ -5,7 +5,8 @@ Current Stable Release:    2.1.0 (December 2021)
 -----------------------------------------------
 Release:     2.1.1 (February 2022)
 -----------------------------------------------
-- [BREAKING CHANGE] Switch to use Point, PointI, Size, SizeI, Rectangle and RectangleI from Vortice.Mathematics
+- [BREAKING CHANGE] Direct3D11: Remove VertexBufferView structure.
+- [BREAKING CHANGE] Switch to use Point, PointI, Size, SizeI, Rect and RectI from Vortice.Mathematics
 - [ENH] Direct3D11: Peformance improvements in mappings.
 - [ENH] Direct3D11: Improvements in Video mapping.
 - [ENH] XAudio2: Use Windows SDK headers instead of XAudio2 redist and move to function pointers.

@@ -771,18 +771,9 @@ public unsafe partial class ID3D11DeviceContext
         IntPtr pVertexBuffers = buffer == null ? IntPtr.Zero : buffer.NativePointer;
         IASetVertexBuffers(slot, 1, &pVertexBuffers, &stride, &offset);
     }
-
-    public void IASetVertexBuffer(int slot, VertexBufferView vertexBufferView)
+    public void IASetVertexBuffers(int firstSlot, ID3D11Buffer[] vertexBuffers, int[] strides, int[] offsets)
     {
-        int stride = vertexBufferView.Stride;
-        int offset = vertexBufferView.Offset;
-        IntPtr pVertexBuffers = vertexBufferView.Buffer == null ? IntPtr.Zero : vertexBufferView.Buffer.NativePointer;
-        IASetVertexBuffers(slot, 1, &pVertexBuffers, &stride, &offset);
-    }
-
-    public void IASetVertexBuffers(int firstSlot, VertexBufferView[] vertexBufferViews)
-    {
-        IASetVertexBuffers(firstSlot, vertexBufferViews.Length, vertexBufferViews);
+        IASetVertexBuffers(firstSlot, vertexBuffers.Length, vertexBuffers, strides, offsets);
     }
 
     public void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, ID3D11Buffer[] vertexBuffers, int[] strides, int[] offsets)
@@ -817,20 +808,6 @@ public unsafe partial class ID3D11DeviceContext
                 IASetVertexBuffers(firstSlot, vertexBufferViewsCount, vertexBuffersPtr, pStrides, pOffsets);
             }
         }
-    }
-
-    public void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, VertexBufferView[] vertexBufferViews)
-    {
-        IntPtr* vertexBuffers = stackalloc IntPtr[vertexBufferViewsCount];
-        int* strides = stackalloc int[vertexBufferViewsCount];
-        int* offsets = stackalloc int[vertexBufferViewsCount];
-        for (int i = 0; i < vertexBufferViewsCount; i++)
-        {
-            vertexBuffers[i] = (vertexBufferViews[i].Buffer == null) ? IntPtr.Zero : vertexBufferViews[i].Buffer.NativePointer;
-            strides[i] = vertexBufferViews[i].Stride;
-            offsets[i] = vertexBufferViews[i].Offset;
-        }
-        IASetVertexBuffers(firstSlot, vertexBufferViewsCount, vertexBuffers, strides, offsets);
     }
 
     #region VertexShader
