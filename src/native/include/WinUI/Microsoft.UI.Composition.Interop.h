@@ -85,29 +85,10 @@ DECLARE_INTERFACE_IID_(ICompositionGraphicsDeviceInterop, IUnknown, "4AFA8030-BC
 #define INTERFACE ICompositorInterop
 DECLARE_INTERFACE_IID_(ICompositorInterop, IUnknown, "FAB19398-6D19-4D8A-B752-8F096C396069")
 {
-    IFACEMETHOD(CreateCompositionSurfaceForHandle)(
-        _In_ HANDLE swapChain,
-        _COM_Outptr_ ICompositionSurface ** result
-        ) PURE;
-
-    IFACEMETHOD(CreateCompositionSurfaceForSwapChain)(
-        _In_ IUnknown * swapChain,
-        _COM_Outptr_ ICompositionSurface ** result
-        ) PURE;
-
     IFACEMETHOD(CreateGraphicsDevice)(
         _In_ IUnknown * renderingDevice,
         _COM_Outptr_ ICompositionGraphicsDevice ** result
         ) PURE;
-};
-
-
-#undef INTERFACE
-#define INTERFACE ISwapChainInterop
-DECLARE_INTERFACE_IID_(ISwapChainInterop, IUnknown, "D9F603D7-58F3-4D02-97CE-92A062AD487F")
-{
-    IFACEMETHOD(SetSwapChain)(
-        _In_ IUnknown * swapChain) PURE;
 };
 
 #pragma region Desktop Family

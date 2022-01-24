@@ -18,6 +18,7 @@
   <include file="d3d11on12.h" namespace="Vortice.Direct3D11" attach="true"/>
   <include file="d3d11shader.h" namespace="Vortice.Direct3D11.Shader" attach="true" />
   <include file="d3d11sdklayers.h" namespace="Vortice.Direct3D11.Debug" attach="true" />
+  <include file="windows.graphics.directx.direct3d11.interop.h" namespace="Vortice.Direct3D11" attach="true" />
 
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="Vortice.Direct3D11.D3D11" type="int" name="SdkVersion" />
@@ -955,6 +956,12 @@
 
     <map struct="D3D11_VIDEO_PROCESSOR_COLOR_SPACE" name="VideoProcessorColorSpace" marshal="false" />
     <remove field="D3D11_VIDEO_PROCESSOR_COLOR_SPACE::.*"/>
+
+    <!-- windows.graphics.directx.direct3d11.interop.h -->
+    <map method="IDirect3DDxgiInterfaceAccess::(.*)" visibility="private" hresult="true" check="false"/>
+    
+    <map function="CreateDirect3D11DeviceFromDXGIDevice" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11"  hresult="true" check="false" />
+    <map function="CreateDirect3D11SurfaceFromDXGISurface" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11"  hresult="true" check="false" />
     
   </mapping>
 </config>
