@@ -10,7 +10,7 @@ public unsafe partial class IDirect3DDevice9Ex
         return CreateRenderTargetEx_(width, height, format, multiSample, multisampleQuality, lockable, IntPtr.Zero, usage);
     }
 
-    public unsafe IDirect3DSurface9 CreateRenderTargetEx(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable, ref IntPtr sharedHandle, Usage usage)
+    public IDirect3DSurface9 CreateRenderTargetEx(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable, ref IntPtr sharedHandle, Usage usage)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -59,7 +59,7 @@ public unsafe partial class IDirect3DDevice9Ex
         PresentEx(&sourceRectangle, &destinationRectangle, windowOverride, null, (int)flags);
     }
 
-    public unsafe void PresentEx(Present flags, RawRect sourceRectangle, RawRect destinationRectangle, IntPtr windowOverride, IntPtr dirtyRegionRGNData)
+    public void PresentEx(Present flags, RawRect sourceRectangle, RawRect destinationRectangle, IntPtr windowOverride, IntPtr dirtyRegionRGNData)
     {
         PresentEx(&sourceRectangle, &destinationRectangle, windowOverride, dirtyRegionRGNData.ToPointer(), (int)flags);
     }
@@ -72,5 +72,10 @@ public unsafe partial class IDirect3DDevice9Ex
     public void ResetEx(ref PresentParameters presentationParameters, DisplayModeEx fullScreenDisplayMode)
     {
         ResetEx(ref presentationParameters, &fullScreenDisplayMode);
+    }
+
+    public Result CheckResourceResidency(IDirect3DResource9[] resources)
+    {
+        return CheckResourceResidency(resources, resources.Length);
     }
 }

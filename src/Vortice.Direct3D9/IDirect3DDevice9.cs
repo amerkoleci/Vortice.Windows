@@ -5,11 +5,10 @@ using System.Globalization;
 using System.Numerics;
 using System.Reflection;
 using Vortice.Direct3D;
-using Vortice.Mathematics;
 
 namespace Vortice.Direct3D9;
 
-public partial class IDirect3DDevice9
+public unsafe partial class IDirect3DDevice9
 {
     public IDirect3DVertexShader9 CreateVertexShader(Blob blob)
     {
@@ -712,7 +711,7 @@ public partial class IDirect3DDevice9
     /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
     public Result Present()
     {
-        return Present(IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+        return Present(null, null, IntPtr.Zero, null);
     }
 
     /// <summary>
@@ -721,7 +720,7 @@ public partial class IDirect3DDevice9
     /// <param name="sourceRectangle">The area of the back buffer that should be presented.</param>
     /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
     /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
-    public Result Present(RectangleI sourceRectangle, RectangleI destinationRectangle)
+    public Result Present(RectI sourceRectangle, RectI destinationRectangle)
     {
         return Present(sourceRectangle, destinationRectangle, IntPtr.Zero);
     }
@@ -734,13 +733,10 @@ public partial class IDirect3DDevice9
     /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
     /// <param name="windowOverride">The destination window whose client area is taken as the target for this presentation.</param>
     /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
-    public Result Present(RectangleI sourceRectangle, RectangleI destinationRectangle, IntPtr windowOverride)
+    public Result Present(RectI sourceRectangle, RectI destinationRectangle, IntPtr windowOverride)
     {
-        unsafe
-        {
-            RawRect rawSourceRectangle = sourceRectangle;
-            RawRect rawDestinationRectangle = destinationRectangle;
-            return Present(new IntPtr(&rawSourceRectangle), new IntPtr(&rawDestinationRectangle), windowOverride, IntPtr.Zero);
-        }
+        RawRect rawSourceRectangle = sourceRectangle;
+        RawRect rawDestinationRectangle = destinationRectangle;
+        return Present(&rawSourceRectangle, &rawDestinationRectangle, windowOverride, null);
     }
 }

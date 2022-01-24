@@ -257,7 +257,6 @@
     <map enum-item="D3DFMT_Q8W8V8U8" name="Q8W8V8U8"/>
     <map enum-item="D3DFMT_V16U16" name="V16U16"/>
     <map enum-item="D3DFMT_Q16W16V16U16" name="Q16W16V16U16"/>
-    <map enum-item="D3DFMT_C" name="CxV8U8"/>
     <map enum-item="D3DFMT_R8G8B8" name="R8G8B8"/>
     <map enum-item="D3DFMT_A4R4G4B4" name="A4R4G4B4"/>
     <map enum-item="D3DFMT_R3G3B2" name="R3G3B2"/>
@@ -277,13 +276,7 @@
     <map enum-item="D3DFMT_A4L4" name="A4L4"/>
     <map enum-item="D3DFMT_A1" name="A1"/>
     <map enum-item="D3DFMT_BINARYBUFFER" name="BinaryBuffer"/>
-    <map enum-item="R2VB_FOURCC_R2VB" name="ATI_R2VB"/>
     <map enum-item="D3DFMT_UNKNOWN" name="Unknown"/>
-
-    <map enum="D3DXFX" name="FX" flags="true" none="true"/>
-    <map enum-item="D3DXFX_DONOTSAVESTATE" name="DoNotSaveState"/>
-    <map enum-item="D3DXFX_DONOTSAVESHADERSTATE" name="DoNotSaveShaderState"/>
-    <map enum-item="D3DXFX_DONOTSAVESAMPLERSTATE" name="DoNotSaveSamplerState"/>
 
     <map enum="D3DSCANLINEORDERING" name="ScanlineOrdering" flags="false" none="false"/>
     <map enum-item="D3DSCANLINEORDERING_PROGRESSIVE" name="Progressive"/>
@@ -1272,16 +1265,23 @@
     <map param="IDirect3D9Ex::GetAdapterDisplayModeEx::pRotation" attribute="out" />
 
     <!-- IDirect3DSwapChain9 -->
+    <map param="IDirect3DSwapChain9::GetFrontBufferData::pDestSurface" attribute="in" />
+    <map param="IDirect3DSwapChain9::GetBackBuffer::ppBackBuffer" return="true" attribute="out" />
+    <map param="IDirect3DSwapChain9::GetRasterStatus::pRasterStatus" attribute="out" />
+    <map param="IDirect3DSwapChain9::GetDisplayMode::pMode" attribute="out" />
+    <map param="IDirect3DSwapChain9::GetDevice::ppDevice" attribute="out" />
+    <map param="IDirect3DSwapChain9::GetPresentParameters::pPresentationParameters" attribute="out" />
+    
     <map method="IDirect3DSwapChain9::Present" visibility="internal" hresult="true" check="false" />
-    <map param="IDirect3DSwapChain9::Present::pSourceRect" type="void" attribute="in optional" />
-    <map param="IDirect3DSwapChain9::Present::pDestRect" type="void" attribute="inout optional" />
-    <map param="IDirect3DSwapChain9::Present::pDirtyRegion" type="void" attribute="in" />
+    <map param="IDirect3DSwapChain9::Present::pSourceRect" type="void" keep-pointers="true"/>
+    <map param="IDirect3DSwapChain9::Present::pDestRect" type="void" keep-pointers="true"/>
+    <map param="IDirect3DSwapChain9::Present::pDirtyRegion" type="void" keep-pointers="true"/>
 
     <!-- IDirect3DDevice9 -->
     <map method="IDirect3DDevice9::Present" visibility="internal" hresult="true" check="false" />
-    <map param="IDirect3DDevice9::Present::pSourceRect" type="void" attribute="in" />
-    <map param="IDirect3DDevice9::Present::pDestRect" type="void" attribute="in" />
-    <map param="IDirect3DDevice9::Present::pDirtyRegion" type="void" attribute="in" />
+    <map param="IDirect3DDevice9::Present::pSourceRect" type="void" keep-pointers="true"/>
+    <map param="IDirect3DDevice9::Present::pDestRect" type="void" keep-pointers="true"/>
+    <map param="IDirect3DDevice9::Present::pDirtyRegion" type="void" keep-pointers="true"/>
 
     <map param="IDirect3DDevice9::Clear::Flags" type="D3DCLEAR" />
     <map param="IDirect3DDevice9::Clear::pRects" attribute="in buffer optional" />
@@ -1349,6 +1349,9 @@
     
     <!-- IDirect3DDevice9Ex -->
     <map param="IDirect3DDevice9Ex::Create.*::pp.*" attribute="out" return="true" />
+
+    <map method="IDirect3DDevice9Ex::CheckResourceResidency" hresult="true" check="false" />
+    <map param="IDirect3DDevice9Ex::CheckResourceResidency::pResourceArray" attribute="in buffer" />
     
     <map method="IDirect3DDevice9Ex::PresentEx" visibility="internal" hresult="true" check="false" />
     <map param="IDirect3DDevice9Ex::PresentEx::pSourceRect" type="void" keep-pointers="true" />
@@ -1392,37 +1395,37 @@
     <map param="IDirect3DTexture9::GetLevelDesc::pDesc" return="true" attribute="out" />
     <map param="IDirect3DTexture9::GetSurfaceLevel::ppSurfaceLevel" attribute="out" return="true" />
     <map method="IDirect3DTexture9::LockRect" visibility="internal" />
-    <map param="IDirect3DTexture9::LockRect::pRect" type="void"/>
+    <map param="IDirect3DTexture9::LockRect::pRect" type="void" keep-pointers="true"/>
     <map param="IDirect3DTexture9::LockRect::Flags" type="D3DLOCK"/>
     <map param="IDirect3DTexture9::LockRect::pLockedRect" attribute="out" />
     <map method="IDirect3DTexture9::UnlockRect" />
     <map method="IDirect3DTexture9::AddDirtyRect" visibility="internal" />
-    <map param="IDirect3DTexture9::AddDirtyRect::pDirtyRect" type="void" />
+    <map param="IDirect3DTexture9::AddDirtyRect::pDirtyRect" type="void" keep-pointers="true"/>
 
     <!-- IDirect3DCubeTexture9 -->
     <map param="IDirect3DCubeTexture9::GetLevelDesc::pDesc" return="true" attribute="out" />
     <map param="IDirect3DCubeTexture9::GetCubeMapSurface::ppCubeMapSurface" return="true" attribute="out" />
     <map method="IDirect3DCubeTexture9::LockRect" visibility="internal" />
     <map param="IDirect3DCubeTexture9::LockRect::Flags" type="D3DLOCK" />
-    <map param="IDirect3DCubeTexture9::LockRect::pRect" type="void" />
+    <map param="IDirect3DCubeTexture9::LockRect::pRect" type="void" keep-pointers="true"/>
     <map param="IDirect3DCubeTexture9::LockRect::pLockedRect" attribute="out" />
 
     <map method="IDirect3DCubeTexture9::AddDirtyRect" visibility="internal" />
     <map method="IDirect3DCubeTexture9::UnlockRect"/>
-    <map param="IDirect3DCubeTexture9::AddDirtyRect::pDirtyRect" type="void" />
+    <map param="IDirect3DCubeTexture9::AddDirtyRect::pDirtyRect" type="void" keep-pointers="true"/>
     
     <!-- IDirect3DSurface9 -->
     <map method="IDirect3DSurface9::GetDesc" name="GetDescription" />
     <map param="IDirect3DSurface9::GetDesc::pDesc" attribute="out" />
     <map param="IDirect3DSurface9::GetDC::phdc" return="true" attribute="out" />
     <map method="IDirect3DSurface9::LockRect" visibility="internal" />
-    <map param="IDirect3DSurface9::LockRect::pRect" type="void"/>
+    <map param="IDirect3DSurface9::LockRect::pRect" type="void" keep-pointers="true"/>
     <map param="IDirect3DSurface9::LockRect::Flags" type="D3DLOCK"/>
     <map param="IDirect3DSurface9::LockRect::pLockedRect" attribute="out" />
     <map method="IDirect3DSurface9::UnlockRect" />
     <map method="IDirect3DSurface9::GetDC" property="false"/>
-    <map method="IDirect3DSurface9::GetContainer" visibility="internal"/>
-    <map param="IDirect3DSurface9::GetContainer::ppContainer" attribute="out"/>
+    <map method="IDirect3DSurface9::GetContainer" visibility="internal" hresult="true" check="false" />
+    <map param="IDirect3DSurface9::GetContainer::ppContainer" attribute="out" return="false"/>
 
     <!-- IDirect3DVolumeTexture9 -->
     <map param="IDirect3DVolumeTexture9::GetLevelDesc::pDesc" return="true" attribute="out" />

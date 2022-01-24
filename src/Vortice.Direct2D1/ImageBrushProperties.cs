@@ -1,8 +1,6 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
-
 namespace Vortice.Direct2D1;
 
 /// <summary>
@@ -17,7 +15,7 @@ public partial struct ImageBrushProperties
     /// <param name="extendModeX">The extend mode in the image x-axis.</param>
     /// <param name="extendModeY">The extend mode in the image y-axis.</param>
     /// <param name="interpolationMode">The interpolation mode to use when scaling the image brush.</param>
-    public ImageBrushProperties(Rectangle sourceRectangle, ExtendMode extendModeX, ExtendMode extendModeY, InterpolationMode interpolationMode)
+    public ImageBrushProperties(Rect sourceRectangle, ExtendMode extendModeX, ExtendMode extendModeY, InterpolationMode interpolationMode)
     {
         SourceRectangle = sourceRectangle;
         ExtendModeX = extendModeX;

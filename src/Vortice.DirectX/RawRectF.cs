@@ -66,16 +66,16 @@ public readonly struct RawRectF
     }
 
     /// <summary>
-    /// Performs an implicit conversion from <see cre ="RawRectF"/> to <see cref="Rectangle" />.
+    /// Performs an implicit conversion from <see cre ="RawRectF"/> to <see cref="Rect" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator Rectangle(RawRectF value) => new(value.Left, value.Top, value.Right - value.Left, value.Bottom - value.Top);
+    public static implicit operator Rect(RawRectF value) => Rect.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
 
     /// <summary>
-    /// Performs an implicit conversion from <see cre ="Rectangle"/> to <see cref="RawRectF" />.
+    /// Performs an implicit conversion from <see cre ="Rect"/> to <see cref="RawRectF" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator RawRectF(Rectangle value) => new(value.Left, value.Top, value.Right, value.Bottom);
+    public static implicit operator RawRectF(Rect value) => new(value.Left, value.Top, value.Right, value.Bottom);
 }

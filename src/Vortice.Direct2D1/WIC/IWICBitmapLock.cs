@@ -1,18 +1,16 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
-
 namespace Vortice.WIC;
 
-public partial class IWICBitmapLock
+public unsafe partial class IWICBitmapLock
 {
     public SizeI Size
     {
         get
         {
             GetSize(out int width, out int height);
-            return new (width, height);
+            return new(width, height);
         }
     }
 
@@ -23,20 +21,20 @@ public partial class IWICBitmapLock
     {
         get
         {
-            var pointer = GetDataPointer(out int size);
+            IntPtr pointer = GetDataPointer(out _);
             return new DataRectangle(pointer, Stride);
         }
     }
 
-    public unsafe Span<byte> GetDataPointer()
+    public Span<byte> GetDataPointer()
     {
         IntPtr pointer = GetDataPointer(out int size);
-        return new Span<byte>(pointer.ToPointer(), size);
+        return new(pointer.ToPointer(), size);
     }
 
-    public unsafe Span<T> GetDataPointer<T>() where T : unmanaged
+    public Span<T> GetDataPointer<T>() where T : unmanaged
     {
         IntPtr pointer = GetDataPointer(out int size);
-        return new Span<T>(pointer.ToPointer(), size / sizeof(T));
+        return new(pointer.ToPointer(), size / sizeof(T));
     }
 }

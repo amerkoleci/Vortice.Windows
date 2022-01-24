@@ -1,8 +1,6 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
-
 namespace Vortice.Direct2D1;
 
 /// <summary>
@@ -16,20 +14,7 @@ public partial struct RoundedRectangle
     /// <param name="rect">The coordinates of the rectangle.</param>
     /// <param name="radiusX">The x-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
     /// <param name="radiusY">The y-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
-    public RoundedRectangle(RawRectF rect, float radiusX, float radiusY)
-    {
-        Rect = rect;
-        RadiusX = radiusX;
-        RadiusY = radiusY;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RoundedRectangle"/> struct.
-    /// </summary>
-    /// <param name="rect">The coordinates of the rectangle.</param>
-    /// <param name="radiusX">The x-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
-    /// <param name="radiusY">The y-radius for the quarter ellipse that is drawn to replace every corner of the rectangle.</param>
-    public RoundedRectangle(Rectangle rect, float radiusX, float radiusY)
+    public RoundedRectangle(Rect rect, float radiusX, float radiusY)
     {
         Rect = rect;
         RadiusX = radiusX;

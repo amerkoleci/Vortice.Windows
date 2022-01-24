@@ -113,8 +113,8 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
                 Height = window.ClientSize.Height,
                 Format = Format.R8G8B8A8_UNorm,
                 BufferCount = FrameCount,
-                BufferUsage = Vortice.DXGI.Usage.RenderTargetOutput,
-                SampleDescription = new SampleDescription(1, 0),
+                BufferUsage = Usage.RenderTargetOutput,
+                SampleDescription = SampleDescription.Default,
                 Scaling = Scaling.Stretch,
                 SwapEffect = SwapEffect.FlipDiscard,
                 AlphaMode = AlphaMode.Ignore

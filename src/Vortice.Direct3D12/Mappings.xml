@@ -1013,7 +1013,10 @@
     <map function="D3D12GetDebugInterface" hresult="true" check="false"/>
     <map function="D3D12SerializeRootSignature" hresult="true" check="false"/>
     <map function="D3D12SerializeVersionedRootSignature" hresult="true" check="false"/>
+    
     <map function="D3D12CreateVersionedRootSignatureDeserializer" hresult="true" check="false"/>
+    <map param="D3D12CreateVersionedRootSignatureDeserializer::pSrcData" type="void" keep-pointers="true"/>
+    
     <map method="ID3D12CommandList::GetType" name="GetCommandListType" />
 
     <map field="D3D12_GPU_DESCRIPTOR_HANDLE::ptr" name="ptr"/>

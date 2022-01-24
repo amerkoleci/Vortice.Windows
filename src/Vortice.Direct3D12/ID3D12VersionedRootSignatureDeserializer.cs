@@ -1,13 +1,13 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct3D12;
 
-public partial class ID3D12VersionedRootSignatureDeserializer
+public unsafe partial class ID3D12VersionedRootSignatureDeserializer
 {
-    public unsafe VersionedRootSignatureDescription GetRootSignatureDescAtVersion(RootSignatureVersion convertToVersion)
+    public VersionedRootSignatureDescription GetRootSignatureDescAtVersion(RootSignatureVersion convertToVersion)
     {
         IntPtr ptr = GetRootSignatureDescAtVersion_(convertToVersion);
 

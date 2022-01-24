@@ -168,7 +168,7 @@ public static class Program
                 using IWICStream wicStream = wicFactory.CreateStream(stream);
                 using IWICBitmapEncoder encoder = wicFactory.CreateEncoder(format, wicStream);
                 // Create a Frame encoder
-                var frame = encoder.CreateNewFrame(out var props);
+                using IWICBitmapFrameEncode frame = encoder.CreateNewFrame(out var props);
                 frame.Initialize(props);
                 frame.SetSize(textureDesc.Width, textureDesc.Height);
                 frame.SetResolution(72, 72);
@@ -176,9 +176,11 @@ public static class Program
 
                 var context = d3d11GraphicsDevice!.DeviceContext;
                 //var mapped = context.Map(staging, 0, MapMode.Read, MapFlags.None);
-                Span<Color> colors = context.Map<Color>(staging, 0, 0, MapMode.Read, MapFlags.None);
+                ReadOnlySpan<Color> colors = context.MapReadOnly<Color>(staging);
 
                 // Check conversion
+                int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
+
                 if (targetGuid != pfGuid)
                 {
                     // Conversion required to write
@@ -186,7 +188,8 @@ public static class Program
                         textureDesc.Width,
                         textureDesc.Height,
                         pfGuid,
-                        colors))
+                        colors,
+                        stride))
                     {
                         using (IWICFormatConverter formatConverter = wicFactory.CreateFormatConverter())
                         {
@@ -197,15 +200,15 @@ public static class Program
                             }
 
                             formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                            frame.WriteSource(formatConverter, new RectangleI(textureDesc.Width, textureDesc.Height));
+                            frame.WriteSource(formatConverter, new RectI(textureDesc.Width, textureDesc.Height));
                         }
                     }
                 }
                 else
                 {
                     // No conversion required
-                    int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
-                    frame.WritePixels(textureDesc.Height, stride, colors);
+                    //int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
+                    //frame.WritePixels(textureDesc.Height, stride, colors);
                 }
 
                 context.Unmap(staging, 0);

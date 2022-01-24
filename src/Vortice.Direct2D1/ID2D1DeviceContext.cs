@@ -2,7 +2,6 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Numerics;
-using Vortice.Mathematics;
 
 namespace Vortice.Direct2D1;
 
@@ -28,14 +27,14 @@ public partial class ID2D1DeviceContext
         DrawBitmap(bitmap, null, opacity, interpolationMode, sourceRectangle, perspectiveTransform);
     }
 
-    public void DrawBitmap(ID2D1Bitmap bitmap, in Rectangle destinationRectangle, float opacity, InterpolationMode interpolationMode, in Rectangle sourceRectangle, in Matrix4x4 perspectiveTransform)
+    public void DrawBitmap(ID2D1Bitmap bitmap, in Rect destinationRectangle, float opacity, InterpolationMode interpolationMode, in Rect sourceRectangle, in Matrix4x4 perspectiveTransform)
     {
         RawRectF destRect = destinationRectangle;
         RawRectF sourceRect = sourceRectangle;
         DrawBitmap(bitmap, (RawRectF?)destRect, opacity, interpolationMode, (RawRectF?)sourceRect, perspectiveTransform);
     }
 
-    public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, in Rectangle sourceRectangle, in Matrix4x4 perspectiveTransform)
+    public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, in Rect sourceRectangle, in Matrix4x4 perspectiveTransform)
     {
         RawRectF sourceRect = sourceRectangle;
         DrawBitmap(bitmap, null, opacity, interpolationMode, (RawRectF?)sourceRect, perspectiveTransform);

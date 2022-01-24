@@ -310,7 +310,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         RSSetScissorRects(1, &rect);
     }
 
-    public void RSSetScissorRect(RectangleI rectangle)
+    public void RSSetScissorRect(RectI rectangle)
     {
         RawRect rect = rectangle;
         RSSetScissorRects(1, &rect);

@@ -69,7 +69,7 @@
 
   <bindings>
     <bind from="DWRITE_MATRIX" to="System.Numerics.Matrix3x2" />
-    <bind from="WICRect" to="Vortice.Mathematics.RectangleI"/>
+    <bind from="WICRect" to="Vortice.Mathematics.RectI"/>
     <bind from="HBITMAP" to="System.IntPtr"/>
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>
@@ -424,6 +424,19 @@
     <map method="ID2D1DrawInfo::SetPixelShaderConstantBuffer" visibility="internal"/>
     <map param="ID2D1DrawInfo::SetPixelShaderConstantBuffer::buffer" type="void" keep-pointers="true"/>
 
+    <!-- ID2D1Bitmap -->
+    <map method="ID2D1Bitmap::CopyFromBitmap" visibility="private" hresult="true" check="false" />
+    <map param="ID2D1Bitmap::CopyFromBitmap::destPoint" type="void" keep-pointers="true"/>
+    <map param="ID2D1Bitmap::CopyFromBitmap::srcRect" type="void" keep-pointers="true"/>
+
+    <map method="ID2D1Bitmap::CopyFromMemory" visibility="private" hresult="true" check="false" />
+    <map param="ID2D1Bitmap::CopyFromMemory::dstRect" type="void" keep-pointers="true"/>
+    <map param="ID2D1Bitmap::CopyFromMemory::srcData" type="void" keep-pointers="true"/>
+
+    <map method="ID2D1Bitmap::CopyFromRenderTarget" visibility="private" hresult="true" check="false" />
+    <map param="ID2D1Bitmap::CopyFromRenderTarget::destPoint" type="void" keep-pointers="true"/>
+    <map param="ID2D1Bitmap::CopyFromRenderTarget::srcRect" type="void" keep-pointers="true"/>
+
     <!-- ID2D1Bitmap1 -->
     <map param="ID2D1Bitmap1::Map::mappedRect" return="true"/>
     <map method="ID2D1Bitmap1::GetColorContext" persist="true"/>
@@ -463,16 +476,19 @@
 
     <!-- IWICBitmapFrameEncode -->
     <map method="IWICBitmapFrameEncode::Initialize" hresult="true" check="false" />
+    <map method="IWICBitmapFrameEncode::SetSize" hresult="true" check="false" />
     <map method="IWICBitmapFrameEncode::SetColorContexts" visibility="internal"/>
+    
+    <map method="IWICBitmapFrameEncode::WritePixels*" visibility="internal" hresult="true" check="false" />
     <map param="IWICBitmapFrameEncode::WritePixels::pbPixels" type="void" keep-pointers="true"/>
-    <map method="IWICBitmapFrameEncode::WriteSource" visibility="internal"/>
+    <map method="IWICBitmapFrameEncode::WriteSource" visibility="internal" hresult="true" check="false" />
     <map param="IWICBitmapFrameEncode::WriteSource::prc" type="void" keep-pointers="true"/>
 
     <!--IWICBitmap -->
     <map method="IWICBitmap::Lock" visibility="internal"/>
-    <map param="IWICBitmap::Lock::ppILock" return="true"/>
     <map param="IWICBitmap::Lock::flags" type="WICBitmapLockFlags"/>
-    <map param="IWICBitmap::Lock::prcLock" type="void" attribute="in"/>
+    <map param="IWICBitmap::Lock::prcLock" type="void" keep-pointers="true"/>
+    <map param="IWICBitmap::Lock::ppILock" return="true"/>
 
     <!-- IWICBitmapDecoder -->
     <map param="IWICBitmapDecoder::GetFrame::ppIBitmapFrame" attribute="out" return="true" />
@@ -601,6 +617,8 @@
     <map method="IWICImagingFactory::CreateStream" visibility="private" name="CreateStream_" />
     <map method="IWICImagingFactory::CreateEncoder" visibility="private" name="CreateEncoder_" />
     <map method="IWICImagingFactory::CreateDecoderFromStream" visibility="private" name="CreateDecoderFromStream_" />
+
+    <map method="IWICImagingFactory::CreateBitmapFromMemory" visibility="private"  />
     <map param="IWICImagingFactory::CreateBitmapFromMemory::pbBuffer" type="void" keep-pointers="true"/>
 
     <!-- IWICImagingFactory2 -->

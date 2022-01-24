@@ -1,23 +1,33 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
-
 namespace Vortice.Direct3D9;
 
-public partial class IDirect3DSurface9
+public unsafe partial class IDirect3DSurface9
 {
     /// <summary>
     /// Gets the parent cube texture or texture (mipmap) object, if this surface is a child level of a cube texture or a mipmap.
     /// This method can also provide access to the parent swap chain if the surface is a back-buffer child.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="guid">The GUID.</param>
     /// <returns>The parent container texture.</returns>
-    public T? GetContainer<T>(Guid guid) where T : ComObject
+    public T GetContainer<T>() where T : ComObject
     {
-        var containerPtr = GetContainer(guid);
+        GetContainer(typeof(T).GUID, out IntPtr containerPtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(containerPtr);
+    }
+
+    public Result GetContainer<T>(out T? container) where T : ComObject
+    {
+        Result result = GetContainer(typeof(T).GUID, out IntPtr containerPtr);
+        if (result.Failure)
+        {
+            container = default;
+            return result;
+        }
+
+        container = MarshallingHelpers.FromPointer<T>(containerPtr);
+        return result;
     }
 
     /// <summary>
@@ -27,7 +37,7 @@ public partial class IDirect3DSurface9
     /// <returns>A pointer to the locked region</returns>
     public DataRectangle LockRect(LockFlags flags)
     {
-        var lockedRect = LockRect(IntPtr.Zero, flags);
+        LockedRectangle lockedRect = LockRect(null, flags);
         return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
     }
 
@@ -37,10 +47,10 @@ public partial class IDirect3DSurface9
     /// <param name="rect">The rectangle to lock.</param>
     /// <param name="flags">The type of lock to perform.</param>
     /// <returns>A pointer to the locked region</returns>
-    public unsafe DataRectangle LockRect(in RectangleI rect, LockFlags flags)
+    public DataRectangle LockRect(in RectI rect, LockFlags flags)
     {
         RawRect rawRect = rect;
-        var lockedRect = LockRect(new IntPtr(&rawRect), flags);
+        LockedRectangle lockedRect = LockRect(&rawRect, flags);
         return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
     }
 }

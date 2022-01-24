@@ -572,7 +572,7 @@ public unsafe partial class ID3D11DeviceContext
         RSSetScissorRects(1, &rect);
     }
 
-    public void RSSetScissorRect(in RectangleI rectangle)
+    public void RSSetScissorRect(in RectI rectangle)
     {
         RawRect rawRect = rectangle;
         RSSetScissorRects(1, &rawRect);
@@ -1849,6 +1849,14 @@ public unsafe partial class ID3D11DeviceContext
         int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
         Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
         Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mipSize * mappedSubresource.RowPitch);
+        return MemoryMarshal.Cast<byte, T>(source);
+    }
+
+    public ReadOnlySpan<T> MapReadOnly<T>(ID3D11Resource resource, int mipSlice = 0, int arraySlice = 0, MapFlags flags = MapFlags.None) where T : unmanaged
+    {
+        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
+        Map(resource, subresource, MapMode.Read, flags, out MappedSubresource mappedSubresource).CheckError();
+        ReadOnlySpan<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mipSize * mappedSubresource.RowPitch);
         return MemoryMarshal.Cast<byte, T>(source);
     }
 

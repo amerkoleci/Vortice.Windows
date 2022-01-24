@@ -12,17 +12,17 @@ public unsafe partial class IDirect3DTexture9
     /// </summary>
     public void AddDirtyRect()
     {
-        AddDirtyRect(IntPtr.Zero);
+        AddDirtyRect((void*)null);
     }
 
     /// <summary>
     /// Adds a dirty region to a texture resource.
     /// </summary>
     /// <param name="dirtyRect">The dirty rectangle.</param>
-    public void AddDirtyRect(in RectangleI dirtyRect)
+    public void AddDirtyRect(in RectI dirtyRect)
     {
         RawRect rawRect = dirtyRect;
-        AddDirtyRect(new IntPtr(&rawRect));
+        AddDirtyRect(&rawRect);
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public unsafe partial class IDirect3DTexture9
     /// <returns>A <see cref="DataRectangle"/> describing the region locked.</returns>
     public DataRectangle LockRect(int level, LockFlags flags)
     {
-        var lockedRect = LockRect(level, IntPtr.Zero, flags);
+        LockedRectangle lockedRect = LockRect(level, null, flags);
         return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
     }
 
@@ -44,10 +44,10 @@ public unsafe partial class IDirect3DTexture9
     /// <param name="rectangle">The rectangle.</param>
     /// <param name="flags">The flags.</param>
     /// <returns>A <see cref="DataRectangle"/> describing the region locked.</returns>
-    public DataRectangle LockRect(int level, in RectangleI rectangle, LockFlags flags)
+    public DataRectangle LockRect(int level, in RectI rectangle, LockFlags flags)
     {
         RawRect rawRect = rectangle;
-        var lockedRect = LockRect(level, new IntPtr(&rawRect), flags);
+        LockedRectangle lockedRect = LockRect(level, &rawRect, flags);
         return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
     }
 }

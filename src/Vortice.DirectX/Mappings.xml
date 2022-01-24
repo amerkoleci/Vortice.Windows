@@ -93,8 +93,8 @@
     <define struct="Vortice.Mathematics.PointI" sizeof="8" />
     <define struct="Vortice.Mathematics.Size" sizeof="8" />
     <define struct="Vortice.Mathematics.SizeI" sizeof="8" />
-    <define struct="Vortice.Mathematics.Rectangle" sizeof="16" />
-    <define struct="Vortice.Mathematics.RectangleI" sizeof="16" />
+    <define struct="Vortice.Mathematics.Rect" sizeof="16" />
+    <define struct="Vortice.Mathematics.RectI" sizeof="16" />
     
     <define struct="Vortice.Mathematics.Color3" sizeof="12" />
     <define struct="Vortice.Mathematics.Color4" sizeof="16" />

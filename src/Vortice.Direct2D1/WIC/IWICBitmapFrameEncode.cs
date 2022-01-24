@@ -1,8 +1,6 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
-
 namespace Vortice.WIC;
 
 public unsafe partial class IWICBitmapFrameEncode
@@ -17,6 +15,8 @@ public unsafe partial class IWICBitmapFrameEncode
     {
         SetColorContexts(colorContexts != null ? colorContexts.Length : 0, colorContexts);
     }
+
+    public Result SetSize(in SizeI size) => SetSize(size.Width, size.Height);
 
     /// <summary>
     /// Requests that the encoder use the specified pixel format.
@@ -39,63 +39,58 @@ public unsafe partial class IWICBitmapFrameEncode
         SetSize(size.Width, size.Height);
     }
 
-    public void WritePixels(int lineCount, DataRectangle buffer, int totalSizeInBytes = 0)
+    #region WritePixels
+    public Result WritePixels(int lineCount, DataRectangle buffer, int totalSizeInBytes = 0)
     {
-        WritePixels(lineCount, buffer.DataPointer, buffer.Pitch, totalSizeInBytes);
+        return WritePixels(lineCount, buffer.DataPointer, buffer.Pitch, totalSizeInBytes);
     }
 
-    public void WritePixels(int lineCount, IntPtr buffer, int rowStride, int totalSizeInBytes = 0)
+    public Result WritePixels(int lineCount, IntPtr buffer, int stride, int totalSizeInBytes = 0)
     {
         if (totalSizeInBytes == 0)
         {
-            totalSizeInBytes = lineCount * rowStride;
+            totalSizeInBytes = lineCount * stride;
         }
 
-        WritePixels(lineCount, rowStride, totalSizeInBytes, buffer.ToPointer());
+        return WritePixels(lineCount, stride, totalSizeInBytes, buffer.ToPointer());
     }
 
-    public void WritePixels<T>(int lineCount, int stride, Span<T> pixelBuffer) where T : unmanaged
+    public Result WritePixels<T>(int lineCount, int stride, T[] source) where T : unmanaged
     {
-        if ((lineCount * stride) > (sizeof(T) * pixelBuffer.Length))
-        {
-            throw new ArgumentException("lineCount * stride must be <= to sizeof(pixelBuffer)");
-        }
+        ReadOnlySpan<T> span = source.AsSpan();
 
-        fixed (T* pixelBufferPtr = pixelBuffer)
-        {
-            WritePixels(lineCount, stride, pixelBuffer.Length * sizeof(T), pixelBufferPtr);
-        }
+        return WritePixels(lineCount, stride, span);
     }
 
-    public void WritePixels<T>(int lineCount, int stride, T[] pixelBuffer) where T : unmanaged
+    public Result WritePixels<T>(int lineCount, int stride, ReadOnlySpan<T> source) where T : unmanaged
     {
-        if ((lineCount * stride) > (sizeof(T) * pixelBuffer.Length))
+        return WritePixels(lineCount, ref MemoryMarshal.GetReference(source), stride);
+    }
+
+    public Result WritePixels<T>(int lineCount, ref T source, int stride, int totalSizeInBytes = 0) where T : unmanaged
+    {
+        if (totalSizeInBytes == 0)
         {
-            throw new ArgumentException("lineCount * stride must be <= to sizeof(pixelBuffer)");
+            totalSizeInBytes = lineCount * stride;
         }
 
-        fixed (void* pixelBufferPtr = &pixelBuffer[0])
+        fixed (void* sourcePointer = &source)
         {
-            WritePixels(lineCount, stride, lineCount * stride, pixelBufferPtr);
+            return WritePixels(lineCount, stride, totalSizeInBytes, sourcePointer);
         }
     }
+    #endregion WritePixels
 
     /// <summary>
     /// Encodes a bitmap source.
     /// </summary>
     /// <param name="bitmapSource">The bitmap source to encode.</param>
-    public void WriteSource(IWICBitmapSource bitmapSource)
-    {
-        WriteSource(bitmapSource, (void*)null);
-    }
+    public Result WriteSource(IWICBitmapSource bitmapSource) => WriteSource(bitmapSource, null);
 
     /// <summary>
     /// Encodes a bitmap source.
     /// </summary>
     /// <param name="bitmapSource">The bitmap source to encode.</param>
     /// <param name="rectangle">The size rectangle of the bitmap source.</param>
-    public void WriteSource(IWICBitmapSource bitmapSource, RectangleI rectangle)
-    {
-        WriteSource(bitmapSource, &rectangle);
-    }
+    public Result WriteSource(IWICBitmapSource bitmapSource, RectI rectangle) => WriteSource(bitmapSource, &rectangle);
 }

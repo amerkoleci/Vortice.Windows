@@ -1,8 +1,6 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
-
 namespace Vortice.Direct2D1;
 
 public unsafe partial class ID2D1Bitmap
@@ -16,91 +14,155 @@ public unsafe partial class ID2D1Bitmap
         }
     }
 
-    public void CopyFromBitmap(ID2D1Bitmap sourceBitmap)
+    #region CopyFromBitmap
+    /// <summary>
+    /// Copies the specified bitmap into the current bitmap.
+    /// </summary>
+    /// <param name="sourceBitmap">The bitmap to copy from.</param>
+    /// <returns>The result of the operation.</returns>
+    public Result CopyFromBitmap(ID2D1Bitmap sourceBitmap) => CopyFromBitmap(null, sourceBitmap, null);
+
+    /// <summary>
+    /// Copies the specified bitmap into the current bitmap.
+    /// </summary>
+    /// <param name="destinationPoint">In the current bitmap, the upper-left corner of the area to which the data is copied</param>
+    /// <param name="sourceBitmap">The bitmap to copy from.</param>
+    /// <returns>The result of the operation.</returns>
+    public Result CopyFromBitmap(PointI destinationPoint, ID2D1Bitmap sourceBitmap) => CopyFromBitmap(&destinationPoint, sourceBitmap, null);
+
+    /// <summary>
+    /// Copies the specified region from the specified bitmap into the current bitmap.
+    /// </summary>
+    /// <param name="destinationPoint">
+    /// In the current bitmap, the upper-left corner of the area to which the region specified by sourceRectangle is copied.</param>
+    /// <param name="sourceBitmap">The bitmap to copy from.</param>
+    /// <param name="sourceRectangle">The area of bitmap to copy.</param>
+    /// <returns>The result of the operation.</returns>
+    public Result CopyFromBitmap(PointI destinationPoint, ID2D1Bitmap sourceBitmap, RectI sourceRectangle)
     {
-        CopyFromBitmap(null, sourceBitmap, null);
+        RawRect sourceRect = sourceRectangle;
+        return CopyFromBitmap(&destinationPoint, sourceBitmap, &sourceRect);
+    }
+    #endregion CopyFromBitmap
+
+    #region CopyFromMemory
+    /// <summary>
+    /// Copies from memory into the current bitmap.
+    /// </summary>
+    /// <param name="pointer">The data to copy.</param>
+    /// <param name="pitch">The stride, or pitch, of the source bitmap stored in srcData. The stride is the byte count of a scanline (one row of pixels in memory).</param>
+    /// <returns>The result of the operation.</returns>
+    public Result CopyFromMemory(IntPtr pointer, int pitch)
+    {
+        return CopyFromMemory(null, pointer.ToPointer(), pitch);
     }
 
-    public void CopyFromBitmap(PointI destinationPoint, ID2D1Bitmap sourceBitmap)
+    public Result CopyFromMemory(byte[] source, int pitch)
     {
-        CopyFromBitmap(destinationPoint, sourceBitmap, null);
-    }
-
-    public void CopyFromBitmap(PointI destinationPoint, ID2D1Bitmap sourceBitmap, RectangleI sourceArea)
-    {
-        RawRect rawSourceArea = sourceArea;
-        CopyFromBitmap(destinationPoint, sourceBitmap, rawSourceArea);
-    }
-
-    public void CopyFromMemory(IntPtr pointer, int pitch)
-    {
-        CopyFromMemory(null, pointer, pitch);
-    }
-
-    public unsafe void CopyFromMemory(byte[] data, int pitch)
-    {
-        fixed (void* dataPtr = &data[0])
+        fixed (byte* sourcePointer = source)
         {
-            CopyFromMemory(null, new IntPtr(dataPtr), pitch);
+            return CopyFromMemory(null, sourcePointer, pitch);
         }
     }
 
-    public void CopyFromMemory<T>(T[] data, int pitch) where T : unmanaged
+    public Result CopyFromMemory<T>(T[] source, int pitch = 0) where T : unmanaged
     {
-        fixed (void* dataPtr = data)
+        ReadOnlySpan<T> span = source.AsSpan();
+
+        return CopyFromMemory(span, pitch);
+    }
+
+    public Result CopyFromMemory<T>(ReadOnlySpan<T> source, int pitch = 0) where T : unmanaged
+    {
+        return CopyFromMemory(ref MemoryMarshal.GetReference(source), pitch);
+    }
+
+    public Result CopyFromMemory<T>(ref T source, int pitch = 0) where T : unmanaged
+    {
+        if (pitch == 0)
+            pitch = PixelSize.Width * sizeof(T);
+
+        fixed (void* sourcePointer = &source)
         {
-            CopyFromMemory(null, (IntPtr)dataPtr, pitch);
+            return CopyFromMemory(null, sourcePointer, pitch);
         }
     }
 
-    public void CopyFromMemory<T>(Span<T> data, int pitch) where T : unmanaged
+    /// <summary>
+    /// Copies the specified region from memory into the current bitmap.
+    /// </summary>
+    /// <param name="destinationRect">In the current bitmap, the rectangle to which the region specified by srcRect is copied.</param>
+    /// <param name="data">The data to copy.</param>
+    /// <param name="pitch">The stride, or pitch, of the source bitmap stored in srcData. The stride is the byte count of a scanline (one row of pixels in memory).</param>
+    /// <returns>The result of the operation.</returns>
+    public Result CopyFromMemory(RectI destinationRect, byte[] data, int pitch)
     {
-        fixed (void* dataPtr = data)
+        RawRect dstRect = destinationRect;
+
+        fixed (byte* dataPtr = data)
         {
-            CopyFromMemory(null, new IntPtr(dataPtr), pitch);
+            return CopyFromMemory(&dstRect, dataPtr, pitch);
         }
     }
 
-    public void CopyFromMemory(RectangleI destinationArea, byte[] data, int pitch)
+    public Result CopyFromMemory<T>(RectI destinationRect, T[] source, int pitch = 0) where T : unmanaged
     {
-        fixed (void* dataPtr = &data[0])
+        ReadOnlySpan<T> span = source.AsSpan();
+        return CopyFromMemory(destinationRect, span, pitch);
+    }
+
+    public Result CopyFromMemory<T>(RectI destinationRect, ReadOnlySpan<T> source, int pitch = 0) where T : unmanaged
+    {
+        return CopyFromMemory(destinationRect, ref MemoryMarshal.GetReference(source), pitch);
+    }
+
+    public Result CopyFromMemory<T>(RectI destinationRect, ref T source, int pitch = 0) where T : unmanaged
+    {
+        RawRect dstRect = destinationRect;
+
+        if (pitch == 0)
+            pitch = (int)(PixelSize.Width * sizeof(T));
+
+        fixed (void* sourcePointer = &source)
         {
-            RawRect rawDestinationArea = destinationArea;
-            CopyFromMemory(rawDestinationArea, new IntPtr(dataPtr), pitch);
+            return CopyFromMemory(&dstRect, sourcePointer, pitch);
         }
     }
+    #endregion CopyFromMemory
 
-    public void CopyFromMemory<T>(RectangleI destinationArea, T[] data, int pitch) where T : unmanaged
+    #region CopyFromRenderTarget
+    /// <summary>
+    /// Copies the specified render target into the current bitmap.
+    /// </summary>
+    /// <param name="renderTarget">The render target to copy.</param>
+    /// <returns>The result of the operation.</returns>
+    public Result CopyFromRenderTarget(ID2D1RenderTarget renderTarget)
     {
-        fixed (void* dataPtr = data)
-        {
-            RawRect rawDestinationArea = destinationArea;
-            CopyFromMemory(destinationArea, (IntPtr)dataPtr, pitch);
-        }
+        return CopyFromRenderTarget(null, renderTarget, null);
     }
 
-    public void CopyFromMemory<T>(RectangleI destinationArea, Span<T> data, int pitch) where T : unmanaged
+    /// <summary>
+    /// Copies the specified render target into the current bitmap.
+    /// </summary>
+    /// <param name="destinationPoint">In the current bitmap, the upper-left corner of the area to which the data is copied.</param>
+    /// <param name="renderTarget">The render target to copy.</param>
+    /// <returns>The result of the operation.</returns>
+    public Result CopyFromRenderTarget(PointI destinationPoint, ID2D1RenderTarget renderTarget)
     {
-        fixed (void* dataPtr = data)
-        {
-            RawRect rawDestinationArea = destinationArea;
-            CopyFromMemory(rawDestinationArea, new IntPtr(dataPtr), pitch);
-        }
+        return CopyFromRenderTarget(&destinationPoint, renderTarget, null);
     }
 
-    public void CopyFromRenderTarget(ID2D1RenderTarget renderTarget)
+    /// <summary>
+    /// Copies the specified region from the specified render target into the current bitmap.
+    /// </summary>
+    /// <param name="destinationPoint">In the current bitmap, the upper-left corner of the area to which the region specified by sourceRectangle is copied.</param>
+    /// <param name="renderTarget">The render target that contains the region to copy.</param>
+    /// <param name="sourceRectangle">The area of renderTarget to copy.</param>
+    /// <returns>The result of the operation.</returns>
+    public Result CopyFromRenderTarget(PointI destinationPoint, ID2D1RenderTarget renderTarget, RectI sourceRectangle)
     {
-        CopyFromRenderTarget(null, renderTarget, null);
+        RawRect sourceRect = sourceRectangle;
+        return CopyFromRenderTarget(&destinationPoint, renderTarget, &sourceRect);
     }
-
-    public void CopyFromRenderTarget(PointI destinationPoint, ID2D1RenderTarget renderTarget)
-    {
-        CopyFromRenderTarget(destinationPoint, renderTarget, null);
-    }
-
-    public void CopyFromRenderTarget(PointI destinationPoint, ID2D1RenderTarget renderTarget, RectangleI sourceArea)
-    {
-        RawRect rawSourceArea = sourceArea;
-        CopyFromRenderTarget(destinationPoint, renderTarget, rawSourceArea);
-    }
+    #endregion CopyFromRenderTarget
 }
