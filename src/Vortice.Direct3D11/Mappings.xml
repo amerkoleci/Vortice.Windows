@@ -937,7 +937,10 @@
 
     <!-- ID3D11VideoDevice -->
     <map method="ID3D11VideoDevice::(.*)" visibility="public" hresult="true" check="false"/>
-
+    <map param="ID3D11VideoDevice::CreateVideoDecoder::pVideoDesc" attribute="in value" />
+    <map param="ID3D11VideoDevice::CreateVideoDecoder::pConfig" attribute="in value" />
+    <map param="ID3D11VideoDevice::CreateVideoDecoderOutputView::pDesc" attribute="in value" />
+    
     <!--ID3D11VideoDevice2 -->
     <map method="ID3D11VideoDevice2::CheckFeatureSupport" visibility="internal" hresult="true" check="false" />
     <map param="ID3D11VideoDevice2::CheckFeatureSupport::pFeatureSupportData" type="void" keep-pointers="true"/>
@@ -945,6 +948,9 @@
     <!--ID3D11VideoProcessorEnumerator -->
     <map method="ID3D11VideoProcessorEnumerator::(.*)" hresult="true" check="false" />
     <map param="ID3D11VideoProcessorEnumerator::CheckVideoProcessorFormat::pFlags" type="D3D11_VIDEO_PROCESSOR_FORMAT_SUPPORT" />
+
+    <!--ID3D11VideoContext -->
+    <!--<map method="ID3D11VideoContext::(.*)" hresult="true" check="false" />-->
 
     <map field="D3D11_VIDEO_CONTENT_PROTECTION_CAPS::Caps" name="Caps" type="D3D11_CONTENT_PROTECTION_CAPS" />
     <map field="D3D11_VIDEO_PROCESSOR_CAPS::DeviceCaps" name="DeviceCaps" type="D3D11_VIDEO_PROCESSOR_DEVICE_CAPS" />
@@ -960,8 +966,10 @@
     <!-- windows.graphics.directx.direct3d11.interop.h -->
     <map method="IDirect3DDxgiInterfaceAccess::(.*)" visibility="private" hresult="true" check="false"/>
     
-    <map function="CreateDirect3D11DeviceFromDXGIDevice" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11"  hresult="true" check="false" />
-    <map function="CreateDirect3D11SurfaceFromDXGISurface" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11"  hresult="true" check="false" />
+    <map function="CreateDirect3D11DeviceFromDXGIDevice" dll='"d3d11.dll"' visibility="private"  group="Vortice.Direct3D11.D3D11"  hresult="true" check="false" />
+    <map function="CreateDirect3D11SurfaceFromDXGISurface" dll='"d3d11.dll"' visibility="private" group="Vortice.Direct3D11.D3D11"  hresult="true" check="false" />
+    <map param="CreateDirect3D11DeviceFromDXGIDevice::graphicsDevice" type="void" attribute="out" return="false"/>
+    <map param="CreateDirect3D11SurfaceFromDXGISurface::graphicsSurface" type="void" attribute="out" return="false"/>
     
   </mapping>
 </config>

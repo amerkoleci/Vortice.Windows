@@ -33,24 +33,14 @@ public partial class ID3D11VideoDevice
 
     public ID3D11VideoDecoder CreateVideoDecoder(VideoDecoderDescription description, VideoDecoderConfig config)
     {
-        CreateVideoDecoder(ref description, ref config, out ID3D11VideoDecoder decoder).CheckError();
+        CreateVideoDecoder(description, config, out ID3D11VideoDecoder decoder).CheckError();
         return decoder;
-    }
-
-    public Result CreateVideoDecoder(VideoDecoderDescription description, VideoDecoderConfig config, out ID3D11VideoDecoder decoder)
-    {
-        return CreateVideoDecoder(ref description, ref config, out decoder);
     }
 
     public ID3D11VideoDecoderOutputView CreateVideoDecoderOutputView(ID3D11Resource resource, VideoDecoderOutputViewDescription description)
     {
-        CreateVideoDecoderOutputView(resource, ref description, out ID3D11VideoDecoderOutputView view).CheckError();
+        CreateVideoDecoderOutputView(resource, description, out ID3D11VideoDecoderOutputView view).CheckError();
         return view;
-    }
-
-    public Result CreateVideoDecoderOutputView(ID3D11Resource resource, VideoDecoderOutputViewDescription description, out ID3D11VideoDecoderOutputView view)
-    {
-        return CreateVideoDecoderOutputView(resource, ref description, out view);
     }
 
     public ID3D11VideoProcessor CreateVideoProcessor(ID3D11VideoProcessorEnumerator enumerator, int rateConversionIndex)
@@ -68,6 +58,12 @@ public partial class ID3D11VideoDevice
     public Result CreateVideoProcessorEnumerator(VideoProcessorContentDescription description, out ID3D11VideoProcessorEnumerator enumerator)
     {
         return CreateVideoProcessorEnumerator(ref description, out enumerator);
+    }
+
+    public T CreateVideoProcessorEnumerator<T>(VideoProcessorContentDescription description) where T : ID3D11VideoProcessorEnumerator
+    {
+        using ID3D11VideoProcessorEnumerator enumerator = CreateVideoProcessorEnumerator(description);
+        return enumerator.QueryInterface<T>();
     }
 
     public ID3D11VideoProcessorInputView CreateVideoProcessorInputView(ID3D11Resource resource, ID3D11VideoProcessorEnumerator enumerator, VideoProcessorInputViewDescription description)
