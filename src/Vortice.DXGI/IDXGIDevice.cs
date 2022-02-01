@@ -1,35 +1,44 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using SharpGen.Runtime;
+namespace Vortice.DXGI;
 
-namespace Vortice.DXGI
+public partial class IDXGIDevice
 {
-    public partial class IDXGIDevice
+    public int GPUThreadPriority
     {
-        public IDXGIAdapter GetAdapter()
+        get
         {
-            GetAdapter(out IDXGIAdapter adapter).CheckError();
-            return adapter;
+            GetGPUThreadPriority(out int priority).CheckError();
+            return priority;
         }
-
-        public IDXGISurface CreateSurface(IntPtr sharedResource)
+        set
         {
-            if (sharedResource == IntPtr.Zero)
-                throw new ArgumentNullException(nameof(sharedResource), "Invalid shared resource handle");
-
-            return CreateSurface(null, 1, 0, new SharedResource { Handle = sharedResource });
+            SetGPUThreadPriority(value).CheckError();
         }
+    }
 
-        public IDXGISurface CreateSurface(SurfaceDescription description, int numSurfaces, Usage usage)
-        {
-            return CreateSurface(description, numSurfaces, (int)usage, null);
-        }
+    public IDXGIAdapter GetAdapter()
+    {
+        GetAdapter(out IDXGIAdapter adapter).CheckError();
+        return adapter;
+    }
 
-        public Result QueryResourceResidency(IUnknown[] resources, Residency[] residencyStatus)
-        {
-            return QueryResourceResidency(resources, residencyStatus, resources.Length);
-        }
+    public IDXGISurface CreateSurface(IntPtr sharedResource)
+    {
+        if (sharedResource == IntPtr.Zero)
+            throw new ArgumentNullException(nameof(sharedResource), "Invalid shared resource handle");
+
+        return CreateSurface(null, 1, 0, new SharedResource { Handle = sharedResource });
+    }
+
+    public IDXGISurface CreateSurface(SurfaceDescription description, int numSurfaces, Usage usage)
+    {
+        return CreateSurface(description, numSurfaces, (int)usage, null);
+    }
+
+    public Result QueryResourceResidency(IUnknown[] resources, Residency[] residencyStatus)
+    {
+        return QueryResourceResidency(resources, residencyStatus, resources.Length);
     }
 }

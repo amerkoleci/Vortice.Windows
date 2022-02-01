@@ -1,21 +1,39 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using SharpGen.Runtime;
+namespace Vortice.DXGI;
 
-namespace Vortice.DXGI
+public unsafe partial class IDXGIOutput5
 {
-    public partial class IDXGIOutput5
+    public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, Format[] supportedFormats)
     {
-        public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, params Format[] supportedFormats)
+        fixed (Format* pSupportedFormats = supportedFormats)
         {
-            if (PlatformDetection.IsAppContainerProcess)
-            {
-                throw new PlatformNotSupportedException("IDXGIOutput5.DuplicateOutput1 is not supported on UAP platform");
-            }
+            return DuplicateOutput1_(device, 0, supportedFormats.Length, pSupportedFormats);
+        }
+    }
 
-            return DuplicateOutput1_(device, 0, supportedFormats.Length, supportedFormats);
+    public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, int supportedFormatsCount, Format[] supportedFormats)
+    {
+        fixed (Format* pSupportedFormats = supportedFormats)
+        {
+            return DuplicateOutput1_(device, 0, supportedFormatsCount, pSupportedFormats);
+        }
+    }
+
+    public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, Span<Format> supportedFormats)
+    {
+        fixed (Format* pSupportedFormats = supportedFormats)
+        {
+            return DuplicateOutput1_(device, 0, supportedFormats.Length, pSupportedFormats);
+        }
+    }
+
+    public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, int supportedFormatsCount, Span<Format> supportedFormats)
+    {
+        fixed (Format* pSupportedFormats = supportedFormats)
+        {
+            return DuplicateOutput1_(device, 0, supportedFormatsCount, pSupportedFormats);
         }
     }
 }

@@ -3,7 +3,7 @@
 
 namespace Vortice.DXGI;
 
-public unsafe  partial struct DisplayColorSpace
+public unsafe partial struct DisplayColorSpace
 {
     public fixed float PrimaryCoordinates[8 * 2];
 

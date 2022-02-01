@@ -719,7 +719,8 @@
     <map function="D2D1CreateFactory" hresult="true" check="false" visibility="internal" />
     <map param="D2D1CreateFactory.*?::ppIFactory" attribute="out" />
     <map function="D2D1ComputeMaximumScaleFactor" dll='"d2d1.dll"' group="Vortice.Direct2D1.D2D1" />
-
+    <map param="D2D1CreateDevice::creationProperties" default="null" />
+    
     <map function="DWriteCreateFactory" dll='"dwrite.dll"' group="Vortice.DirectWrite.DWrite" visibility="internal" hresult="true" check="false" />
     <map param="DWriteCreateFactory::factory" attribute="out" type="void" />
 

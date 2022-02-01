@@ -1,21 +1,26 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using SharpGen.Runtime;
+namespace Vortice.DXGI;
 
-namespace Vortice.DXGI
+public partial class IDXGIDeviceSubObject
 {
-    public partial class IDXGIDeviceSubObject
+    public T GetDevice<T>() where T : IDXGIDevice
     {
-        public T? GetDevice<T>() where T : ComObject
-        {
-            if (GetDevice(typeof(T).GUID, out IntPtr nativePtr).Failure)
-            {
-                return default;
-            }
+        GetDevice(typeof(T).GUID, out IntPtr nativePtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(nativePtr);
+    }
 
-            return MarshallingHelpers.FromPointer<T>(nativePtr);
+    public Result GetDevice<T>(out T? device) where T : IDXGIDevice
+    {
+        Result result = GetDevice(typeof(T).GUID, out IntPtr nativePtr);
+        if (result.Failure)
+        {
+            device = default;
+            return result;
         }
+
+        device = MarshallingHelpers.FromPointer<T>(nativePtr);
+        return result;
     }
 }

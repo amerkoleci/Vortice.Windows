@@ -13,9 +13,11 @@ public partial class IVirtualSurfaceImageSourceNative
         get
         {
             if (GetUpdateRectCount(out int count).Failure)
+            {
                 return Array.Empty<RawRect>();
+            }
 
-            var regionToUpdate = new RawRect[count];
+            RawRect[] regionToUpdate = new RawRect[count];
             GetUpdateRects(regionToUpdate, count);
             return regionToUpdate;
         }

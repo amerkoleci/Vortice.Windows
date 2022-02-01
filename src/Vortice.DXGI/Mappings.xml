@@ -186,6 +186,14 @@
     <!-- IDXGIFactory7 -->
     <map param="IDXGIFactory7::RegisterAdaptersChangedEvent::pdwCookie" return="true"/>
 
+    <!-- IDXGIDevice -->
+    <map method="IDXGIDevice::GetGPUThreadPriority" hresult="true" check="false" property="false"/>
+    <map method="IDXGIDevice::SetGPUThreadPriority" hresult="true" check="false" property="false"/>
+
+    <!-- IDXGIDevice1 -->
+    <map method="IDXGIDevice1::GetMaximumFrameLatency" hresult="true" check="false" property="false"/>
+    <map method="IDXGIDevice1::SetMaximumFrameLatency" hresult="true" check="false" property="false"/>
+
     <!-- IDXGISwapChain -->
     <map method="IDXGISwapChain::GetFrameStatistics" hresult="true" check="false" property="false" name="GetFrameStatistics"/>
     <map method="IDXGISwapChain::Present" hresult="true" check="false" visibility="public" />
@@ -296,6 +304,7 @@
 
     <!-- IDXGIOutput5 -->
     <map method="IDXGIOutput5::DuplicateOutput1" visibility="private" name="DuplicateOutput1_" />
+    <map param="IDXGIOutput5::DuplicateOutput1::pSupportedFormats" type="void" keep-pointers="true" />
     <map param="IDXGIOutput5::DuplicateOutput1::ppOutputDuplication" attribute="out" return="true"/>
 
     <!-- IDXGIFactoryMedia -->
