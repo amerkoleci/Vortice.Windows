@@ -12,6 +12,8 @@ This library targets .NET Standard 2.0 and .NET 6.0 using modern .NET API, see [
 Please consider [SPONSOR](https://github.com/sponsors/amerkoleci) me to further help development and to allow faster issue triaging and new features to be implemented.
 **_NOTE:_** **any feature request** would require a [sponsor](https://github.com/sponsors/amerkoleci) in order to allow faster implementation and allow this project to continue.
 
+There is a collleciton of samples available only for **Sponsors** [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
+
 ## Credits
 
 Library development, contributions and bugfixes by:
@@ -38,7 +40,7 @@ Also, you need to install **Visual Studio 2022** with the following components:
 - [SharpAudio](https://github.com/feliwir/SharpAudio)
 
 ## Samples
-- Collection of samples [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
+- Collection of samples [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples) available only for **Sponsors**
 - Direct3D12 DXR samples by [CAMongrel](https://github.com/CAMongrel) [D3D12SampleRaytracerSharp](https://github.com/CAMongrel/D3D12SampleRaytracerSharp).
 - Direct3D12 DXR raytracing samples ported from NVIDIA samples by [Jorgemagic](https://github.com/Jorgemagic/CSharpDirectXRaytracing)
 - ImGUI example using Vortice.Windows [VorticeImGui](https://github.com/YaakovDavis/VorticeImGui)
