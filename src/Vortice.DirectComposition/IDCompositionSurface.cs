@@ -7,13 +7,13 @@ namespace Vortice.DirectComposition;
 
 public partial class IDCompositionSurface
 {
-    public T BeginDraw<T>(RawRect? updateRect, out PointI updateOffset) where T : ComObject
+    public T BeginDraw<T>(RawRect? updateRect, out Int2 updateOffset) where T : ComObject
     {
         BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out updateOffset).CheckError();
         return MarshallingHelpers.FromPointer<T>(updateObjectPtr);
     }
 
-    public Result BeginDraw<T>(RawRect? updateRect, out T? updateObject, out PointI updateOffset) where T : ComObject
+    public Result BeginDraw<T>(RawRect? updateRect, out T? updateObject, out Int2 updateOffset) where T : ComObject
     {
         Result result = BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out updateOffset);
         if (result.Failure)
