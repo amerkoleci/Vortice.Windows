@@ -1111,19 +1111,19 @@
     <map struct="D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1" name="VideoDecodeOutputStreamArguments1" struct-to-class="true" marshal="true" />
     <map struct="D3D12_VIDEO_ENCODER_PROFILE_DESC" name="VideoEncoderProfileDescription" native="true" marshal="true" />
 
-    <map param="ID3D12VideoDecodeCommandList::ResourceBarrier::pBarriers" type="void"/>
+    <map param="ID3D12VideoDecodeCommandList::ResourceBarrier::pBarriers" type="void" keep-pointers="true"/>
     <map method="ID3D12VideoDecodeCommandList::ResourceBarrier" visibility="private"/>
     <map method="ID3D12VideoDecodeCommandList::DiscardResource" visibility="private" />
     <map method="ID3D12VideoDecodeCommandList::BeginEvent" visibility="private"/>
     <map method="ID3D12VideoDecodeCommandList::SetMarker" visibility="private"/>
 
-    <map param="ID3D12VideoEncodeCommandList::ResourceBarrier::pBarriers" type="void"/>
+    <map param="ID3D12VideoEncodeCommandList::ResourceBarrier::pBarriers" type="void" keep-pointers="true"/>
     <map method="ID3D12VideoEncodeCommandList::ResourceBarrier" visibility="private"/>
     <map method="ID3D12VideoEncodeCommandList::DiscardResource" visibility="private" />
     <map method="ID3D12VideoEncodeCommandList::BeginEvent" visibility="private"/>
     <map method="ID3D12VideoEncodeCommandList::SetMarker" visibility="private"/>
 
-    <map param="ID3D12VideoProcessCommandList::ResourceBarrier::pBarriers" type="void"/>
+    <map param="ID3D12VideoProcessCommandList::ResourceBarrier::pBarriers" type="void" keep-pointers="true"/>
     <map method="ID3D12VideoProcessCommandList::ResourceBarrier" visibility="private"/>
     <map method="ID3D12VideoProcessCommandList::DiscardResource" visibility="private" />
     <map method="ID3D12VideoProcessCommandList::BeginEvent" visibility="private"/>
@@ -1131,6 +1131,7 @@
 
     <!-- ID3D12VideoDevice methods -->
     <map method="ID3D12VideoDevice::CheckFeatureSupport" visibility="internal" hresult="true" check="false" />
+    <map param="ID3D12VideoDevice::CheckFeatureSupport::pFeatureSupportData" type="void" keep-pointers="true"/>
     <map method="ID3D12VideoDevice::CreateVideoDecoder" visibility="private" hresult="true" check="false" />
     <map param="ID3D12VideoDevice::CreateVideoDecoder::ppVideoDecoder" attribute="out" />
     <map method="ID3D12VideoDevice::CreateVideoDecoderHeap" visibility="private" hresult="true" check="false" />

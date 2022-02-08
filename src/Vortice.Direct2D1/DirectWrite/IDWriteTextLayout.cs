@@ -1,7 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
+using System.Numerics;
 
 namespace Vortice.DirectWrite;
 
@@ -68,7 +68,7 @@ public partial class IDWriteTextLayout
         return hitTestMetrics;
     }
 
-    public HitTestMetrics HitTestPoint(in Point point, out RawBool isTrailingHit, out RawBool isInside)
+    public HitTestMetrics HitTestPoint(in Vector2 point, out RawBool isTrailingHit, out RawBool isInside)
     {
         HitTestPoint(point.X, point.Y, out isTrailingHit, out isInside, out HitTestMetrics hitTestMetrics);
         return hitTestMetrics;
@@ -86,7 +86,7 @@ public partial class IDWriteTextLayout
         return hitTestMetrics;
     }
 
-    public HitTestMetrics HitTestTextPosition(int textPosition, bool isTrailingHit, out Point point)
+    public HitTestMetrics HitTestTextPosition(int textPosition, bool isTrailingHit, out Vector2 point)
     {
         HitTestTextPosition(textPosition, isTrailingHit, out float x, out float y, out HitTestMetrics hitTestMetrics);
         point = new(x, y);
@@ -98,7 +98,7 @@ public partial class IDWriteTextLayout
         Draw(IntPtr.Zero, renderer, originX, originY);
     }
 
-    public void Draw(IDWriteTextRenderer renderer, in Point origin)
+    public void Draw(IDWriteTextRenderer renderer, in Vector2 origin)
     {
         Draw(IntPtr.Zero, renderer, origin.X, origin.Y);
     }

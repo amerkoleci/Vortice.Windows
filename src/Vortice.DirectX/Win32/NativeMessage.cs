@@ -13,5 +13,5 @@ public readonly struct NativeMessage
     public readonly nuint wParam;
     public readonly nint lParam;
     public readonly uint time;
-    public readonly PointI pt;
+    public readonly Int2 pt;
 }

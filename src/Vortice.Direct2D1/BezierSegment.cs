@@ -1,7 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
+using System.Numerics;
 
 namespace Vortice.Direct2D1;
 
@@ -16,7 +16,7 @@ public partial struct BezierSegment
     /// <param name="point1">The first control point for the Bezier segment.</param>
     /// <param name="point2">The second control point for the Bezier segment.</param>
     /// <param name="point3">The end point for the Bezier segment.</param>
-    public BezierSegment(in Point point1, in Point point2, in Point point3)
+    public BezierSegment(in Vector2 point1, in Vector2 point2, in Vector2 point3)
     {
         Point1 = point1;
         Point2 = point2;

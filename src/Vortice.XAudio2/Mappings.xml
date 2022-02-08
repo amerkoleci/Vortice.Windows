@@ -12,11 +12,7 @@
   <include file="x3daudio.h" attach="true" />
 
   <extension>
-    <define struct="System.Numerics.Vector2" sizeof="8" />
     <define struct="System.Numerics.Vector3" sizeof="12" />
-    <define struct="System.Numerics.Vector4" sizeof="16" />
-    <define struct="System.Numerics.Matrix3x2" sizeof="24" />
-    <define struct="System.Numerics.Matrix4x4" sizeof="64" />
 
     <create-cpp enum="XAUDIO2_VOICE_SEND_FLAGS" macro="XAUDIO2_SEND_(USEFILTER)" />
     <create-cpp enum="XAUDIO2_VOICE_FLAGS" macro="XAUDIO2_VOICE_.*" />

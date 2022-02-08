@@ -1,7 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
+using System.Numerics;
 
 namespace Vortice.Direct2D1;
 
@@ -16,7 +16,7 @@ public partial struct Triangle
     /// <param name="point1">The first vertex of a triangle.</param>
     /// <param name="point2">The second vertex of a triangle.</param>
     /// <param name="point3">The third vertex of a triangle.</param>
-    public Triangle(in Point point1, in Point point2, in Point point3)
+    public Triangle(in Vector2 point1, in Vector2 point2, in Vector2 point3)
     {
         Point1 = point1;
         Point2 = point2;

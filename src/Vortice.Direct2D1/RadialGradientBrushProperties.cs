@@ -1,7 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
+using System.Numerics;
 
 namespace Vortice.Direct2D1;
 
@@ -17,7 +17,7 @@ public partial struct RadialGradientBrushProperties
     /// <param name="gradientOriginOffset">In the brush's coordinate space, the offset of the gradient origin relative to the gradient ellipse's center.</param>
     /// <param name="radiusX">In the brush's coordinate space, the x-radius of the gradient ellipse.</param>
     /// <param name="radiusY">In the brush's coordinate space, the y-radius of the gradient ellipse.</param>
-    public RadialGradientBrushProperties(in Point center, in Point gradientOriginOffset, float radiusX, float radiusY)
+    public RadialGradientBrushProperties(in Vector2 center, in Vector2 gradientOriginOffset, float radiusX, float radiusY)
     {
         Center = center;
         GradientOriginOffset = gradientOriginOffset;

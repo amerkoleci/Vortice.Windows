@@ -5,7 +5,7 @@ using Vortice.DXGI;
 
 namespace Vortice.Direct3D11;
 
-public static unsafe partial class D3D11
+public static partial class D3D11
 {
     /// <summary>
     /// Creates an instance of IDirect3DDevice from an <see cref="IDXGIDevice"/>.

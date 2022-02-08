@@ -1,7 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
+using System.Numerics;
 
 namespace Vortice.Direct2D1;
 
@@ -15,7 +15,7 @@ public partial struct LinearGradientBrushProperties
     /// </summary>
     /// <param name="startPoint">In the brush's coordinate space, the starting point of the gradient axis.</param>
     /// <param name="endPoint">In the brush's coordinate space, the endpoint of the gradient axis.</param>
-    public LinearGradientBrushProperties(in Point startPoint, in Point endPoint)
+    public LinearGradientBrushProperties(in Vector2 startPoint, in Vector2 endPoint)
     {
         StartPoint = startPoint;
         EndPoint = endPoint;

@@ -3,6 +3,7 @@
 
 using Vortice.Mathematics;
 using Vortice.DCommon;
+using System.Numerics;
 
 namespace Vortice.DirectWrite;
 
@@ -25,7 +26,7 @@ public partial class IDWriteFactory2
         return colorLayers;
     }
 
-    public IDWriteColorGlyphRunEnumerator TranslateColorGlyphRun(in Point baselineOrigin, GlyphRun glyphRun)
+    public IDWriteColorGlyphRunEnumerator TranslateColorGlyphRun(in Vector2 baselineOrigin, GlyphRun glyphRun)
     {
         TranslateColorGlyphRun(
             baselineOrigin.X,
@@ -56,7 +57,7 @@ public partial class IDWriteFactory2
             out colorLayers);
     }
 
-    public Result TranslateColorGlyphRun(in Point baselineOrigin, GlyphRun glyphRun,
+    public Result TranslateColorGlyphRun(in Vector2 baselineOrigin, GlyphRun glyphRun,
         out IDWriteColorGlyphRunEnumerator colorLayers)
     {
         return TranslateColorGlyphRun(

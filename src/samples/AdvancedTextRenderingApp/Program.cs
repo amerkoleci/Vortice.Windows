@@ -1,6 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Numerics;
 using SharpGen.Runtime;
 using Vortice;
 using Vortice.DCommon;
@@ -34,7 +35,7 @@ public class CustomColorRenderer : TextRendererBase
         try
         {
             _renderTarget.DrawGlyphRun(
-                new Point(baselineOriginX, baselineOriginY),
+                new Vector2(baselineOriginX, baselineOriginY),
                 glyphRun,
                 brush,
                 measuringMode);
@@ -69,7 +70,7 @@ public static class Program
         private Vortice.Mathematics.Color4 bgcolor = new(0.1f, 0.1f, 0.1f, 1.0f);
 
         //This is the offset where we start our text layout
-        private Point offset = new(202.0f, 250.0f);
+        private Vector2 offset = new(202.0f, 250.0f);
         private Rect fullTextBackground;
         private Rect textRegionRect;
 

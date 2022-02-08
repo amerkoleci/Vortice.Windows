@@ -57,7 +57,7 @@ public partial class IDXGISwapChain1
         bool hasScrollOffset = presentParameters.ScrollOffset.HasValue;
 
         RawRect scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle!.Value : new RawRect();
-        PointI scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset!.Value : default;
+        Int2 scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset!.Value : default;
 
         fixed (void* pDirtyRects = presentParameters.DirtyRectangles)
         {
@@ -67,7 +67,7 @@ public partial class IDXGISwapChain1
             native.PScrollRect = hasScrollRectangle ? new IntPtr(&scrollRectangle) : IntPtr.Zero;
             native.PScrollOffset = hasScrollOffset ? new IntPtr(&scrollOffset) : IntPtr.Zero;
 
-            return Present1(syncInterval, presentFlags, new IntPtr(&native));
+            return Present1(syncInterval, presentFlags, &native);
         }
     }
 }

@@ -25,7 +25,7 @@ public unsafe class ISurfaceImageSourceNative : ComObject
         set => SetDevice(value).CheckError();
     }
 
-    public unsafe Result SetDevice(IDXGIDevice device)
+    public Result SetDevice(IDXGIDevice device)
     {
         IntPtr devicePtr = MarshallingHelpers.ToCallbackPtr<IDXGIDevice>(device);
         Result result = ((delegate* unmanaged[Stdcall]<IntPtr, void*, int>)this[3])(NativePointer, (void*)devicePtr);
@@ -34,15 +34,15 @@ public unsafe class ISurfaceImageSourceNative : ComObject
         return result;
     }
 
-    public unsafe Result BeginDraw(in RawRect updateRect, out IDXGISurface? surface, out PointI offset)
+    public Result BeginDraw(in RawRect updateRect, out IDXGISurface? surface, out Int2 offset)
     {
         IntPtr surfacePtr = IntPtr.Zero;
         offset = default;
 
         Result result;
-        fixed (PointI* offsetPtr = &offset)
+        fixed (Int2* offsetPtr = &offset)
         {
-            result = ((delegate* unmanaged[Stdcall]<IntPtr, RawRect, void*, PointI*, int>)this[4])(NativePointer, updateRect, &surfacePtr, offsetPtr);
+            result = ((delegate* unmanaged[Stdcall]<IntPtr, RawRect, void*, Int2*, int>)this[4])(NativePointer, updateRect, &surfacePtr, offsetPtr);
         }
 
         surface = surfacePtr != IntPtr.Zero ? new IDXGISurface(surfacePtr) : null;

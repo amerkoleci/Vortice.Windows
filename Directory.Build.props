@@ -37,6 +37,6 @@
 
     <!-- Packages versions -->
     <SharpGenVersion>2.0.0-beta.10</SharpGenVersion>
-    <VorticeMathematicsVersion>1.4.0</VorticeMathematicsVersion>
+    <VorticeMathematicsVersion>1.4.4</VorticeMathematicsVersion>
   </PropertyGroup>
 </Project>

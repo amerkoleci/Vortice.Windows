@@ -20,6 +20,20 @@ public partial class IDXGISwapChain
         return output;
     }
 
+    public Result GetContainingOutput<T>(out T? output) where T : IDXGIOutput
+    {
+        Result result = GetContainingOutput(out IDXGIOutput outputTemp);
+        if (result.Failure)
+        {
+            output = default;
+            return result;
+        }
+
+        output = outputTemp.QueryInterfaceOrNull<T>();
+        outputTemp.Dispose();
+        return result;
+    }
+
     public T GetBuffer<T>(int index) where T : ComObject
     {
         GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr).CheckError();

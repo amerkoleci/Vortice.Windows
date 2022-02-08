@@ -110,7 +110,6 @@ public partial class ID2D1Geometry
     /// </summary>	
     /// <param name="flatteningTolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometry. Smaller values produce more accurate results but cause slower execution.  </param>
     /// <returns>When this method returns, contains a reference to the length of the geometry. For closed geometries, the length includes an implicit closing segment. You must allocate storage for this parameter. </returns>
-    /// <unmanaged>HRESULT ID2D1Geometry::ComputeLength([In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out] float* length)</unmanaged>
     public float ComputeLength(float flatteningTolerance)
     {
         return ComputeLength(null, flatteningTolerance);
@@ -122,8 +121,7 @@ public partial class ID2D1Geometry
     /// <param name="length">The distance along the geometry of the point and tangent to find. If this distance is less then 0, this method calculates the first point in the geometry. If this distance is greater than the length of the geometry, this method calculates the last point in the geometry. </param>
     /// <param name="unitTangentVector">When this method returns, contains a reference to the tangent vector at the specified distance along the geometry. If the geometry is empty,  this vector contains NaN as its x and y values. You must allocate storage for this parameter. </param>
     /// <returns>The location at the specified distance along the geometry. If the geometry is empty,  this point contains NaN as its x and y values. </returns>
-    /// <unmanaged>HRESULT ID2D1Geometry::ComputePointAtLength([None] float length,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out, Optional] D2D1_POINT_2F* point,[Out, Optional] D2D1_POINT_2F* unitTangentVector)</unmanaged>
-    public Point ComputePointAtLength(float length, out Point unitTangentVector)
+    public Vector2 ComputePointAtLength(float length, out Vector2 unitTangentVector)
     {
         return ComputePointAtLength(length, null, FlatteningTolerance, out unitTangentVector);
     }
@@ -135,8 +133,7 @@ public partial class ID2D1Geometry
     /// <param name="flatteningTolerance">The maximum bounds on the distance between points in the polygonal approximation of the geometry. Smaller values produce more accurate results but cause slower execution. </param>
     /// <param name="unitTangentVector">When this method returns, contains a reference to the tangent vector at the specified distance along the geometry. If the geometry is empty,  this vector contains NaN as its x and y values. You must allocate storage for this parameter. </param>
     /// <returns>The location at the specified distance along the geometry. If the geometry is empty,  this point contains NaN as its x and y values. </returns>
-    /// <unmanaged>HRESULT ID2D1Geometry::ComputePointAtLength([None] float length,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out, Optional] D2D1_POINT_2F* point,[Out, Optional] D2D1_POINT_2F* unitTangentVector)</unmanaged>
-    public Point ComputePointAtLength(float length, float flatteningTolerance, out Point unitTangentVector)
+    public Vector2 ComputePointAtLength(float length, float flatteningTolerance, out Vector2 unitTangentVector)
     {
         return ComputePointAtLength(length, null, flatteningTolerance, out unitTangentVector);
     }
@@ -146,8 +143,7 @@ public partial class ID2D1Geometry
     /// </summary>	
     /// <param name="point">The point to test. </param>
     /// <returns>When this method returns, contains a bool value that is true if the area filled by the geometry contains point; otherwise, false.You must allocate storage for this parameter. </returns>
-    /// <unmanaged>HRESULT ID2D1Geometry::FillContainsPoint([None] D2D1_POINT_2F point,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out] BOOL* contains)</unmanaged>
-    public bool FillContainsPoint(Point point)
+    public bool FillContainsPoint(Vector2 point)
     {
         return FillContainsPoint(point, null, FlatteningTolerance);
     }
@@ -159,7 +155,7 @@ public partial class ID2D1Geometry
     /// <param name="flatteningTolerance">The numeric accuracy with which the precise geometric path and path intersection is calculated. Points missing the fill by less than the tolerance are still considered inside.  Smaller values produce more accurate results but cause slower execution.  </param>
     /// <returns>When this method returns, contains a bool value that is true if the area filled by the geometry contains point; otherwise, false.You must allocate storage for this parameter. </returns>
     /// <unmanaged>HRESULT ID2D1Geometry::FillContainsPoint([None] D2D1_POINT_2F point,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out] BOOL* contains)</unmanaged>
-    public bool FillContainsPoint(Point point, float flatteningTolerance)
+    public bool FillContainsPoint(Vector2 point, float flatteningTolerance)
     {
         return FillContainsPoint(point, null, flatteningTolerance);
     }
@@ -222,7 +218,7 @@ public partial class ID2D1Geometry
     /// <unmanaged>HRESULT Outline([In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] FLOAT flatteningTolerance,[In] ID2D1SimplifiedGeometrySink* geometrySink)</unmanaged>
     public void Outline(ID2D1GeometrySink geometrySink)
     {
-        this.Outline(null, FlatteningTolerance, geometrySink);
+        Outline(null, FlatteningTolerance, geometrySink);
     }
 
     /// <summary>	
@@ -237,7 +233,7 @@ public partial class ID2D1Geometry
     /// <unmanaged>HRESULT Outline([In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] FLOAT flatteningTolerance,[In] ID2D1SimplifiedGeometrySink* geometrySink)</unmanaged>
     public void Outline(float flatteningTolerance, ID2D1GeometrySink geometrySink)
     {
-        this.Outline(null, flatteningTolerance, geometrySink);
+        Outline(null, flatteningTolerance, geometrySink);
     }
 
     /// <summary>	
@@ -272,7 +268,7 @@ public partial class ID2D1Geometry
     /// <param name="strokeWidth">The thickness of the stroke to apply. </param>
     /// <returns>When this method returns, contains a boolean value set to true if the geometry's stroke contains the specified point; otherwise, false. You must allocate storage for this parameter. </returns>
     /// <unmanaged>HRESULT ID2D1Geometry::StrokeContainsPoint([None] D2D1_POINT_2F point,[None] float strokeWidth,[In, Optional] ID2D1StrokeStyle* strokeStyle,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out] BOOL* contains)</unmanaged>
-    public bool StrokeContainsPoint(Point point, float strokeWidth)
+    public bool StrokeContainsPoint(Vector2 point, float strokeWidth)
     {
         return StrokeContainsPoint(point, strokeWidth, null);
     }
@@ -285,7 +281,7 @@ public partial class ID2D1Geometry
     /// <param name="strokeStyle">The style of stroke to apply. </param>
     /// <returns>When this method returns, contains a boolean value set to true if the geometry's stroke contains the specified point; otherwise, false. You must allocate storage for this parameter. </returns>
     /// <unmanaged>HRESULT ID2D1Geometry::StrokeContainsPoint([None] D2D1_POINT_2F point,[None] float strokeWidth,[In, Optional] ID2D1StrokeStyle* strokeStyle,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out] BOOL* contains)</unmanaged>
-    public bool StrokeContainsPoint(Point point, float strokeWidth, ID2D1StrokeStyle strokeStyle)
+    public bool StrokeContainsPoint(Vector2 point, float strokeWidth, ID2D1StrokeStyle strokeStyle)
     {
         return StrokeContainsPoint(point, strokeWidth, strokeStyle, null, FlatteningTolerance);
     }
@@ -299,7 +295,7 @@ public partial class ID2D1Geometry
     /// <param name="transform">The transform to apply to the stroked geometry.  </param>
     /// <returns>When this method returns, contains a boolean value set to true if the geometry's stroke contains the specified point; otherwise, false. You must allocate storage for this parameter. </returns>
     /// <unmanaged>HRESULT ID2D1Geometry::StrokeContainsPoint([None] D2D1_POINT_2F point,[None] float strokeWidth,[In, Optional] ID2D1StrokeStyle* strokeStyle,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out] BOOL* contains)</unmanaged>
-    public bool StrokeContainsPoint(Point point, float strokeWidth, ID2D1StrokeStyle strokeStyle, Matrix3x2 transform)
+    public bool StrokeContainsPoint(Vector2 point, float strokeWidth, ID2D1StrokeStyle strokeStyle, Matrix3x2 transform)
     {
         return StrokeContainsPoint(point, strokeWidth, strokeStyle, transform, FlatteningTolerance);
     }
@@ -314,7 +310,7 @@ public partial class ID2D1Geometry
     /// <param name="flatteningTolerance">The numeric accuracy with which the precise geometric path and path intersection is calculated. Points missing the stroke by less than the tolerance are still considered inside.  Smaller values produce more accurate results but cause slower execution. </param>
     /// <returns>When this method returns, contains a boolean value set to true if the geometry's stroke contains the specified point; otherwise, false. You must allocate storage for this parameter. </returns>
     /// <unmanaged>HRESULT ID2D1Geometry::StrokeContainsPoint([None] D2D1_POINT_2F point,[None] float strokeWidth,[In, Optional] ID2D1StrokeStyle* strokeStyle,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out] BOOL* contains)</unmanaged>
-    public bool StrokeContainsPoint(Point point, float strokeWidth, ID2D1StrokeStyle strokeStyle, Matrix3x2 transform, float flatteningTolerance)
+    public bool StrokeContainsPoint(Vector2 point, float strokeWidth, ID2D1StrokeStyle strokeStyle, Matrix3x2 transform, float flatteningTolerance)
     {
         return StrokeContainsPoint(point, strokeWidth, strokeStyle, transform, flatteningTolerance);
     }
@@ -327,7 +323,7 @@ public partial class ID2D1Geometry
     /// <unmanaged>HRESULT Tessellate([In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] FLOAT flatteningTolerance,[In] ID2D1TessellationSink* tessellationSink)</unmanaged>
     public void Tessellate(ID2D1TessellationSink tessellationSink)
     {
-        this.Tessellate(null, FlatteningTolerance, tessellationSink);
+        Tessellate(null, FlatteningTolerance, tessellationSink);
     }
 
     /// <summary>	

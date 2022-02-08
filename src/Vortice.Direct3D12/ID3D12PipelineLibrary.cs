@@ -1,18 +1,17 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-namespace Vortice.Direct3D12
+namespace Vortice.Direct3D12;
+
+public partial class ID3D12PipelineLibrary
 {
-    public partial class ID3D12PipelineLibrary
+    public ID3D12PipelineState LoadComputePipeline(string name, ComputePipelineStateDescription description)
     {
-        public ID3D12PipelineState LoadComputePipeline(string name, ComputePipelineStateDescription description)
-        {
-            return LoadComputePipeline(name, description, typeof(ID3D12PipelineState).GUID);
-        }
+        return LoadComputePipeline(name, description, typeof(ID3D12PipelineState).GUID);
+    }
 
-        public unsafe ID3D12PipelineState LoadGraphicsPipeline(string name, GraphicsPipelineStateDescription description)
-        {
-            return LoadGraphicsPipeline(name, description, typeof(ID3D12PipelineState).GUID);
-        }
+    public unsafe ID3D12PipelineState LoadGraphicsPipeline(string name, GraphicsPipelineStateDescription description)
+    {
+        return LoadGraphicsPipeline(name, description, typeof(ID3D12PipelineState).GUID);
     }
 }

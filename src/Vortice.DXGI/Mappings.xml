@@ -212,7 +212,7 @@
     <map method="IDXGISwapChain1::GetHwnd" property="false" hresult="true" check="false" />
     <map method="IDXGISwapChain1::GetCoreWindow" property="false" visibility="private" hresult="true" check="false" />
     <map method="IDXGISwapChain1::Present1" visibility="internal" hresult="true"/>
-    <map param="IDXGISwapChain1::Present1::pPresentParameters" type="void"/>
+    <map param="IDXGISwapChain1::Present1::pPresentParameters" type="void" keep-pointers="true" />
     <map param="IDXGISwapChain1::Present1::PresentFlags" type="DXGI_PRESENT_FLAGS" />
 
     <!-- IDXGISwapChain2 -->

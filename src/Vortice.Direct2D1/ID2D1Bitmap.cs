@@ -28,7 +28,7 @@ public unsafe partial class ID2D1Bitmap
     /// <param name="destinationPoint">In the current bitmap, the upper-left corner of the area to which the data is copied</param>
     /// <param name="sourceBitmap">The bitmap to copy from.</param>
     /// <returns>The result of the operation.</returns>
-    public Result CopyFromBitmap(PointI destinationPoint, ID2D1Bitmap sourceBitmap) => CopyFromBitmap(&destinationPoint, sourceBitmap, null);
+    public Result CopyFromBitmap(Int2 destinationPoint, ID2D1Bitmap sourceBitmap) => CopyFromBitmap(&destinationPoint, sourceBitmap, null);
 
     /// <summary>
     /// Copies the specified region from the specified bitmap into the current bitmap.
@@ -38,7 +38,7 @@ public unsafe partial class ID2D1Bitmap
     /// <param name="sourceBitmap">The bitmap to copy from.</param>
     /// <param name="sourceRectangle">The area of bitmap to copy.</param>
     /// <returns>The result of the operation.</returns>
-    public Result CopyFromBitmap(PointI destinationPoint, ID2D1Bitmap sourceBitmap, RectI sourceRectangle)
+    public Result CopyFromBitmap(Int2 destinationPoint, ID2D1Bitmap sourceBitmap, RectI sourceRectangle)
     {
         RawRect sourceRect = sourceRectangle;
         return CopyFromBitmap(&destinationPoint, sourceBitmap, &sourceRect);
@@ -147,7 +147,7 @@ public unsafe partial class ID2D1Bitmap
     /// <param name="destinationPoint">In the current bitmap, the upper-left corner of the area to which the data is copied.</param>
     /// <param name="renderTarget">The render target to copy.</param>
     /// <returns>The result of the operation.</returns>
-    public Result CopyFromRenderTarget(PointI destinationPoint, ID2D1RenderTarget renderTarget)
+    public Result CopyFromRenderTarget(Int2 destinationPoint, ID2D1RenderTarget renderTarget)
     {
         return CopyFromRenderTarget(&destinationPoint, renderTarget, null);
     }
@@ -159,7 +159,7 @@ public unsafe partial class ID2D1Bitmap
     /// <param name="renderTarget">The render target that contains the region to copy.</param>
     /// <param name="sourceRectangle">The area of renderTarget to copy.</param>
     /// <returns>The result of the operation.</returns>
-    public Result CopyFromRenderTarget(PointI destinationPoint, ID2D1RenderTarget renderTarget, RectI sourceRectangle)
+    public Result CopyFromRenderTarget(Int2 destinationPoint, ID2D1RenderTarget renderTarget, RectI sourceRectangle)
     {
         RawRect sourceRect = sourceRectangle;
         return CopyFromRenderTarget(&destinationPoint, renderTarget, &sourceRect);

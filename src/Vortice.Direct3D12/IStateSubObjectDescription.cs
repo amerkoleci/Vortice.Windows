@@ -1,19 +1,14 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using System.Collections.Generic;
-
-namespace Vortice.Direct3D12
+namespace Vortice.Direct3D12;
+public interface IStateSubObjectDescription
 {
-    public interface IStateSubObjectDescription
-    {
-        StateSubObjectType SubObjectType { get; }
-    }
+    StateSubObjectType SubObjectType { get; }
+}
 
-    internal interface IStateSubObjectDescriptionMarshal
-    {
-        IntPtr __MarshalAlloc(Dictionary<StateSubObject, IntPtr> subObjectLookup);
-        void __MarshalFree(ref IntPtr pDesc);
-    }
+internal interface IStateSubObjectDescriptionMarshal
+{
+    IntPtr __MarshalAlloc(Dictionary<StateSubObject, IntPtr> subObjectLookup);
+    void __MarshalFree(ref IntPtr pDesc);
 }

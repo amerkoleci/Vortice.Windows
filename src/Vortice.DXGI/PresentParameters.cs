@@ -22,7 +22,7 @@ public partial struct PresentParameters
     /// <para>A reference to the offset of the scrolled area that goes from the source rectangle (of previous frame) to the destination rectangle (of current frame). You can set this member to <c>null</c> to indicate no offset.</para>	
     /// </summary>	
     /// <unmanaged>POINT* pScrollOffset</unmanaged>	
-    public PointI? ScrollOffset;
+    public Int2? ScrollOffset;
 
     // Internal native struct used for marshalling
     [StructLayout(LayoutKind.Sequential, Pack = 0)]

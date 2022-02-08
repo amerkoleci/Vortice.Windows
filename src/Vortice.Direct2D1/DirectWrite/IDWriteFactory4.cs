@@ -1,7 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
+using System.Numerics;
 using Vortice.DCommon;
 
 namespace Vortice.DirectWrite;
@@ -9,7 +9,7 @@ namespace Vortice.DirectWrite;
 public partial class IDWriteFactory4
 {
     public Result TranslateColorGlyphRun(
-        in Point baselineOrigin,
+        in Vector2 baselineOrigin,
         GlyphRun glyphRun,
         GlyphImageFormats desiredGlyphImageFormats,
         MeasuringMode measuringMode,
@@ -19,7 +19,7 @@ public partial class IDWriteFactory4
     }
 
     public IDWriteColorGlyphRunEnumerator1 TranslateColorGlyphRun(
-        in Point baselineOrigin,
+        in Vector2 baselineOrigin,
         GlyphRun glyphRun,
         GlyphImageFormats desiredGlyphImageFormats,
         MeasuringMode measuringMode = MeasuringMode.Natural)

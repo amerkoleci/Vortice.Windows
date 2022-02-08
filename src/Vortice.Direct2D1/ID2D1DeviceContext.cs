@@ -42,7 +42,7 @@ public partial class ID2D1DeviceContext
 
     public void DrawImage(
         ID2D1Image image,
-        in Point targetOffset,
+        in Vector2 targetOffset,
         InterpolationMode interpolationMode = InterpolationMode.Linear,
         CompositeMode compositeMode = CompositeMode.SourceOver)
     {
@@ -59,7 +59,7 @@ public partial class ID2D1DeviceContext
 
     public void DrawImage(
         ID2D1Effect effect,
-        in Point targetOffset,
+        in Vector2 targetOffset,
         InterpolationMode interpolationMode = InterpolationMode.Linear,
         CompositeMode compositeMode = CompositeMode.SourceOver)
     {

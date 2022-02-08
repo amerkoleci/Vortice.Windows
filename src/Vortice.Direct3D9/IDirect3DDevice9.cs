@@ -175,7 +175,7 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="point">The point.</param>
     /// <param name="immediate">Whether to immediate update.</param>
-    public void SetCursorPosition(PointI point, bool immediate)
+    public void SetCursorPosition(Int2 point, bool immediate)
     {
         SetCursorPosition(point.X, point.Y, immediate ? 1 : 0);
     }

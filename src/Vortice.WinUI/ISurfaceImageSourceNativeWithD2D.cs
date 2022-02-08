@@ -6,7 +6,7 @@ using Vortice.Mathematics;
 namespace Vortice.WinUI;
 
 [Guid("cb833102-d5d1-448b-a31a-52a9509f24e6")]
-public class ISurfaceImageSourceNativeWithD2D : ComObject
+public unsafe class ISurfaceImageSourceNativeWithD2D : ComObject
 {
     public ISurfaceImageSourceNativeWithD2D(IntPtr nativePtr)
         : base(nativePtr)
@@ -23,7 +23,7 @@ public class ISurfaceImageSourceNativeWithD2D : ComObject
         set => SetDevice(value).CheckError();
     }
 
-    public unsafe Result SetDevice(IUnknown device)
+    public Result SetDevice(IUnknown device)
     {
         IntPtr device_ = MarshallingHelpers.ToCallbackPtr<IUnknown>(device);
         Result result = ((delegate* unmanaged[Stdcall]<IntPtr, void*, int>)this[3])(NativePointer, (void*)device_);
@@ -31,7 +31,7 @@ public class ISurfaceImageSourceNativeWithD2D : ComObject
         return result;
     }
 
-    public Result BeginDraw<T>(RawRect updateRect, out T? updateObject, out PointI offset) where T : ComObject
+    public Result BeginDraw<T>(RawRect updateRect, out T? updateObject, out Int2 offset) where T : ComObject
     {
         Result result = BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out offset);
         if (result.Failure)
@@ -44,14 +44,14 @@ public class ISurfaceImageSourceNativeWithD2D : ComObject
         return result;
     }
 
-    public T BeginDraw<T>(RawRect updateRect, out PointI offset) where T : ComObject
+    public T BeginDraw<T>(RawRect updateRect, out Int2 offset) where T : ComObject
     {
         Result result = BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out offset);
         result.CheckError();
         return MarshallingHelpers.FromPointer<T>(updateObjectPtr);
     }
 
-    internal unsafe Result BeginDraw(RawRect updateRect, Guid iid, out IntPtr updateObject, out PointI offset)
+    internal unsafe Result BeginDraw(RawRect updateRect, Guid iid, out IntPtr updateObject, out Int2 offset)
     {
         offset = default;
         Result result;

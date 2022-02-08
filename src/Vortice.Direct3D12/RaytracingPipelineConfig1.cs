@@ -1,47 +1,43 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
-namespace Vortice.Direct3D12
+namespace Vortice.Direct3D12;
+
+/// <summary>
+/// A state subobject that represents a raytracing pipeline configuration.
+/// </summary>
+public partial struct RaytracingPipelineConfig1 : IStateSubObjectDescription, IStateSubObjectDescriptionMarshal
 {
+    StateSubObjectType IStateSubObjectDescription.SubObjectType => StateSubObjectType.RaytracingPipelineConfig1;
+
     /// <summary>
-    /// A state subobject that represents a raytracing pipeline configuration.
+    /// Initializes a new instance of the <see cref="RaytracingPipelineConfig"/> struct.
     /// </summary>
-    public partial struct RaytracingPipelineConfig1 : IStateSubObjectDescription, IStateSubObjectDescriptionMarshal
+    /// <param name="maxTraceRecursionDepth">
+    /// Limit on ray recursion for the raytracing pipeline. It must be in the range of 0 to 31. 
+    /// Below the maximum recursion depth, shader invocations such as closest hit or miss shaders can call <b>TraceRay</b> any number of times. 
+    /// At the maximum recursion depth, <b>TraceRay</b> calls result in the device going into removed state.
+    /// </param>
+    /// <param name="flags">The <see cref="RaytracingPipelineFlags"/> value.</param>
+    public RaytracingPipelineConfig1(int maxTraceRecursionDepth, RaytracingPipelineFlags flags = RaytracingPipelineFlags.None)
     {
-        StateSubObjectType IStateSubObjectDescription.SubObjectType => StateSubObjectType.RaytracingPipelineConfig1;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RaytracingPipelineConfig"/> struct.
-        /// </summary>
-        /// <param name="maxTraceRecursionDepth">
-        /// Limit on ray recursion for the raytracing pipeline. It must be in the range of 0 to 31. 
-        /// Below the maximum recursion depth, shader invocations such as closest hit or miss shaders can call <b>TraceRay</b> any number of times. 
-        /// At the maximum recursion depth, <b>TraceRay</b> calls result in the device going into removed state.
-        /// </param>
-        /// <param name="flags">The <see cref="RaytracingPipelineFlags"/> value.</param>
-        public RaytracingPipelineConfig1(int maxTraceRecursionDepth, RaytracingPipelineFlags flags = RaytracingPipelineFlags.None)
-        {
-            MaxTraceRecursionDepth = maxTraceRecursionDepth;
-            Flags = flags;
-        }
-
-        #region Marshal
-        unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc(Dictionary<StateSubObject, IntPtr> subObjectLookup)
-        {
-            var native = Marshal.AllocHGlobal(sizeof(RaytracingPipelineConfig));
-            Unsafe.WriteUnaligned(native.ToPointer(), this);
-            return native;
-        }
-
-        unsafe void IStateSubObjectDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
-        {
-            Marshal.FreeHGlobal(pDesc);
-        }
-        #endregion Marshal
+        MaxTraceRecursionDepth = maxTraceRecursionDepth;
+        Flags = flags;
     }
+
+    #region Marshal
+    unsafe IntPtr IStateSubObjectDescriptionMarshal.__MarshalAlloc(Dictionary<StateSubObject, IntPtr> subObjectLookup)
+    {
+        var native = Marshal.AllocHGlobal(sizeof(RaytracingPipelineConfig));
+        Unsafe.WriteUnaligned(native.ToPointer(), this);
+        return native;
+    }
+
+    unsafe void IStateSubObjectDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
+    {
+        Marshal.FreeHGlobal(pDesc);
+    }
+    #endregion Marshal
 }

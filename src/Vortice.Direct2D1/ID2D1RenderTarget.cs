@@ -1,7 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
+using System.Numerics;
 using Vortice.DCommon;
 using Vortice.DirectWrite;
 using Vortice.DXGI;
@@ -196,7 +196,7 @@ public partial class ID2D1RenderTarget
     /// <param name="point0">The start point of the line, in device-independent pixels. </param>
     /// <param name="point1">The end point of the line, in device-independent pixels. </param>
     /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the line's stroke. </param>
-    public void DrawLine(Point point0, Point point1, ID2D1Brush brush)
+    public void DrawLine(Vector2 point0, Vector2 point1, ID2D1Brush brush)
     {
         DrawLine(point0, point1, brush, 1.0f, null);
     }
@@ -208,7 +208,7 @@ public partial class ID2D1RenderTarget
     /// <param name="point1">The end point of the line, in device-independent pixels. </param>
     /// <param name="brush">The brush used to paint the line's stroke. </param>
     /// <param name="strokeWidth">A value greater than or equal to 0.0f that specifies the width of the stroke. If this parameter isn't specified, it defaults to 1.0f.  The stroke is centered on the line. </param>
-    public void DrawLine(in Point point0, in Point point1, ID2D1Brush brush, float strokeWidth)
+    public void DrawLine(in Vector2 point0, in Vector2 point1, ID2D1Brush brush, float strokeWidth)
     {
         DrawLine(point0, point1, brush, strokeWidth, null);
     }
@@ -363,12 +363,12 @@ public partial class ID2D1RenderTarget
     /// <param name="origin">The point, described in device-independent pixels, at which the upper-left corner of the text described by textLayout is drawn. </param>
     /// <param name="textLayout">The formatted text to draw. Any drawing effects that do not inherit from <see cref="ID2D1Resource" /> are ignored. If there are drawing effects that inherit from <see cref="ID2D1Resource"/> that are not brushes, this method fails and the render target is put in an error state.  </param>
     /// <param name="defaultForegroundBrush">The <see cref="ID2D1Brush"/> used to paint any text in textLayout that does not already have a brush associated with it as a drawing effect (specified by the <see cref="IDWriteTextLayout.SetDrawingEffect(IUnknown, TextRange)"/> method).</param>
-    public void DrawTextLayout(Point origin, IDWriteTextLayout textLayout, ID2D1Brush defaultForegroundBrush)
+    public void DrawTextLayout(Vector2 origin, IDWriteTextLayout textLayout, ID2D1Brush defaultForegroundBrush)
     {
         DrawTextLayout(origin, textLayout, defaultForegroundBrush, DrawTextOptions.None);
     }
 
-    public void DrawGlyphRun(Point baselineOrigin, GlyphRun glyphRun, ID2D1Brush foregroundBrush)
+    public void DrawGlyphRun(Vector2 baselineOrigin, GlyphRun glyphRun, ID2D1Brush foregroundBrush)
     {
         DrawGlyphRun(baselineOrigin, glyphRun, foregroundBrush, MeasuringMode.Natural);
     }
