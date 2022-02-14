@@ -8,6 +8,168 @@ namespace Vortice.D3DCompiler;
 public unsafe static partial class Compiler
 {
     #region Compile
+    public static Span<byte> Compile(
+        string shaderSource,
+        string entryPoint,
+        string sourceName,
+        string profile,
+        ShaderFlags shaderFlags = ShaderFlags.None,
+        EffectFlags effectFlags = EffectFlags.None)
+    {
+        if (string.IsNullOrEmpty(shaderSource))
+        {
+            throw new ArgumentNullException(nameof(shaderSource));
+        }
+
+        IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+        try
+        {
+            Result result = Compile(
+                shaderSourcePtr,
+                shaderSource.Length,
+                sourceName,
+                null,
+                null,
+                entryPoint,
+                profile,
+                shaderFlags,
+                effectFlags,
+                out Blob blob,
+                out Blob? errorBlob);
+
+            if (result.Failure)
+            {
+                if (errorBlob != null)
+                {
+                    throw new SharpGenException(errorBlob.ConvertToString());
+                }
+                else
+                {
+                    throw new SharpGenException(result);
+                }
+            }
+
+            Span<byte> bytecode = blob.GetBytes();
+            blob.Dispose();
+            errorBlob?.Dispose();
+            return bytecode;
+        }
+        finally
+        {
+            if (shaderSourcePtr != IntPtr.Zero)
+                Marshal.FreeHGlobal(shaderSourcePtr);
+        }
+    }
+
+    public static Span<byte> Compile(
+        string shaderSource,
+        string entryPoint,
+        string sourceName,
+        ShaderMacro[] macros,
+        string profile,
+        ShaderFlags shaderFlags = ShaderFlags.None,
+        EffectFlags effectFlags = EffectFlags.None)
+    {
+        if (string.IsNullOrEmpty(shaderSource))
+        {
+            throw new ArgumentNullException(nameof(shaderSource));
+        }
+
+        IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+        try
+        {
+            Result result = Compile(
+                shaderSourcePtr,
+                shaderSource.Length,
+                sourceName,
+                macros,
+                null,
+                entryPoint,
+                profile,
+                shaderFlags,
+                effectFlags,
+                out Blob blob,
+                out Blob? errorBlob);
+
+            if (result.Failure)
+            {
+                if (errorBlob != null)
+                {
+                    throw new SharpGenException(errorBlob.ConvertToString());
+                }
+                else
+                {
+                    throw new SharpGenException(result);
+                }
+            }
+
+            Span<byte> bytecode = blob.GetBytes();
+            blob.Dispose();
+            errorBlob?.Dispose();
+            return bytecode;
+        }
+        finally
+        {
+            if (shaderSourcePtr != IntPtr.Zero)
+                Marshal.FreeHGlobal(shaderSourcePtr);
+        }
+    }
+
+    public static Span<byte> Compile(
+        string shaderSource,
+        string entryPoint,
+        string sourceName,
+        ShaderMacro[] macros,
+        Include include,
+        string profile,
+        ShaderFlags shaderFlags = ShaderFlags.None,
+        EffectFlags effectFlags = EffectFlags.None)
+    {
+        if (string.IsNullOrEmpty(shaderSource))
+        {
+            throw new ArgumentNullException(nameof(shaderSource));
+        }
+
+        IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+        try
+        {
+            Result result = Compile(
+                shaderSourcePtr,
+                shaderSource.Length,
+                sourceName,
+                macros,
+                include,
+                entryPoint,
+                profile,
+                shaderFlags,
+                effectFlags,
+                out Blob blob,
+                out Blob? errorBlob);
+
+            if (result.Failure)
+            {
+                if (errorBlob != null)
+                {
+                    throw new SharpGenException(errorBlob.ConvertToString());
+                }
+                else
+                {
+                    throw new SharpGenException(result);
+                }
+            }
+
+            Span<byte> bytecode = blob.GetBytes();
+            blob.Dispose();
+            errorBlob?.Dispose();
+            return bytecode;
+        }
+        finally
+        {
+            if (shaderSourcePtr != IntPtr.Zero)
+                Marshal.FreeHGlobal(shaderSourcePtr);
+        }
+    }
+
     public static Result Compile(
         string shaderSource,
         string entryPoint,
@@ -21,7 +183,7 @@ public unsafe static partial class Compiler
             throw new ArgumentNullException(nameof(shaderSource));
         }
 
-        var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+        IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
         try
         {
             return Compile(
@@ -58,7 +220,7 @@ public unsafe static partial class Compiler
             throw new ArgumentNullException(nameof(shaderSource));
         }
 
-        var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+        IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
         try
         {
             return Compile(
@@ -135,7 +297,7 @@ public unsafe static partial class Compiler
             throw new ArgumentNullException(nameof(shaderSource));
         }
 
-        var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+        IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
         try
         {
             return Compile(
@@ -175,7 +337,7 @@ public unsafe static partial class Compiler
             throw new ArgumentNullException(nameof(shaderSource));
         }
 
-        var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+        IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
         try
         {
             return Compile(
@@ -460,22 +622,112 @@ public unsafe static partial class Compiler
     public static Span<byte> CompileFromFile(
         string fileName,
         string entryPoint,
-        string profile)
+        string profile,
+        ShaderFlags shaderFlags = ShaderFlags.None,
+        EffectFlags effectFlags = EffectFlags.None)
     {
-        CompileFromFile(
+        Result result = CompileFromFile(
             fileName,
             null,
             null,
             entryPoint,
             profile,
-            ShaderFlags.None,
-            EffectFlags.None,
+            shaderFlags,
+            effectFlags,
             out Blob blob,
-            out _).CheckError();
+            out Blob? errorBlob);
 
-        Span<byte> result = blob.GetBytes();
+        if (result.Failure)
+        {
+            if (errorBlob != null)
+            {
+                throw new SharpGenException(errorBlob.ConvertToString());
+            }
+            else
+            {
+                throw new SharpGenException(result);
+            }
+        }
+
+        Span<byte> bytcode = blob.GetBytes();
         blob.Dispose();
-        return result;
+        errorBlob?.Dispose();
+        return bytcode;
+    }
+
+    public static Span<byte> CompileFromFile(
+        string fileName,
+        ShaderMacro[] macros,
+        string entryPoint,
+        string profile,
+        ShaderFlags shaderFlags = ShaderFlags.None,
+        EffectFlags effectFlags = EffectFlags.None)
+    {
+        Result result = CompileFromFile(
+            fileName,
+            macros,
+            null,
+            entryPoint,
+            profile,
+            shaderFlags,
+            effectFlags,
+            out Blob blob,
+            out Blob? errorBlob);
+
+        if (result.Failure)
+        {
+            if (errorBlob != null)
+            {
+                throw new SharpGenException(errorBlob.ConvertToString());
+            }
+            else
+            {
+                throw new SharpGenException(result);
+            }
+        }
+
+        Span<byte> bytcode = blob.GetBytes();
+        blob.Dispose();
+        errorBlob?.Dispose();
+        return bytcode;
+    }
+
+    public static Span<byte> CompileFromFile(
+        string fileName,
+        ShaderMacro[] macros,
+        Include include,
+        string entryPoint,
+        string profile,
+        ShaderFlags shaderFlags = ShaderFlags.None,
+        EffectFlags effectFlags = EffectFlags.None)
+    {
+        Result result = CompileFromFile(
+            fileName,
+            macros,
+            include,
+            entryPoint,
+            profile,
+            shaderFlags,
+            effectFlags,
+            out Blob blob,
+            out Blob? errorBlob);
+
+        if (result.Failure)
+        {
+            if (errorBlob != null)
+            {
+                throw new SharpGenException(errorBlob.ConvertToString());
+            }
+            else
+            {
+                throw new SharpGenException(result);
+            }
+        }
+
+        Span<byte> bytcode = blob.GetBytes();
+        blob.Dispose();
+        errorBlob?.Dispose();
+        return bytcode;
     }
     #endregion
 
@@ -513,8 +765,8 @@ public unsafe static partial class Compiler
     public static ShaderBytecode CompressShaders(params ShaderBytecode[] shaderBytecodes)
     {
         Blob? blob = default;
-        var shaderData = new ShaderData[shaderBytecodes.Length];
-        var handles = new GCHandle[shaderBytecodes.Length];
+        ShaderData[] shaderData = new ShaderData[shaderBytecodes.Length];
+        GCHandle[] handles = new GCHandle[shaderBytecodes.Length];
         try
         {
             for (int i = 0; i < shaderBytecodes.Length; i++)
@@ -531,7 +783,7 @@ public unsafe static partial class Compiler
         }
         finally
         {
-            foreach (var handle in handles)
+            foreach (GCHandle handle in handles)
             {
                 handle.Free();
             }
