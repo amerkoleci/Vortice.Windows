@@ -122,7 +122,7 @@ public static unsafe class UnsafeUtilities
         return ptr;
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET6_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref T GetReference<T>(Span<T> span)
     {

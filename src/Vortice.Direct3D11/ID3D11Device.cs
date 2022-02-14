@@ -251,12 +251,28 @@ public unsafe partial class ID3D11Device
         }
     }
 
+    public ID3D11VertexShader CreateVertexShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateVertexShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
     public ID3D11VertexShader CreateVertexShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         return CreateVertexShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
     public ID3D11PixelShader CreatePixelShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreatePixelShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
+    public ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -277,9 +293,25 @@ public unsafe partial class ID3D11Device
         }
     }
 
+    public ID3D11GeometryShader CreateGeometryShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateGeometryShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
     public ID3D11GeometryShader CreateGeometryShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         return CreateGeometryShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
+    }
+
+    public ID3D11HullShader CreateHullShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateHullShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
     }
 
     public ID3D11HullShader CreateHullShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
@@ -295,6 +327,14 @@ public unsafe partial class ID3D11Device
         return CreateHullShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
+    public ID3D11DomainShader CreateDomainShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateDomainShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
     public ID3D11DomainShader CreateDomainShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
@@ -306,6 +346,14 @@ public unsafe partial class ID3D11Device
     public ID3D11DomainShader CreateDomainShader(Blob shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         return CreateDomainShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
+    }
+
+    public ID3D11ComputeShader CreateComputeShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateComputeShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
     }
 
     public ID3D11ComputeShader CreateComputeShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
@@ -328,6 +376,20 @@ public unsafe partial class ID3D11Device
     /// <param name="shaderBytecode">A pointer to the compiled shader. The compiled shader code contains a input signature which is validated against the array of elements.</param>
     /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
     public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, Span<byte> shaderBytecode)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, shaderBytecode.Length);
+        }
+    }
+
+    /// <summary>
+    /// Create an input-layout object to describe the input-buffer data for the input-assembler stage.
+    /// </summary>
+    /// <param name="inputElements">An array of the input-assembler stage input data types; each type is described by an element description</param>
+    /// <param name="shaderBytecode">A pointer to the compiled shader. The compiled shader code contains a input signature which is validated against the array of elements.</param>
+    /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
+    public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, byte[] shaderBytecode)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {

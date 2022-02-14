@@ -352,6 +352,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         string shaderFile = Path.Combine(assetsPath, shaderName);
         //string shaderSource = File.ReadAllText(Path.Combine(assetsPath, shaderName));
 
-        return Compiler.CompileFromFile(shaderFile, entryPoint, profile);
+        using Blob blob = Compiler.CompileFromFile(shaderFile, entryPoint, profile);
+        return blob.AsSpan();
     }
 }

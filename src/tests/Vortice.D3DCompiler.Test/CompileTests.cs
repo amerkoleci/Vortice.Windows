@@ -19,7 +19,7 @@ public class CompileTests
 
         Assert.True(result.Success);
 
-        var shaderCode = blob.GetBytes();
+        var shaderCode = blob.AsSpan();
 
         Assert.True(shaderCode.Length > 0);
     }
@@ -33,7 +33,7 @@ public class CompileTests
 
         Assert.True(result.Failure);
 
-        var errorText = error?.ConvertToString();
+        var errorText = error?.AsString();
 
         Assert.Contains("error X3018: invalid subscript 'ThisIsAnError'", errorText);
     }
@@ -49,7 +49,7 @@ public class CompileTests
 
             Assert.True(result.Success);
 
-            var shaderCode = blob.GetBytes();
+            var shaderCode = blob.AsSpan();
 
             Assert.True(shaderCode.Length > 0);
         }
@@ -66,7 +66,7 @@ public class CompileTests
 
         Assert.True(result.Success);
 
-        var shaderCode = blob.GetBytes();
+        var shaderCode = blob.AsSpan();
 
         Assert.True(shaderCode.Length > 0);
     }

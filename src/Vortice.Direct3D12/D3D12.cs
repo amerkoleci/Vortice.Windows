@@ -240,7 +240,7 @@ public static unsafe partial class D3D12
         string errorString = string.Empty;
         if (D3D12SerializeVersionedRootSignature(description, out blob, out Blob errorBlob).Failure)
         {
-            errorString = errorBlob.ConvertToString();
+            errorString = errorBlob.AsString();
         }
 
         errorBlob?.Dispose();

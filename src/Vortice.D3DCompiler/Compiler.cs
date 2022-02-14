@@ -8,7 +8,7 @@ namespace Vortice.D3DCompiler;
 public unsafe static partial class Compiler
 {
     #region Compile
-    public static Span<byte> Compile(
+    public static Blob Compile(
         string shaderSource,
         string entryPoint,
         string sourceName,
@@ -41,7 +41,7 @@ public unsafe static partial class Compiler
             {
                 if (errorBlob != null)
                 {
-                    throw new SharpGenException(errorBlob.ConvertToString());
+                    throw new SharpGenException(result, errorBlob.AsString());
                 }
                 else
                 {
@@ -49,19 +49,19 @@ public unsafe static partial class Compiler
                 }
             }
 
-            Span<byte> bytecode = blob.GetBytes();
-            blob.Dispose();
             errorBlob?.Dispose();
-            return bytecode;
+            return blob;
         }
         finally
         {
             if (shaderSourcePtr != IntPtr.Zero)
+            {
                 Marshal.FreeHGlobal(shaderSourcePtr);
+            }
         }
     }
 
-    public static Span<byte> Compile(
+    public static Blob Compile(
         string shaderSource,
         string entryPoint,
         string sourceName,
@@ -95,7 +95,7 @@ public unsafe static partial class Compiler
             {
                 if (errorBlob != null)
                 {
-                    throw new SharpGenException(errorBlob.ConvertToString());
+                    throw new SharpGenException(result, errorBlob.AsString());
                 }
                 else
                 {
@@ -103,10 +103,8 @@ public unsafe static partial class Compiler
                 }
             }
 
-            Span<byte> bytecode = blob.GetBytes();
-            blob.Dispose();
             errorBlob?.Dispose();
-            return bytecode;
+            return blob;
         }
         finally
         {
@@ -115,7 +113,7 @@ public unsafe static partial class Compiler
         }
     }
 
-    public static Span<byte> Compile(
+    public static Blob Compile(
         string shaderSource,
         string entryPoint,
         string sourceName,
@@ -150,7 +148,7 @@ public unsafe static partial class Compiler
             {
                 if (errorBlob != null)
                 {
-                    throw new SharpGenException(errorBlob.ConvertToString());
+                    throw new SharpGenException(result, errorBlob.AsString());
                 }
                 else
                 {
@@ -158,10 +156,8 @@ public unsafe static partial class Compiler
                 }
             }
 
-            Span<byte> bytecode = blob.GetBytes();
-            blob.Dispose();
             errorBlob?.Dispose();
-            return bytecode;
+            return blob;
         }
         finally
         {
@@ -619,7 +615,7 @@ public unsafe static partial class Compiler
             out errorBlob);
     }
 
-    public static Span<byte> CompileFromFile(
+    public static Blob CompileFromFile(
         string fileName,
         string entryPoint,
         string profile,
@@ -641,7 +637,7 @@ public unsafe static partial class Compiler
         {
             if (errorBlob != null)
             {
-                throw new SharpGenException(errorBlob.ConvertToString());
+                throw new SharpGenException(result, errorBlob.AsString());
             }
             else
             {
@@ -649,13 +645,11 @@ public unsafe static partial class Compiler
             }
         }
 
-        Span<byte> bytcode = blob.GetBytes();
-        blob.Dispose();
         errorBlob?.Dispose();
-        return bytcode;
+        return blob;
     }
 
-    public static Span<byte> CompileFromFile(
+    public static Blob CompileFromFile(
         string fileName,
         ShaderMacro[] macros,
         string entryPoint,
@@ -678,7 +672,7 @@ public unsafe static partial class Compiler
         {
             if (errorBlob != null)
             {
-                throw new SharpGenException(errorBlob.ConvertToString());
+                throw new SharpGenException(result, errorBlob.AsString());
             }
             else
             {
@@ -686,13 +680,11 @@ public unsafe static partial class Compiler
             }
         }
 
-        Span<byte> bytcode = blob.GetBytes();
-        blob.Dispose();
         errorBlob?.Dispose();
-        return bytcode;
+        return blob;
     }
 
-    public static Span<byte> CompileFromFile(
+    public static Blob CompileFromFile(
         string fileName,
         ShaderMacro[] macros,
         Include include,
@@ -716,7 +708,7 @@ public unsafe static partial class Compiler
         {
             if (errorBlob != null)
             {
-                throw new SharpGenException(errorBlob.ConvertToString());
+                throw new SharpGenException(result, errorBlob.AsString());
             }
             else
             {
@@ -724,10 +716,8 @@ public unsafe static partial class Compiler
             }
         }
 
-        Span<byte> bytcode = blob.GetBytes();
-        blob.Dispose();
         errorBlob?.Dispose();
-        return bytcode;
+        return blob;
     }
     #endregion
 
@@ -747,6 +737,31 @@ public unsafe static partial class Compiler
     }
 
     public static Result Reflect<T>(Span<byte> shaderBytecode, out T? reflection) where T : ComObject
+    {
+        fixed (byte* shaderBytecodePtr = shaderBytecode)
+        {
+            Result result = Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr);
+            if (result.Success)
+            {
+                reflection = MarshallingHelpers.FromPointer<T>(nativePtr);
+                return result;
+            }
+
+            reflection = null;
+            return result;
+        }
+    }
+
+    public static T Reflect<T>(byte[] shaderBytecode) where T : ComObject
+    {
+        fixed (byte* shaderBytecodePtr = shaderBytecode)
+        {
+            Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            return MarshallingHelpers.FromPointer<T>(nativePtr);
+        }
+    }
+
+    public static Result Reflect<T>(byte[] shaderBytecode, out T? reflection) where T : ComObject
     {
         fixed (byte* shaderBytecodePtr = shaderBytecode)
         {

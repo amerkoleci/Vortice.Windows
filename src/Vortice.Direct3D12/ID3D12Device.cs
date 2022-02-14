@@ -699,7 +699,7 @@ public unsafe partial class ID3D12Device
         {
             if (errorBlob != null)
             {
-                throw new SharpGenException(result, errorBlob.ConvertToString());
+                throw new SharpGenException(result, errorBlob.AsString());
             }
 
             throw new SharpGenException(result);
