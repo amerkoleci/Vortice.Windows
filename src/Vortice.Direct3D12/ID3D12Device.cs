@@ -892,13 +892,13 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateCommandSignature
-    public T CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature rootSignature) where T : ID3D12CommandSignature
+    public T CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature) where T : ID3D12CommandSignature
     {
         CreateCommandSignature(description, rootSignature, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr);
     }
 
-    public Result CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature rootSignature, out T? commandSignature) where T : ID3D12CommandSignature
+    public Result CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature, out T? commandSignature) where T : ID3D12CommandSignature
     {
         Result result = CreateCommandSignature(description, rootSignature, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
