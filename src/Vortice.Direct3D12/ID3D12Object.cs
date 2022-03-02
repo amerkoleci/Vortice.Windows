@@ -11,22 +11,19 @@ public partial class ID3D12Object
     /// <remarks>
     /// This name is for use in debug diagnostics and tools.
     /// </remarks>
-    public string Name
+    public unsafe string? Name
     {
         get
         {
-            unsafe
+            byte* pname = stackalloc byte[1024];
+            int size = 1024 - 1;
+            if (GetPrivateData(CommonGuid.DebugObjectNameW, ref size, pname).Failure)
             {
-                byte* pname = stackalloc byte[1024];
-                int size = 1024 - 1;
-                if (GetPrivateData(CommonGuid.DebugObjectNameW, ref size, pname).Failure)
-                {
-                    return string.Empty;
-                }
-
-                pname[size] = 0;
-                return Marshal.PtrToStringUni(new IntPtr(pname));
+                return string.Empty;
             }
+
+            pname[size] = 0;
+            return Marshal.PtrToStringUni(new IntPtr(pname));
         }
         set
         {

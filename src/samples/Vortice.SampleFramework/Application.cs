@@ -1,73 +1,70 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
+namespace Vortice;
 
-namespace Vortice
+public abstract partial class Application : IDisposable
 {
-    public abstract partial class Application : IDisposable
+    private bool _paused;
+    private bool _exitRequested;
+
+    protected IGraphicsDevice? _graphicsDevice;
+
+
+    protected Application(bool headless = false)
     {
-        private bool _paused;
-        private bool _exitRequested;
+        Headless = headless;
+        Current = this;
 
-        protected IGraphicsDevice? _graphicsDevice;
+        PlatformConstruct();
+    }
 
+    public static Application? Current { get; private set; }
 
-        protected Application(bool headless = false)
+    public bool Headless { get; }
+
+    public Window? MainWindow { get; private set; }
+
+    public virtual void Dispose()
+    {
+        _graphicsDevice?.Dispose();
+    }
+
+    protected virtual void InitializeBeforeRun()
+    {
+    }
+
+    public void Tick()
+    {
+        if (_graphicsDevice != null)
         {
-            Headless = headless;
-            Current = this;
-
-            PlatformConstruct();
+            _graphicsDevice.DrawFrame(OnDraw);
         }
-
-        public static Application? Current { get; private set; }
-
-        public bool Headless { get; }
-
-        public Window? MainWindow { get; private set; }
-
-        public virtual void Dispose()
+        else
         {
-            _graphicsDevice?.Dispose();
+            OnDraw(MainWindow!.ClientSize.Width, MainWindow.ClientSize!.Height);
         }
+    }
 
-        protected virtual void InitializeBeforeRun()
-        {
-        }
+    public void Run()
+    {
+        PlatformRun();
+    }
 
-        public void Tick()
-        {
-            if (_graphicsDevice != null)
-            {
-                _graphicsDevice.DrawFrame(OnDraw);
-            }
-            else
-            {
-                OnDraw(MainWindow!.ClientSize.Width, MainWindow.ClientSize!.Height);
-            }
-        }
+    protected virtual void OnActivated()
+    {
+    }
 
-        public void Run()
-        {
-            PlatformRun();
-        }
+    protected virtual void OnDeactivated()
+    {
+    }
 
-        protected virtual void OnActivated()
-        {
-        }
+    protected virtual void OnDraw(int width, int height)
+    {
+    }
 
-        protected virtual void OnDeactivated()
-        {
-        }
+    protected virtual void OnKeyboardEvent(KeyboardKey key, bool pressed)
+    {
 
-        protected virtual void OnDraw(int width, int height)
-        {
-        }
-
-        protected virtual void OnKeyboardEvent(KeyboardKey key, bool pressed)
-        {
-
-        }
     }
 }

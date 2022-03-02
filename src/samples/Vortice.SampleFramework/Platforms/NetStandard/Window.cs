@@ -21,46 +21,39 @@ public sealed partial class Window
 
     private unsafe void PlatformConstruct()
     {
-        int x = 0;
-        int y = 0;
         WINDOW_STYLE style = 0;
-        WINDOW_EX_STYLE styleEx = 0;
         const bool resizable = true;
+        const bool fullscreen = false;
 
         // Setup the screen settings depending on whether it is running in full screen or in windowed mode.
-        //if (fullscreen)
-        //{
-        //style = User32.WindowStyles.WS_POPUP | User32.WindowStyles.WS_VISIBLE;
-        //styleEx = User32.WindowStyles.WS_EX_APPWINDOW;
-
-        //width = screenWidth;
-        //height = screenHeight;
-        //}
-        //else
+        if (fullscreen)
         {
-            if (ClientSize.Width > 0 && ClientSize.Height > 0)
-            {
-                int screenWidth = GetSystemMetrics(SM_CXSCREEN);
-                int screenHeight = GetSystemMetrics(SM_CYSCREEN);
-
-                // Place the window in the middle of the screen.WS_EX_APPWINDOW
-                x = (screenWidth - ClientSize.Width) / 2;
-                y = (screenHeight - ClientSize.Height) / 2;
-            }
+            style = WS_CLIPSIBLINGS | WS_GROUP | WS_TABSTOP;
+        }
+        else
+        {
+            style = WS_CAPTION |
+                WS_SYSMENU |
+                WS_MINIMIZEBOX |
+                WS_CLIPSIBLINGS |
+                WS_BORDER |
+                WS_DLGFRAME |
+                WS_THICKFRAME |
+                WS_GROUP |
+                WS_TABSTOP;
 
             if (resizable)
             {
-                style = WS_OVERLAPPEDWINDOW;
+                style |= WS_SIZEBOX;
             }
             else
             {
-                style = WS_POPUP | WS_BORDER | WS_CAPTION | WS_SYSMENU;
+                style |= WS_MAXIMIZEBOX;
             }
-
-            styleEx = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
         }
-        style |= WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
 
+        int x = 0;
+        int y = 0;
         int windowWidth;
         int windowHeight;
 
@@ -73,10 +66,17 @@ public sealed partial class Window
             };
 
             // Adjust according to window styles
-            AdjustWindowRectEx(&rect, style, default, styleEx);
+            AdjustWindowRectEx(&rect, style, false, WS_EX_APPWINDOW);
 
             windowWidth = rect.right - rect.left;
             windowHeight = rect.bottom - rect.top;
+
+            int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+            int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+            // Place the window in the middle of the screen.WS_EX_APPWINDOW
+            x = (screenWidth - windowWidth) / 2;
+            y = (screenHeight - windowHeight) / 2;
         }
         else
         {
@@ -84,7 +84,7 @@ public sealed partial class Window
         }
 
         hWnd = CreateWindowEx(
-            styleEx,
+            WS_EX_APPWINDOW,
             Application.WindowClassName,
             Title,
             style,
@@ -104,7 +104,9 @@ public sealed partial class Window
         }
 
         ShowWindow(hWnd, SW_NORMAL);
-        ClientSize = new(windowWidth, windowHeight);
+        RECT windowRect;
+        GetClientRect(hWnd, &windowRect);
+        ClientSize = new(windowRect.right - windowRect.left, windowRect.bottom - windowRect.top);
     }
 
     public void Destroy()

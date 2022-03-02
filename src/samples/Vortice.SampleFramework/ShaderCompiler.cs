@@ -1,138 +1,124 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
-namespace Vortice
+namespace Vortice;
+
+public enum ShaderStage
 {
-    public enum ShaderStage
-    {
-        Vertex,
-        Pixel,
-        Compute
-    }
-
-    public static class ShaderCompiler
-    {
-        public static byte[]? Compile(string source, ShaderStage stage, string entryPoint = "", string fileName = "")
-        {
-            if (string.IsNullOrEmpty(entryPoint))
-            {
-                entryPoint = GetDefaultEntryPoint(stage);
-            }
-
-            uint flags = 0;
-            string shaderProfile = $"{GetShaderProfile(stage)}_5_0";
-            Result hr = D3DCompiler.D3DCompiler.D3DCompile(
-                source,
-                source.Length,
-                fileName,
-                null,
-                0,
-                entryPoint,
-                shaderProfile,
-                flags,
-                0,
-                out D3DCompiler.IDxcBlob blob,
-                out D3DCompiler.IDxcBlob? errorMsgs);
-
-            if (hr.Failure)
-            {
-                if (errorMsgs != null)
-                {
-                    var errorText = GetStringFromBlob(errorMsgs);
-                }
-            }
-            else
-            {
-                return GetBytesFromBlob(blob);
-            }
-
-            return null;
-        }
-
-        private static string GetDefaultEntryPoint(ShaderStage stage)
-        {
-            switch (stage)
-            {
-                case ShaderStage.Vertex:
-                    return "VSMain";
-                //case ShaderStage.Hull:
-                //    return "HSMain";
-                //case ShaderStage.Domain:
-                //    return "DSMain";
-                //case ShaderStage.Geometry:
-                //    return "GSMain";
-                case ShaderStage.Pixel:
-                    return "PSMain";
-                case ShaderStage.Compute:
-                    return "CSMain";
-                default:
-                    return string.Empty;
-            }
-        }
-
-        private static string GetShaderProfile(ShaderStage stage)
-        {
-            switch (stage)
-            {
-                case ShaderStage.Vertex:
-                    return "vs";
-                //case ShaderStage.Hull:
-                //    return "hs";
-                //case ShaderStage.Domain:
-                //    return "ds";
-                //case ShaderStage.Geometry:
-                //    return "gs";
-                case ShaderStage.Pixel:
-                    return "ps";
-                case ShaderStage.Compute:
-                    return "cs";
-                default:
-                    return string.Empty;
-            }
-        }
-
-        public static unsafe string? GetStringFromBlob(D3DCompiler.IDxcBlob blob)
-        {
-            return Marshal.PtrToStringAnsi((IntPtr)blob.GetBufferPointer());
-        }
-
-        public static byte[] GetBytesFromBlob(D3DCompiler.IDxcBlob blob)
-        {
-            unsafe
-            {
-                byte* pMem = (byte*)blob.GetBufferPointer();
-                uint size = blob.GetBufferSize();
-                byte[] result = new byte[size];
-                fixed (byte* pTarget = result)
-                {
-                    for (uint i = 0; i < size; ++i)
-                    {
-                        pTarget[i] = pMem[i];
-                    }
-                }
-
-                return result;
-            }
-        }
-    }
+    Vertex,
+    Pixel,
+    Compute
 }
 
-// https://github.com/Microsoft/DirectXShaderCompiler/blob/master/tools/clang/tools/dotnetc/D3DCompiler.cs
-namespace D3DCompiler
+public static class ShaderCompiler
 {
+    public static byte[]? Compile(string source, ShaderStage stage, string entryPoint = "", string fileName = "")
+    {
+        if (string.IsNullOrEmpty(entryPoint))
+        {
+            entryPoint = GetDefaultEntryPoint(stage);
+        }
 
-    using System;
-    using System.Runtime.InteropServices;
-    using SharpGen.Runtime;
+        uint flags = 0;
+        string shaderProfile = $"{GetShaderProfile(stage)}_5_0";
+        Result hr = D3DCompiler.D3DCompile(
+            source,
+            source.Length,
+            fileName,
+            null,
+            0,
+            entryPoint,
+            shaderProfile,
+            flags,
+            0,
+            out IDxcBlob blob,
+            out IDxcBlob? errorMsgs);
+
+        if (hr.Failure)
+        {
+            if (errorMsgs != null)
+            {
+                var errorText = GetStringFromBlob(errorMsgs);
+            }
+        }
+        else
+        {
+            return GetBytesFromBlob(blob);
+        }
+
+        return null;
+    }
+
+    private static string GetDefaultEntryPoint(ShaderStage stage)
+    {
+        switch (stage)
+        {
+            case ShaderStage.Vertex:
+                return "VSMain";
+            //case ShaderStage.Hull:
+            //    return "HSMain";
+            //case ShaderStage.Domain:
+            //    return "DSMain";
+            //case ShaderStage.Geometry:
+            //    return "GSMain";
+            case ShaderStage.Pixel:
+                return "PSMain";
+            case ShaderStage.Compute:
+                return "CSMain";
+            default:
+                return string.Empty;
+        }
+    }
+
+    private static string GetShaderProfile(ShaderStage stage)
+    {
+        switch (stage)
+        {
+            case ShaderStage.Vertex:
+                return "vs";
+            //case ShaderStage.Hull:
+            //    return "hs";
+            //case ShaderStage.Domain:
+            //    return "ds";
+            //case ShaderStage.Geometry:
+            //    return "gs";
+            case ShaderStage.Pixel:
+                return "ps";
+            case ShaderStage.Compute:
+                return "cs";
+            default:
+                return string.Empty;
+        }
+    }
+
+    private static unsafe string? GetStringFromBlob(IDxcBlob blob)
+    {
+        return Marshal.PtrToStringAnsi((IntPtr)blob.GetBufferPointer());
+    }
+
+    private static unsafe byte[] GetBytesFromBlob(IDxcBlob blob)
+    {
+        byte* pMem = (byte*)blob.GetBufferPointer();
+        uint size = blob.GetBufferSize();
+        byte[] result = new byte[size];
+        fixed (byte* pTarget = result)
+        {
+            for (uint i = 0; i < size; ++i)
+            {
+                pTarget[i] = pMem[i];
+            }
+        }
+
+        return result;
+    }
 
     [ComImport]
     [Guid("8BA5FB08-5195-40e2-AC58-0D989C3A0102")]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IDxcBlob
+    private interface IDxcBlob
     {
         [PreserveSig]
         unsafe char* GetBufferPointer();
@@ -142,13 +128,13 @@ namespace D3DCompiler
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct D3D_SHADER_MACRO
+    private struct D3D_SHADER_MACRO
     {
         [MarshalAs(UnmanagedType.LPStr)] string Name;
         [MarshalAs(UnmanagedType.LPStr)] string Definition;
     }
 
-    internal static class D3DCompiler
+    private static class D3DCompiler
     {
         [DllImport("d3dcompiler_47.dll", CallingConvention = CallingConvention.Winapi, SetLastError = false, CharSet = CharSet.Ansi, ExactSpelling = true)]
         public extern static Result D3DCompile(
@@ -161,11 +147,5 @@ namespace D3DCompiler
             uint Flags1,
             uint Flags2,
             out IDxcBlob code, out IDxcBlob? errorMsgs);
-
-        [DllImport("d3dcompiler_47.dll", CallingConvention = CallingConvention.Winapi, SetLastError = false, CharSet = CharSet.Ansi, ExactSpelling = true)]
-        public extern static Result D3DDisassemble(
-            IntPtr ptr, uint ptrSize, uint flags,
-            [MarshalAs(UnmanagedType.LPStr)] string szComments,
-            out IDxcBlob disassembly);
     }
 }

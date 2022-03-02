@@ -79,6 +79,11 @@ public unsafe partial class IWICBitmapFrameEncode
             return WritePixels(lineCount, stride, totalSizeInBytes, sourcePointer);
         }
     }
+
+    public Result WritePixels(int lineCount, int stride, int bufferSize, IntPtr pixels)
+    {
+        return WritePixels(lineCount, stride, bufferSize, pixels);
+    }
     #endregion WritePixels
 
     /// <summary>

@@ -3,31 +3,34 @@
 
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static Vortice.Win32.User32;
-using static Windows.Win32.PInvoke;
-using Windows.Win32.Foundation;
 using win32 = global::Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.Input.KeyboardAndMouse;
+using static Windows.Win32.PInvoke;
 using static Windows.Win32.UI.WindowsAndMessaging.PEEK_MESSAGE_REMOVE_TYPE;
 using static Windows.Win32.UI.WindowsAndMessaging.WNDCLASS_STYLES;
+using static Windows.Win32.UI.Input.KeyboardAndMouse.VIRTUAL_KEY;
 
 namespace Vortice;
 
 public abstract partial class Application : IDisposable
 {
     public const string WindowClassName = "VorticeWindow";
-    internal readonly Windows.Win32.FreeLibrarySafeHandle HInstance = GetModuleHandle((string)null);
+    internal readonly win32.FreeLibrarySafeHandle HInstance = GetModuleHandle((string)null);
 
     private unsafe void PlatformConstruct()
     {
         fixed (char* lpszClassName = WindowClassName)
         {
+            PCWSTR szCursorName = new((char*)IDC_ARROW);
+
             var wndClassEx = new win32.UI.WindowsAndMessaging.WNDCLASSEXW
             {
                 cbSize = (uint)Unsafe.SizeOf<win32.UI.WindowsAndMessaging.WNDCLASSEXW>(),
                 style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
                 lpfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)(delegate*<HWND, uint, WPARAM, LPARAM, LRESULT>)&ProcessWindowMessage,
                 hInstance = (HINSTANCE)HInstance.DangerousGetHandle(),
-                hCursor = LoadCursor(default, new PCWSTR(IDC_ARROW)),
+                hCursor = LoadCursor(default, szCursorName),
                 hbrBackground = default,
                 hIcon = default,
                 lpszClassName = lpszClassName
@@ -106,11 +109,11 @@ public abstract partial class Application : IDisposable
         {
             if (wParam != 0)
             {
-                Application.Current?.OnActivated();
+                Current?.OnActivated();
             }
             else
             {
-                Application.Current?.OnDeactivated();
+                Current?.OnDeactivated();
             }
 
             return DefWindowProc(hWnd, message, wParam, lParam);
@@ -143,7 +146,8 @@ public abstract partial class Application : IDisposable
 
     private static KeyboardKey ConvertKeyCode(nint lParam, nuint wParam)
     {
-        switch (wParam)
+        uint uWParam = (uint)wParam;
+        switch ((VIRTUAL_KEY)uWParam)
         {
             // virtual key codes
             case VK_CLEAR: return KeyboardKey.Clear;
@@ -231,8 +235,8 @@ public abstract partial class Application : IDisposable
                             case 0x17: return KeyboardKey.i;
                             case 0x18: return KeyboardKey.O;
                             case 0x19: return KeyboardKey.P;
-                            case 0x1A: return KeyboardKey.leftBracket;
-                            case 0x1B: return KeyboardKey.rightBracket;
+                            case 0x1A: return KeyboardKey.LeftBracket;
+                            case 0x1B: return KeyboardKey.RightBracket;
                             case 0x1C: return isExtended ? KeyboardKey.NumPadEnter : KeyboardKey.Enter;
                             case 0x1D: return isExtended ? KeyboardKey.rightControl : KeyboardKey.leftControl;
                             case 0x1E: return KeyboardKey.a;
@@ -245,10 +249,10 @@ public abstract partial class Application : IDisposable
                             case 0x25: return KeyboardKey.k;
                             case 0x26: return KeyboardKey.l;
                             case 0x27: return KeyboardKey.semicolon;
-                            case 0x28: return KeyboardKey.quote;
+                            case 0x28: return KeyboardKey.Quote;
                             case 0x29: return KeyboardKey.grave;
                             case 0x2A: return KeyboardKey.leftShift;
-                            case 0x2B: return KeyboardKey.backslash;
+                            case 0x2B: return KeyboardKey.Backslash;
                             case 0x2C: return KeyboardKey.Z;
                             case 0x2D: return KeyboardKey.X;
                             case 0x2E: return KeyboardKey.c;

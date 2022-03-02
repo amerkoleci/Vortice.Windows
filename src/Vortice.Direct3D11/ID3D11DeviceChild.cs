@@ -8,7 +8,7 @@ public unsafe partial class ID3D11DeviceChild
     /// <summary>
     /// Gets or sets the debug-name for this object.
     /// </summary>
-    public string DebugName
+    public string? DebugName
     {
         get
         {
@@ -31,7 +31,7 @@ public unsafe partial class ID3D11DeviceChild
             else
             {
                 IntPtr namePtr = Marshal.StringToHGlobalAnsi(value);
-                SetPrivateData(CommonGuid.DebugObjectName, value.Length, namePtr.ToPointer());
+                SetPrivateData(CommonGuid.DebugObjectName, value!.Length, namePtr.ToPointer());
                 Marshal.FreeHGlobal(namePtr);
             }
         }

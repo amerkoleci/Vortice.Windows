@@ -94,7 +94,7 @@ public unsafe partial class IWICImagingFactory
 
     public IWICBitmapEncoder CreateEncoder(Guid guidContainerFormat, IStream stream, BitmapEncoderCacheOption cacheOption = BitmapEncoderCacheOption.NoCache)
     {
-        var encoder = CreateEncoder_(guidContainerFormat, null);
+        IWICBitmapEncoder encoder = CreateEncoder_(guidContainerFormat, null);
         encoder._factory = this;
         encoder.Initialize(stream, cacheOption);
         return encoder;
@@ -102,7 +102,7 @@ public unsafe partial class IWICImagingFactory
 
     public IWICBitmapEncoder CreateEncoder(ContainerFormat format, IStream stream, BitmapEncoderCacheOption cacheOption = BitmapEncoderCacheOption.NoCache)
     {
-        var encoder = CreateEncoder(format, null);
+        IWICBitmapEncoder encoder = CreateEncoder(format, null);
         encoder.Initialize(stream, cacheOption);
         return encoder;
     }
@@ -195,7 +195,7 @@ public unsafe partial class IWICImagingFactory
     {
         if (stride == 0)
         {
-            stride = width * sizeof(T);
+            stride = PixelFormat.GetStride(pixelFormat, width);
         }
 
         int sizeInBytes = height * stride;
@@ -203,5 +203,25 @@ public unsafe partial class IWICImagingFactory
         {
             return CreateBitmapFromMemory(width, height, pixelFormat, stride, sizeInBytes, sourcePointer);
         }
+    }
+
+    public IWICBitmap CreateBitmapFromMemory(int width, int height, Guid pixelFormat, IntPtr buffer, int stride = 0, int bufferSize = 0)
+    {
+        if (stride == 0)
+        {
+            stride = PixelFormat.GetStride(pixelFormat, width);
+        }
+
+        if (bufferSize == 0)
+        {
+            bufferSize = height * stride;
+        }
+
+        return CreateBitmapFromMemory(width, height, pixelFormat, stride, bufferSize, buffer.ToPointer());
+    }
+
+    public IWICBitmap CreateBitmapFromMemory(int width, int height, Guid pixelFormat, int stride, int bufferSize, IntPtr buffer)
+    {
+        return CreateBitmapFromMemory(width, height, pixelFormat, stride, bufferSize, buffer.ToPointer());
     }
 }

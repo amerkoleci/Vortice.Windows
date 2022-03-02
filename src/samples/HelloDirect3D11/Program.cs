@@ -5,6 +5,7 @@ using SharpGen.Runtime;
 using SharpGen.Runtime.Diagnostics;
 using Vortice;
 using Vortice.Direct3D11;
+using Vortice.DXGI;
 using Vortice.Mathematics;
 using Vortice.WIC;
 using WICPixelFormat = Vortice.WIC.PixelFormat;
@@ -72,61 +73,98 @@ public static class Program
                 bool sRGB = false;
                 switch (textureDesc.Format)
                 {
-                    case Vortice.DXGI.Format.R32G32B32A32_Float:
+                    case Format.R32G32B32A32_Float:
                         pfGuid = WICPixelFormat.Format128bppRGBAFloat;
                         break;
 
-                    //case DXGI_FORMAT_R16G16B16A16_FLOAT: pfGuid = GUID_WICPixelFormat64bppRGBAHalf; break;
-                    //case DXGI_FORMAT_R16G16B16A16_UNORM: pfGuid = GUID_WICPixelFormat64bppRGBA; break;
-                    //case DXGI_FORMAT_R10G10B10_XR_BIAS_A2_UNORM: pfGuid = GUID_WICPixelFormat32bppRGBA1010102XR; break; // DXGI 1.1
-                    //case DXGI_FORMAT_R10G10B10A2_UNORM: pfGuid = GUID_WICPixelFormat32bppRGBA1010102; break;
-                    //case DXGI_FORMAT_B5G5R5A1_UNORM: pfGuid = GUID_WICPixelFormat16bppBGRA5551; break;
-                    //case DXGI_FORMAT_B5G6R5_UNORM: pfGuid = GUID_WICPixelFormat16bppBGR565; break;
-                    //case DXGI_FORMAT_R32_FLOAT: pfGuid = GUID_WICPixelFormat32bppGrayFloat; break;
-                    //case DXGI_FORMAT_R16_FLOAT: pfGuid = GUID_WICPixelFormat16bppGrayHalf; break;
-                    //case DXGI_FORMAT_R16_UNORM: pfGuid = GUID_WICPixelFormat16bppGray; break;
-                    //case DXGI_FORMAT_R8_UNORM: pfGuid = GUID_WICPixelFormat8bppGray; break;
-                    //case DXGI_FORMAT_A8_UNORM: pfGuid = GUID_WICPixelFormat8bppAlpha; break;
+                    case Format.R16G16B16A16_Float:
+                        pfGuid = WICPixelFormat.Format64bppRGBAHalf;
+                        break;
+                    case Format.R16G16B16A16_UNorm:
+                        pfGuid = WICPixelFormat.Format64bppRGBA;
+                        break;
 
-                    case Vortice.DXGI.Format.R8G8B8A8_UNorm:
+                    // DXGI 1.1
+                    case Format.R10G10B10_Xr_Bias_A2_UNorm:
+                        pfGuid = WICPixelFormat.Format32bppRGBA1010102XR;
+                        break;
+                    case Format.R10G10B10A2_UNorm:
+                        pfGuid = WICPixelFormat.Format32bppRGBA1010102;
+                        break;
+                    case Format.B5G5R5A1_UNorm:
+                        pfGuid = WICPixelFormat.Format16bppBGRA5551;
+                        break;
+                    case Format.B5G6R5_UNorm:
+                        pfGuid = WICPixelFormat.Format16bppBGR565;
+                        break;
+                    case Format.R32_Float:
+                        pfGuid = WICPixelFormat.Format32bppGrayFloat;
+                        break;
+                    case Format.R16_Float:
+                        pfGuid = WICPixelFormat.Format16bppGrayHalf;
+                        break;
+                    case Format.R16_UNorm:
+                        pfGuid = WICPixelFormat.Format16bppGray;
+                        break;
+                    case Format.R8_UNorm:
+                        pfGuid = WICPixelFormat.Format8bppGray;
+                        break;
+                    case Format.A8_UNorm:
+                        pfGuid = WICPixelFormat.Format8bppAlpha;
+                        break;
+
+                    case Format.R8G8B8A8_UNorm:
                         pfGuid = WICPixelFormat.Format32bppRGBA;
                         break;
 
-                    case Vortice.DXGI.Format.R8G8B8A8_UNorm_SRgb:
+                    case Format.R8G8B8A8_UNorm_SRgb:
                         pfGuid = WICPixelFormat.Format32bppRGBA;
                         sRGB = true;
                         break;
 
-                    case Vortice.DXGI.Format.B8G8R8A8_UNorm: // DXGI 1.1
+                    case Format.B8G8R8A8_UNorm: // DXGI 1.1
                         pfGuid = WICPixelFormat.Format32bppBGRA;
                         break;
 
-                    case Vortice.DXGI.Format.B8G8R8A8_UNorm_SRgb: // DXGI 1.1
+                    case Format.B8G8R8A8_UNorm_SRgb: // DXGI 1.1
                         pfGuid = WICPixelFormat.Format32bppBGRA;
                         sRGB = true;
                         break;
 
-                    case Vortice.DXGI.Format.B8G8R8X8_UNorm: // DXGI 1.1
+                    case Format.B8G8R8X8_UNorm: // DXGI 1.1
                         pfGuid = WICPixelFormat.Format32bppBGR;
                         break;
 
-                    case Vortice.DXGI.Format.B8G8R8X8_UNorm_SRgb: // DXGI 1.1
+                    case Format.B8G8R8X8_UNorm_SRgb: // DXGI 1.1
                         pfGuid = WICPixelFormat.Format32bppBGR;
                         sRGB = true;
                         break;
 
                     default:
-                        //Console.WriteLine("ERROR: ScreenGrab does not support all DXGI formats (%u). Consider using DirectXTex.\n", static_cast<uint32_t>(desc.Format));
+                        Console.WriteLine($"ERROR: ScreenGrab does not support all DXGI formats ({textureDesc.Format})");
                         return;
                 }
 
+                using var wicFactory = new IWICImagingFactory2();
+                //using IWICBitmapDecoder decoder = wicFactory.CreateDecoderFromFileName(path);
+
+                //using Stream stream = File.OpenWrite(path);
+                //using IWICStream wicStream = wicFactory.CreateStream(stream);
+                using IWICStream wicStream = wicFactory.CreateStream(path, FileAccess.Write);
+                using IWICBitmapEncoder encoder = wicFactory.CreateEncoder(format, wicStream);
+                // Create a Frame encoder
+                using IWICBitmapFrameEncode frame = encoder.CreateNewFrame(out SharpGen.Runtime.Win32.IPropertyBag2? props);
+                frame.Initialize(props);
+                frame.SetSize(textureDesc.Width, textureDesc.Height);
+                frame.SetResolution(72, 72);
+
                 // Screenshots don't typically include the alpha channel of the render target
-                Guid targetGuid = default;
+                Guid targetGuid;
                 switch (textureDesc.Format)
                 {
-                    case Vortice.DXGI.Format.R32G32B32A32_Float:
-                    case Vortice.DXGI.Format.R16G16B16A16_Float:
-                        //if (_IsWIC2())
+                    case Format.R32G32B32A32_Float:
+                    case Format.R16G16B16A16_Float:
+                        //if (IsWIC2())
                         {
                             targetGuid = WICPixelFormat.Format96bppRGBFloat;
                         }
@@ -136,23 +174,21 @@ public static class Program
                         //}
                         break;
 
-                    case Vortice.DXGI.Format.R16G16B16A16_UNorm:
+                    case Format.R16G16B16A16_UNorm:
                         targetGuid = WICPixelFormat.Format48bppBGR;
                         break;
-
-                    case Vortice.DXGI.Format.B5G5R5A1_UNorm:
+                    case Format.B5G5R5A1_UNorm:
                         targetGuid = WICPixelFormat.Format16bppBGR555;
                         break;
-
-                    case Vortice.DXGI.Format.B5G6R5_UNorm:
+                    case Format.B5G6R5_UNorm:
                         targetGuid = WICPixelFormat.Format16bppBGR565;
                         break;
 
-                    case Vortice.DXGI.Format.R32_Float:
-                    case Vortice.DXGI.Format.R16_Float:
-                    case Vortice.DXGI.Format.R16_UNorm:
-                    case Vortice.DXGI.Format.R8_UNorm:
-                    case Vortice.DXGI.Format.A8_UNorm:
+                    case Format.R32_Float:
+                    case Format.R16_Float:
+                    case Format.R16_UNorm:
+                    case Format.R8_UNorm:
+                    case Format.A8_UNorm:
                         targetGuid = WICPixelFormat.Format8bppGray;
                         break;
 
@@ -160,55 +196,78 @@ public static class Program
                         targetGuid = WICPixelFormat.Format24bppBGR;
                         break;
                 }
-
-                using var wicFactory = new IWICImagingFactory();
-                //using IWICBitmapDecoder decoder = wicFactory.CreateDecoderFromFileName(path);
-
-                using Stream stream = File.OpenWrite(path);
-                using IWICStream wicStream = wicFactory.CreateStream(stream);
-                using IWICBitmapEncoder encoder = wicFactory.CreateEncoder(format, wicStream);
-                // Create a Frame encoder
-                using IWICBitmapFrameEncode frame = encoder.CreateNewFrame(out var props);
-                frame.Initialize(props);
-                frame.SetSize(textureDesc.Width, textureDesc.Height);
-                frame.SetResolution(72, 72);
                 frame.SetPixelFormat(targetGuid);
 
-                var context = d3d11GraphicsDevice!.DeviceContext;
-                //var mapped = context.Map(staging, 0, MapMode.Read, MapFlags.None);
-                ReadOnlySpan<Color> colors = context.MapReadOnly<Color>(staging);
+                ID3D11DeviceContext1 context = d3d11GraphicsDevice!.DeviceContext;
 
-                // Check conversion
-                int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
-
-                if (targetGuid != pfGuid)
+                const bool native = false;
+                if (native)
                 {
-                    // Conversion required to write
-                    using (IWICBitmap bitmapSource = wicFactory.CreateBitmapFromMemory(
-                        textureDesc.Width,
-                        textureDesc.Height,
-                        pfGuid,
-                        colors,
-                        stride))
+                    MappedSubresource mappedSubresource = context.Map(staging, 0, MapMode.Read);
+                    int imageSize = mappedSubresource.RowPitch * textureDesc.Height;
+                    if (targetGuid != pfGuid)
                     {
-                        using (IWICFormatConverter formatConverter = wicFactory.CreateFormatConverter())
+                        // Conversion required to write
+                        using (IWICBitmap bitmapSource = wicFactory.CreateBitmapFromMemory(
+                            textureDesc.Width,
+                            textureDesc.Height,
+                            pfGuid,
+                            mappedSubresource.RowPitch,
+                            imageSize,
+                            mappedSubresource.DataPointer))
                         {
-                            if (!formatConverter.CanConvert(pfGuid, targetGuid))
+                            using (IWICFormatConverter formatConverter = wicFactory.CreateFormatConverter())
                             {
-                                context.Unmap(staging, 0);
-                                return;
-                            }
+                                if (!formatConverter.CanConvert(pfGuid, targetGuid))
+                                {
+                                    context.Unmap(staging, 0);
+                                    return;
+                                }
 
-                            formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                            frame.WriteSource(formatConverter, new RectI(textureDesc.Width, textureDesc.Height));
+                                formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
+                                frame.WriteSource(formatConverter, new RectI(textureDesc.Width, textureDesc.Height));
+                            }
                         }
+                    }
+                    else
+                    {
+                        // No conversion required
+                        frame.WritePixels(textureDesc.Height, mappedSubresource.RowPitch, imageSize, mappedSubresource.DataPointer);
                     }
                 }
                 else
                 {
-                    // No conversion required
-                    //int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
-                    //frame.WritePixels(textureDesc.Height, stride, colors);
+                    int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
+                    ReadOnlySpan<Color> colors = context.MapReadOnly<Color>(staging);
+
+                    if (targetGuid != pfGuid)
+                    {
+                        // Conversion required to write
+                        using (IWICBitmap bitmapSource = wicFactory.CreateBitmapFromMemory(
+                            textureDesc.Width,
+                            textureDesc.Height,
+                            pfGuid,
+                            colors,
+                            stride))
+                        {
+                            using (IWICFormatConverter formatConverter = wicFactory.CreateFormatConverter())
+                            {
+                                if (!formatConverter.CanConvert(pfGuid, targetGuid))
+                                {
+                                    context.Unmap(staging, 0);
+                                    return;
+                                }
+
+                                formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
+                                frame.WriteSource(formatConverter, new RectI(textureDesc.Width, textureDesc.Height));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // No conversion required
+                        frame.WritePixels(textureDesc.Height, stride, colors);
+                    }
                 }
 
                 context.Unmap(staging, 0);

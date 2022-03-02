@@ -280,9 +280,9 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         return true;
     }
 
-    public ID3D11Texture2D? CaptureTexture(ID3D11Texture2D source)
+    public ID3D11Texture2D CaptureTexture(ID3D11Texture2D source)
     {
-        ID3D11Texture2D? stagingTexture;
+        ID3D11Texture2D stagingTexture;
         Texture2DDescription desc = source.Description;
 
         if (desc.ArraySize > 1 || desc.MipLevels > 1)
@@ -304,7 +304,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
 
             if ((formatSupport & FormatSupport.MultisampleResolve) == FormatSupport.None)
             {
-                return null;
+                throw new NotSupportedException($"Format {format} doesn't support multisample resolve");
             }
 
             for (int item = 0; item < desc.ArraySize; ++item)
