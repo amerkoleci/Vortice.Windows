@@ -1,9 +1,9 @@
 # Changelog
 
-Current Stable Release:    2.1.0 (December 2021)
+Current Stable Release:    2.1.2 (March 2022)
 
 -----------------------------------------------
-Release:     2.1.1 (February 2022)
+Release:     2.1.2 (March 2022)
 -----------------------------------------------
 - [BREAKING CHANGE] Direct3D11: Remove VertexBufferView structure.
 - [BREAKING CHANGE] Switch to use Point, PointI, Size, SizeI, Rect and RectI from Vortice.Mathematics

@@ -10,7 +10,7 @@ public interface IPipelineStateStreamSubObject
     PipelineStateSubObjectType Type { get; }
 }
 
-internal struct AlignedSubobjectType<T> where T : unmanaged
+internal struct AlignedSubObjectType<T> where T : unmanaged
 {
     internal PipelineStateSubObjectType _type;
     internal T _inner;
@@ -40,7 +40,7 @@ public readonly struct PipelineStateSubObjectTypeRootSignature : IPipelineStateS
 public readonly struct PipelineStateSubObjectTypeVertexShader : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<ShaderBytecode.__Native> _type;
+    internal readonly AlignedSubObjectType<ShaderBytecode.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -65,7 +65,7 @@ public readonly struct PipelineStateSubObjectTypeVertexShader : IPipelineStateSt
 public readonly struct PipelineStateSubObjectTypePixelShader : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<ShaderBytecode.__Native> _type;
+    internal readonly AlignedSubObjectType<ShaderBytecode.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -90,7 +90,7 @@ public readonly struct PipelineStateSubObjectTypePixelShader : IPipelineStateStr
 public readonly struct PipelineStateSubObjectTypeGeometryShader : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<ShaderBytecode.__Native> _type;
+    internal readonly AlignedSubObjectType<ShaderBytecode.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -115,7 +115,7 @@ public readonly struct PipelineStateSubObjectTypeGeometryShader : IPipelineState
 public readonly struct PipelineStateSubObjectTypeStreamOutput : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<StreamOutputDescription.__Native> _type;
+    internal readonly AlignedSubObjectType<StreamOutputDescription.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -140,7 +140,7 @@ public readonly struct PipelineStateSubObjectTypeStreamOutput : IPipelineStateSt
 public readonly struct PipelineStateSubObjectTypeHullShader : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<ShaderBytecode.__Native> _type;
+    internal readonly AlignedSubObjectType<ShaderBytecode.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -165,7 +165,7 @@ public readonly struct PipelineStateSubObjectTypeHullShader : IPipelineStateStre
 public readonly struct PipelineStateSubObjectTypeDomainShader : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<ShaderBytecode.__Native> _type;
+    internal readonly AlignedSubObjectType<ShaderBytecode.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -190,7 +190,7 @@ public readonly struct PipelineStateSubObjectTypeDomainShader : IPipelineStateSt
 public readonly struct PipelineStateSubObjectTypeAmplificationShader : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<ShaderBytecode.__Native> _type;
+    internal readonly AlignedSubObjectType<ShaderBytecode.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -215,7 +215,7 @@ public readonly struct PipelineStateSubObjectTypeAmplificationShader : IPipeline
 public readonly struct PipelineStateSubObjectTypeMeshShader : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<ShaderBytecode.__Native> _type;
+    internal readonly AlignedSubObjectType<ShaderBytecode.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -240,7 +240,7 @@ public readonly struct PipelineStateSubObjectTypeMeshShader : IPipelineStateStre
 public readonly struct PipelineStateSubObjectTypeComputeShader : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<ShaderBytecode.__Native> _type;
+    internal readonly AlignedSubObjectType<ShaderBytecode.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -265,7 +265,7 @@ public readonly struct PipelineStateSubObjectTypeComputeShader : IPipelineStateS
 public readonly struct PipelineStateSubObjectTypeIndexBufferStripCutValue : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<IndexBufferStripCutValue> _type;
+    internal readonly AlignedSubObjectType<IndexBufferStripCutValue> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -289,7 +289,7 @@ public readonly struct PipelineStateSubObjectTypeIndexBufferStripCutValue : IPip
 public readonly struct PipelineStateSubObjectTypePrimitiveTopology : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<PrimitiveTopologyType> _type;
+    internal readonly AlignedSubObjectType<PrimitiveTopologyType> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -312,7 +312,7 @@ public readonly struct PipelineStateSubObjectTypePrimitiveTopology : IPipelineSt
 public readonly struct PipelineStateSubObjectTypeInputLayout : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<InputLayoutDescription.__Native> _type;
+    internal readonly AlignedSubObjectType<InputLayoutDescription.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -337,7 +337,7 @@ public readonly struct PipelineStateSubObjectTypeInputLayout : IPipelineStateStr
 public readonly struct PipelineStateSubObjectTypeBlend : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<BlendDescription.__Native> _type;
+    internal readonly AlignedSubObjectType<BlendDescription.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -362,7 +362,7 @@ public readonly struct PipelineStateSubObjectTypeBlend : IPipelineStateStreamSub
 public readonly struct PipelineStateSubObjectTypeDepthStencil : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<DepthStencilDescription> _type;
+    internal readonly AlignedSubObjectType<DepthStencilDescription> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -386,7 +386,7 @@ public readonly struct PipelineStateSubObjectTypeDepthStencil : IPipelineStateSt
 public readonly struct PipelineStateSubObjectTypeDepthStencil1 : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<DepthStencilDescription1> _type;
+    internal readonly AlignedSubObjectType<DepthStencilDescription1> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -410,7 +410,7 @@ public readonly struct PipelineStateSubObjectTypeDepthStencil1 : IPipelineStateS
 public readonly struct PipelineStateSubObjectTypeDepthStencilFormat : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<Format> _type;
+    internal readonly AlignedSubObjectType<Format> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -434,7 +434,7 @@ public readonly struct PipelineStateSubObjectTypeDepthStencilFormat : IPipelineS
 public readonly struct PipelineStateSubObjectTypeRasterizer : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<RasterizerDescription> _type;
+    internal readonly AlignedSubObjectType<RasterizerDescription> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -458,7 +458,7 @@ public readonly struct PipelineStateSubObjectTypeRasterizer : IPipelineStateStre
 public readonly struct PipelineStateSubObjectTypeRenderTargetFormats : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<RtFormatArray.__Native> _type;
+    internal readonly AlignedSubObjectType<RtFormatArray.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -485,7 +485,7 @@ public readonly struct PipelineStateSubObjectTypeRenderTargetFormats : IPipeline
 public readonly struct PipelineStateSubObjectTypeSampleDescription : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<SampleDescription> _type;
+    internal readonly AlignedSubObjectType<SampleDescription> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -509,7 +509,7 @@ public readonly struct PipelineStateSubObjectTypeSampleDescription : IPipelineSt
 public readonly struct PipelineStateSubObjectTypeSampleMask : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<uint> _type;
+    internal readonly AlignedSubObjectType<uint> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -533,7 +533,7 @@ public readonly struct PipelineStateSubObjectTypeSampleMask : IPipelineStateStre
 public readonly struct PipelineStateSubObjectTypeNodeMask : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<uint> _type;
+    internal readonly AlignedSubObjectType<uint> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -558,7 +558,7 @@ public readonly struct PipelineStateSubObjectTypeNodeMask : IPipelineStateStream
 public struct PipelineStateStreamFlags : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<PipelineStateFlags> _type;
+    internal readonly AlignedSubObjectType<PipelineStateFlags> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -577,7 +577,7 @@ public struct PipelineStateStreamFlags : IPipelineStateStreamSubObject
 public readonly struct PipelineStateSubObjectTypeCachedPipelineState : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<CachedPipelineState.__Native> _type;
+    internal readonly AlignedSubObjectType<CachedPipelineState.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -602,7 +602,7 @@ public readonly struct PipelineStateSubObjectTypeCachedPipelineState : IPipeline
 public readonly struct PipelineStateSubObjectTypeViewInstancing : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubobjectType<ViewInstancingDescription.__Native> _type;
+    internal readonly AlignedSubObjectType<ViewInstancingDescription.__Native> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;

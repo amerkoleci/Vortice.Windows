@@ -174,17 +174,22 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             _commandAllocators[i] = _d3d12Device.CreateCommandAllocator(CommandListType.Direct);
         }
 
-        RootSignatureDescription1 rootSignatureDesc = new(RootSignatureFlags.AllowInputAssemblerInputLayout);
+        RootSignatureFlags rootSignatureFlags = RootSignatureFlags.AllowInputAssemblerInputLayout;
+        rootSignatureFlags |= RootSignatureFlags.DenyHullShaderRootAccess;
+        rootSignatureFlags |= RootSignatureFlags.DenyDomainShaderRootAccess;
+        rootSignatureFlags |= RootSignatureFlags.DenyGeometryShaderRootAccess;
+        rootSignatureFlags |= RootSignatureFlags.DenyAmplificationShaderRootAccess;
+        rootSignatureFlags |= RootSignatureFlags.DenyMeshShaderRootAccess;
+        RootSignatureDescription1 rootSignatureDesc = new(rootSignatureFlags);
 
         _rootSignature = _d3d12Device.CreateRootSignature(rootSignatureDesc);
         InputElementDescription[] inputElementDescs = new[]
         {
-                new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
-                new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
-            };
+            new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
+            new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
+        };
 
         byte[] vertexShaderByteCode = CompileBytecode(DxcShaderStage.Vertex, "Triangle.hlsl", "VSMain");
-
         byte[] pixelShaderByteCode = CompileBytecode(DxcShaderStage.Pixel, "Triangle.hlsl", "PSMain");
 
         PipelineStateStream pipelineStateStream = new()
@@ -200,7 +205,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             DepthStencilState = DepthStencilDescription.Default,
             RenderTargetFormats = new[] { Format.R8G8B8A8_UNorm },
             DepthStencilFormat = _depthStencilFormat,
-            SampleDescription = new SampleDescription(1, 0)
+            SampleDescription = SampleDescription.Default
         };
 
         _pipelineState = _d3d12Device.CreatePipelineState(pipelineStateStream);
@@ -209,7 +214,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
 
         int vertexBufferSize = 3 * Unsafe.SizeOf<VertexPositionColor>();
 
-        _vertexBuffer = _d3d12Device.CreateCommittedResource<ID3D12Resource>(
+        _vertexBuffer = _d3d12Device.CreateCommittedResource(
             new HeapProperties(HeapType.Upload),
             HeapFlags.None,
             ResourceDescription.Buffer((ulong)vertexBufferSize),
@@ -222,13 +227,17 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
         };
 
-        unsafe
-        {
-            Span<VertexPositionColor> bufferData = _vertexBuffer.Map<VertexPositionColor>(0, 3);
-            ReadOnlySpan<VertexPositionColor> src = new(triangleVertices);
-            src.CopyTo(bufferData);
-            _vertexBuffer.Unmap(0);
-        }
+        _vertexBuffer.SetData(triangleVertices);
+        VertexPositionColor[] data = new VertexPositionColor[3];
+        _vertexBuffer.GetData(data.AsSpan());
+
+        //unsafe
+        //{
+        //    Span<VertexPositionColor> bufferData = _vertexBuffer.Map<VertexPositionColor>(0, 3);
+        //    ReadOnlySpan<VertexPositionColor> src = new(triangleVertices);
+        //    src.CopyTo(bufferData);
+        //    _vertexBuffer.Unmap(0);
+        //}
 
         // Create synchronization objects.
         _frameFence = _d3d12Device.CreateFence(0);

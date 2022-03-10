@@ -1,11 +1,12 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12;
 
-public partial class ID3D12Resource
+public unsafe partial class ID3D12Resource
 {
     public HeapProperties HeapProperties
     {
@@ -25,20 +26,73 @@ public partial class ID3D12Resource
         }
     }
 
-    public unsafe Result Map(int subresource, void* data) => Map(subresource, null, data);
+    public Result Map(int subresource, void* data) => Map(subresource, default, data);
 
-    public unsafe Span<T> Map<T>(int subresource, int length) where T : unmanaged
+    public Span<T> Map<T>(int subresource, int length) where T : unmanaged
     {
         void* data;
         Map(subresource, null, &data).CheckError();
         return new Span<T>(data, length);
     }
 
-    public unsafe T* Map<T>(int subresource) where T : unmanaged
+    public T* Map<T>(int subresource) where T : unmanaged
     {
         T* data;
         Map(subresource, null, &data).CheckError();
         return data;
+    }
+
+    public void SetData<T>(T[] source, int offsetInBytes = 0) where T : unmanaged
+    {
+        ReadOnlySpan<T> span = source.AsSpan();
+        SetData(span, offsetInBytes);
+    }
+
+    public void SetData<T>(ReadOnlySpan<T> source, int offsetInBytes = 0) where T : unmanaged
+    {
+        SetData(ref MemoryMarshal.GetReference(source), (uint)(source.Length * sizeof(T)), offsetInBytes);
+    }
+
+    public void SetData<T>(ref T source, uint sizeInBytes, int offsetInBytes = 0) where T : unmanaged
+    {
+        void* pMappedData;
+        Map(0, default, &pMappedData).CheckError();
+        fixed (void* sourcePointer = &source)
+        {
+            Unsafe.CopyBlockUnaligned((byte*)pMappedData + offsetInBytes, sourcePointer, sizeInBytes);
+        }
+        Unmap(0);
+    }
+
+    public T GetData<T>(int offsetInBytes = 0) where T : unmanaged
+    {
+        T data = new();
+        GetData(ref data, (uint)sizeof(T), offsetInBytes);
+        return data;
+    }
+
+    public void GetData<T>(Span<T> destination, int offsetInBytes = 0) where T : unmanaged
+    {
+        GetData(ref MemoryMarshal.GetReference(destination), (uint)(destination.Length * sizeof(T)), offsetInBytes);
+    }
+
+    //public T[] GetArray<T>(int offsetInBytes = 0) where T : unmanaged
+    //{
+    //    T[] data = new T[(SizeInBytes / Unsafe.SizeOf<T>()) - offsetInBytes];
+    //    GetData(data.AsSpan(), offsetInBytes);
+    //
+    //    return data;
+    //}
+
+    public void GetData<T>(ref T destination, uint sizeInBytes, int offsetInBytes = 0) where T : unmanaged
+    {
+        void* pMappedData;
+        Map(0, default, &pMappedData).CheckError();
+        fixed (T* destinationPointer = &destination)
+        {
+            Unsafe.CopyBlockUnaligned(destinationPointer, (byte*)pMappedData + offsetInBytes, sizeInBytes);
+        }
+        Unmap(0);
     }
 
     public ulong GetRequiredIntermediateSize(int firstSubresource, int numSubresources)
