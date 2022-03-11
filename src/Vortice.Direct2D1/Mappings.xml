@@ -355,16 +355,29 @@
 
     <!-- ID2D1DeviceContext -->
     <map param="ID2D1DeviceContext::CreateBitmap::bitmap" return="true" />
+    <map param="ID2D1DeviceContext::CreateBitmap::bitmapProperties" attribute="in value" />
+    
     <map param="ID2D1DeviceContext::CreateBitmapBrush::bitmapBrush" return="true" />
+    <map param="ID2D1DeviceContext::CreateBitmapBrush::bitmapBrushProperties" default="null" />
+    <map param="ID2D1DeviceContext::CreateBitmapBrush::brushProperties" default="null" />
+    
+    <map param="ID2D1DeviceContext::CreateBitmapFromDxgiSurface::bitmapProperties" default="null" />
     <map param="ID2D1DeviceContext::CreateBitmapFromDxgiSurface::bitmap" return="true" />
+
+    <map param="ID2D1DeviceContext::CreateBitmapFromWicBitmap::bitmapProperties" default="null" />
     <map param="ID2D1DeviceContext::CreateBitmapFromWicBitmap::bitmap" return="true" />
+    
     <map param="ID2D1DeviceContext::CreateColorContext::colorContext" return="true" />
     <map param="ID2D1DeviceContext::CreateColorContextFromFilename::colorContext" return="true" />
     <map param="ID2D1DeviceContext::CreateColorContextFromWicColorContext::colorContext" return="true" />
     <map param="ID2D1DeviceContext::CreateCommandList::commandList" return="true" />
     <map param="ID2D1DeviceContext::CreateEffect::effect" return="true" type="void" />
     <map param="ID2D1DeviceContext::CreateGradientStopCollection::gradientStopCollection1" return="true" />
+
+    <map param="ID2D1DeviceContext::CreateImageBrush::imageBrushProperties" attribute="in value" />
+    <map param="ID2D1DeviceContext::CreateImageBrush::brushProperties" default="null" />
     <map param="ID2D1DeviceContext::CreateImageBrush::imageBrush" return="true" />
+    
     <map param="ID2D1DeviceContext::GetEffectInvalidRectangleCount::rectangleCount" return="true"/>
     <map method="ID2D1DeviceContext::GetEffectInvalidRectangles" hresult="true" check="false"/>
     <map method="ID2D1DeviceContext::GetEffectRequiredInputRectangles" visibility="internal"/>
@@ -395,6 +408,9 @@
     <map param="ID2D1EffectContext::FindVertexBuffer::buffer" return="true"/>
     <map param="ID2D1EffectContext::GetMaximumSupportedFeatureLevel::maximumSupportedFeatureLevel" return="true"/>
 
+    <!-- ID2D1DeviceContext1 -->
+    <map param="ID2D1DeviceContext1::CreateStrokedGeometryRealization::strokeStyle" default="null" />
+
     <!-- ID2D1EffectImpl -->
     <map interface="ID2D1EffectImpl" callback="true" callback-dual="true" callback-visibility="internal"/>
 
@@ -415,6 +431,10 @@
     <!-- ID2D1SourceTransform -->
     <map interface="ID2D1SourceTransform" callback="true" callback-dual="true" callback-visibility="internal" />
 
+    <!-- ID2D1CommandList -->
+    <map method="ID2D1CommandList::Close" hresult="true" check="false"/>
+    <map method="ID2D1CommandList::Stream" hresult="true" check="false"/>
+    
     <!-- ID2D1TransformGraph -->
 
     <!-- ID2D1DrawInfo -->
@@ -677,12 +697,20 @@
     <map param="ID2D1Factory1::RegisterEffectFromStream::bindingsCount" relation="length(bindings)" />
 
     <!-- ID2D1RenderTarget -->
+    <map param="ID2D1RenderTarget::CreateBitmap::bitmapProperties" attribute="in value" />
     <map param="ID2D1RenderTarget::CreateBitmap::bitmap" attribute="out" return="true"/>
+
+    <map param="ID2D1RenderTarget::CreateBitmapBrush::bitmapBrushProperties" default="null" />
+    <map param="ID2D1RenderTarget::CreateBitmapBrush::brushProperties" default="null" />
     <map param="ID2D1RenderTarget::CreateBitmapBrush::bitmapBrush" attribute="out" return="true"/>
+
+    <map param="ID2D1RenderTarget::CreateBitmapFromWicBitmap::bitmapProperties" default="null" />
     <map param="ID2D1RenderTarget::CreateBitmapFromWicBitmap::bitmap" attribute="out" return="true"/>
+    
     <map param="ID2D1RenderTarget::CreateCompatibleRenderTarget::bitmapRenderTarget" attribute="out" return="true"/>
 
     <map method="ID2D1RenderTarget::CreateGradientStopCollection" visibility="private" name="CreateGradientStopCollection_" />
+    <!--<map param="ID2D1RenderTarget::CreateGradientStopCollection::gradientStops" keep-pointers="true"/>-->
     <map param="ID2D1RenderTarget::CreateGradientStopCollection::gradientStopCollection" attribute="out" return="true"/>
 
     <map param="ID2D1RenderTarget::CreateLayer::size" default="null" />

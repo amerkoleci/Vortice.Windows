@@ -24,6 +24,21 @@ public partial class ID2D1RenderTarget
         }
     }
 
+    public ID2D1Bitmap CreateBitmap(SizeI size)
+    {
+        return CreateBitmap(size, IntPtr.Zero, 0, new BitmapProperties(DCommon.PixelFormat.Unknown));
+    }
+
+    public ID2D1Bitmap CreateBitmap(SizeI size, BitmapProperties bitmapProperties)
+    {
+        return CreateBitmap(size, IntPtr.Zero, 0, bitmapProperties);
+    }
+
+    public ID2D1Bitmap CreateBitmap(SizeI size, IntPtr sourceData, int pitch)
+    {
+        return CreateBitmap(size, sourceData, pitch, new BitmapProperties(DCommon.PixelFormat.Unknown));
+    }
+
     public void Clear(in Color clearColor)
     {
         Clear(new Color4(clearColor));
@@ -70,17 +85,17 @@ public partial class ID2D1RenderTarget
         return CreateRadialGradientBrush_(ref radialGradientBrushProperties, brushProperties, gradientStopCollection);
     }
 
-    public ID2D1Bitmap CreateSharedBitmap(ID2D1Bitmap bitmap, BitmapProperties? bitmapProperties)
+    public ID2D1Bitmap CreateSharedBitmap(ID2D1Bitmap bitmap, BitmapProperties? bitmapProperties = default)
     {
         return CreateSharedBitmap(typeof(ID2D1Bitmap).GUID, bitmap.NativePointer, bitmapProperties);
     }
 
-    public ID2D1Bitmap CreateSharedBitmap(IDXGISurface surface, BitmapProperties? bitmapProperties)
+    public ID2D1Bitmap CreateSharedBitmap(IDXGISurface surface, BitmapProperties? bitmapProperties = default)
     {
         return CreateSharedBitmap(typeof(IDXGISurface).GUID, surface.NativePointer, bitmapProperties);
     }
 
-    public ID2D1Bitmap CreateSharedBitmap(IWICBitmapLock bitmapLock, BitmapProperties? bitmapProperties)
+    public ID2D1Bitmap CreateSharedBitmap(IWICBitmapLock bitmapLock, BitmapProperties? bitmapProperties = default)
     {
         return CreateSharedBitmap(typeof(IWICBitmapLock).GUID, bitmapLock.NativePointer, bitmapProperties);
     }
@@ -376,5 +391,10 @@ public partial class ID2D1RenderTarget
     public Result EndDraw()
     {
         return EndDraw(out _, out _);
+    }
+
+    public bool IsSupported(RenderTargetProperties renderTargetProperties)
+    {
+        return IsSupported(ref renderTargetProperties);
     }
 }

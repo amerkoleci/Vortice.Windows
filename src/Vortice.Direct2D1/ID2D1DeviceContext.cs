@@ -2,14 +2,30 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Numerics;
+using Vortice.DCommon;
 
 namespace Vortice.Direct2D1;
 
 public partial class ID2D1DeviceContext
 {
-    public ID2D1BitmapBrush1 CreateBitmapBrush(ID2D1Bitmap bitmap)
+    public ID2D1Bitmap1 CreateBitmap(SizeI size)
     {
-        return CreateBitmapBrush(bitmap, null, null);
+        return CreateBitmap(size, IntPtr.Zero, 0, new BitmapProperties1(PixelFormat.Unknown));
+    }
+
+    public ID2D1Bitmap1 CreateBitmap(SizeI size, BitmapProperties1 bitmapProperties)
+    {
+        return CreateBitmap(size, IntPtr.Zero, 0, bitmapProperties);
+    }
+
+    public ID2D1Bitmap1 CreateBitmap(SizeI size, IntPtr sourceData, int pitch)
+    {
+        return CreateBitmap(size, sourceData, pitch, new BitmapProperties1(PixelFormat.Unknown));
+    }
+
+    public ID2D1ColorContext CreateColorContext(ColorSpace space, byte[] profile)
+    {
+        return CreateColorContext(space, profile, profile.Length);
     }
 
     public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode)

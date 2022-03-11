@@ -8,9 +8,9 @@ namespace Vortice.DCommon;
 public partial struct PixelFormat
 {
     /// <summary>
-    /// An unkown <see cref="PixelFormat"/> with <see cref="Format"/> to <see cref="Format.Unknown"/> and <see cref="AlphaMode"/> to <see cref="AlphaMode.Unknown"/>.
+    /// An unkown <see cref="PixelFormat"/> with <see cref="DXGI.Format"/> to <see cref="Format.Unknown"/> and <see cref="DCommon.AlphaMode"/> to <see cref="AlphaMode.Unknown"/>.
     /// </summary>
-    public static readonly PixelFormat Unknown = new PixelFormat(Format.Unknown, AlphaMode.Unknown);
+    public static readonly PixelFormat Unknown = new(Format.Unknown, AlphaMode.Unknown);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PixelFormat"/> struct.

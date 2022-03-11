@@ -3,6 +3,11 @@
 Current Stable Release:    2.1.2 (March 2022)
 
 -----------------------------------------------
+Release:     2.2.0 (May 2022)
+-----------------------------------------------
+- [ENH] Direct2D1: Improve mappings.
+
+-----------------------------------------------
 Release:     2.1.2 (March 2022)
 -----------------------------------------------
 - [BREAKING CHANGE] Direct3D11: Remove VertexBufferView structure.

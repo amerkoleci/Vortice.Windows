@@ -4,7 +4,7 @@
 using System.Numerics;
 
 namespace Vortice.Direct2D1;
-public partial class ID2D1EffectContext
+public unsafe partial class ID2D1EffectContext
 {
     public Vector2 Dpi
     {
@@ -15,14 +15,14 @@ public partial class ID2D1EffectContext
         }
     }
 
-    public unsafe T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
+    public T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
     {
         T featureSupport = default;
         CheckFeatureSupport(feature, &featureSupport, sizeof(T));
         return featureSupport;
     }
 
-    public unsafe bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
+    public bool CheckFeatureSupport<T>(Feature feature, ref T featureSupport) where T : unmanaged
     {
         fixed (T* featureSupportPtr = &featureSupport)
         {
