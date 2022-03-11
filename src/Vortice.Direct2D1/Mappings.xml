@@ -513,6 +513,17 @@
     <!-- IWICBitmapDecoder -->
     <map param="IWICBitmapDecoder::GetFrame::ppIBitmapFrame" attribute="out" return="true" />
 
+    <!-- IWICImageEncoder -->
+    <map method="IWICImageEncoder::WriteFrame" hresult="true" check="false" />
+    <map method="IWICImageEncoder::WriteFrameThumbnail" hresult="true" check="false" />
+    <map method="IWICImageEncoder::WriteThumbnail" hresult="true" check="false" />
+
+    <!--IWICStream-->
+    <map method="IWICColorContext::InitializeFrom.*" hresult="true" check="false" />
+    <map param="IWICColorContext::InitializeFromMemory::pbBuffer" type="void" keep-pointers="true"/>
+    <map method="IWICColorContext::GetProfileBytes"  hresult="true" check="false" />
+    <map param="IWICColorContext::GetProfileBytes::pbBuffer" type="void" keep-pointers="true"/>
+    
     <!-- TODO: Handle DXGI_JPEG_AC_HUFFMAN_TABLE -->
     <remove method="IWICJpegFrameDecode::GetAcHuffmanTable" />
     <remove method="IWICJpegFrameDecode::GetDcHuffmanTable" />
