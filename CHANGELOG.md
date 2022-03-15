@@ -5,6 +5,7 @@ Current Stable Release:    2.1.2 (March 2022)
 -----------------------------------------------
 Release:     2.2.0 (May 2022)
 -----------------------------------------------
+- [ENH] DirectStorage: New DirectStorage bindings (https://devblogs.microsoft.com/directx/directstorage-api-available-on-pc/)
 - [ENH] Direct2D1: Improve mappings.
 
 -----------------------------------------------

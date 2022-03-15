@@ -930,6 +930,8 @@
     <map param="ID3D12CommandQueue::UpdateTileMappings::pHeapRangeStartOffsets" type="void" keep-pointers="true"/>
     <map param="ID3D12CommandQueue::UpdateTileMappings::pRangeTileCounts" type="void" keep-pointers="true"/>
 
+    <map method="ID3D12Fence::SetEventOnCompletion" hresult="true" check="false" />
+
     <!-- ID3D12GraphicsCommandList -->
     <map param="ID3D12GraphicsCommandList::ResourceBarrier::pBarriers" type="void" keep-pointers="true"/>
     <map method="ID3D12GraphicsCommandList::ResourceBarrier" visibility="private"/>

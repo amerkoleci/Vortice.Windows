@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-directstorage" xmlns="urn:SharpGen.Config">
+  <namespace>Vortice.DirectStorage</namespace>
+  <depends>Vortice.Direct3D12</depends>
+
+  <sdk name="StdLib" />
+  <sdk name="WindowsSdk" version="10.0.22000.0" />
+  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/DirectStorage</include-dir>
+
+  <include file="dstorage.h" namespace="Vortice.DirectStorage" attach="true"/>
+
+  <extension>
+    <create class="DirectStorage" visibility="public static" />
+    <create class="ResultCode" visibility="public static" />
+
+    <const from-macro="E_DSTORAGE_(.*)" cpp-type="int" name="$1" class="Vortice.DirectStorage.ResultCode" result="true" />
+
+    <const from-macro="DSTORAGE_MIN_QUEUE_CAPACITY" class="Vortice.DirectStorage.DirectStorage" type="int" name="MinQueueCapacity" />
+    <const from-macro="DSTORAGE_MAX_QUEUE_CAPACITY" class="Vortice.DirectStorage.DirectStorage" type="int" name="MaxQueueCapacity" />
+
+    <define struct="Vortice.DirectStorage.RequestOptions" sizeof="16" />
+  </extension>
+
+  <bindings>
+    <bind from="uint32_t" to="System.Int32" />
+    <bind from="UINT32" to="System.UInt32" />
+    <bind from="UINT64" to="System.UInt64" />
+    <bind from="DSTORAGE_REQUEST_OPTIONS" to="Vortice.DirectStorage.RequestOptions" />
+  </bindings>
+
+  <naming>
+  </naming>
+
+  <mapping>
+    <map enum="DSTORAGE(.+)" name-tmp="$1" />
+    <map struct="DSTORAGE(.+)" name-tmp="$1" />
+
+    <remove field="DSTORAGE_ERROR_FIRST_FAILURE::.*"/>
+
+    <map method="IDStorageFactory::CreateQueue" visibility="private" hresult="true" check="false"/>
+    <map method="IDStorageFactory::OpenFile" visibility="private" hresult="true" check="false"/>
+    <map method="IDStorageFactory::CreateStatusArray" visibility="private" hresult="true" check="false"/>
+    <map method="IDStorageFactory::SetStagingBufferSize" hresult="true" check="false"/>
+
+    <map method="IDStorageFile::GetFileInformation" visibility="public" hresult="true" check="false"/>
+    <map param="IDStorageFile::GetFileInformation::info" attribute="out" return="false"/>
+
+    <map param="IDStorageQueue::EnqueueRequest::request" attribute="in value" />
+
+    <map function="DStorageSetConfiguration" dll='"dstorage.dll"' group="Vortice.DirectStorage.DirectStorage" hresult="true" check="false"/>
+    <map function="DStorageGetFactory" dll='"dstorage.dll"' group="Vortice.DirectStorage.DirectStorage" visibility="private" hresult="true" check="false"/>
+    <map param="DStorageGetFactory::ppv" attribute="out" return="false" />
+  </mapping>
+</config>

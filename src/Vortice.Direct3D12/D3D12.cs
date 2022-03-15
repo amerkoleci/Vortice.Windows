@@ -10,11 +10,11 @@ public static unsafe partial class D3D12
 {
     public static readonly FeatureLevel[] FeatureLevels = new[]
     {
-            FeatureLevel.Level_12_1,
-            FeatureLevel.Level_12_0,
-            FeatureLevel.Level_11_1,
-            FeatureLevel.Level_11_0
-        };
+        FeatureLevel.Level_12_1,
+        FeatureLevel.Level_12_0,
+        FeatureLevel.Level_11_1,
+        FeatureLevel.Level_11_0
+    };
 
     public static readonly Guid ExperimentalShaderModels = new("76f5573e-f13a-40f5-b297-81ce9e18933f");
     public static readonly Guid TiledResourceTier4 = new("c9c4725f-a81a-4f56-8c5b-c51039d694fb");

@@ -26,7 +26,7 @@ public static partial class Dxc
     public const int DXC_CP_UTF16 = 1200;
     public const int DXC_CP_ACP = 0;
 
-#if NET5_0_OR_GREATER
+#if NET6_0_OR_GREATER
     public static event DllImportResolver? ResolveLibrary;
 
     static Dxc()

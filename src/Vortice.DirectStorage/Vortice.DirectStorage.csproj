@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <Description>DirectStorage bindings.</Description>
+    <RootNamespace>Vortice.DirectStorage</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="build\**" PackagePath="build" Pack="true" />
+    <Content Include="runtimes\**" PackagePath="runtimes" Pack="true" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="lib\**" PackagePath="lib" Pack="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System.Runtime.InteropServices" />
+    <Using Include="SharpGen.Runtime" />
+    
+    <SharpGenMapping Include="Mappings.xml" />
+    <ProjectReference Include="..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
+  </ItemGroup>
+
+</Project>

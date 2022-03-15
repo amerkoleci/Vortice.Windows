@@ -5,20 +5,20 @@ namespace Vortice.Direct3D12;
 
 public partial class ID3D12Fence
 {
-    public void SetEventOnCompletion(ulong value)
+    public Result SetEventOnCompletion(ulong value)
     {
-        SetEventOnCompletion(value, IntPtr.Zero);
+        return SetEventOnCompletion(value, IntPtr.Zero);
     }
 
-    public void SetEventOnCompletion(ulong value, WaitHandle? waitHandle)
+    public Result SetEventOnCompletion(ulong value, WaitHandle? waitHandle)
     {
         if (waitHandle == null)
         {
-            SetEventOnCompletion(value, IntPtr.Zero);
+            return SetEventOnCompletion(value, IntPtr.Zero);
         }
         else
         {
-            SetEventOnCompletion(value, waitHandle!.SafeWaitHandle.DangerousGetHandle());
+            return SetEventOnCompletion(value, waitHandle!.SafeWaitHandle.DangerousGetHandle());
         }
     }
 }

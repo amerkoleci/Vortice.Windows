@@ -112,9 +112,11 @@
     <define struct="Vortice.Mathematics.Matrix4x3" sizeof="48" />
     <define struct="Vortice.Mathematics.Matrix5x4" sizeof="80" />
 
+    <define struct="Vortice.Luid" sizeof="8" />
     <define struct="Vortice.Win32.NativeMessage" sizeof="28" />
     <define struct="Vortice.Win32.BitmapInfoHeader" sizeof="40"/>
-    <define struct="Vortice.Luid" sizeof="8" />
+    <define struct="Vortice.Win32.FileTime" sizeof="8"/>
+    <define struct="Vortice.Win32.ByHandleFileInformation" sizeof="52"/>
     
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <const from-guid="WKPDID_D3DDebugObjectNameW" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectNameW">new System.Guid("$1")</const>
@@ -159,6 +161,8 @@
     <bind from="D3DCOLORVALUE" to="Vortice.Mathematics.Color4" />
     <bind from="MSG" to="Vortice.Win32.NativeMessage" />
     <bind from="BITMAPINFOHEADER" to="Vortice.Win32.BitmapInfoHeader"/>
+    <bind from="FILETIME" to="Vortice.Win32.FileTime"/>
+    <bind from="BY_HANDLE_FILE_INFORMATION" to="Vortice.Win32.ByHandleFileInformation"/>
 
     <!-- DXGI -->
     <bind from="DXGI_RGB" to="Vortice.Mathematics.Color3" />

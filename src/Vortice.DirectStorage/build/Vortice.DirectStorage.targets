@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <!-- handle PlatformTarget specifically -->
+    <DStoragePlatform Condition="'$(DStoragePlatform)' == '' and '$(PlatformTarget)' == 'ARM'">arm</DStoragePlatform>
+    <DStoragePlatform Condition="'$(DStoragePlatform)' == '' and '$(PlatformTarget)' == 'ARM64'">arm64</DStoragePlatform>
+    <DStoragePlatform Condition="'$(DStoragePlatform)' == '' and '$(PlatformTarget)' == 'x86'">x86</DStoragePlatform>
+    <DStoragePlatform Condition="'$(DStoragePlatform)' == '' and '$(PlatformTarget)' == 'x64'">x64</DStoragePlatform>
+    <!-- handle Any CPU, considering Prefer32Bit -->
+    <DStoragePlatform Condition="'$(DStoragePlatform)' == '' and '$(Prefer32Bit)' == 'False'">x64</DStoragePlatform>
+    <DStoragePlatform Condition="'$(DStoragePlatform)' == '' and '$(Prefer32Bit)' == 'True'">x86</DStoragePlatform>
+    <!-- fall back to x64 on 64-bit machines -->
+    <DStoragePlatform Condition="'$(DStoragePlatform)' == '' and $([System.Environment]::Is64BitOperatingSystem)">x64</DStoragePlatform>
+    <!-- fall back to x86 -->
+    <DStoragePlatform Condition="'$(DStoragePlatform)' == ''">x86</DStoragePlatform>
+</PropertyGroup>
+
+  <PropertyGroup>
+    <DStorageCoreLibrary>$(MSBuildThisFileDirectory)..\..\runtimes\win-$(DStoragePlatform)\native\dstoragecore.dll</DStorageCoreLibrary>
+    <DStorageLibrary>$(MSBuildThisFileDirectory)..\..\runtimes\win-$(DStoragePlatform)\native\dstorage.dll</DStorageLibrary>
+</PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(DStorageCoreLibrary)" Condition="Exists('$(DStorageCoreLibrary)')">
+      <Link>$([System.IO.Path]::GetFilename('$(DStorageCoreLibrary)'))</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
+    <None Include="$(DStorageLibrary)" Condition="Exists('$(DStorageLibrary)')">
+      <Link>$([System.IO.Path]::GetFilename('$(DStorageLibrary)'))</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -6,7 +6,7 @@ namespace Vortice.Direct3D12;
 /// <summary>
 /// Describes the root signature 1.0 layout of a descriptor table as a collection of descriptor ranges that appear one after the other in a descriptor heap.
 /// </summary>
-public partial class RootDescriptorTable
+public unsafe partial class RootDescriptorTable
 {
     /// <summary>
     /// Gets or sets the descriptor ranges.
@@ -34,12 +34,12 @@ public partial class RootDescriptorTable
         }
     }
 
-    internal unsafe void __MarshalFree(ref __Native @ref)
+    internal void __MarshalFree(ref __Native @ref)
     {
         @ref.__MarshalFree();
     }
 
-    internal unsafe void __MarshalFrom(in __Native @ref)
+    internal void __MarshalFrom(in __Native @ref)
     {
         Ranges = new DescriptorRange[@ref.NumDescriptorRanges];
         if (@ref.NumDescriptorRanges > 0)
@@ -48,7 +48,7 @@ public partial class RootDescriptorTable
         }
     }
 
-    internal unsafe void __MarshalTo(ref __Native @ref)
+    internal void __MarshalTo(ref __Native @ref)
     {
         @ref.NumDescriptorRanges = Ranges?.Length ?? 0;
         @ref.PDescriptorRanges = UnsafeUtilities.AllocToPointer(Ranges);

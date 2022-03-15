@@ -18,36 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+public partial class DeviceInstance
 {
-    public partial class DeviceInstance
+    /// <summary>
+    /// Gets the type of this device.
+    /// </summary>
+    public DeviceType Type => (DeviceType)(RawType & 0xFF);
+
+    /// <summary>
+    /// Gets the subtype of the device.
+    /// </summary>
+    public int Subtype => RawType >> 8;
+
+    /// <summary>
+    /// Gets a value indicating whether this instance is human interface device.
+    /// </summary>
+    /// <value>
+    /// 	<c>true</c> if this instance is human interface device; otherwise, <c>false</c>.
+    /// </value>
+    public bool IsHumanInterfaceDevice => ((RawType & 0x10000) != 0);
+
+    #region Marshal
+    internal static unsafe __Native __NewNative()
     {
-        /// <summary>
-        /// Gets the type of this device.
-        /// </summary>
-        public DeviceType Type => (DeviceType)(RawType & 0xFF);
-
-        /// <summary>
-        /// Gets the subtype of the device.
-        /// </summary>
-        public int Subtype => RawType >> 8;
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is human interface device.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is human interface device; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsHumanInterfaceDevice => ((RawType & 0x10000) != 0);
-
-        #region Marshal
-        internal static unsafe __Native __NewNative()
-        {
-            __Native native = default;
-            native.Size = sizeof(__Native);
-            return native;
-        }
-
-        #endregion Marshal
+        __Native native = default;
+        native.Size = sizeof(__Native);
+        return native;
     }
+
+    #endregion Marshal
 }
