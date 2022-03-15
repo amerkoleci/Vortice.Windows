@@ -5,15 +5,14 @@ namespace Vortice.DirectStorage;
 
 public static unsafe partial class DirectStorage
 {
-#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER 
     public static event DllImportResolver? ResolveLibrary;
 
     static DirectStorage()
     {
         ResolveLibrary += static (libraryName, assembly, searchPath) =>
         {
-            if (libraryName is not "dstorage.dll" &&
-                libraryName is not "dstoragecore.dll")
+            if (libraryName is not "dstorage.dll")
             {
                 return IntPtr.Zero;
             }
@@ -35,16 +34,20 @@ public static unsafe partial class DirectStorage
 
             if (isNuGetRuntimeLibrariesDirectoryPresent)
             {
-                string fullLibraryPath = Path.Combine(AppContext.BaseDirectory, $@"runtimes\{rid}\native\{libraryName}");
+                string dstorageCorePath = Path.Combine(AppContext.BaseDirectory, $@"runtimes\{rid}\native\dstoragecore.dll");
+                string dstoragePath = Path.Combine(AppContext.BaseDirectory, $@"runtimes\{rid}\native\dstorage.dll");
 
-                if (NativeLibrary.TryLoad(fullLibraryPath, out IntPtr handle))
+                // Load dstoragecore first so that dstorage doesn't fail to load it, and then dstoragecore, both from the NuGet path
+                if (NativeLibrary.TryLoad(dstorageCorePath, out _) &&
+                    NativeLibrary.TryLoad(dstoragePath, out IntPtr handle))
                 {
                     return handle;
                 }
             }
             else
             {
-                if (NativeLibrary.TryLoad(libraryName, assembly, searchPath, out IntPtr handle))
+                if (NativeLibrary.TryLoad("dstoragecore", assembly, searchPath, out _) &&
+                    NativeLibrary.TryLoad("dstorage", assembly, searchPath, out IntPtr handle))
                 {
                     return handle;
                 }
