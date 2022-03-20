@@ -42,7 +42,7 @@ namespace Vortice.DirectWrite
 
         public Result GetDesignGlyphMetrics(ushort[] glyphIndices, GlyphMetrics[] glyphMetrics, bool isSideways)
         {
-            return GetDesignGlyphMetrics(glyphIndices, glyphMetrics, isSideways);
+            return GetDesignGlyphMetrics(glyphIndices, glyphMetrics, (RawBool)isSideways);
         }
 
         public GlyphMetrics[] GetGdiCompatibleGlyphMetrics(float fontSize, float pixelsPerDip, Matrix3x2? transform, bool useGdiNatural, ushort[] glyphIndices, bool isSideways)
