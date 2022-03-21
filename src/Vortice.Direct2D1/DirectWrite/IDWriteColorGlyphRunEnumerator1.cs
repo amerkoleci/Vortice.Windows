@@ -9,7 +9,7 @@ public partial class IDWriteColorGlyphRunEnumerator1
 
     internal new unsafe ColorGlyphRun1 GetCurrentRun()
     {
-        ColorGlyphRun1 colorGlyphRun = default;
+        ColorGlyphRun1 colorGlyphRun = new();
         ColorGlyphRun1.__Native* colorGlyphRun_ = (ColorGlyphRun1.__Native*)GetCurrentRun_();
         colorGlyphRun.__MarshalFrom(ref *colorGlyphRun_);
         return colorGlyphRun;

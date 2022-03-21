@@ -335,12 +335,14 @@
     <map struct="DWRITE(.+)" name-tmp="$1" />
 
     <map struct="DWRITE_GLYPH_RUN" native="true" struct-to-class="true" marshal="true" new="false" />
-    <map field="DWRITE_GLYPH_RUN::fontEmSize" name="FontSize" />
-    <map field="DWRITE_GLYPH_RUN::fontFace" visibility="internal" name="FontFacePointer" />
-    <map field="DWRITE_GLYPH_RUN::glyphCount" visibility="internal" />
-    <map field="DWRITE_GLYPH_RUN::glyphIndices" visibility="internal" name="GlyphIndicesPointer" />
-    <map field="DWRITE_GLYPH_RUN::glyphAdvances" visibility="internal" name="GlyphAdvancesPointer" />
-    <map field="DWRITE_GLYPH_RUN::glyphOffsets" visibility="internal" name="GlyphOffsetsPointer" />
+    <remove field="DWRITE_GLYPH_RUN::.*"/>
+
+    <map struct="DWRITE_COLOR_GLYPH_RUN" native="true" struct-to-class="true" marshal="true" new="false" />
+    <remove field="DWRITE_COLOR_GLYPH_RUN::.*"/>
+
+    <map struct="DWRITE_COLOR_GLYPH_RUN1" native="true" struct-to-class="true" marshal="true" new="false" />
+    <remove field="DWRITE_COLOR_GLYPH_RUN1::.*"/>
+    
     <map struct="DWRITE_GLYPH_RUN_DESCRIPTION" native="true" struct-to-class="true" marshal="true" new="false" />
     <map field="DWRITE_GLYPH_RUN_DESCRIPTION::stringLength" visibility="internal" name="TextLength" />
     <map field="DWRITE_GLYPH_RUN_DESCRIPTION::string" name="Text" />

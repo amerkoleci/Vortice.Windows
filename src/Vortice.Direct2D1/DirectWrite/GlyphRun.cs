@@ -5,10 +5,40 @@ namespace Vortice.DirectWrite;
 
 public partial class GlyphRun : IDisposable
 {
+    /// <summary>
+    /// The physical font face object to draw with.
+    /// </summary>
     public IDWriteFontFace? FontFace { set; get; }
+
+    /// <summary>
+    /// The logical size of the font in DIPs (equals 1/96 inch), not points.
+    /// </summary>
+    public float FontEmSize { get; set; }
+
+    /// <summary>
+    /// An array of indices to render for the glyph run.
+    /// </summary>
     public ushort[]? Indices { get; set; }
+
+    /// <summary>
+    /// An array of glyph advance widths for the glyph run.
+    /// </summary>
     public float[]? Advances { get; set; }
+
+    /// <summary>
+    /// An array containing glyph offsets for the glyph run.
+    /// </summary>
     public GlyphOffset[]? Offsets { get; set; }
+
+    /// <summary>
+    /// If true, specifies that glyphs are rotated 90 degrees to the left and vertical metrics are used. Vertical writing is achieved by specifying isSideways = true and rotating the entire run 90 degrees to the right via a rotate transform.
+    /// </summary>
+    public bool IsSideways { get; set; }
+
+    /// <summary>
+    /// The implicit resolved bidi level of the run. Odd levels indicate right-to-left languages like Hebrew and Arabic, while even levels indicate left-to-right languages like English and Japanese (when written horizontally). For right-to-left languages, the text origin is on the right, and text should be drawn to the left.
+    /// </summary>
+    public int BidiLevel { get; set; }
 
     public void Dispose()
     {
@@ -54,28 +84,32 @@ public partial class GlyphRun : IDisposable
         if (FontFace != null)
             FontFace.AddRef();
 
-        FontSize = @ref.FontEmSize;
-        GlyphCount = @ref.GlyphCount;
-        GlyphCount = @ref.GlyphCount;
+        FontEmSize = @ref.FontEmSize;
         if (@ref.GlyphIndices != IntPtr.Zero)
         {
-            Indices = new ushort[GlyphCount];
-            if (GlyphCount > 0)
-                UnsafeUtilities.Read(@ref.GlyphIndices, Indices, GlyphCount);
+            Indices = new ushort[@ref.GlyphCount];
+            if (@ref.GlyphCount > 0)
+            {
+                UnsafeUtilities.Read(@ref.GlyphIndices, Indices, @ref.GlyphCount);
+            }
         }
 
         if (@ref.GlyphAdvances != IntPtr.Zero)
         {
-            Advances = new float[GlyphCount];
-            if (GlyphCount > 0)
-                UnsafeUtilities.Read(@ref.GlyphAdvances, Advances, GlyphCount);
+            Advances = new float[@ref.GlyphCount];
+            if (@ref.GlyphCount > 0)
+            {
+                UnsafeUtilities.Read(@ref.GlyphAdvances, Advances, @ref.GlyphCount);
+            }
         }
 
         if (@ref.GlyphOffsets != IntPtr.Zero)
         {
-            Offsets = new GlyphOffset[GlyphCount];
-            if (GlyphCount > 0)
-                UnsafeUtilities.Read(@ref.GlyphOffsets, Offsets, GlyphCount);
+            Offsets = new GlyphOffset[@ref.GlyphCount];
+            if (@ref.GlyphCount > 0)
+            {
+                UnsafeUtilities.Read(@ref.GlyphOffsets, Offsets, @ref.GlyphCount);
+            }
         }
 
         IsSideways = @ref.IsSideways;
@@ -85,7 +119,7 @@ public partial class GlyphRun : IDisposable
     internal unsafe void __MarshalTo(ref __Native @ref)
     {
         @ref.FontFace = FontFace == null ? IntPtr.Zero : FontFace.NativePointer;
-        @ref.FontEmSize = FontSize;
+        @ref.FontEmSize = FontEmSize;
         @ref.GlyphCount = -1;
         @ref.GlyphIndices = IntPtr.Zero;
         @ref.GlyphAdvances = IntPtr.Zero;
@@ -94,7 +128,6 @@ public partial class GlyphRun : IDisposable
         if (Indices != null)
         {
             @ref.GlyphCount = Indices.Length;
-
             @ref.GlyphIndices = Marshal.AllocHGlobal(Indices.Length * sizeof(ushort));
             if (Indices.Length > 0)
             {
@@ -137,11 +170,8 @@ public partial class GlyphRun : IDisposable
         if (@ref.GlyphCount < 0)
             @ref.GlyphCount = 0;
 
-        // Update GlyphCount only for debug purpose
-        GlyphCount = @ref.GlyphCount;
-
-        @ref.IsSideways = this.IsSideways;
-        @ref.BidiLevel = this.BidiLevel;
+        @ref.IsSideways = IsSideways;
+        @ref.BidiLevel = BidiLevel;
     }
     #endregion Marshal
 }
