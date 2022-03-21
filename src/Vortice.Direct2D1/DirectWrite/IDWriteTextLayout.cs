@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace Vortice.DirectWrite;
 
-public partial class IDWriteTextLayout
+public unsafe partial class IDWriteTextLayout
 {
     public LineMetrics[] LineMetrics
     {
@@ -24,7 +24,7 @@ public partial class IDWriteTextLayout
     {
         get
         {
-            GetClusterMetrics(null, out var actualClusterCount);
+            GetClusterMetrics(null, out int actualClusterCount);
             var clusterMetrics = new ClusterMetrics[actualClusterCount];
             if (actualClusterCount > 0)
                 GetClusterMetrics(clusterMetrics, out _).CheckError();
@@ -33,12 +33,12 @@ public partial class IDWriteTextLayout
         }
     }
 
-    public unsafe string GetFontFamilyName(int currentPosition, out TextRange textRange)
+    public string GetFontFamilyName(int currentPosition, out TextRange textRange)
     {
-        GetFontFamilyNameLength(currentPosition, out var nameLength, out textRange);
+        GetFontFamilyNameLength(currentPosition, out int nameLength, out textRange);
 
-        var bufferLength = nameLength + 1;
-        var fontFamilyNamePtr = stackalloc char[bufferLength];
+        int bufferLength = nameLength + 1;
+        char* fontFamilyNamePtr = stackalloc char[bufferLength];
 
         textRange = GetFontFamilyName(currentPosition, new IntPtr(fontFamilyNamePtr), bufferLength);
 
@@ -47,10 +47,10 @@ public partial class IDWriteTextLayout
 
     public unsafe string GetLocaleName(int currentPosition, out TextRange textRange)
     {
-        GetLocaleNameLength(currentPosition, out var nameLength, out textRange);
+        GetLocaleNameLength(currentPosition, out int nameLength, out textRange);
 
-        var bufferLength = nameLength + 1;
-        var localeNamePtr = stackalloc char[bufferLength];
+        int bufferLength = nameLength + 1;
+        char* localeNamePtr = stackalloc char[bufferLength];
 
         textRange = GetLocaleName(currentPosition, new IntPtr(localeNamePtr), bufferLength);
 
