@@ -2,8 +2,8 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.InteropServices;
-using SharpGen.Runtime;
 using Vortice.Multimedia;
+using static Vortice.XAudio2.XAudio2;
 
 namespace Vortice.XAudio2;
 
@@ -29,7 +29,21 @@ public partial class IXAudio2
     #endregion Events
 
     internal IXAudio2(ProcessorSpecifier processorSpecifier, bool registerCallback)
-        : base(XAudio2Native.XAudio2Create(0u, processorSpecifier))
+        : base()
+    {
+        XAudio2Native.XAudio2Create(processorSpecifier, out IntPtr nativePtr).CheckError();
+        NativePointer = nativePtr;
+
+        // Register engine callback
+        if (registerCallback)
+        {
+            _engineCallback = new EngineCallbackImpl(this);
+            RegisterForCallbacks(_engineCallback);
+        }
+    }
+
+    internal IXAudio2(IntPtr nativePtr, bool registerCallback)
+        : base(nativePtr)
     {
         // Register engine callback
         if (registerCallback)
@@ -181,6 +195,11 @@ public partial class IXAudio2
         {
             return CreateSubmixVoice(inputChannels, inputSampleRate, (int)flags, processingStage, null, null);
         }
+    }
+
+    public void SetDebugConfiguration(DebugConfiguration? debugConfiguration)
+    {
+        SetDebugConfiguration(debugConfiguration, IntPtr.Zero);
     }
 
     /// <summary>

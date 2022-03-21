@@ -2,7 +2,6 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.InteropServices;
-using SharpGen.Runtime;
 using Vortice.Multimedia;
 
 namespace Vortice.XAudio2;
@@ -11,19 +10,19 @@ internal static unsafe class XAudio2Native
 {
     private static readonly IntPtr s_xaudioLibrary;
 
-    private static readonly delegate* unmanaged[Stdcall]<void*, uint, uint, int> s_XAudio2CreateCallback;
+    private static readonly delegate* unmanaged[Stdcall]<out IntPtr, uint, uint, int> s_XAudio2CreateCallback;
     private static readonly delegate* unmanaged[Stdcall]<void*, uint, int> s_CreateAudioReverb;
     private static readonly delegate* unmanaged[Stdcall]<void*, uint, int> s_CreateAudioVolumeMeter;
-    private static readonly delegate* unmanaged[Stdcall]<int, float, void*, int> s_X3DAudioInitialize;
+    private static readonly delegate* unmanaged[Stdcall]<int, float, out X3DAudioHandle, int> s_X3DAudioInitialize;
     private static readonly delegate* unmanaged[Stdcall]<void*, void*, void*, int, void*, void> s_X3DAudioCalculate;
 
     static XAudio2Native()
     {
         s_xaudioLibrary = LoadXAudioLibrary();
-        s_XAudio2CreateCallback = (delegate* unmanaged[Stdcall]<void*, uint, uint, int>)GetExport(nameof(XAudio2Create));
+        s_XAudio2CreateCallback = (delegate* unmanaged[Stdcall]<out IntPtr, uint, uint, int>)GetExport(nameof(XAudio2Create));
         s_CreateAudioReverb = (delegate* unmanaged[Stdcall]<void*, uint, int>)GetExport(nameof(CreateAudioReverb));
         s_CreateAudioVolumeMeter = (delegate* unmanaged[Stdcall]<void*, uint, int>)GetExport(nameof(CreateAudioVolumeMeter));
-        s_X3DAudioInitialize = (delegate* unmanaged[Stdcall]<int, float, void*, int>)GetExport(nameof(X3DAudioInitialize));
+        s_X3DAudioInitialize = (delegate* unmanaged[Stdcall]<int, float, out X3DAudioHandle, int>)GetExport(nameof(X3DAudioInitialize));
         s_X3DAudioCalculate = (delegate* unmanaged[Stdcall]<void*, void*, void*, int, void*, void>)GetExport(nameof(X3DAudioCalculate));
     }
 
@@ -148,24 +147,14 @@ internal static unsafe class XAudio2Native
 #endif
     }
 
-    public static IntPtr XAudio2Create(uint flags, ProcessorSpecifier processorSpecifier)
+    public static Result XAudio2Create(ProcessorSpecifier processorSpecifier, out IntPtr nativePtr)
     {
-        IntPtr nativePtr = IntPtr.Zero;
-        Result result = s_XAudio2CreateCallback(&nativePtr, flags, (uint)processorSpecifier);
-        result.CheckError();
-        return nativePtr;
+        return s_XAudio2CreateCallback(out nativePtr, 0u, (uint)processorSpecifier);
     }
 
-    public static Result X3DAudioInitialize(Speakers speakerChannelMask, float speedOfSound, out X3DAudioHandle instance)
+    public static Result X3DAudioInitialize(int speakerChannelMask, float speedOfSound, out X3DAudioHandle instance)
     {
-        instance = new X3DAudioHandle();
-        Result result;
-        fixed (void* instance_ = &instance)
-        {
-            result = s_X3DAudioInitialize((int)speakerChannelMask, speedOfSound, instance_);
-        }
-
-        return result;
+        return s_X3DAudioInitialize(speakerChannelMask, speedOfSound, out instance);
     }
 
     public static void X3DAudioCalculate(ref X3DAudioHandle instance, Listener listener, Emitter emitter, CalculateFlags flags, IntPtr dSPSettings)

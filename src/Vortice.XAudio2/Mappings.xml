@@ -14,6 +14,8 @@
   <extension>
     <define struct="System.Numerics.Vector3" sizeof="12" />
 
+    <create class="Vortice.XAudio2.XAudio2" visibility="public static"/>
+
     <create-cpp enum="XAUDIO2_VOICE_SEND_FLAGS" macro="XAUDIO2_SEND_(USEFILTER)" />
     <create-cpp enum="XAUDIO2_VOICE_FLAGS" macro="XAUDIO2_VOICE_.*" />
     <create-cpp enum="XAUDIO2_FLAGS" macro="XAUDIO2_DEBUG_ENGINE" />
@@ -21,27 +23,27 @@
     <create-cpp enum="XAUDIO2_LOG_TYPE" macro="XAUDIO2_LOG_.*" />
     <create-cpp enum="XAUDIO2_BUFFER_FLAGS" macro="XAUDIO2_END_OF_STREAM" />
     <create-cpp enum="XAUDIO2_WINDOWS_PROCESSOR_SPECIFIER" macro="Processor[0-9]+|XAUDIO2_ANY_PROCESSOR|XAUDIO2_DEFAULT_PROCESSOR|XAUDIO2_USE_DEFAULT_PROCESSOR" />
-    <const from-guid="CLSID_XAudio2.*" class="Vortice.XAudio2.IXAudio2" type="System.Guid">new System.Guid("$1")</const>
-    <const from-guid="IID_IXAudio2" class="Vortice.XAudio2.IXAudio2" type="System.Guid">new System.Guid("$1")</const>
+    <const from-guid="CLSID_XAudio2.*" class="Vortice.XAudio2.XAudio2" type="System.Guid">new System.Guid("$1")</const>
+    <const from-guid="IID_IXAudio2" class="Vortice.XAudio2.XAudio2" type="System.Guid">new System.Guid("$1")</const>
 
-    <const from-macro="XAUDIO2_MAX_BUFFER_BYTES" type="int" cpp-type="int" name="MaximumBufferBytes" class="Vortice.XAudio2.IXAudio2" visibility="public const">unchecked((int)$1)</const>
-    <const from-macro="XAUDIO2_MAX_QUEUED_BUFFERS" type="int" cpp-type="int" name="MaximumQueuedBuffers" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_MAX_AUDIO_CHANNELS" type="int" cpp-type="int" name="MaximumAudioChannels" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_MIN_SAMPLE_RATE" type="int" cpp-type="int" name="MinimumSampleRate" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_MAX_SAMPLE_RATE" type="int" cpp-type="int" name="MaximumSampleRate" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_MAX_VOLUME_LEVEL" type="float" cpp-type="float" name="MaximumVolumeLevel" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_MIN_FREQ_RATIO" type="float" cpp-type="float" name="MinimumFrequencyRatio" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_MAX_FREQ_RATIO" type="float" cpp-type="float" name="MaximumFrequencyRatio" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_DEFAULT_FREQ_RATIO" type="float" cpp-type="float" name="DefaultFrequencyRatio" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_MAX_FILTER_ONEOVERQ" type="float" cpp-type="float" name="MaximumFilterOneOverQ" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_MAX_FILTER_FREQUENCY" type="float" cpp-type="float" name="MaximumFilterFrequency" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_MAX_LOOP_COUNT" type="int" cpp-type="int" name="MaximumLoopCount" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_COMMIT_NOW" type="int" cpp-type="int" name="CommitNow" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_COMMIT_ALL" type="int" cpp-type="int" name="CommitAll" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_NO_LOOP_REGION" type="int" cpp-type="int" name="NoLoopRegion" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_LOOP_INFINITE" type="int" cpp-type="int" name="LoopInfinite" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_DEFAULT_CHANNELS" type="int" cpp-type="int" name="DefaultChannels" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_DEFAULT_SAMPLERATE" type="int" cpp-type="int" name="DefaultSampleRate" class="Vortice.XAudio2.IXAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_BUFFER_BYTES" type="int" cpp-type="int" name="MaximumBufferBytes" class="Vortice.XAudio2.XAudio2" visibility="public const">unchecked((int)$1)</const>
+    <const from-macro="XAUDIO2_MAX_QUEUED_BUFFERS" type="int" cpp-type="int" name="MaximumQueuedBuffers" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_AUDIO_CHANNELS" type="int" cpp-type="int" name="MaximumAudioChannels" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MIN_SAMPLE_RATE" type="int" cpp-type="int" name="MinimumSampleRate" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_SAMPLE_RATE" type="int" cpp-type="int" name="MaximumSampleRate" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_VOLUME_LEVEL" type="float" cpp-type="float" name="MaximumVolumeLevel" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MIN_FREQ_RATIO" type="float" cpp-type="float" name="MinimumFrequencyRatio" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_FREQ_RATIO" type="float" cpp-type="float" name="MaximumFrequencyRatio" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_FREQ_RATIO" type="float" cpp-type="float" name="DefaultFrequencyRatio" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_FILTER_ONEOVERQ" type="float" cpp-type="float" name="MaximumFilterOneOverQ" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_FILTER_FREQUENCY" type="float" cpp-type="float" name="MaximumFilterFrequency" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_MAX_LOOP_COUNT" type="int" cpp-type="int" name="MaximumLoopCount" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_COMMIT_NOW" type="int" cpp-type="int" name="CommitNow" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_COMMIT_ALL" type="int" cpp-type="int" name="CommitAll" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_NO_LOOP_REGION" type="int" cpp-type="int" name="NoLoopRegion" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_LOOP_INFINITE" type="int" cpp-type="int" name="LoopInfinite" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_CHANNELS" type="int" cpp-type="int" name="DefaultChannels" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_SAMPLERATE" type="int" cpp-type="int" name="DefaultSampleRate" class="Vortice.XAudio2.XAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_VOICE_NOSAMPLESPLAYED" type="int" cpp-type="int" name="NoSamplesPlayed" class="Vortice.XAudio2.IXAudio2SourceVoice" visibility="private const" />
 
     <create class="ResultCode" visibility="public"/>
@@ -166,11 +168,11 @@
     <map field="XAUDIO2_EFFECT_DESCRIPTOR::pEffect" name="EffectPointer" />
     <map field="XAUDIO2_EFFECT_DESCRIPTOR::pEffect" visibility="internal" />
 
-    <!-- XAUDIO2_VOICE_DETAILS -->
-    <map field="XAUDIO2_VOICE_DETAILS::InputChannels" name="InputChannelCount" />
-
     <!-- XAUDIO2_SEND_DESCRIPTOR -->
     <map struct="XAUDIO2_SEND_DESCRIPTOR" name="VoiceSendDescriptor" />
+
+    <map field="XAUDIO2_DEBUG_CONFIGURATION::TraceMask" type="XAUDIO2_LOG_TYPE" />
+    <map field="XAUDIO2_DEBUG_CONFIGURATION::BreakMask" type="XAUDIO2_LOG_TYPE" />
 
     <!-- XAUDIO2_VOICE_SENDS -->
     <map struct="XAUDIO2_VOICE_SENDS" name="VoiceSendDescriptors" visibility="internal" />
@@ -190,6 +192,7 @@
     <map method="IXAudio2::Create.*" visibility="internal" />
     <map param="IXAudio2::CreateSourceVoice::Flags" type="XAUDIO2_VOICE_FLAGS" />
     <map param="IXAudio2::CreateSourceVoice::pSourceFormat" type="void" />
+    <map method="IXAudio2::SetDebugConfiguration" visibility="internal" />
 
     <map method="IXAudio2::(Unr|R)egisterForCallbacks" visibility="internal" />
     <map interface="IXAudio2EngineCallback" visibility="internal" />

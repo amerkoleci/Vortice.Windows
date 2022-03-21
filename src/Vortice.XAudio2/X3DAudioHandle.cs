@@ -1,12 +1,11 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.InteropServices;
 
-namespace Vortice.XAudio2
+namespace Vortice.XAudio2;
+
+[StructLayout(LayoutKind.Explicit, Size = 20)]
+internal struct X3DAudioHandle
 {
-    [StructLayout(LayoutKind.Explicit, Size = 20)]
-    internal struct X3DAudioHandle
-    {
-    }
 }
