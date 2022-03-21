@@ -24,6 +24,7 @@ public class CustomColorRenderer : TextRendererBase
         _defaultBrush = defaultBrush;
     }
 
+    /// <inheritdoc/>
     public override void DrawGlyphRun(IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun glyphRun, GlyphRunDescription glyphRunDescription, IUnknown clientDrawingEffect)
     {
         ID2D1SolidColorBrush brush = _defaultBrush;
