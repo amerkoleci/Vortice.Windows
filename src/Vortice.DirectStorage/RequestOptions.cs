@@ -27,6 +27,6 @@ public partial struct RequestOptions
     public RequestDestinationType DestinationType
     {
         get => (RequestDestinationType)((_Type & 254ul) >> 1);
-        set => _Type = (_Type & ~254ul) | (((ulong)value & 127ul) << 1);
+        set => _Type = (_Type & ~254ul) | (((ulong)value << 1) & 254ul);
     }
 }
