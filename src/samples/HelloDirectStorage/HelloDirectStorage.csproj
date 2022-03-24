@@ -12,4 +12,10 @@
     <ProjectReference Include="..\..\Vortice.DirectStorage\Vortice.DirectStorage.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
