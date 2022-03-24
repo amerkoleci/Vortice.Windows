@@ -7,35 +7,26 @@ namespace Vortice.DirectStorage;
 public partial struct RequestOptions
 {
     [FieldOffset(0)]
-    internal byte _CompressionFormat;
+    internal CompressionFormat _CompressionFormat;
+
     public CompressionFormat CompressionFormat
     {
-        get => (CompressionFormat)((_CompressionFormat >> 0) & 255);
-        set => _CompressionFormat = (byte)((_CompressionFormat & ~(255 << 0)) | (((byte)value & 255) << 0));
+        get => _CompressionFormat;
+        set => _CompressionFormat = value;
     }
 
-    [FieldOffset(0)]
-    internal long _SourceType;
+    [FieldOffset(8)]
+    internal ulong _Type;
 
     public RequestSourceType SourceType
     {
-        get => (RequestSourceType)((_SourceType >> 8) & 1);
-        set => _SourceType = (_SourceType & ~(1 << 8)) | (((long)value & 1) << 8);
+        get => (RequestSourceType)(_Type & 1);
+        set => _Type = (_Type & ~1ul) | ((ulong)value & 1ul);
     }
 
-    [FieldOffset(0)]
-    internal long _DestinationType;
     public RequestDestinationType DestinationType
     {
-        get => (RequestDestinationType)((_DestinationType >> 9) & 127);
-        set => _DestinationType = (long)((_DestinationType & ~(127 << 9)) | (((long)value & 127) << 9));
-    }
-
-    [FieldOffset(0)]
-    internal ulong _Reserved;
-    internal ulong Reserved
-    {
-        get => (_Reserved >> 16) & 65535;
-        set => _Reserved = (ulong)((_Reserved & ~(65535 << 16)) | ((value & 65535) << 16));
+        get => (RequestDestinationType)((_Type & 254ul) >> 1);
+        set => _Type = (_Type & ~254ul) | (((ulong)value & 127ul) << 1);
     }
 }

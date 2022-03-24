@@ -35,6 +35,11 @@
     <map enum="DSTORAGE(.+)" name-tmp="$1" />
     <map struct="DSTORAGE(.+)" name-tmp="$1" />
 
+    <!-- DSTORAGE_COMPRESSION_FORMAT -->
+    <map enum-item="DSTORAGE_COMPRESSION_FORMAT_NONE" name="None"/>
+    <map enum-item="DSTORAGE_COMPRESSION_FORMAT_1" name="Format1"/>
+    <map enum-item="DSTORAGE_CUSTOM_COMPRESSION_0" name="Custom0"/>
+
     <remove field="DSTORAGE_ERROR_FIRST_FAILURE::.*"/>
 
     <map method="IDStorageFactory::CreateQueue" visibility="private" hresult="true" check="false"/>
@@ -50,5 +55,7 @@
     <map function="DStorageSetConfiguration" dll='"dstorage.dll"' group="Vortice.DirectStorage.DirectStorage" hresult="true" check="false"/>
     <map function="DStorageGetFactory" dll='"dstorage.dll"' group="Vortice.DirectStorage.DirectStorage" visibility="private" hresult="true" check="false"/>
     <map param="DStorageGetFactory::ppv" attribute="out" return="false" />
+
+    <map struct="DSTORAGE_REQUEST" marshal="true" />
   </mapping>
 </config>
