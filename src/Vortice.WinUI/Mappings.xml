@@ -9,7 +9,6 @@
 
   <include file="microsoft.ui.xaml.window.h" namespace="Vortice.WinUI" attach="true" />
   <include file="microsoft.ui.xaml.hosting.desktopwindowxamlsource.h" namespace="Vortice.WinUI" attach="true" />
-  <include file="microsoft.ui.xaml.xamlroot.h" namespace="Vortice.WinUI" attach="true" />
   <include file="microsoft.ui.xaml.media.dxinterop.h" namespace="Vortice.WinUI" attach="true" />
 
   <extension>
