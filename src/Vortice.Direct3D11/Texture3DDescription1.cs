@@ -21,7 +21,7 @@ public partial struct Texture3DDescription1
     /// <param name="bindFlags">The <see cref="Vortice.Direct3D11.BindFlags"/> for binding to pipeline stages.</param>
     /// <param name="usage">Value that identifies how the texture is to be read from and written to.</param>
     /// <param name="cpuAccessFlags">The <see cref="Direct3D11.CpuAccessFlags"/> to specify the types of CPU access allowed.</param>
-    /// <param name="optionFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
+    /// <param name="miscFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
     /// <param name="textureLayout">A <see cref="TextureLayout"/> value that identifies the layout of the texture.</param>
     public Texture3DDescription1(
         Format format,
@@ -32,7 +32,7 @@ public partial struct Texture3DDescription1
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None,
-        ResourceOptionFlags optionFlags = ResourceOptionFlags.None,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         TextureLayout textureLayout = TextureLayout.Undefined)
     {
         if (format == Format.Unknown)
@@ -54,8 +54,8 @@ public partial struct Texture3DDescription1
         Format = format;
         Usage = usage;
         BindFlags = bindFlags;
-        CpuAccessFlags = cpuAccessFlags;
-        OptionFlags = optionFlags;
+        CPUAccessFlags = cpuAccessFlags;
+        MiscFlags = miscFlags;
         TextureLayout = textureLayout;
     }
 
@@ -74,8 +74,8 @@ public partial struct Texture3DDescription1
         Format = description.Format;
         Usage = description.Usage;
         BindFlags = description.BindFlags;
-        CpuAccessFlags = description.CpuAccessFlags;
-        OptionFlags = description.OptionFlags;
+        CPUAccessFlags = description.CPUAccessFlags;
+        MiscFlags = description.MiscFlags;
         TextureLayout = textureLayout;
     }
 }

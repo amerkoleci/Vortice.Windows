@@ -134,13 +134,13 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         else
         {
             // Create offscreen texture
-            OffscreenTexture = Device.CreateTexture2D(Size.Width, Size.Height, Format.R8G8B8A8_UNorm, 1, 1, null, BindFlags.ShaderResource | BindFlags.RenderTarget);
+            OffscreenTexture = Device.CreateTexture2D(Format.R8G8B8A8_UNorm, Size.Width, Size.Height, 1, 1, null, BindFlags.ShaderResource | BindFlags.RenderTarget);
             RenderTargetView = Device.CreateRenderTargetView(OffscreenTexture);
         }
 
         if (depthStencilFormat != Format.Unknown)
         {
-            DepthStencilTexture = Device.CreateTexture2D(Size.Width, Size.Height, depthStencilFormat, 1, 1, null, BindFlags.DepthStencil);
+            DepthStencilTexture = Device.CreateTexture2D(depthStencilFormat, Size.Width, Size.Height, 1, 1, null, BindFlags.DepthStencil);
             DepthStencilView = Device.CreateDepthStencilView(DepthStencilTexture!, new DepthStencilViewDescription(DepthStencilTexture, DepthStencilViewDimension.Texture2D));
         }
 
@@ -317,15 +317,15 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             }
 
             desc.BindFlags = BindFlags.None;
-            desc.OptionFlags &= ResourceOptionFlags.TextureCube;
-            desc.CpuAccessFlags = CpuAccessFlags.Read;
+            desc.MiscFlags &= ResourceOptionFlags.TextureCube;
+            desc.CPUAccessFlags = CpuAccessFlags.Read;
             desc.Usage = ResourceUsage.Staging;
 
             stagingTexture = Device.CreateTexture2D(desc);
 
             DeviceContext.CopyResource(stagingTexture, temp);
         }
-        else if ((desc.Usage == ResourceUsage.Staging) && ((desc.CpuAccessFlags & CpuAccessFlags.Read) != CpuAccessFlags.None))
+        else if ((desc.Usage == ResourceUsage.Staging) && ((desc.CPUAccessFlags & CpuAccessFlags.Read) != CpuAccessFlags.None))
         {
             // Handle case where the source is already a staging texture we can use directly
             stagingTexture = source;
@@ -334,8 +334,8 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         {
             // Otherwise, create a staging texture from the non-MSAA source
             desc.BindFlags = 0;
-            desc.OptionFlags &= ResourceOptionFlags.TextureCube;
-            desc.CpuAccessFlags = CpuAccessFlags.Read;
+            desc.MiscFlags &= ResourceOptionFlags.TextureCube;
+            desc.CPUAccessFlags = CpuAccessFlags.Read;
             desc.Usage = ResourceUsage.Staging;
 
             stagingTexture = Device.CreateTexture2D(desc);

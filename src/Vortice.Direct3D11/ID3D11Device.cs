@@ -192,8 +192,8 @@ public unsafe partial class ID3D11Device
 
     public ID3D11Buffer CreateBuffer<T>(in T data, BufferDescription description) where T : unmanaged
     {
-        if (description.SizeInBytes == 0)
-            description.SizeInBytes = sizeof(T);
+        if (description.ByteWidth == 0)
+            description.ByteWidth = sizeof(T);
 
         fixed (T* dataPtr = &data)
         {
@@ -203,8 +203,8 @@ public unsafe partial class ID3D11Device
 
     public ID3D11Buffer CreateBuffer<T>(Span<T> data, BufferDescription description) where T : unmanaged
     {
-        if (description.SizeInBytes == 0)
-            description.SizeInBytes = sizeof(T) * data.Length;
+        if (description.ByteWidth == 0)
+            description.ByteWidth = sizeof(T) * data.Length;
 
         fixed (T* dataPtr = data)
         {
@@ -221,18 +221,21 @@ public unsafe partial class ID3D11Device
     /// <param name="sizeInBytes">The size, in bytes, of the buffer. If 0 is specified, sizeof(T) * data.Length is used.</param>
     /// <param name="usage">The usage pattern for the buffer.</param>
     /// <param name="accessFlags">Flags specifying how the buffer will be accessible from the CPU.</param>
-    /// <param name="optionFlags">Miscellaneous resource options.</param>
+    /// <param name="miscFlags">Miscellaneous resource options.</param>
     /// <param name="structureByteStride">The size (in bytes) of the structure element for structured buffers.</param>
     /// <returns>An initialized buffer</returns>
     public ID3D11Buffer CreateBuffer<T>(BindFlags bindFlags, Span<T> data,
-        int sizeInBytes = 0, ResourceUsage usage = ResourceUsage.Default, CpuAccessFlags accessFlags = CpuAccessFlags.None, ResourceOptionFlags optionFlags = ResourceOptionFlags.None, int structureByteStride = 0) where T : unmanaged
+        int sizeInBytes = 0, ResourceUsage usage = ResourceUsage.Default,
+        CpuAccessFlags accessFlags = CpuAccessFlags.None,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        int structureByteStride = 0) where T : unmanaged
     {
         var description = new BufferDescription()
         {
+            ByteWidth = sizeInBytes == 0 ? sizeof(T) * data.Length : sizeInBytes,
             BindFlags = bindFlags,
-            CpuAccessFlags = accessFlags,
-            OptionFlags = optionFlags,
-            SizeInBytes = sizeInBytes == 0 ? sizeof(T) * data.Length : sizeInBytes,
+            CPUAccessFlags = accessFlags,
+            MiscFlags = miscFlags,
             Usage = usage,
             StructureByteStride = structureByteStride
         };
@@ -413,14 +416,14 @@ public unsafe partial class ID3D11Device
         return CreateQuery(new QueryDescription(queryType, miscFlags));
     }
 
-    public ID3D11Texture1D CreateTexture1D(int width, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture1D CreateTexture1D(Format format, int width, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
     {
-        return CreateTexture1D(new Texture1DDescription(width, format, arraySize, mipLevels, bindFlags), initialData);
+        return CreateTexture1D(new Texture1DDescription(format, width, arraySize, mipLevels, bindFlags), initialData);
     }
 
-    public ID3D11Texture2D CreateTexture2D(int width, int height, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture2D CreateTexture2D(Format format, int width, int height, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
     {
-        return CreateTexture2D(new Texture2DDescription(width, height, format, arraySize, mipLevels, bindFlags), initialData);
+        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, mipLevels, bindFlags), initialData);
     }
 
     public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, DataRectangle[] data)
@@ -435,22 +438,22 @@ public unsafe partial class ID3D11Device
         return CreateTexture2D(description, subResourceDatas);
     }
 
-    public ID3D11Texture2D CreateTexture2DMultisample(int width, int height, int sampleCount, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture2D CreateTexture2DMultisample(Format format, int width, int height, int sampleCount, int arraySize = 1, BindFlags bindFlags = BindFlags.ShaderResource)
     {
         if (sampleCount < 1)
             throw new ArgumentException(nameof(sampleCount));
 
-        return CreateTexture2D(new Texture2DDescription(width, height, format, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0), null);
+        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0), null);
     }
 
-    public ID3D11Texture3D CreateTexture3D(int width, int height, int depth, Format format = Format.R8G8B8A8_UNorm, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture3D CreateTexture3D(Format format, int width, int height, int depth, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
     {
-        return CreateTexture3D(new Texture3DDescription(width, height, depth, format, mipLevels, bindFlags), initialData);
+        return CreateTexture3D(new Texture3DDescription(format, width, height, depth, mipLevels, bindFlags), initialData);
     }
 
-    public ID3D11Texture2D CreateTextureCube(int size, Format format = Format.R8G8B8A8_UNorm, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture2D CreateTextureCube(Format format, int size, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
     {
-        var description = new Texture2DDescription(size, size, format, arraySize * 6, mipLevels, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, 1, 0, ResourceOptionFlags.TextureCube);
+        var description = new Texture2DDescription(format, size, size, 6, mipLevels, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, 1, 0, ResourceOptionFlags.TextureCube);
 
         return CreateTexture2D(description, initialData);
     }

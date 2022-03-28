@@ -41,7 +41,7 @@ public unsafe partial struct MappedSubresource
 
     public Span<T> AsSpan<T>(ID3D11Buffer buffer) where T : unmanaged
     {
-        Span<byte> source = new(DataPointer.ToPointer(), buffer.Description.SizeInBytes);
+        Span<byte> source = new(DataPointer.ToPointer(), buffer.Description.ByteWidth);
         return MemoryMarshal.Cast<byte, T>(source);
     }
 

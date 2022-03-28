@@ -18,12 +18,12 @@ public partial struct Texture2DDescription1
     /// <param name="height">Texture height (in texels).</param>
     /// <param name="arraySize">Number of textures in the array.</param>
     /// <param name="mipLevels">The maximum number of mipmap levels in the texture.</param>
-    /// <param name="bindFlags">The <see cref="Vortice.Direct3D11.BindFlags"/> for binding to pipeline stages.</param>
+    /// <param name="bindFlags">The <see cref="Direct3D11.BindFlags"/> for binding to pipeline stages.</param>
     /// <param name="usage">Value that identifies how the texture is to be read from and written to.</param>
-    /// <param name="cpuAccessFlags">The <see cref="Direct3D11.CpuAccessFlags"/> to specify the types of CPU access allowed.</param>
+    /// <param name="cpuAccessFlags">The <see cref="CpuAccessFlags"/> to specify the types of CPU access allowed.</param>
     /// <param name="sampleCount">Specifies multisampling parameters for the texture.</param>
     /// <param name="sampleQuality">Specifies multisampling parameters for the texture.</param>
-    /// <param name="optionFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
+    /// <param name="miscFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
     /// <param name="textureLayout">A <see cref="TextureLayout"/> value that identifies the layout of the texture.</param>
     public Texture2DDescription1(
         Format format,
@@ -36,7 +36,7 @@ public partial struct Texture2DDescription1
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None,
         int sampleCount = 1,
         int sampleQuality = 0,
-        ResourceOptionFlags optionFlags = ResourceOptionFlags.None,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         TextureLayout textureLayout = TextureLayout.Undefined)
     {
         if (format == Format.Unknown)
@@ -59,8 +59,8 @@ public partial struct Texture2DDescription1
         SampleDescription = new SampleDescription(sampleCount, sampleQuality);
         Usage = usage;
         BindFlags = bindFlags;
-        CpuAccessFlags = cpuAccessFlags;
-        OptionFlags = optionFlags;
+        CPUAccessFlags = cpuAccessFlags;
+        MiscFlags = miscFlags;
         TextureLayout = textureLayout;
     }
 
@@ -79,8 +79,8 @@ public partial struct Texture2DDescription1
         SampleDescription = description.SampleDescription;
         Usage = description.Usage;
         BindFlags = description.BindFlags;
-        CpuAccessFlags = description.CpuAccessFlags;
-        OptionFlags = description.OptionFlags;
+        CPUAccessFlags = description.CPUAccessFlags;
+        MiscFlags = description.MiscFlags;
         TextureLayout = textureLayout;
     }
 }

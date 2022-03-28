@@ -11,36 +11,24 @@ public partial struct BufferDescription
     /// <summary>
     /// Initializes a new instance of the <see cref="BufferDescription"/> struct.
     /// </summary>
-    /// <param name="sizeInBytes">The size in bytes.</param>
+    /// <param name="byteWidth">The size in bytes.</param>
     /// <param name="bindFlags">The bind flags.</param>
     /// <param name="usage">The usage.</param>
     /// <param name="cpuAccessFlags">The CPU access flags.</param>
-    public BufferDescription(int sizeInBytes, BindFlags bindFlags, ResourceUsage usage = ResourceUsage.Default, CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
-    {
-        SizeInBytes = sizeInBytes;
-        BindFlags = bindFlags;
-        Usage = usage;
-        CpuAccessFlags = cpuAccessFlags;
-        OptionFlags = ResourceOptionFlags.None;
-        StructureByteStride = 0;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BufferDescription"/> struct.
-    /// </summary>
-    /// <param name="sizeInBytes">The size in bytes.</param>
-    /// <param name="usage">The usage.</param>
-    /// <param name="bindFlags">The bind flags.</param>
-    /// <param name="cpuAccessFlags">The CPU access flags.</param>
-    /// <param name="optionFlags">The option flags.</param>
+    /// <param name="miscFlags">The option flags.</param>
     /// <param name="structureByteStride">The structure byte stride.</param>
-    public BufferDescription(int sizeInBytes, ResourceUsage usage, BindFlags bindFlags, CpuAccessFlags cpuAccessFlags, ResourceOptionFlags optionFlags = ResourceOptionFlags.None, int structureByteStride = 0)
+    public BufferDescription(int byteWidth,
+        BindFlags bindFlags,
+        ResourceUsage usage = ResourceUsage.Default,
+        CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        int structureByteStride = 0)
     {
-        SizeInBytes = sizeInBytes;
-        Usage = usage;
+        ByteWidth = byteWidth;
         BindFlags = bindFlags;
-        CpuAccessFlags = cpuAccessFlags;
-        OptionFlags = optionFlags;
+        Usage = usage;
+        CPUAccessFlags = cpuAccessFlags;
+        MiscFlags = miscFlags;
         StructureByteStride = structureByteStride;
     }
 }

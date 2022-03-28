@@ -23,4 +23,22 @@ public partial class IDXGIFactory6
         EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(adapterPtr);
     }
+
+    /// <summary>
+    /// Gets the number of available adapters by given <see cref="GpuPreference"/> from this factory.
+    /// </summary>
+    /// <param name="gpuPreference">The <see cref="GpuPreference"/></param>
+    /// <returns>The number of adapters</returns>
+    public int GetAdapterByGpuPreference(GpuPreference gpuPreference)
+    {
+        int count = 0;
+
+        for (int adapterIndex = 0; EnumAdapterByGpuPreference(adapterIndex, gpuPreference, out IDXGIAdapter1? adapter).Success; adapterIndex++)
+        {
+            count++;
+            adapter!.Dispose();
+        }
+
+        return count;
+    }
 }

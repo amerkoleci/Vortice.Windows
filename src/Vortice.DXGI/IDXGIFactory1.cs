@@ -18,4 +18,21 @@ public partial class IDXGIFactory1
         EnumAdapters1(index, out IDXGIAdapter1 adapter).CheckError();
         return adapter;
     }
+
+    /// <summary>
+    /// Gets the number of available adapters from this factory.
+    /// </summary>
+    /// <returns>The number of adapters</returns>
+    public int GetAdapterCount1()
+    {
+        int count = 0;
+
+        for (int adapterIndex = 0; EnumAdapters1(adapterIndex, out IDXGIAdapter1 adapter).Success; adapterIndex++)
+        {
+            count++;
+            adapter.Dispose();
+        }
+
+        return count;
+    }
 }

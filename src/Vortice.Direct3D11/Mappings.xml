@@ -545,19 +545,19 @@
 
     <!-- D3D11_BUFFER_DESC -->
     <map field="D3D11_BUFFER_DESC::BindFlags" type="D3D11_BIND_FLAG" />
-    <map field="D3D11_BUFFER_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
-    <map field="D3D11_BUFFER_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
-    <map field="D3D11_BUFFER_DESC::ByteWidth" name="SizeInBytes" />
+    <!--<map field="D3D11_BUFFER_DESC::ByteWidth" type="System.UInt32" />-->
+    <map field="D3D11_BUFFER_DESC::CPUAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_BUFFER_DESC::MiscFlags" type="D3D11_RESOURCE_MISC_FLAG" />
 
     <map field="D3D11_TEXTURE1D_DESC::BindFlags" type="D3D11_BIND_FLAG" />
-    <map field="D3D11_TEXTURE1D_DESC::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
-    <map field="D3D11_TEXTURE1D_DESC::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_TEXTURE1D_DESC::CPUAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_TEXTURE1D_DESC::MiscFlags" type="D3D11_RESOURCE_MISC_FLAG" />
     <map field="D3D11_TEXTURE2D_DESC1?::BindFlags" type="D3D11_BIND_FLAG" />
-    <map field="D3D11_TEXTURE2D_DESC1?::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
-    <map field="D3D11_TEXTURE2D_DESC1?::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_TEXTURE2D_DESC1?::CPUAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_TEXTURE2D_DESC1?::MiscFlags" type="D3D11_RESOURCE_MISC_FLAG" />
     <map field="D3D11_TEXTURE3D_DESC1?::BindFlags" type="D3D11_BIND_FLAG" />
-    <map field="D3D11_TEXTURE3D_DESC1?::CPUAccessFlags" name="CpuAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
-    <map field="D3D11_TEXTURE3D_DESC1?::MiscFlags" name="OptionFlags" type="D3D11_RESOURCE_MISC_FLAG" />
+    <map field="D3D11_TEXTURE3D_DESC1?::CPUAccessFlags" type="D3D11_CPU_ACCESS_FLAG" />
+    <map field="D3D11_TEXTURE3D_DESC1?::MiscFlags" type="D3D11_RESOURCE_MISC_FLAG" />
     <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT::OutFormatSupport" type="D3D11_FORMAT_SUPPORT" />
     <map field="D3D11_FEATURE_DATA_FORMAT_SUPPORT2::OutFormatSupport2" type="D3D11_FORMAT_SUPPORT2" />
 

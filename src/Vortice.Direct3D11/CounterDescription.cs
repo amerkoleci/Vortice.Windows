@@ -12,10 +12,9 @@ public partial struct CounterDescription
     /// Initializes a new instance of the <see cref="CounterDescription"/> struct.
     /// </summary>
     /// <param name="counterKind">Type of query (see <see cref="CounterKind"/>).</param>
-    /// <param name="miscFlags">Miscellaneous flags.</param>
-    public CounterDescription(CounterKind counterKind, int miscFlags = 0)
+    public CounterDescription(CounterKind counterKind)
     {
         CounterKind = counterKind;
-        MiscFlags = miscFlags;
+        MiscFlags = 0;
     }
 }

@@ -13,9 +13,9 @@ public partial struct Texture2DDescription
     /// <summary>
     /// Initializes a new instance of the <see cref="Texture2DDescription"/> struct.
     /// </summary>
+    /// <param name="format">Texture format.</param>
     /// <param name="width">Texture width (in texels).</param>
     /// <param name="height">Texture height (in texels).</param>
-    /// <param name="format">Texture format.</param>
     /// <param name="arraySize">Number of textures in the array.</param>
     /// <param name="mipLevels">The maximum number of mipmap levels in the texture.</param>
     /// <param name="bindFlags">The <see cref="Vortice.Direct3D11.BindFlags"/> for binding to pipeline stages.</param>
@@ -23,11 +23,11 @@ public partial struct Texture2DDescription
     /// <param name="cpuAccessFlags">The <see cref="Direct3D11.CpuAccessFlags"/> to specify the types of CPU access allowed.</param>
     /// <param name="sampleCount">Specifies multisampling parameters for the texture.</param>
     /// <param name="sampleQuality">Specifies multisampling parameters for the texture.</param>
-    /// <param name="optionFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
+    /// <param name="miscFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
     public Texture2DDescription(
+        Format format,
         int width,
         int height,
-        Format format = Format.R8G8B8A8_UNorm,
         int arraySize = 1,
         int mipLevels = 0,
         BindFlags bindFlags = BindFlags.ShaderResource,
@@ -35,7 +35,7 @@ public partial struct Texture2DDescription
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None,
         int sampleCount = 1,
         int sampleQuality = 0,
-        ResourceOptionFlags optionFlags = ResourceOptionFlags.None)
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
         if (format == Format.Unknown)
             throw new ArgumentException($"format need to be valid", nameof(format));
@@ -57,7 +57,7 @@ public partial struct Texture2DDescription
         SampleDescription = new(sampleCount, sampleQuality);
         Usage = usage;
         BindFlags = bindFlags;
-        CpuAccessFlags = cpuAccessFlags;
-        OptionFlags = optionFlags;
+        CPUAccessFlags = cpuAccessFlags;
+        MiscFlags = miscFlags;
     }
 }
