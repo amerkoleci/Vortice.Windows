@@ -22,15 +22,17 @@
 </PropertyGroup>
 
   <ItemGroup>
-    <None Include="$(DStorageCoreLibrary)" Condition="Exists('$(DStorageCoreLibrary)')">
-      <Link>$([System.IO.Path]::GetFilename('$(DStorageCoreLibrary)'))</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Content Include="$(DStorageCoreLibrary)">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </Content>
 
-    <None Include="$(DStorageLibrary)" Condition="Exists('$(DStorageLibrary)')">
-      <Link>$([System.IO.Path]::GetFilename('$(DStorageLibrary)'))</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Content Condition="Exists('$(DStorageLibrary)')">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </Content>
   </ItemGroup>
 
 </Project>

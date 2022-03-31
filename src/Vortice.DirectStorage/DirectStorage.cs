@@ -19,10 +19,10 @@ public static unsafe partial class DirectStorage
 
             string rid = RuntimeInformation.ProcessArchitecture switch
             {
-                Architecture.X86 => "win10-x86",
-                Architecture.X64 => "win10-x64",
-                Architecture.Arm => "win10-arm",
-                Architecture.Arm64 => "win10-arm64",
+                Architecture.X86 => "win-x86",
+                Architecture.X64 => "win-x64",
+                Architecture.Arm => "win-arm",
+                Architecture.Arm64 => "win-arm64",
                 _ => throw new NotSupportedException("Invalid process architecture")
             };
 
