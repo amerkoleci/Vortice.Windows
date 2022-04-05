@@ -52,10 +52,10 @@ public partial class ColorGlyphRun1
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0, CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
-    internal partial struct __Native
+    internal unsafe struct __Native
     {
         public GlyphRun.__Native GlyphRun;
-        public GlyphRunDescription.__Native GlyphRunDescription;
+        public GlyphRunDescription.__Native* GlyphRunDescription;
         public float BaselineOriginX;
         public float BaselineOriginY;
         public Color4 RunColor;
@@ -66,7 +66,6 @@ public partial class ColorGlyphRun1
         internal unsafe void __MarshalFree()
         {
             GlyphRun.__MarshalFree();
-            GlyphRunDescription.__MarshalFree();
         }
     }
 
@@ -80,8 +79,15 @@ public partial class ColorGlyphRun1
         GlyphRun = new GlyphRun();
         GlyphRun.__MarshalFrom(ref @ref.GlyphRun);
 
-        GlyphRunDescription = new GlyphRunDescription();
-        GlyphRunDescription.__MarshalFrom(ref @ref.GlyphRunDescription);
+        if (@ref.GlyphRunDescription == null)
+        {
+            GlyphRunDescription = null;
+        }
+        else
+        {
+            GlyphRunDescription = new GlyphRunDescription();
+            GlyphRunDescription.__MarshalFrom(ref *@ref.GlyphRunDescription);
+        }
 
         BaselineOriginX = @ref.BaselineOriginX;
         BaselineOriginY = @ref.BaselineOriginY;
