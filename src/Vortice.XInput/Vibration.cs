@@ -1,13 +1,17 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.InteropServices;
-
 namespace Vortice.XInput;
 
 [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-public struct Vibration
+public readonly struct Vibration
 {
-    public ushort LeftMotorSpeed;
-    public ushort RightMotorSpeed;
+    public readonly ushort LeftMotorSpeed;
+    public readonly ushort RightMotorSpeed;
+
+    public Vibration(ushort leftMotorSpeed, ushort rightMotorSpeed)
+    {
+        LeftMotorSpeed = leftMotorSpeed;
+        RightMotorSpeed = rightMotorSpeed;
+    }
 }
