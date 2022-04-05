@@ -61,42 +61,19 @@ public abstract partial class Application : IDisposable
 
         while (!_exitRequested)
         {
-            if (!_paused)
+            if (PeekMessage(out msg, default, 0, 0, PM_REMOVE) != false)
             {
-                if (PeekMessage(out msg, default, 0, 0, PM_REMOVE) != false)
-                {
-                    _ = TranslateMessage(&msg);
-                    _ = DispatchMessage(&msg);
+                _ = TranslateMessage(&msg);
+                _ = DispatchMessage(&msg);
 
-                    if (msg.message == WM_QUIT)
-                    {
-                        _exitRequested = true;
-                        break;
-                    }
-                }
-
-                Tick();
-            }
-            else
-            {
-                BOOL ret = GetMessage(out msg, default, 0, 0);
-                if (ret.Value == 0)
+                if (msg.message == WM_QUIT)
                 {
                     _exitRequested = true;
                     break;
                 }
-                else if (ret.Value == -1)
-                {
-                    //Log.Error("[Win32] - Failed to get message");
-                    _exitRequested = true;
-                    break;
-                }
-                else
-                {
-                    _ = TranslateMessage(&msg);
-                    _ = DispatchMessage(&msg);
-                }
             }
+
+            Tick();
         }
     }
 

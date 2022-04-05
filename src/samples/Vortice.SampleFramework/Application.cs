@@ -5,7 +5,7 @@ namespace Vortice;
 
 public abstract partial class Application : IDisposable
 {
-    private bool _paused;
+    //private bool _paused;
     private bool _exitRequested;
 
     protected IGraphicsDevice? _graphicsDevice;
