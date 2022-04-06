@@ -17,8 +17,8 @@ public sealed class Histogram : ID2D1Effect
 
     public int NumBins
     {
-        get => GetIntValue((int)HistogramProperties.NumBins);
-        set => SetValue((int)HistogramProperties.NumBins, value);
+        get => (int)GetUintValue((int)HistogramProperties.NumBins);
+        set => SetValue((int)HistogramProperties.NumBins, (uint)value);
     }
 
     public ChannelSelector ChannelSelect

@@ -31,14 +31,14 @@ public sealed class ConvolveMatrix : ID2D1Effect
 
     public int KernelSizeX
     {
-        set => SetValue((int)ConvolveMatrixProperties.KernelSizeX, value);
-        get => GetIntValue((int)ConvolveMatrixProperties.KernelSizeX);
+        set => SetValue((int)ConvolveMatrixProperties.KernelSizeX, (uint)value);
+        get => (int)GetUintValue((int)ConvolveMatrixProperties.KernelSizeX);
     }
 
     public int KernelSizeY
     {
-        set => SetValue((int)ConvolveMatrixProperties.KernelSizeY, value);
-        get => GetIntValue((int)ConvolveMatrixProperties.KernelSizeY);
+        set => SetValue((int)ConvolveMatrixProperties.KernelSizeY, (uint)value);
+        get => (int)GetUintValue((int)ConvolveMatrixProperties.KernelSizeY);
     }
 
     public  unsafe float[] KernelMatrix
