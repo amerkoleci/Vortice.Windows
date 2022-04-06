@@ -17,7 +17,7 @@ public class ColorManagement : ID2D1Effect
 
     public ID2D1ColorContext? SourceColorContext
     {
-        get => GetIUnknownValue<ID2D1ColorContext>((int)ColorManagementProperties.SourceColorContext);
+        get => GetColorContextValue((int)ColorManagementProperties.SourceColorContext);
         set => SetValue((int)ColorManagementProperties.SourceColorContext, value);
     }
 
@@ -29,7 +29,7 @@ public class ColorManagement : ID2D1Effect
 
     public ID2D1ColorContext? DestinationColorContext
     {
-        get => GetIUnknownValue<ID2D1ColorContext>((int)ColorManagementProperties.DestinationColorContext);
+        get => GetColorContextValue((int)ColorManagementProperties.DestinationColorContext);
         set => SetValue((int)ColorManagementProperties.DestinationColorContext, value);
     }
 
