@@ -94,13 +94,13 @@ public unsafe partial class ID2D1Properties
     public void SetValue(int index, ComObject? comObject)
     {
         IntPtr ptr = comObject?.NativePointer ?? IntPtr.Zero;
-        SetValue(index, PropertyType.IUnknown, ptr.ToPointer(), sizeof(IntPtr));
+        SetValue(index, PropertyType.IUnknown, &ptr, sizeof(IntPtr));
     }
 
     public void SetValue(int index, ID2D1ColorContext? colorContext)
     {
         IntPtr ptr = colorContext?.NativePointer ?? IntPtr.Zero;
-        SetValue(index, PropertyType.ColorContext, ptr.ToPointer(), sizeof(IntPtr));
+        SetValue(index, PropertyType.ColorContext, &ptr, sizeof(IntPtr));
     }
 
     public bool GetBoolValue(int index)
@@ -206,7 +206,7 @@ public unsafe partial class ID2D1Properties
     {
         IntPtr value = default;
         GetValue(index, PropertyType.IUnknown, &value, sizeof(IntPtr));
-        return value == IntPtr.Zero ? default : MarshallingHelpers.FromPointer<T>(value);
+        return value == IntPtr.Zero ? default : As<T>(value);
     }
     public ID2D1ColorContext? GetColorContextValue(int index)
     {
