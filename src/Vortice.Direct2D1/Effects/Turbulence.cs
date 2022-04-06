@@ -1,7 +1,5 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
-
-using System.Numerics;
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct2D1.Effects;
 
@@ -37,8 +35,8 @@ public sealed class Turbulence : ID2D1Effect
 
     public int NumOctaves
     {
+        get => (int)GetUIntValue((int)TurbulenceProperties.NumOctaves);
         set => SetValue((int)TurbulenceProperties.NumOctaves, (uint)value);
-        get => (int)GetUintValue((int)TurbulenceProperties.NumOctaves);
     }
 
     public int Seed

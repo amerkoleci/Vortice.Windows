@@ -23,13 +23,13 @@ public sealed class Morphology : ID2D1Effect
 
     public int Width
     {
-        get => (int)GetUintValue((int)MorphologyProperties.Width);
+        get => (int)GetUIntValue((int)MorphologyProperties.Width);
         set => SetValue((int)MorphologyProperties.Width, (uint)value);
     }
 
     public int Height
     {
-        get => (int)GetUintValue((int)MorphologyProperties.Height);
+        get => (int)GetUIntValue((int)MorphologyProperties.Height);
         set => SetValue((int)MorphologyProperties.Height, (uint)value);
     }
 }

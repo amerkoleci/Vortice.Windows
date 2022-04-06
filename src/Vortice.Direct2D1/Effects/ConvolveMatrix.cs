@@ -1,8 +1,6 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
-
 namespace Vortice.Direct2D1.Effects;
 
 public sealed class ConvolveMatrix : ID2D1Effect
@@ -31,26 +29,27 @@ public sealed class ConvolveMatrix : ID2D1Effect
 
     public int KernelSizeX
     {
+        get => (int)GetUIntValue((int)ConvolveMatrixProperties.KernelSizeX);
         set => SetValue((int)ConvolveMatrixProperties.KernelSizeX, (uint)value);
-        get => (int)GetUintValue((int)ConvolveMatrixProperties.KernelSizeX);
     }
 
     public int KernelSizeY
     {
+        get => (int)GetUIntValue((int)ConvolveMatrixProperties.KernelSizeY);
         set => SetValue((int)ConvolveMatrixProperties.KernelSizeY, (uint)value);
-        get => (int)GetUintValue((int)ConvolveMatrixProperties.KernelSizeY);
     }
 
-    public  unsafe float[] KernelMatrix
+    public unsafe float[] KernelMatrix
     {
         get
         {
-            var size = KernelSizeX * KernelSizeY;
-            var value = new float[size];
-            fixed (float* valuePtr = &value[0])
+            int size = KernelSizeX * KernelSizeY;
+            float[] value = new float[size];
+            fixed (float* valuePtr = value)
             {
                 GetValue((int)ConvolveMatrixProperties.KernelMatrix, PropertyType.Blob, valuePtr, sizeof(float) * size);
             }
+
             return value;
         }
         set
@@ -61,7 +60,7 @@ public sealed class ConvolveMatrix : ID2D1Effect
                 throw new ArgumentException();
             }
 
-            fixed (void* valuePtr = &value[0])
+            fixed (void* valuePtr = value)
             {
                 SetValue((int)ConvolveMatrixProperties.KernelMatrix, PropertyType.Blob, valuePtr, sizeof(float) * size);
             }

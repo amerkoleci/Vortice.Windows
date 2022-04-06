@@ -17,19 +17,19 @@ public sealed class Posterize : ID2D1Effect
 
     public int RedValueCount
     {
+        get => (int)GetUIntValue((int)PosterizeProperties.RedValueCount);
         set => SetValue((int)PosterizeProperties.RedValueCount, (uint)value);
-        get => (int)GetUintValue((int)PosterizeProperties.RedValueCount);
     }
 
     public int GreenValueCount
     {
+        get => (int)GetUIntValue((int)PosterizeProperties.GreenValueCount);
         set => SetValue((int)PosterizeProperties.GreenValueCount, (uint)value);
-        get => (int)GetUintValue((int)PosterizeProperties.GreenValueCount);
     }
 
     public int BlueValueCount
     {
+        get => (int)GetUIntValue((int)PosterizeProperties.BlueValueCount);
         set => SetValue((int)PosterizeProperties.BlueValueCount, (uint)value);
-        get => (int)GetUintValue((int)PosterizeProperties.BlueValueCount);
     }
 }
