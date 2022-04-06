@@ -13,9 +13,7 @@ public partial class ID2D1Effect
     /// <param name="invalidate">To invalidate</param>
     public void SetInputEffect(int index, ID2D1Effect effect, bool invalidate = true)
     {
-        using (ID2D1Image output = effect.Output)
-        {
-            SetInput(index, output, invalidate);
-        }
+        using ID2D1Image output = effect.Output;
+        SetInput(index, output, invalidate);
     }
 }

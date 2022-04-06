@@ -25,14 +25,14 @@ public sealed class BitmapSource : ID2D1Effect
 
     public Vector2 Scale
     {
-        set => SetValue((int)BitmapSourceProperties.Scale, value);
         get => GetVector2Value((int)BitmapSourceProperties.Scale);
+        set => SetValue((int)BitmapSourceProperties.Scale, value);
     }
 
     public BitmapSourceInterpolationMode InterpolationMode
     {
-        set => SetValue((int)BitmapSourceProperties.InterpolationMode, value);
         get => GetEnumValue<BitmapSourceInterpolationMode>((int)BitmapSourceProperties.InterpolationMode);
+        set => SetValue((int)BitmapSourceProperties.InterpolationMode, value);
     }
 
     public bool EnableDpiCorrection

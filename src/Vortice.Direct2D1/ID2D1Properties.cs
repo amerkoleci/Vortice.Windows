@@ -1,8 +1,6 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
-
 namespace Vortice.Direct2D1;
 
 public unsafe partial class ID2D1Properties
@@ -16,7 +14,7 @@ public unsafe partial class ID2D1Properties
     public void SetValue(int index, bool value)
     {
         int intValue = value ? 1 : 0;
-        SetValue(index, PropertyType.Bool, &intValue, sizeof(int));
+        SetValue(index, PropertyType.Bool, &intValue, sizeof(RawBool));
     }
 
     public void SetValue(int index, Guid value)
@@ -96,13 +94,13 @@ public unsafe partial class ID2D1Properties
     public void SetValue(int index, ComObject? comObject)
     {
         IntPtr ptr = comObject?.NativePointer ?? IntPtr.Zero;
-        SetValue(index, PropertyType.IUnknown, &ptr, sizeof(IntPtr));
+        SetValue(index, PropertyType.IUnknown, ptr.ToPointer(), sizeof(IntPtr));
     }
 
     public void SetValue(int index, ID2D1ColorContext? colorContext)
     {
         IntPtr ptr = colorContext?.NativePointer ?? IntPtr.Zero;
-        SetValue(index, PropertyType.ColorContext, &ptr, sizeof(IntPtr));
+        SetValue(index, PropertyType.ColorContext, ptr.ToPointer(), sizeof(IntPtr));
     }
 
     public bool GetBoolValue(int index)
@@ -208,9 +206,9 @@ public unsafe partial class ID2D1Properties
     {
         IntPtr value = default;
         GetValue(index, PropertyType.IUnknown, &value, sizeof(IntPtr));
-        return value == IntPtr.Zero ? default : As<T>(value);
+        return value == IntPtr.Zero ? default : MarshallingHelpers.FromPointer<T>(value);
     }
-    public unsafe ID2D1ColorContext? GetColorContextValue(int index)
+    public ID2D1ColorContext? GetColorContextValue(int index)
     {
         IntPtr value = default;
         GetValue(index, PropertyType.ColorContext, &value, sizeof(IntPtr));
