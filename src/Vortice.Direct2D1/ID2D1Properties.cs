@@ -169,7 +169,7 @@ public unsafe partial class ID2D1Properties
         return new string(chars, 0, length);
     }
 
-    public uint GetUintValue(int index)
+    public uint GetUIntValue(int index)
     {
         uint value = default;
         GetValue(index, PropertyType.UInt32, &value, sizeof(uint));

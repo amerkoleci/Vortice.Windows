@@ -8,6 +8,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Using Include="System.Numerics" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
     <Using Include="Vortice.Mathematics" />

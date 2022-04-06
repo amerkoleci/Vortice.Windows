@@ -21,7 +21,7 @@
 
     <!-- Packages versions -->
     <SharpGenVersion>2.0.0-beta.10</SharpGenVersion>
-    <VorticeMathematicsVersion>1.4.10</VorticeMathematicsVersion>
+    <VorticeMathematicsVersion>1.4.11</VorticeMathematicsVersion>
   </PropertyGroup>
 
   <PropertyGroup>

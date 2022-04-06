@@ -17,8 +17,8 @@ public sealed class Histogram : ID2D1Effect
 
     public int NumBins
     {
-        get => GetIntValue((int)HistogramProperties.NumBins);
-        set => SetValue((int)HistogramProperties.NumBins, value);
+        get => (int)GetUIntValue((int)HistogramProperties.NumBins);
+        set => SetValue((int)HistogramProperties.NumBins, (uint)value);
     }
 
     public ChannelSelector ChannelSelect
@@ -29,7 +29,21 @@ public sealed class Histogram : ID2D1Effect
 
     public unsafe void GetHistogramOutput(float[] output)
     {
-        var numBins = NumBins;
+        int numBins = NumBins;
+        if (output.Length < numBins)
+        {
+            throw new ArgumentException();
+        }
+
+        fixed (float* outputPtr = output)
+        {
+            GetValue((int)HistogramProperties.HistogramOutput, PropertyType.Blob, outputPtr, sizeof(float) * numBins);
+        }
+    }
+
+    public unsafe void GetHistogramOutput(Span<float> output)
+    {
+        int numBins = NumBins;
         if (output.Length < numBins)
         {
             throw new ArgumentException();
