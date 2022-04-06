@@ -99,6 +99,12 @@ public unsafe partial class ID2D1Properties
         SetValue(index, PropertyType.IUnknown, &ptr, sizeof(IntPtr));
     }
 
+    public void SetValue(int index, ID2D1ColorContext? colorContext)
+    {
+        IntPtr ptr = colorContext?.NativePointer ?? IntPtr.Zero;
+        SetValue(index, PropertyType.ColorContext, &ptr, sizeof(IntPtr));
+    }
+
     public bool GetBoolValue(int index)
     {
         int value = default;
@@ -203,5 +209,11 @@ public unsafe partial class ID2D1Properties
         IntPtr value = default;
         GetValue(index, PropertyType.IUnknown, &value, sizeof(IntPtr));
         return value == IntPtr.Zero ? default : As<T>(value);
+    }
+    public unsafe ID2D1ColorContext? GetColorContextValue(int index)
+    {
+        IntPtr value = default;
+        GetValue(index, PropertyType.ColorContext, &value, sizeof(IntPtr));
+        return value == IntPtr.Zero ? default : new ID2D1ColorContext(value);
     }
 }
