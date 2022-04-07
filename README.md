@@ -12,7 +12,7 @@ This library targets .NET Standard 2.0 and .NET 6.0 using modern .NET API, see [
 Please consider becoming a [SPONSOR](https://github.com/sponsors/amerkoleci) to further help development and to allow faster issue triaging and new features to be implemented.
 **_NOTE:_** **any feature request** would require a [sponsor](https://github.com/sponsors/amerkoleci) in order to allow faster implementation and allow this project to continue.
 
-There is a colllection of samples available only for **Sponsors** [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
+There is a collection of samples available only for **Sponsors** [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
 
 ## Credits
 
