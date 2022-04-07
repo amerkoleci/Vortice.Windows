@@ -904,9 +904,12 @@
     <map function="MFCreateVideoSampleFromSurface" dll='"EVR.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
 
     <map function="MFCreateDXGIDeviceManager" visibility="internal" hresult="true" check="false" />
-
-
-
+    
+    <map function="MFCreateSinkWriterFromMediaSink" dll='"Mfreadwrite.dll"'/>
+    <map function="MFCreateSinkWriterFromURL" dll='"Mfreadwrite.dll"'/>
+    <map function="MFCreateSourceReaderFromByteStream" dll='"Mfreadwrite.dll"'/>
+    <map function="MFCreateSourceReaderFromMediaSource" dll='"Mfreadwrite.dll"'/>
+    <map function="MFCreateSourceReaderFromURL" dll='"Mfreadwrite.dll"'/>
 
     <!-- WASAPI -->
     <remove function="ActivateAudioInterfaceAsync"/>
