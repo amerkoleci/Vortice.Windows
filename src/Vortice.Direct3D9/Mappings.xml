@@ -32,12 +32,13 @@
       #define D3DTS2_TEXTURE7         D3DTS_TEXTURE7
     </post>
   </include>
-  <include file="d3d9on12.h" namespace="Vortice.Direct3D9" attach="true"/>
+  <include file="d3d9on12.h" namespace="Vortice.Direct3D9on12" attach="true"/>
 
   <extension>
     <create class="D3D9" visibility="public static" />
     <create class="D3DX9" visibility="internal static" />
-
+    <create class="Vortice.Direct3D9on12.Apis" visibility="public static"/>
+    
     <const from-macro="D3D_SDK_VERSION" class="Vortice.Direct3D9.D3D9" type="int" name="SdkVersion" />
     <const from-macro="D3DX_VERSION" class="Vortice.Direct3D9.D3DX9" type="int" name="Version" />
     <const from-macro="D3DX_SDK_VERSION" class="Vortice.Direct3D9.D3DX9" type="int" name="SdkVersion" />
@@ -1477,6 +1478,9 @@
     <map method="IDirect3DDevice9On12::ReturnUnderlyingResource" visibility="private" hresult="true" check="false"/>
     <map param="IDirect3DDevice9On12::ReturnUnderlyingResource::pSignalValues" type="void" keep-pointers="true"/>
     <map param="IDirect3DDevice9On12::ReturnUnderlyingResource::ppFences" type="void" keep-pointers="true"/>
+
+    <map function="Direct3DCreate9On12" dll='"d3d9.dll"' group="Vortice.Direct3D9on12.Apis" check="false" visibility="internal" />
+    <map function="Direct3DCreate9On12Ex" dll='"d3d9.dll"' group="Vortice.Direct3D9on12.Apis" check="false" visibility="internal" />
     
     <map param="Direct3DCreate9On12::pOverrideList" type="void" keep-pointers="true"/>
     <map param="Direct3DCreate9On12Ex::pOverrideList" type="void" keep-pointers="true"/>

@@ -87,31 +87,6 @@ public static unsafe partial class D3D11
         return result;
     }
 
-    public static Result D3D11On12CreateDevice(
-        IUnknown d3d12Device,
-        DeviceCreationFlags flags,
-        FeatureLevel[] featureLevels,
-        IUnknown[] commandQueues,
-        int nodeMask,
-        out ID3D11Device device,
-        out ID3D11DeviceContext immediateContext,
-        out FeatureLevel chosenFeatureLevel)
-    {
-        Result result = D3D11On12CreateDevice(d3d12Device,
-            flags,
-            featureLevels, featureLevels.Length,
-            commandQueues, commandQueues.Length,
-            nodeMask,
-            out device, out immediateContext, out chosenFeatureLevel);
-
-        if (result.Failure)
-        {
-            return result;
-        }
-
-        return result;
-    }
-
     /// <summary>
     /// Check if a feature level is supported by a primary adapter.
     /// </summary>

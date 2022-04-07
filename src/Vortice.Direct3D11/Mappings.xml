@@ -15,7 +15,7 @@
   <include file="d3d11_2.h" namespace="Vortice.Direct3D11" attach="true"/>
   <include file="d3d11_3.h" namespace="Vortice.Direct3D11" attach="true"/>
   <include file="d3d11_4.h" namespace="Vortice.Direct3D11" attach="true"/>
-  <include file="d3d11on12.h" namespace="Vortice.Direct3D11" attach="true"/>
+  <include file="d3d11on12.h" namespace="Vortice.Direct3D11on12" attach="true"/>
   <include file="d3d11shader.h" namespace="Vortice.Direct3D11.Shader" attach="true" />
   <include file="d3d11sdklayers.h" namespace="Vortice.Direct3D11.Debug" attach="true" />
   <include file="windows.graphics.directx.direct3d11.interop.h" namespace="Vortice.Direct3D11" attach="true" />
@@ -23,7 +23,8 @@
   <extension>
     <const from-macro="D3D11_SDK_VERSION" class="Vortice.Direct3D11.D3D11" type="int" name="SdkVersion" />
     <create class="D3D11" visibility="public static" />
-
+    <create class="Vortice.Direct3D11on12.Apis" visibility="public static"/>
+    
     <create class="ResultCode" visibility="public static" />
     <const from-macro="D3D11_ERROR_(.*)" cpp-type="int" name="$1" class="Vortice.Direct3D11.ResultCode" result="true" />
 
@@ -869,6 +870,13 @@
     <map param="ID3D11On12Device::CreateWrappedResource::ppResource11" attribute="out" return="false" />
     <map method="ID3D11On12Device1::GetD3D12Device" visibility="private" check="false" />
 
+    <map method="ID3D11On12Device2::UnwrapUnderlyingResource" visibility="private" hresult="true" check="false"/>
+    <map param="ID3D11On12Device2::UnwrapUnderlyingResource::ppvResource12" attribute="out" return="false" />
+
+    <map method="ID3D11On12Device2::ReturnUnderlyingResource" visibility="private" hresult="true" check="false"/>
+    <map param="ID3D11On12Device2::ReturnUnderlyingResource::pSignalValues" type="void" keep-pointers="true"/>
+    <map param="ID3D11On12Device2::ReturnUnderlyingResource::ppFences" type="void" keep-pointers="true"/>
+
     <!-- ID3D11DeviceContext2 -->
     <map method="ID3D11DeviceContext2::(.*)" hresult="true" check="false"/>
     <map param="ID3D11DeviceContext2::CopyTileMappings::Flags" type="D3D11_TILE_MAPPING_FLAG" />
@@ -887,7 +895,7 @@
     <map function="D3D11CreateDevice" check="false"/>
     <map function="D3D11CreateDeviceAndSwapChain" hresult="true" check="false"/>
 
-    <map function="D3D11On12CreateDevice" dll='"d3d11.dll"' group="Vortice.Direct3D11.D3D11" visibility="private"/>
+    <map function="D3D11On12CreateDevice" dll='"d3d11.dll"' group="Vortice.Direct3D11on12.Apis" visibility="private"/>
     <map function="D3D11On12CreateDevice" check="false"/>
     <map param="D3D11On12CreateDevice::Flags" type ="D3D11_CREATE_DEVICE_FLAG"/>
     <map param="D3D11On12CreateDevice::ppDevice" type="ID3D11Device" attribute="out" />

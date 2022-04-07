@@ -1,9 +1,10 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using Vortice.Direct3D11;
 using Vortice.Direct3D12;
 
-namespace Vortice.Direct3D11;
+namespace Vortice.Direct3D11on12;
 
 public partial class ID3D11On12Device
 {

@@ -1,7 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-namespace Vortice.Direct3D9;
+namespace Vortice.Direct3D9on12;
 
 /// <unmanaged>D3D9ON12_ARGS</unmanaged>
 /// <unmanaged-short>D3D9ON12_ARGS</unmanaged-short>

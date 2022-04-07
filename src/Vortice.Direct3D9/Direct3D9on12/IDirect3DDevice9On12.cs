@@ -2,8 +2,9 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Direct3D12;
+using Vortice.Direct3D9;
 
-namespace Vortice.Direct3D9;
+namespace Vortice.Direct3D9on12;
 
 public partial class IDirect3DDevice9On12
 {
