@@ -298,10 +298,9 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     public void SetVertexShaderConstant(int startRegister, Matrix4x4[] data)
     {
-        unsafe
+        fixed (void* pData = data)
         {
-            fixed (void* pData = data)
-                SetVertexShaderConstantF(startRegister, (IntPtr)pData, data.Length << 2);
+            SetVertexShaderConstantF(startRegister, (IntPtr)pData, data.Length << 2);
         }
     }
 

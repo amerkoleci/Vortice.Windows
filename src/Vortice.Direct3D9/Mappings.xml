@@ -32,6 +32,7 @@
       #define D3DTS2_TEXTURE7         D3DTS_TEXTURE7
     </post>
   </include>
+  <include file="d3d9on12.h" namespace="Vortice.Direct3D9" attach="true"/>
 
   <extension>
     <create class="D3D9" visibility="public static" />
@@ -93,6 +94,8 @@
     <bind from="D3DRECT" to="Vortice.RawRect" />
     <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
     <bind from="D3DBOX" to="Vortice.Mathematics.Box"/>
+    <bind from="ID3D12CommandQueue" to="SharpGen.Runtime.ComObject" />
+    <bind from="ID3D12Fence" to="SharpGen.Runtime.ComObject" />
   </bindings>
 
   <naming>
@@ -1229,6 +1232,9 @@
     <map struct="D3DLOCKED_RECT" visibility="internal"/>
     <map struct="D3DLOCKED_BOX" visibility="internal"/>
 
+    <map struct="D3D9ON12_ARGS" name="D3D9On12Arguments" marshal="true" />
+    <remove field="D3D9ON12_ARGS::.*"/>
+    
     <!-- Unsupported stuff -->
     <remove element="_?D3DAUTHENTICATEDCHANNEL.*" />
     <remove interface="IDirect3DCryptoSession9" />
@@ -1459,10 +1465,22 @@
     <map method="IDirect3DStateBlock9::GetDevice" persist="true"/>
     <map param="IDirect3DStateBlock9::GetDevice::ppDevice" attribute="out" />
     
-    <map function="D3D9(.*)" name-tmp="$1" dll='"d3d9.dll"' group="Vortice.Direct3D9.D3D9" visibility="internal" />
-    <map function="Direct3D(.*)" name-tmp="$1" dll='"d3d9.dll"' group="Vortice.Direct3D9.D3D9" check="false" visibility="internal" />
+    <map function="D3D9(.*)" dll='"d3d9.dll"' group="Vortice.Direct3D9.D3D9" visibility="internal" />
+    <map function="Direct3D(.*)" dll='"d3d9.dll"' group="Vortice.Direct3D9.D3D9" check="false" visibility="internal" />
 
-    <remove function="D3DX.*" />
+    <map param="IDirect3DDevice9On12::GetD3D12Device::ppvDevice" attribute="out" return="false" />
+    <map method="IDirect3DDevice9On12::GetD3D12Device" visibility="private" check="false" />
+    
+    <map method="IDirect3DDevice9On12::UnwrapUnderlyingResource" visibility="private" hresult="true" check="false"/>
+    <map param="IDirect3DDevice9On12::UnwrapUnderlyingResource::ppvResource12" attribute="out" return="false" />
+
+    <map method="IDirect3DDevice9On12::ReturnUnderlyingResource" visibility="private" hresult="true" check="false"/>
+    <map param="IDirect3DDevice9On12::ReturnUnderlyingResource::pSignalValues" type="void" keep-pointers="true"/>
+    <map param="IDirect3DDevice9On12::ReturnUnderlyingResource::ppFences" type="void" keep-pointers="true"/>
+    
+    <map param="Direct3DCreate9On12::pOverrideList" type="void" keep-pointers="true"/>
+    <map param="Direct3DCreate9On12Ex::pOverrideList" type="void" keep-pointers="true"/>
+
     <remove function="D3DPERF.*" />
   </mapping>
 </config>
