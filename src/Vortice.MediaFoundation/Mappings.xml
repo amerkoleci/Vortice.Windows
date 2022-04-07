@@ -716,6 +716,9 @@
     <map method="IMFSourceResolver::CreateObjectFromByteStream" visibility="internal"/>
     <map param="IMFSourceResolver::CreateObjectFromByteStream::ppObject" attribute="out" type="void"/>
 
+    <!-- IMFSourceReader -->
+    <map param="IMFSourceReader::SetCurrentMediaType::pdwReserved" type="void" relation="const(System.IntPtr.Zero)"/>
+    
     <!-- IMFMediaEvent -->
     <map param="IMFMediaEvent::GetType::pmet" type="MEDIA_EVENT_TYPES"/>
 
