@@ -191,40 +191,52 @@ namespace Vortice.MediaFoundation
             // ComObject
             // Guid
 
-            if (typeof(T) == typeof(int) || typeof(T) == typeof(bool) || typeof(T) == typeof(byte) || typeof(T) == typeof(uint) || typeof(T) == typeof(short) || typeof(T) == typeof(ushort) || typeof(T) == typeof(byte) || typeof(T) == typeof(sbyte)
+            if (typeof(T) == typeof(int) || typeof(T) == typeof(bool) || typeof(T) == typeof(byte) || typeof(T) == typeof(short) || typeof(T) == typeof(ushort) || typeof(T) == typeof(byte) || typeof(T) == typeof(sbyte)
                 || typeof(T).IsEnum)
             {
-                Set(guidKey, Convert.ToInt32(value));
+                Set_(guidKey, Convert.ToInt32(value));
                 return;
             }
 
-            if (typeof(T) == typeof(long) || typeof(T) == typeof(ulong))
+            if (value is uint uivalue)
             {
-                Set(guidKey, Convert.ToInt64(value));
+                Set_(guidKey, unchecked((int)uivalue));
+                return;
+            }
+
+            if (value is long lvalue)
+            {
+                Set_(guidKey, unchecked((ulong)lvalue));
+                return;
+            }
+
+            if(value is ulong ulvalue)
+            {
+                Set_(guidKey, ulvalue);
                 return;
             }
 
             if (typeof(T) == typeof(IntPtr))
             {
-                Set(guidKey, ((IntPtr)(object)value).ToInt64());
+                Set_(guidKey, unchecked((ulong)((IntPtr)(object)value).ToInt64()));
                 return;
             }
 
             if (typeof(T) == typeof(Guid))
             {
-                Set(guidKey, (Guid)(object)value);
+                Set_(guidKey, (Guid)(object)value);
                 return;
             }
 
             if (typeof(T) == typeof(string))
             {
-                Set(guidKey, value.ToString());
+                Set_(guidKey, value.ToString());
                 return;
             }
 
             if (typeof(T) == typeof(double) || typeof(T) == typeof(float))
             {
-                Set(guidKey, Convert.ToDouble(value));
+                Set_(guidKey, Convert.ToDouble(value));
                 return;
             }
 
@@ -245,7 +257,7 @@ namespace Vortice.MediaFoundation
 
             if (typeof(T) == typeof(ComObject) || typeof(IUnknown).IsAssignableFrom(typeof(T)))
             {
-                Set(guidKey, ((IUnknown)(object)value));
+                Set_(guidKey, ((IUnknown)(object)value));
                 return;
             }
 
