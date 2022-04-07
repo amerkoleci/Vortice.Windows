@@ -694,13 +694,13 @@
 
     <map method="IMFAttributes::GetUnknown" visibility="internal"/>
 
-    <map method="IMFAttributes::SetItem"    name="Set" visibility="internal" />
-    <map method="IMFAttributes::SetUINT32"  name="Set" visibility="internal" />
-    <map method="IMFAttributes::SetUINT64"  name="Set" visibility="internal" />
-    <map method="IMFAttributes::SetDouble"  name="Set" visibility="internal" />
-    <map method="IMFAttributes::SetGUID"    name="Set" visibility="internal" />
-    <map method="IMFAttributes::SetString"  name="Set" visibility="internal" />
-    <map method="IMFAttributes::SetUnknown" name="Set" visibility="internal" />
+    <map method="IMFAttributes::SetItem"    name="Set_" visibility="internal" />
+    <map method="IMFAttributes::SetUINT32"  name="Set_" visibility="internal" />
+    <map method="IMFAttributes::SetUINT64"  name="Set_" visibility="internal" />
+    <map method="IMFAttributes::SetDouble"  name="Set_" visibility="internal" />
+    <map method="IMFAttributes::SetGUID"    name="Set_" visibility="internal" />
+    <map method="IMFAttributes::SetString"  name="Set_" visibility="internal" />
+    <map method="IMFAttributes::SetUnknown" name="Set_" visibility="internal" />
 
     <map method="IMFAttributes::GetItemByIndex" visibility="internal"/>
     
