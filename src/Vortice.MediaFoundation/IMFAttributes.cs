@@ -198,15 +198,21 @@ namespace Vortice.MediaFoundation
                 return;
             }
 
-            if (typeof(T) == typeof(long) || typeof(T) == typeof(ulong))
+            if (value is long lvalue)
             {
-                Set_(guidKey, Convert.ToInt64(value));
+                Set_(guidKey, unchecked((ulong)lvalue));
+                return;
+            }
+
+            if(value is ulong ulvalue)
+            {
+                Set_(guidKey, ulvalue);
                 return;
             }
 
             if (typeof(T) == typeof(IntPtr))
             {
-                Set_(guidKey, ((IntPtr)(object)value).ToInt64());
+                Set_(guidKey, unchecked((ulong)((IntPtr)(object)value).ToInt64()));
                 return;
             }
 
