@@ -191,10 +191,16 @@ namespace Vortice.MediaFoundation
             // ComObject
             // Guid
 
-            if (typeof(T) == typeof(int) || typeof(T) == typeof(bool) || typeof(T) == typeof(byte) || typeof(T) == typeof(uint) || typeof(T) == typeof(short) || typeof(T) == typeof(ushort) || typeof(T) == typeof(byte) || typeof(T) == typeof(sbyte)
+            if (typeof(T) == typeof(int) || typeof(T) == typeof(bool) || typeof(T) == typeof(byte) || typeof(T) == typeof(short) || typeof(T) == typeof(ushort) || typeof(T) == typeof(byte) || typeof(T) == typeof(sbyte)
                 || typeof(T).IsEnum)
             {
                 Set_(guidKey, Convert.ToInt32(value));
+                return;
+            }
+
+            if (value is uint uivalue)
+            {
+                Set_(guidKey, unchecked((int)uivalue));
                 return;
             }
 
