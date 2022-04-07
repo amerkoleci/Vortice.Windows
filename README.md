@@ -9,10 +9,10 @@
 This library targets .NET Standard 2.0 and .NET 6.0 using modern .NET API, see [CHANGELOG](https://github.com/amerkoleci/Vortice.Windows/blob/main/CHANGELOG.md) for list of changes between commits.
 
 ## Sponsors
-Please consider [SPONSOR](https://github.com/sponsors/amerkoleci) me to further help development and to allow faster issue triaging and new features to be implemented.
+Please consider becoming a [SPONSOR](https://github.com/sponsors/amerkoleci) to further help development and to allow faster issue triaging and new features to be implemented.
 **_NOTE:_** **any feature request** would require a [sponsor](https://github.com/sponsors/amerkoleci) in order to allow faster implementation and allow this project to continue.
 
-There is a collleciton of samples available only for **Sponsors** [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
+There is a colllection of samples available only for **Sponsors** [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
 
 ## Credits
 
@@ -20,7 +20,7 @@ Library development, contributions and bugfixes by:
 
 - Amer Koleci
 
-[SharpDX](https://github.com/sharpdx/SharpDX) bindings where used for some platforms to understand how mapping works using SharpGenTools.
+[SharpDX](https://github.com/sharpdx/SharpDX) bindings were used for some platforms to understand how mapping works using SharpGenTools.
 
 ## Build
 
