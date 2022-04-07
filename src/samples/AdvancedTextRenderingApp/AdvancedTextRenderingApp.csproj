@@ -5,6 +5,8 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <IsPackable>false</IsPackable>
     <RootNamespace>AdvancedTextRenderingApp</RootNamespace>
+    <PublishTrimmed>false</PublishTrimmed>
+    <IsTrimmable>false</IsTrimmable>
   </PropertyGroup>
   
   <ItemGroup>

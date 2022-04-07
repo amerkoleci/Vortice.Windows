@@ -2,6 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Numerics;
+using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using Vortice;
 using Vortice.DCommon;
@@ -12,6 +13,25 @@ using static Vortice.Direct2D1.D2D1;
 using static Vortice.DirectWrite.DWrite;
 
 namespace AdvancedTextRenderingApp;
+
+public class ColorDrawingEffect : ComObject
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ColorDrawingEffect"/> class.
+    /// </summary>
+    /// <param name="color">The color.</param>
+    public ColorDrawingEffect(in Color4 color)
+    {
+        Color = color;
+        NativePointer = Marshal.GetIUnknownForObject(this);
+    }
+
+    /// <summary>
+    /// Gets the color.
+    /// </summary>
+    /// <value>The color.</value>
+    public Color4 Color { get; }
+}
 
 public class CustomColorRenderer : TextRendererBase
 {
@@ -27,22 +47,24 @@ public class CustomColorRenderer : TextRendererBase
     /// <inheritdoc/>
     public override void DrawGlyphRun(IntPtr clientDrawingContext, float baselineOriginX, float baselineOriginY, MeasuringMode measuringMode, GlyphRun glyphRun, GlyphRunDescription glyphRunDescription, IUnknown clientDrawingEffect)
     {
-        ID2D1SolidColorBrush brush = _defaultBrush;
         if (clientDrawingEffect is ComObject comObject)
         {
-            brush = comObject.QueryInterfaceOrNull<ID2D1SolidColorBrush>();
-        }
+            ColorDrawingEffect drawingEffect = (ColorDrawingEffect)Marshal.GetObjectForIUnknown(comObject.NativePointer);
 
-        try
-        {
+            using ID2D1SolidColorBrush brush = _renderTarget.CreateSolidColorBrush(drawingEffect.Color);
             _renderTarget.DrawGlyphRun(
                 new Vector2(baselineOriginX, baselineOriginY),
                 glyphRun,
                 brush,
                 measuringMode);
         }
-        catch
+        else
         {
+            _renderTarget.DrawGlyphRun(
+                new Vector2(baselineOriginX, baselineOriginY),
+                glyphRun,
+                _defaultBrush,
+                measuringMode);
         }
     }
 }
@@ -65,8 +87,9 @@ public static class Program
         // Various brushes for our example
         private ID2D1SolidColorBrush backgroundBrush;
         private ID2D1SolidColorBrush defaultBrush;
-        private ID2D1SolidColorBrush greenBrush;
         private ID2D1SolidColorBrush redBrush;
+
+        private ColorDrawingEffect _greenDrawingEffect;
 
         private Vortice.Mathematics.Color4 bgcolor = new(0.1f, 0.1f, 0.1f, 1.0f);
 
@@ -90,7 +113,7 @@ public static class Program
 
             // Apply various modifications to text
             textLayout.SetUnderline(true, new TextRange(0, 5));
-            textLayout.SetDrawingEffect(greenBrush, new TextRange(10, 20));
+            textLayout.SetDrawingEffect(_greenDrawingEffect, new TextRange(10, 20));
             textLayout.SetFontSize(24.0f, new TextRange(6, 4));
             textLayout.SetFontFamilyName("Comic Sans MS", new TextRange(11, 7));
 
@@ -105,7 +128,6 @@ public static class Program
         public override void Dispose()
         {
             if (defaultBrush != null) { defaultBrush.Dispose(); }
-            if (greenBrush != null) { greenBrush.Dispose(); }
             if (redBrush != null) { redBrush.Dispose(); }
             if (backgroundBrush != null) { backgroundBrush.Dispose(); }
 
@@ -120,7 +142,6 @@ public static class Program
         {
             if (_renderTarget != null) { _renderTarget.Dispose(); }
             if (defaultBrush != null) { defaultBrush.Dispose(); }
-            if (greenBrush != null) { greenBrush.Dispose(); }
             if (redBrush != null) { redBrush.Dispose(); }
             if (backgroundBrush != null) { backgroundBrush.Dispose(); }
 
@@ -134,9 +155,10 @@ public static class Program
                 wtp);
 
             defaultBrush = _renderTarget.CreateSolidColorBrush(Colors.White);
-            greenBrush = _renderTarget.CreateSolidColorBrush(Colors.Green);
             redBrush = _renderTarget.CreateSolidColorBrush(Colors.Red);
             backgroundBrush = _renderTarget.CreateSolidColorBrush(new Color4(0.3f, 0.3f, 0.3f, 0.5f));
+
+            _greenDrawingEffect = new ColorDrawingEffect(Colors.Green);
 
             //_textRenderer.AssignResources(renderTarget, defaultBrush);
         }

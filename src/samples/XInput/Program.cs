@@ -35,11 +35,8 @@ public static class Program
 
             if (ok)
             {
-                XInput.SetVibration(userIndex, new Vibration
-                {
-                    LeftMotorSpeed = (ushort)(state.Gamepad.LeftTrigger << 8),
-                    RightMotorSpeed = (ushort)(state.Gamepad.RightTrigger << 8)
-                });
+                Vibration vibration = new((ushort)(state.Gamepad.LeftTrigger << 8), (ushort)(state.Gamepad.RightTrigger << 8));
+                XInput.SetVibration(userIndex, vibration);
             }
             else
             {

@@ -8,7 +8,7 @@ namespace Vortice.Dxc;
 public static partial class DxcCompiler
 {
     public static readonly IDxcUtils Utils = Dxc.CreateDxcUtils();
-    public static readonly IDxcCompiler3 Compiler = Dxc.CreateDxcCompiler3();
+    public static readonly IDxcCompiler3 Compiler = Dxc.CreateDxcCompiler<IDxcCompiler3>();
 
     public static IDxcResult Compile(string shaderSource, string[] arguments, IDxcIncludeHandler? includeHandler = null)
     {

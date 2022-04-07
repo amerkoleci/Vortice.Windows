@@ -9,6 +9,66 @@ namespace Vortice.Dxc;
 
 public static partial class Dxc
 {
+    public const uint DXC_HASHFLAG_INCLUDES_SOURCE = 1u;
+
+    public const string DXC_ARG_DEBUG = "-Zi";
+
+    public const string DXC_ARG_SKIP_VALIDATION = "-Vd";
+
+    public const string DXC_ARG_SKIP_OPTIMIZATIONS = "-Od";
+
+    public const string DXC_ARG_PACK_MATRIX_ROW_MAJOR = "-Zpr";
+
+    public const string DXC_ARG_PACK_MATRIX_COLUMN_MAJOR = "-Zpc";
+
+    public const string DXC_ARG_AVOID_FLOW_CONTROL = "-Gfa";
+
+    public const string DXC_ARG_PREFER_FLOW_CONTROL = "-Gfp";
+
+    public const string DXC_ARG_ENABLE_STRICTNESS = "-Ges";
+
+    public const string DXC_ARG_ENABLE_BACKWARDS_COMPATIBILITY = "-Gec";
+
+    public const string DXC_ARG_IEEE_STRICTNESS = "-Gis";
+
+    public const string DXC_ARG_OPTIMIZATION_LEVEL0 = "-O0";
+
+    public const string DXC_ARG_OPTIMIZATION_LEVEL1 = "-O1";
+
+    public const string DXC_ARG_OPTIMIZATION_LEVEL2 = "-O2";
+
+    public const string DXC_ARG_OPTIMIZATION_LEVEL3 = "-O3";
+
+    public const string DXC_ARG_WARNINGS_ARE_ERRORS = "-WX";
+
+    public const string DXC_ARG_RESOURCES_MAY_ALIAS = "-res_may_alias";
+
+    public const string DXC_ARG_ALL_RESOURCES_BOUND = "-all_resources_bound";
+
+    public const string DXC_ARG_DEBUG_NAME_FOR_SOURCE = "-Zss";
+
+    public const string DXC_ARG_DEBUG_NAME_FOR_BINARY = "-Zsb";
+
+    public const string DXC_EXTRA_OUTPUT_NAME_STDOUT = "*stdout*";
+
+    public const string DXC_EXTRA_OUTPUT_NAME_STDERR = "*stderr*";
+
+    public const uint DxcValidatorFlags_Default = 0u;
+
+    public const uint DxcValidatorFlags_InPlaceEdit = 1u;
+
+    public const uint DxcValidatorFlags_RootSignatureOnly = 2u;
+
+    public const uint DxcValidatorFlags_ModuleOnly = 4u;
+
+    public const uint DxcValidatorFlags_ValidMask = 7u;
+
+    public const uint DxcVersionInfoFlags_None = 0u;
+
+    public const uint DxcVersionInfoFlags_Debug = 1u;
+
+    public const uint DxcVersionInfoFlags_Internal = 2u;
+
     public static readonly Guid CLSID_DxcCompiler = new("73e22d93-e6ce-47f3-b5bf-f0664f39c1b0");
     public static readonly Guid CLSID_DxcLinker = new("EF6A8087-B0EA-4D56-9E45-D07E1A8B7806");
     public static readonly Guid CLSID_DxcDiaDataSource = new("CD1F6B73-2AB0-484D-8EDC-EBE7A43CA09F");
@@ -128,52 +188,33 @@ public static partial class Dxc
 #endif
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static IDxcCompiler CreateDxcCompiler()
+    public static T CreateDxcCompiler<T>() where T : ComObject
     {
-        DxcCreateInstance(CLSID_DxcCompiler, out IDxcCompiler? result).CheckError();
-        return result!;
-    }
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static IDxcCompiler2 CreateDxcCompiler2()
-    {
-        DxcCreateInstance(CLSID_DxcCompiler, out IDxcCompiler2? result).CheckError();
-        return result!;
-    }
-
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static IDxcCompiler3 CreateDxcCompiler3()
-    {
-        DxcCreateInstance(CLSID_DxcCompiler, out IDxcCompiler3? result).CheckError();
-        return result!;
+        return DxcCreateInstance<T>(CLSID_DxcCompiler);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static IDxcUtils CreateDxcUtils()
     {
-        DxcCreateInstance(CLSID_DxcUtils, out IDxcUtils? result).CheckError();
-        return result!;
+        return DxcCreateInstance<IDxcUtils>(CLSID_DxcUtils);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static IDxcAssembler CreateDxcAssembler()
     {
-        DxcCreateInstance(CLSID_DxcAssembler, out IDxcAssembler? result).CheckError();
-        return result!;
+        return DxcCreateInstance<IDxcAssembler>(CLSID_DxcAssembler);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static IDxcLinker CreateDxcLinker()
     {
-        DxcCreateInstance(CLSID_DxcLinker, out IDxcLinker? result).CheckError();
-        return result!;
+        return DxcCreateInstance<IDxcLinker>(CLSID_DxcLinker);
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static IDxcContainerReflection CreateDxcContainerReflection()
     {
-        DxcCreateInstance(CLSID_DxcContainerReflection, out IDxcContainerReflection? result).CheckError();
-        return result!;
+        return DxcCreateInstance<IDxcContainerReflection>(CLSID_DxcContainerReflection);
     }
 
     public static void LoadDxil()
@@ -186,6 +227,12 @@ public static partial class Dxc
         {
 
         }
+    }
+
+    public static T DxcCreateInstance<T>(Guid classGuid) where T : ComObject
+    {
+        DxcCreateInstance(classGuid, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(nativePtr);
     }
 
     public static Result DxcCreateInstance<T>(Guid classGuid, out T? instance) where T : ComObject
