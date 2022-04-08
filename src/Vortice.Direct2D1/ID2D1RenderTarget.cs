@@ -100,19 +100,50 @@ public partial class ID2D1RenderTarget
         return CreateSharedBitmap(typeof(IWICBitmapLock).GUID, bitmapLock.NativePointer, bitmapProperties);
     }
 
-    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(CompatibleRenderTargetOptions options)
+    /// <summary>
+    /// Creates a new bitmap render target for use during intermediate offscreen drawing that is compatible with the current render target and has the same size, DPI, and pixel format (but not alpha mode) as the current render target.
+    /// </summary>
+    /// <returns></returns>
+    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget()
     {
-        return CreateCompatibleRenderTarget(null, null, null, options);
+        return CreateCompatibleRenderTarget(null, null, null, CompatibleRenderTargetOptions.None);
     }
 
-    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(Size desiredSize, CompatibleRenderTargetOptions options)
+    /// <summary>
+    /// Creates a bitmap render target for use during intermediate offscreen drawing that is compatible with the current render target.
+    /// </summary>
+    /// <param name="desiredSize">The desired size of the new render target in device-independent pixels. The pixel size is computed from the desired size using the parent target DPI. If the desiredSize maps to a integer-pixel size, the DPI of the compatible render target is the same as the DPI of the parent target. If desiredSize maps to a fractional-pixel size, the pixel size is rounded up to the nearest integer and the DPI for the compatible render target is slightly higher than the DPI of the parent render target. In all cases, the coordinate (desiredSize.width, desiredSize.height) maps to the lower-right corner of the compatible render target.</param>
+    /// <returns></returns>
+    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(Size desiredSize)
     {
-        return CreateCompatibleRenderTarget(desiredSize, null, null, options);
+        return CreateCompatibleRenderTarget(desiredSize, null, null, CompatibleRenderTargetOptions.None);
     }
 
-    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(DCommon.PixelFormat desiredFormat, CompatibleRenderTargetOptions options)
+    /// <summary>
+    /// Creates a bitmap render target for use during intermediate offscreen drawing that is compatible with the current render target.
+    /// </summary>
+    /// <param name="desiredSize">The desired size of the new render target (in device-independent pixels), if it should be different from the original render target. For more info, see the Remarks section.</param>
+    /// <param name="desiredPixelSize">The desired size of the new render target in pixels if it should be different from the original render target. For more information, see the Remarks section.</param>
+    /// <returns></returns>
+    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(Size desiredSize, SizeI desiredPixelSize)
     {
-        return CreateCompatibleRenderTarget(null, null, desiredFormat, options);
+        return CreateCompatibleRenderTarget(desiredSize, desiredPixelSize, null, CompatibleRenderTargetOptions.None);
+    }
+
+    /// <summary>
+    /// Creates a bitmap render target for use during intermediate offscreen drawing that is compatible with the current render target.
+    /// </summary>
+    /// <param name="desiredSize">The desired size of the new render target (in device-independent pixels), if it should be different from the original render target. For more info, see the Remarks section.</param>
+    /// <param name="desiredPixelSize">The desired size of the new render target in pixels if it should be different from the original render target. For more information, see the Remarks section.</param>
+    /// <param name="desiredFormat">
+    /// The desired pixel format and alpha mode of the new render target.
+    /// If the pixel format is set to <see cref="Format.Unknown"/>, the new render target uses the same pixel format as the original render target.
+    /// If the alpha mode is <see cref="DCommon.AlphaMode.Unknown"/>, the alpha mode of the new render target defaults to <see cref="DCommon.AlphaMode.Premultiplied"/>.
+    /// </param>
+    /// <returns></returns>
+    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(Size desiredSize, SizeI desiredPixelSize, DCommon.PixelFormat desiredFormat)
+    {
+        return CreateCompatibleRenderTarget(desiredSize, desiredPixelSize, desiredFormat, CompatibleRenderTargetOptions.None);
     }
 
     /// <summary>
@@ -381,6 +412,11 @@ public partial class ID2D1RenderTarget
     public void DrawTextLayout(Vector2 origin, IDWriteTextLayout textLayout, ID2D1Brush defaultForegroundBrush)
     {
         DrawTextLayout(origin, textLayout, defaultForegroundBrush, DrawTextOptions.None);
+    }
+
+    public void DrawGlyphRun(float baselineOriginX, float baselineOriginY, GlyphRun glyphRun, ID2D1Brush foregroundBrush)
+    {
+        DrawGlyphRun(new Vector2(baselineOriginX, baselineOriginY), glyphRun, foregroundBrush, MeasuringMode.Natural);
     }
 
     public void DrawGlyphRun(Vector2 baselineOrigin, GlyphRun glyphRun, ID2D1Brush foregroundBrush)

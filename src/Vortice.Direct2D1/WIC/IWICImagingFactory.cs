@@ -174,11 +174,6 @@ public unsafe partial class IWICImagingFactory
         return CreateDecoderFromFilename_(fileName, guidVendor, (int)nativeAccess, metadataOptions);
     }
 
-    public IWICBitmap CreateBitmapFromMemor(int width, int height, Guid pixelFormat, int stride, int dataSize, IntPtr data)
-    {
-        return CreateBitmapFromMemory(width, height, pixelFormat, stride, dataSize, data.ToPointer());
-    }
-
     public IWICBitmap CreateBitmapFromMemory<T>(int width, int height, Guid pixelFormat, T[] source, int stride = 0) where T : unmanaged
     {
         ReadOnlySpan<T> span = source.AsSpan();
