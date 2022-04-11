@@ -1,8 +1,6 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
-
 namespace Vortice.Direct2D1;
 
 /// <summary>
@@ -15,9 +13,10 @@ public partial struct BrushProperties
     /// </summary>
     /// <param name="opacity">A value between 0.0f and 1.0f, inclusive, that specifies the degree of opacity of the brush.</param>
     public BrushProperties(float opacity)
-        : this(opacity, Matrix3x2.Identity)
     {
 
+        Opacity = opacity;
+        Transform = Matrix3x2.Identity;
     }
 
     /// <summary>

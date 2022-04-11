@@ -10,11 +10,13 @@ public static partial class D2D1
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public static T D2D1CreateFactory<T>(FactoryType factoryType = FactoryType.SingleThreaded) where T : ID2D1Factory
+    public static T D2D1CreateFactory<T>(
+        FactoryType factoryType = FactoryType.SingleThreaded,
+        DebugLevel debugLevel = DebugLevel.None) where T : ID2D1Factory
     {
-        var options = new FactoryOptions
+        FactoryOptions options = new()
         {
-            DebugLevel = DebugLevel.None,
+            DebugLevel = debugLevel,
         };
 
         D2D1CreateFactory(factoryType, typeof(T).GUID, options, out IntPtr nativePtr).CheckError();

@@ -428,9 +428,4 @@ public partial class ID2D1RenderTarget
     {
         return EndDraw(out _, out _);
     }
-
-    public bool IsSupported(RenderTargetProperties renderTargetProperties)
-    {
-        return IsSupported(ref renderTargetProperties);
-    }
 }

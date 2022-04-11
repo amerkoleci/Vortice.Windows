@@ -1,22 +1,21 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-namespace Vortice.Direct3D12
+namespace Vortice.Direct3D12;
+
+/// <summary>
+/// Describes a GPU virtual address range.
+/// </summary>
+public partial struct GpuVirtualAddressRange
 {
     /// <summary>
-    /// Describes a GPU virtual address range.
+    /// Initializes a new instance of the <see cref="GpuVirtualAddressRange"/> struct.
     /// </summary>
-    public partial struct GpuVirtualAddressRange
+    /// <param name="startAddress">The beginning of the virtual address range.</param>
+    /// <param name="sizeInBytes">The size of the virtual address range, in bytes.</param>
+    public GpuVirtualAddressRange(ulong startAddress, ulong sizeInBytes)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GpuVirtualAddressRange"/> struct.
-        /// </summary>
-        /// <param name="startAddress">The beginning of the virtual address range.</param>
-        /// <param name="sizeInBytes">The size of the virtual address range, in bytes.</param>
-        public GpuVirtualAddressRange(ulong startAddress, ulong sizeInBytes)
-        {
-            StartAddress = startAddress;
-            SizeInBytes = sizeInBytes;
-        }
+        StartAddress = startAddress;
+        SizeInBytes = sizeInBytes;
     }
 }
