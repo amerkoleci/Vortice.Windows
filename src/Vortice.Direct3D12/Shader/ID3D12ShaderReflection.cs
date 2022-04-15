@@ -10,7 +10,8 @@ public partial class ID3D12ShaderReflection
     private ShaderParameterDescription[] _inputParameters;
     private ShaderParameterDescription[] _outputParameters;
     private ID3D12ShaderReflectionConstantBuffer[] _constantBuffers;
-    private InputBindingDescription[] _resources;
+    private InputBindingDescription[] _boundResources;
+    private ShaderParameterDescription[] _patchConstantParameters;
 
     public Int3 ThreadGroupSize
     {
@@ -28,7 +29,7 @@ public partial class ID3D12ShaderReflection
             if (_inputParameters == null)
             {
                 _inputParameters = new ShaderParameterDescription[Description.InputParameters];
-                for (var i = 0; i < Description.InputParameters; i++)
+                for (int i = 0; i < Description.InputParameters; i++)
                 {
                     _inputParameters[i] = GetInputParameterDescription(i);
                 }
@@ -72,20 +73,37 @@ public partial class ID3D12ShaderReflection
         }
     }
 
-    public InputBindingDescription[] Resources
+    public InputBindingDescription[] BoundResources
     {
         get
         {
-            if (_resources == null)
+            if (_boundResources == null)
             {
-                _resources = new InputBindingDescription[Description.BoundResources];
+                _boundResources = new InputBindingDescription[Description.BoundResources];
                 for (int i = 0; i < Description.BoundResources; i++)
                 {
-                    _resources[i] = GetResourceBindingDescription(i);
+                    _boundResources[i] = GetResourceBindingDescription(i);
                 }
             }
 
-            return _resources;
+            return _boundResources;
+        }
+    }
+
+    public ShaderParameterDescription[] PatchConstantParameters
+    {
+        get
+        {
+            if (_patchConstantParameters == null)
+            {
+                _patchConstantParameters = new ShaderParameterDescription[Description.PatchConstantParameters];
+                for (int i = 0; i < Description.BoundResources; i++)
+                {
+                    _patchConstantParameters[i] = GetPatchConstantParameterDescription(i);
+                }
+            }
+
+            return _patchConstantParameters;
         }
     }
 

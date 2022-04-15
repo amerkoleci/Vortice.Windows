@@ -222,7 +222,7 @@ public static partial class DxcCompiler
         return Compile(source, arguments.ToArray(), includeHandler);
     }
 
-    private static string GetShaderProfile(DxcShaderStage shaderStage, DxcShaderModel shaderModel)
+    public static string GetShaderProfile(DxcShaderStage shaderStage, DxcShaderModel shaderModel)
     {
         string shaderProfile;
         switch (shaderStage)
