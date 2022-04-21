@@ -17,8 +17,4 @@
     <Content Include="Assets\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Assets\" />
-  </ItemGroup>
-
 </Project>

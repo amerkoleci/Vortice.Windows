@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
+  <Sdk Name="Vortice.SharpGenTools.Sdk" Version="$(VorticeSharpGenVersion)" />
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <PackageReference Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
+    <PackageReference Include="Vortice.SharpGen.Runtime.COM" Version="$(VorticeSharpGenVersion)" />
   </ItemGroup>
 
   <ItemGroup>

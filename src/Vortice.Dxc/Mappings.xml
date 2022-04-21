@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-dxc" xmlns="urn:SharpGen.Config">
   <namespace>Vortice.Dxc</namespace>
-  <depends>SharpGen.Runtime.COM</depends>
+  <depends>Vortice.SharpGen.Runtime.COM</depends>
 
   <sdk name="StdLib" />
   <sdk name="WindowsSdk" version="10.0.22000.0" />
