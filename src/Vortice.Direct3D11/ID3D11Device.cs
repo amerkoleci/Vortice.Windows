@@ -212,6 +212,29 @@ public unsafe partial class ID3D11Device
         }
     }
 
+    public ID3D11Buffer CreateBuffer<T>(ReadOnlySpan<T> data,
+        BindFlags bindFlags,
+        ResourceUsage usage = ResourceUsage.Default,
+        CpuAccessFlags accessFlags = CpuAccessFlags.None,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        int structureByteStride = 0) where T : unmanaged
+    {
+        BufferDescription description = new()
+        {
+            ByteWidth = sizeof(T) * data.Length,
+            BindFlags = bindFlags,
+            CPUAccessFlags = accessFlags,
+            MiscFlags = miscFlags,
+            Usage = usage,
+            StructureByteStride = structureByteStride
+        };
+
+        fixed (T* dataPtr = data)
+        {
+            return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
+        }
+    }
+
     /// <summary>
     /// Creates a new instance of the <see cref="ID3D11Buffer"/> class.
     /// </summary>
