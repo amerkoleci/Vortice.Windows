@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Vortice.DirectML;
-
 public partial class IDMLBindingTable
 {
     public void BindInputs(BindingDescription[] descriptions)

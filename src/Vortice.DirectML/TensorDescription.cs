@@ -1,17 +1,13 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace Vortice.DirectML;
-
-public partial struct TensorDescription
+public abstract partial class TensorDescription
 {
-    public ITensorDescription Description { get; set; }
-
-    public TensorDescription(ITensorDescription description)
-    {
-        Description = description;
-    }
-
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
@@ -20,23 +16,16 @@ public partial struct TensorDescription
         public IntPtr Description;
     }
 
-    internal unsafe IntPtr __MarshalAlloc()
+    internal virtual void __MarshalFree(ref __Native @ref)
     {
-        __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
-        @ref->Type = Description.TensorType;
-        @ref->Description = ((ITensorDescriptionMarshal)Description).__MarshalAlloc();
-
-        return new(@ref);
     }
 
-    internal unsafe void __MarshalFree(ref IntPtr pDesc)
+    internal virtual void __MarshalFrom(ref __Native @ref)
     {
-        __Native* @ref = (__Native*)pDesc;
-
-        ((ITensorDescriptionMarshal)Description).__MarshalFree(ref @ref->Description);
-
-        UnsafeUtilities.Free(@ref);
+        throw new NotImplementedException();
     }
+
+    internal abstract void __MarshalTo(ref __Native @ref);
     #endregion
 }

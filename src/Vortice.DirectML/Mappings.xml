@@ -32,6 +32,14 @@
     <!-- Structs -->
     <map struct="DML_(.*)" name-tmp="$1" />
 
+    <map struct="DML_TENSOR_DESC" struct-to-class="true" marshal="true" />
+    <remove field="DML_TENSOR_DESC::.*"/>
+    <map struct="DML_ELEMENT_WISE_IDENTITY_OPERATOR_DESC" struct-to-class="true" marshal="true" />
+    <remove field="DML_ELEMENT_WISE_IDENTITY_OPERATOR_DESC::.*"/>
+
+    <map struct="DML_OPERATOR_DESC" struct-to-class="true" marshal="true" />
+    <remove field="DML_OPERATOR_DESC::.*"/>
+    
     <map struct="DML_BUFFER_TENSOR_DESC" struct-to-class="true" marshal="true" />
     <remove field="DML_BUFFER_TENSOR_DESC::.*"/>
     

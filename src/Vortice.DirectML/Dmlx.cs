@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Vortice.DirectML;
-
 public static class Dmlx
 {
     public static long CalculateBufferTensorSize(
