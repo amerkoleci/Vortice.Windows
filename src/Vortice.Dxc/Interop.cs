@@ -5,32 +5,31 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Vortice.Dxc
+namespace Vortice.Dxc;
+
+internal unsafe class Interop
 {
-    internal unsafe class Interop
+    public static unsafe IntPtr* AllocToPointers(string[] values, int count = 0)
     {
-        public static unsafe IntPtr* AllocToPointers(string[] values, int count = 0)
+        if (values == null || values.Length == 0)
+            return null;
+
+        if (count == 0)
+            count = values.Length;
+
+        // Allocate unmanaged memory for string pointers.
+        var stringHandlesPtr = (IntPtr*)Marshal.AllocHGlobal(sizeof(IntPtr) * count);
+
+        // Store the pointer to the string.
+        for (int i = 0; i < count; i++)
         {
-            if (values == null || values.Length == 0)
-                return null;
-
-            if (count == 0)
-                count = values.Length;
-
-            // Allocate unmanaged memory for string pointers.
-            var stringHandlesPtr = (IntPtr*)Marshal.AllocHGlobal(sizeof(IntPtr) * count);
-
-            // Store the pointer to the string.
-            for (int i = 0; i < count; i++)
-            {
-                stringHandlesPtr[i] = Marshal.StringToHGlobalUni(values[i]);
-            }
-
-            return stringHandlesPtr;
+            stringHandlesPtr[i] = Marshal.StringToHGlobalUni(values[i]);
         }
 
-        public static void Free(IntPtr pointer) => Marshal.FreeHGlobal(pointer);
-
-        public static void Free(void* pointer) => Free(new IntPtr(pointer));
+        return stringHandlesPtr;
     }
+
+    public static void Free(IntPtr pointer) => Marshal.FreeHGlobal(pointer);
+
+    public static void Free(void* pointer) => Free(new IntPtr(pointer));
 }

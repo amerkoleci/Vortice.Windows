@@ -1,24 +1,23 @@
-﻿// Copyright (c) Amer Koleci and Contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-namespace Vortice.MediaFoundation
+namespace Vortice.MediaFoundation;
+
+/// <summary>
+/// MMDevice STGM enumeration
+/// </summary>
+public enum StorageAccessMode
 {
     /// <summary>
-    /// MMDevice STGM enumeration
+    /// Read-only access mode.
     /// </summary>
-    public enum StorageAccessMode
-    {
-        /// <summary>
-        /// Read-only access mode.
-        /// </summary>
-        Read,
-        /// <summary>
-        /// Write-only access mode.
-        /// </summary>
-        Write,
-        /// <summary>
-        /// Read-write access mode.
-        /// </summary>
-        ReadWrite
-    }
+    Read,
+    /// <summary>
+    /// Write-only access mode.
+    /// </summary>
+    Write,
+    /// <summary>
+    /// Read-write access mode.
+    /// </summary>
+    ReadWrite
 }
