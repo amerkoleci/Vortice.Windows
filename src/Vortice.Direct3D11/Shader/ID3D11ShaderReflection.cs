@@ -10,7 +10,8 @@ public partial class ID3D11ShaderReflection
     private ShaderParameterDescription[] _inputParameters;
     private ShaderParameterDescription[] _outputParameters;
     private ID3D11ShaderReflectionConstantBuffer[] _constantBuffers;
-    private InputBindingDescription[] _resources;
+    private InputBindingDescription[] _boundResources;
+    private ShaderParameterDescription[] _patchConstantParameters;
 
     public Int3 ThreadGroupSize
     {
@@ -45,7 +46,7 @@ public partial class ID3D11ShaderReflection
             if (_outputParameters == null)
             {
                 _outputParameters = new ShaderParameterDescription[Description.OutputParameters];
-                for (var i = 0; i < Description.OutputParameters; i++)
+                for (int i = 0; i < Description.OutputParameters; i++)
                 {
                     _outputParameters[i] = GetOutputParameterDescription(i);
                 }
@@ -62,7 +63,7 @@ public partial class ID3D11ShaderReflection
             if (_constantBuffers == null)
             {
                 _constantBuffers = new ID3D11ShaderReflectionConstantBuffer[Description.ConstantBuffers];
-                for (var i = 0; i < Description.ConstantBuffers; i++)
+                for (int i = 0; i < Description.ConstantBuffers; i++)
                 {
                     _constantBuffers[i] = GetConstantBufferByIndex(i);
                 }
@@ -72,20 +73,37 @@ public partial class ID3D11ShaderReflection
         }
     }
 
-    public InputBindingDescription[] Resources
+    public InputBindingDescription[] BoundResources
     {
         get
         {
-            if (_resources == null)
+            if (_boundResources == null)
             {
-                _resources = new InputBindingDescription[Description.BoundResources];
-                for (var i = 0; i < Description.BoundResources; i++)
+                _boundResources = new InputBindingDescription[Description.BoundResources];
+                for (int i = 0; i < Description.BoundResources; i++)
                 {
-                    _resources[i] = GetResourceBindingDescription(i);
+                    _boundResources[i] = GetResourceBindingDescription(i);
                 }
             }
 
-            return _resources;
+            return _boundResources;
+        }
+    }
+
+    public ShaderParameterDescription[] PatchConstantParameters
+    {
+        get
+        {
+            if (_patchConstantParameters == null)
+            {
+                _patchConstantParameters = new ShaderParameterDescription[Description.PatchConstantParameters];
+                for (int i = 0; i < Description.BoundResources; i++)
+                {
+                    _patchConstantParameters[i] = GetPatchConstantParameterDescription(i);
+                }
+            }
+
+            return _patchConstantParameters;
         }
     }
 

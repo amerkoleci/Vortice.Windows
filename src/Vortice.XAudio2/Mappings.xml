@@ -12,8 +12,6 @@
   <include file="x3daudio.h" attach="true" />
 
   <extension>
-    <define struct="System.Numerics.Vector3" sizeof="12" />
-
     <create class="Vortice.XAudio2.XAudio2" visibility="public static"/>
 
     <create-cpp enum="XAUDIO2_VOICE_SEND_FLAGS" macro="XAUDIO2_SEND_(USEFILTER)" />

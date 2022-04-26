@@ -1,19 +1,16 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using SharpGen.Runtime;
+namespace Vortice.WIC;
 
-namespace Vortice.WIC
+public partial class IWICImagingFactory2
 {
-    public partial class IWICImagingFactory2
+    public IWICImagingFactory2()
     {
-        public IWICImagingFactory2()
-        {
-            ComUtilities.CreateComInstance(
-                WICImagingFactoryClsid,
-                ComContext.InprocServer,
-                typeof(IWICImagingFactory2).GUID,
-                this);
-        }
+        ComUtilities.CreateComInstance(
+            WICImagingFactoryClsid,
+            ComContext.InprocServer,
+            typeof(IWICImagingFactory2).GUID,
+            this);
     }
 }

@@ -68,11 +68,6 @@ public static unsafe class UnsafeUtilities
         }
     }
 
-    public static void* Alloc(nuint byteCount)
-    {
-        return (void*)Marshal.AllocHGlobal(checked((int)byteCount));
-    }
-
     public static T* Alloc<T>(int count = 1) where T : unmanaged
     {
         return (T*)Marshal.AllocHGlobal(sizeof(T) * count);

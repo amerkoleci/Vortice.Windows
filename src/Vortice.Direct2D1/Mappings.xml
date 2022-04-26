@@ -506,6 +506,8 @@
     <map method="IWICBitmapFrameEncode::WriteSource" visibility="internal" hresult="true" check="false" />
     <map param="IWICBitmapFrameEncode::WriteSource::prc" type="void" keep-pointers="true"/>
 
+    <map method="IWICFormatConverter::Initialize" hresult="true" check="false" />
+
     <!--IWICBitmap -->
     <map method="IWICBitmap::Lock" visibility="internal"/>
     <map param="IWICBitmap::Lock::flags" type="WICBitmapLockFlags"/>
@@ -672,8 +674,6 @@
 
     <map param="ID2D1Factory::CreateEllipseGeometry::ellipseGeometry" attribute="out" return="true"/>
 
-    <map method="ID2D1Factory::CreateGeometryGroup" visibility="private" />
-
     <map param="ID2D1Factory::CreateHwndRenderTarget::renderTargetProperties" attribute="in value" />
     <map param="ID2D1Factory::CreateHwndRenderTarget::hwndRenderTargetProperties" attribute="in value" />
     <map param="ID2D1Factory::CreateHwndRenderTarget::hwndRenderTarget" attribute="out" return="true"/>
@@ -746,6 +746,9 @@
 
     <map method="ID2D1RenderTarget::DrawTextW" visibility="private" name="DrawText" />
     <map method="ID2D1RenderTarget::EndDraw" hresult="true" check="false" />
+
+    <map param="ID2D1RenderTarget::PushLayer::layerParameters" attribute="in value" />
+    <map param="ID2D1RenderTarget::IsSupported::renderTargetProperties" attribute="in value" />
 
     <!-- ID2D1PathGeometry -->
     <map param="ID2D1PathGeometry::Open::geometrySink" return="true" />

@@ -8,9 +8,10 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <SharpGenMapping Include="Mappings.xml" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
+    
+    <SharpGenMapping Include="Mappings.xml" />
     <ProjectReference Include="..\Vortice.Direct2D1\Vortice.Direct2D1.csproj" />
   </ItemGroup>
 

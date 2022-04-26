@@ -742,7 +742,13 @@
     <map method="IMFDXGIDeviceManager::UnlockDevice" visibility="internal" />
 
     <map interface="IMMNotificationClient" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
-
+    
+    <!-- IMFTransform -->
+    <map param="IMFTransform::ProcessOutput::dwFlags" type="_MFT_PROCESS_OUTPUT_FLAGS"/>
+    <map param="IMFTransform::ProcessOutput::pdwStatus" type="_MFT_PROCESS_OUTPUT_STATUS" attribute="out"/>
+    <map param="IMFTransform::ProcessOutput::pOutputSamples" attribute="inout"/>
+    <map method="IMFTransform::ProcessOutput" check="false" return="true"/>
+    
     <!-- Functions -->
     <remove function="IMF.*"/>
     <map function="MF.*" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" />

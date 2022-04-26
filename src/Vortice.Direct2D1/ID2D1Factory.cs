@@ -23,7 +23,7 @@ public unsafe partial class ID2D1Factory
         return CreateDrawingStateBlock(drawingStateDescription, textRenderingParams);
     }
 
-    public ID2D1GeometryGroup CreateGeometryGroup(FillMode fillMode, params ID2D1Geometry[] geometries)
+    public ID2D1GeometryGroup CreateGeometryGroup(FillMode fillMode, ID2D1Geometry[] geometries)
     {
         return CreateGeometryGroup(fillMode, geometries, geometries.Length);
     }

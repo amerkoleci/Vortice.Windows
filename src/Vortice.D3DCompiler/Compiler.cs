@@ -254,7 +254,7 @@ public unsafe static partial class Compiler
             throw new ArgumentNullException(nameof(shaderSource));
         }
 
-        var shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+        IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
         try
         {
             return Compile(
@@ -810,5 +810,63 @@ public unsafe static partial class Compiler
         }
 
         return new ShaderBytecode(blob);
+    }
+
+    public static Result GetInputSignatureBlob(Blob srcData, out Blob signatureBlob)
+    {
+        return GetInputSignatureBlob(srcData.BufferPointer, srcData.BufferSize, out signatureBlob);
+    }
+
+    public static Blob GetInputSignatureBlob(Blob srcData)
+    {
+        GetInputSignatureBlob(srcData.BufferPointer, srcData.BufferSize, out Blob signatureBlob).CheckError();
+        return signatureBlob;
+    }
+
+    public static Blob GetInputSignatureBlob(ReadOnlySpan<byte> srcData)
+    {
+        fixed (byte* pSrcData = srcData)
+        {
+            GetInputSignatureBlob((IntPtr)pSrcData, srcData.Length, out Blob signatureBlob).CheckError();
+            return signatureBlob;
+        }
+    }
+
+    public static Blob GetInputSignatureBlob(byte[] srcData)
+    {
+        fixed (byte* pSrcData = srcData)
+        {
+            GetInputSignatureBlob((IntPtr)pSrcData, srcData.Length, out Blob signatureBlob).CheckError();
+            return signatureBlob;
+        }
+    }
+
+    public static Result GetOutputSignatureBlob(Blob srcData, out Blob signatureBlob)
+    {
+        return GetOutputSignatureBlob(srcData.BufferPointer, srcData.BufferSize, out signatureBlob);
+    }
+
+    public static Blob GetOutputSignatureBlob(Blob srcData)
+    {
+        GetOutputSignatureBlob(srcData.BufferPointer, srcData.BufferSize, out Blob signatureBlob).CheckError();
+        return signatureBlob;
+    }
+
+    public static Blob GetOutputSignatureBlob(ReadOnlySpan<byte> srcData)
+    {
+        fixed (byte* pSrcData = srcData)
+        {
+            GetOutputSignatureBlob((IntPtr)pSrcData, srcData.Length, out Blob signatureBlob).CheckError();
+            return signatureBlob;
+        }
+    }
+
+    public static Blob GetOutputSignatureBlob(byte[] srcData)
+    {
+        fixed (byte* pSrcData = srcData)
+        {
+            GetOutputSignatureBlob((IntPtr)pSrcData, srcData.Length, out Blob signatureBlob).CheckError();
+            return signatureBlob;
+        }
     }
 }

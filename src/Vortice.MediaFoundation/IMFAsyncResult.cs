@@ -1,42 +1,38 @@
-﻿// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+﻿// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
-using SharpGen.Runtime.Win32;
-using Vortice.Win32;
 
-namespace Vortice.MediaFoundation
+namespace Vortice.MediaFoundation;
+
+public partial class IMFAsyncResult
 {
-    public partial class IMFAsyncResult
+    private object _state;
+    private bool _isStateVerified;
+
+    public Result Status
     {
-        private object _state;
-        private bool _isStateVerified;
+        get => GetStatus();
+        set => SetStatus(value);
+    }
 
-        public Result Status
+    public object State
+    {
+        get
         {
-            get => GetStatus();
-            set => SetStatus(value);
-        }
-
-        public object State
-        {
-            get
+            if (!_isStateVerified)
             {
-                if (!_isStateVerified)
+                GetState(out IntPtr statePtr);
+                if (statePtr != IntPtr.Zero)
                 {
-                    GetState(out IntPtr statePtr);
-                    if (statePtr != IntPtr.Zero)
-                    {
-                        _state = Marshal.GetObjectForIUnknown(statePtr);
-                        Marshal.Release(statePtr);
-                    }
-                    _isStateVerified = true;
+                    _state = Marshal.GetObjectForIUnknown(statePtr);
+                    Marshal.Release(statePtr);
                 }
-
-                return _state;
+                _isStateVerified = true;
             }
+
+            return _state;
         }
     }
 }
