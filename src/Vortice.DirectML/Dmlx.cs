@@ -45,7 +45,7 @@ public static class Dmlx
                 return 0; // Invalid data type
         }
 
-        long minimumImpliedSizeInBytes = 0;
+        long minimumImpliedSizeInBytes;
         if (strides == null)
         {
             minimumImpliedSizeInBytes = 1;

@@ -11,5 +11,6 @@ public interface ITensorDescription
 internal interface ITensorDescriptionMarshal
 {
     IntPtr __MarshalAlloc();
+
     void __MarshalFree(ref IntPtr pDesc);
 }

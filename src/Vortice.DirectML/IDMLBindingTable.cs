@@ -9,23 +9,13 @@ namespace Vortice.DirectML;
 
 public partial class IDMLBindingTable
 {
-    public void BindInputs(BindingDescription[] descriptions)
+    public void BindInputs(params BindingDescription[] descriptions)
     {
         BindInputs(descriptions.Length, descriptions);
     }
 
-    public void BindOutputs(BindingDescription[] descriptions)
+    public void BindOutputs(params BindingDescription[] descriptions)
     {
         BindOutputs(descriptions.Length, descriptions);
-    }
-
-    public void BindPersistentResource()
-    {
-
-    }
-
-    public void BindTemporaryResource()
-    {
-
     }
 }
