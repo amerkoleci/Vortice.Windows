@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Vortice.DirectML;
+
 public partial class IDMLDevice
 {
     public IDMLOperator CreateOperator(OperatorDescription operatorDescription)

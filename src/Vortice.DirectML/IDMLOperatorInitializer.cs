@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Vortice.DirectML;
+
 public partial class IDMLOperatorInitializer
 {
     public Result Reset(IDMLCompiledOperator[] operators)

@@ -1,13 +1,17 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Vortice.DirectML;
-public abstract partial class OperatorDescription
+
+public partial class OperatorDescription
 {
+    public IOperatorDescription Description { get; set; }
+
+    public OperatorDescription(IOperatorDescription description)
+    {
+        Description = description;
+    }
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
@@ -16,16 +20,16 @@ public abstract partial class OperatorDescription
         public IntPtr Description;
     }
 
-    internal virtual void __MarshalFree(ref __Native @ref)
+    internal void __MarshalFree(ref __Native @ref)
     {
-
+        ((IOperatorDescriptionMarshal)Description).__MarshalFree(ref @ref.Description);
+        @ref.Description = IntPtr.Zero;
     }
 
-    internal virtual void __MarshalFrom(ref __Native @ref)
+    internal void __MarshalTo(ref __Native @ref)
     {
-        throw new NotImplementedException();
+        @ref.Type = Description.OperatorType;
+        @ref.Description = ((IOperatorDescriptionMarshal)Description).__MarshalAlloc();
     }
-
-    internal abstract void __MarshalTo(ref __Native @ref);
     #endregion
 }
