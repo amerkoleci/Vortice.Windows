@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
+    <ProjectReference Include="..\..\Vortice.DirectML\Vortice.DirectML.csproj" />
+    <ProjectReference Include="..\..\Vortice.Dxc\Vortice.Dxc.csproj" />
+    <ProjectReference Include="..\Vortice.SampleFramework\Vortice.SampleFramework.csproj" />
+  </ItemGroup>
+  
+</Project>

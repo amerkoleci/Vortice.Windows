@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-directml" xmlns="urn:SharpGen.Config">
+  <namespace>Vortice.DirectML</namespace>
+  <depends>Vortice.DirectX</depends>
+  <depends>Vortice.DXGI</depends>
+  <depends>Vortice.Direct3D12</depends>
+
+  <sdk name="WindowsSdk" version="10.0.22000.0" />
+  <sdk name="StdLib" />
+  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/DirectML</include-dir>
+
+  <include file="windows.h" />
+  <include file="DirectML.h" namespace="Vortice.DirectML" attach="true"/>
+
+  <extension>
+    <create class="Vortice.DirectML.DML" visibility="public static"/>
+  </extension>
+
+  <bindings>
+    
+  </bindings>
+
+  <naming>
+    <short name="ML">ML</short>
+    <short name="DESC">Description</short>
+  </naming>
+
+  <mapping>
+    <!-- Enums -->
+    <map enum="DML_(.*)" name-tmp="$1" />
+
+    <!-- Structs -->
+    <map struct="DML_(.*)" name-tmp="$1" />
+
+    <remove field="DML_TENSOR_DESC::.*"/>
+    <remove field="DML_BUFFER_TENSOR_DESC::.*"/>
+    
+    <map struct="DML_OPERATOR_DESC" struct-to-class="true" marshal="true" />
+    <remove field="DML_OPERATOR_DESC::.*"/>
+    <remove field="DML_ADAM_OPTIMIZER_OPERATOR_DESC::.*"/>
+    <remove field="DML_ELEMENT_WISE_IDENTITY_OPERATOR_DESC::.*"/>
+
+    <!-- Interfaces -->
+    <map method="IDMLBindingTable::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLCommandRecorder::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLCompiledOperator::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLDebugDevice::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLDevice::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLDevice1::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLDeviceChild::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLDispatchable::.*" property="false" hresult="true" check="false" />
+
+    <map method="IDMLObject::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLOperator::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLOperatorInitializer::.*" property="false" hresult="true" check="false"/>
+    <map method="IDMLPageable::.*" property="false" hresult="true" check="false" />
+
+    <map function="DMLCreateDevice" dll='"directml.dll"' group="Vortice.DirectML.DML" visibility="internal" hresult="true" check="false"/>
+    <map function="DMLCreateDevice1" dll='"directml.dll"' group="Vortice.DirectML.DML" visibility="internal" hresult="true" check="false"/>
+  </mapping>
+</config>

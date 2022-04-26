@@ -73,13 +73,22 @@ public static unsafe class UnsafeUtilities
         return (T*)Marshal.AllocHGlobal(sizeof(T) * count);
     }
 
+    public static T* AllocWithData<T>(T source) where T : unmanaged
+    {
+        int sizeInBytes = sizeof(T);
+        T* dest = (T*)Marshal.AllocHGlobal(sizeInBytes);
+        Unsafe.CopyBlockUnaligned(dest, &source, (uint)sizeInBytes);
+
+        return dest;
+    }
+
     public static T* AllocWithData<T>(T[] source) where T : unmanaged
     {
         int sizeInBytes = source.Length * sizeof(T);
         T* dest = (T*)Marshal.AllocHGlobal(sizeInBytes);
         fixed (T* sourcePtr = source)
         {
-            Unsafe.CopyBlockUnaligned(dest, sourcePtr, (uint)(sizeInBytes));
+            Unsafe.CopyBlockUnaligned(dest, sourcePtr, (uint)sizeInBytes);
         }
 
         return dest;
