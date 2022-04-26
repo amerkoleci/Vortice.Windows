@@ -32,6 +32,10 @@
     <!-- Structs -->
     <map struct="DML_(.*)" name-tmp="$1" />
 
+    <map struct="DML_BINDING_DESC" struct-to-class="true" marshal="true" />
+    <remove field="DML_BINDING_DESC::.*"/>
+    <remove field="DML_BUFFER_ARRAY_BINDING::.*"/>
+    
     <remove field="DML_TENSOR_DESC::.*"/>
     <remove field="DML_BUFFER_TENSOR_DESC::.*"/>
     
