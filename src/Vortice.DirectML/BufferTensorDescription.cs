@@ -2,7 +2,8 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectML;
-public partial class BufferTensorDescription : TensorDescription
+
+public partial struct BufferTensorDescription : ITensorDescription, ITensorDescriptionMarshal
 {
     public TensorDataType DataType { get; set; }
 
@@ -18,17 +19,11 @@ public partial class BufferTensorDescription : TensorDescription
 
     public int GuaranteedBaseOffsetAlignment { get; set; }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="BufferTensorDescription"/> class.
-    /// </summary>
-    public BufferTensorDescription(int[] sizes)
-    {
-        Sizes = sizes;
-    }
+    public TensorType TensorType => TensorType.Buffer;
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal struct __BufferTensorDescriptionNative
+    internal struct __Native
     {
         public TensorDataType DataType;
         public TensorFlags Flags;
@@ -37,42 +32,43 @@ public partial class BufferTensorDescription : TensorDescription
         public IntPtr PStrides;
         public ulong TotalTensorSizeInBytes;
         public uint GuaranteedBaseOffsetAlignment;
+    }
 
-        internal void __MarshalFree()
+    unsafe IntPtr ITensorDescriptionMarshal.__MarshalAlloc()
+    {
+        __Native* @ref = UnsafeUtilities.Alloc<__Native>();
+
+        @ref->DataType = DataType;
+        @ref->Flags = Flags;
+        @ref->DimensionCount = (uint)Sizes.Length;
+        @ref->PSizes = UnsafeUtilities.AllocToPointer(Sizes);
+        @ref->PStrides = Strides != null ? UnsafeUtilities.AllocToPointer(Strides) : IntPtr.Zero;
+        @ref->TotalTensorSizeInBytes = (ulong)TotalTensorSizeInBytes;
+        @ref->GuaranteedBaseOffsetAlignment = (uint)GuaranteedBaseOffsetAlignment;
+
+        return new(@ref);
+    }
+
+    unsafe void ITensorDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
+    {
+        var @ref = (__Native*)pDesc;
+
+        if (@ref->PSizes != IntPtr.Zero)
         {
-            if (PSizes != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(PSizes);
-            }
-
-            if (PStrides != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(PStrides);
-            }
+            Marshal.FreeHGlobal(@ref->PSizes);
         }
-    }
 
-    internal unsafe override void __MarshalFree(ref __Native @ref)
-    {
-        var desc = (__BufferTensorDescriptionNative*)@ref.Description;
-        (*desc).__MarshalFree();
+        if (@ref->PStrides != IntPtr.Zero)
+        {
+            Marshal.FreeHGlobal(@ref->PStrides);
+        }
 
-        UnsafeUtilities.Free(desc);
-    }
-
-    internal unsafe override void __MarshalTo(ref __Native @ref)
-    {
-        var desc = UnsafeUtilities.Alloc<__BufferTensorDescriptionNative>();
-        (*desc).DataType = DataType;
-        (*desc).Flags = Flags;
-        (*desc).DimensionCount = (uint)Sizes.Length;
-        (*desc).PSizes = UnsafeUtilities.AllocToPointer(Sizes);
-        (*desc).PStrides = Strides != null ? UnsafeUtilities.AllocToPointer(Strides) : IntPtr.Zero;
-        (*desc).TotalTensorSizeInBytes = (ulong)TotalTensorSizeInBytes;
-        (*desc).GuaranteedBaseOffsetAlignment = (uint)GuaranteedBaseOffsetAlignment;
-
-        @ref.Type = TensorType.Buffer;
-        @ref.Description = new IntPtr(desc);
+        UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator TensorDescription(BufferTensorDescription description)
+    {
+        return new(description);
+    }
 }

@@ -96,9 +96,10 @@ public class DmlDevice : IDisposable
         var tensorSizes = new int[] { 1, 2, 3, 4 };
         var tensorElementCount = tensorSizes.Aggregate((a, b) => a * b);
 
-        var bufferTensorDesc = new BufferTensorDescription(tensorSizes)
+        var bufferTensorDesc = new BufferTensorDescription()
         {
             DataType = TensorDataType.Float32,
+            Sizes = tensorSizes,
             Flags = TensorFlags.None,
         };
 
