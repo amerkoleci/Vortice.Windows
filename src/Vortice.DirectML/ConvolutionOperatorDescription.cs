@@ -90,11 +90,11 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
         }
 
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->Strides);
-           UnsafeUtilities.Free(@ref->Dilations);
-           UnsafeUtilities.Free(@ref->StartPadding);
-           UnsafeUtilities.Free(@ref->EndPadding);
-           UnsafeUtilities.Free(@ref->OutputPadding);
+        UnsafeUtilities.Free(@ref->Strides);
+        UnsafeUtilities.Free(@ref->Dilations);
+        UnsafeUtilities.Free(@ref->StartPadding);
+        UnsafeUtilities.Free(@ref->EndPadding);
+        UnsafeUtilities.Free(@ref->OutputPadding);
 
         if (FusedActivation != null)
         {

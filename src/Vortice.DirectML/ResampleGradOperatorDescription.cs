@@ -55,9 +55,9 @@ public partial struct ResampleGradOperatorDescription : IOperatorDescription, IO
 
         InputGradientTensor.__MarshalFree(ref @ref->InputGradientTensor);
         OutputGradientTensor.__MarshalFree(ref @ref->OutputGradientTensor);
-           UnsafeUtilities.Free(@ref->Scales);
-           UnsafeUtilities.Free(@ref->InputPixelOffsets);
-           UnsafeUtilities.Free(@ref->OutputPixelOffsets);
+        UnsafeUtilities.Free(@ref->Scales);
+        UnsafeUtilities.Free(@ref->InputPixelOffsets);
+        UnsafeUtilities.Free(@ref->OutputPixelOffsets);
 
         UnsafeUtilities.Free(@ref);
     }

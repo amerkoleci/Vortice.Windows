@@ -47,7 +47,7 @@ public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IO
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->Bias);
+        UnsafeUtilities.Free(@ref->Bias);
 
         UnsafeUtilities.Free(@ref);
     }

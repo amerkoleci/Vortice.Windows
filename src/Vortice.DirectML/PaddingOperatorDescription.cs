@@ -55,8 +55,8 @@ public partial struct PaddingOperatorDescription : IOperatorDescription, IOperat
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->StartPadding);
-           UnsafeUtilities.Free(@ref->EndPadding);
+        UnsafeUtilities.Free(@ref->StartPadding);
+        UnsafeUtilities.Free(@ref->EndPadding);
 
         UnsafeUtilities.Free(@ref);
     }

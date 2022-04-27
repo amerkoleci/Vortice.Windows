@@ -55,9 +55,9 @@ public partial struct Resample1OperatorDescription : IOperatorDescription, IOper
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->Scales);
-           UnsafeUtilities.Free(@ref->InputPixelOffsets);
-           UnsafeUtilities.Free(@ref->OutputPixelOffsets);
+        UnsafeUtilities.Free(@ref->Scales);
+        UnsafeUtilities.Free(@ref->InputPixelOffsets);
+        UnsafeUtilities.Free(@ref->OutputPixelOffsets);
 
         UnsafeUtilities.Free(@ref);
     }

@@ -47,7 +47,7 @@ public partial struct ReduceOperatorDescription : IOperatorDescription, IOperato
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->Axes);
+        UnsafeUtilities.Free(@ref->Axes);
 
         UnsafeUtilities.Free(@ref);
     }

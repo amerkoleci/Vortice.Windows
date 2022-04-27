@@ -55,10 +55,10 @@ public partial struct MaxPoolingOperatorDescription : IOperatorDescription, IOpe
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->Strides);
-           UnsafeUtilities.Free(@ref->WindowSize);
-           UnsafeUtilities.Free(@ref->StartPadding);
-           UnsafeUtilities.Free(@ref->EndPadding);
+        UnsafeUtilities.Free(@ref->Strides);
+        UnsafeUtilities.Free(@ref->WindowSize);
+        UnsafeUtilities.Free(@ref->StartPadding);
+        UnsafeUtilities.Free(@ref->EndPadding);
 
         UnsafeUtilities.Free(@ref);
     }

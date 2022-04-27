@@ -69,11 +69,11 @@ public partial struct MaxPooling2OperatorDescription : IOperatorDescription, IOp
             OutputIndicesTensor.Value.__MarshalFree(ref @ref->OutputIndicesTensor);
         }
 
-           UnsafeUtilities.Free(@ref->Strides);
-           UnsafeUtilities.Free(@ref->WindowSize);
-           UnsafeUtilities.Free(@ref->StartPadding);
-           UnsafeUtilities.Free(@ref->EndPadding);
-           UnsafeUtilities.Free(@ref->Dilations);
+        UnsafeUtilities.Free(@ref->Strides);
+        UnsafeUtilities.Free(@ref->WindowSize);
+        UnsafeUtilities.Free(@ref->StartPadding);
+        UnsafeUtilities.Free(@ref->EndPadding);
+        UnsafeUtilities.Free(@ref->Dilations);
         UnsafeUtilities.Free(@ref);
     }
     #endregion

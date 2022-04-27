@@ -64,11 +64,11 @@ public partial struct MaxPoolingGradOperatorDescription : IOperatorDescription, 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         InputGradientTensor.__MarshalFree(ref @ref->InputGradientTensor);
         OutputGradientTensor.__MarshalFree(ref @ref->OutputGradientTensor);
-           UnsafeUtilities.Free(@ref->Strides);
-           UnsafeUtilities.Free(@ref->WindowSize);
-           UnsafeUtilities.Free(@ref->StartPadding);
-           UnsafeUtilities.Free(@ref->EndPadding);
-           UnsafeUtilities.Free(@ref->Dilations);
+        UnsafeUtilities.Free(@ref->Strides);
+        UnsafeUtilities.Free(@ref->WindowSize);
+        UnsafeUtilities.Free(@ref->StartPadding);
+        UnsafeUtilities.Free(@ref->EndPadding);
+        UnsafeUtilities.Free(@ref->Dilations);
 
         UnsafeUtilities.Free(@ref);
     }

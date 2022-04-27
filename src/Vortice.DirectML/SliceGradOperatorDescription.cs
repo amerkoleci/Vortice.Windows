@@ -51,9 +51,9 @@ public partial struct SliceGradOperatorDescription : IOperatorDescription, IOper
 
         InputGradientTensor.__MarshalFree(ref @ref->InputGradientTensor);
         OutputGradientTensor.__MarshalFree(ref @ref->OutputGradientTensor);
-           UnsafeUtilities.Free(@ref->InputWindowOffsets);
-           UnsafeUtilities.Free(@ref->InputWindowSizes);
-           UnsafeUtilities.Free(@ref->InputWindowStrides);
+        UnsafeUtilities.Free(@ref->InputWindowOffsets);
+        UnsafeUtilities.Free(@ref->InputWindowSizes);
+        UnsafeUtilities.Free(@ref->InputWindowStrides);
 
         UnsafeUtilities.Free(@ref);
     }

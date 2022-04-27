@@ -84,10 +84,10 @@ public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescripti
         }
 
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->Strides);
-           UnsafeUtilities.Free(@ref->Dilations);
-           UnsafeUtilities.Free(@ref->StartPadding);
-           UnsafeUtilities.Free(@ref->EndPadding);
+        UnsafeUtilities.Free(@ref->Strides);
+        UnsafeUtilities.Free(@ref->Dilations);
+        UnsafeUtilities.Free(@ref->StartPadding);
+        UnsafeUtilities.Free(@ref->EndPadding);
         UnsafeUtilities.Free(@ref);
     }
     #endregion

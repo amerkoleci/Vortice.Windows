@@ -59,10 +59,10 @@ public partial struct AveragePoolingGradOperatorDescription : IOperatorDescripti
 
         InputGradientTensor.__MarshalFree(ref @ref->InputGradientTensor);
         OutputGradientTensor.__MarshalFree(ref @ref->OutputGradientTensor);
-           UnsafeUtilities.Free(@ref->Strides);
-           UnsafeUtilities.Free(@ref->WindowSize);
-           UnsafeUtilities.Free(@ref->StartPadding);
-           UnsafeUtilities.Free(@ref->EndPadding);
+        UnsafeUtilities.Free(@ref->Strides);
+        UnsafeUtilities.Free(@ref->WindowSize);
+        UnsafeUtilities.Free(@ref->StartPadding);
+        UnsafeUtilities.Free(@ref->EndPadding);
 
         UnsafeUtilities.Free(@ref);
     }

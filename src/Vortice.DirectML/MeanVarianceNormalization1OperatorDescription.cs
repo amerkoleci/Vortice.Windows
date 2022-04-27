@@ -75,7 +75,7 @@ public partial struct MeanVarianceNormalization1OperatorDescription : IOperatorD
         }
 
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->Axes);
+        UnsafeUtilities.Free(@ref->Axes);
 
         if (FusedActivation != null)
         {

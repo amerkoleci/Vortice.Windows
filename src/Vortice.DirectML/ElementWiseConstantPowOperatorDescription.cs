@@ -46,7 +46,7 @@ public partial struct ElementWiseConstantPowOperatorDescription : IOperatorDescr
 
         if (@ref->ScaleBias != IntPtr.Zero)
         {
-           UnsafeUtilities.Free(@ref->ScaleBias);
+            UnsafeUtilities.Free(@ref->ScaleBias);
         }
 
         UnsafeUtilities.Free(@ref);

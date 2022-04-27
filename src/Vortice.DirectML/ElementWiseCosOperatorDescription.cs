@@ -42,7 +42,7 @@ public partial struct ElementWiseCosOperatorDescription : IOperatorDescription, 
 
         if (@ref->ScaleBias != IntPtr.Zero)
         {
-           UnsafeUtilities.Free(@ref->ScaleBias);
+            UnsafeUtilities.Free(@ref->ScaleBias);
         }
 
         UnsafeUtilities.Free(@ref);

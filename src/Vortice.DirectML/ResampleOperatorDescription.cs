@@ -47,7 +47,7 @@ public partial struct ResampleOperatorDescription : IOperatorDescription, IOpera
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->Scales);
+        UnsafeUtilities.Free(@ref->Scales);
 
         UnsafeUtilities.Free(@ref);
     }

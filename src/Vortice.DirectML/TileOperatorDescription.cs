@@ -43,7 +43,7 @@ public partial struct TileOperatorDescription : IOperatorDescription, IOperatorD
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->Repeats);
+        UnsafeUtilities.Free(@ref->Repeats);
 
         UnsafeUtilities.Free(@ref);
     }

@@ -51,9 +51,9 @@ public partial struct Slice1OperatorDescription : IOperatorDescription, IOperato
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-           UnsafeUtilities.Free(@ref->InputWindowOffsets);
-           UnsafeUtilities.Free(@ref->InputWindowSizes);
-           UnsafeUtilities.Free(@ref->InputWindowStrides);
+        UnsafeUtilities.Free(@ref->InputWindowOffsets);
+        UnsafeUtilities.Free(@ref->InputWindowSizes);
+        UnsafeUtilities.Free(@ref->InputWindowStrides);
 
         UnsafeUtilities.Free(@ref);
     }
