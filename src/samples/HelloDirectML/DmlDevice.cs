@@ -1,4 +1,4 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright © Aaron Sun, Amer Koleci, and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Direct3D12;
@@ -97,18 +97,21 @@ public class DmlDevice : IDisposable
             Flags = TensorFlags.None,
         };
 
-        bufferTensorDesc.TotalTensorSizeInBytes = Dmlx.CalculateBufferTensorSize(
+        bufferTensorDesc.TotalTensorSizeInBytes = CalculateBufferTensorSize(
             bufferTensorDesc.DataType,
             bufferTensorDesc.DimensionCount,
             bufferTensorDesc.Sizes,
             bufferTensorDesc.Strides
             );
 
-
         // Create DirectML operator(s). Operators represent abstract functions such as "multiply", "reduce", "convolution", or even
         // compound operations such as recurrent neural nets. This example creates an instance of the Identity operator,
         // which applies the function f(x) = x for all elements in a tensor.
-        var identityOperatorDesc = new ElementWiseIdentityOperatorDescription(bufferTensorDesc, bufferTensorDesc);
+        var identityOperatorDesc = new ElementWiseIdentityOperatorDescription
+        {
+            InputTensor = bufferTensorDesc,
+            OutputTensor = bufferTensorDesc,
+        };
 
         // Like Direct3D 12, these DESC structs don't need to be long-lived. This means, for example, that it's safe to place
         // the DML_OPERATOR_DESC (and all the subobjects it points to) on the stack, since they're no longer needed after
@@ -354,5 +357,67 @@ public class DmlDevice : IDisposable
         DMLDevice.Dispose();
         D3D12Device.Dispose();
         DXGIFactory.Dispose();
+    }
+
+    public static long CalculateBufferTensorSize(
+        TensorDataType dataType,
+        int dimensionCount,
+        int[] sizes,
+        int[]? strides)
+    {
+        long elementSizeInBytes = 0;
+        switch (dataType)
+        {
+            case TensorDataType.Float32:
+            case TensorDataType.Uint32:
+            case TensorDataType.Int32:
+                elementSizeInBytes = 4;
+                break;
+
+            case TensorDataType.Float16:
+            case TensorDataType.Uint16:
+            case TensorDataType.Int16:
+                elementSizeInBytes = 2;
+                break;
+
+            case TensorDataType.Uint8:
+            case TensorDataType.Int8:
+                elementSizeInBytes = 1;
+                break;
+
+            //case DML_TENSOR_DATA_TYPE_FLOAT64:
+            //case DML_TENSOR_DATA_TYPE_UINT64:
+            //case DML_TENSOR_DATA_TYPE_INT64:
+            //    elementSizeInBytes = 8;
+            //    break;
+
+            default:
+                return 0; // Invalid data type
+        }
+
+        long minimumImpliedSizeInBytes;
+        if (strides == null)
+        {
+            minimumImpliedSizeInBytes = 1;
+            for (int i = 0; i < dimensionCount; i++)
+            {
+                minimumImpliedSizeInBytes *= sizes[i];
+            }
+            minimumImpliedSizeInBytes *= elementSizeInBytes;
+        }
+        else
+        {
+            int indexOfLastElement = 0;
+            for (int i = 0; i < dimensionCount; i++)
+            {
+                indexOfLastElement += (sizes[i] - 1) * strides[i];
+            }
+            minimumImpliedSizeInBytes = (indexOfLastElement + 1) * elementSizeInBytes;
+        }
+
+        // Round up to the nearest 4 bytes.
+        minimumImpliedSizeInBytes = (minimumImpliedSizeInBytes + 3) & ~3L;
+
+        return minimumImpliedSizeInBytes;
     }
 }

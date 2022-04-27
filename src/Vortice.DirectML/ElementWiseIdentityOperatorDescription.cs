@@ -1,26 +1,17 @@
-﻿// Copyright © Amer Koleci and Contributors.
+// Copyright © Aaron Sun, Amer Koleci, and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectML;
 
 public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public TensorDescription InputTensor { get; }
-
-    public TensorDescription OutputTensor { get; }
-
-    public ScaleBias? ScaleBias { get; }
-
     public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
 
-    public ElementWiseIdentityOperatorDescription(TensorDescription inputTensor, TensorDescription outputTensor) : this(inputTensor, outputTensor, null) { }
+    public TensorDescription InputTensor { get; set; }
 
-    public ElementWiseIdentityOperatorDescription(TensorDescription inputTensor, TensorDescription outputTensor, ScaleBias? scaleBias)
-    {
-        InputTensor = inputTensor;
-        OutputTensor = outputTensor;
-        ScaleBias = scaleBias;
-    }
+    public TensorDescription OutputTensor { get; set; }
+
+    public ScaleBias? ScaleBias { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]

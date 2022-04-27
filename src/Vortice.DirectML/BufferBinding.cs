@@ -1,9 +1,5 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright © Aaron Sun, Amer Koleci, and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
-
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Vortice.DirectML;
 public partial struct BufferBinding: IBinding, IBindingMarshal
@@ -24,8 +20,7 @@ public partial struct BufferBinding: IBinding, IBindingMarshal
 
     unsafe void IBindingMarshal.__MarshalFree(ref IntPtr pDesc)
     {
-        var @ref = (__Native*)pDesc;
-        UnsafeUtilities.Free(@ref);
+        UnsafeUtilities.Free(pDesc);
     }
     #endregion
 

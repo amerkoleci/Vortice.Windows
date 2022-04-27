@@ -1,4 +1,4 @@
-// Copyright © Aaron Sun and Contributors.
+// Copyright © Aaron Sun, Amer Koleci, and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using SharpGen.Runtime;
@@ -17,15 +17,6 @@ public static class Program
 {
     public static void Main()
     {
-        //try
-        //{
-        //    // Just safelly test DXCore stuff
-        //    TestDXCore();
-        //}
-        //catch
-        //{
-
-        //}
 #if DEBUG
         Configuration.EnableObjectTracking = true;
 #endif
