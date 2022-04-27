@@ -1,35 +1,35 @@
-﻿// Copyright © Aaron Sun, Amer Koleci, and Contributors.
+// Copyright © Aaron Sun, Amer Koleci, and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectML;
 
 public partial struct AdamOptimizerOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public TensorDescription InputParametersTensor { get; }
-
-    public TensorDescription InputFirstMomentTensor { get; }
-
-    public TensorDescription InputSecondMomentTensor { get; }
-
-    public TensorDescription GradientTensor { get; }
-
-    public TensorDescription TrainingStepTensor { get; }
-
-    public TensorDescription OutputParametersTensor { get; }
-
-    public TensorDescription OutputFirstMomentTensor { get; }
-
-    public TensorDescription OutputSecondMomentTensor { get; }
-
-    public float LearningRate { get; }
-
-    public float Beta1 { get; }
-
-    public float Beta2 { get; }
-
-    public float Epsilon { get; }
-
     public OperatorType OperatorType => OperatorType.AdamOptimizer;
+
+    public TensorDescription InputParametersTensor { get; set; }
+
+    public TensorDescription InputFirstMomentTensor { get; set; }
+
+    public TensorDescription InputSecondMomentTensor { get; set; }
+
+    public TensorDescription GradientTensor { get; set; }
+
+    public TensorDescription TrainingStepTensor { get; set; }
+
+    public TensorDescription OutputParametersTensor { get; set; }
+
+    public TensorDescription OutputFirstMomentTensor { get; set; }
+
+    public TensorDescription OutputSecondMomentTensor { get; set; }
+
+    public float LearningRate { get; set; }
+
+    public float Beta1 { get; set; }
+
+    public float Beta2 { get; set; }
+
+    public float Epsilon { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]

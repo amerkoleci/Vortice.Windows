@@ -3,15 +3,17 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct DynamicQuantizeLinearOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
+    public OperatorType OperatorType => OperatorType.DynamicQuantizeLinear;
 
     public TensorDescription InputTensor { get; set; }
 
     public TensorDescription OutputTensor { get; set; }
 
-    public ScaleBias? ScaleBias { get; set; }
+    public TensorDescription OutputScaleTensor { get; set; }
+
+    public TensorDescription OutputZeroPointTensor { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -19,7 +21,8 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public IntPtr ScaleBias;
+        public IntPtr OutputScaleTensor;
+        public IntPtr OutputZeroPointTensor;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -28,7 +31,8 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
+        @ref->OutputScaleTensor = OutputScaleTensor.__MarshalAlloc();
+        @ref->OutputZeroPointTensor = OutputZeroPointTensor.__MarshalAlloc();
 
         return new(@ref);
     }
@@ -39,17 +43,14 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-
-        if (@ref->ScaleBias != IntPtr.Zero)
-        {
-           UnsafeUtilities.Free(@ref->ScaleBias);
-        }
+        OutputScaleTensor.__MarshalFree(ref @ref->OutputScaleTensor);
+        OutputZeroPointTensor.__MarshalFree(ref @ref->OutputZeroPointTensor);
 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseIdentityOperatorDescription description)
+    public static implicit operator OperatorDescription(DynamicQuantizeLinearOperatorDescription description)
     {
         return new(description);
     }

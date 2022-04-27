@@ -3,9 +3,9 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct ElementWiseFloorOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
+    public OperatorType OperatorType => OperatorType.ElementWiseFloor;
 
     public TensorDescription InputTensor { get; set; }
 
@@ -49,7 +49,7 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseIdentityOperatorDescription description)
+    public static implicit operator OperatorDescription(ElementWiseFloorOperatorDescription description)
     {
         return new(description);
     }

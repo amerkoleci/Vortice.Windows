@@ -3,15 +3,21 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct SliceOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
+    public OperatorType OperatorType => OperatorType.Slice;
 
     public TensorDescription InputTensor { get; set; }
 
     public TensorDescription OutputTensor { get; set; }
 
-    public ScaleBias? ScaleBias { get; set; }
+    public uint DimensionCount { get; set; }
+
+    public uint[] Offsets { get; set; }
+
+    public uint[] Sizes { get; set; }
+
+    public uint[] Strides { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -19,7 +25,10 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public IntPtr ScaleBias;
+        public uint DimensionCount;
+        public IntPtr Offsets;
+        public IntPtr Sizes;
+        public IntPtr Strides;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -28,7 +37,10 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
+        @ref->DimensionCount = DimensionCount;
+        @ref->Offsets = new(UnsafeUtilities.AllocWithData(Offsets));
+        @ref->Sizes = new(UnsafeUtilities.AllocWithData(Sizes));
+        @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));
 
         return new(@ref);
     }
@@ -39,17 +51,15 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-
-        if (@ref->ScaleBias != IntPtr.Zero)
-        {
-           UnsafeUtilities.Free(@ref->ScaleBias);
-        }
+           UnsafeUtilities.Free(@ref->Offsets);
+           UnsafeUtilities.Free(@ref->Sizes);
+           UnsafeUtilities.Free(@ref->Strides);
 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseIdentityOperatorDescription description)
+    public static implicit operator OperatorDescription(SliceOperatorDescription description)
     {
         return new(description);
     }

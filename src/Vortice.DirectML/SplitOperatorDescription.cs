@@ -3,23 +3,26 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct SplitOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
+    public OperatorType OperatorType => OperatorType.Split;
 
     public TensorDescription InputTensor { get; set; }
 
-    public TensorDescription OutputTensor { get; set; }
+    public uint OutputCount { get; set; }
 
-    public ScaleBias? ScaleBias { get; set; }
+    public TensorDescription OutputTensors { get; set; }
+
+    public uint Axis { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
     {
         public IntPtr InputTensor;
-        public IntPtr OutputTensor;
-        public IntPtr ScaleBias;
+        public uint OutputCount;
+        public IntPtr OutputTensors;
+        public uint Axis;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -27,8 +30,9 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
-        @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
+        @ref->OutputCount = OutputCount;
+        @ref->OutputTensors = OutputTensors.__MarshalAlloc();
+        @ref->Axis = Axis;
 
         return new(@ref);
     }
@@ -38,18 +42,13 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
         var @ref = (__Native*)pDesc;
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
-        OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-
-        if (@ref->ScaleBias != IntPtr.Zero)
-        {
-           UnsafeUtilities.Free(@ref->ScaleBias);
-        }
+        OutputTensors.__MarshalFree(ref @ref->OutputTensors);
 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseIdentityOperatorDescription description)
+    public static implicit operator OperatorDescription(SplitOperatorDescription description)
     {
         return new(description);
     }

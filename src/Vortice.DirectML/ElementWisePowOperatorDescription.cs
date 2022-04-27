@@ -3,11 +3,13 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct ElementWisePowOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
+    public OperatorType OperatorType => OperatorType.ElementWisePow;
 
     public TensorDescription InputTensor { get; set; }
+
+    public TensorDescription ExponentTensor { get; set; }
 
     public TensorDescription OutputTensor { get; set; }
 
@@ -18,6 +20,7 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
     internal struct __Native
     {
         public IntPtr InputTensor;
+        public IntPtr ExponentTensor;
         public IntPtr OutputTensor;
         public IntPtr ScaleBias;
     }
@@ -27,6 +30,7 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
+        @ref->ExponentTensor = ExponentTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
 
@@ -38,6 +42,7 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
         var @ref = (__Native*)pDesc;
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
+        ExponentTensor.__MarshalFree(ref @ref->ExponentTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
 
         if (@ref->ScaleBias != IntPtr.Zero)
@@ -49,7 +54,7 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseIdentityOperatorDescription description)
+    public static implicit operator OperatorDescription(ElementWisePowOperatorDescription description)
     {
         return new(description);
     }

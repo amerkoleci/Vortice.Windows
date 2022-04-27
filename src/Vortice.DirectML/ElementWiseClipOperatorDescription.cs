@@ -3,15 +3,19 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct ElementWiseClipOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
+    public OperatorType OperatorType => OperatorType.ElementWiseClip;
 
     public TensorDescription InputTensor { get; set; }
 
     public TensorDescription OutputTensor { get; set; }
 
     public ScaleBias? ScaleBias { get; set; }
+
+    public float Min { get; set; }
+
+    public float Max { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -20,6 +24,8 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
         public IntPtr ScaleBias;
+        public float Min;
+        public float Max;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -29,6 +35,8 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
+        @ref->Min = Min;
+        @ref->Max = Max;
 
         return new(@ref);
     }
@@ -49,7 +57,7 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseIdentityOperatorDescription description)
+    public static implicit operator OperatorDescription(ElementWiseClipOperatorDescription description)
     {
         return new(description);
     }

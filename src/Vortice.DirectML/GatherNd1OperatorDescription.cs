@@ -3,23 +3,32 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct GatherNd1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
+    public OperatorType OperatorType => OperatorType.GatherNd1;
 
     public TensorDescription InputTensor { get; set; }
 
+    public TensorDescription IndicesTensor { get; set; }
+
     public TensorDescription OutputTensor { get; set; }
 
-    public ScaleBias? ScaleBias { get; set; }
+    public uint InputDimensionCount { get; set; }
+
+    public uint IndicesDimensionCount { get; set; }
+
+    public uint BatchDimensionCount { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
     {
         public IntPtr InputTensor;
+        public IntPtr IndicesTensor;
         public IntPtr OutputTensor;
-        public IntPtr ScaleBias;
+        public uint InputDimensionCount;
+        public uint IndicesDimensionCount;
+        public uint BatchDimensionCount;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -27,8 +36,11 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
+        @ref->IndicesTensor = IndicesTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
+        @ref->InputDimensionCount = InputDimensionCount;
+        @ref->IndicesDimensionCount = IndicesDimensionCount;
+        @ref->BatchDimensionCount = BatchDimensionCount;
 
         return new(@ref);
     }
@@ -38,18 +50,14 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
         var @ref = (__Native*)pDesc;
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
+        IndicesTensor.__MarshalFree(ref @ref->IndicesTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-
-        if (@ref->ScaleBias != IntPtr.Zero)
-        {
-           UnsafeUtilities.Free(@ref->ScaleBias);
-        }
 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseIdentityOperatorDescription description)
+    public static implicit operator OperatorDescription(GatherNd1OperatorDescription description)
     {
         return new(description);
     }

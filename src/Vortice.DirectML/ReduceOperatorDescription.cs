@@ -3,32 +3,40 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct ReduceOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
+    public OperatorType OperatorType => OperatorType.Reduce;
+
+    public ReduceFunction Function { get; set; }
 
     public TensorDescription InputTensor { get; set; }
 
     public TensorDescription OutputTensor { get; set; }
 
-    public ScaleBias? ScaleBias { get; set; }
+    public uint AxisCount { get; set; }
+
+    public uint[] Axes { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
     {
+        public ReduceFunction Function;
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public IntPtr ScaleBias;
+        public uint AxisCount;
+        public IntPtr Axes;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
     {
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
+        @ref->Function = Function;
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
+        @ref->AxisCount = AxisCount;
+        @ref->Axes = new(UnsafeUtilities.AllocWithData(Axes));
 
         return new(@ref);
     }
@@ -39,17 +47,13 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-
-        if (@ref->ScaleBias != IntPtr.Zero)
-        {
-           UnsafeUtilities.Free(@ref->ScaleBias);
-        }
+           UnsafeUtilities.Free(@ref->Axes);
 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseIdentityOperatorDescription description)
+    public static implicit operator OperatorDescription(ReduceOperatorDescription description)
     {
         return new(description);
     }

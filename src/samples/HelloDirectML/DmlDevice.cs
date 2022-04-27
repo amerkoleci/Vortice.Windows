@@ -1,4 +1,4 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright © Aaron Sun, Amer Koleci, and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Direct3D12;
@@ -104,11 +104,14 @@ public class DmlDevice : IDisposable
             bufferTensorDesc.Strides
             );
 
-
         // Create DirectML operator(s). Operators represent abstract functions such as "multiply", "reduce", "convolution", or even
         // compound operations such as recurrent neural nets. This example creates an instance of the Identity operator,
         // which applies the function f(x) = x for all elements in a tensor.
-        var identityOperatorDesc = new ElementWiseIdentityOperatorDescription(bufferTensorDesc, bufferTensorDesc);
+        var identityOperatorDesc = new ElementWiseIdentityOperatorDescription
+        {
+            InputTensor = bufferTensorDesc,
+            OutputTensor = bufferTensorDesc,
+        };
 
         // Like Direct3D 12, these DESC structs don't need to be long-lived. This means, for example, that it's safe to place
         // the DML_OPERATOR_DESC (and all the subobjects it points to) on the stack, since they're no longer needed after

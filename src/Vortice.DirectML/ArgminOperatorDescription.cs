@@ -3,15 +3,19 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct ArgminOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
+    public OperatorType OperatorType => OperatorType.Argmin;
 
     public TensorDescription InputTensor { get; set; }
 
     public TensorDescription OutputTensor { get; set; }
 
-    public ScaleBias? ScaleBias { get; set; }
+    public uint AxisCount { get; set; }
+
+    public uint[] Axes { get; set; }
+
+    public AxisDirection AxisDirection { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -19,7 +23,9 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public IntPtr ScaleBias;
+        public uint AxisCount;
+        public IntPtr Axes;
+        public AxisDirection AxisDirection;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -28,7 +34,9 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
+        @ref->AxisCount = AxisCount;
+        @ref->Axes = new(UnsafeUtilities.AllocWithData(Axes));
+        @ref->AxisDirection = AxisDirection;
 
         return new(@ref);
     }
@@ -39,17 +47,13 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
-
-        if (@ref->ScaleBias != IntPtr.Zero)
-        {
-           UnsafeUtilities.Free(@ref->ScaleBias);
-        }
+           UnsafeUtilities.Free(@ref->Axes);
 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseIdentityOperatorDescription description)
+    public static implicit operator OperatorDescription(ArgminOperatorDescription description)
     {
         return new(description);
     }

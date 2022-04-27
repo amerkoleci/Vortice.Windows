@@ -14,10 +14,11 @@
 
   <extension>
     <create class="Vortice.DirectML.DML" visibility="public static"/>
+    <define struct="Vortice.DirectML.ScalarUnion" sizeof="64" />
   </extension>
 
   <bindings>
-    
+    <bind from="DML_SCALAR_UNION" to="Vortice.DirectML.ScalarUnion" />
   </bindings>
 
   <naming>
@@ -32,6 +33,7 @@
 
     <!-- Structs -->
     <map struct="DML_(.*)" name-tmp="$1" />
+    <remove field="DML_SCALAR_UNION::.*" />
 
     <!-- BindingDescription -->
     <map struct="DML_BINDING_DESC" struct-to-class="true" marshal="true" />
