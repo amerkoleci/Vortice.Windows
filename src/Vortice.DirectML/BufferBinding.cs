@@ -24,8 +24,7 @@ public partial struct BufferBinding: IBinding, IBindingMarshal
 
     unsafe void IBindingMarshal.__MarshalFree(ref IntPtr pDesc)
     {
-        var @ref = (__Native*)pDesc;
-        UnsafeUtilities.Free(@ref);
+        UnsafeUtilities.Free(pDesc);
     }
     #endregion
 
