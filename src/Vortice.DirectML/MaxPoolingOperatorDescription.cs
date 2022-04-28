@@ -11,15 +11,15 @@ public partial struct MaxPoolingOperatorDescription : IOperatorDescription, IOpe
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int DimensionCount { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] WindowSize { get; set; }
+    public int[] WindowSize { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -27,7 +27,7 @@ public partial struct MaxPoolingOperatorDescription : IOperatorDescription, IOpe
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr WindowSize;
         public IntPtr StartPadding;

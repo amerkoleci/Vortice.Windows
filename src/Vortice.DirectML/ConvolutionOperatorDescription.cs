@@ -19,19 +19,19 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
 
     public ConvolutionDirection Direction { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int DimensionCount { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] Dilations { get; set; }
+    public int[] Dilations { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
-    public uint[] OutputPadding { get; set; }
+    public int[] OutputPadding { get; set; }
 
-    public uint GroupCount { get; set; }
+    public int GroupCount { get; set; }
 
     public OperatorDescription? FusedActivation { get; set; }
 
@@ -45,13 +45,13 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
         public IntPtr OutputTensor;
         public ConvolutionMode Mode;
         public ConvolutionDirection Direction;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr Dilations;
         public IntPtr StartPadding;
         public IntPtr EndPadding;
         public IntPtr OutputPadding;
-        public uint GroupCount;
+        public int GroupCount;
         public IntPtr FusedActivation;
     }
 
@@ -95,7 +95,6 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
         UnsafeUtilities.Free(@ref->StartPadding);
         UnsafeUtilities.Free(@ref->EndPadding);
         UnsafeUtilities.Free(@ref->OutputPadding);
-
         if (FusedActivation != null)
         {
             FusedActivation.Value.__MarshalFree(ref @ref->FusedActivation);

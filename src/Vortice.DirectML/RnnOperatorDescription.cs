@@ -15,7 +15,7 @@ public partial struct RnnOperatorDescription : IOperatorDescription, IOperatorDe
 
     public TensorDescription? BiasTensor { get; set; }
 
-    public TensorDescription? HiddenInitTensor { get; set; }
+    public TensorDescription? HiddenInitializerTensor { get; set; }
 
     public TensorDescription? SequenceLengthsTensor { get; set; }
 
@@ -23,9 +23,9 @@ public partial struct RnnOperatorDescription : IOperatorDescription, IOperatorDe
 
     public TensorDescription? OutputSingleTensor { get; set; }
 
-    public uint ActivationDescCount { get; set; }
+    public int ActivationDescCount { get; set; }
 
-    public OperatorDescription ActivationDescs { get; set; }
+    public OperatorDescription[] Activations { get; set; }
 
     public RecurrentNetworkDirection Direction { get; set; }
 
@@ -37,12 +37,12 @@ public partial struct RnnOperatorDescription : IOperatorDescription, IOperatorDe
         public IntPtr WeightTensor;
         public IntPtr RecurrenceTensor;
         public IntPtr BiasTensor;
-        public IntPtr HiddenInitTensor;
+        public IntPtr HiddenInitializerTensor;
         public IntPtr SequenceLengthsTensor;
         public IntPtr OutputSequenceTensor;
         public IntPtr OutputSingleTensor;
-        public uint ActivationDescCount;
-        public IntPtr ActivationDescs;
+        public int ActivationDescCount;
+        public IntPtr Activations;
         public RecurrentNetworkDirection Direction;
     }
 
@@ -54,12 +54,19 @@ public partial struct RnnOperatorDescription : IOperatorDescription, IOperatorDe
         @ref->WeightTensor = WeightTensor.__MarshalAlloc();
         @ref->RecurrenceTensor = RecurrenceTensor.__MarshalAlloc();
         @ref->BiasTensor = (BiasTensor != null) ? BiasTensor.Value.__MarshalAlloc() : IntPtr.Zero;
-        @ref->HiddenInitTensor = (HiddenInitTensor != null) ? HiddenInitTensor.Value.__MarshalAlloc() : IntPtr.Zero;
+        @ref->HiddenInitializerTensor = (HiddenInitializerTensor != null) ? HiddenInitializerTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->SequenceLengthsTensor = (SequenceLengthsTensor != null) ? SequenceLengthsTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputSequenceTensor = (OutputSequenceTensor != null) ? OutputSequenceTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputSingleTensor = (OutputSingleTensor != null) ? OutputSingleTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->ActivationDescCount = ActivationDescCount;
-        @ref->ActivationDescs = ActivationDescs.__MarshalAlloc();
+
+        var activationDescsPtr = UnsafeUtilities.Alloc<OperatorDescription.__Native>(Activations.Length);
+        for (int i = 0; i < Activations.Length; i++)
+        {
+            Activations[i].__MarshalTo(ref activationDescsPtr[i]);
+        }
+        @ref->Activations = new(activationDescsPtr);
+
         @ref->Direction = Direction;
 
         return new(@ref);
@@ -78,31 +85,37 @@ public partial struct RnnOperatorDescription : IOperatorDescription, IOperatorDe
             BiasTensor.Value.__MarshalFree(ref @ref->BiasTensor);
         }
 
-
-        if (HiddenInitTensor != null)
+        if (HiddenInitializerTensor != null)
         {
-            HiddenInitTensor.Value.__MarshalFree(ref @ref->HiddenInitTensor);
+            HiddenInitializerTensor.Value.__MarshalFree(ref @ref->HiddenInitializerTensor);
         }
-
 
         if (SequenceLengthsTensor != null)
         {
             SequenceLengthsTensor.Value.__MarshalFree(ref @ref->SequenceLengthsTensor);
         }
 
-
         if (OutputSequenceTensor != null)
         {
             OutputSequenceTensor.Value.__MarshalFree(ref @ref->OutputSequenceTensor);
         }
-
 
         if (OutputSingleTensor != null)
         {
             OutputSingleTensor.Value.__MarshalFree(ref @ref->OutputSingleTensor);
         }
 
-        ActivationDescs.__MarshalFree(ref @ref->ActivationDescs);
+
+        if (@ref->Activations != IntPtr.Zero)
+        {
+            var activationDescsPtr = (OperatorDescription.__Native*)@ref->Activations;
+            for (int i = 0; i < Activations.Length; i++)
+            {
+                Activations[i].__MarshalFree(ref activationDescsPtr[i]);
+            }
+            UnsafeUtilities.Free(@ref->Activations);
+        }
+
         UnsafeUtilities.Free(@ref);
     }
     #endregion

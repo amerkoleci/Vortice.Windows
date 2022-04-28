@@ -11,11 +11,11 @@ public partial struct LpNormalizationOperatorDescription : IOperatorDescription,
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint Axis { get; set; }
+    public int Axis { get; set; }
 
     public float Epsilon { get; set; }
 
-    public uint P { get; set; }
+    public int P { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -23,9 +23,9 @@ public partial struct LpNormalizationOperatorDescription : IOperatorDescription,
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint Axis;
+        public int Axis;
         public float Epsilon;
-        public uint P;
+        public int P;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()

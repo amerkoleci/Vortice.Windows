@@ -13,9 +13,9 @@ public partial struct GatherOperatorDescription : IOperatorDescription, IOperato
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint Axis { get; set; }
+    public int Axis { get; set; }
 
-    public uint IndexDimensions { get; set; }
+    public int IndexDimensions { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -24,8 +24,8 @@ public partial struct GatherOperatorDescription : IOperatorDescription, IOperato
         public IntPtr InputTensor;
         public IntPtr IndicesTensor;
         public IntPtr OutputTensor;
-        public uint Axis;
-        public uint IndexDimensions;
+        public int Axis;
+        public int IndexDimensions;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()

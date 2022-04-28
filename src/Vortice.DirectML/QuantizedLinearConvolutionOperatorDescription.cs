@@ -27,17 +27,17 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int DimensionCount { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] Dilations { get; set; }
+    public int[] Dilations { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
-    public uint GroupCount { get; set; }
+    public int GroupCount { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -53,12 +53,12 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
         public IntPtr OutputScaleTensor;
         public IntPtr OutputZeroPointTensor;
         public IntPtr OutputTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr Dilations;
         public IntPtr StartPadding;
         public IntPtr EndPadding;
-        public uint GroupCount;
+        public int GroupCount;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -99,12 +99,10 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
 
         FilterTensor.__MarshalFree(ref @ref->FilterTensor);
         FilterScaleTensor.__MarshalFree(ref @ref->FilterScaleTensor);
-
         if (FilterZeroPointTensor != null)
         {
             FilterZeroPointTensor.Value.__MarshalFree(ref @ref->FilterZeroPointTensor);
         }
-
 
         if (BiasTensor != null)
         {
@@ -112,7 +110,6 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
         }
 
         OutputScaleTensor.__MarshalFree(ref @ref->OutputScaleTensor);
-
         if (OutputZeroPointTensor != null)
         {
             OutputZeroPointTensor.Value.__MarshalFree(ref @ref->OutputZeroPointTensor);

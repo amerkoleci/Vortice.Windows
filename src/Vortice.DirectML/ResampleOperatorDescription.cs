@@ -13,7 +13,7 @@ public partial struct ResampleOperatorDescription : IOperatorDescription, IOpera
 
     public InterpolationMode InterpolationMode { get; set; }
 
-    public uint ScaleCount { get; set; }
+    public int ScaleCount { get; set; }
 
     public float[] Scales { get; set; }
 
@@ -24,7 +24,7 @@ public partial struct ResampleOperatorDescription : IOperatorDescription, IOpera
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
         public InterpolationMode InterpolationMode;
-        public uint ScaleCount;
+        public int ScaleCount;
         public IntPtr Scales;
     }
 

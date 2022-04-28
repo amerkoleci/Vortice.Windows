@@ -9,20 +9,20 @@ public partial struct SplitOperatorDescription : IOperatorDescription, IOperator
 
     public TensorDescription InputTensor { get; set; }
 
-    public uint OutputCount { get; set; }
+    public int OutputCount { get; set; }
 
     public TensorDescription OutputTensors { get; set; }
 
-    public uint Axis { get; set; }
+    public int Axis { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
     {
         public IntPtr InputTensor;
-        public uint OutputCount;
+        public int OutputCount;
         public IntPtr OutputTensors;
-        public uint Axis;
+        public int Axis;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()

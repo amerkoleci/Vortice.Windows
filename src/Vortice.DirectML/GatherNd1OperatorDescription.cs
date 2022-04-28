@@ -13,11 +13,11 @@ public partial struct GatherNd1OperatorDescription : IOperatorDescription, IOper
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint InputDimensionCount { get; set; }
+    public int InputDimensionCount { get; set; }
 
-    public uint IndicesDimensionCount { get; set; }
+    public int IndicesDimensionCount { get; set; }
 
-    public uint BatchDimensionCount { get; set; }
+    public int BatchDimensionCount { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -26,9 +26,9 @@ public partial struct GatherNd1OperatorDescription : IOperatorDescription, IOper
         public IntPtr InputTensor;
         public IntPtr IndicesTensor;
         public IntPtr OutputTensor;
-        public uint InputDimensionCount;
-        public uint IndicesDimensionCount;
-        public uint BatchDimensionCount;
+        public int InputDimensionCount;
+        public int IndicesDimensionCount;
+        public int BatchDimensionCount;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()

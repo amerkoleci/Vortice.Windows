@@ -53,7 +53,6 @@ public partial struct MatrixMultiplyIntegerOperatorDescription : IOperatorDescri
         }
 
         BTensor.__MarshalFree(ref @ref->BTensor);
-
         if (BZeroPointTensor != null)
         {
             BZeroPointTensor.Value.__MarshalFree(ref @ref->BZeroPointTensor);

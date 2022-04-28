@@ -13,7 +13,7 @@ public partial struct LocalResponseNormalizationOperatorDescription : IOperatorD
 
     public bool CrossChannel { get; set; }
 
-    public uint LocalSize { get; set; }
+    public int LocalSize { get; set; }
 
     public float Alpha { get; set; }
 
@@ -28,7 +28,7 @@ public partial struct LocalResponseNormalizationOperatorDescription : IOperatorD
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
         public bool CrossChannel;
-        public uint LocalSize;
+        public int LocalSize;
         public float Alpha;
         public float Beta;
         public float Bias;

@@ -11,9 +11,9 @@ public partial struct ArgminOperatorDescription : IOperatorDescription, IOperato
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint AxisCount { get; set; }
+    public int AxisCount { get; set; }
 
-    public uint[] Axes { get; set; }
+    public int[] Axes { get; set; }
 
     public AxisDirection AxisDirection { get; set; }
 
@@ -23,7 +23,7 @@ public partial struct ArgminOperatorDescription : IOperatorDescription, IOperato
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint AxisCount;
+        public int AxisCount;
         public IntPtr Axes;
         public AxisDirection AxisDirection;
     }

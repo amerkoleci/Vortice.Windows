@@ -94,6 +94,18 @@ public static unsafe class UnsafeUtilities
         return dest;
     }
 
+    public static IntPtr* AllocWithNativePointers(CppObject[] source)
+    {
+        IntPtr* dest = (IntPtr*)Marshal.AllocHGlobal(sizeof(IntPtr) * source.Length);
+        for (int i = 0; i < source.Length; i++)
+        {
+            dest[i] = source[i].NativePointer;
+        }
+
+        return dest;
+    }
+
+    
     public static void Free(void* ptr)
     {
         Marshal.FreeHGlobal((IntPtr)ptr);

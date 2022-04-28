@@ -13,7 +13,7 @@ public partial struct ResampleGradOperatorDescription : IOperatorDescription, IO
 
     public InterpolationMode InterpolationMode { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int DimensionCount { get; set; }
 
     public float[] Scales { get; set; }
 
@@ -28,7 +28,7 @@ public partial struct ResampleGradOperatorDescription : IOperatorDescription, IO
         public IntPtr InputGradientTensor;
         public IntPtr OutputGradientTensor;
         public InterpolationMode InterpolationMode;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Scales;
         public IntPtr InputPixelOffsets;
         public IntPtr OutputPixelOffsets;

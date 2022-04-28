@@ -11,9 +11,9 @@ public partial struct TileOperatorDescription : IOperatorDescription, IOperatorD
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint RepeatsCount { get; set; }
+    public int RepeatsCount { get; set; }
 
-    public uint[] Repeats { get; set; }
+    public int[] Repeats { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -21,7 +21,7 @@ public partial struct TileOperatorDescription : IOperatorDescription, IOperatorD
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint RepeatsCount;
+        public int RepeatsCount;
         public IntPtr Repeats;
     }
 

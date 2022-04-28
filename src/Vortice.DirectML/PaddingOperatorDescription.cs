@@ -15,11 +15,11 @@ public partial struct PaddingOperatorDescription : IOperatorDescription, IOperat
 
     public float PaddingValue { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int DimensionCount { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -29,7 +29,7 @@ public partial struct PaddingOperatorDescription : IOperatorDescription, IOperat
         public IntPtr OutputTensor;
         public PaddingMode PaddingMode;
         public float PaddingValue;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr StartPadding;
         public IntPtr EndPadding;
     }

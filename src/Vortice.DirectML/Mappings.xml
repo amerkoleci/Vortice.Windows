@@ -31,9 +31,15 @@
     <!-- Enums -->
     <map enum="DML_(.*)" name-tmp="$1" />
 
+    <map enum-item="DML_OPERATOR_GEMM" name="GeneralMatrixMultiply"/>
+    <map enum-item="DML_OPERATOR_LOCAL_RESPONSE_NORMALIZATION_GRAD" name="LocalResponseNormalizationGradient"/>
+    
     <!-- Structs -->
     <map struct="DML_(.*)" name-tmp="$1" />
     <remove field="DML_SCALAR_UNION::.*" />
+
+    <map struct="DML_GEMM_OPERATOR_DESC" name="GeneralMatrixMultiplyOperatorDescription" />
+    <map struct="DML_LOCAL_RESPONSE_NORMALIZATION_GRAD_OPERATOR_DESC" name="LocalResponseNormalizationGradientOperatorDescription" />
 
     <!-- BindingDescription -->
     <map struct="DML_BINDING_DESC" marshal="true" />

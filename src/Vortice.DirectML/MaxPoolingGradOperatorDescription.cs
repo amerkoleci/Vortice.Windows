@@ -13,17 +13,17 @@ public partial struct MaxPoolingGradOperatorDescription : IOperatorDescription, 
 
     public TensorDescription OutputGradientTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int DimensionCount { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] WindowSize { get; set; }
+    public int[] WindowSize { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
-    public uint[] Dilations { get; set; }
+    public int[] Dilations { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -32,7 +32,7 @@ public partial struct MaxPoolingGradOperatorDescription : IOperatorDescription, 
         public IntPtr InputTensor;
         public IntPtr InputGradientTensor;
         public IntPtr OutputGradientTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr WindowSize;
         public IntPtr StartPadding;

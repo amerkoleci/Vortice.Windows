@@ -11,7 +11,7 @@ public partial struct SpaceToDepthOperatorDescription : IOperatorDescription, IO
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint BlockSize { get; set; }
+    public int BlockSize { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -19,7 +19,7 @@ public partial struct SpaceToDepthOperatorDescription : IOperatorDescription, IO
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint BlockSize;
+        public int BlockSize;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()

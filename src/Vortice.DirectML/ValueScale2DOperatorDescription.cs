@@ -13,7 +13,7 @@ public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IO
 
     public float Scale { get; set; }
 
-    public uint ChannelCount { get; set; }
+    public int ChannelCount { get; set; }
 
     public float[] Bias { get; set; }
 
@@ -24,7 +24,7 @@ public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IO
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
         public float Scale;
-        public uint ChannelCount;
+        public int ChannelCount;
         public IntPtr Bias;
     }
 

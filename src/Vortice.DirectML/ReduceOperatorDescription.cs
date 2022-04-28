@@ -13,9 +13,9 @@ public partial struct ReduceOperatorDescription : IOperatorDescription, IOperato
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint AxisCount { get; set; }
+    public int AxisCount { get; set; }
 
-    public uint[] Axes { get; set; }
+    public int[] Axes { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -24,7 +24,7 @@ public partial struct ReduceOperatorDescription : IOperatorDescription, IOperato
         public ReduceFunction Function;
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint AxisCount;
+        public int AxisCount;
         public IntPtr Axes;
     }
 

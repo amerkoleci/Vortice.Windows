@@ -15,9 +15,9 @@ public partial struct LstmOperatorDescription : IOperatorDescription, IOperatorD
 
     public TensorDescription? BiasTensor { get; set; }
 
-    public TensorDescription? HiddenInitTensor { get; set; }
+    public TensorDescription? HiddenInitializerTensor { get; set; }
 
-    public TensorDescription? CellMemInitTensor { get; set; }
+    public TensorDescription? CellMemoryInitializerTensor { get; set; }
 
     public TensorDescription? SequenceLengthsTensor { get; set; }
 
@@ -29,9 +29,9 @@ public partial struct LstmOperatorDescription : IOperatorDescription, IOperatorD
 
     public TensorDescription? OutputCellSingleTensor { get; set; }
 
-    public uint ActivationDescCount { get; set; }
+    public int ActivationDescCount { get; set; }
 
-    public OperatorDescription ActivationDescs { get; set; }
+    public OperatorDescription[] Activations { get; set; }
 
     public RecurrentNetworkDirection Direction { get; set; }
 
@@ -49,15 +49,15 @@ public partial struct LstmOperatorDescription : IOperatorDescription, IOperatorD
         public IntPtr WeightTensor;
         public IntPtr RecurrenceTensor;
         public IntPtr BiasTensor;
-        public IntPtr HiddenInitTensor;
-        public IntPtr CellMemInitTensor;
+        public IntPtr HiddenInitializerTensor;
+        public IntPtr CellMemoryInitializerTensor;
         public IntPtr SequenceLengthsTensor;
         public IntPtr PeepholeTensor;
         public IntPtr OutputSequenceTensor;
         public IntPtr OutputSingleTensor;
         public IntPtr OutputCellSingleTensor;
-        public uint ActivationDescCount;
-        public IntPtr ActivationDescs;
+        public int ActivationDescCount;
+        public IntPtr Activations;
         public RecurrentNetworkDirection Direction;
         public float ClipThreshold;
         public bool UseClipThreshold;
@@ -72,15 +72,22 @@ public partial struct LstmOperatorDescription : IOperatorDescription, IOperatorD
         @ref->WeightTensor = WeightTensor.__MarshalAlloc();
         @ref->RecurrenceTensor = RecurrenceTensor.__MarshalAlloc();
         @ref->BiasTensor = (BiasTensor != null) ? BiasTensor.Value.__MarshalAlloc() : IntPtr.Zero;
-        @ref->HiddenInitTensor = (HiddenInitTensor != null) ? HiddenInitTensor.Value.__MarshalAlloc() : IntPtr.Zero;
-        @ref->CellMemInitTensor = (CellMemInitTensor != null) ? CellMemInitTensor.Value.__MarshalAlloc() : IntPtr.Zero;
+        @ref->HiddenInitializerTensor = (HiddenInitializerTensor != null) ? HiddenInitializerTensor.Value.__MarshalAlloc() : IntPtr.Zero;
+        @ref->CellMemoryInitializerTensor = (CellMemoryInitializerTensor != null) ? CellMemoryInitializerTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->SequenceLengthsTensor = (SequenceLengthsTensor != null) ? SequenceLengthsTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->PeepholeTensor = (PeepholeTensor != null) ? PeepholeTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputSequenceTensor = (OutputSequenceTensor != null) ? OutputSequenceTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputSingleTensor = (OutputSingleTensor != null) ? OutputSingleTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputCellSingleTensor = (OutputCellSingleTensor != null) ? OutputCellSingleTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->ActivationDescCount = ActivationDescCount;
-        @ref->ActivationDescs = ActivationDescs.__MarshalAlloc();
+
+        var activationDescsPtr = UnsafeUtilities.Alloc<OperatorDescription.__Native>(Activations.Length);
+        for (int i = 0; i < Activations.Length; i++)
+        {
+            Activations[i].__MarshalTo(ref activationDescsPtr[i]);
+        }
+        @ref->Activations = new(activationDescsPtr);
+
         @ref->Direction = Direction;
         @ref->ClipThreshold = ClipThreshold;
         @ref->UseClipThreshold = UseClipThreshold;
@@ -102,49 +109,52 @@ public partial struct LstmOperatorDescription : IOperatorDescription, IOperatorD
             BiasTensor.Value.__MarshalFree(ref @ref->BiasTensor);
         }
 
-
-        if (HiddenInitTensor != null)
+        if (HiddenInitializerTensor != null)
         {
-            HiddenInitTensor.Value.__MarshalFree(ref @ref->HiddenInitTensor);
+            HiddenInitializerTensor.Value.__MarshalFree(ref @ref->HiddenInitializerTensor);
         }
 
-
-        if (CellMemInitTensor != null)
+        if (CellMemoryInitializerTensor != null)
         {
-            CellMemInitTensor.Value.__MarshalFree(ref @ref->CellMemInitTensor);
+            CellMemoryInitializerTensor.Value.__MarshalFree(ref @ref->CellMemoryInitializerTensor);
         }
-
 
         if (SequenceLengthsTensor != null)
         {
             SequenceLengthsTensor.Value.__MarshalFree(ref @ref->SequenceLengthsTensor);
         }
 
-
         if (PeepholeTensor != null)
         {
             PeepholeTensor.Value.__MarshalFree(ref @ref->PeepholeTensor);
         }
-
 
         if (OutputSequenceTensor != null)
         {
             OutputSequenceTensor.Value.__MarshalFree(ref @ref->OutputSequenceTensor);
         }
 
-
         if (OutputSingleTensor != null)
         {
             OutputSingleTensor.Value.__MarshalFree(ref @ref->OutputSingleTensor);
         }
-
 
         if (OutputCellSingleTensor != null)
         {
             OutputCellSingleTensor.Value.__MarshalFree(ref @ref->OutputCellSingleTensor);
         }
 
-        ActivationDescs.__MarshalFree(ref @ref->ActivationDescs);
+
+        if (@ref->Activations != IntPtr.Zero)
+        {
+            var activationDescsPtr = (OperatorDescription.__Native*)@ref->Activations;
+            for (int i = 0; i < Activations.Length; i++)
+            {
+                Activations[i].__MarshalFree(ref activationDescsPtr[i]);
+            }
+            UnsafeUtilities.Free(@ref->Activations);
+        }
+
         UnsafeUtilities.Free(@ref);
     }
     #endregion

@@ -7,22 +7,22 @@ public partial struct JoinOperatorDescription : IOperatorDescription, IOperatorD
 {
     public OperatorType OperatorType => OperatorType.Join;
 
-    public uint InputCount { get; set; }
+    public int InputCount { get; set; }
 
     public TensorDescription InputTensors { get; set; }
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint Axis { get; set; }
+    public int Axis { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
     {
-        public uint InputCount;
+        public int InputCount;
         public IntPtr InputTensors;
         public IntPtr OutputTensor;
-        public uint Axis;
+        public int Axis;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()

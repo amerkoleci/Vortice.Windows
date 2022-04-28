@@ -11,15 +11,15 @@ public partial struct AveragePoolingGradOperatorDescription : IOperatorDescripti
 
     public TensorDescription OutputGradientTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int DimensionCount { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] WindowSize { get; set; }
+    public int[] WindowSize { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
     public bool IncludePadding { get; set; }
 
@@ -29,7 +29,7 @@ public partial struct AveragePoolingGradOperatorDescription : IOperatorDescripti
     {
         public IntPtr InputGradientTensor;
         public IntPtr OutputGradientTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr WindowSize;
         public IntPtr StartPadding;

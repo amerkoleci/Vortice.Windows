@@ -17,17 +17,17 @@ public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescripti
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int DimensionCount { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] Dilations { get; set; }
+    public int[] Dilations { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
-    public uint GroupCount { get; set; }
+    public int GroupCount { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -38,12 +38,12 @@ public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescripti
         public IntPtr FilterTensor;
         public IntPtr FilterZeroPointTensor;
         public IntPtr OutputTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr Dilations;
         public IntPtr StartPadding;
         public IntPtr EndPadding;
-        public uint GroupCount;
+        public int GroupCount;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -77,7 +77,6 @@ public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescripti
         }
 
         FilterTensor.__MarshalFree(ref @ref->FilterTensor);
-
         if (FilterZeroPointTensor != null)
         {
             FilterZeroPointTensor.Value.__MarshalFree(ref @ref->FilterZeroPointTensor);

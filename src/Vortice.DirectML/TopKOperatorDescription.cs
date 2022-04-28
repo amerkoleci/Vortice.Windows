@@ -13,9 +13,9 @@ public partial struct TopKOperatorDescription : IOperatorDescription, IOperatorD
 
     public TensorDescription OutputIndexTensor { get; set; }
 
-    public uint Axis { get; set; }
+    public int Axis { get; set; }
 
-    public uint K { get; set; }
+    public int K { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -24,8 +24,8 @@ public partial struct TopKOperatorDescription : IOperatorDescription, IOperatorD
         public IntPtr InputTensor;
         public IntPtr OutputValueTensor;
         public IntPtr OutputIndexTensor;
-        public uint Axis;
-        public uint K;
+        public int Axis;
+        public int K;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()

@@ -13,7 +13,7 @@ public partial struct ElementWiseThresholdOperatorDescription : IOperatorDescrip
 
     public ScaleBias? ScaleBias { get; set; }
 
-    public float Min { get; set; }
+    public float Minimum { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -22,7 +22,7 @@ public partial struct ElementWiseThresholdOperatorDescription : IOperatorDescrip
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
         public IntPtr ScaleBias;
-        public float Min;
+        public float Minimum;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -32,7 +32,7 @@ public partial struct ElementWiseThresholdOperatorDescription : IOperatorDescrip
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
-        @ref->Min = Min;
+        @ref->Minimum = Minimum;
 
         return new(@ref);
     }
