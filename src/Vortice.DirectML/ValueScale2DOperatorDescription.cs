@@ -7,7 +7,7 @@ namespace Vortice.DirectML;
 public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>
-    /// Gets the type of operator described.
+    /// Gets the type of operator description.
     /// </summary>
     public OperatorType OperatorType => OperatorType.ValueScale2D;
 

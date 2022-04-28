@@ -7,7 +7,7 @@ namespace Vortice.DirectML;
 public partial struct TopK1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>
-    /// Gets the type of operator described.
+    /// Gets the type of operator description.
     /// </summary>
     public OperatorType OperatorType => OperatorType.TopK1;
 
