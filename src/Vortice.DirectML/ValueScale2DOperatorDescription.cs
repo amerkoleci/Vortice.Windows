@@ -13,8 +13,6 @@ public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IO
 
     public float Scale { get; set; }
 
-    public int ChannelCount { get; set; }
-
     public float[] Bias { get; set; }
 
     #region Marshal
@@ -35,7 +33,7 @@ public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IO
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->Scale = Scale;
-        @ref->ChannelCount = ChannelCount;
+        @ref->ChannelCount = Bias.Length;
         @ref->Bias = new(UnsafeUtilities.AllocWithData(Bias));
 
         return new(@ref);

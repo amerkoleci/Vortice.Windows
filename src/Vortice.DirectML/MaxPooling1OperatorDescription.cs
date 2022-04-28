@@ -13,8 +13,6 @@ public partial struct MaxPooling1OperatorDescription : IOperatorDescription, IOp
 
     public TensorDescription? OutputIndicesTensor { get; set; }
 
-    public int DimensionCount { get; set; }
-
     public int[] Strides { get; set; }
 
     public int[] WindowSize { get; set; }
@@ -44,7 +42,13 @@ public partial struct MaxPooling1OperatorDescription : IOperatorDescription, IOp
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->OutputIndicesTensor = (OutputIndicesTensor != null) ? OutputIndicesTensor.Value.__MarshalAlloc() : IntPtr.Zero;
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Strides.Length;
+        if (WindowSize.Length != dimensionCount) { throw new IndexOutOfRangeException("WindowSize must have the same length as Strides."); }
+        if (StartPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("StartPadding must have the same length as Strides."); }
+        if (EndPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("EndPadding must have the same length as Strides."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));
         @ref->WindowSize = new(UnsafeUtilities.AllocWithData(WindowSize));
         @ref->StartPadding = new(UnsafeUtilities.AllocWithData(StartPadding));
@@ -69,6 +73,7 @@ public partial struct MaxPooling1OperatorDescription : IOperatorDescription, IOp
         UnsafeUtilities.Free(@ref->WindowSize);
         UnsafeUtilities.Free(@ref->StartPadding);
         UnsafeUtilities.Free(@ref->EndPadding);
+
         UnsafeUtilities.Free(@ref);
     }
     #endregion

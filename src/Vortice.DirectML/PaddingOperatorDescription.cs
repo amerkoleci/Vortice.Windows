@@ -15,8 +15,6 @@ public partial struct PaddingOperatorDescription : IOperatorDescription, IOperat
 
     public float PaddingValue { get; set; }
 
-    public int DimensionCount { get; set; }
-
     public int[] StartPadding { get; set; }
 
     public int[] EndPadding { get; set; }
@@ -42,7 +40,11 @@ public partial struct PaddingOperatorDescription : IOperatorDescription, IOperat
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->PaddingMode = PaddingMode;
         @ref->PaddingValue = PaddingValue;
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = StartPadding.Length;
+        if (EndPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("EndPadding must have the same length as StartPadding."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->StartPadding = new(UnsafeUtilities.AllocWithData(StartPadding));
         @ref->EndPadding = new(UnsafeUtilities.AllocWithData(EndPadding));
 

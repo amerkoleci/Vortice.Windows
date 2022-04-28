@@ -20,6 +20,21 @@ public partial struct OperatorDescription
         public IntPtr Description;
     }
 
+    internal unsafe IntPtr __MarshalAlloc()
+    {
+        __Native* @ref = UnsafeUtilities.Alloc<__Native>();
+
+        @ref->Description = ((IOperatorDescriptionMarshal)Description).__MarshalAlloc();
+
+        return new(@ref);
+    }
+
+    internal void __MarshalTo(ref __Native @ref)
+    {
+        @ref.Type = Description.OperatorType;
+        @ref.Description = ((IOperatorDescriptionMarshal)Description).__MarshalAlloc();
+    }
+
     internal void __MarshalFree(ref __Native @ref)
     {
         ((IOperatorDescriptionMarshal)Description).__MarshalFree(ref @ref.Description);
@@ -34,21 +49,5 @@ public partial struct OperatorDescription
 
         UnsafeUtilities.Free(@ref);
     }
-
-    internal void __MarshalTo(ref __Native @ref)
-    {
-        @ref.Type = Description.OperatorType;
-        @ref.Description = ((IOperatorDescriptionMarshal)Description).__MarshalAlloc();
-    }
-
-    internal unsafe IntPtr __MarshalAlloc()
-    {
-        __Native* @ref = UnsafeUtilities.Alloc<__Native>();
-
-        @ref->Description = ((IOperatorDescriptionMarshal)Description).__MarshalAlloc();
-
-        return new(@ref);
-    }
-
     #endregion
 }

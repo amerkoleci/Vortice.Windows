@@ -70,6 +70,7 @@ public partial struct GeneralMatrixMultiplyOperatorDescription : IOperatorDescri
         }
 
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
+
         if (FusedActivation != null)
         {
             FusedActivation.Value.__MarshalFree(ref @ref->FusedActivation);

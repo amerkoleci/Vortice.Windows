@@ -19,8 +19,6 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
 
     public ConvolutionDirection Direction { get; set; }
 
-    public int DimensionCount { get; set; }
-
     public int[] Strides { get; set; }
 
     public int[] Dilations { get; set; }
@@ -65,7 +63,14 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->Mode = Mode;
         @ref->Direction = Direction;
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Strides.Length;
+        if (Dilations.Length != dimensionCount) { throw new IndexOutOfRangeException("Dilations must have the same length as Strides."); }
+        if (StartPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("StartPadding must have the same length as Strides."); }
+        if (EndPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("EndPadding must have the same length as Strides."); }
+        if (OutputPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("OutputPadding must have the same length as Strides."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));
         @ref->Dilations = new(UnsafeUtilities.AllocWithData(Dilations));
         @ref->StartPadding = new(UnsafeUtilities.AllocWithData(StartPadding));
@@ -95,6 +100,7 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
         UnsafeUtilities.Free(@ref->StartPadding);
         UnsafeUtilities.Free(@ref->EndPadding);
         UnsafeUtilities.Free(@ref->OutputPadding);
+
         if (FusedActivation != null)
         {
             FusedActivation.Value.__MarshalFree(ref @ref->FusedActivation);

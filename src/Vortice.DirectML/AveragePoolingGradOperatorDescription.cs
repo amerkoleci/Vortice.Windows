@@ -11,8 +11,6 @@ public partial struct AveragePoolingGradOperatorDescription : IOperatorDescripti
 
     public TensorDescription OutputGradientTensor { get; set; }
 
-    public int DimensionCount { get; set; }
-
     public int[] Strides { get; set; }
 
     public int[] WindowSize { get; set; }
@@ -43,7 +41,13 @@ public partial struct AveragePoolingGradOperatorDescription : IOperatorDescripti
 
         @ref->InputGradientTensor = InputGradientTensor.__MarshalAlloc();
         @ref->OutputGradientTensor = OutputGradientTensor.__MarshalAlloc();
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Strides.Length;
+        if (WindowSize.Length != dimensionCount) { throw new IndexOutOfRangeException("WindowSize must have the same length as Strides."); }
+        if (StartPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("StartPadding must have the same length as Strides."); }
+        if (EndPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("EndPadding must have the same length as Strides."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));
         @ref->WindowSize = new(UnsafeUtilities.AllocWithData(WindowSize));
         @ref->StartPadding = new(UnsafeUtilities.AllocWithData(StartPadding));

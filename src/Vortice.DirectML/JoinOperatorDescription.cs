@@ -7,9 +7,7 @@ public partial struct JoinOperatorDescription : IOperatorDescription, IOperatorD
 {
     public OperatorType OperatorType => OperatorType.Join;
 
-    public int InputCount { get; set; }
-
-    public TensorDescription InputTensors { get; set; }
+    public TensorDescription[] InputTensors { get; set; }
 
     public TensorDescription OutputTensor { get; set; }
 
@@ -29,8 +27,19 @@ public partial struct JoinOperatorDescription : IOperatorDescription, IOperatorD
     {
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
-        @ref->InputCount = InputCount;
-        @ref->InputTensors = InputTensors.__MarshalAlloc();
+        @ref->InputCount = InputTensors.Length;
+
+        @ref->InputTensors = IntPtr.Zero;
+        if (InputTensors.Length != 0)
+        {
+            var inputTensorsPtr = UnsafeUtilities.Alloc<TensorDescription.__Native>(InputTensors.Length);
+            for (int i = 0; i < InputTensors.Length; i++)
+            {
+                InputTensors[i].__MarshalTo(ref inputTensorsPtr[i]);
+            }
+            @ref->InputTensors = new(inputTensorsPtr);
+        }
+
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->Axis = Axis;
 
@@ -41,7 +50,17 @@ public partial struct JoinOperatorDescription : IOperatorDescription, IOperatorD
     {
         var @ref = (__Native*)pDesc;
 
-        InputTensors.__MarshalFree(ref @ref->InputTensors);
+
+        if (@ref->InputTensors != IntPtr.Zero)
+        {
+            var inputTensorsPtr = (TensorDescription.__Native*)@ref->InputTensors;
+            for (int i = 0; i < InputTensors.Length; i++)
+            {
+                InputTensors[i].__MarshalFree(ref inputTensorsPtr[i]);
+            }
+            UnsafeUtilities.Free(@ref->InputTensors);
+        }
+
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
 
         UnsafeUtilities.Free(@ref);

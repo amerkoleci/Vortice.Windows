@@ -17,8 +17,6 @@ public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescripti
 
     public TensorDescription OutputTensor { get; set; }
 
-    public int DimensionCount { get; set; }
-
     public int[] Strides { get; set; }
 
     public int[] Dilations { get; set; }
@@ -55,7 +53,13 @@ public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescripti
         @ref->FilterTensor = FilterTensor.__MarshalAlloc();
         @ref->FilterZeroPointTensor = (FilterZeroPointTensor != null) ? FilterZeroPointTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Strides.Length;
+        if (Dilations.Length != dimensionCount) { throw new IndexOutOfRangeException("Dilations must have the same length as Strides."); }
+        if (StartPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("StartPadding must have the same length as Strides."); }
+        if (EndPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("EndPadding must have the same length as Strides."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));
         @ref->Dilations = new(UnsafeUtilities.AllocWithData(Dilations));
         @ref->StartPadding = new(UnsafeUtilities.AllocWithData(StartPadding));
@@ -77,6 +81,7 @@ public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescripti
         }
 
         FilterTensor.__MarshalFree(ref @ref->FilterTensor);
+
         if (FilterZeroPointTensor != null)
         {
             FilterZeroPointTensor.Value.__MarshalFree(ref @ref->FilterZeroPointTensor);
@@ -87,6 +92,7 @@ public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescripti
         UnsafeUtilities.Free(@ref->Dilations);
         UnsafeUtilities.Free(@ref->StartPadding);
         UnsafeUtilities.Free(@ref->EndPadding);
+
         UnsafeUtilities.Free(@ref);
     }
     #endregion

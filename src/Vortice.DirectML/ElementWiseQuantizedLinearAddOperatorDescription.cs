@@ -71,18 +71,21 @@ public partial struct ElementWiseQuantizedLinearAddOperatorDescription : IOperat
 
         BTensor.__MarshalFree(ref @ref->BTensor);
         BScaleTensor.__MarshalFree(ref @ref->BScaleTensor);
+
         if (BZeroPointTensor != null)
         {
             BZeroPointTensor.Value.__MarshalFree(ref @ref->BZeroPointTensor);
         }
 
         OutputScaleTensor.__MarshalFree(ref @ref->OutputScaleTensor);
+
         if (OutputZeroPointTensor != null)
         {
             OutputZeroPointTensor.Value.__MarshalFree(ref @ref->OutputZeroPointTensor);
         }
 
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
+
         UnsafeUtilities.Free(@ref);
     }
     #endregion

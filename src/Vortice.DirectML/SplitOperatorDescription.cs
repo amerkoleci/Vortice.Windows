@@ -9,9 +9,7 @@ public partial struct SplitOperatorDescription : IOperatorDescription, IOperator
 
     public TensorDescription InputTensor { get; set; }
 
-    public int OutputCount { get; set; }
-
-    public TensorDescription OutputTensors { get; set; }
+    public TensorDescription[] OutputTensors { get; set; }
 
     public int Axis { get; set; }
 
@@ -30,8 +28,19 @@ public partial struct SplitOperatorDescription : IOperatorDescription, IOperator
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
-        @ref->OutputCount = OutputCount;
-        @ref->OutputTensors = OutputTensors.__MarshalAlloc();
+        @ref->OutputCount = OutputTensors.Length;
+
+        @ref->OutputTensors = IntPtr.Zero;
+        if (OutputTensors.Length != 0)
+        {
+            var outputTensorsPtr = UnsafeUtilities.Alloc<TensorDescription.__Native>(OutputTensors.Length);
+            for (int i = 0; i < OutputTensors.Length; i++)
+            {
+                OutputTensors[i].__MarshalTo(ref outputTensorsPtr[i]);
+            }
+            @ref->OutputTensors = new(outputTensorsPtr);
+        }
+
         @ref->Axis = Axis;
 
         return new(@ref);
@@ -42,7 +51,16 @@ public partial struct SplitOperatorDescription : IOperatorDescription, IOperator
         var @ref = (__Native*)pDesc;
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
-        OutputTensors.__MarshalFree(ref @ref->OutputTensors);
+
+        if (@ref->OutputTensors != IntPtr.Zero)
+        {
+            var outputTensorsPtr = (TensorDescription.__Native*)@ref->OutputTensors;
+            for (int i = 0; i < OutputTensors.Length; i++)
+            {
+                OutputTensors[i].__MarshalFree(ref outputTensorsPtr[i]);
+            }
+            UnsafeUtilities.Free(@ref->OutputTensors);
+        }
 
         UnsafeUtilities.Free(@ref);
     }

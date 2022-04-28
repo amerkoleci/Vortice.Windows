@@ -23,8 +23,6 @@ public partial struct RnnOperatorDescription : IOperatorDescription, IOperatorDe
 
     public TensorDescription? OutputSingleTensor { get; set; }
 
-    public int ActivationDescCount { get; set; }
-
     public OperatorDescription[] Activations { get; set; }
 
     public RecurrentNetworkDirection Direction { get; set; }
@@ -58,14 +56,18 @@ public partial struct RnnOperatorDescription : IOperatorDescription, IOperatorDe
         @ref->SequenceLengthsTensor = (SequenceLengthsTensor != null) ? SequenceLengthsTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputSequenceTensor = (OutputSequenceTensor != null) ? OutputSequenceTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputSingleTensor = (OutputSingleTensor != null) ? OutputSingleTensor.Value.__MarshalAlloc() : IntPtr.Zero;
-        @ref->ActivationDescCount = ActivationDescCount;
+        @ref->ActivationDescCount = Activations.Length;
 
-        var activationDescsPtr = UnsafeUtilities.Alloc<OperatorDescription.__Native>(Activations.Length);
-        for (int i = 0; i < Activations.Length; i++)
+        @ref->Activations = IntPtr.Zero;
+        if (Activations.Length != 0)
         {
-            Activations[i].__MarshalTo(ref activationDescsPtr[i]);
+            var activationDescsPtr = UnsafeUtilities.Alloc<OperatorDescription.__Native>(Activations.Length);
+            for (int i = 0; i < Activations.Length; i++)
+            {
+                Activations[i].__MarshalTo(ref activationDescsPtr[i]);
+            }
+            @ref->Activations = new(activationDescsPtr);
         }
-        @ref->Activations = new(activationDescsPtr);
 
         @ref->Direction = Direction;
 

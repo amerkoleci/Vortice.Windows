@@ -13,8 +13,6 @@ public partial struct ResampleOperatorDescription : IOperatorDescription, IOpera
 
     public InterpolationMode InterpolationMode { get; set; }
 
-    public int ScaleCount { get; set; }
-
     public float[] Scales { get; set; }
 
     #region Marshal
@@ -35,7 +33,7 @@ public partial struct ResampleOperatorDescription : IOperatorDescription, IOpera
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->InterpolationMode = InterpolationMode;
-        @ref->ScaleCount = ScaleCount;
+        @ref->ScaleCount = Scales.Length;
         @ref->Scales = new(UnsafeUtilities.AllocWithData(Scales));
 
         return new(@ref);

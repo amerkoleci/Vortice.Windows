@@ -11,8 +11,6 @@ public partial struct ArgmaxOperatorDescription : IOperatorDescription, IOperato
 
     public TensorDescription OutputTensor { get; set; }
 
-    public int AxisCount { get; set; }
-
     public int[] Axes { get; set; }
 
     public AxisDirection AxisDirection { get; set; }
@@ -34,7 +32,7 @@ public partial struct ArgmaxOperatorDescription : IOperatorDescription, IOperato
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->AxisCount = AxisCount;
+        @ref->AxisCount = Axes.Length;
         @ref->Axes = new(UnsafeUtilities.AllocWithData(Axes));
         @ref->AxisDirection = AxisDirection;
 

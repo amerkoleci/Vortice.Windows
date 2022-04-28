@@ -11,8 +11,6 @@ public partial struct TileOperatorDescription : IOperatorDescription, IOperatorD
 
     public TensorDescription OutputTensor { get; set; }
 
-    public int RepeatsCount { get; set; }
-
     public int[] Repeats { get; set; }
 
     #region Marshal
@@ -31,7 +29,7 @@ public partial struct TileOperatorDescription : IOperatorDescription, IOperatorD
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->RepeatsCount = RepeatsCount;
+        @ref->RepeatsCount = Repeats.Length;
         @ref->Repeats = new(UnsafeUtilities.AllocWithData(Repeats));
 
         return new(@ref);

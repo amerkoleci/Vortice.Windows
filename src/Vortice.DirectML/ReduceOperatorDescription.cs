@@ -13,8 +13,6 @@ public partial struct ReduceOperatorDescription : IOperatorDescription, IOperato
 
     public TensorDescription OutputTensor { get; set; }
 
-    public int AxisCount { get; set; }
-
     public int[] Axes { get; set; }
 
     #region Marshal
@@ -35,7 +33,7 @@ public partial struct ReduceOperatorDescription : IOperatorDescription, IOperato
         @ref->Function = Function;
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->AxisCount = AxisCount;
+        @ref->AxisCount = Axes.Length;
         @ref->Axes = new(UnsafeUtilities.AllocWithData(Axes));
 
         return new(@ref);
