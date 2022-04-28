@@ -23,9 +23,5 @@ public static class Program
 
         using (var app = new DmlDevice())
             app.Run();
-
-#if DEBUG
-        Console.WriteLine(ObjectTracker.ReportActiveObjects());
-#endif
     }
 }

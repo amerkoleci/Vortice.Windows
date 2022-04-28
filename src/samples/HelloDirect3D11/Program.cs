@@ -287,9 +287,5 @@ public static class Program
         {
             app.Run();
         }
-
-#if DEBUG
-        Console.WriteLine(ObjectTracker.ReportActiveObjects());
-#endif
     }
 }

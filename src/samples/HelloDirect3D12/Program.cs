@@ -88,9 +88,5 @@ public static class Program
 
         using (var app = new TestApplication())
             app.Run();
-
-#if DEBUG
-        Console.WriteLine(ObjectTracker.ReportActiveObjects());
-#endif
     }
 }

@@ -100,7 +100,7 @@
     <define struct="Vortice.Mathematics.SizeI" sizeof="8" />
     <define struct="Vortice.Mathematics.Rect" sizeof="16" />
     <define struct="Vortice.Mathematics.RectI" sizeof="16" />
-    
+
     <define struct="Vortice.Mathematics.Color3" sizeof="12" />
     <define struct="Vortice.Mathematics.Color4" sizeof="16" />
     <define struct="Vortice.Mathematics.Int3" sizeof="12" />
@@ -117,7 +117,7 @@
     <define struct="Vortice.Win32.BitmapInfoHeader" sizeof="40"/>
     <define struct="Vortice.Win32.FileTime" sizeof="8"/>
     <define struct="Vortice.Win32.ByHandleFileInformation" sizeof="52"/>
-    
+
     <const from-guid="WKPDID_D3DDebugObjectName" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectName">new System.Guid("$1")</const>
     <const from-guid="WKPDID_D3DDebugObjectNameW" class="Vortice.CommonGuid" type="System.Guid" name="DebugObjectNameW">new System.Guid("$1")</const>
     <create class="CommonGuid" visibility="public" />
@@ -360,8 +360,8 @@
     <map struct="D3D_SHADER_MACRO" name="ShaderMacro" native="true" marshal="true" />
 
     <map interface="ID3D10Blob" name="Blob" />
-    <map interface="ID3DInclude" name="Include" callback="true" shadow-name="Vortice.Direct3D.IncludeShadow" autogen-vtbl="false" />
-    <map method="ID3DInclude::.+" hidden="true" />
+    <map interface="ID3DInclude" name="Include" callback="true" shadow-name="Vortice.Direct3D.IncludeShadow" />
+    <map method="ID3DInclude::.+" hidden="true" managed-partial="true" />
     <map interface="ID3DDestructionNotifier" name="DestructionNotifier" callback="true" />
 
     <!-- DxCore -->
@@ -384,14 +384,14 @@
     <map method="IDXCoreAdapter::SetState" visibility="private" hresult="true" check="false" />
     <map param="IDXCoreAdapter::SetState::inputStateDetails" type="void" keep-pointers="true"/>
     <map param="IDXCoreAdapter::SetState::inputData" type="void" keep-pointers="true"/>
-    
+
     <map method="IDXCoreAdapter::QueryState" visibility="private" hresult="true" check="false" />
     <map param="IDXCoreAdapter::QueryState::inputStateDetails" type="void" keep-pointers="true"/>
     <map param="IDXCoreAdapter::QueryState::outputBuffer" type="void" keep-pointers="true"/>
 
     <!-- DXGI -->
     <map enum="DXGI(.+)" name-tmp="$1" />
-    <map enum="DXGI_FORMAT_" type="uint" />
+    <map enum="DXGI_FORMAT" type="uint" />
     <map enum-item="DXGI_FORMAT_.*" naming="underscore" />
     <map enum-item="DXGI_FORMAT_420_OPAQUE" name="Opaque420" />
     <map struct="DXGI(.+)" name-tmp="$1" />
@@ -446,6 +446,6 @@
     <!-- d3d12 -->
     <map enum="D3D12_RESOURCE_STATES" flags="true" type="uint" />
     <map enum-item="D3D12_RESOURCE_STATE(.*)" name-tmp="$1" />
-    
+
   </mapping>
 </config>

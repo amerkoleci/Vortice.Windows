@@ -638,7 +638,7 @@
     <map struct="MFVIDEOFORMAT" name-tmp="VideoFormat"/>
 
     <!-- IMFByteStream -->
-    <map interface="IMFByteStream" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" callback-name="MFByteStream" />
+    <map interface="IMFByteStream" callback="true" callback-dual="true" callback-visibility="public" callback-name="MFByteStream" />
     <map param="IMFByteStream::*.*::pb" type="void" attribute="in"/>
     <map param="IMFByteStream::Begin[RW].*::punkState" type="void"/>
 
@@ -650,12 +650,12 @@
     <remove inteface="MFASYNCRESULT" />
 
     <!-- IMFAsyncCallback -->
-    <map interface="IMFAsyncCallback" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" callback-name="MFAsyncCallback" />
+    <map interface="IMFAsyncCallback" callback="true" callback-dual="true" callback-visibility="public" callback-name="MFAsyncCallback" />
     <map method="IMFAsyncCallback::.*" property="false" hresult="true" check="false"/>
     <map param="IMFAsyncCallback::GetParameters::pdwFlags" type="MFASYNC_CALLBACK_FLAGS"/>
     
     <!-- IMFAsyncCallback -->
-    <map interface="IMFAsyncCallbackLogging" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" callback-name="MFAsyncCallbackLogging" />
+    <map interface="IMFAsyncCallbackLogging" callback="true" callback-dual="true" callback-visibility="public" callback-name="MFAsyncCallbackLogging" />
 
     <!-- IMFAttributes -->
     <map interface="IMFAttributes" name="IMFAttributes"/>
@@ -741,7 +741,7 @@
     <map method="IMFDXGIDeviceManager::LockDevice" visibility="internal"/>
     <map method="IMFDXGIDeviceManager::UnlockDevice" visibility="internal" />
 
-    <map interface="IMMNotificationClient" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
+    <map interface="IMMNotificationClient" callback="true" callback-dual="true" callback-visibility="public" />
     
     <!-- IMFTransform -->
     <map param="IMFTransform::ProcessOutput::dwFlags" type="_MFT_PROCESS_OUTPUT_FLAGS"/>
