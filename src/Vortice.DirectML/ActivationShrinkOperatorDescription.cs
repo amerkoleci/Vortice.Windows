@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SHRINK_OPERATOR_DESC']/*" />
 public partial struct ActivationShrinkOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ActivationShrink;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SHRINK_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SHRINK_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SHRINK_OPERATOR_DESC::Bias']/*" />
     public float Bias { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SHRINK_OPERATOR_DESC::Threshold']/*" />
     public float Threshold { get; set; }
 
     #region Marshal

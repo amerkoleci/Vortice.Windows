@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_RANDOM_GENERATOR_OPERATOR_DESC']/*" />
 public partial struct RandomGeneratorOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.RandomGenerator;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RANDOM_GENERATOR_OPERATOR_DESC::InputStateTensor']/*" />
     public TensorDescription InputStateTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RANDOM_GENERATOR_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RANDOM_GENERATOR_OPERATOR_DESC::OutputStateTensor']/*" />
     public TensorDescription? OutputStateTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RANDOM_GENERATOR_OPERATOR_DESC::Type']/*" />
     public RandomGeneratorType Type { get; set; }
 
     #region Marshal

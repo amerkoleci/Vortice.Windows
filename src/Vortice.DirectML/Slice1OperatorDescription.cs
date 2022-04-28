@@ -3,18 +3,27 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE1_OPERATOR_DESC']/*" />
 public partial struct Slice1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.Slice1;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE1_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE1_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE1_OPERATOR_DESC::InputWindowOffsets']/*" />
     public int[] InputWindowOffsets { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE1_OPERATOR_DESC::InputWindowSizes']/*" />
     public int[] InputWindowSizes { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE1_OPERATOR_DESC::InputWindowStrides']/*" />
     public int[] InputWindowStrides { get; set; }
 
     #region Marshal

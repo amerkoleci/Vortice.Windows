@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_OPERATOR_DESC']/*" />
 public partial struct ResampleOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.Resample;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_OPERATOR_DESC::InterpolationMode']/*" />
     public InterpolationMode InterpolationMode { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_OPERATOR_DESC::Scales']/*" />
     public float[] Scales { get; set; }
 
     #region Marshal

@@ -3,40 +3,60 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC']/*" />
 public partial struct LstmOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.Lstm;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::WeightTensor']/*" />
     public TensorDescription WeightTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::RecurrenceTensor']/*" />
     public TensorDescription RecurrenceTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::BiasTensor']/*" />
     public TensorDescription? BiasTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::HiddenInitTensor']/*" />
     public TensorDescription? HiddenInitializerTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::CellMemInitTensor']/*" />
     public TensorDescription? CellMemoryInitializerTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::SequenceLengthsTensor']/*" />
     public TensorDescription? SequenceLengthsTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::PeepholeTensor']/*" />
     public TensorDescription? PeepholeTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::OutputSequenceTensor']/*" />
     public TensorDescription? OutputSequenceTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::OutputSingleTensor']/*" />
     public TensorDescription? OutputSingleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::OutputCellSingleTensor']/*" />
     public TensorDescription? OutputCellSingleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::ActivationDescs']/*" />
     public OperatorDescription[] Activations { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::Direction']/*" />
     public RecurrentNetworkDirection Direction { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::ClipThreshold']/*" />
     public float ClipThreshold { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::UseClipThreshold']/*" />
     public bool UseClipThreshold { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::CoupleInputForget']/*" />
     public bool CoupleInputForget { get; set; }
 
     #region Marshal

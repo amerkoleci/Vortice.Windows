@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_HARD_SIGMOID_OPERATOR_DESC']/*" />
 public partial struct ActivationHardSigmoidOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ActivationHardSigmoid;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_HARD_SIGMOID_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_HARD_SIGMOID_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_HARD_SIGMOID_OPERATOR_DESC::Alpha']/*" />
     public float Alpha { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_HARD_SIGMOID_OPERATOR_DESC::Beta']/*" />
     public float Beta { get; set; }
 
     #region Marshal

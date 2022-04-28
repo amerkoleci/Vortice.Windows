@@ -3,22 +3,33 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_OPERATOR_DESC']/*" />
 public partial struct LocalResponseNormalizationOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.LocalResponseNormalization;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_OPERATOR_DESC::CrossChannel']/*" />
     public bool CrossChannel { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_OPERATOR_DESC::LocalSize']/*" />
     public int LocalSize { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_OPERATOR_DESC::Alpha']/*" />
     public float Alpha { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_OPERATOR_DESC::Beta']/*" />
     public float Beta { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_OPERATOR_DESC::Bias']/*" />
     public float Bias { get; set; }
 
     #region Marshal

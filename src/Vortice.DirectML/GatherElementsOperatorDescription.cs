@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ELEMENTS_OPERATOR_DESC']/*" />
 public partial struct GatherElementsOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.GatherElements;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ELEMENTS_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ELEMENTS_OPERATOR_DESC::IndicesTensor']/*" />
     public TensorDescription IndicesTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ELEMENTS_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ELEMENTS_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
     #region Marshal

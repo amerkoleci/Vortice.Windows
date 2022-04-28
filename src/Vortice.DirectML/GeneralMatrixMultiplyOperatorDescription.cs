@@ -3,26 +3,39 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC']/*" />
 public partial struct GeneralMatrixMultiplyOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.GeneralMatrixMultiply;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::ATensor']/*" />
     public TensorDescription ATensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::BTensor']/*" />
     public TensorDescription BTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::CTensor']/*" />
     public TensorDescription? CTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::TransA']/*" />
     public MatrixTransform TransformA { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::TransB']/*" />
     public MatrixTransform TransformB { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::Alpha']/*" />
     public float Alpha { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::Beta']/*" />
     public float Beta { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::FusedActivation']/*" />
     public OperatorDescription? FusedActivation { get; set; }
 
     #region Marshal

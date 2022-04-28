@@ -3,28 +3,42 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC']/*" />
 public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ConvolutionInteger;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::InputZeroPointTensor']/*" />
     public TensorDescription? InputZeroPointTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::FilterTensor']/*" />
     public TensorDescription FilterTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::FilterZeroPointTensor']/*" />
     public TensorDescription? FilterZeroPointTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::Strides']/*" />
     public int[] Strides { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::Dilations']/*" />
     public int[] Dilations { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::StartPadding']/*" />
     public int[] StartPadding { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::EndPadding']/*" />
     public int[] EndPadding { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::GroupCount']/*" />
     public int GroupCount { get; set; }
 
     #region Marshal

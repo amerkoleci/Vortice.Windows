@@ -3,14 +3,21 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_RELU_GRAD_OPERATOR_DESC']/*" />
 public partial struct ActivationReluGradOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ActivationReluGrad;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_RELU_GRAD_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_RELU_GRAD_OPERATOR_DESC::InputGradientTensor']/*" />
     public TensorDescription InputGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_RELU_GRAD_OPERATOR_DESC::OutputGradientTensor']/*" />
     public TensorDescription OutputGradientTensor { get; set; }
 
     #region Marshal

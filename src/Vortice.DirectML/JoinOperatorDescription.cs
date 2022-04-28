@@ -3,14 +3,21 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_JOIN_OPERATOR_DESC']/*" />
 public partial struct JoinOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.Join;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_JOIN_OPERATOR_DESC::InputTensors']/*" />
     public TensorDescription[] InputTensors { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_JOIN_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_JOIN_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
     #region Marshal

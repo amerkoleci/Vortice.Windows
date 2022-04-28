@@ -3,14 +3,21 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_SUBTRACT_OPERATOR_DESC']/*" />
 public partial struct ElementWiseSubtractOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ElementWiseSubtract;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_SUBTRACT_OPERATOR_DESC::ATensor']/*" />
     public TensorDescription ATensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_SUBTRACT_OPERATOR_DESC::BTensor']/*" />
     public TensorDescription BTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_SUBTRACT_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
     #region Marshal

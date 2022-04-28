@@ -3,18 +3,27 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ND_OPERATOR_DESC']/*" />
 public partial struct GatherNdOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.GatherNd;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ND_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ND_OPERATOR_DESC::IndicesTensor']/*" />
     public TensorDescription IndicesTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ND_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ND_OPERATOR_DESC::InputDimensionCount']/*" />
     public int InputDimensionCount { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ND_OPERATOR_DESC::IndicesDimensionCount']/*" />
     public int IndicesDimensionCount { get; set; }
 
     #region Marshal

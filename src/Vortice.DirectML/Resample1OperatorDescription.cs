@@ -3,20 +3,30 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE1_OPERATOR_DESC']/*" />
 public partial struct Resample1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.Resample1;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE1_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE1_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE1_OPERATOR_DESC::InterpolationMode']/*" />
     public InterpolationMode InterpolationMode { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE1_OPERATOR_DESC::Scales']/*" />
     public float[] Scales { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE1_OPERATOR_DESC::InputPixelOffsets']/*" />
     public float[] InputPixelOffsets { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE1_OPERATOR_DESC::OutputPixelOffsets']/*" />
     public float[] OutputPixelOffsets { get; set; }
 
     #region Marshal

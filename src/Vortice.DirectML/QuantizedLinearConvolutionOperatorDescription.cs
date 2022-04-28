@@ -3,38 +3,57 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC']/*" />
 public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.QuantizedLinearConvolution;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::InputScaleTensor']/*" />
     public TensorDescription InputScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::InputZeroPointTensor']/*" />
     public TensorDescription? InputZeroPointTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::FilterTensor']/*" />
     public TensorDescription FilterTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::FilterScaleTensor']/*" />
     public TensorDescription FilterScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::FilterZeroPointTensor']/*" />
     public TensorDescription? FilterZeroPointTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::BiasTensor']/*" />
     public TensorDescription? BiasTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::OutputScaleTensor']/*" />
     public TensorDescription OutputScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::OutputZeroPointTensor']/*" />
     public TensorDescription? OutputZeroPointTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::Strides']/*" />
     public int[] Strides { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::Dilations']/*" />
     public int[] Dilations { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::StartPadding']/*" />
     public int[] StartPadding { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::EndPadding']/*" />
     public int[] EndPadding { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::GroupCount']/*" />
     public int GroupCount { get; set; }
 
     #region Marshal

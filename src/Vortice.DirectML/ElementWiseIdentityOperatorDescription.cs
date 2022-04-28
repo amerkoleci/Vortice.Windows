@@ -3,14 +3,21 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_IDENTITY_OPERATOR_DESC']/*" />
 public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ElementWiseIdentity;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_IDENTITY_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_IDENTITY_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_IDENTITY_OPERATOR_DESC::ScaleBias']/*" />
     public ScaleBias? ScaleBias { get; set; }
 
     #region Marshal

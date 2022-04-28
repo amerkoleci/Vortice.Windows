@@ -3,20 +3,30 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K1_OPERATOR_DESC']/*" />
 public partial struct TopK1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.TopK1;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K1_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K1_OPERATOR_DESC::OutputValueTensor']/*" />
     public TensorDescription OutputValueTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K1_OPERATOR_DESC::OutputIndexTensor']/*" />
     public TensorDescription OutputIndexTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K1_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K1_OPERATOR_DESC::K']/*" />
     public int K { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K1_OPERATOR_DESC::AxisDirection']/*" />
     public AxisDirection AxisDirection { get; set; }
 
     #region Marshal

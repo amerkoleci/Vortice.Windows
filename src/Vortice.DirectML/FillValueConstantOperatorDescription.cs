@@ -3,14 +3,21 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_CONSTANT_OPERATOR_DESC']/*" />
 public partial struct FillValueConstantOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.FillValueConstant;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_CONSTANT_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_CONSTANT_OPERATOR_DESC::ValueDataType']/*" />
     public TensorDataType ValueDataType { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_CONSTANT_OPERATOR_DESC::Value']/*" />
     public ScalarUnion Value { get; set; }
 
     #region Marshal

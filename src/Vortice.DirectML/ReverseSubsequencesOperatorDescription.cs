@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_REVERSE_SUBSEQUENCES_OPERATOR_DESC']/*" />
 public partial struct ReverseSubsequencesOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator described.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ReverseSubsequences;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REVERSE_SUBSEQUENCES_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REVERSE_SUBSEQUENCES_OPERATOR_DESC::SequenceLengthsTensor']/*" />
     public TensorDescription SequenceLengthsTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REVERSE_SUBSEQUENCES_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REVERSE_SUBSEQUENCES_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
     #region Marshal
