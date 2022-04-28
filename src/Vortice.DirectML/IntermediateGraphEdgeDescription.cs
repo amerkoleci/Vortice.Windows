@@ -5,16 +5,24 @@ namespace Vortice.DirectML;
 
 public partial struct IntermediateGraphEdgeDescription : IGraphEdgeDescription, IGraphEdgeDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of graph edge description.
+    /// </summary>
     public GraphEdgeType GraphEdgeType => GraphEdgeType.Intermediate;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INTERMEDIATE_GRAPH_EDGE_DESC::FromNodeIndex']/*" />
     public int FromNodeIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INTERMEDIATE_GRAPH_EDGE_DESC::FromNodeOutputIndex']/*" />
     public int FromNodeOutputIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INTERMEDIATE_GRAPH_EDGE_DESC::ToNodeIndex']/*" />
     public int ToNodeIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INTERMEDIATE_GRAPH_EDGE_DESC::ToNodeInputIndex']/*" />
     public int ToNodeInputIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INTERMEDIATE_GRAPH_EDGE_DESC::Name']/*" />
     public string? Name { get; set; }
 
     #region Marshal

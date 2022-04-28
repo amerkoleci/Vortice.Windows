@@ -3,26 +3,39 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC']/*" />
 public partial struct BatchNormalizationOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.BatchNormalization;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::MeanTensor']/*" />
     public TensorDescription MeanTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::VarianceTensor']/*" />
     public TensorDescription VarianceTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::ScaleTensor']/*" />
     public TensorDescription ScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::BiasTensor']/*" />
     public TensorDescription BiasTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::Spatial']/*" />
     public bool Spatial { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::Epsilon']/*" />
     public float Epsilon { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::FusedActivation']/*" />
     public OperatorDescription? FusedActivation { get; set; }
 
     #region Marshal

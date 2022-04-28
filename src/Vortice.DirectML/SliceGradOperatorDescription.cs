@@ -3,18 +3,27 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE_GRAD_OPERATOR_DESC']/*" />
 public partial struct SliceGradOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.SliceGrad;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE_GRAD_OPERATOR_DESC::InputGradientTensor']/*" />
     public TensorDescription InputGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE_GRAD_OPERATOR_DESC::OutputGradientTensor']/*" />
     public TensorDescription OutputGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE_GRAD_OPERATOR_DESC::InputWindowOffsets']/*" />
     public int[] InputWindowOffsets { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE_GRAD_OPERATOR_DESC::InputWindowSizes']/*" />
     public int[] InputWindowSizes { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE_GRAD_OPERATOR_DESC::InputWindowStrides']/*" />
     public int[] InputWindowStrides { get; set; }
 
     #region Marshal

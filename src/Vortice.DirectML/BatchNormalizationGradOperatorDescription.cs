@@ -3,26 +3,39 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC']/*" />
 public partial struct BatchNormalizationGradOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.BatchNormalizationGrad;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::InputGradientTensor']/*" />
     public TensorDescription InputGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::MeanTensor']/*" />
     public TensorDescription MeanTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::VarianceTensor']/*" />
     public TensorDescription VarianceTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::ScaleTensor']/*" />
     public TensorDescription ScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::OutputGradientTensor']/*" />
     public TensorDescription OutputGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::OutputScaleGradientTensor']/*" />
     public TensorDescription OutputScaleGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::OutputBiasGradientTensor']/*" />
     public TensorDescription OutputBiasGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::Epsilon']/*" />
     public float Epsilon { get; set; }
 
     #region Marshal

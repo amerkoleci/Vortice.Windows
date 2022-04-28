@@ -3,18 +3,27 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_CLIP_OPERATOR_DESC']/*" />
 public partial struct ElementWiseClipOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ElementWiseClip;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_CLIP_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_CLIP_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_CLIP_OPERATOR_DESC::ScaleBias']/*" />
     public ScaleBias? ScaleBias { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_CLIP_OPERATOR_DESC::Min']/*" />
     public float Minimum { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_CLIP_OPERATOR_DESC::Max']/*" />
     public float Maximum { get; set; }
 
     #region Marshal

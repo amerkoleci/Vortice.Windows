@@ -2,11 +2,16 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectML;
-public partial struct BufferArrayBinding: IBinding, IBindingMarshal
-{
-    public BufferBinding[] Bindings;
 
+public partial struct BufferArrayBinding: IBindingDescription, IBindingDescriptionMarshal
+{
+    /// <summary>
+    /// Gets the type of binding description.
+    /// </summary>
     public BindingType BindingType => BindingType.BufferArray;
+
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_ARRAY_BINDING::Bindings']/*" />
+    public BufferBinding[] Bindings;
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -16,7 +21,7 @@ public partial struct BufferArrayBinding: IBinding, IBindingMarshal
         public IntPtr Bindings;
     }
 
-    unsafe IntPtr IBindingMarshal.__MarshalAlloc()
+    unsafe IntPtr IBindingDescriptionMarshal.__MarshalAlloc()
     {
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
@@ -33,7 +38,7 @@ public partial struct BufferArrayBinding: IBinding, IBindingMarshal
         return new(@ref);
     }
 
-    unsafe void IBindingMarshal.__MarshalFree(ref IntPtr pDesc)
+    unsafe void IBindingDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
     {
         var @ref = (__Native*)pDesc;
 

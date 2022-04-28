@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_REDUCE_OPERATOR_DESC']/*" />
 public partial struct ReduceOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.Reduce;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REDUCE_OPERATOR_DESC::Function']/*" />
     public ReduceFunction Function { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REDUCE_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REDUCE_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REDUCE_OPERATOR_DESC::Axes']/*" />
     public int[] Axes { get; set; }
 
     #region Marshal

@@ -3,14 +3,21 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_CELU_OPERATOR_DESC']/*" />
 public partial struct ActivationCeluOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ActivationCelu;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_CELU_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_CELU_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_CELU_OPERATOR_DESC::Alpha']/*" />
     public float Alpha { get; set; }
 
     #region Marshal

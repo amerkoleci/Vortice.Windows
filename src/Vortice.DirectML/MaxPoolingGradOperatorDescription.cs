@@ -3,24 +3,36 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_GRAD_OPERATOR_DESC']/*" />
 public partial struct MaxPoolingGradOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.MaxPoolingGrad;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_GRAD_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_GRAD_OPERATOR_DESC::InputGradientTensor']/*" />
     public TensorDescription InputGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_GRAD_OPERATOR_DESC::OutputGradientTensor']/*" />
     public TensorDescription OutputGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_GRAD_OPERATOR_DESC::Strides']/*" />
     public int[] Strides { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_GRAD_OPERATOR_DESC::WindowSize']/*" />
     public int[] WindowSize { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_GRAD_OPERATOR_DESC::StartPadding']/*" />
     public int[] StartPadding { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_GRAD_OPERATOR_DESC::EndPadding']/*" />
     public int[] EndPadding { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_GRAD_OPERATOR_DESC::Dilations']/*" />
     public int[] Dilations { get; set; }
 
     #region Marshal

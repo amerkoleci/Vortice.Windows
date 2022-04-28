@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_SPACE_TO_DEPTH1_OPERATOR_DESC']/*" />
 public partial struct SpaceToDepth1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.SpaceToDepth1;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SPACE_TO_DEPTH1_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SPACE_TO_DEPTH1_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SPACE_TO_DEPTH1_OPERATOR_DESC::BlockSize']/*" />
     public int BlockSize { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SPACE_TO_DEPTH1_OPERATOR_DESC::Order']/*" />
     public DepthSpaceOrder Order { get; set; }
 
     #region Marshal

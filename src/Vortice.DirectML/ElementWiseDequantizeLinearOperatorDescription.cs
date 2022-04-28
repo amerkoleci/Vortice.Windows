@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_DEQUANTIZE_LINEAR_OPERATOR_DESC']/*" />
 public partial struct ElementWiseDequantizeLinearOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ElementWiseDequantizeLinear;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_DEQUANTIZE_LINEAR_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_DEQUANTIZE_LINEAR_OPERATOR_DESC::ScaleTensor']/*" />
     public TensorDescription ScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_DEQUANTIZE_LINEAR_OPERATOR_DESC::ZeroPointTensor']/*" />
     public TensorDescription ZeroPointTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_DEQUANTIZE_LINEAR_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
     #region Marshal

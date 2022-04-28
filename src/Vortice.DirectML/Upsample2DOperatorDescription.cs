@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_UPSAMPLE_2D_OPERATOR_DESC']/*" />
 public partial struct Upsample2DOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.Upsample2D;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_UPSAMPLE_2D_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_UPSAMPLE_2D_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_UPSAMPLE_2D_OPERATOR_DESC::ScaleSize']/*" />
     public Size2D ScaleSize { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_UPSAMPLE_2D_OPERATOR_DESC::InterpolationMode']/*" />
     public InterpolationMode InterpolationMode { get; set; }
 
     #region Marshal

@@ -3,26 +3,39 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC']/*" />
 public partial struct QuantizedLinearMatrixMultiplyOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.QuantizedLinearMatrixMultiply;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::ATensor']/*" />
     public TensorDescription ATensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::AScaleTensor']/*" />
     public TensorDescription AScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::AZeroPointTensor']/*" />
     public TensorDescription? AZeroPointTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::BTensor']/*" />
     public TensorDescription BTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::BScaleTensor']/*" />
     public TensorDescription BScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::BZeroPointTensor']/*" />
     public TensorDescription? BZeroPointTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::OutputScaleTensor']/*" />
     public TensorDescription OutputScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::OutputZeroPointTensor']/*" />
     public TensorDescription? OutputZeroPointTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
     #region Marshal

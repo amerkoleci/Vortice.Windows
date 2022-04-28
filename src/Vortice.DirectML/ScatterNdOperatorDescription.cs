@@ -3,20 +3,30 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCATTER_ND_OPERATOR_DESC']/*" />
 public partial struct ScatterNdOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ScatterNd;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCATTER_ND_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCATTER_ND_OPERATOR_DESC::IndicesTensor']/*" />
     public TensorDescription IndicesTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCATTER_ND_OPERATOR_DESC::UpdatesTensor']/*" />
     public TensorDescription UpdatesTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCATTER_ND_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCATTER_ND_OPERATOR_DESC::InputDimensionCount']/*" />
     public int InputDimensionCount { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCATTER_ND_OPERATOR_DESC::IndicesDimensionCount']/*" />
     public int IndicesDimensionCount { get; set; }
 
     #region Marshal

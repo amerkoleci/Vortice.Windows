@@ -5,11 +5,12 @@ namespace Vortice.DirectML;
 
 public partial struct BindingDescription
 {
-    public IBinding Binding { get; set; }
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BINDING_DESC::Desc']/*" />
+    public IBindingDescription Description { get; set; }
 
-    public BindingDescription(IBinding binding)
+    public BindingDescription(IBindingDescription binding)
     {
-        Binding = binding;
+        Description = binding;
     }
 
     #region Marshal
@@ -22,14 +23,14 @@ public partial struct BindingDescription
 
     internal void __MarshalFree(ref __Native @ref)
     {
-        ((IBindingMarshal)Binding).__MarshalFree(ref @ref.Description);
+        ((IBindingDescriptionMarshal)Description).__MarshalFree(ref @ref.Description);
         @ref.Description = IntPtr.Zero;
     }
 
     internal void __MarshalTo(ref __Native @ref)
     {
-        @ref.Type = Binding.BindingType;
-        @ref.Description = ((IBindingMarshal)Binding).__MarshalAlloc();
+        @ref.Type = Description.BindingType;
+        @ref.Description = ((IBindingDescriptionMarshal)Description).__MarshalAlloc();
     }
     #endregion
 }

@@ -3,32 +3,48 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC']/*" />
 public partial struct AdamOptimizerOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.AdamOptimizer;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::InputParametersTensor']/*" />
     public TensorDescription InputParametersTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::InputFirstMomentTensor']/*" />
     public TensorDescription InputFirstMomentTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::InputSecondMomentTensor']/*" />
     public TensorDescription InputSecondMomentTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::GradientTensor']/*" />
     public TensorDescription GradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::TrainingStepTensor']/*" />
     public TensorDescription TrainingStepTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::OutputParametersTensor']/*" />
     public TensorDescription OutputParametersTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::OutputFirstMomentTensor']/*" />
     public TensorDescription OutputFirstMomentTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::OutputSecondMomentTensor']/*" />
     public TensorDescription OutputSecondMomentTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::LearningRate']/*" />
     public float LearningRate { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::Beta1']/*" />
     public float Beta1 { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::Beta2']/*" />
     public float Beta2 { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::Epsilon']/*" />
     public float Epsilon { get; set; }
 
     #region Marshal

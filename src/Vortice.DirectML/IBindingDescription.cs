@@ -3,12 +3,12 @@
 
 namespace Vortice.DirectML;
 
-public interface IBinding
+public interface IBindingDescription
 {
     BindingType BindingType { get; }
 }
 
-internal interface IBindingMarshal
+internal interface IBindingDescriptionMarshal
 {
     IntPtr __MarshalAlloc();
 

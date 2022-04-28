@@ -5,10 +5,15 @@ namespace Vortice.DirectML;
 
 public partial struct OperatorGraphNodeDescription : IGraphNodeDescription, IGraphNodeDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of graph node description.
+    /// </summary>
     public GraphNodeType GraphNodeType => GraphNodeType.Operator;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_OPERATOR_GRAPH_NODE_DESC::Operator']/*" />
     public IDMLOperator Operator { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_OPERATOR_GRAPH_NODE_DESC::Name']/*" />
     public string? Name { get; set; }
 
     #region Marshal

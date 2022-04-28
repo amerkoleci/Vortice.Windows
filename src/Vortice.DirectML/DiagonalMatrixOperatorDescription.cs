@@ -3,14 +3,21 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_DIAGONAL_MATRIX_OPERATOR_DESC']/*" />
 public partial struct DiagonalMatrixOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.DiagonalMatrix;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_DIAGONAL_MATRIX_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_DIAGONAL_MATRIX_OPERATOR_DESC::Offset']/*" />
     public int Offset { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_DIAGONAL_MATRIX_OPERATOR_DESC::Value']/*" />
     public float Value { get; set; }
 
     #region Marshal

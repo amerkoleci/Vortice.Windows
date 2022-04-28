@@ -3,24 +3,36 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC']/*" />
 public partial struct MeanVarianceNormalizationOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.MeanVarianceNormalization;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC::ScaleTensor']/*" />
     public TensorDescription? ScaleTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC::BiasTensor']/*" />
     public TensorDescription? BiasTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC::CrossChannel']/*" />
     public bool CrossChannel { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC::NormalizeVariance']/*" />
     public bool NormalizeVariance { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC::Epsilon']/*" />
     public float Epsilon { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC::FusedActivation']/*" />
     public OperatorDescription? FusedActivation { get; set; }
 
     #region Marshal

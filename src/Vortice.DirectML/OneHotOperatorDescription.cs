@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ONE_HOT_OPERATOR_DESC']/*" />
 public partial struct OneHotOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.OneHot;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ONE_HOT_OPERATOR_DESC::IndicesTensor']/*" />
     public TensorDescription IndicesTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ONE_HOT_OPERATOR_DESC::ValuesTensor']/*" />
     public TensorDescription ValuesTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ONE_HOT_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ONE_HOT_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
     #region Marshal

@@ -3,20 +3,30 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_PADDING_OPERATOR_DESC']/*" />
 public partial struct PaddingOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.Padding;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_PADDING_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_PADDING_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_PADDING_OPERATOR_DESC::PaddingMode']/*" />
     public PaddingMode PaddingMode { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_PADDING_OPERATOR_DESC::PaddingValue']/*" />
     public float PaddingValue { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_PADDING_OPERATOR_DESC::StartPadding']/*" />
     public int[] StartPadding { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_PADDING_OPERATOR_DESC::EndPadding']/*" />
     public int[] EndPadding { get; set; }
 
     #region Marshal

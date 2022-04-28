@@ -3,30 +3,45 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC']/*" />
 public partial struct RoiAlignOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.RoiAlign;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::ROITensor']/*" />
     public TensorDescription RoiTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::BatchIndicesTensor']/*" />
     public TensorDescription BatchIndicesTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::ReductionFunction']/*" />
     public ReduceFunction ReductionFunction { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::InterpolationMode']/*" />
     public InterpolationMode InterpolationMode { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::SpatialScaleX']/*" />
     public float SpatialScaleX { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::SpatialScaleY']/*" />
     public float SpatialScaleY { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::OutOfBoundsInputValue']/*" />
     public float OutOfBoundsInputValue { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::MinimumSamplesPerOutput']/*" />
     public int MinimumSamplesPerOutput { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::MaximumSamplesPerOutput']/*" />
     public int MaximumSamplesPerOutput { get; set; }
 
     #region Marshal

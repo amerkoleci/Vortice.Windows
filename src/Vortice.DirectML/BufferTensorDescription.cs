@@ -5,21 +5,28 @@ namespace Vortice.DirectML;
 
 public partial struct BufferTensorDescription : ITensorDescription, ITensorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of tensor description.
+    /// </summary>
+    public TensorType TensorType => TensorType.Buffer;
+
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::DataType']/*" />
     public TensorDataType DataType { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::Flags']/*" />
     public TensorFlags Flags { get; set; }
 
-    public int DimensionCount => Sizes.Length;
-
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::Sizes']/*" />
     public int[] Sizes { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::Strides']/*" />
     public int[]? Strides { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::TotalTensorSizeInBytes']/*" />
     public long TotalTensorSizeInBytes { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::GuaranteedBaseOffsetAlignment']/*" />
     public int GuaranteedBaseOffsetAlignment { get; set; }
-
-    public TensorType TensorType => TensorType.Buffer;
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -27,11 +34,11 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     {
         public TensorDataType DataType;
         public TensorFlags Flags;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr PSizes;
         public IntPtr PStrides;
-        public ulong TotalTensorSizeInBytes;
-        public uint GuaranteedBaseOffsetAlignment;
+        public long TotalTensorSizeInBytes;
+        public int GuaranteedBaseOffsetAlignment;
     }
 
     unsafe IntPtr ITensorDescriptionMarshal.__MarshalAlloc()
@@ -40,11 +47,15 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
 
         @ref->DataType = DataType;
         @ref->Flags = Flags;
-        @ref->DimensionCount = (uint)Sizes.Length;
+        @ref->DimensionCount = Sizes.Length;
         @ref->PSizes = UnsafeUtilities.AllocToPointer(Sizes);
-        @ref->PStrides = Strides != null ? UnsafeUtilities.AllocToPointer(Strides) : IntPtr.Zero;
-        @ref->TotalTensorSizeInBytes = (ulong)TotalTensorSizeInBytes;
-        @ref->GuaranteedBaseOffsetAlignment = (uint)GuaranteedBaseOffsetAlignment;
+        @ref->PStrides = IntPtr.Zero;
+        if (Strides != null) {
+            if (Strides.Length != Sizes.Length) { throw new IndexOutOfRangeException("Strides must have the same length as Sizes."); }
+            @ref->PStrides = UnsafeUtilities.AllocToPointer(Strides);
+        }
+        @ref->TotalTensorSizeInBytes = TotalTensorSizeInBytes;
+        @ref->GuaranteedBaseOffsetAlignment = GuaranteedBaseOffsetAlignment;
 
         return new(@ref);
     }

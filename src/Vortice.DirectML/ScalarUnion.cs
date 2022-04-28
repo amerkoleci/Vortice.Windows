@@ -6,36 +6,47 @@ namespace Vortice.DirectML;
 [StructLayout(LayoutKind.Explicit)]
 public unsafe partial struct ScalarUnion
 {
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::Bytes']/*" />
     [FieldOffset(0)]
     public fixed byte Bytes[8];
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::Int8']/*" />
     [FieldOffset(0)]
     public sbyte Int8;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::UInt8']/*" />
     [FieldOffset(0)]
     public byte UInt8;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::Int16']/*" />
     [FieldOffset(0)]
     public short Int16;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::UInt16']/*" />
     [FieldOffset(0)]
     public ushort UInt16;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::Int32']/*" />
     [FieldOffset(0)]
     public int Int32;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::UInt32']/*" />
     [FieldOffset(0)]
     public uint UInt32;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::Int64']/*" />
     [FieldOffset(0)]
     public long Int64;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::UInt64']/*" />
     [FieldOffset(0)]
     public ulong UInt64;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::Float32']/*" />
     [FieldOffset(0)]
     public float Float32;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCALAR_UNION ::Float64']/*" />
     [FieldOffset(0)]
     public double Float64;
 

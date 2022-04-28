@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_SEQUENCE_OPERATOR_DESC']/*" />
 public partial struct FillValueSequenceOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.FillValueSequence;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_SEQUENCE_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_SEQUENCE_OPERATOR_DESC::ValueDataType']/*" />
     public TensorDataType ValueDataType { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_SEQUENCE_OPERATOR_DESC::ValueStart']/*" />
     public ScalarUnion ValueStart { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_SEQUENCE_OPERATOR_DESC::ValueDelta']/*" />
     public ScalarUnion ValueDelta { get; set; }
 
     #region Marshal

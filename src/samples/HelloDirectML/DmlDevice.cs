@@ -99,7 +99,6 @@ public class DmlDevice : IDisposable
 
         bufferTensorDesc.TotalTensorSizeInBytes = CalculateBufferTensorSize(
             bufferTensorDesc.DataType,
-            bufferTensorDesc.DimensionCount,
             bufferTensorDesc.Sizes,
             bufferTensorDesc.Strides
             );
@@ -361,7 +360,6 @@ public class DmlDevice : IDisposable
 
     public static long CalculateBufferTensorSize(
         TensorDataType dataType,
-        int dimensionCount,
         int[] sizes,
         int[]? strides)
     {
@@ -399,7 +397,7 @@ public class DmlDevice : IDisposable
         if (strides == null)
         {
             minimumImpliedSizeInBytes = 1;
-            for (int i = 0; i < dimensionCount; i++)
+            for (int i = 0; i < sizes.Length; i++)
             {
                 minimumImpliedSizeInBytes *= sizes[i];
             }
@@ -408,7 +406,7 @@ public class DmlDevice : IDisposable
         else
         {
             int indexOfLastElement = 0;
-            for (int i = 0; i < dimensionCount; i++)
+            for (int i = 0; i < sizes.Length; i++)
             {
                 indexOfLastElement += (sizes[i] - 1) * strides[i];
             }

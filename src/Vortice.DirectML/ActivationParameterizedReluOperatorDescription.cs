@@ -3,14 +3,21 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_PARAMETERIZED_RELU_OPERATOR_DESC']/*" />
 public partial struct ActivationParameterizedReluOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ActivationParameterizedRelu;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_PARAMETERIZED_RELU_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_PARAMETERIZED_RELU_OPERATOR_DESC::SlopeTensor']/*" />
     public TensorDescription SlopeTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_PARAMETERIZED_RELU_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
     #region Marshal

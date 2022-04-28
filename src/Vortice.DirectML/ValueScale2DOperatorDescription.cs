@@ -3,16 +3,24 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_VALUE_SCALE_2D_OPERATOR_DESC']/*" />
 public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ValueScale2D;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_VALUE_SCALE_2D_OPERATOR_DESC::InputTensor']/*" />
     public TensorDescription InputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_VALUE_SCALE_2D_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_VALUE_SCALE_2D_OPERATOR_DESC::Scale']/*" />
     public float Scale { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_VALUE_SCALE_2D_OPERATOR_DESC::Bias']/*" />
     public float[] Bias { get; set; }
 
     #region Marshal

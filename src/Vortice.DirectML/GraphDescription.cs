@@ -5,17 +5,23 @@ namespace Vortice.DirectML;
 
 public partial struct GraphDescription
 {
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GRAPH_DESC::InputCount']/*" />
     public int InputCount { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GRAPH_DESC::OutputCount']/*" />
     public int OutputCount { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GRAPH_DESC::Nodes']/*" />
     public OperatorGraphNodeDescription[] Nodes { get; set; }
 
-    public InputGraphEdgeDescription[] InputEdges { get; set; }
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GRAPH_DESC::InputEdges']/*" />
+    public InputGraphEdgeDescription[]? InputEdges { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GRAPH_DESC::OutputEdges']/*" />
     public OutputGraphEdgeDescription[] OutputEdges { get; set; }
 
-    public IntermediateGraphEdgeDescription[] IntermediateEdges { get; set; }
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GRAPH_DESC::IntermediateEdges']/*" />
+    public IntermediateGraphEdgeDescription[]? IntermediateEdges { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -48,7 +54,7 @@ public partial struct GraphDescription
         if (@ref.InputEdges != IntPtr.Zero)
         {
             var inputEdges = (GraphEdgeDescription.__Native*)@ref.InputEdges;
-            for (int i = 0; i < InputEdges.Length; i++)
+            for (int i = 0; i < InputEdges!.Length; i++)
             {
                 ((GraphEdgeDescription)InputEdges[i]).__MarshalFree(ref inputEdges[i]);
             }
@@ -68,7 +74,7 @@ public partial struct GraphDescription
         if (@ref.IntermediateEdges != IntPtr.Zero)
         {
             var intermediateEdges = (GraphEdgeDescription.__Native*)@ref.IntermediateEdges;
-            for (int i = 0; i < IntermediateEdges.Length; i++)
+            for (int i = 0; i < IntermediateEdges!.Length; i++)
             {
                 ((GraphEdgeDescription)IntermediateEdges[i]).__MarshalFree(ref intermediateEdges[i]);
             }
@@ -83,11 +89,11 @@ public partial struct GraphDescription
 
         @ref.NodeCount = Nodes.Length;
         @ref.Nodes = IntPtr.Zero;
-        @ref.InputEdgeCount = InputEdges.Length;
+        @ref.InputEdgeCount = InputEdges?.Length ?? 0;
         @ref.InputEdges = IntPtr.Zero;
         @ref.OutputEdgeCount = OutputEdges.Length;
         @ref.OutputEdges = IntPtr.Zero;
-        @ref.IntermediateEdgeCount = IntermediateEdges.Length;
+        @ref.IntermediateEdgeCount = IntermediateEdges?.Length ?? 0;
         @ref.IntermediateEdges = IntPtr.Zero;
 
         if (Nodes.Length != 0)
@@ -100,7 +106,7 @@ public partial struct GraphDescription
             @ref.Nodes = new(nodes);
         }
 
-        if (InputEdges.Length != 0)
+        if (InputEdges != null && InputEdges.Length != 0)
         {
             var inputEdges = UnsafeUtilities.Alloc<GraphEdgeDescription.__Native>(InputEdges.Length);
             for (int i = 0; i < InputEdges.Length; i++)
@@ -120,7 +126,7 @@ public partial struct GraphDescription
             @ref.OutputEdges = new(outputEdges);
         }
 
-        if (IntermediateEdges.Length != 0)
+        if (IntermediateEdges != null && IntermediateEdges.Length != 0)
         {
             var intermediateEdges = UnsafeUtilities.Alloc<GraphEdgeDescription.__Native>(IntermediateEdges.Length);
             for (int i = 0; i < IntermediateEdges.Length; i++)

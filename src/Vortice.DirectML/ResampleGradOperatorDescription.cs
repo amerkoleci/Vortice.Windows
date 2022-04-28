@@ -3,20 +3,30 @@
 
 namespace Vortice.DirectML;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_GRAD_OPERATOR_DESC']/*" />
 public partial struct ResampleGradOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
     public OperatorType OperatorType => OperatorType.ResampleGrad;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_GRAD_OPERATOR_DESC::InputGradientTensor']/*" />
     public TensorDescription InputGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_GRAD_OPERATOR_DESC::OutputGradientTensor']/*" />
     public TensorDescription OutputGradientTensor { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_GRAD_OPERATOR_DESC::InterpolationMode']/*" />
     public InterpolationMode InterpolationMode { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_GRAD_OPERATOR_DESC::Scales']/*" />
     public float[] Scales { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_GRAD_OPERATOR_DESC::InputPixelOffsets']/*" />
     public float[] InputPixelOffsets { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_GRAD_OPERATOR_DESC::OutputPixelOffsets']/*" />
     public float[] OutputPixelOffsets { get; set; }
 
     #region Marshal
