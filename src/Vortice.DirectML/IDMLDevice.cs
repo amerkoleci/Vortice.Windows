@@ -7,7 +7,7 @@ public partial class IDMLDevice
 {
     public IDMLOperator CreateOperator(OperatorDescription operatorDescription)
     {
-        CreateOperator(operatorDescription, typeof(IDMLOperator).GUID, out IntPtr nativePtr).CheckError();
+        CreateOperator(ref operatorDescription, typeof(IDMLOperator).GUID, out IntPtr nativePtr).CheckError();
 
         return new IDMLOperator(nativePtr);
     }
@@ -29,7 +29,7 @@ public partial class IDMLDevice
     public IDMLCommandRecorder CreateCommandRecorder()
     {
         CreateCommandRecorder(typeof(IDMLCommandRecorder).GUID, out IntPtr nativePtr).CheckError();
-
+        
         return new IDMLCommandRecorder(nativePtr);
     }
 

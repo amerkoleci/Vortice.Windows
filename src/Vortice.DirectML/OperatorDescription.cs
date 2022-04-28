@@ -3,7 +3,7 @@
 
 namespace Vortice.DirectML;
 
-public partial class OperatorDescription
+public partial struct OperatorDescription
 {
     public IOperatorDescription Description { get; set; }
 

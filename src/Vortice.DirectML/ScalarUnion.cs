@@ -38,4 +38,35 @@ public unsafe partial struct ScalarUnion
 
     [FieldOffset(0)]
     public double Float64;
+
+    public static implicit operator ScalarUnion(byte[] value)
+    {
+        int length = Math.Min(value.Length, 8);
+        var union = new ScalarUnion();
+        for (int i = 0; i < length; i++)
+        {
+            union.Bytes[i] = value[i];
+        }
+        return union;
+    }
+
+    public static implicit operator ScalarUnion(sbyte value) => new(){ Int8 = value };
+
+    public static implicit operator ScalarUnion(byte value) => new(){ UInt8 = value };
+
+    public static implicit operator ScalarUnion(short value) => new(){ Int16 = value };
+
+    public static implicit operator ScalarUnion(ushort value) => new(){ UInt16 = value };
+
+    public static implicit operator ScalarUnion(int value) => new(){ Int32 = value };
+
+    public static implicit operator ScalarUnion(uint value) => new(){ UInt32 = value };
+
+    public static implicit operator ScalarUnion(long value) => new(){ Int64 = value };
+
+    public static implicit operator ScalarUnion(ulong value) => new(){ UInt64 = value };
+
+    public static implicit operator ScalarUnion(float value) => new(){ Float32 = value };
+
+    public static implicit operator ScalarUnion(double value) => new(){ Float64 = value };
 }

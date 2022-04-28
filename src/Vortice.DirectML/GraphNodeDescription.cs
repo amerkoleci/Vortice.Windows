@@ -3,33 +3,33 @@
 
 namespace Vortice.DirectML;
 
-public partial struct BindingDescription
+public partial struct GraphNodeDescription
 {
-    public IBinding Binding { get; set; }
+    public IGraphNodeDescription Description { get; set; }
 
-    public BindingDescription(IBinding binding)
+    public GraphNodeDescription(IGraphNodeDescription description)
     {
-        Binding = binding;
+        Description = description;
     }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
     {
-        public BindingType Type;
+        public GraphNodeType Type;
         public IntPtr Description;
     }
 
     internal void __MarshalFree(ref __Native @ref)
     {
-        ((IBindingMarshal)Binding).__MarshalFree(ref @ref.Description);
+        ((IGraphNodeDescriptionMarshal)Description).__MarshalFree(ref @ref.Description);
         @ref.Description = IntPtr.Zero;
     }
 
     internal void __MarshalTo(ref __Native @ref)
     {
-        @ref.Type = Binding.BindingType;
-        @ref.Description = ((IBindingMarshal)Binding).__MarshalAlloc();
+        @ref.Type = Description.GraphNodeType;
+        @ref.Description = ((IGraphNodeDescriptionMarshal)Description).__MarshalAlloc();
     }
     #endregion
 }
