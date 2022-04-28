@@ -5,6 +5,7 @@ namespace Vortice.DirectML;
 
 public partial struct GraphEdgeDescription
 {
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GRAPH_EDGE_DESC::Desc']/*" />
     public IGraphEdgeDescription Description { get; set; }
 
     public GraphEdgeDescription(IGraphEdgeDescription description)

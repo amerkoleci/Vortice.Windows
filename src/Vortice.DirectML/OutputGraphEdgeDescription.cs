@@ -5,14 +5,21 @@ namespace Vortice.DirectML;
 
 public partial struct OutputGraphEdgeDescription : IGraphEdgeDescription, IGraphEdgeDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of graph edge description.
+    /// </summary>
     public GraphEdgeType GraphEdgeType => GraphEdgeType.Output;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_OUTPUT_GRAPH_EDGE_DESC::FromNodeIndex']/*" />
     public int FromNodeIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_OUTPUT_GRAPH_EDGE_DESC::FromNodeOutputIndex']/*" />
     public int FromNodeOutputIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_OUTPUT_GRAPH_EDGE_DESC::GraphOutputIndex']/*" />
     public int GraphOutputIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_OUTPUT_GRAPH_EDGE_DESC::Name']/*" />
     public string? Name { get; set; }
 
     #region Marshal

@@ -5,6 +5,7 @@ namespace Vortice.DirectML;
 
 public partial struct OperatorDescription
 {
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_OPERATOR_DESC::Desc']/*" />
     public IOperatorDescription Description { get; set; }
 
     public OperatorDescription(IOperatorDescription description)

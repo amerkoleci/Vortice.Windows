@@ -5,14 +5,21 @@ namespace Vortice.DirectML;
 
 public partial struct InputGraphEdgeDescription : IGraphEdgeDescription, IGraphEdgeDescriptionMarshal
 {
+    /// <summary>
+    /// Gets the type of graph edge description.
+    /// </summary>
     public GraphEdgeType GraphEdgeType => GraphEdgeType.Input;
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INPUT_GRAPH_EDGE_DESC::GraphInputIndex']/*" />
     public int GraphInputIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INPUT_GRAPH_EDGE_DESC::ToNodeIndex']/*" />
     public int ToNodeIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INPUT_GRAPH_EDGE_DESC::ToNodeInputIndex']/*" />
     public int ToNodeInputIndex { get; set; }
 
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INPUT_GRAPH_EDGE_DESC::Name']/*" />
     public string? Name { get; set; }
 
     #region Marshal

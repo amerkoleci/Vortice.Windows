@@ -5,6 +5,7 @@ namespace Vortice.DirectML;
 
 public partial struct TensorDescription
 {
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TENSOR_DESC::Desc']/*" />
     public ITensorDescription Description { get; set; }
 
     public TensorDescription(ITensorDescription description)
