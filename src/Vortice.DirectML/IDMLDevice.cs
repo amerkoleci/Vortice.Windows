@@ -29,7 +29,7 @@ public partial class IDMLDevice
     public IDMLCommandRecorder CreateCommandRecorder()
     {
         CreateCommandRecorder(typeof(IDMLCommandRecorder).GUID, out IntPtr nativePtr).CheckError();
-        
+
         return new IDMLCommandRecorder(nativePtr);
     }
 

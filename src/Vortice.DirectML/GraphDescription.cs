@@ -102,12 +102,12 @@ public partial struct GraphDescription
 
         if (InputEdges.Length != 0)
         {
-        var inputEdges = UnsafeUtilities.Alloc<GraphEdgeDescription.__Native>(InputEdges.Length);
-        for (int i = 0; i < InputEdges.Length; i++)
-        {
-            ((GraphEdgeDescription)InputEdges[i]).__MarshalTo(ref inputEdges[i]);
-        }
-        @ref.InputEdges = new(inputEdges);
+            var inputEdges = UnsafeUtilities.Alloc<GraphEdgeDescription.__Native>(InputEdges.Length);
+            for (int i = 0; i < InputEdges.Length; i++)
+            {
+                ((GraphEdgeDescription)InputEdges[i]).__MarshalTo(ref inputEdges[i]);
+            }
+            @ref.InputEdges = new(inputEdges);
         }
 
         if (OutputEdges.Length != 0)
