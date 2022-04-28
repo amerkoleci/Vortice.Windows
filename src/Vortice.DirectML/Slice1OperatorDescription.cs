@@ -11,11 +11,9 @@ public partial struct Slice1OperatorDescription : IOperatorDescription, IOperato
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int[] InputWindowOffsets { get; set; }
 
-    public uint[] InputWindowOffsets { get; set; }
-
-    public uint[] InputWindowSizes { get; set; }
+    public int[] InputWindowSizes { get; set; }
 
     public int[] InputWindowStrides { get; set; }
 
@@ -25,7 +23,7 @@ public partial struct Slice1OperatorDescription : IOperatorDescription, IOperato
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr InputWindowOffsets;
         public IntPtr InputWindowSizes;
         public IntPtr InputWindowStrides;
@@ -37,7 +35,12 @@ public partial struct Slice1OperatorDescription : IOperatorDescription, IOperato
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = InputWindowOffsets.Length;
+        if (InputWindowSizes.Length != dimensionCount) { throw new IndexOutOfRangeException("InputWindowSizes must have the same length as InputWindowOffsets."); }
+        if (InputWindowStrides.Length != dimensionCount) { throw new IndexOutOfRangeException("InputWindowStrides must have the same length as InputWindowOffsets."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->InputWindowOffsets = new(UnsafeUtilities.AllocWithData(InputWindowOffsets));
         @ref->InputWindowSizes = new(UnsafeUtilities.AllocWithData(InputWindowSizes));
         @ref->InputWindowStrides = new(UnsafeUtilities.AllocWithData(InputWindowStrides));

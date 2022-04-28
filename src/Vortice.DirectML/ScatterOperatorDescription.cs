@@ -15,7 +15,7 @@ public partial struct ScatterOperatorDescription : IOperatorDescription, IOperat
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint Axis { get; set; }
+    public int Axis { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -25,7 +25,7 @@ public partial struct ScatterOperatorDescription : IOperatorDescription, IOperat
         public IntPtr IndicesTensor;
         public IntPtr UpdatesTensor;
         public IntPtr OutputTensor;
-        public uint Axis;
+        public int Axis;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()

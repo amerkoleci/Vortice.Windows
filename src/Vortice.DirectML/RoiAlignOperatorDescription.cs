@@ -9,7 +9,7 @@ public partial struct RoiAlignOperatorDescription : IOperatorDescription, IOpera
 
     public TensorDescription InputTensor { get; set; }
 
-    public TensorDescription ROITensor { get; set; }
+    public TensorDescription RoiTensor { get; set; }
 
     public TensorDescription BatchIndicesTensor { get; set; }
 
@@ -25,16 +25,16 @@ public partial struct RoiAlignOperatorDescription : IOperatorDescription, IOpera
 
     public float OutOfBoundsInputValue { get; set; }
 
-    public uint MinimumSamplesPerOutput { get; set; }
+    public int MinimumSamplesPerOutput { get; set; }
 
-    public uint MaximumSamplesPerOutput { get; set; }
+    public int MaximumSamplesPerOutput { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
     {
         public IntPtr InputTensor;
-        public IntPtr ROITensor;
+        public IntPtr RoiTensor;
         public IntPtr BatchIndicesTensor;
         public IntPtr OutputTensor;
         public ReduceFunction ReductionFunction;
@@ -42,8 +42,8 @@ public partial struct RoiAlignOperatorDescription : IOperatorDescription, IOpera
         public float SpatialScaleX;
         public float SpatialScaleY;
         public float OutOfBoundsInputValue;
-        public uint MinimumSamplesPerOutput;
-        public uint MaximumSamplesPerOutput;
+        public int MinimumSamplesPerOutput;
+        public int MaximumSamplesPerOutput;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -51,7 +51,7 @@ public partial struct RoiAlignOperatorDescription : IOperatorDescription, IOpera
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
-        @ref->ROITensor = ROITensor.__MarshalAlloc();
+        @ref->RoiTensor = RoiTensor.__MarshalAlloc();
         @ref->BatchIndicesTensor = BatchIndicesTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->ReductionFunction = ReductionFunction;
@@ -70,7 +70,7 @@ public partial struct RoiAlignOperatorDescription : IOperatorDescription, IOpera
         var @ref = (__Native*)pDesc;
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
-        ROITensor.__MarshalFree(ref @ref->ROITensor);
+        RoiTensor.__MarshalFree(ref @ref->RoiTensor);
         BatchIndicesTensor.__MarshalFree(ref @ref->BatchIndicesTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
 

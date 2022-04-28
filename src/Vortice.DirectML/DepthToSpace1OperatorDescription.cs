@@ -11,7 +11,7 @@ public partial struct DepthToSpace1OperatorDescription : IOperatorDescription, I
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint BlockSize { get; set; }
+    public int BlockSize { get; set; }
 
     public DepthSpaceOrder Order { get; set; }
 
@@ -21,7 +21,7 @@ public partial struct DepthToSpace1OperatorDescription : IOperatorDescription, I
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint BlockSize;
+        public int BlockSize;
         public DepthSpaceOrder Order;
     }
 

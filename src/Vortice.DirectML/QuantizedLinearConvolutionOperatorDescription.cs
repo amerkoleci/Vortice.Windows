@@ -27,17 +27,15 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] Dilations { get; set; }
 
-    public uint[] Dilations { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
-
-    public uint GroupCount { get; set; }
+    public int GroupCount { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -53,12 +51,12 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
         public IntPtr OutputScaleTensor;
         public IntPtr OutputZeroPointTensor;
         public IntPtr OutputTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr Dilations;
         public IntPtr StartPadding;
         public IntPtr EndPadding;
-        public uint GroupCount;
+        public int GroupCount;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -75,7 +73,13 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
         @ref->OutputScaleTensor = OutputScaleTensor.__MarshalAlloc();
         @ref->OutputZeroPointTensor = (OutputZeroPointTensor != null) ? OutputZeroPointTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Strides.Length;
+        if (Dilations.Length != dimensionCount) { throw new IndexOutOfRangeException("Dilations must have the same length as Strides."); }
+        if (StartPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("StartPadding must have the same length as Strides."); }
+        if (EndPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("EndPadding must have the same length as Strides."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));
         @ref->Dilations = new(UnsafeUtilities.AllocWithData(Dilations));
         @ref->StartPadding = new(UnsafeUtilities.AllocWithData(StartPadding));
@@ -105,7 +109,6 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
             FilterZeroPointTensor.Value.__MarshalFree(ref @ref->FilterZeroPointTensor);
         }
 
-
         if (BiasTensor != null)
         {
             BiasTensor.Value.__MarshalFree(ref @ref->BiasTensor);
@@ -123,6 +126,7 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
         UnsafeUtilities.Free(@ref->Dilations);
         UnsafeUtilities.Free(@ref->StartPadding);
         UnsafeUtilities.Free(@ref->EndPadding);
+
         UnsafeUtilities.Free(@ref);
     }
     #endregion

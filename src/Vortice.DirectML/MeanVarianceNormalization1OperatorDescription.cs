@@ -15,9 +15,7 @@ public partial struct MeanVarianceNormalization1OperatorDescription : IOperatorD
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint AxisCount { get; set; }
-
-    public uint[] Axes { get; set; }
+    public int[] Axes { get; set; }
 
     public bool NormalizeVariance { get; set; }
 
@@ -33,7 +31,7 @@ public partial struct MeanVarianceNormalization1OperatorDescription : IOperatorD
         public IntPtr ScaleTensor;
         public IntPtr BiasTensor;
         public IntPtr OutputTensor;
-        public uint AxisCount;
+        public int AxisCount;
         public IntPtr Axes;
         public bool NormalizeVariance;
         public float Epsilon;
@@ -48,7 +46,7 @@ public partial struct MeanVarianceNormalization1OperatorDescription : IOperatorD
         @ref->ScaleTensor = (ScaleTensor != null) ? ScaleTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->BiasTensor = (BiasTensor != null) ? BiasTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->AxisCount = AxisCount;
+        @ref->AxisCount = Axes.Length;
         @ref->Axes = new(UnsafeUtilities.AllocWithData(Axes));
         @ref->NormalizeVariance = NormalizeVariance;
         @ref->Epsilon = Epsilon;
@@ -67,7 +65,6 @@ public partial struct MeanVarianceNormalization1OperatorDescription : IOperatorD
         {
             ScaleTensor.Value.__MarshalFree(ref @ref->ScaleTensor);
         }
-
 
         if (BiasTensor != null)
         {

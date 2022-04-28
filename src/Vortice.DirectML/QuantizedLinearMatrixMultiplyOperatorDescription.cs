@@ -85,6 +85,7 @@ public partial struct QuantizedLinearMatrixMultiplyOperatorDescription : IOperat
         }
 
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
+
         UnsafeUtilities.Free(@ref);
     }
     #endregion

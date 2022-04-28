@@ -11,17 +11,15 @@ public partial struct LpPoolingOperatorDescription : IOperatorDescription, IOper
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] WindowSize { get; set; }
 
-    public uint[] WindowSize { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
-
-    public uint P { get; set; }
+    public int P { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -29,12 +27,12 @@ public partial struct LpPoolingOperatorDescription : IOperatorDescription, IOper
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr WindowSize;
         public IntPtr StartPadding;
         public IntPtr EndPadding;
-        public uint P;
+        public int P;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -43,7 +41,13 @@ public partial struct LpPoolingOperatorDescription : IOperatorDescription, IOper
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Strides.Length;
+        if (WindowSize.Length != dimensionCount) { throw new IndexOutOfRangeException("WindowSize must have the same length as Strides."); }
+        if (StartPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("StartPadding must have the same length as Strides."); }
+        if (EndPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("EndPadding must have the same length as Strides."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));
         @ref->WindowSize = new(UnsafeUtilities.AllocWithData(WindowSize));
         @ref->StartPadding = new(UnsafeUtilities.AllocWithData(StartPadding));

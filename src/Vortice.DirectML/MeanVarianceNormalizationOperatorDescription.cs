@@ -64,7 +64,6 @@ public partial struct MeanVarianceNormalizationOperatorDescription : IOperatorDe
             ScaleTensor.Value.__MarshalFree(ref @ref->ScaleTensor);
         }
 
-
         if (BiasTensor != null)
         {
             BiasTensor.Value.__MarshalFree(ref @ref->BiasTensor);

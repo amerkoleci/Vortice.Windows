@@ -9,7 +9,7 @@ public partial struct RoiPoolingOperatorDescription : IOperatorDescription, IOpe
 
     public TensorDescription InputTensor { get; set; }
 
-    public TensorDescription ROITensor { get; set; }
+    public TensorDescription RoiTensor { get; set; }
 
     public TensorDescription OutputTensor { get; set; }
 
@@ -22,7 +22,7 @@ public partial struct RoiPoolingOperatorDescription : IOperatorDescription, IOpe
     internal struct __Native
     {
         public IntPtr InputTensor;
-        public IntPtr ROITensor;
+        public IntPtr RoiTensor;
         public IntPtr OutputTensor;
         public float SpatialScale;
         public Size2D PooledSize;
@@ -33,7 +33,7 @@ public partial struct RoiPoolingOperatorDescription : IOperatorDescription, IOpe
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
-        @ref->ROITensor = ROITensor.__MarshalAlloc();
+        @ref->RoiTensor = RoiTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->SpatialScale = SpatialScale;
         @ref->PooledSize = PooledSize;
@@ -46,7 +46,7 @@ public partial struct RoiPoolingOperatorDescription : IOperatorDescription, IOpe
         var @ref = (__Native*)pDesc;
 
         InputTensor.__MarshalFree(ref @ref->InputTensor);
-        ROITensor.__MarshalFree(ref @ref->ROITensor);
+        RoiTensor.__MarshalFree(ref @ref->RoiTensor);
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
 
         UnsafeUtilities.Free(@ref);

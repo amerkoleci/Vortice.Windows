@@ -13,9 +13,9 @@ public partial struct TopK1OperatorDescription : IOperatorDescription, IOperator
 
     public TensorDescription OutputIndexTensor { get; set; }
 
-    public uint Axis { get; set; }
+    public int Axis { get; set; }
 
-    public uint K { get; set; }
+    public int K { get; set; }
 
     public AxisDirection AxisDirection { get; set; }
 
@@ -26,8 +26,8 @@ public partial struct TopK1OperatorDescription : IOperatorDescription, IOperator
         public IntPtr InputTensor;
         public IntPtr OutputValueTensor;
         public IntPtr OutputIndexTensor;
-        public uint Axis;
-        public uint K;
+        public int Axis;
+        public int K;
         public AxisDirection AxisDirection;
     }
 

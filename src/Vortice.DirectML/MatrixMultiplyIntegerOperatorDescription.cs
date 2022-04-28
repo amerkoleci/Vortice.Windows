@@ -60,6 +60,7 @@ public partial struct MatrixMultiplyIntegerOperatorDescription : IOperatorDescri
         }
 
         OutputTensor.__MarshalFree(ref @ref->OutputTensor);
+
         UnsafeUtilities.Free(@ref);
     }
     #endregion

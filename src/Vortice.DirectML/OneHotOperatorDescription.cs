@@ -13,7 +13,7 @@ public partial struct OneHotOperatorDescription : IOperatorDescription, IOperato
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint Axis { get; set; }
+    public int Axis { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -22,7 +22,7 @@ public partial struct OneHotOperatorDescription : IOperatorDescription, IOperato
         public IntPtr IndicesTensor;
         public IntPtr ValuesTensor;
         public IntPtr OutputTensor;
-        public uint Axis;
+        public int Axis;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()

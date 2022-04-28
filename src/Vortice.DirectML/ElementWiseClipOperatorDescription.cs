@@ -13,9 +13,9 @@ public partial struct ElementWiseClipOperatorDescription : IOperatorDescription,
 
     public ScaleBias? ScaleBias { get; set; }
 
-    public float Min { get; set; }
+    public float Minimum { get; set; }
 
-    public float Max { get; set; }
+    public float Maximum { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -24,8 +24,8 @@ public partial struct ElementWiseClipOperatorDescription : IOperatorDescription,
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
         public IntPtr ScaleBias;
-        public float Min;
-        public float Max;
+        public float Minimum;
+        public float Maximum;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -35,8 +35,8 @@ public partial struct ElementWiseClipOperatorDescription : IOperatorDescription,
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->ScaleBias = (ScaleBias != null) ? new(UnsafeUtilities.AllocWithData(ScaleBias.Value)) : IntPtr.Zero;
-        @ref->Min = Min;
-        @ref->Max = Max;
+        @ref->Minimum = Minimum;
+        @ref->Maximum = Maximum;
 
         return new(@ref);
     }

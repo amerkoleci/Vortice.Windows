@@ -19,19 +19,17 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
 
     public ConvolutionDirection Direction { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] Dilations { get; set; }
 
-    public uint[] Dilations { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
+    public int[] OutputPadding { get; set; }
 
-    public uint[] OutputPadding { get; set; }
-
-    public uint GroupCount { get; set; }
+    public int GroupCount { get; set; }
 
     public OperatorDescription? FusedActivation { get; set; }
 
@@ -45,13 +43,13 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
         public IntPtr OutputTensor;
         public ConvolutionMode Mode;
         public ConvolutionDirection Direction;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr Dilations;
         public IntPtr StartPadding;
         public IntPtr EndPadding;
         public IntPtr OutputPadding;
-        public uint GroupCount;
+        public int GroupCount;
         public IntPtr FusedActivation;
     }
 
@@ -65,7 +63,14 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->Mode = Mode;
         @ref->Direction = Direction;
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Strides.Length;
+        if (Dilations.Length != dimensionCount) { throw new IndexOutOfRangeException("Dilations must have the same length as Strides."); }
+        if (StartPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("StartPadding must have the same length as Strides."); }
+        if (EndPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("EndPadding must have the same length as Strides."); }
+        if (OutputPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("OutputPadding must have the same length as Strides."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));
         @ref->Dilations = new(UnsafeUtilities.AllocWithData(Dilations));
         @ref->StartPadding = new(UnsafeUtilities.AllocWithData(StartPadding));

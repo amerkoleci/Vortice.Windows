@@ -93,7 +93,7 @@ public static unsafe class UnsafeUtilities
 
         return dest;
     }
-
+    
     public static void Free(void* ptr)
     {
         Marshal.FreeHGlobal((IntPtr)ptr);

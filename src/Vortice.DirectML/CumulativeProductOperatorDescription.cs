@@ -11,7 +11,7 @@ public partial struct CumulativeProductOperatorDescription : IOperatorDescriptio
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint Axis { get; set; }
+    public int Axis { get; set; }
 
     public AxisDirection AxisDirection { get; set; }
 
@@ -23,7 +23,7 @@ public partial struct CumulativeProductOperatorDescription : IOperatorDescriptio
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint Axis;
+        public int Axis;
         public AxisDirection AxisDirection;
         public bool HasExclusiveProduct;
     }

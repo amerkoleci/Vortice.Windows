@@ -11,13 +11,11 @@ public partial struct SliceOperatorDescription : IOperatorDescription, IOperator
 
     public TensorDescription OutputTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int[] Offsets { get; set; }
 
-    public uint[] Offsets { get; set; }
+    public int[] Sizes { get; set; }
 
-    public uint[] Sizes { get; set; }
-
-    public uint[] Strides { get; set; }
+    public int[] Strides { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -25,7 +23,7 @@ public partial struct SliceOperatorDescription : IOperatorDescription, IOperator
     {
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Offsets;
         public IntPtr Sizes;
         public IntPtr Strides;
@@ -37,7 +35,12 @@ public partial struct SliceOperatorDescription : IOperatorDescription, IOperator
 
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Offsets.Length;
+        if (Sizes.Length != dimensionCount) { throw new IndexOutOfRangeException("Sizes must have the same length as Offsets."); }
+        if (Strides.Length != dimensionCount) { throw new IndexOutOfRangeException("Strides must have the same length as Offsets."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Offsets = new(UnsafeUtilities.AllocWithData(Offsets));
         @ref->Sizes = new(UnsafeUtilities.AllocWithData(Sizes));
         @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));

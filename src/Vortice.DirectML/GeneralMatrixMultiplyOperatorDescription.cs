@@ -3,9 +3,9 @@
 
 namespace Vortice.DirectML;
 
-public partial struct GemmOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct GeneralMatrixMultiplyOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.Gemm;
+    public OperatorType OperatorType => OperatorType.GeneralMatrixMultiply;
 
     public TensorDescription ATensor { get; set; }
 
@@ -15,9 +15,9 @@ public partial struct GemmOperatorDescription : IOperatorDescription, IOperatorD
 
     public TensorDescription OutputTensor { get; set; }
 
-    public MatrixTransform TransA { get; set; }
+    public MatrixTransform TransformA { get; set; }
 
-    public MatrixTransform TransB { get; set; }
+    public MatrixTransform TransformB { get; set; }
 
     public float Alpha { get; set; }
 
@@ -33,8 +33,8 @@ public partial struct GemmOperatorDescription : IOperatorDescription, IOperatorD
         public IntPtr BTensor;
         public IntPtr CTensor;
         public IntPtr OutputTensor;
-        public MatrixTransform TransA;
-        public MatrixTransform TransB;
+        public MatrixTransform TransformA;
+        public MatrixTransform TransformB;
         public float Alpha;
         public float Beta;
         public IntPtr FusedActivation;
@@ -48,8 +48,8 @@ public partial struct GemmOperatorDescription : IOperatorDescription, IOperatorD
         @ref->BTensor = BTensor.__MarshalAlloc();
         @ref->CTensor = (CTensor != null) ? CTensor.Value.__MarshalAlloc() : IntPtr.Zero;
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
-        @ref->TransA = TransA;
-        @ref->TransB = TransB;
+        @ref->TransformA = TransformA;
+        @ref->TransformB = TransformB;
         @ref->Alpha = Alpha;
         @ref->Beta = Beta;
         @ref->FusedActivation = (FusedActivation != null) ? FusedActivation.Value.__MarshalAlloc() : IntPtr.Zero;
@@ -80,7 +80,7 @@ public partial struct GemmOperatorDescription : IOperatorDescription, IOperatorD
     }
     #endregion
 
-    public static implicit operator OperatorDescription(GemmOperatorDescription description)
+    public static implicit operator OperatorDescription(GeneralMatrixMultiplyOperatorDescription description)
     {
         return new(description);
     }

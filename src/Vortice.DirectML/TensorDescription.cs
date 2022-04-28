@@ -30,6 +30,18 @@ public partial struct TensorDescription
         return new(@ref);
     }
 
+    internal void __MarshalTo(ref __Native @ref)
+    {
+        @ref.Type = Description.TensorType;
+        @ref.Description = ((ITensorDescriptionMarshal)Description).__MarshalAlloc();
+    }
+
+    internal void __MarshalFree(ref __Native @ref)
+    {
+        ((ITensorDescriptionMarshal)Description).__MarshalFree(ref @ref.Description);
+        @ref.Description = IntPtr.Zero;
+    }
+
     internal unsafe void __MarshalFree(ref IntPtr pDesc)
     {
         __Native* @ref = (__Native*)pDesc;

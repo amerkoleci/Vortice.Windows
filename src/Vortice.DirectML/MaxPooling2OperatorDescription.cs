@@ -13,17 +13,15 @@ public partial struct MaxPooling2OperatorDescription : IOperatorDescription, IOp
 
     public TensorDescription? OutputIndicesTensor { get; set; }
 
-    public uint DimensionCount { get; set; }
+    public int[] Strides { get; set; }
 
-    public uint[] Strides { get; set; }
+    public int[] WindowSize { get; set; }
 
-    public uint[] WindowSize { get; set; }
+    public int[] StartPadding { get; set; }
 
-    public uint[] StartPadding { get; set; }
+    public int[] EndPadding { get; set; }
 
-    public uint[] EndPadding { get; set; }
-
-    public uint[] Dilations { get; set; }
+    public int[] Dilations { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -32,7 +30,7 @@ public partial struct MaxPooling2OperatorDescription : IOperatorDescription, IOp
         public IntPtr InputTensor;
         public IntPtr OutputTensor;
         public IntPtr OutputIndicesTensor;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Strides;
         public IntPtr WindowSize;
         public IntPtr StartPadding;
@@ -47,7 +45,14 @@ public partial struct MaxPooling2OperatorDescription : IOperatorDescription, IOp
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->OutputTensor = OutputTensor.__MarshalAlloc();
         @ref->OutputIndicesTensor = (OutputIndicesTensor != null) ? OutputIndicesTensor.Value.__MarshalAlloc() : IntPtr.Zero;
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Strides.Length;
+        if (WindowSize.Length != dimensionCount) { throw new IndexOutOfRangeException("WindowSize must have the same length as Strides."); }
+        if (StartPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("StartPadding must have the same length as Strides."); }
+        if (EndPadding.Length != dimensionCount) { throw new IndexOutOfRangeException("EndPadding must have the same length as Strides."); }
+        if (Dilations.Length != dimensionCount) { throw new IndexOutOfRangeException("Dilations must have the same length as Strides."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Strides = new(UnsafeUtilities.AllocWithData(Strides));
         @ref->WindowSize = new(UnsafeUtilities.AllocWithData(WindowSize));
         @ref->StartPadding = new(UnsafeUtilities.AllocWithData(StartPadding));
@@ -74,6 +79,7 @@ public partial struct MaxPooling2OperatorDescription : IOperatorDescription, IOp
         UnsafeUtilities.Free(@ref->StartPadding);
         UnsafeUtilities.Free(@ref->EndPadding);
         UnsafeUtilities.Free(@ref->Dilations);
+
         UnsafeUtilities.Free(@ref);
     }
     #endregion

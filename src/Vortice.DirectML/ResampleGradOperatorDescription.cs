@@ -13,8 +13,6 @@ public partial struct ResampleGradOperatorDescription : IOperatorDescription, IO
 
     public InterpolationMode InterpolationMode { get; set; }
 
-    public uint DimensionCount { get; set; }
-
     public float[] Scales { get; set; }
 
     public float[] InputPixelOffsets { get; set; }
@@ -28,7 +26,7 @@ public partial struct ResampleGradOperatorDescription : IOperatorDescription, IO
         public IntPtr InputGradientTensor;
         public IntPtr OutputGradientTensor;
         public InterpolationMode InterpolationMode;
-        public uint DimensionCount;
+        public int DimensionCount;
         public IntPtr Scales;
         public IntPtr InputPixelOffsets;
         public IntPtr OutputPixelOffsets;
@@ -41,7 +39,12 @@ public partial struct ResampleGradOperatorDescription : IOperatorDescription, IO
         @ref->InputGradientTensor = InputGradientTensor.__MarshalAlloc();
         @ref->OutputGradientTensor = OutputGradientTensor.__MarshalAlloc();
         @ref->InterpolationMode = InterpolationMode;
-        @ref->DimensionCount = DimensionCount;
+
+        var dimensionCount = Scales.Length;
+        if (InputPixelOffsets.Length != dimensionCount) { throw new IndexOutOfRangeException("InputPixelOffsets must have the same length as Scales."); }
+        if (OutputPixelOffsets.Length != dimensionCount) { throw new IndexOutOfRangeException("OutputPixelOffsets must have the same length as Scales."); }
+        @ref->DimensionCount = dimensionCount;
+
         @ref->Scales = new(UnsafeUtilities.AllocWithData(Scales));
         @ref->InputPixelOffsets = new(UnsafeUtilities.AllocWithData(InputPixelOffsets));
         @ref->OutputPixelOffsets = new(UnsafeUtilities.AllocWithData(OutputPixelOffsets));

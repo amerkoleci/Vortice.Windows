@@ -13,9 +13,9 @@ public partial struct ElementWiseClipGradOperatorDescription : IOperatorDescript
 
     public TensorDescription OutputGradientTensor { get; set; }
 
-    public float Min { get; set; }
+    public float Minimum { get; set; }
 
-    public float Max { get; set; }
+    public float Maximum { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -24,8 +24,8 @@ public partial struct ElementWiseClipGradOperatorDescription : IOperatorDescript
         public IntPtr InputTensor;
         public IntPtr InputGradientTensor;
         public IntPtr OutputGradientTensor;
-        public float Min;
-        public float Max;
+        public float Minimum;
+        public float Maximum;
     }
 
     unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
@@ -35,8 +35,8 @@ public partial struct ElementWiseClipGradOperatorDescription : IOperatorDescript
         @ref->InputTensor = InputTensor.__MarshalAlloc();
         @ref->InputGradientTensor = InputGradientTensor.__MarshalAlloc();
         @ref->OutputGradientTensor = OutputGradientTensor.__MarshalAlloc();
-        @ref->Min = Min;
-        @ref->Max = Max;
+        @ref->Minimum = Minimum;
+        @ref->Maximum = Maximum;
 
         return new(@ref);
     }

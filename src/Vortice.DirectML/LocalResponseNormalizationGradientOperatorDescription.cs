@@ -3,9 +3,9 @@
 
 namespace Vortice.DirectML;
 
-public partial struct LocalResponseNormalizationGradOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct LocalResponseNormalizationGradientOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
-    public OperatorType OperatorType => OperatorType.LocalResponseNormalizationGrad;
+    public OperatorType OperatorType => OperatorType.LocalResponseNormalizationGradient;
 
     public TensorDescription InputTensor { get; set; }
 
@@ -15,7 +15,7 @@ public partial struct LocalResponseNormalizationGradOperatorDescription : IOpera
 
     public bool CrossChannel { get; set; }
 
-    public uint LocalSize { get; set; }
+    public int LocalSize { get; set; }
 
     public float Alpha { get; set; }
 
@@ -31,7 +31,7 @@ public partial struct LocalResponseNormalizationGradOperatorDescription : IOpera
         public IntPtr InputGradientTensor;
         public IntPtr OutputGradientTensor;
         public bool CrossChannel;
-        public uint LocalSize;
+        public int LocalSize;
         public float Alpha;
         public float Beta;
         public float Bias;
@@ -65,7 +65,7 @@ public partial struct LocalResponseNormalizationGradOperatorDescription : IOpera
     }
     #endregion
 
-    public static implicit operator OperatorDescription(LocalResponseNormalizationGradOperatorDescription description)
+    public static implicit operator OperatorDescription(LocalResponseNormalizationGradientOperatorDescription description)
     {
         return new(description);
     }
