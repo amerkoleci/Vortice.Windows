@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_AVERAGE_POOLING_GRAD_OPERATOR_DESC']/*" />
 public partial struct AveragePoolingGradOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

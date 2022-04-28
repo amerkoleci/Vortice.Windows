@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ARGMAX_OPERATOR_DESC']/*" />
 public partial struct ArgmaxOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

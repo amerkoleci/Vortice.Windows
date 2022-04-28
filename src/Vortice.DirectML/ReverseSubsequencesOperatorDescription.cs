@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_REVERSE_SUBSEQUENCES_OPERATOR_DESC']/*" />
 public partial struct ReverseSubsequencesOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

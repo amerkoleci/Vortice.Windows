@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_GRAD_OPERATOR_DESC']/*" />
 public partial struct LocalResponseNormalizationGradientOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

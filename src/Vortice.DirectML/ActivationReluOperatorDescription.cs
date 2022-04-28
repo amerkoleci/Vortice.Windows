@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_RELU_OPERATOR_DESC']/*" />
 public partial struct ActivationReluOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

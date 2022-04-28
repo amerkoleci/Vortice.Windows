@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC']/*" />
 public partial struct QuantizedLinearMatrixMultiplyOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

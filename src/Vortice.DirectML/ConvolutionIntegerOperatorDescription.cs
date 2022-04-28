@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC']/*" />
 public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC']/*" />
 public partial struct MeanVarianceNormalizationOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

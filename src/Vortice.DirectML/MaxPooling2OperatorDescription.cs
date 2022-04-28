@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING2_OPERATOR_DESC']/*" />
 public partial struct MaxPooling2OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

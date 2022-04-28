@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_JOIN_OPERATOR_DESC']/*" />
 public partial struct JoinOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

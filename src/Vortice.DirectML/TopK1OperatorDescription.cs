@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K1_OPERATOR_DESC']/*" />
 public partial struct TopK1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

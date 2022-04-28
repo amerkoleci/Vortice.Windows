@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_VALUE_SCALE_2D_OPERATOR_DESC']/*" />
 public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

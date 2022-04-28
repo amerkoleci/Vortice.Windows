@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE_GRAD_OPERATOR_DESC']/*" />
 public partial struct SliceGradOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

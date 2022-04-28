@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_DEPTH_TO_SPACE1_OPERATOR_DESC']/*" />
 public partial struct DepthToSpace1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

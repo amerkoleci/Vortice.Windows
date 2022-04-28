@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN1_OPERATOR_DESC']/*" />
 public partial struct RoiAlign1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

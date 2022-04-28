@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC']/*" />
 public partial struct LstmOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_SPLIT_OPERATOR_DESC']/*" />
 public partial struct SplitOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

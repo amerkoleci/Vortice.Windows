@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC']/*" />
 public partial struct BatchNormalizationGradOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

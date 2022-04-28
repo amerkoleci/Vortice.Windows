@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_PARAMETRIC_SOFTPLUS_OPERATOR_DESC']/*" />
 public partial struct ActivationParametricSoftplusOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>
