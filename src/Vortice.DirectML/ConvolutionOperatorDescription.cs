@@ -72,7 +72,7 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
         @ref->EndPadding = new(UnsafeUtilities.AllocWithData(EndPadding));
         @ref->OutputPadding = new(UnsafeUtilities.AllocWithData(OutputPadding));
         @ref->GroupCount = GroupCount;
-        @ref->FusedActivation = (FusedActivation != null) ? FusedActivation.__MarshalAlloc() : IntPtr.Zero;
+        @ref->FusedActivation = (FusedActivation != null) ? FusedActivation.Value.__MarshalAlloc() : IntPtr.Zero;
 
         return new(@ref);
     }
@@ -98,7 +98,7 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
 
         if (FusedActivation != null)
         {
-            FusedActivation.__MarshalFree(ref @ref->FusedActivation);
+            FusedActivation.Value.__MarshalFree(ref @ref->FusedActivation);
         }
 
         UnsafeUtilities.Free(@ref);

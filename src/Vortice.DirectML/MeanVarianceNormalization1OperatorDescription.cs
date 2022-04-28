@@ -52,7 +52,7 @@ public partial struct MeanVarianceNormalization1OperatorDescription : IOperatorD
         @ref->Axes = new(UnsafeUtilities.AllocWithData(Axes));
         @ref->NormalizeVariance = NormalizeVariance;
         @ref->Epsilon = Epsilon;
-        @ref->FusedActivation = (FusedActivation != null) ? FusedActivation.__MarshalAlloc() : IntPtr.Zero;
+        @ref->FusedActivation = (FusedActivation != null) ? FusedActivation.Value.__MarshalAlloc() : IntPtr.Zero;
 
         return new(@ref);
     }
@@ -79,7 +79,7 @@ public partial struct MeanVarianceNormalization1OperatorDescription : IOperatorD
 
         if (FusedActivation != null)
         {
-            FusedActivation.__MarshalFree(ref @ref->FusedActivation);
+            FusedActivation.Value.__MarshalFree(ref @ref->FusedActivation);
         }
 
         UnsafeUtilities.Free(@ref);

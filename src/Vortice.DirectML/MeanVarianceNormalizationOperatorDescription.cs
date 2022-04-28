@@ -48,7 +48,7 @@ public partial struct MeanVarianceNormalizationOperatorDescription : IOperatorDe
         @ref->CrossChannel = CrossChannel;
         @ref->NormalizeVariance = NormalizeVariance;
         @ref->Epsilon = Epsilon;
-        @ref->FusedActivation = (FusedActivation != null) ? FusedActivation.__MarshalAlloc() : IntPtr.Zero;
+        @ref->FusedActivation = (FusedActivation != null) ? FusedActivation.Value.__MarshalAlloc() : IntPtr.Zero;
 
         return new(@ref);
     }
@@ -74,7 +74,7 @@ public partial struct MeanVarianceNormalizationOperatorDescription : IOperatorDe
 
         if (FusedActivation != null)
         {
-            FusedActivation.__MarshalFree(ref @ref->FusedActivation);
+            FusedActivation.Value.__MarshalFree(ref @ref->FusedActivation);
         }
 
         UnsafeUtilities.Free(@ref);
