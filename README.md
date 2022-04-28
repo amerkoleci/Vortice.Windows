@@ -19,6 +19,7 @@ There is a collection of samples available only for **Sponsors** [Vortice.Window
 Library development, contributions and bugfixes by:
 
 - Amer Koleci
+- Aaron Sun (DirectML)
 
 [SharpDX](https://github.com/sharpdx/SharpDX) bindings were used for some platforms to understand how mapping works using SharpGenTools.
 
