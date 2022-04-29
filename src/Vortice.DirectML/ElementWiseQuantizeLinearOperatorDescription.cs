@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_QUANTIZE_LINEAR_OPERATOR_DESC']/*" />
 public partial struct ElementWiseQuantizeLinearOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

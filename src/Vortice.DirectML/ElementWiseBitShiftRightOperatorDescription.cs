@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_BIT_SHIFT_RIGHT_OPERATOR_DESC']/*" />
 public partial struct ElementWiseBitShiftRightOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC']/*" />
 public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

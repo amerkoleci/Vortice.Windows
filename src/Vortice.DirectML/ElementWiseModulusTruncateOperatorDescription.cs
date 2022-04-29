@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_MODULUS_TRUNCATE_OPERATOR_DESC']/*" />
 public partial struct ElementWiseModulusTruncateOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

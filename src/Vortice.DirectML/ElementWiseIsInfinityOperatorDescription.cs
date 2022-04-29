@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_IS_INFINITY_OPERATOR_DESC']/*" />
 public partial struct ElementWiseIsInfinityOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_RANDOM_GENERATOR_OPERATOR_DESC']/*" />
 public partial struct RandomGeneratorOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

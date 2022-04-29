@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_TANH_OPERATOR_DESC']/*" />
 public partial struct ElementWiseTanhOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_CUMULATIVE_PRODUCT_OPERATOR_DESC']/*" />
 public partial struct CumulativeProductOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

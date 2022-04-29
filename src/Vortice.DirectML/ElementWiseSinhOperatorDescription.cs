@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_SINH_OPERATOR_DESC']/*" />
 public partial struct ElementWiseSinhOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_SEQUENCE_OPERATOR_DESC']/*" />
 public partial struct FillValueSequenceOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>

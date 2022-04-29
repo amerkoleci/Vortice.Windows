@@ -3,7 +3,6 @@
 
 namespace Vortice.DirectML;
 
-/// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_HARD_SIGMOID_OPERATOR_DESC']/*" />
 public partial struct ActivationHardSigmoidOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>
