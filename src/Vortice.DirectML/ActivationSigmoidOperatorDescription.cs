@@ -11,10 +11,10 @@ public partial struct ActivationSigmoidOperatorDescription : IOperatorDescriptio
     public OperatorType OperatorType => OperatorType.ActivationSigmoid;
 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SIGMOID_OPERATOR_DESC::InputTensor']/*" />
-    public TensorDescription InputTensor { get; set; }
+    public TensorDescription? InputTensor { get; set; }
 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SIGMOID_OPERATOR_DESC::OutputTensor']/*" />
-    public TensorDescription OutputTensor { get; set; }
+    public TensorDescription? OutputTensor { get; set; }
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
@@ -28,8 +28,8 @@ public partial struct ActivationSigmoidOperatorDescription : IOperatorDescriptio
     {
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
-        @ref->InputTensor = InputTensor.__MarshalAlloc();
-        @ref->OutputTensor = OutputTensor.__MarshalAlloc();
+        @ref->InputTensor = (InputTensor != null) ? InputTensor.Value.__MarshalAlloc() : IntPtr.Zero;
+        @ref->OutputTensor = (OutputTensor != null) ? OutputTensor.Value.__MarshalAlloc() : IntPtr.Zero;
 
         return new(@ref);
     }
@@ -38,8 +38,15 @@ public partial struct ActivationSigmoidOperatorDescription : IOperatorDescriptio
     {
         var @ref = (__Native*)pDesc;
 
-        InputTensor.__MarshalFree(ref @ref->InputTensor);
-        OutputTensor.__MarshalFree(ref @ref->OutputTensor);
+        if (InputTensor != null)
+        {
+            InputTensor.Value.__MarshalFree(ref @ref->InputTensor);
+        }
+
+        if (OutputTensor != null)
+        {
+            OutputTensor.Value.__MarshalFree(ref @ref->OutputTensor);
+        }
 
         UnsafeUtilities.Free(@ref);
     }
