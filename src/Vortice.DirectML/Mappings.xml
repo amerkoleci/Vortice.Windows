@@ -30,6 +30,8 @@
   <mapping>
     <!-- Enums -->
     <map enum="DML_(.*)" name-tmp="$1" />
+    
+    <map enum-item="DML_FEATURE_LEVEL_([0-9_]+)" name="Level$1"/>
 
     <map enum-item="DML_OPERATOR_GEMM" name="GeneralMatrixMultiply"/>
     <map enum-item="DML_OPERATOR_LOCAL_RESPONSE_NORMALIZATION_GRAD" name="LocalResponseNormalizationGradient"/>
@@ -239,6 +241,7 @@
     <map param="IDMLDevice::CreateBindingTable::ppv" attribute="out" />
     <map method="IDMLDevice::GetParentDevice" visibility="private" hresult="true" check="false" />
     <map param="IDMLDevice::GetParentDevice::ppv" attribute="out" />
+    <map method="IDMLDevice::GetDeviceRemovedReason" visibility="public" hresult="true" check="false" />
     
     <!-- IDMLDevice1 -->
     <map method="IDMLDevice1::CompileGraph" visibility="private" hresult="true" check="false" />

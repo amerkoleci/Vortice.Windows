@@ -6,7 +6,11 @@
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <Description>DirectML bindings.</Description>
   </PropertyGroup>
-
+  
+  <PropertyGroup>
+    <Authors>Aaron Sun, Amer Koleci</Authors>
+  </PropertyGroup>
+  
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <SharpGenExternalDocs Include="Documentation.xml" />
