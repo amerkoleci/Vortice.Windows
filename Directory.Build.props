@@ -34,7 +34,7 @@
     <Copyright>Copyright © Amer Koleci and Contributors</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageTags>Vortice.Windows Vortice Graphics gamedev Direct3D DirectX Core Standard Game Direct3D11 Direct3D12 XAudio2 XInput Dxc</PackageTags>
+    <PackageTags>Vortice.Windows Vortice Graphics gamedev Direct3D DirectX Core Standard Game Direct3D11 Direct3D12 XAudio2 XInput Dxc DirectML</PackageTags>
   </PropertyGroup>
 
   <!-- https://github.com/dotnet/sourcelink -->
