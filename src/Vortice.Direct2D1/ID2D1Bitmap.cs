@@ -121,7 +121,9 @@ public unsafe partial class ID2D1Bitmap
         RawRect dstRect = destinationRect;
 
         if (pitch == 0)
-            pitch = (int)(PixelSize.Width * sizeof(T));
+        {
+            pitch = PixelSize.Width * sizeof(T);
+        }
 
         fixed (void* sourcePointer = &source)
         {

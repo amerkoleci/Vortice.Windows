@@ -14,6 +14,15 @@ public unsafe partial class IWICBitmapSource
         }
     }
 
+    public Size Resolution
+    {
+        get
+        {
+            GetResolution(out double width, out double height);
+            return new((float)width, (float)height);
+        }
+    }
+
     public void CopyPixels(int stride, int size, IntPtr data)
     {
         CopyPixels(null, stride, size, data.ToPointer());
@@ -44,7 +53,7 @@ public unsafe partial class IWICBitmapSource
     {
         fixed (T* dataPtr = data)
         {
-            CopyPixels(null, stride, data.Length, dataPtr);
+            CopyPixels(null, stride, data.Length * sizeof(T), dataPtr);
         }
     }
 
@@ -52,7 +61,7 @@ public unsafe partial class IWICBitmapSource
     {
         fixed (T* dataPtr = data)
         {
-            CopyPixels(&rectangle, stride, data.Length, dataPtr);
+            CopyPixels(&rectangle, stride, data.Length * sizeof(T), dataPtr);
         }
     }
 }

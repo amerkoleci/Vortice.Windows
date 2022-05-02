@@ -194,12 +194,12 @@ public class SoundStream : Stream
         if (_input != null)
         {
             _input.Dispose();
-            _input = null;
         }
+
         base.Dispose(disposing);
     }
 
-    protected RiffChunk? Chunk(IEnumerable<RiffChunk> chunks, string id)
+    protected RiffChunk Chunk(IEnumerable<RiffChunk> chunks, string id)
     {
         RiffChunk? chunk = null;
         foreach (RiffChunk? riffChunk in chunks)
