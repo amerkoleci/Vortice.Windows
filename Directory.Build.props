@@ -12,7 +12,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
 
-    <VersionPrefix>2.1.10</VersionPrefix>
+    <VersionPrefix>2.1.11</VersionPrefix>
     <VersionSuffix Condition="'$(VersionSuffix)' == ''">beta</VersionSuffix>
 
     <SignAssembly Condition="'$(SignAssembly)' == ''">false</SignAssembly>
@@ -20,7 +20,7 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Vortice.snk</AssemblyOriginatorKeyFile>
 
     <!-- Packages versions -->
-    <SharpGenVersion>2.0.0-beta.11</SharpGenVersion>
+    <SharpGenVersion>2.0.0-beta.10</SharpGenVersion>
     <VorticeMathematicsVersion>1.4.13</VorticeMathematicsVersion>
   </PropertyGroup>
 

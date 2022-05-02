@@ -758,6 +758,7 @@
     <map function="WIC.*" dll='"Windowscodecs.dll"' group="Vortice.WIC.WIC" visibility="internal" hresult="true" check="false" />
     <map function="WICConvertBitmapSource" name="WICConvertBitmapSource_" />
     <map function="WICCreateBitmapFromSection" name="WICCreateBitmapFromSection_" />
+    <map function="WICCreateBitmapFromSectionEx" name="WICCreateBitmapFromSectionEx_" />
 
     <map function="D2D1.*" dll='"d2d1.dll"' group="Vortice.Direct2D1.D2D1" />
     <map function="D2D1CreateFactory" hresult="true" check="false" visibility="internal" />

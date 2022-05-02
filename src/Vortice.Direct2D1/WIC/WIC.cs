@@ -46,4 +46,15 @@ public static partial class WIC
     {
         return WICCreateBitmapFromSection_(width, height, pixelFormat, section, stride, offset, out result);
     }
+
+    public static IWICBitmap WICCreateBitmapFromSectionEx(int width, int height, Guid pixelFormat, IntPtr section, int stride, int offset, SectionAccessLevel desiredAccessLevel)
+    {
+        WICCreateBitmapFromSectionEx_(width, height, pixelFormat, section, stride, offset, desiredAccessLevel, out IWICBitmap bitmap).CheckError();
+        return bitmap;
+    }
+
+    public static Result WICCreateBitmapFromSectionEx(int width, int height, Guid pixelFormat, IntPtr section, int stride, int offset, SectionAccessLevel desiredAccessLevel, out IWICBitmap bitmap)
+    {
+        return WICCreateBitmapFromSectionEx_(width, height, pixelFormat, section, stride, offset, desiredAccessLevel, out bitmap);
+    }
 }
