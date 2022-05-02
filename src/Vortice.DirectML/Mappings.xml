@@ -220,7 +220,6 @@
     <remove field="DML_OPERATOR_GRAPH_NODE_DESC::.*" />
     
     <!-- Interfaces -->
-    <map method="IDMLBindingTable::.*" property="false" hresult="true" check="false" />
     <map method="IDMLCommandRecorder::.*" property="false" hresult="true" check="false" />
     <map method="IDMLCompiledOperator::.*" property="false" hresult="true" check="false" />
     <map method="IDMLDebugDevice::.*" property="false" hresult="true" check="false" />
@@ -228,6 +227,11 @@
     <map method="IDMLObject::.*" property="false" hresult="true" check="false" />
     <map method="IDMLOperatorInitializer::.*" property="false" hresult="true" check="false"/>
 
+    <!-- IDMLBindingTable -->
+    <map method="IDMLBindingTable::.*" property="false" hresult="true" check="false" />
+    <map method="IDMLBindingTable::BindInputs" visibility="private" hresult="true" check="false" />
+    <map method="IDMLBindingTable::BindOutputs" visibility="private" hresult="true" check="false" />
+    
     <!-- IDMLDevice -->
     <map method="IDMLDevice::CreateOperator" visibility="private" hresult="true" check="false" />
     <map param="IDMLDevice::CreateOperator::ppv" attribute="out" />
@@ -241,6 +245,9 @@
     <map param="IDMLDevice::CreateBindingTable::ppv" attribute="out" />
     <map method="IDMLDevice::GetParentDevice" visibility="private" hresult="true" check="false" />
     <map param="IDMLDevice::GetParentDevice::ppv" attribute="out" />
+    <map method="IDMLDevice::CheckFeatureSupport" visibility="private" hresult="true" check="false" />
+    <map method="IDMLDevice::Evict" visibility="private" hresult="true" check="false" />
+    <map method="IDMLDevice::MakeResident" visibility="private" hresult="true" check="false" />
     <map method="IDMLDevice::GetDeviceRemovedReason" visibility="public" hresult="true" check="false" />
     
     <!-- IDMLDevice1 -->
