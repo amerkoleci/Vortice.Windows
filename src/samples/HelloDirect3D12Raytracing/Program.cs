@@ -28,11 +28,7 @@ public static class Program
         Configuration.EnableObjectTracking = true;
 #endif
 
-        using (var app = new TestApplication())
-            app.Run();
-
-#if DEBUG
-        Console.WriteLine(ObjectTracker.ReportActiveObjects());
-#endif
+        using TestApplication app = new();
+        app.Run();
     }
 }

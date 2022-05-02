@@ -185,8 +185,7 @@ internal class CustomEffectFactory
             if (dataPtr == IntPtr.Zero)
                 return Result.Ok.Code;
 
-            var shadow = ToShadow(thisPtr);
-            var callback = (ID2D1EffectImpl)shadow.Callback;
+            var callback = CppObjectShadow.ToCallback<ID2D1EffectImpl>(thisPtr);
 
             var value = Marshal.PtrToStructure<U>(dataPtr);
             PropertyInfo.SetValue(callback, value);
@@ -200,21 +199,12 @@ internal class CustomEffectFactory
             if (dataPtr == IntPtr.Zero)
                 return Result.Ok.Code;
 
-            var shadow = ToShadow(thisPtr);
-            var callback = (ID2D1EffectImpl)shadow.Callback;
+            var callback = CppObjectShadow.ToCallback<ID2D1EffectImpl>(thisPtr);
 
             var value = (U)PropertyInfo.GetValue(callback);
             Marshal.StructureToPtr(value, dataPtr, true);
 
             return Result.Ok.Code;
-        }
-
-        private ID2D1EffectImplShadow ToShadow(IntPtr ptr)
-        {
-            unsafe
-            {
-                return (ID2D1EffectImplShadow)GCHandle.FromIntPtr(*(((IntPtr*)ptr) + 1)).Target;
-            }
         }
     }
 }

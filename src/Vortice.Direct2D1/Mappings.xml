@@ -775,7 +775,7 @@
     <map param="ID2D1SimplifiedGeometrySink::AddLines::pointsCount" relation="length(points)" />
     <map param="ID2D1SimplifiedGeometrySink::AddBeziers::beziersCount" relation="length(beziers)" />
 
-    <map interface="ID2D1.*GeometrySink" callback="true" callback-dual="true" callback-visibility="public" autogen-shadow="true" />
+    <map interface="ID2D1.*GeometrySink" callback="true" callback-dual="true" callback-visibility="public" />
 
     <map param="ID2D1TessellationSink::AddTriangles::trianglesCount" relation="length(triangles)" />
   </mapping>

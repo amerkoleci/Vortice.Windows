@@ -5,37 +5,43 @@ using Vortice.Direct3D12;
 using Vortice.Direct3D12.Debug;
 using Vortice.DirectML;
 using Vortice.DXGI;
+using static Vortice.DirectML.DML;
 
 namespace HelloDirectML;
+
 public class DmlDevice : IDisposable
 {
-    public IDXGIFactory4 DXGIFactory;
-    public ID3D12Device2 D3D12Device;
-    public ID3D12CommandQueue D3D12CommandQueue; 
-    public ID3D12CommandAllocator D3D12CommandAllocator;
-    public ID3D12GraphicsCommandList4 D3D12CommandList;
+    public readonly IDXGIFactory4 DXGIFactory;
+    public readonly ID3D12Device2 D3D12Device;
+    public readonly ID3D12CommandQueue D3D12CommandQueue;
+    public readonly ID3D12CommandAllocator D3D12CommandAllocator;
+    public readonly ID3D12GraphicsCommandList4 D3D12CommandList;
 
-    public IDMLDevice DMLDevice;
+    public readonly IDMLDevice DMLDevice;
 
     public bool IsSupported() => D3D12.IsSupported(Vortice.Direct3D.FeatureLevel.Level_12_0);
 
-    public void InitializeDirect3D12()
+    public DmlDevice()
     {
         if (!IsSupported())
         {
             throw new InvalidOperationException("Direct3D12 is not supported on current OS");
         }
 
-        var validation = false;
+        bool validation = false;
 
+#if DEBUG
         if (D3D12.D3D12GetDebugInterface(out ID3D12Debug? debug).Success)
         {
             debug!.EnableDebugLayer();
             debug!.Dispose();
             validation = true;
         }
+#endif
 
         DXGIFactory = DXGI.CreateDXGIFactory2<IDXGIFactory4>(validation);
+
+        ID3D12Device2? device = default;
 
         for (int adapterIndex = 0; DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1 adapter).Success; adapterIndex++)
         {
@@ -49,7 +55,7 @@ public class DmlDevice : IDisposable
                 continue;
             }
 
-            if (D3D12.D3D12CreateDevice(adapter, Vortice.Direct3D.FeatureLevel.Level_11_0, out D3D12Device).Success)
+            if (D3D12.D3D12CreateDevice(adapter, Vortice.Direct3D.FeatureLevel.Level_11_0, out device).Success)
             {
                 adapter.Dispose();
 
@@ -57,12 +63,14 @@ public class DmlDevice : IDisposable
             }
         }
 
-        if (D3D12Device == null)
+        if (device == null)
         {
             throw new InvalidOperationException("Direct3D12 device could not be created");
         }
 
-        var commandQueueDesc = new CommandQueueDescription
+        D3D12Device = device!;
+
+        CommandQueueDescription commandQueueDesc = new()
         {
             Type = CommandListType.Direct,
             Flags = CommandQueueFlags.None,
@@ -71,22 +79,18 @@ public class DmlDevice : IDisposable
         D3D12CommandQueue = D3D12Device.CreateCommandQueue(commandQueueDesc);
         D3D12CommandAllocator = D3D12Device.CreateCommandAllocator(CommandListType.Direct);
         D3D12CommandList = D3D12Device.CreateCommandList<ID3D12GraphicsCommandList4>(CommandListType.Direct, D3D12CommandAllocator);
-    }
-
-    public void Run()
-    {
-        InitializeDirect3D12();
 
         var createFlags = CreateDeviceFlags.None;
 
 #if DEBUG
         createFlags |= CreateDeviceFlags.Debug;
 #endif
+        DMLDevice = DMLCreateDevice(D3D12Device, createFlags);
+        DMLDevice.SetName("Hello world");
+    }
 
-        DML.DMLCreateDevice(D3D12Device, createFlags, out DMLDevice);
-
-        DMLDevice.SetName("hello world");
-
+    public void Run()
+    {
         var tensorSizes = new int[] { 1, 2, 3, 4 };
         var tensorElementCount = tensorSizes.Aggregate((a, b) => a * b);
 
@@ -115,12 +119,12 @@ public class DmlDevice : IDisposable
         // Like Direct3D 12, these DESC structs don't need to be long-lived. This means, for example, that it's safe to place
         // the DML_OPERATOR_DESC (and all the subobjects it points to) on the stack, since they're no longer needed after
         // CreateOperator returns.
-        using var dmlOperator = DMLDevice.CreateOperator(identityOperatorDesc);
+        using IDMLOperator dmlOperator = DMLDevice.CreateOperator(identityOperatorDesc);
 
         // Compile the operator into an object that can be dispatched to the GPU. In this step, DirectML performs operator
         // fusion and just-in-time (JIT) compilation of shader bytecode, then compiles it into a Direct3D 12 pipeline state object (PSO).
         // The resulting compiled operator is a baked, optimized form of an operator suitable for execution on the GPU.
-        using var dmlCompiledOperator = DMLDevice.CompileOperator(dmlOperator, ExecutionFlags.None);
+        using IDMLCompiledOperator dmlCompiledOperator = DMLDevice.CompileOperator(dmlOperator, ExecutionFlags.None);
 
         // 24 elements * 4 == 96 bytes.
         long tensorBufferSize = bufferTensorDesc.TotalTensorSizeInBytes;

@@ -360,8 +360,8 @@
     <map struct="D3D_SHADER_MACRO" name="ShaderMacro" native="true" marshal="true" />
 
     <map interface="ID3D10Blob" name="Blob" />
-    <map interface="ID3DInclude" name="Include" callback="true" shadow-name="Vortice.Direct3D.IncludeShadow" autogen-vtbl="false" />
-    <map method="ID3DInclude::.+" hidden="true" />
+    <map interface="ID3DInclude" name="Include" callback="true" shadow-name="Vortice.Direct3D.IncludeShadow" />
+    <map method="ID3DInclude::.+" hidden="true" managed-partial="true" />
     <map interface="ID3DDestructionNotifier" name="DestructionNotifier" callback="true" />
 
     <!-- DxCore -->
@@ -391,7 +391,7 @@
 
     <!-- DXGI -->
     <map enum="DXGI(.+)" name-tmp="$1" />
-    <map enum="DXGI_FORMAT_" type="uint" />
+    <map enum="DXGI_FORMAT" type="uint" />
     <map enum-item="DXGI_FORMAT_.*" naming="underscore" />
     <map enum-item="DXGI_FORMAT_420_OPAQUE" name="Opaque420" />
     <map struct="DXGI(.+)" name-tmp="$1" />
@@ -446,6 +446,5 @@
     <!-- d3d12 -->
     <map enum="D3D12_RESOURCE_STATES" flags="true" type="uint" />
     <map enum-item="D3D12_RESOURCE_STATE(.*)" name-tmp="$1" />
-    
   </mapping>
 </config>

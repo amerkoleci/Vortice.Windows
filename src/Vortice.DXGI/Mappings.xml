@@ -292,7 +292,8 @@
     <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
 
     <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
-
+    <map function="DXGIDisableVBlankVirtualization" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" />
+    
     <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" attribute="out" return="true"/>
 
     <map method="IDXGIOutput3::CheckOverlaySupport" visibility="private" name="CheckOverlaySupport_" />
