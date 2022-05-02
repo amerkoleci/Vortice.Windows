@@ -12,6 +12,19 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Content Include="build\Vortice.DirectML.props" PackagePath="build\Vortice.DirectML.props" />
+    <Content Include="runtimes\arm-win\DirectML.Debug.dll" PackagePath="runtimes\arm-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\arm-win\DirectML.dll" PackagePath="runtimes\arm-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\arm64-win\DirectML.Debug.dll" PackagePath="runtimes\arm64-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\arm64-win\DirectML.dll" PackagePath="runtimes\arm64-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\x64-win\DirectML.Debug.dll" PackagePath="runtimes\x64-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\x64-win\DirectML.dll" PackagePath="runtimes\x64-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\x86-win\DirectML.Debug.dll" PackagePath="runtimes\x86-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\x86-win\DirectML.dll" PackagePath="runtimes\x86-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\LICENSE.txt" PackagePath="runtimes\LICENSE.txt" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <SharpGenExternalDocs Include="Documentation.xml" />
     

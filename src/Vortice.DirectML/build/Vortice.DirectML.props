@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <!-- handle PlatformTarget specifically -->
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == '' and '$(PlatformTarget)' == 'ARM'">arm</DirectMLPlatform>
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == '' and '$(PlatformTarget)' == 'ARM64'">arm64</DirectMLPlatform>
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == '' and '$(PlatformTarget)' == 'x86'">x86</DirectMLPlatform>
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == '' and '$(PlatformTarget)' == 'x64'">x64</DirectMLPlatform>
+    <!-- handle Any CPU, considering Prefer32Bit -->
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == '' and '$(Prefer32Bit)' == 'False'">x64</DirectMLPlatform>
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == '' and '$(Prefer32Bit)' == 'True'">x86</DirectMLPlatform>
+    <!-- fall back to x64 on 64-bit machines -->
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == '' and $([System.Environment]::Is64BitOperatingSystem)">x64</DirectMLPlatform>
+    <!-- fall back to x86 -->
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == ''">x86</DirectMLPlatform>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DirectMLLibrary>$(MSBuildThisFileDirectory)..\..\runtimes\win-$(DirectMLPlatform)\DirectML.dll</DirectMLLibrary>
+    <DirectMLDebugLibrary>$(MSBuildThisFileDirectory)..\..\runtimes\win-$(DirectMLPlatform)\DirectML.Debug.dll</DirectMLDebugLibrary>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="$(DirectMLLibrary)">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </Content>
+
+    <Content Condition="Exists('$(DirectMLDebugLibrary)')">
+      <Link>%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Visible>False</Visible>
+    </Content>
+  </ItemGroup>
+
+</Project>
