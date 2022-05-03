@@ -67,9 +67,6 @@ public partial class BarrierGroup
 
         [FieldOffset(0)]
         public BufferBarrier.__Native* pBufferBarriers;
-
-        [FieldOffset(0)]
-        public ResourceStateBarrier.__Native* pStateBarriers;
     }
 
     internal struct __Native

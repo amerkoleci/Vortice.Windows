@@ -997,7 +997,7 @@ extern "C"{
 
 #define	D3D12_PIXEL_ADDRESS_RANGE_BIT_COUNT	( 15 )
 
-#define	D3D12_PREVIEW_SDK_VERSION	( 700 )
+#define	D3D12_PREVIEW_SDK_VERSION	( 702 )
 
 #define	D3D12_PRE_SCISSOR_PIXEL_ADDRESS_RANGE_BIT_COUNT	( 16 )
 
@@ -1130,7 +1130,7 @@ extern "C"{
 
 #define	D3D12_RS_SET_SHADING_RATE_COMBINER_COUNT	( 2 )
 
-#define	D3D12_SDK_VERSION	( 600 )
+#define	D3D12_SDK_VERSION	( 602 )
 
 #define	D3D12_SHADER_IDENTIFIER_SIZE_IN_BYTES	( 32 )
 
@@ -1486,7 +1486,9 @@ enum D3D12_BLEND
         D3D12_BLEND_SRC1_COLOR	= 16,
         D3D12_BLEND_INV_SRC1_COLOR	= 17,
         D3D12_BLEND_SRC1_ALPHA	= 18,
-        D3D12_BLEND_INV_SRC1_ALPHA	= 19
+        D3D12_BLEND_INV_SRC1_ALPHA	= 19,
+        D3D12_BLEND_ALPHA_FACTOR	= 20,
+        D3D12_BLEND_INV_ALPHA_FACTOR	= 21
     } 	D3D12_BLEND;
 
 typedef 
@@ -2105,7 +2107,8 @@ enum D3D12_FEATURE
         D3D12_FEATURE_D3D12_OPTIONS9	= 37,
         D3D12_FEATURE_D3D12_OPTIONS10	= 39,
         D3D12_FEATURE_D3D12_OPTIONS11	= 40,
-        D3D12_FEATURE_D3D12_OPTIONS12	= 41
+        D3D12_FEATURE_D3D12_OPTIONS12	= 41,
+        D3D12_FEATURE_D3D12_OPTIONS13	= 42
     } 	D3D12_FEATURE;
 
 typedef 
@@ -2570,7 +2573,18 @@ typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS12
     {
     _Out_  D3D12_TRI_STATE MSPrimitivesPipelineStatisticIncludesCulledPrimitives;
     _Out_  BOOL EnhancedBarriersSupported;
+    _Out_  BOOL RelaxedFormatCastingSupported;
     } 	D3D12_FEATURE_DATA_D3D12_OPTIONS12;
+
+typedef struct D3D12_FEATURE_DATA_D3D12_OPTIONS13
+    {
+    _Out_  BOOL UnrestrictedBufferTextureCopyPitchSupported;
+    _Out_  BOOL UnrestrictedVertexElementAlignmentSupported;
+    _Out_  BOOL InvertedViewportHeightFlipsYSupported;
+    _Out_  BOOL InvertedViewportDepthFlipsZSupported;
+    _Out_  BOOL TextureCopyBetweenDimensionsSupported;
+    _Out_  BOOL AlphaBlendFactorSupported;
+    } 	D3D12_FEATURE_DATA_D3D12_OPTIONS13;
 
 typedef struct D3D12_RESOURCE_ALLOCATION_INFO
     {
@@ -20103,16 +20117,6 @@ typedef struct D3D12_BUFFER_BARRIER
     UINT64 Size;
     } 	D3D12_BUFFER_BARRIER;
 
-typedef struct D3D12_RESOURCE_STATE_BARRIER
-    {
-    D3D12_RESOURCE_STATES State;
-    _In_  ID3D12Resource *pResource;
-    UINT Subresource;
-    D3D12_BARRIER_SYNC Sync;
-    D3D12_BARRIER_ACCESS Access;
-    D3D12_BARRIER_LAYOUT Layout;
-    } 	D3D12_RESOURCE_STATE_BARRIER;
-
 typedef struct D3D12_BARRIER_GROUP
     {
     D3D12_BARRIER_TYPE Type;
@@ -20122,7 +20126,6 @@ typedef struct D3D12_BARRIER_GROUP
         _In_reads_(NumBarriers)  const D3D12_GLOBAL_BARRIER *pGlobalBarriers;
         _In_reads_(NumBarriers)  const D3D12_TEXTURE_BARRIER *pTextureBarriers;
         _In_reads_(NumBarriers)  const D3D12_BUFFER_BARRIER *pBufferBarriers;
-        _In_reads_(NumBarriers)  const D3D12_RESOURCE_STATE_BARRIER *pStateBarriers;
         } 	;
     } 	D3D12_BARRIER_GROUP;
 

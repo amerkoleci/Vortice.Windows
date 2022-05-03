@@ -5,11 +5,12 @@ Current Stable Release:    2.1.2 (March 2022)
 -----------------------------------------------
 Release:     2.2.0 (May 2022)
 -----------------------------------------------
+- [ENH] Direct3D12: Update to Agility SDK 1.602.0
+- [ENH] Samples: Added the HelloDirectML sample.
+- [ENH] DirectML: New DirectML bindings (https://docs.microsoft.com/en-us/windows/ai/directml/dml-intro).
 - [ENH] Direct3D9on12: Add support for Direct3D9on12.
 - [ENH] DirectStorage: New DirectStorage bindings (https://devblogs.microsoft.com/directx/directstorage-api-available-on-pc/)
 - [ENH] Direct2D1: Improve mappings.
-- [ENH] DirectML: New DirectML bindings (https://docs.microsoft.com/en-us/windows/ai/directml/dml-intro).
-- [ENH] Samples: Added the HelloDirectML sample.
 
 -----------------------------------------------
 Release:     2.1.2 (March 2022)

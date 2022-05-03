@@ -88,7 +88,59 @@ public unsafe partial class ID3D12Device
     {
         get => CheckFeatureSupport<FeatureDataD3D12Options>(Feature.Options);
     }
+    public FeatureDataD3D12Options1 Options1
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options1>(Feature.Options1);
+    }
+    public FeatureDataD3D12Options2 Options2
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options2>(Feature.Options2);
+    }
+    public FeatureDataD3D12Options3 Options3
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options3>(Feature.Options3);
+    }
+    public FeatureDataD3D12Options4 Options4
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options4>(Feature.Options4);
+    }
+    public FeatureDataD3D12Options5 Options5
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options5>(Feature.Options5);
+    }
 
+    public FeatureDataD3D12Options6 Options6
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options6>(Feature.Options6);
+    }
+    public FeatureDataD3D12Options7 Options7
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options7>(Feature.Options7);
+    }
+    public FeatureDataD3D12Options8 Options8
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options8>(Feature.Options8);
+    }
+    public FeatureDataD3D12Options9 Options9
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options9>(Feature.Options9);
+    }
+    public FeatureDataD3D12Options10 Options10
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options10>(Feature.Options10);
+    }
+    public FeatureDataD3D12Options11 Options11
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options11>(Feature.Options11);
+    }
+    public FeatureDataD3D12Options12 Options12
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options12>(Feature.Options12);
+    }
+    public FeatureDataD3D12Options13 Options13
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options13>(Feature.Options13);
+    }
     public FeatureDataArchitecture Architecture
     {
         get => CheckFeatureSupport<FeatureDataArchitecture>(Feature.Architecture);
@@ -99,11 +151,7 @@ public unsafe partial class ID3D12Device
         get => CheckFeatureSupport<FeatureDataGpuVirtualAddressSupport>(Feature.GpuVirtualAddressSupport);
     }
 
-    public FeatureDataD3D12Options1 Options1
-    {
-        get => CheckFeatureSupport<FeatureDataD3D12Options1>(Feature.Options1);
-    }
-
+    
     public FeatureDataProtectedResourceSessionSupport ProtectedResourceSessionSupport
     {
         get => CheckFeatureSupport<FeatureDataProtectedResourceSessionSupport>(Feature.ProtectedResourceSessionSupport);
@@ -113,30 +161,15 @@ public unsafe partial class ID3D12Device
     {
         get => CheckFeatureSupport<FeatureDataArchitecture1>(Feature.Architecture1);
     }
-
-    public FeatureDataD3D12Options2 Options2
-    {
-        get => CheckFeatureSupport<FeatureDataD3D12Options2>(Feature.Options2);
-    }
-
+   
     public FeatureDataShaderCache ShaderCache
     {
         get => CheckFeatureSupport<FeatureDataShaderCache>(Feature.ShaderCache);
     }
 
-    public FeatureDataD3D12Options3 Options3
-    {
-        get => CheckFeatureSupport<FeatureDataD3D12Options3>(Feature.Options3);
-    }
-
     public FeatureDataExistingHeaps ExistingHeaps
     {
         get => CheckFeatureSupport<FeatureDataExistingHeaps>(Feature.ExistingHeaps);
-    }
-
-    public FeatureDataD3D12Options4 Options4
-    {
-        get => CheckFeatureSupport<FeatureDataD3D12Options4>(Feature.Options4);
     }
 
     public FeatureDataSerialization Serialization
@@ -147,21 +180,6 @@ public unsafe partial class ID3D12Device
     public FeatureDataCrossNode CrossNode
     {
         get => CheckFeatureSupport<FeatureDataCrossNode>(Feature.CrossNode);
-    }
-
-    public FeatureDataD3D12Options5 Options5
-    {
-        get => CheckFeatureSupport<FeatureDataD3D12Options5>(Feature.Options5);
-    }
-
-    public FeatureDataD3D12Options6 Options6
-    {
-        get => CheckFeatureSupport<FeatureDataD3D12Options6>(Feature.Options6);
-    }
-
-    public FeatureDataD3D12Options7 Options7
-    {
-        get => CheckFeatureSupport<FeatureDataD3D12Options7>(Feature.Options7);
     }
 
     public ShaderModel CheckHighestShaderModel(ShaderModel highestShaderModel)

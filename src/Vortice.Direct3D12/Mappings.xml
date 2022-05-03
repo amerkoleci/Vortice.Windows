@@ -15,7 +15,6 @@
   <include file="d3d12video.h" namespace="Vortice.Direct3D12.Video" attach="true" />
 
   <extension>
-
     <create class="D3D12" visibility="public static" />
     <create class="ResultCode" visibility="public static" />
     <const from-macro="D3D12_ERROR_(.*)" cpp-type="int" name="$1" class="Vortice.Direct3D12.ResultCode" result="true" />
@@ -26,6 +25,7 @@
 
     <create class="ShaderComponentMapping" visibility="public static" />
     <const from-macro="D3D12_SHADER_COMPONENT_MAPPING_(.*)" type="int" cpp-type="int" name="$1" class="Vortice.Direct3D12.ShaderComponentMapping" visibility="public const"></const>
+    <const from-macro="D3D12_PREVIEW_SDK_VERSION" class="Vortice.Direct3D12.D3D12" type="int" name="PreviewSdkVersion" />
   </extension>
 
   <bindings>
@@ -550,6 +550,12 @@
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS5" name="Options5"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS6" name="Options6"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS7" name="Options7"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS8" name="Options8"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS9" name="Options9"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS10" name="Options10"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS11" name="Options11"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS12" name="Options12"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS13" name="Options13"/>
 
     <map enum="D3D12_BLEND_OP" name="BlendOperation" />
     <map enum="D3D12_COMPARISON_FUNC" name="ComparisonFunction" />
