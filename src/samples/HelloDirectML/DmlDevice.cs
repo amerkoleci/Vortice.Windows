@@ -86,7 +86,9 @@ public class DmlDevice : IDisposable
         createFlags |= CreateDeviceFlags.Debug;
 #endif
         DMLDevice = DMLCreateDevice(D3D12Device, createFlags);
-        DMLDevice.SetName("Hello world");
+
+        var supportedFeatureLevel = DMLDevice.CheckFeatureLevelsSupport(FeatureLevel.Level4_0, FeatureLevel.Level3_1, FeatureLevel.Level3_0, FeatureLevel.Level2_1, FeatureLevel.Level2_0, FeatureLevel.Level1_0);
+        Console.WriteLine($"Highest supported feature level: {supportedFeatureLevel}");
     }
 
     public void Run()
@@ -329,6 +331,8 @@ public class DmlDevice : IDisposable
 
         temporaryBuffer?.Dispose();
         persistentBuffer?.Dispose();
+
+        Console.ReadKey();
     }
 
     public void CloseExecuteResetWait()
