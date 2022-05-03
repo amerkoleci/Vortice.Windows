@@ -8,7 +8,7 @@ public interface IOperatorDescription
     OperatorType OperatorType { get; }
 }
 
-public interface IFusableActivationOperatorDescription
+public interface IFusableActivationOperatorDescription : IOperatorDescription
 {
     TensorDescription? InputTensor { get; }
 

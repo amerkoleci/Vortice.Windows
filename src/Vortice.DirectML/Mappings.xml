@@ -10,7 +10,11 @@
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/DirectML</include-dir>
 
   <include file="windows.h" />
-  <include file="DirectML.h" namespace="Vortice.DirectML" attach="true"/>
+  <include file="DirectML.h" namespace="Vortice.DirectML" attach="true">
+    <pre>
+      #define DML_TARGET_VERSION_USE_LATEST
+    </pre>
+  </include>
 
   <extension>
     <create class="Vortice.DirectML.DML" visibility="public static"/>
@@ -206,6 +210,18 @@
     <remove field="DML_TOP_K1_OPERATOR_DESC::.*" />
     <remove field="DML_UPSAMPLE_2D_OPERATOR_DESC::.*" />
     <remove field="DML_VALUE_SCALE_2D_OPERATOR_DESC::.*" />
+
+    <!-- DML_TARGET_VERSION >= 0x4100 -->
+    <remove field="DML_ROI_ALIGN_GRAD_OPERATOR_DESC::.*" />
+    <remove field="DML_BATCH_NORMALIZATION_TRAINING_OPERATOR_DESC::.*" />
+    <remove field="DML_BATCH_NORMALIZATION_TRAINING_GRAD_OPERATOR_DESC::.*" />
+
+    <!-- DML_TARGET_VERSION >= 0x5000 -->
+    <remove field="DML_ELEMENT_WISE_CLIP1_OPERATOR_DESC::.*" />
+    <remove field="DML_ELEMENT_WISE_CLIP_GRAD1_OPERATOR_DESC::.*" />
+    <remove field="DML_PADDING1_OPERATOR_DESC::.*" />
+    <remove field="DML_ELEMENT_WISE_NEGATE_OPERATOR_DESC::.*" />
+
 
     <!-- GraphDescription -->
     <map struct="DML_GRAPH_DESC" marshal="true" />
