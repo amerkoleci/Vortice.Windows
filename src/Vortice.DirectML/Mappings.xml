@@ -28,6 +28,7 @@
   <naming>
     <short name="2D">2D</short>
     <short name="ML">ML</short>
+    <short name="YX">YX</short>
     <short name="DESC">Description</short>
   </naming>
 
