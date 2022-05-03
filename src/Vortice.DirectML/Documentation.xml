@@ -516,8 +516,8 @@ The coordinates written into this tensor are guaranteed to be ordered by ascendi
 
 While this tensor requires its dimension M to equal the number of elements in the input tensor, this operator will only write a maximum of OutputCount elements to this tensor. The OutputCount is returned through the scalar <i>OutputCountTensor</i>.
 
-> [!NOTE]
-> The remaining elements of this tensor beyond the OutputCount are undefined once this operator completes. You shouldn't rely on the values of these elements.</summary>
+&gt; [!NOTE]
+&gt; The remaining elements of this tensor beyond the OutputCount are undefined once this operator completes. You shouldn't rely on the values of these elements.</summary>
   </comment>
   <comment id="DML_ACTIVATION_SHRINK_OPERATOR_DESC">
     <summary>
@@ -2976,8 +2976,8 @@ In cases where two or more elements in the top-K have the same value (that is, w
   <comment id="DML_FEATURE_DATA_FEATURE_LEVELS::MaxSupportedFeatureLevel">
     <summary>The highest feature level supplied in the query structure's <i>RequestedFeatureLevels</i> (see <a href="https://docs.microsoft.com/windows/win32/direct3d12/ns-directml-dml_feature_data_feature_levels">DML_FEATURE_DATA_FEATURE_LEVELS</a>) that is supported by this device.
 
-> [!NOTE]
-> Because this feature query only ever returns one of the values supplied in <i>RequestedFeatureLevels</i>, it's possible that the device supports an even higher feature level than the one returned by this query.
+&gt; [!NOTE]
+&gt; Because this feature query only ever returns one of the values supplied in <i>RequestedFeatureLevels</i>, it's possible that the device supports an even higher feature level than the one returned by this query.
 
 For example, DirectML version <c>1.4.0</c> supports a feature level of <c>DML_FEATURE_LEVEL_3_0</c>. If the <i>RequestedFeatureLevels</i> array contained only <c>DML_FEATURE_LEVEL_1_0</c> and <c>DML_FEATURE_LEVEL_2_0</c>, then this query would return <c>DML_FEATURE_LEVEL_2_0</c>, which is lower than the true feature level (3_0) supported by the device.</summary>
   </comment>

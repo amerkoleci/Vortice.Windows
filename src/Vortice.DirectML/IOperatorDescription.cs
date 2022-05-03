@@ -8,6 +8,13 @@ public interface IOperatorDescription
     OperatorType OperatorType { get; }
 }
 
+public interface IFusableActivationOperatorDescription
+{
+    TensorDescription? InputTensor { get; }
+
+    TensorDescription? OutputTensor { get; }
+}
+
 internal interface IOperatorDescriptionMarshal
 {
     IntPtr __MarshalAlloc();

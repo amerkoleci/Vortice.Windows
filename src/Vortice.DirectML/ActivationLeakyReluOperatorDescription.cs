@@ -3,7 +3,7 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ActivationLeakyReluOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct ActivationLeakyReluOperatorDescription : IFusableActivationOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>
     /// Gets the type of operator description.
