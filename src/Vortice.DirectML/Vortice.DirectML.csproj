@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
@@ -12,15 +12,15 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Content Include="build\Vortice.DirectML.props" PackagePath="build\Vortice.DirectML.props" />
-    <Content Include="runtimes\arm-win\DirectML.Debug.dll" PackagePath="runtimes\arm-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\arm-win\DirectML.dll" PackagePath="runtimes\arm-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\arm64-win\DirectML.Debug.dll" PackagePath="runtimes\arm64-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\arm64-win\DirectML.dll" PackagePath="runtimes\arm64-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\x64-win\DirectML.Debug.dll" PackagePath="runtimes\x64-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\x64-win\DirectML.dll" PackagePath="runtimes\x64-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\x86-win\DirectML.Debug.dll" PackagePath="runtimes\x86-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\x86-win\DirectML.dll" PackagePath="runtimes\x86-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="build\net461\Vortice.DirectML.props" PackagePath="build\Vortice.DirectML.props" />
+    <Content Include="runtimes\win-arm\native\DirectML.Debug.dll" PackagePath="runtimes\arm-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-arm\native\DirectML.dll" PackagePath="runtimes\arm-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-arm64\native\DirectML.Debug.dll" PackagePath="runtimes\arm64-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-arm64\native\DirectML.dll" PackagePath="runtimes\arm64-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-x64\native\DirectML.Debug.dll" PackagePath="runtimes\x64-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-x64\native\DirectML.dll" PackagePath="runtimes\x64-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-x86\native\DirectML.Debug.dll" PackagePath="runtimes\x86-win\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-x86\native\DirectML.dll" PackagePath="runtimes\x86-win\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="runtimes\LICENSE.txt" PackagePath="runtimes\LICENSE.txt" />
   </ItemGroup>
   
