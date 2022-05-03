@@ -3,7 +3,7 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ActivationTanhOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct ActivationTanhOperatorDescription : IFusableActivationOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>
     /// Gets the type of operator description.

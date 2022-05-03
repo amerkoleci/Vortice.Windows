@@ -3,12 +3,12 @@
 
 namespace Vortice.DirectML;
 
-public partial struct ElementWiseAtanYxOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+public partial struct ElementWiseAtanYXOperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
 {
     /// <summary>
     /// Gets the type of operator description.
     /// </summary>
-    public OperatorType OperatorType => OperatorType.ElementWiseAtanYx;
+    public OperatorType OperatorType => OperatorType.ElementWiseAtanYX;
 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_ATAN_YX_OPERATOR_DESC::ATensor']/*" />
     public TensorDescription ATensor { get; set; }
@@ -51,7 +51,7 @@ public partial struct ElementWiseAtanYxOperatorDescription : IOperatorDescriptio
     }
     #endregion
 
-    public static implicit operator OperatorDescription(ElementWiseAtanYxOperatorDescription description)
+    public static implicit operator OperatorDescription(ElementWiseAtanYXOperatorDescription description)
     {
         return new(description);
     }
