@@ -3,6 +3,7 @@
 
 namespace Vortice.WIC;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='IWICBitmapSource']/*" />
 public unsafe partial class IWICBitmapSource
 {
     public SizeI Size

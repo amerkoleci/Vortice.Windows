@@ -3,9 +3,6 @@
 
 namespace Vortice.Direct3D11;
 
-/// <summary>
-/// Describes the blend state.
-/// </summary>
 public partial struct BlendDescription
 {
     /// <summary>

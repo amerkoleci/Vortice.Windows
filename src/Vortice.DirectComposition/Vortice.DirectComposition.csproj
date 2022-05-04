@@ -12,6 +12,7 @@
     <Using Include="SharpGen.Runtime" />
     
     <SharpGenMapping Include="Mappings.xml" />
+    <SharpGenExternalDocs Include="Documentation.xml" />
     <ProjectReference Include="..\Vortice.Direct2D1\Vortice.Direct2D1.csproj" />
   </ItemGroup>
 

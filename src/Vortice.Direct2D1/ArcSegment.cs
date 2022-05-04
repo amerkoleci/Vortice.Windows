@@ -1,13 +1,8 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Numerics;
-
 namespace Vortice.Direct2D1;
 
-/// <summary>
-/// Describes an elliptical arc between two points.
-/// </summary>
 public partial struct ArcSegment
 {
     /// <summary>

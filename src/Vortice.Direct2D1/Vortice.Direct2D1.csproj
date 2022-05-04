@@ -14,6 +14,7 @@
     <Using Include="Vortice.Mathematics" />
 
     <SharpGenMapping Include="Mappings.xml" />
+    <SharpGenExternalDocs Include="Documentation.xml" />
     <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
   </ItemGroup>
 

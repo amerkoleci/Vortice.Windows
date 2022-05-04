@@ -3,9 +3,6 @@
 
 namespace Vortice.Direct3D11;
 
-/// <summary>
-/// Describes the blend state that you use in a call to <see cref="ID3D11Device1.CreateBlendState1(BlendDescription1)"/> to create a blend-state object.
-/// </summary>
 public partial struct BlendDescription1
 {
     /// <summary>

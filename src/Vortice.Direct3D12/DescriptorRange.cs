@@ -3,9 +3,6 @@
 
 namespace Vortice.Direct3D12;
 
-/// <summary>
-/// Describes a descriptor range.
-/// </summary>
 public partial struct DescriptorRange
 {
     /// <summary>

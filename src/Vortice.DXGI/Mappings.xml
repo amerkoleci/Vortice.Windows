@@ -86,6 +86,7 @@
     <!-- dxgi structs -->
     <map struct="DXGI(.+)" name-tmp="$1" />
     <map struct="DXGI_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true" />
+    <remove struct="DXGI_DISPLAY_COLOR_SPACE" />
 
     <map method="IDXGIInfoQueue::GetMessageW" name="GetMessage" />
     <map method="IDXGIInfoQueue::GetMessageW?" visibility="internal"/>
@@ -292,7 +293,6 @@
     <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
 
     <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
-    <map function="DXGIDisableVBlankVirtualization" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" />
     
     <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" attribute="out" return="true"/>
 
