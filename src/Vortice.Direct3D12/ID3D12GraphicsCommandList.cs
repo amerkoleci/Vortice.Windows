@@ -140,7 +140,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, rects.Length, rects);
     }
 
-    public unsafe void ClearUnorderedAccessViewFloat(
+    public void ClearUnorderedAccessViewFloat(
         GpuDescriptorHandle viewGpuHandleInCurrentHeap,
         CpuDescriptorHandle viewCpuHandle,
         ID3D12Resource resource,
@@ -151,7 +151,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         ClearUnorderedAccessViewFloat(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, rectCount, rects);
     }
 
-    public unsafe void ClearUnorderedAccessViewUint(
+    public void ClearUnorderedAccessViewUint(
         GpuDescriptorHandle viewGpuHandleInCurrentHeap,
         CpuDescriptorHandle viewCpuHandle,
         ID3D12Resource resource,
@@ -160,7 +160,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, 0, null);
     }
 
-    public unsafe void ClearUnorderedAccessViewUint(
+    public void ClearUnorderedAccessViewUint(
         GpuDescriptorHandle viewGpuHandleInCurrentHeap,
         CpuDescriptorHandle viewCpuHandle,
         ID3D12Resource resource,
@@ -170,36 +170,94 @@ public unsafe partial class ID3D12GraphicsCommandList
         ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, rectangles.Length, rectangles);
     }
 
-    public unsafe void SetComputeRoot32BitConstant(int rootParameterIndex, float srcData, int destOffsetIn32BitValues)
+    public void SetComputeRoot32BitConstant(int rootParameterIndex, float srcData, int destOffsetIn32BitValues)
     {
         SetComputeRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
     }
 
-    public unsafe void SetComputeRoot32BitConstant(int rootParameterIndex, uint srcData, int destOffsetIn32BitValues)
+    public void SetComputeRoot32BitConstant(int rootParameterIndex, uint srcData, int destOffsetIn32BitValues)
     {
         SetComputeRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
     }
+    public void SetComputeRoot32BitConstants(int rootParameterIndex, int num32BitValuesToSet, IntPtr srcData, int destOffsetIn32BitValues)
+    {
+        SetComputeRoot32BitConstants(rootParameterIndex, num32BitValuesToSet, srcData.ToPointer(), destOffsetIn32BitValues);
+    }
+    public void SetComputeRoot32BitConstants<T>(int rootParameterIndex, T[] srcData, int destOffset = 0)
+        where T : unmanaged
+    {
+        ReadOnlySpan<T> span = srcData.AsSpan();
 
-    public unsafe void SetGraphicsRoot32BitConstant(int rootParameterIndex, float srcData, int destOffsetIn32BitValues)
+        SetComputeRoot32BitConstants(rootParameterIndex, span, destOffset);
+    }
+
+    public void SetComputeRoot32BitConstants<T>(int rootParameterIndex, ReadOnlySpan<T> source, int destOffset = 0) where T : unmanaged
+    {
+        fixed (T* pSrcData = source)
+        {
+            SetComputeRoot32BitConstants(rootParameterIndex, (source.Length * sizeof(T)) / 4, pSrcData, destOffset / 4);
+        }
+    }
+
+    public void SetComputeRoot32BitConstants<T>(int rootParameterIndex, ref T srcData, int destOffset = 0)
+        where T : unmanaged
+    {
+        fixed (void* pSrcData = &srcData)
+        {
+            SetComputeRoot32BitConstants(rootParameterIndex, sizeof(T) / 4, pSrcData, destOffset / 4);
+        }
+    }
+
+    public void SetComputeRoot32BitConstants<T>(int rootParameterIndex, T srcData, int destOffsetIn32BitValues)
+        where T : unmanaged
+    {
+        SetComputeRoot32BitConstants(rootParameterIndex, sizeof(T) / 4, &srcData, destOffsetIn32BitValues);
+    }
+
+    public void SetGraphicsRoot32BitConstant(int rootParameterIndex, float srcData, int destOffsetIn32BitValues)
     {
         SetGraphicsRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
     }
 
-    public unsafe void SetGraphicsRoot32BitConstant(int rootParameterIndex, uint srcData, int destOffsetIn32BitValues)
+    public void SetGraphicsRoot32BitConstant(int rootParameterIndex, uint srcData, int destOffsetIn32BitValues)
     {
         SetGraphicsRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
     }
 
-    public unsafe void SetComputeRoot32BitConstants<T>(int rootParameterIndex, T srcData, int destOffsetIn32BitValues)
-        where T : unmanaged
+    public void SetGraphicsRoot32BitConstants(int rootParameterIndex, int num32BitValuesToSet, IntPtr srcData, int destOffsetIn32BitValues)
     {
-        SetComputeRoot32BitConstants(rootParameterIndex, Unsafe.SizeOf<T>() / 4, new IntPtr(&srcData), destOffsetIn32BitValues);
+        SetGraphicsRoot32BitConstants(rootParameterIndex, num32BitValuesToSet, srcData.ToPointer(), destOffsetIn32BitValues);
     }
 
-    public unsafe void SetGraphicsRoot32BitConstants<T>(int rootParameterIndex, T srcData, int destOffsetIn32BitValues)
+    public void SetGraphicsRoot32BitConstants<T>(int rootParameterIndex, T[] srcData, int destOffset = 0)
         where T : unmanaged
     {
-        SetGraphicsRoot32BitConstants(rootParameterIndex, Unsafe.SizeOf<T>() / 4, new IntPtr(&srcData), destOffsetIn32BitValues);
+        ReadOnlySpan<T> span = srcData.AsSpan();
+
+        SetGraphicsRoot32BitConstants(rootParameterIndex, span, destOffset);
+    }
+
+    public void SetGraphicsRoot32BitConstants<T>(int rootParameterIndex, ReadOnlySpan<T> source, int destOffset = 0) where T : unmanaged
+    {
+        fixed (T* pSrcData = source)
+        {
+            SetGraphicsRoot32BitConstants(rootParameterIndex, (source.Length * sizeof(T)) / 4, pSrcData, destOffset / 4);
+        }
+    }
+
+    public void SetGraphicsRoot32BitConstants<T>(int rootParameterIndex, ref T srcData, int destOffset = 0)
+        where T : unmanaged
+    {
+        fixed (void* pSrcData = &srcData)
+        {
+            SetGraphicsRoot32BitConstants(rootParameterIndex, sizeof(T) / 4, pSrcData, destOffset / 4);
+        }
+    }
+
+    public void SetGraphicsRoot32BitConstants<T>(int rootParameterIndex, T srcData, int destOffsetIn32BitValues)
+        where T : unmanaged
+    {
+        SetGraphicsRoot32BitConstants(rootParameterIndex, sizeof(T) / 4, &srcData, destOffsetIn32BitValues);
     }
 
     public void OMSetBlendFactor(in Color blendFactor)
@@ -221,6 +279,14 @@ public unsafe partial class ID3D12GraphicsCommandList
     public void OMSetBlendFactor(float[] color)
     {
         fixed (float* colorPtr = &color[0])
+        {
+            OMSetBlendFactor(colorPtr);
+        }
+    }
+
+    public void OMSetBlendFactor(ReadOnlySpan<float> color)
+    {
+        fixed (float* colorPtr = color)
         {
             OMSetBlendFactor(colorPtr);
         }

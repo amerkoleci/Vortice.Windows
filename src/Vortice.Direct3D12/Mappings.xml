@@ -924,6 +924,7 @@
     <map method="ID3D12Debug3::SetGPUBasedValidationFlags" property="false" />
 
     <!-- ID3D12CommandQueue -->
+    <map method="ID3D12CommandQueue::.*" property="false" hresult="true" check="false" />
     <map method="ID3D12CommandQueue::ExecuteCommandLists" visibility="private"/>
     <map param="ID3D12CommandQueue::ExecuteCommandLists::ppCommandLists" type="void" keep-pointers="true"/>
     <map method="ID3D12CommandQueue::BeginEvent" visibility="private"/>
@@ -976,6 +977,9 @@
 
     <map method="ID3D12GraphicsCommandList::CopyTextureRegion" visibility="private" name="CopyTextureRegion_" />
     <map method="ID3D12GraphicsCommandList::DiscardResource" visibility="private" />
+
+    <map param="ID3D12GraphicsCommandList::SetComputeRoot32BitConstants::pSrcData" type="void" keep-pointers="true"/>
+    <map param="ID3D12GraphicsCommandList::SetGraphicsRoot32BitConstants::pSrcData" type="void" keep-pointers="true"/>
 
     <!-- ID3D12GraphicsCommandList1 -->
     <map method="ID3D12GraphicsCommandList1::ResolveSubresourceRegion" visibility="private" name="ResolveSubresourceRegion_"/>
