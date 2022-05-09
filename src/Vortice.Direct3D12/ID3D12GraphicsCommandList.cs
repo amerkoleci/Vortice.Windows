@@ -2,7 +2,6 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
-
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12;
@@ -183,12 +182,12 @@ public unsafe partial class ID3D12GraphicsCommandList
 
     public unsafe void SetGraphicsRoot32BitConstant(int rootParameterIndex, float srcData, int destOffsetIn32BitValues)
     {
-        SetComputeRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
+        SetGraphicsRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
     }
 
     public unsafe void SetGraphicsRoot32BitConstant(int rootParameterIndex, uint srcData, int destOffsetIn32BitValues)
     {
-        SetComputeRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
+        SetGraphicsRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
     }
 
     public unsafe void SetComputeRoot32BitConstants<T>(int rootParameterIndex, T srcData, int destOffsetIn32BitValues)
