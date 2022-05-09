@@ -1,6 +1,8 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Runtime.CompilerServices;
+
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12;
@@ -167,6 +169,38 @@ public unsafe partial class ID3D12GraphicsCommandList
         RawRect[] rectangles)
     {
         ClearUnorderedAccessViewUint(viewGpuHandleInCurrentHeap, viewCpuHandle, resource, &clearValue, rectangles.Length, rectangles);
+    }
+
+    public unsafe void SetComputeRoot32BitConstant(int rootParameterIndex, float srcData, int destOffsetIn32BitValues)
+    {
+        SetComputeRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
+    }
+
+    public unsafe void SetComputeRoot32BitConstant(int rootParameterIndex, uint srcData, int destOffsetIn32BitValues)
+    {
+        SetComputeRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
+    }
+
+    public unsafe void SetGraphicsRoot32BitConstant(int rootParameterIndex, float srcData, int destOffsetIn32BitValues)
+    {
+        SetComputeRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
+    }
+
+    public unsafe void SetGraphicsRoot32BitConstant(int rootParameterIndex, uint srcData, int destOffsetIn32BitValues)
+    {
+        SetComputeRoot32BitConstant(rootParameterIndex, *(int*)&srcData, destOffsetIn32BitValues);
+    }
+
+    public unsafe void SetComputeRoot32BitConstants<T>(int rootParameterIndex, T srcData, int destOffsetIn32BitValues)
+        where T : unmanaged
+    {
+        SetComputeRoot32BitConstants(rootParameterIndex, Unsafe.SizeOf<T>() / 4, new IntPtr(&srcData), destOffsetIn32BitValues);
+    }
+
+    public unsafe void SetGraphicsRoot32BitConstants<T>(int rootParameterIndex, T srcData, int destOffsetIn32BitValues)
+        where T : unmanaged
+    {
+        SetGraphicsRoot32BitConstants(rootParameterIndex, Unsafe.SizeOf<T>() / 4, new IntPtr(&srcData), destOffsetIn32BitValues);
     }
 
     public void OMSetBlendFactor(in Color blendFactor)
