@@ -11,11 +11,11 @@ public sealed class DIInputDevice
 {
     private readonly IDirectInput8 _directInput;
 
-    protected Dictionary<Guid, DeviceInstance> _keyboards;
-    protected Dictionary<Guid, DeviceInstance> _joysticks;
+    private Dictionary<Guid, DeviceInstance> _keyboards;
+    private Dictionary<Guid, DeviceInstance> _joysticks;
 
-    protected Dictionary<Guid, IDirectInputDevice8> _keyboardDevices;
-    protected Dictionary<Guid, IDirectInputDevice8> _joystickDevices;
+    private Dictionary<Guid, IDirectInputDevice8> _keyboardDevices;
+    private Dictionary<Guid, IDirectInputDevice8> _joystickDevices;
 
     public DIInputDevice()
     {

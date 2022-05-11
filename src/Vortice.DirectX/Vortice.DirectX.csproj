@@ -13,8 +13,8 @@
     <Using Include="SharpGen.Runtime" />
     
     <SharpGenMapping Include="Mappings.xml" />
-    <PackageReference Include="Vortice.Mathematics" Version="$(VorticeMathematicsVersion)" />
-    <PackageReference Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
+    <PackageReference Include="Vortice.Mathematics" />
+    <PackageReference Include="SharpGen.Runtime.COM" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(SignAssembly)' == 'true'">

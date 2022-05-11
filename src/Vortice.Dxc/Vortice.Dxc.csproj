@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
-    <PackageReference Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
+    <PackageReference Include="SharpGen.Runtime.COM" />
   </ItemGroup>
 
   <ItemGroup>
