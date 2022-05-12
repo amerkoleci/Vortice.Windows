@@ -5,16 +5,11 @@ namespace Vortice.Direct3D12;
 
 public partial class ID3D12GraphicsCommandList2
 {
-    public void WriteBufferImmediate(int count, WriteBufferImmediateParameter[] @params, WriteBufferImmediateMode[] modes)
+    public void WriteBufferImmediate(WriteBufferImmediateParameter[] @params, WriteBufferImmediateMode[]? modes = null)
     {
-        WriteBufferImmediate_(count, @params, modes);
-    }
-
-    public void WriteBufferImmediate(WriteBufferImmediateParameter[] @params, WriteBufferImmediateMode[] modes)
-    {
-        if (@params.Length != modes.Length)
+        if (modes != null && @params.Length != modes.Length)
         {
-            throw new InvalidOperationException($"params and modes need to have same length");
+            throw new ArgumentException($"If {nameof(modes)} is not null, it must have the same length as {nameof(@params)}", nameof(modes));
         }
 
         WriteBufferImmediate_(@params.Length, @params, modes);

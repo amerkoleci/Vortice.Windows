@@ -65,7 +65,7 @@ public partial struct ResourceBarrier
     /// <param name="stateAfter">The state after.</param>
     /// <param name="subresource">The subresource.</param>
     /// <param name="flags">The transition flags.</param>
-    /// <returns>New intance of <see cref="ResourceBarrier"/> struct.</returns>
+    /// <returns>New instance of <see cref="ResourceBarrier"/> struct.</returns>
     public static ResourceBarrier BarrierTransition(ID3D12Resource resource, ResourceStates stateBefore, ResourceStates stateAfter,
         int subresource = D3D12.ResourceBarrierAllSubResources, ResourceBarrierFlags flags = ResourceBarrierFlags.None)
     {
@@ -77,8 +77,8 @@ public partial struct ResourceBarrier
     /// </summary>
     /// <param name="resourceBefore">The resource before.</param>
     /// <param name="resourceAfter">The resource after.</param>
-    /// <returns>New intance of <see cref="ResourceBarrier"/> struct.</returns>
-    public static ResourceBarrier BarrierAliasing(ID3D12Resource resourceBefore, ID3D12Resource resourceAfter)
+    /// <returns>New instance of <see cref="ResourceBarrier"/> struct.</returns>
+    public static ResourceBarrier BarrierAliasing(ID3D12Resource? resourceBefore, ID3D12Resource? resourceAfter)
     {
         return new ResourceBarrier(new ResourceAliasingBarrier(resourceBefore, resourceAfter));
     }
@@ -87,8 +87,8 @@ public partial struct ResourceBarrier
     /// Create a new UAV resource barrier instance.
     /// </summary>
     /// <param name="resource">The resource.</param>
-    /// <returns>New intance of <see cref="ResourceBarrier"/> struct.</returns>
-    public static ResourceBarrier BarrierUnorderedAccessView(ID3D12Resource resource)
+    /// <returns>New instance of <see cref="ResourceBarrier"/> struct.</returns>
+    public static ResourceBarrier BarrierUnorderedAccessView(ID3D12Resource? resource)
     {
         return new ResourceBarrier(new ResourceUnorderedAccessViewBarrier(resource));
     }
