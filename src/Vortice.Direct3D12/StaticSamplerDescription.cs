@@ -9,6 +9,19 @@ namespace Vortice.Direct3D12;
 public partial struct StaticSamplerDescription
 {
     /// <summary>
+    /// Sets the method to use for resolving all texture coordinates that is outside the 0 to 1 range.
+    /// </summary>
+    public TextureAddressMode AddressUVW
+    {
+        set
+        {
+            AddressU = value;
+            AddressV = value;
+            AddressW = value;
+        }
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="StaticSamplerDescription"/> struct.
     /// </summary>
     /// <param name="shaderVisibility">The shader visibility.</param>

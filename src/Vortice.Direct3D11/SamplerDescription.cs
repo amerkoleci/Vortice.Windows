@@ -20,6 +20,19 @@ public partial struct SamplerDescription
     public static readonly SamplerDescription AnisotropicClamp = new(Filter.Anisotropic, TextureAddressMode.Clamp, 0.0f, MaxMaxAnisotropy);
 
     /// <summary>
+    /// Sets the method to use for resolving all texture coordinates that is outside the 0 to 1 range.
+    /// </summary>
+    public TextureAddressMode AddressUVW
+    {
+        set
+        {
+            AddressU = value;
+            AddressV = value;
+            AddressW = value;
+        }
+    }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="SamplerDescription"/> struct.
     /// </summary>
     /// <param name="filter">Filtering method to use when sampling a texture.</param>
