@@ -5,6 +5,8 @@ Current Stable Release:    2.1.2 (March 2022)
 -----------------------------------------------
 Release:     2.2.0 (May 2022)
 -----------------------------------------------
+- [ENH] Direct3D11: Improve creation methods and better Span usage.
+- [ENH] DXGI: Add FormatHelper.GetSurfaceInfo based on DirectXTex.
 - [ENH] Direct3D12: Update to Agility SDK 1.602.0
 - [ENH] Samples: Added the HelloDirectML sample.
 - [ENH] DirectML: New DirectML bindings (https://docs.microsoft.com/en-us/windows/ai/directml/dml-intro).

@@ -37,7 +37,7 @@ public static class FormatHelper
     /// <returns>size of in bytes</returns>
     public static int SizeOfInBytes(this Format format)
     {
-        var sizeInBits = SizeOfInBits(format);
+        int sizeInBits = SizeOfInBits(format);
         return sizeInBits >> 3;
     }
 
@@ -46,10 +46,7 @@ public static class FormatHelper
     /// </summary>
     /// <param name="format">The DXGI format.</param>
     /// <returns>size of in bits</returns>
-    public static int SizeOfInBits(this Format format)
-    {
-        return sizeOfInBits[(int)format];
-    }
+    public static int SizeOfInBits(this Format format) => sizeOfInBits[(int)format];
 
     /// <summary>
     /// Returns true if the <see cref="Format"/> is valid.
@@ -173,6 +170,118 @@ public static class FormatHelper
                 return height;
         }
     }
+
+    public static void GetSurfaceInfo(Format format, int width, int height, out int sizeInBytes, out int rowPitch, out int slicePitch)
+    {
+        bool bc = false;
+        bool packed = false;
+        bool planar = false;
+        int bpe = 0;
+
+        switch (format)
+        {
+            case Format.BC1_Typeless:
+            case Format.BC1_UNorm:
+            case Format.BC1_UNorm_SRgb:
+            case Format.BC4_Typeless:
+            case Format.BC4_UNorm:
+            case Format.BC4_SNorm:
+                bc = true;
+                bpe = 8;
+                break;
+
+            case Format.BC2_Typeless:
+            case Format.BC2_UNorm:
+            case Format.BC2_UNorm_SRgb:
+            case Format.BC3_Typeless:
+            case Format.BC3_UNorm:
+            case Format.BC3_UNorm_SRgb:
+            case Format.BC5_Typeless:
+            case Format.BC5_UNorm:
+            case Format.BC5_SNorm:
+            case Format.BC6H_Typeless:
+            case Format.BC6H_Uf16:
+            case Format.BC6H_Sf16:
+            case Format.BC7_Typeless:
+            case Format.BC7_UNorm:
+            case Format.BC7_UNorm_SRgb:
+                bc = true;
+                bpe = 16;
+                break;
+
+            case Format.R8G8_B8G8_UNorm:
+            case Format.G8R8_G8B8_UNorm:
+            case Format.YUY2:
+                packed = true;
+                bpe = 4;
+                break;
+
+            case Format.Y210:
+            case Format.Y216:
+                packed = true;
+                bpe = 8;
+                break;
+
+            case Format.NV12:
+            case Format.Opaque420:
+            case Format.P208:
+                planar = true;
+                bpe = 2;
+                break;
+
+            case Format.P010:
+            case Format.P016:
+                planar = true;
+                bpe = 4;
+                break;
+
+            default:
+                break;
+        }
+
+        if (bc)
+        {
+            int numBlocksWide = 0;
+            if (width > 0)
+            {
+                numBlocksWide = Math.Max(1, (width + 3) / 4);
+            }
+            int numBlocksHigh = 0;
+            if (height > 0)
+            {
+                numBlocksHigh = Math.Max(1, (height + 3) / 4);
+            }
+            rowPitch = numBlocksWide * bpe;
+            slicePitch = numBlocksHigh;
+            sizeInBytes = rowPitch * numBlocksHigh;
+        }
+        else if (packed)
+        {
+            rowPitch = ((width + 1) >> 1) * bpe;
+            slicePitch = height;
+            sizeInBytes = rowPitch * height;
+        }
+        else if (format == Format.NV11)
+        {
+            rowPitch = ((width + 3) >> 2) * 4;
+            slicePitch = height * 2; // Direct3D makes this simplifying assumption, although it is larger than the 4:1:1 data
+            sizeInBytes = rowPitch * slicePitch;
+        }
+        else if (planar)
+        {
+            rowPitch = ((width + 1) >> 1) * bpe;
+            sizeInBytes = (rowPitch * height) + ((rowPitch * height + 1) >> 1);
+            slicePitch = height + ((height + 1) >> 1);
+        }
+        else
+        {
+            int bpp = SizeOfInBits(format);
+            rowPitch = (width * bpp + 7) / 8; // round up to nearest byte
+            slicePitch = height;
+            sizeInBytes = rowPitch * height;
+        }
+    }
+
 
     /// <summary>
     /// Static initializer to speed up size calculation (not sure the JIT is enough "smart" for this kind of thing).
@@ -368,13 +477,17 @@ public static class FormatHelper
 
     private static void InitFormat(IEnumerable<Format> formats, int bitCount)
     {
-        foreach (var format in formats)
+        foreach (Format format in formats)
+        {
             sizeOfInBits[(int)format] = bitCount;
+        }
     }
 
     private static void InitDefaults(IEnumerable<Format> formats, bool[] outputArray)
     {
-        foreach (var format in formats)
+        foreach (Format format in formats)
+        {
             outputArray[(int)format] = true;
+        }
     }
 }

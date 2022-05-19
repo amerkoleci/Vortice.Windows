@@ -523,12 +523,51 @@ public unsafe partial class ID3D11Device
         return CreateTexture2D(description, subResourceDatas);
     }
 
+    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, T[] initialData, BindFlags bindFlags = BindFlags.ShaderResource)
+        where T : unmanaged
+    {
+        Texture2DDescription description = new(format, width, height, 1, 1, bindFlags);
+        fixed (T* initialDataPtr = initialData)
+        {
+            FormatHelper.GetSurfaceInfo(format, width, height, out _, out int rowPitch, out int slicePitch);
+            SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
+            return CreateTexture2D(description, &initData);
+        }
+    }
+
+    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, ReadOnlySpan<T> initialData, BindFlags bindFlags = BindFlags.ShaderResource)
+        where T : unmanaged
+    {
+        Texture2DDescription description = new(format, width, height, 1, 1, bindFlags);
+        fixed (T* initialDataPtr = initialData)
+        {
+            FormatHelper.GetSurfaceInfo(format, width, height, out _, out int rowPitch, out int slicePitch);
+            SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
+            return CreateTexture2D(description, &initData);
+        }
+    }
+
+    public ID3D11Texture2D CreateTexture2D(Texture2DDescription description, SubresourceData[]? initialData = null)
+    {
+        if (initialData != null)
+        {
+            fixed (SubresourceData* initialDataPtr = initialData)
+            {
+                return CreateTexture2D(description, initialDataPtr);
+            }
+        }
+        else
+        {
+            return CreateTexture2D(description, (void*)null);
+        }
+    }
+
     public ID3D11Texture2D CreateTexture2DMultisample(Format format, int width, int height, int sampleCount, int arraySize = 1, BindFlags bindFlags = BindFlags.ShaderResource)
     {
         if (sampleCount < 1)
             throw new ArgumentException(nameof(sampleCount));
 
-        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0), null);
+        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0), (void*)null);
     }
 
     public ID3D11Texture3D CreateTexture3D(Format format, int width, int height, int depth, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)

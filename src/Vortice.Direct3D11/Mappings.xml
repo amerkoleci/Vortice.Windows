@@ -704,9 +704,12 @@
     <map param="ID3D11Device::CreateTexture1D::pDesc" attribute="in value" />
     <map param="ID3D11Device::CreateTexture1D::pInitialData" attribute="in buffer optional" default="null" />
     <map param="ID3D11Device::CreateTexture1D::ppTexture1D" attribute="out" return="true"/>
+
+    <map method="ID3D11Device::CreateTexture2D" visibility="private" />
     <map param="ID3D11Device::CreateTexture2D::pDesc" attribute="in value" />
-    <map param="ID3D11Device::CreateTexture2D::pInitialData" attribute="in buffer optional" default="null" />
+    <map param="ID3D11Device::CreateTexture2D::pInitialData" type="void" keep-pointers="true"/>
     <map param="ID3D11Device::CreateTexture2D::ppTexture2D" attribute="out" return="true"/>
+    
     <map param="ID3D11Device::CreateTexture3D::pDesc" attribute="in value" />
     <map param="ID3D11Device::CreateTexture3D::pInitialData" attribute="in buffer optional" default="null" />
     <map param="ID3D11Device::CreateTexture3D::ppTexture3D" attribute="out" return="true"/>
