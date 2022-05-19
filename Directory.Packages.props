@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
 
-    <PackageVersion Include="Vortice.Mathematics" Version="1.4.13" />
+    <PackageVersion Include="Vortice.Mathematics" Version="1.4.14" />
     <PackageVersion Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
 
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.1.647-beta" />

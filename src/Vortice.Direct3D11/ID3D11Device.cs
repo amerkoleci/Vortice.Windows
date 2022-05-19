@@ -1,6 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using Vortice.Mathematics;
 using Vortice.Direct3D;
 using Vortice.DXGI;
 
@@ -171,13 +172,13 @@ public unsafe partial class ID3D11Device
         return CreateDeferredContext(0);
     }
 
-    public ID3D11Buffer CreateBuffer(BufferDescription description, SubresourceData? initialData = default)
+    public ID3D11Buffer CreateBuffer(in BufferDescription description, SubresourceData? initialData = default)
     {
         CreateBuffer(description, initialData, out ID3D11Buffer buffer).CheckError();
         return buffer;
     }
 
-    public ID3D11Buffer CreateBuffer(BufferDescription description, IntPtr dataPointer)
+    public ID3D11Buffer CreateBuffer(in BufferDescription description, IntPtr dataPointer)
     {
         CreateBuffer(description,
             dataPointer != IntPtr.Zero ? new SubresourceData(dataPointer) : (SubresourceData?)default,
@@ -185,7 +186,7 @@ public unsafe partial class ID3D11Device
         return buffer;
     }
 
-    public ID3D11Buffer CreateBuffer(BufferDescription description, DataStream data)
+    public ID3D11Buffer CreateBuffer(in BufferDescription description, DataStream data)
     {
         return CreateBuffer(description, new SubresourceData(data.PositionPointer, 0, 0));
     }
@@ -205,29 +206,6 @@ public unsafe partial class ID3D11Device
     {
         if (description.ByteWidth == 0)
             description.ByteWidth = sizeof(T) * data.Length;
-
-        fixed (T* dataPtr = data)
-        {
-            return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
-        }
-    }
-
-    public ID3D11Buffer CreateBuffer<T>(ReadOnlySpan<T> data,
-        BindFlags bindFlags,
-        ResourceUsage usage = ResourceUsage.Default,
-        CpuAccessFlags accessFlags = CpuAccessFlags.None,
-        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
-        int structureByteStride = 0) where T : unmanaged
-    {
-        BufferDescription description = new()
-        {
-            ByteWidth = sizeof(T) * data.Length,
-            BindFlags = bindFlags,
-            CPUAccessFlags = accessFlags,
-            MiscFlags = miscFlags,
-            Usage = usage,
-            StructureByteStride = structureByteStride
-        };
 
         fixed (T* dataPtr = data)
         {
@@ -271,18 +249,20 @@ public unsafe partial class ID3D11Device
     /// Creates a new instance of the <see cref="ID3D11Buffer"/> class.
     /// </summary>
     /// <typeparam name="T">Type of the data to upload</typeparam>
-    /// <param name="bindFlags">Flags specifying how the buffer will be bound to the pipeline.</param>
     /// <param name="data">Initial data used to initialize the buffer.</param>
+    /// <param name="bindFlags">Flags specifying how the buffer will be bound to the pipeline.</param>
     /// <param name="sizeInBytes">The size, in bytes, of the buffer. If 0 is specified, sizeof(T) * data.Length is used.</param>
     /// <param name="usage">The usage pattern for the buffer.</param>
     /// <param name="accessFlags">Flags specifying how the buffer will be accessible from the CPU.</param>
     /// <param name="miscFlags">Miscellaneous resource options.</param>
     /// <param name="structureByteStride">The size (in bytes) of the structure element for structured buffers.</param>
     /// <returns>An initialized buffer</returns>
-    public ID3D11Buffer CreateBuffer<T>(BindFlags bindFlags, T[] data,
-        int sizeInBytes = 0, ResourceUsage usage = ResourceUsage.Default,
+    public ID3D11Buffer CreateBuffer<T>(T[] data,
+        BindFlags bindFlags,
+        ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags accessFlags = CpuAccessFlags.None,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        int sizeInBytes = 0,
         int structureByteStride = 0) where T : unmanaged
     {
         BufferDescription description = new()
@@ -292,7 +272,7 @@ public unsafe partial class ID3D11Device
             CPUAccessFlags = accessFlags,
             MiscFlags = miscFlags,
             Usage = usage,
-            StructureByteStride = structureByteStride
+            StructureByteStride = structureByteStride == 0 ? sizeof(T) : structureByteStride,
         };
 
         fixed (T* dataPtr = data)
@@ -313,10 +293,12 @@ public unsafe partial class ID3D11Device
     /// <param name="miscFlags">Miscellaneous resource options.</param>
     /// <param name="structureByteStride">The size (in bytes) of the structure element for structured buffers.</param>
     /// <returns>An initialized buffer</returns>
-    public ID3D11Buffer CreateBuffer<T>(BindFlags bindFlags, ReadOnlySpan<T> data,
-        int sizeInBytes = 0, ResourceUsage usage = ResourceUsage.Default,
+    public ID3D11Buffer CreateBuffer<T>(ReadOnlySpan<T> data,
+        BindFlags bindFlags,
+        ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags accessFlags = CpuAccessFlags.None,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        int sizeInBytes = 0,
         int structureByteStride = 0) where T : unmanaged
     {
         BufferDescription description = new()
@@ -326,13 +308,27 @@ public unsafe partial class ID3D11Device
             CPUAccessFlags = accessFlags,
             MiscFlags = miscFlags,
             Usage = usage,
-            StructureByteStride = structureByteStride
+            StructureByteStride = structureByteStride == 0 ? sizeof(T) : structureByteStride,
         };
 
         fixed (T* dataPtr = data)
         {
             return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
         }
+    }
+
+    public ID3D11Buffer CreateConstantBuffer<T>() where T : unmanaged
+    {
+        int sizeInBytes = sizeof(T);
+        BufferDescription description = new()
+        {
+            ByteWidth = (int)MathHelper.AlignUp((uint)sizeInBytes, 16),
+            BindFlags = BindFlags.ConstantBuffer,
+            CPUAccessFlags = CpuAccessFlags.Write,
+            Usage = ResourceUsage.Dynamic
+        };
+
+        return CreateBuffer(description, (SubresourceData?)null);
     }
 
     public ID3D11VertexShader CreateVertexShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)

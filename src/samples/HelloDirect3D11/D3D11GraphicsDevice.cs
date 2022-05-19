@@ -144,7 +144,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             DepthStencilView = Device.CreateDepthStencilView(DepthStencilTexture!, new DepthStencilViewDescription(DepthStencilTexture, DepthStencilViewDimension.Texture2D));
         }
 
-        ReadOnlySpan<VertexPositionColor> triangleVertices = new VertexPositionColor[]
+        ReadOnlySpan<VertexPositionColor> triangleVertices = stackalloc VertexPositionColor[]
         {
             new VertexPositionColor(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
             new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
