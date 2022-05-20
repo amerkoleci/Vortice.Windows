@@ -501,14 +501,27 @@ public unsafe partial class ID3D11Device
         return CreateQuery(new QueryDescription(queryType, miscFlags));
     }
 
-    public ID3D11Texture1D CreateTexture1D(Format format, int width, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture1D CreateTexture1D(Format format,
+        int width,
+        int arraySize = 1,
+        int mipLevels = 0,
+        SubresourceData[]? initialData = null,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
-        return CreateTexture1D(new Texture1DDescription(format, width, arraySize, mipLevels, bindFlags), initialData);
+        return CreateTexture1D(new Texture1DDescription(format, width, arraySize, mipLevels, bindFlags, miscFlags: miscFlags), initialData);
     }
 
-    public ID3D11Texture2D CreateTexture2D(Format format, int width, int height, int arraySize = 1, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture2D CreateTexture2D(Format format,
+        int width,
+        int height,
+        int arraySize = 1,
+        int mipLevels = 0,
+        SubresourceData[]? initialData = null,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
-        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, mipLevels, bindFlags), initialData);
+        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, mipLevels, bindFlags, miscFlags: miscFlags), initialData);
     }
 
     public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, DataRectangle[] data)
@@ -523,10 +536,12 @@ public unsafe partial class ID3D11Device
         return CreateTexture2D(description, subResourceDatas);
     }
 
-    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, T[] initialData, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, T[] initialData,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
         where T : unmanaged
     {
-        Texture2DDescription description = new(format, width, height, 1, 1, bindFlags);
+        Texture2DDescription description = new(format, width, height, 1, 1, bindFlags, miscFlags: miscFlags);
         fixed (T* initialDataPtr = initialData)
         {
             FormatHelper.GetSurfaceInfo(format, width, height, out _, out int rowPitch, out int slicePitch);
@@ -535,10 +550,12 @@ public unsafe partial class ID3D11Device
         }
     }
 
-    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, ReadOnlySpan<T> initialData, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, ReadOnlySpan<T> initialData,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
         where T : unmanaged
     {
-        Texture2DDescription description = new(format, width, height, 1, 1, bindFlags);
+        Texture2DDescription description = new(format, width, height, 1, 1, bindFlags, miscFlags: miscFlags);
         fixed (T* initialDataPtr = initialData)
         {
             FormatHelper.GetSurfaceInfo(format, width, height, out _, out int rowPitch, out int slicePitch);
@@ -562,22 +579,30 @@ public unsafe partial class ID3D11Device
         }
     }
 
-    public ID3D11Texture2D CreateTexture2DMultisample(Format format, int width, int height, int sampleCount, int arraySize = 1, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture2D CreateTexture2DMultisample(Format format, int width, int height, int sampleCount, int arraySize = 1,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
         if (sampleCount < 1)
             throw new ArgumentException(nameof(sampleCount));
 
-        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0), (void*)null);
+        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0,  miscFlags), (void*)null);
     }
 
-    public ID3D11Texture3D CreateTexture3D(Format format, int width, int height, int depth, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture3D CreateTexture3D(Format format, int width, int height, int depth, int mipLevels = 0,
+        SubresourceData[]? initialData = null,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
-        return CreateTexture3D(new Texture3DDescription(format, width, height, depth, mipLevels, bindFlags), initialData);
+        return CreateTexture3D(new Texture3DDescription(format, width, height, depth, mipLevels, bindFlags, miscFlags: miscFlags), initialData);
     }
 
-    public ID3D11Texture2D CreateTextureCube(Format format, int size, int mipLevels = 0, SubresourceData[]? initialData = null, BindFlags bindFlags = BindFlags.ShaderResource)
+    public ID3D11Texture2D CreateTextureCube(Format format, int size, int mipLevels = 0,
+        SubresourceData[]? initialData = null,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
-        var description = new Texture2DDescription(format, size, size, 6, mipLevels, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, 1, 0, ResourceOptionFlags.TextureCube);
+        var description = new Texture2DDescription(format, size, size, 6, mipLevels, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, 1, 0, miscFlags | ResourceOptionFlags.TextureCube);
 
         return CreateTexture2D(description, initialData);
     }

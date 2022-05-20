@@ -2,12 +2,14 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Globalization;
+using Vortice.DXGI;
 
 namespace Vortice.WIC;
 
 public sealed partial class PixelFormat
 {
     private static readonly Dictionary<Guid, int> s_mapGuidToSize;
+    private static readonly Dictionary<Guid, Format> s_WICFormats;
 
     static PixelFormat()
     {
@@ -91,6 +93,32 @@ public sealed partial class PixelFormat
             { Format48bppRGB, 48 },
             { Format32bpp4Channels, 32 },
         };
+
+        s_WICFormats = new()
+        {
+            { Format128bppRGBAFloat,        Format.R32G32B32A32_Float },
+
+            { Format64bppRGBAHalf,          Format.R16G16B16A16_Float },
+            { Format64bppRGBA,              Format.R16G16B16A16_UNorm },
+
+            { Format32bppRGBA,              Format.R8G8B8A8_UNorm },
+            { Format32bppBGRA,              Format.B8G8R8A8_UNorm }, // DXGI 1.1
+            { Format32bppBGR,               Format.B8G8R8X8_UNorm }, // DXGI 1.1
+
+            { Format32bppRGBA1010102XR,     Format.R10G10B10_Xr_Bias_A2_UNorm }, // DXGI 1.1
+            { Format32bppRGBA1010102,       Format.R10G10B10A2_UNorm },
+
+            { Format16bppBGRA5551,          Format.B5G5R5A1_UNorm },
+            { Format16bppBGR565,            Format.B5G6R5_UNorm },
+
+            { Format32bppGrayFloat,         Format.R32_Float },
+            { Format16bppGrayHalf,          Format.R16_Float },
+            { Format16bppGray,              Format.R16_UNorm },
+            { Format8bppGray,               Format.R8_UNorm },
+
+            { Format8bppAlpha,              Format.A8_UNorm },
+            { Format96bppRGBFloat,          Format.R32G32B32_Float },
+        };
     }
 
     /// <summary>
@@ -119,5 +147,26 @@ public sealed partial class PixelFormat
         }
 
         return (bitsPerPixel * width + 7) / 8;
+    }
+
+    public static Format ToDXGIFormat(Guid guid)
+    {
+        if (s_WICFormats.TryGetValue(guid, out Format format))
+        {
+            return format;
+        }
+
+        return Format.Unknown;
+    }
+
+    public static int WICBitsPerPixel(IWICImagingFactory factory, Guid pixelFormat)
+    {
+        using IWICComponentInfo info = factory.CreateComponentInfo(pixelFormat);
+        ComponentType type = info.ComponentType;
+        if (type != ComponentType.PixelFormat)
+            return 0;
+
+        using IWICPixelFormatInfo pixelFormatInfo = info.QueryInterface<IWICPixelFormatInfo>();
+        return pixelFormatInfo.BitsPerPixel;
     }
 }

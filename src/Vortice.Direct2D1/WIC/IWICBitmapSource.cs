@@ -65,4 +65,20 @@ public unsafe partial class IWICBitmapSource
             CopyPixels(&rectangle, stride, data.Length * sizeof(T), dataPtr);
         }
     }
+
+    public void CopyPixels<T>(int stride, Span<T> data) where T : unmanaged
+    {
+        fixed (T* dataPtr = data)
+        {
+            CopyPixels(null, stride, data.Length * sizeof(T), dataPtr);
+        }
+    }
+
+    public void CopyPixels<T>(RectI rectangle, int stride, Span<T> data) where T : unmanaged
+    {
+        fixed (T* dataPtr = data)
+        {
+            CopyPixels(&rectangle, stride, data.Length * sizeof(T), dataPtr);
+        }
+    }
 }
