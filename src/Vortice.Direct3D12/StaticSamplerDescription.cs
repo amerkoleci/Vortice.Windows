@@ -1,6 +1,8 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using Vortice.Mathematics;
+
 namespace Vortice.Direct3D12;
 
 /// <summary>
@@ -44,7 +46,15 @@ public partial struct StaticSamplerDescription
         ShaderVisibility = shaderVisibility;
         ShaderRegister = shaderRegister;
         RegisterSpace = registerSpace;
-        BorderColor = StaticBorderColor.TransparentBlack;
+
+        // Unlike regular samplers, static samplers only support three possible border colors: opaque white, opaque black, and transparent.
+        // So if the sampler has a border color that matches one of those exactly, we can convert it; otherwise it's left as the default (transparent).
+        if (samplerDescription.BorderColor == Colors.White)
+            BorderColor = StaticBorderColor.OpaqueWhite;
+        else if (samplerDescription.BorderColor == Colors.Black)
+            BorderColor = StaticBorderColor.OpaqueBlack;
+        else
+            BorderColor = StaticBorderColor.TransparentBlack;
 
         Filter = samplerDescription.Filter;
         AddressU = samplerDescription.AddressU;
