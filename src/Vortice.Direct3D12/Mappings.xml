@@ -572,8 +572,8 @@
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
     <!--<map interface="ID3D1[0-3](.+)" name-tmp="$1" />-->
 
-    <map field=".*::(.*)DescW?" name="$1Description" />
-    <map method=".*::(.*)DescW?" name="$1Description" />
+    <map field=".*::(.*)Desc([0-9]*)W?" name="$1Description$2" />
+    <map method=".*::(.*)Desc([0-9]*)W?" name="$1Description$2" />
 
     <remove struct="D3D12_MEMCPY_DEST"/>
 
