@@ -35,14 +35,14 @@ Also, you need to install **Visual Studio 2022** with the following components:
 ## Projects using Vortice.Windows
 
 - [Vortice](https://github.com/amerkoleci/vortice)
-- [Vortice.GPU](https://github.com/amerkoleci/Vortice.GPU)
+- [Vortice.Graphics](https://github.com/amerkoleci/Vortice.Graphics)
 - [Evergine](https://evergine.com/)
 - [Veldrid](https://github.com/mellinoe/veldrid)
 - [MiniEngine](https://github.com/roy-t/MiniEngine3) 
 - [SharpAudio](https://github.com/feliwir/SharpAudio)
 
 ## Samples
-- Collection of samples [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples) available only for **Sponsors**
+- Collection of samples [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples), **Sponsors** can request samples.
 - Direct3D12 DXR samples by [CAMongrel](https://github.com/CAMongrel) [D3D12SampleRaytracerSharp](https://github.com/CAMongrel/D3D12SampleRaytracerSharp).
 - Direct3D12 DXR raytracing samples ported from NVIDIA samples by [Jorgemagic](https://github.com/Jorgemagic/CSharpDirectXRaytracing)
 - ImGUI example using Vortice.Windows [VorticeImGui](https://github.com/YaakovDavis/VorticeImGui)
