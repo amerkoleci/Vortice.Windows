@@ -6,4 +6,16 @@ using Vortice.Mathematics;
 
 namespace Vortice;
 
-public readonly record struct VertexPositionColor(Vector3 Position, Color4 Color);
+public readonly struct VertexPositionColor
+{
+    public static unsafe readonly int SizeInBytes = sizeof(VertexPositionColor);
+
+    public VertexPositionColor(in Vector3 position, in Color4 color)
+    {
+        Position = position;
+        Color = color;
+    }
+
+    public readonly Vector3 Position;
+    public readonly Color4 Color;
+}

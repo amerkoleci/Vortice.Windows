@@ -150,7 +150,19 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
             new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
         };
-        _vertexBuffer = Device.CreateBuffer(triangleVertices, BindFlags.VertexBuffer);
+
+        bool dynamic = false;
+        if (dynamic)
+        {
+            _vertexBuffer = Device.CreateBuffer(VertexPositionColor.SizeInBytes * 3, BindFlags.VertexBuffer, ResourceUsage.Dynamic, CpuAccessFlags.Write);
+            MappedSubresource mappedSubresource = DeviceContext.Map(_vertexBuffer, 0, MapMode.WriteDiscard);
+            triangleVertices.CopyTo(mappedSubresource.AsSpan<VertexPositionColor>(3));
+            DeviceContext.Unmap(_vertexBuffer, 0);
+        }
+        else
+        {
+            _vertexBuffer = Device.CreateBuffer(triangleVertices, BindFlags.VertexBuffer);
+        }
 
         InputElementDescription[] inputElementDescs = new[]
         {

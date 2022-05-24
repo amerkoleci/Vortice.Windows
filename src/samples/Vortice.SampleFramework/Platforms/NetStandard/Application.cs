@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using win32 = global::Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Input.KeyboardAndMouse;
+using Windows.Win32.UI.WindowsAndMessaging;
 using static Windows.Win32.PInvoke;
 using static Windows.Win32.UI.WindowsAndMessaging.PEEK_MESSAGE_REMOVE_TYPE;
 using static Windows.Win32.UI.WindowsAndMessaging.WNDCLASS_STYLES;
@@ -16,23 +17,26 @@ namespace Vortice;
 public abstract partial class Application : IDisposable
 {
     public const string WindowClassName = "VorticeWindow";
-    internal readonly win32.FreeLibrarySafeHandle HInstance = GetModuleHandle((string)null);
 
     private unsafe void PlatformConstruct()
     {
+#nullable disable
+        var hInstance = GetModuleHandle((string)null);
+#nullable restore
+
         fixed (char* lpszClassName = WindowClassName)
         {
             PCWSTR szCursorName = new((char*)IDC_ARROW);
 
-            var wndClassEx = new win32.UI.WindowsAndMessaging.WNDCLASSEXW
+            var wndClassEx = new WNDCLASSEXW
             {
-                cbSize = (uint)Unsafe.SizeOf<win32.UI.WindowsAndMessaging.WNDCLASSEXW>(),
+                cbSize = (uint)Unsafe.SizeOf<WNDCLASSEXW>(),
                 style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
-                lpfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)(delegate*<HWND, uint, WPARAM, LPARAM, LRESULT>)&ProcessWindowMessage,
-                hInstance = (HINSTANCE)HInstance.DangerousGetHandle(),
-                hCursor = LoadCursor(default, szCursorName),
-                hbrBackground = default,
-                hIcon = default,
+                lpfnWndProc = &WndProc,
+                hInstance = (HINSTANCE)hInstance.DangerousGetHandle(),
+                hCursor = LoadCursor((HINSTANCE)IntPtr.Zero, szCursorName),
+                hbrBackground = (win32.Graphics.Gdi.HBRUSH)IntPtr.Zero,
+                hIcon = (HICON)IntPtr.Zero,
                 lpszClassName = lpszClassName
             };
 
@@ -49,7 +53,7 @@ public abstract partial class Application : IDisposable
         if (!Headless)
         {
             // Create main window.
-            MainWindow = new Window("Vortice", 800, 600);
+            MainWindow = new Window("Vortice");
         }
     }
 
@@ -77,10 +81,8 @@ public abstract partial class Application : IDisposable
         }
     }
 
-    // https://github.com/microsoft/CsWin32/issues/222
-    //[UnmanagedCallersOnly]
-    //[UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
-    private static LRESULT ProcessWindowMessage(HWND hWnd, uint message, WPARAM wParam, LPARAM lParam)
+    [UnmanagedCallersOnly(CallConvs = new[] { typeof(CallConvStdcall) })]
+    private static LRESULT WndProc(HWND hWnd, uint message, WPARAM wParam, LPARAM lParam)
     {
         if (message == WM_ACTIVATEAPP)
         {

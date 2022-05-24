@@ -33,10 +33,11 @@ public unsafe partial struct MappedSubresource
         RowPitch = DepthPitch = 0;
     }
 
+    public Span<byte> AsSpan(int length) => new(DataPointer.ToPointer(), length);
+
     public Span<T> AsSpan<T>(int length) where T : unmanaged
     {
-        Span<byte> source = new(DataPointer.ToPointer(), length);
-        return MemoryMarshal.Cast<byte, T>(source);
+        return new Span<T>(DataPointer.ToPointer(), length);
     }
 
     public Span<T> AsSpan<T>(ID3D11Buffer buffer) where T : unmanaged
