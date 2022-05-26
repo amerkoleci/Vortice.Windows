@@ -89,6 +89,9 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator !=(CpuDescriptorHandle left, CpuDescriptorHandle right) => (left.ptr != right.ptr);
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator ulong(CpuDescriptorHandle left) => left.ptr;
+
     /// <inheritdoc/>
     public override int GetHashCode() => ptr.GetHashCode();
 
