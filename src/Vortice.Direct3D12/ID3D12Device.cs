@@ -47,7 +47,50 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public  T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
+    public T CheckFeatureSupport<T>() where T : unmanaged
+    {
+        Feature feature = default(T) switch
+        {
+            FeatureDataD3D12Options => Feature.Options,
+            FeatureDataArchitecture => Feature.Architecture,
+            FeatureDataFeatureLevels => Feature.FeatureLevels,
+            FeatureDataFormatSupport => Feature.FormatSupport,
+            FeatureDataMultisampleQualityLevels => Feature.MultisampleQualityLevels,
+            FeatureDataFormatInfo => Feature.FormatInfo,
+            FeatureDataGpuVirtualAddressSupport => Feature.GpuVirtualAddressSupport,
+            FeatureDataShaderModel => Feature.ShaderModel,
+            FeatureDataD3D12Options1 => Feature.Options1,
+            FeatureDataProtectedResourceSessionSupport => Feature.ProtectedResourceSessionSupport,
+            FeatureDataRootSignature => Feature.RootSignature,
+            FeatureDataArchitecture1 => Feature.Architecture1,
+            FeatureDataD3D12Options2 => Feature.Options2,
+            FeatureDataShaderCache => Feature.ShaderCache,
+            FeatureDataCommandQueuePriority => Feature.CommandQueuePriority,
+            FeatureDataD3D12Options3 => Feature.Options3,
+            FeatureDataExistingHeaps => Feature.ExistingHeaps,
+            FeatureDataD3D12Options4 => Feature.Options4,
+            FeatureDataSerialization => Feature.Serialization,
+            FeatureDataCrossNode => Feature.CrossNode,
+            FeatureDataD3D12Options5 => Feature.Options5,
+            FeatureDataDisplayable => Feature.Displayable,
+            FeatureDataD3D12Options6 => Feature.Options6,
+            FeatureDataQueryMetaCommand => Feature.QueryMetaCommand,
+            FeatureDataD3D12Options7 => Feature.Options7,
+            FeatureDataProtectedResourceSessionTypeCount => Feature.ProtectedResourceSessionTypeCount,
+            FeatureDataProtectedResourceSessionTypes => Feature.ProtectedResourceSessionTypes,
+            FeatureDataD3D12Options8 => Feature.Options8,
+            FeatureDataD3D12Options9 => Feature.Options9,
+            FeatureDataD3D12Options10 => Feature.Options10,
+            FeatureDataD3D12Options11 => Feature.Options11,
+            FeatureDataD3D12Options12 => Feature.Options12,
+            FeatureDataD3D12Options13 => Feature.Options13,
+            _ => throw new ArgumentException(nameof(T)),
+        };
+
+        return CheckFeatureSupport<T>(feature);
+    }
+
+    public T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
     {
         T featureSupport = default;
         CheckFeatureSupport(feature, &featureSupport, sizeof(T));
