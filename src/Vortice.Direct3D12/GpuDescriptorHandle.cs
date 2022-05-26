@@ -84,6 +84,9 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool operator !=(GpuDescriptorHandle left, GpuDescriptorHandle right) => (left.ptr != right.ptr);
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static implicit operator ulong(GpuDescriptorHandle left) => left.ptr;
+
     /// <inheritdoc/>
     public override int GetHashCode() => ptr.GetHashCode();
 
