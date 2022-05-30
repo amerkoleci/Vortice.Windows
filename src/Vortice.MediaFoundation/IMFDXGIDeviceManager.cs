@@ -52,5 +52,4 @@ public partial class IMFDXGIDeviceManager
         service = MarshallingHelpers.FromPointer<T>(nativePtr);
         return result;
     }
-
 }

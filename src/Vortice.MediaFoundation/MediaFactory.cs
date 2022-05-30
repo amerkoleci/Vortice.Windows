@@ -1,6 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
 namespace Vortice.MediaFoundation;
@@ -80,5 +81,11 @@ public partial class MediaFactory
     {
         MFCreateVideoRendererActivate(hwndVideo, out IMFActivate activate).CheckError();
         return activate;
+    }
+
+    public static unsafe IMFActivateCollection MFEnumDeviceSources(IMFAttributes attributes)
+    {
+        MFEnumDeviceSources(attributes, out IntPtr pSourceActivate, out int count).CheckError();
+        return new(pSourceActivate, count);
     }
 }

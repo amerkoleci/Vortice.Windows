@@ -635,6 +635,7 @@
 
     <!-- Structs -->
     <map struct="MF(.*)" name-tmp="$1"/>
+    <map struct="MFT(.*)" name-tmp="$1"/>
     <map struct="MFVIDEOFORMAT" name-tmp="VideoFormat"/>
 
     <!-- IMFByteStream -->
@@ -687,7 +688,7 @@
 
     <map method="IMFAttributes::GetBlob.*" visibility="internal"/>
     <map method="IMFAttributes::GetAllocatedBlob" visibility="internal"/>
-    <map param="IMFAttributes::GetBlob::pBuf" type="void" attribute="in"/>
+    <map param="IMFAttributes::GetBlob::pBuf" type="void" keep-pointers="true"/>
     <map param="IMFAttributes::GetBlobSize::pcbBlobSize" return="true"/>
     <map method="IMFAttributes::SetBlob"    visibility="internal" />
     <map param="IMFAttributes::SetBlob::pBuf" type="void" attribute="in"/>
@@ -697,12 +698,16 @@
     <map method="IMFAttributes::SetItem"    name="Set_" visibility="internal" />
     <map method="IMFAttributes::SetUINT32"  name="Set_" visibility="internal" />
     <map method="IMFAttributes::SetUINT64"  name="Set_" visibility="internal" />
-    <map method="IMFAttributes::SetDouble"  name="Set_" visibility="internal" />
-    <map method="IMFAttributes::SetGUID"    name="Set_" visibility="internal" />
-    <map method="IMFAttributes::SetString"  name="Set_" visibility="internal" />
-    <map method="IMFAttributes::SetUnknown" name="Set_" visibility="internal" />
+    <map method="IMFAttributes::SetDouble"  name="Set" hresult="true" check="false" />
+    <map method="IMFAttributes::SetGUID"    name="Set" hresult="true" check="false" />
+    <map method="IMFAttributes::SetString"  name="Set" hresult="true" check="false" />
+    <map method="IMFAttributes::SetUnknown" name="Set" hresult="true" check="false" />
 
     <map method="IMFAttributes::GetItemByIndex" visibility="internal"/>
+
+    <!-- IMFActivate -->
+    <map method="IMFActivate::(.*)" hresult="true" check="false"/>
+    <map method="IMFActivate::ActivateObject" visibility="internal"/>
     
     <!-- IMFMediaSession -->
     <map method="IMFMediaSession::(.*)" hresult="true" check="false"/>
@@ -792,7 +797,7 @@
     <map function="MFGetService" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFGetMultipleServiceProviders" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFGetLocalId" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
-    <map function="MFEnumDeviceSources" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFEnumDeviceSources" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" visibility="internal" />
     <map function="MFCreateWMVEncoderActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateWMAEncoderActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateVideoRendererActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />

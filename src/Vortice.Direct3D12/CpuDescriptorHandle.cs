@@ -5,14 +5,13 @@ using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct3D12;
 
+/// <include file="Documentation.xml" path="/comments/comment[@id='D3D12_CPU_DESCRIPTOR_HANDLE']/*" />
 public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
 {
     public static CpuDescriptorHandle Default => default;
 
-    /// <summary>	
-    /// The address of  the descriptor.
-    /// </summary>	
-    public nuint ptr;
+    /// <include file="Documentation.xml" path="/comments/comment[@id='D3D12_CPU_DESCRIPTOR_HANDLE::ptr']/*" />
+    public nuint Ptr;
 
     public CpuDescriptorHandle(in CpuDescriptorHandle other, int offsetScaledByIncrementSize)
     {
@@ -26,13 +25,13 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
 
     public CpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
     {
-        ptr = unchecked((nuint)((long)ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize)));
+        Ptr = unchecked((nuint)((long)Ptr + (offsetInDescriptors * (long)descriptorIncrementSize)));
         return this;
     }
 
     public CpuDescriptorHandle Offset(int offsetScaledByIncrementSize)
     {
-        ptr = unchecked((nuint)((long)ptr + (long)offsetScaledByIncrementSize));
+        Ptr = unchecked((nuint)((long)Ptr + offsetScaledByIncrementSize));
         return this;
     }
 
@@ -48,12 +47,12 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
 
     public static void InitOffsetted(out CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetScaledByIncrementSize)
     {
-        handle.ptr = (nuint)((long)@base.ptr + (long)offsetScaledByIncrementSize);
+        handle.Ptr = (nuint)((long)@base.Ptr + (long)offsetScaledByIncrementSize);
     }
 
     public static void InitOffsetted(out CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
     {
-        handle.ptr = (nuint)((long)@base.ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize));
+        handle.Ptr = (nuint)((long)@base.Ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize));
     }
 
     /// <summary>
@@ -76,7 +75,7 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
     /// True if the current left is equal to the <paramref name="right"/> parameter; otherwise, false.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator ==(CpuDescriptorHandle left, CpuDescriptorHandle right) => (left.ptr == right.ptr);
+    public static bool operator ==(CpuDescriptorHandle left, CpuDescriptorHandle right) => (left.Ptr == right.Ptr);
 
     /// <summary>
     /// Compares two <see cref="CpuDescriptorHandle"/> objects for inequality.
@@ -87,18 +86,18 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
     /// True if the current left is unequal to the <paramref name="right"/> parameter; otherwise, false.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator !=(CpuDescriptorHandle left, CpuDescriptorHandle right) => (left.ptr != right.ptr);
+    public static bool operator !=(CpuDescriptorHandle left, CpuDescriptorHandle right) => (left.Ptr != right.Ptr);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator nuint(CpuDescriptorHandle left) => left.ptr;
+    public static implicit operator nuint(CpuDescriptorHandle left) => left.Ptr;
 
     /// <inheritdoc/>
-    public override int GetHashCode() => ptr.GetHashCode();
+    public override int GetHashCode() => Ptr.GetHashCode();
 
     /// <inheritdoc/>
-    public override bool Equals(object? obj) => obj is CpuDescriptorHandle handle && Equals( handle);
+    public override bool Equals(object? obj) => obj is CpuDescriptorHandle handle && Equals(handle);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Equals(CpuDescriptorHandle other) => this == other;
+    public bool Equals(CpuDescriptorHandle other) => Ptr == other.Ptr;
 }

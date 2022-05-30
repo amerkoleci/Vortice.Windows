@@ -14,7 +14,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
 
-    <VersionPrefix>2.1.14</VersionPrefix>
+    <VersionPrefix>2.1.15</VersionPrefix>
     <VersionSuffix Condition="'$(VersionSuffix)' == ''">beta</VersionSuffix>
 
     <SignAssembly Condition="'$(SignAssembly)' == ''">false</SignAssembly>
