@@ -51,5 +51,5 @@ public partial struct RaytracingInstanceDescription
     /// The memory pointed to must be in state in <see cref="ResourceStates.RaytracingAccelerationStructure"/>.
     /// </remarks>
     [FieldOffset(56)]
-    public long AccelerationStructure;
+    public ulong AccelerationStructure;
 }

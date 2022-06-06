@@ -1,16 +1,17 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using NUnit.Framework;
 using Vortice.Direct3D;
-using Xunit;
 
 namespace Vortice.D3DCompiler.Test;
 
+[TestFixture(TestOf = typeof(CompileTests))]
 public class CompileTests
 {
     private string AssetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
 
-    [Fact]
+    [TestCase]
     public void SingleFileTest()
     {
         string shaderSourceFile = Path.Combine(AssetsPath, "TriangleSingleFile.hlsl");
@@ -24,7 +25,7 @@ public class CompileTests
         Assert.True(shaderCode.Length > 0);
     }
 
-    [Fact]
+    [TestCase]
     public void ErrorTest()
     {
         string shaderSourceFile = Path.Combine(AssetsPath, "TriangleError.hlsl");
@@ -35,10 +36,10 @@ public class CompileTests
 
         var errorText = error?.AsString();
 
-        Assert.Contains("error X3018: invalid subscript 'ThisIsAnError'", errorText);
+        Assert.True(errorText!.Contains("error X3018: invalid subscript 'ThisIsAnError'"));
     }
 
-    [Fact]
+    [TestCase]
     public void ShaderIncludeTest()
     {
         string shaderSourceFile = Path.Combine(AssetsPath, "Triangle.hlsl");
@@ -55,7 +56,7 @@ public class CompileTests
         }
     }
 
-    [Fact]
+    [TestCase]
     public void ShaderMacroTest()
     {
         string shaderSourceFile = Path.Combine(AssetsPath, "TriangleSingleFile.hlsl");

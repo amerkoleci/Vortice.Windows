@@ -47,12 +47,12 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
 
     public static void InitOffsetted(out CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetScaledByIncrementSize)
     {
-        handle.Ptr = (nuint)((long)@base.Ptr + (long)offsetScaledByIncrementSize);
+        handle.Ptr = (nuint)((long)@base.Ptr + offsetScaledByIncrementSize);
     }
 
     public static void InitOffsetted(out CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
     {
-        handle.Ptr = (nuint)((long)@base.Ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize));
+        handle.Ptr = (nuint)((long)@base.Ptr + offsetInDescriptors * descriptorIncrementSize);
     }
 
     /// <summary>

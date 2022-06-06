@@ -34,7 +34,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
     public readonly Window Window;
     public readonly IDXGIFactory4 DXGIFactory;
-    private readonly ID3D12Device5? _d3d12Device;
+    private readonly ID3D12Device5 _d3d12Device;
     private readonly ID3D12InfoQueue? _infoQueue;
     private readonly ID3D12Resource[] _renderTargets;
     private readonly ID3D12DescriptorHeap _rtvHeap;
@@ -251,13 +251,13 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
             _rayGenRootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, rayGenSignatureDescription);
 
-            var hitRootSignatureDescription = new RootSignatureDescription1(RootSignatureFlags.LocalRootSignature);
-
-            hitRootSignatureDescription.Parameters = new[]
+            var hitRootSignatureDescription = new RootSignatureDescription1(RootSignatureFlags.LocalRootSignature)
             {
+                Parameters = new[]
+                {
                     new RootParameter1(RootParameterType.ShaderResourceView, new RootDescriptor1(0, 0), ShaderVisibility.All),
-                };
-
+                }
+            };
             _hitRootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, hitRootSignatureDescription);
 
             var missRootSignatureDescription = new RootSignatureDescription1(RootSignatureFlags.LocalRootSignature);
@@ -332,10 +332,10 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
             int vertexBufferSize = 3 * vertexStride;
 
-            _vertexBuffer = _d3d12Device.CreateCommittedResource(new HeapProperties(HeapType.Upload),
+            _vertexBuffer = _d3d12Device.CreateCommittedResource(HeapType.Upload,
                     HeapFlags.None,
-                                                                          ResourceDescription.Buffer((ulong)vertexBufferSize),
-                                                                          ResourceStates.GenericRead);
+                    ResourceDescription.Buffer((ulong)vertexBufferSize),
+                    ResourceStates.GenericRead);
 
             Span<Vertex> bufferData = _vertexBuffer.Map<Vertex>(0, 3);
             ReadOnlySpan<Vertex> src = new(triangleVertices);
@@ -352,7 +352,6 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 Triangles = new RaytracingGeometryTrianglesDescription(new GpuVirtualAddressAndStride(_vertexBuffer.GPUVirtualAddress, (ulong)vertexStride), Format.R32G32B32_Float, 3),
                 Flags = RaytracingGeometryFlags.Opaque,
             };
-
 
             var bottomLevelInputs = new BuildRaytracingAccelerationStructureInputs
             {
@@ -383,20 +382,26 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 throw new Exception("Failed to create top level inputs.");
 
 
-            var scratchResource = _d3d12Device.CreateCommittedResource<ID3D12Resource>(new HeapProperties(HeapType.Default),
+            using ID3D12Resource scratchResource = _d3d12Device.CreateCommittedResource(
+                HeapType.Default,
                 HeapFlags.None,
                 ResourceDescription.Buffer(Math.Max(topLevelInfo.ScratchDataSizeInBytes, bottomLevelInfo.ScratchDataSizeInBytes), ResourceFlags.AllowUnorderedAccess),
-                ResourceStates.UnorderedAccess);
+                ResourceStates.UnorderedAccess
+                );
 
-            _bottomLevelAccelerationStructure = _d3d12Device.CreateCommittedResource<ID3D12Resource>(new HeapProperties(HeapType.Default),
+            _bottomLevelAccelerationStructure = _d3d12Device.CreateCommittedResource(
+                HeapType.Default,
                 HeapFlags.None,
                 ResourceDescription.Buffer(Math.Max(topLevelInfo.ScratchDataSizeInBytes, bottomLevelInfo.ResultDataMaxSizeInBytes), ResourceFlags.AllowUnorderedAccess),
-                ResourceStates.RaytracingAccelerationStructure);
+                ResourceStates.RaytracingAccelerationStructure
+                );
 
-            _topLevelAccelerationStructure = _d3d12Device.CreateCommittedResource<ID3D12Resource>(new HeapProperties(HeapType.Default),
+            _topLevelAccelerationStructure = _d3d12Device.CreateCommittedResource(
+                HeapType.Default,
                 HeapFlags.None,
                 ResourceDescription.Buffer(Math.Max(topLevelInfo.ScratchDataSizeInBytes, bottomLevelInfo.ResultDataMaxSizeInBytes), ResourceFlags.AllowUnorderedAccess),
-                ResourceStates.RaytracingAccelerationStructure);
+                ResourceStates.RaytracingAccelerationStructure
+                );
 
 
             // Create the instance buffer
@@ -409,13 +414,13 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 InstanceID = (UInt24)0,
                 Flags = RaytracingInstanceFlags.None,
                 InstanceContributionToHitGroupIndex = (UInt24)0,
-                AccelerationStructure = (long)_bottomLevelAccelerationStructure.GPUVirtualAddress,
+                AccelerationStructure = _bottomLevelAccelerationStructure.GPUVirtualAddress,
             };
 
-            _instanceBuffer = _d3d12Device.CreateCommittedResource<ID3D12Resource>(
+            _instanceBuffer = _d3d12Device.CreateCommittedResource(
                 new HeapProperties(HeapType.Upload),
                 HeapFlags.None,
-                ResourceDescription.Buffer((ulong)sizeof(RaytracingInstanceDescription)),
+                ResourceDescription.Buffer(sizeof(RaytracingInstanceDescription)),
                 ResourceStates.GenericRead);
 
             RaytracingInstanceDescription* instanceBufferDataPointer = _instanceBuffer.Map<RaytracingInstanceDescription>(0);
@@ -438,7 +443,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
             _commandList.ResourceBarrier(new ResourceBarrier(new ResourceUnorderedAccessViewBarrier(_bottomLevelAccelerationStructure)));
 
-            topLevelInputs.InstanceDescriptions = (long)_instanceBuffer.GPUVirtualAddress;
+            topLevelInputs.InstanceDescriptions = _instanceBuffer.GPUVirtualAddress;
 
             _commandList.BuildRaytracingAccelerationStructure(new BuildRaytracingAccelerationStructureDescription
             {
@@ -454,8 +459,6 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
             GraphicsQueue.ExecuteCommandList(_commandList);
 
             WaitIdle();
-
-            scratchResource.Dispose();
         }
 
         // Create the output buffer
@@ -473,7 +476,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 SampleDescription = new SampleDescription(1, 0),
             };
 
-            _outputBuffer = _d3d12Device.CreateCommittedResource<ID3D12Resource>(
+            _outputBuffer = _d3d12Device.CreateCommittedResource(
                 new HeapProperties(HeapType.Default),
                 HeapFlags.None,
                 outputBufferDescription,
@@ -563,7 +566,6 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
         SwapChain.Dispose();
         _frameFence.Dispose();
         GraphicsQueue.Dispose();
-        _d3d12Device!.Dispose();
         _infoQueue?.Dispose();
         DXGIFactory.Dispose();
 
@@ -579,8 +581,26 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
         _topLevelAccelerationStructure.Dispose();
         _raytracingStateObjectProperties.Dispose();
 
+        _outputBuffer.Dispose();
         _instanceBuffer.Dispose();
         _vertexBuffer.Dispose();
+
+#if DEBUG
+        uint refCount = _d3d12Device.Release();
+        if (refCount > 0)
+        {
+            System.Diagnostics.Debug.WriteLine($"Direct3D11: There are {refCount} unreleased references left on the device");
+
+            ID3D12DebugDevice? d3d12DebugDevice = _d3d12Device.QueryInterfaceOrNull<ID3D12DebugDevice>();
+            if (d3d12DebugDevice != null)
+            {
+                d3d12DebugDevice.ReportLiveDeviceObjects(ReportLiveDeviceObjectFlags.Detail | ReportLiveDeviceObjectFlags.IgnoreInternal);
+                d3d12DebugDevice.Dispose();
+            }
+        }
+#else
+        _d3d12Device.Dispose();
+#endif
 
         if (DXGIGetDebugInterface1(out IDXGIDebug1? dxgiDebug).Success)
         {
