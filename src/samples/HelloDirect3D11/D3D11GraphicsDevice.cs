@@ -340,7 +340,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             {
                 for (int level = 0; level < desc.MipLevels; ++level)
                 {
-                    int index = ID3D11Resource.CalculateSubResourceIndex(level, item, desc.MipLevels);
+                    int index = CalculateSubResourceIndex(level, item, desc.MipLevels);
                     DeviceContext.ResolveSubresource(temp, index, source, index, format);
                 }
             }

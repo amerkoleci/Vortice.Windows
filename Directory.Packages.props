@@ -11,10 +11,14 @@
   -->
 
   <!-- Package versions for package references across all projects -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
 
-    <PackageVersion Include="Vortice.Mathematics" Version="1.4.14" />
+    <PackageVersion Include="Vortice.Mathematics" Version="1.4.15" />
     <PackageVersion Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
 
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.2.1-beta" />
