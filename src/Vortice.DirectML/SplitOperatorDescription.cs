@@ -71,4 +71,9 @@ public partial struct SplitOperatorDescription : IOperatorDescription, IOperator
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(SplitOperatorDescription description)
+    {
+        return new(description);
+    }
 }

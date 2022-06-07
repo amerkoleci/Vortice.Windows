@@ -61,4 +61,9 @@ public partial struct ActivationScaledTanhOperatorDescription : IFusableActivati
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ActivationScaledTanhOperatorDescription description)
+    {
+        return new(description);
+    }
 }

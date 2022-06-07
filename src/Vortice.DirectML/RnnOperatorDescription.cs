@@ -134,4 +134,9 @@ public partial struct RnnOperatorDescription : IOperatorDescription, IOperatorDe
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(RnnOperatorDescription description)
+    {
+        return new(description);
+    }
 }

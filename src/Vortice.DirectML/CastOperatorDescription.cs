@@ -44,4 +44,9 @@ public partial struct CastOperatorDescription : IOperatorDescription, IOperatorD
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(CastOperatorDescription description)
+    {
+        return new(description);
+    }
 }

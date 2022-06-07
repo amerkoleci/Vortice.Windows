@@ -50,4 +50,9 @@ public partial struct NonzeroCoordinatesOperatorDescription : IOperatorDescripti
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(NonzeroCoordinatesOperatorDescription description)
+    {
+        return new(description);
+    }
 }

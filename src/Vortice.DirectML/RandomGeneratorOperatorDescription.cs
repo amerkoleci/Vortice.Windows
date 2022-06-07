@@ -59,4 +59,9 @@ public partial struct RandomGeneratorOperatorDescription : IOperatorDescription,
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(RandomGeneratorOperatorDescription description)
+    {
+        return new(description);
+    }
 }

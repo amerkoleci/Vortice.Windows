@@ -72,4 +72,9 @@ public partial struct MatrixMultiplyIntegerOperatorDescription : IOperatorDescri
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(MatrixMultiplyIntegerOperatorDescription description)
+    {
+        return new(description);
+    }
 }

@@ -74,4 +74,9 @@ public partial struct ResampleGradOperatorDescription : IOperatorDescription, IO
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ResampleGradOperatorDescription description)
+    {
+        return new(description);
+    }
 }

@@ -53,4 +53,9 @@ public partial struct FillValueSequenceOperatorDescription : IOperatorDescriptio
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(FillValueSequenceOperatorDescription description)
+    {
+        return new(description);
+    }
 }

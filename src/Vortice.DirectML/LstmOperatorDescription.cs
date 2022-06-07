@@ -179,4 +179,9 @@ public partial struct LstmOperatorDescription : IOperatorDescription, IOperatorD
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(LstmOperatorDescription description)
+    {
+        return new(description);
+    }
 }

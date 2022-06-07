@@ -57,4 +57,9 @@ public partial struct ReduceOperatorDescription : IOperatorDescription, IOperato
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ReduceOperatorDescription description)
+    {
+        return new(description);
+    }
 }

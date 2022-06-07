@@ -50,4 +50,9 @@ public partial struct ElementWiseMultiplyOperatorDescription : IOperatorDescript
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ElementWiseMultiplyOperatorDescription description)
+    {
+        return new(description);
+    }
 }

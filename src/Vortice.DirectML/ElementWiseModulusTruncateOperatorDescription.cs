@@ -50,4 +50,9 @@ public partial struct ElementWiseModulusTruncateOperatorDescription : IOperatorD
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ElementWiseModulusTruncateOperatorDescription description)
+    {
+        return new(description);
+    }
 }

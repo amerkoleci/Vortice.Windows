@@ -101,4 +101,9 @@ public partial struct ElementWiseQuantizedLinearAddOperatorDescription : IOperat
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ElementWiseQuantizedLinearAddOperatorDescription description)
+    {
+        return new(description);
+    }
 }

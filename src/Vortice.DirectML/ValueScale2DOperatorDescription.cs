@@ -57,4 +57,9 @@ public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IO
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ValueScale2DOperatorDescription description)
+    {
+        return new(description);
+    }
 }

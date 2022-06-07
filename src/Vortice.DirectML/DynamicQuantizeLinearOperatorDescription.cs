@@ -56,4 +56,9 @@ public partial struct DynamicQuantizeLinearOperatorDescription : IOperatorDescri
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(DynamicQuantizeLinearOperatorDescription description)
+    {
+        return new(description);
+    }
 }
