@@ -14,12 +14,12 @@
     <DStoragePlatform Condition="'$(DStoragePlatform)' == '' and $([System.Environment]::Is64BitOperatingSystem)">x64</DStoragePlatform>
     <!-- fall back to x86 -->
     <DStoragePlatform Condition="'$(DStoragePlatform)' == ''">x86</DStoragePlatform>
-</PropertyGroup>
+  </PropertyGroup>
 
   <PropertyGroup>
     <DStorageCoreLibrary>$(MSBuildThisFileDirectory)..\..\runtimes\win-$(DStoragePlatform)\native\dstoragecore.dll</DStorageCoreLibrary>
     <DStorageLibrary>$(MSBuildThisFileDirectory)..\..\runtimes\win-$(DStoragePlatform)\native\dstorage.dll</DStorageLibrary>
-</PropertyGroup>
+  </PropertyGroup>
 
   <ItemGroup>
     <Content Include="$(DStorageCoreLibrary)">
