@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
@@ -30,6 +30,7 @@
     
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
+    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
     <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
     <ProjectReference Include="..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
   </ItemGroup>
