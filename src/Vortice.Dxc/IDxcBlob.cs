@@ -1,26 +1,22 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using System.Runtime.CompilerServices;
+namespace Vortice.Dxc;
 
-namespace Vortice.Dxc
+public partial class IDxcBlob
 {
-    public partial class IDxcBlob
+    public unsafe Span<byte> AsByte()
     {
-        public unsafe Span<byte> AsByte()
-        {
-            return new Span<byte>((byte*)GetBufferPointer(), GetBufferSize());
-        }
+        return new Span<byte>((byte*)GetBufferPointer(), GetBufferSize());
+    }
 
-        public unsafe byte[] ToArray()
+    public unsafe byte[] ToArray()
+    {
+        byte[] result = new byte[GetBufferSize()];
+        fixed (void* dstPtr = result)
         {
-            byte[] result = new byte[GetBufferSize()];
-            fixed (void* dstPtr = result)
-            {
-                Unsafe.CopyBlockUnaligned(dstPtr, (void*)GetBufferPointer(), (uint)result.Length);
-                return result;
-            }
+            Unsafe.CopyBlockUnaligned(dstPtr, (void*)GetBufferPointer(), (uint)result.Length);
+            return result;
         }
     }
 }

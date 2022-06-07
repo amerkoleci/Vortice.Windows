@@ -1,0 +1,772 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<comments>
+  <comment id="IXAudio2SourceVoice::SetFrequencyRatio">
+    <summary>
+      <para>Sets the frequency adjustment ratio of the voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-setfrequencyratio" /></para>
+      <param name="ratio">Frequency adjustment ratio. This value must be between XAUDIO2_MIN_FREQ_RATIO and the <i>MaxFrequencyRatio</i> parameter specified when the voice was created (see <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nf-xaudio2-ixaudio2-createsourcevoice">IXAudio2::CreateSourceVoice</a>). XAUDIO2_MIN_FREQ_RATIO currently is 0.0005, which allows pitch to be lowered by up to 11 octaves.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::SetEffectChain">
+    <summary>
+      <para>Replaces the effect chain of the voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-seteffectchain" /></para>
+      <param name="effectChain">Pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_effect_chain">XAUDIO2_EFFECT_CHAIN</a> structure that describes the new effect chain to use. If NULL is passed, the current effect chain is removed.
+
+<div class="alert"><b>Note</b>  If <i>pEffectChain</i> is non-NULL, the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_effect_chain">XAUDIO2_EFFECT_CHAIN</a> structure that it points to must specify at least one effect.</div>
+<div> </div></param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice::ExitLoop">
+    <summary>
+      <para>Stops looping the voice when it reaches the end of the current loop region.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-exitloop" /></para>
+      <param name="X2DEFAULT">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice::FlushSourceBuffers">
+    <summary>
+      <para>Removes all pending audio buffers from the voice queue.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-flushsourcebuffers" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::RegisterForCallbacks">
+    <summary>
+      <para>Adds an IXAudio2EngineCallback pointer to the XAudio2 engine callback list.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-registerforcallbacks" /></para>
+      <param name="callback"><a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2enginecallback">IXAudio2EngineCallback</a> pointer to add to the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2">XAudio2</a> engine callback list.</param>
+    </summary>
+  </comment>
+  <comment id="XAudio2SemitonesToFrequencyRatio">
+    <summary>
+      <para>Inline function that converts a semitone value to a frequency ratio value.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-xaudio2semitonestofrequencyratio" /></para>
+      <param name="semitones">Floating point value representing the semitone value.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::GetVolume">
+    <summary>
+      <para>Gets the current overall volume level of the voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-getvolume" /></para>
+      <param name="volume">Returns the current overall volume level of the voice. See Remarks for more information on volume levels.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SubmixVoice">
+    <summary>
+      <para>A submix voice is used primarily for performance improvements and effects processing.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nn-xaudio2-ixaudio2submixvoice" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::GetEffectState">
+    <summary>
+      <para>Returns the running state of the effect at a specified position in the effect chain of the voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-geteffectstate" /></para>
+      <param name="effectIndex">Zero-based index of an effect in the effect chain of the voice.</param>
+      <param name="enabled">Returns TRUE If the effect is enabled. If the effect is disabled, returns FALSE.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::CreateMasteringVoice">
+    <summary>
+      <para>Creates and configures a mastering voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-createmasteringvoice" /></para>
+      <param name="masteringVoice">If successful, returns a pointer to the new <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2masteringvoice">IXAudio2MasteringVoice</a> object.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="flags">Flags that specify the behavior of the mastering voice. Must be 0.</param>
+      <param name="inputChannels">Number of channels the mastering voice expects in its input audio. 
+<i>InputChannels</i> must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS.
+
+
+
+You can set <i>InputChannels</i> to XAUDIO2_DEFAULT_CHANNELS, which causes XAudio2 to try to detect the system speaker configuration setup.</param>
+      <param name="inputSampleRate">Sample rate of the input audio data of the mastering voice. This rate must be a multiple of XAUDIO2_QUANTUM_DENOMINATOR. 
+<i>InputSampleRate</i> must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE.
+
+
+
+You can set <i>InputSampleRate</i> to XAUDIO2_DEFAULT_SAMPLERATE, with the default being determined by the current platform.
+
+
+
+Windows XP defaults to 44100.
+
+
+
+Windows Vista and Windows 7 default to the setting specified in the Sound Control Panel. The default for this setting is 44100 (or 48000 if required by the driver).
+
+Flags</param>
+      <param name="streamCategory">The audio stream category to use for this mastering voice.</param>
+      <param name="effectChain">Pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_effect_chain">XAUDIO2_EFFECT_CHAIN</a> structure that describes an effect chain to use in the mastering voice, or NULL to use no effects.</param>
+      <param name="szDeviceId">Identifier of the device to receive the output audio. Specifying the default value of NULL causes XAudio2 to select the global default audio device.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice::Discontinuity">
+    <summary>
+      <para>Notifies an XAudio2 voice that no more buffers are coming after the last one that is currently in its queue.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-discontinuity" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice::SubmitSourceBuffer">
+    <summary>
+      <para>Adds a new audio buffer to the voice queue.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-submitsourcebuffer" /></para>
+      <param name="buffer">Pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_buffer">XAUDIO2_BUFFER</a> structure to queue.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="bufferWMA">Pointer to an additional <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_buffer_wma">XAUDIO2_BUFFER_WMA</a> structure used when submitting WMA data.</param>
+    </summary>
+  </comment>
+  <comment id="XAudio2CutoffFrequencyToRadians">
+    <summary>
+      <para>Inline function that converts from filter cutoff frequencies expressed in hertz to the radian frequency values used in the Frequency member of the XAUDIO2_FILTER_PARAMETERS structure.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-xaudio2cutofffrequencytoradians" /></para>
+      <param name="cutoffFrequency">The cutoff frequency in hertz. Frequencies greater than SampleRate ÷ 6 are clamped to XAUDIO2_MAX_FILTER_FREQUENCY.</param>
+      <param name="sampleRate">The sample rate of the audio data affected by the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_filter_parameters">XAUDIO2_FILTER_PARAMETERS</a> structure.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::AddRef">
+    <summary>
+      <para>Adds a reference to the XAudio2 object.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-addref" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::GetPerformanceData">
+    <summary>
+      <para>Returns current resource usage details, such as available memory or CPU usage.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-getperformancedata" /></para>
+      <param name="perfData">On success, pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_performance_data">XAUDIO2_PERFORMANCE_DATA</a> structure that is returned.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice::Start">
+    <summary>
+      <para>Starts consumption and processing of audio by the voice. Delivers the result to any connected submix or mastering voices, or to the output device.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-start" /></para>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="flags">Flags that control how the voice is started. Must be 0.</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::GetEffectParameters">
+    <summary>
+      <para>Returns the current effect-specific parameters of a given effect in the voice's effect chain.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-geteffectparameters" /></para>
+      <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
+      <param name="parameters">Returns the current values of the effect-specific parameters.</param>
+      <param name="parametersByteSize">Size, in bytes, of the pParameters array.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::SetOutputMatrix">
+    <summary>
+      <para>Sets the volume level of each channel of the final output for the voice. These channels are mapped to the input channels of a specified destination voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-setoutputmatrix" /></para>
+      <param name="destinationVoice">Pointer to a destination <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2voice">IXAudio2Voice</a> for which to set volume levels.
+
+<div class="alert"><b>Note</b>  If the voice sends to a single target voice then specifying NULL will cause <b>SetOutputMatrix</b> to operate on that target voice.</div>
+<div> </div></param>
+      <param name="sourceChannels">Confirms the output channel count of the voice. This is the number of channels that are produced by the last effect in the chain.</param>
+      <param name="destinationChannels">Confirms the input channel count of the destination voice.</param>
+      <param name="levelMatrix">Array of [<i>SourceChannels</i> × <i>DestinationChannels</i>] volume levels sent to the destination voice. The level sent from source channel <i>S</i> to destination channel <i>D</i> is specified in the form <i>pLevelMatrix</i>[<i>SourceChannels</i> × <i>D</i> + <i>S</i>]. 
+
+
+For example, when rendering two-channel stereo input into 5.1 output that is weighted toward the front channels—but is absent from the center and low-frequency channels—the matrix might have the values shown in the following table.
+
+
+
+<table>
+<tr>
+<th>Output</th>
+<th>Left Input [Array Index]</th>
+<th>Right Input [Array Index]</th>
+</tr>
+<tr>
+<td>Left</td>
+<td>1.0 [0]</td>
+<td>0.0 [1]</td>
+</tr>
+<tr>
+<td>Right</td>
+<td>0.0 [2]</td>
+<td>1.0 [3]</td>
+</tr>
+<tr>
+<td>Front Center</td>
+<td>0.0 [4]</td>
+<td>0.0 [5]</td>
+</tr>
+<tr>
+<td>LFE</td>
+<td>0.0 [6]</td>
+<td>0.0 [7]</td>
+</tr>
+<tr>
+<td>Rear Left</td>
+<td>0.8 [8]</td>
+<td>0.0 [9]</td>
+</tr>
+<tr>
+<td>Rear Right</td>
+<td>0.0 [10]</td>
+<td>0.8 [11]</td>
+</tr>
+</table>
+ 
+
+<div class="alert"><b>Note</b>  The left and right input are fully mapped to the output left and right channels; 80 percent of the left and right input is mapped to the rear left and right channels.</div>
+<div> </div>
+See Remarks for more information on volume levels.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice::SetSourceSampleRate">
+    <summary>
+      <para>Reconfigures the voice to consume source data at a different sample rate than the rate specified when the voice was created.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-setsourcesamplerate" /></para>
+      <param name="newSourceSampleRate">The new sample rate the voice should process submitted data at. Valid sample rates are 1kHz to 200kHz.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::GetOutputMatrix">
+    <summary>
+      <para>Gets the volume level of each channel of the final output for the voice. These channels are mapped to the input channels of a specified destination voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-getoutputmatrix" /></para>
+      <param name="destinationVoice">Pointer specifying the destination <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2voice">IXAudio2Voice</a> to retrieve the output matrix for.
+
+<div class="alert"><b>Note</b>  If the voice sends to a single target voice then specifying NULL will cause <b>GetOutputMatrix</b> to operate on that target voice.</div>
+<div> </div></param>
+      <param name="sourceChannels">Confirms the output channel count of the voice. This is the number of channels that are produced by the last effect in the chain.</param>
+      <param name="destinationChannels">Confirms the input channel count of the destination voice.</param>
+      <param name="levelMatrix">Array of [<i>SourceChannels</i> * <i>DestinationChannels</i>] volume levels sent to the destination voice. The level sent from source channel S to destination channel D is returned in the form <i>pLevelMatrix</i>[<i>DestinationChannels</i> × S + D]. See Remarks for more information on volume levels.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::GetOutputFilterParameters">
+    <summary>
+      <para>Returns the filter parameters from one of this voice's sends.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-getoutputfilterparameters" /></para>
+      <param name="destinationVoice"><a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2voice">IXAudio2Voice</a> pointer to the destination voice of the send whose filter parameters will be read.</param>
+      <param name="parameters">Pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_filter_parameters">XAUDIO2_FILTER_PARAMETERS</a> structure containing the filter information.</param>
+    </summary>
+  </comment>
+  <comment id="XAudio2CreateReverb">
+    <summary>
+      <para>Creates a new reverb audio processing object (APO), and returns a pointer to it.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2fx/nf-xaudio2fx-xaudio2createreverb" /></para>
+      <param name="apo">Contains a pointer to the reverb APO that is created.</param>
+      <param name="DEFAULT">Flags that specify the behavior of the APO. The value of this parameter must be 0.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::QueryInterface">
+    <summary>
+      <para>Queries for a given COM interface on the XAudio2 object.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-queryinterface" /></para>
+      <param name="riid">The REFIID that identifies the interface to query for.</param>
+      <param name="ppvInterface">Address of a pointer that receives the interface.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::CommitChanges">
+    <summary>
+      <para>Atomically applies a set of operations that are tagged with a given identifier.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-commitchanges" /></para>
+      <param name="operationSet">Identifier of the set of operations to be applied. To commit all pending operations, pass <b>XAUDIO2_COMMIT_ALL</b>.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2EngineCallback">
+    <summary>
+      <para>The IXAudio2EngineCallback interface contains methods that notify the client when certain events happen in the IXAudio2 engine.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nn-xaudio2-ixaudio2enginecallback" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::UnregisterForCallbacks">
+    <summary>
+      <para>Removes an IXAudio2EngineCallback pointer from the XAudio2 engine callback list.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-unregisterforcallbacks" /></para>
+      <param name="callback"><a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2enginecallback">IXAudio2EngineCallback</a> pointer to remove from the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2">XAudio2</a> engine callback list. 
+If the given pointer is present more than once in the list, only the first instance in the list will be removed.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice::GetFrequencyRatio">
+    <summary>
+      <para>Returns the frequency adjustment ratio of the voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-getfrequencyratio" /></para>
+      <param name="ratio">Returns the current frequency adjustment ratio if successful.</param>
+    </summary>
+  </comment>
+  <comment id="XAudio2RadiansToCutoffFrequency">
+    <summary>
+      <para>Inline function that converts from the radian frequencies used in XAUDIO2_FILTER_PARAMETERS back to absolute frequencies in hertz.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-xaudio2radianstocutofffrequency" /></para>
+      <param name="radians">Value of the Frequency member of the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_filter_parameters">XAUDIO2_FILTER_PARAMETERS</a> structure.</param>
+      <param name="sampleRate">The sample rate of the audio data affected by the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_filter_parameters">XAUDIO2_FILTER_PARAMETERS</a> structure.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::SetVolume">
+    <summary>
+      <para>Sets the overall volume level for the voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-setvolume" /></para>
+      <param name="volume">Overall volume level to use. See Remarks for more information on volume levels.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::CreateSubmixVoice">
+    <summary>
+      <para>Creates and configures a submix voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-createsubmixvoice" /></para>
+      <param name="submixVoice">On success, returns a pointer to the new <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2submixvoice">IXAudio2SubmixVoice</a> object.</param>
+      <param name="inputChannels">Number of channels in the input audio data of the submix voice. 
+<i>InputChannels</i> must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS.</param>
+      <param name="inputSampleRate">Sample rate of the input audio data of submix voice. This rate must be a multiple of XAUDIO2_QUANTUM_DENOMINATOR. <i>InputSampleRate</i> must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="flags">Flags that specify the behavior of the submix voice. It can be 0 or the following:
+
+<table>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>XAUDIO2_VOICE_USEFILTER</td>
+<td>The filter effect should be available on this voice.</td>
+</tr>
+</table></param>
+      <param name="processingStage">An arbitrary number that specifies when this voice is processed with respect to other submix voices, if the XAudio2 engine is running other submix voices. The voice is processed after all other voices that include a smaller <i>ProcessingStage</i> value and before all other voices that include a larger <i>ProcessingStage</i> value. Voices that include the same <i>ProcessingStage</i> value are processed in any order. A submix voice cannot send to another submix voice with a lower or equal <i>ProcessingStage</i> value. This prevents audio being lost due to a submix cycle.</param>
+      <param name="effectChain">Pointer to a list of <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_effect_chain">XAUDIO2_EFFECT_CHAIN</a> structures that describe an effect chain to use in the submix voice.</param>
+      <param name="sendList">Pointer to a list of <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_voice_sends">XAUDIO2_VOICE_SENDS</a> structures that describe the set of destination voices for the submix voice. If <i>pSendList</i> is NULL, the send list will default to a single output to the first mastering voice created.</param>
+    </summary>
+  </comment>
+  <comment id="XAudio2Create">
+    <summary>
+      <para>Creates a new XAudio2 object and returns a pointer to its IXAudio2 interface.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-xaudio2create" /></para>
+      <param name="xAudio2">If the operation is successful, returns a pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2">IXAudio2</a> object.</param>
+      <param name="flags">Flags that specify the behavior of the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2">IXAudio2</a> object. The value of this parameter must be 0.</param>
+      <param name="XAudio2Processor">An <a href="https://docs.microsoft.com/windows/desktop/xaudio2/uint32-xaudio2-processor">XAUDIO2_PROCESSOR</a>-typed value that specifies which CPU to use. If multiple bits are specified, the system will create a separate worker thread for each processor.
+
+
+<a href="https://docs.microsoft.com/windows/desktop/xaudio2/uint32-xaudio2-processor">XAUDIO2_PROCESSOR</a> default value is XAUDIO2_DEFAULT_PROCESSOR.
+
+<div class="alert"><b>Warning</b> If you specify <a href="https://docs.microsoft.com/windows/desktop/xaudio2/uint32-xaudio2-processor">XAUDIO2_ANY_PROCESSOR</a>, the system will use all of the device's processors and, as noted above, create a worker thread for each processor.
+</div>
+
+
+<div class="alert"><b>Note</b>  Specifying a processor should generally be avoided because it can interfere with the scheduler's ability to schedule threads effectively across processors. Instead, pass the XAUDIO2_DEFAULT_PROCESSOR value (see below).</div>
+<div> </div>
+The special XAUDIO2_DEFAULT_PROCESSOR value causes XAudio2 to use its default processor.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::StopEngine">
+    <summary>
+      <para>Stops the audio processing thread.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-stopengine" /></para>
+    </summary>
+  </comment>
+  <comment id="XAudio2AmplitudeRatioToDecibels">
+    <summary>
+      <para>Inline function that converts an amplitude ratio value to a decibel value.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-xaudio2amplituderatiotodecibels" /></para>
+      <param name="volume">Floating point value representing the amplitude ratio.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2EngineCallback::OnProcessingPassStart">
+    <summary>
+      <para>Called by XAudio2 just before an audio processing pass begins.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2enginecallback-onprocessingpassstart" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice">
+    <summary>
+      <para>Use a source voice to submit audio data to the XAudio2 processing pipeline.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nn-xaudio2-ixaudio2sourcevoice" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2VoiceCallback::OnBufferStart">
+    <summary>
+      <para>Called when the voice is about to start processing a new audio buffer.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voicecallback-onbufferstart" /></para>
+      <param name="bufferContext">Context pointer that was assigned to the pContext member of the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_buffer">XAUDIO2_BUFFER</a> structure when the buffer was submitted.</param>
+    </summary>
+  </comment>
+  <comment id="XAudio2DecibelsToAmplitudeRatio">
+    <summary>
+      <para>Inline function that converts a decibel value to an amplitude ratio value.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-xaudio2decibelstoamplituderatio" /></para>
+      <param name="decibels">Floating point value representing the decibel level.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::DisableEffect">
+    <summary>
+      <para>Disables the effect at a given position in the effect chain of the voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-disableeffect" /></para>
+      <param name="effectIndex">Zero-based index of an effect in the effect chain of the voice.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::EnableEffect">
+    <summary>
+      <para>Enables the effect at a given position in the effect chain of the voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-enableeffect" /></para>
+      <param name="effectIndex">Zero-based index of an effect in the effect chain of the voice.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::SetEffectParameters">
+    <summary>
+      <para>Sets parameters for a given effect in the voice's effect chain.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-seteffectparameters" /></para>
+      <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
+      <param name="parameters">Returns the current values of the effect-specific parameters.</param>
+      <param name="parametersByteSize">Size of the <b>pParameters</b> array in bytes.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2EngineCallback::OnProcessingPassEnd">
+    <summary>
+      <para>Called by XAudio2 just after an audio processing pass ends.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2enginecallback-onprocessingpassend" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2VoiceCallback::OnStreamEnd">
+    <summary>
+      <para>Called when the voice has just finished playing a contiguous audio stream.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voicecallback-onstreamend" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::GetFilterParameters">
+    <summary>
+      <para>Gets the voice's filter parameters.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-getfilterparameters" /></para>
+      <param name="parameters">Pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_filter_parameters">XAUDIO2_FILTER_PARAMETERS</a> structure containing the filter information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice::Stop">
+    <summary>
+      <para>Stops consumption of audio by the current voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-stop" /></para>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="flags">Flags that control how the voice is stopped. Can be 0 or the following: 
+
+
+<table>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>XAUDIO2_PLAY_TAILS</td>
+<td>Continue emitting effect output after the voice is stopped. </td>
+</tr>
+</table></param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2VoiceCallback::OnLoopEnd">
+    <summary>
+      <para>Called when the voice reaches the end position of a loop.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voicecallback-onloopend" /></para>
+      <param name="bufferContext">Context pointer that was assigned to the <b>pContext</b> member of the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_buffer">XAUDIO2_BUFFER</a> structure when the buffer was submitted.</param>
+    </summary>
+  </comment>
+  <comment id="XAudio2FrequencyRatioToSemitones">
+    <summary>
+      <para>Inline function that converts a frequency ratio value to a semitone value.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-xaudio2frequencyratiotosemitones" /></para>
+      <param name="frequencyRatio">Floating point value representing the frequency ratio.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::SetFilterParameters">
+    <summary>
+      <para>Sets the voice's filter parameters.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-setfilterparameters" /></para>
+      <param name="parameters">Pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_filter_parameters">XAUDIO2_FILTER_PARAMETERS</a> structure containing the filter information.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2VoiceCallback::OnBufferEnd">
+    <summary>
+      <para>Called when the voice finishes processing a buffer.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voicecallback-onbufferend" /></para>
+      <param name="bufferContext">Context pointer assigned to the <b>pContext</b> member of the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_buffer">XAUDIO2_BUFFER</a> structure when the buffer was submitted.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::StartEngine">
+    <summary>
+      <para>Starts the audio processing thread.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-startengine" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2MasteringVoice::GetChannelMask">
+    <summary>
+      <para>Returns the channel mask for this voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2masteringvoice-getchannelmask" /></para>
+      <param name="channelmask">Returns the channel mask for this voice. This corresponds to the <b>dwChannelMask</b> member of the  <a href="https://docs.microsoft.com/windows-hardware/drivers/ddi/content/ksmedia/ns-ksmedia-waveformatextensible">WAVEFORMATEXTENSIBLE</a> structure.</param>
+    </summary>
+  </comment>
+  <comment id="XAudio2CreateVolumeMeter">
+    <summary>
+      <para>Creates a new volume meter audio processing object (APO) and returns a pointer to it.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2fx/nf-xaudio2fx-xaudio2createvolumemeter" /></para>
+      <param name="apo">Contains the created volume meter APO.</param>
+      <param name="DEFAULT">Flags that specify the behavior of the APO. The value of this parameter must be 0.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::SetOutputVoices">
+    <summary>
+      <para>Designates a new set of submix or mastering voices to receive the output of the voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-setoutputvoices" /></para>
+      <param name="sendList">Array of <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_voice_sends">XAUDIO2_VOICE_SENDS</a> structure pointers to destination voices. If <i>pSendList</i> is NULL, the voice will send its output to the current mastering voice. To set the voice to not send its output anywhere set the <b>OutputCount</b> member of <b>XAUDIO2_VOICE_SENDS</b> to 0. All of the voices in a send list must have the same input sample rate, see <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-sample-rate-conversions">XAudio2 Sample Rate Conversions</a> for additional information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::SetOutputFilterParameters">
+    <summary>
+      <para>Sets the filter parameters on one of this voice's sends.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-setoutputfilterparameters" /></para>
+      <param name="destinationVoice"><a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2voice">IXAudio2Voice</a> pointer to the destination voice of the send whose filter parameters will be set.</param>
+      <param name="parameters">Pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_filter_parameters">XAUDIO2_FILTER_PARAMETERS</a> structure containing the filter information.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::GetChannelVolumes">
+    <summary>
+      <para>Returns the volume levels for the voice, per channel.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-getchannelvolumes" /></para>
+      <param name="channels">Confirms the channel count of the voice.</param>
+      <param name="volumes">Returns the current volume level of each channel in the voice. The array must have at least <i>Channels</i> elements. See Remarks for more information on volume levels.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::SetDebugConfiguration">
+    <summary>
+      <para>Changes global debug logging options for XAudio2.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-setdebugconfiguration" /></para>
+      <param name="debugConfiguration">Pointer to a <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_debug_configuration">XAUDIO2_DEBUG_CONFIGURATION</a> structure that contains the new debug configuration.</param>
+      <param name="X2DEFAULT">This parameter is reserved and must be NULL.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::CreateSourceVoice">
+    <summary>
+      <para>Creates and configures a source voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-createsourcevoice" /></para>
+      <param name="sourceVoice">If successful, returns a pointer to the new <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2sourcevoice">IXAudio2SourceVoice</a> object.</param>
+      <param name="sourceFormat">Pointer to a one of the structures in the table below. This structure contains the expected format for all audio buffers submitted to the source voice. 
+XAudio2 supports PCM and ADPCM voice types. 
+
+<table>
+<tr>
+<th>Format tag</th>
+<th>Wave format structure</th>
+<th>Size (in bytes)</th>
+</tr>
+<tr>
+<td>WAVE_FORMAT_PCM (0x0001) </td>
+<td>
+<a href="https://docs.microsoft.com/previous-versions/dd743663(v=vs.85)">PCMWAVEFORMAT</a>
+</td>
+<td>16</td>
+</tr>
+<tr>
+<td>-or-</td>
+<td>
+<a href="https://docs.microsoft.com/windows/win32/api/mmreg/ns-mmreg-waveformatex">WAVEFORMATEX</a>
+</td>
+<td>18</td>
+</tr>
+<tr>
+<td>WAVE_FORMAT_IEEE_FLOAT (0x0003) [32-bit]</td>
+<td>
+<a href="https://docs.microsoft.com/previous-versions/dd743663(v=vs.85)">PCMWAVEFORMAT</a>
+</td>
+<td>18</td>
+</tr>
+<tr>
+<td>WAVE_FORMAT_ADPCM (0x0002) [MS-ADPCM]</td>
+<td>
+<a href="https://docs.microsoft.com/previous-versions/dd743663(v=vs.85)">ADPCMWAVEFORMAT</a>
+</td>
+<td>50</td>
+</tr>
+<tr>
+<td>WAVE_FORMAT_EXTENSIBLE (0xFFFE)</td>
+<td>
+<a href="https://docs.microsoft.com/windows-hardware/drivers/ddi/content/ksmedia/ns-ksmedia-waveformatextensible">WAVEFORMATEXTENSIBLE</a>
+</td>
+<td>40</td>
+</tr>
+</table>
+ 
+
+XAudio2 supports the following PCM formats.
+
+
+<ul>
+<li>8-bit (unsigned) integer PCM
+
+</li>
+<li>16-bit integer PCM (optimal format for XAudio2)
+
+</li>
+<li>20-bit integer PCM (either in 24 or 32 bit containers)
+
+</li>
+<li>24-bit integer PCM (either in 24 or 32 bit containers)
+
+</li>
+<li>32-bit integer PCM
+
+</li>
+<li>32-bit float PCM (preferred format after 16-bit integer)
+</li>
+</ul>
+The number of channels in a source voice must be less than or equal to XAUDIO2_MAX_AUDIO_CHANNELS. The sample rate of a source voice must be between XAUDIO2_MIN_SAMPLE_RATE and XAUDIO2_MAX_SAMPLE_RATE.
+
+<div class="alert"><b>Note</b>  PCM data formats such as <a href="https://docs.microsoft.com/previous-versions/dd743663(v=vs.85)">PCMWAVEFORMAT</a> and  <b>ADPCMWAVEFORMAT</b> that require more information than provided by <b>WAVEFORMATEX</b> have a <b>WAVEFORMATEX</b> structure as the first member in their format structures. When you create a source voice with one of those formats, cast the format's structure as a <b>WAVEFORMATEX</b> structure and use it as the value for <i>pSourceFormat</i>.</div>
+<div> </div></param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="flags">Flags that specify the behavior of the source voice. A flag can be 0 or a combination of one or more of the following:
+
+<table>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>XAUDIO2_VOICE_NOPITCH</td>
+<td>No pitch control is available on the voice. </td>
+</tr>
+<tr>
+<td>XAUDIO2_VOICE_NOSRC</td>
+<td>No sample rate conversion is available on the voice. 
+         The voice's outputs must have the same sample rate.<div class="alert"><b>Note</b>  The XAUDIO2_VOICE_NOSRC flag causes the voice to behave as though the XAUDIO2_VOICE_NOPITCH flag also is specified.</div>
+<div> </div>
+</td>
+</tr>
+<tr>
+<td>XAUDIO2_VOICE_USEFILTER</td>
+<td>The filter effect should be available on this voice. </td>
+</tr>
+</table>
+ 
+
+<div class="alert"><b>Note</b>  The XAUDIO2_VOICE_MUSIC flag is not supported on Windows.</div>
+<div> </div></param>
+      <param name="maxFrequencyRatio">Highest allowable frequency ratio that can be set on this voice. The value for this argument must be between XAUDIO2_MIN_FREQ_RATIO and XAUDIO2_MAX_FREQ_RATIO. Subsequent calls to <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nf-xaudio2-ixaudio2sourcevoice-setfrequencyratio">IXAudio2SourceVoice::SetFrequencyRatio</a> are clamped between XAUDIO2_MIN_FREQ_RATIO and <b>MaxFrequencyRatio</b>. 
+The maximum value for this argument is defined as XAUDIO2_MAX_FREQ_RATIO, which allows pitch to be raised by up to 10 octaves.
+
+
+
+If <i>MaxFrequencyRatio</i> is less than 1.0, the voice will use that ratio immediately after being created (rather than the default of 1.0).
+
+
+
+
+<table>
+<tr>
+<th>Xbox 360</th>
+</tr>
+<tr>
+<td>For XMA voices, there is one more restriction on the <i>MaxFrequencyRatio</i> argument and the voice's sample rate. The product of these two numbers cannot exceed XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MONO for one-channel voices or XAUDIO2_MAX_RATIO_TIMES_RATE_XMA_MULTICHANNEL for voices with any other number of channels. If the value specified for <i>MaxFrequencyRatio</i> is too high for the specified format, the call to <b>CreateSourceVoice</b> fails and produces a debug message.
+</td>
+</tr>
+</table>
+ 
+
+<div class="alert"><b>Note</b>  You can use the lowest possible <i>MaxFrequencyRatio</i> value to reduce XAudio2's memory usage.</div>
+<div> </div></param>
+      <param name="callback">Pointer to a client-provided callback interface, <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/nn-xaudio2-ixaudio2voicecallback">IXAudio2VoiceCallback</a>.</param>
+      <param name="effectChain">Pointer to a list of <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_effect_chain">XAUDIO2_EFFECT_CHAIN</a> structures that describe an effect chain to use in the source voice.</param>
+      <param name="sendList">Pointer to a list of <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_voice_sends">XAUDIO2_VOICE_SENDS</a> structures that describe the set of destination voices for the source voice. If pSendList is NULL, the send list defaults to a single output to the first mastering voice created.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2::Release">
+    <summary>
+      <para>Releases a reference to the XAudio2 object.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2-release" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::GetVoiceDetails">
+    <summary>
+      <para>Returns information about the creation flags, input channels, and sample rate of a voice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-getvoicedetails" /></para>
+      <param name="voiceDetails"><a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_voice_details">XAUDIO2_VOICE_DETAILS</a> structure containing information about the voice.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2VoiceCallback::OnVoiceProcessingPassStart">
+    <summary>
+      <para>Called during each processing pass for each voice, just before XAudio2 reads data from the voice's buffer queue.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voicecallback-onvoiceprocessingpassstart" /></para>
+      <param name="bytesRequired">The number of bytes that must be submitted immediately to avoid starvation. This allows the implementation of just-in-time streaming scenarios; the client can keep the absolute minimum data queued on the voice at all times, and pass it fresh data just before the data is required. This model provides the lowest possible latency attainable with XAudio2. For xWMA and XMA data <i>BytesRequired</i> will always be zero, since the concept of a frame of xWMA or XMA data is meaningless. 
+
+<div class="alert"><b>Note</b>  In a situation where there is always plenty of data available on the source voice, <i>BytesRequired</i> should always report zero, because it doesn't need any samples immediately to avoid glitching.</div>
+<div> </div></param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::DestroyVoice">
+    <summary>
+      <para>Destroys the voice. If necessary, stops the voice and removes it from the XAudio2 graph.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-destroyvoice" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2VoiceCallback::OnVoiceProcessingPassEnd">
+    <summary>
+      <para>Called just after the processing pass for the voice ends.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voicecallback-onvoiceprocessingpassend" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2EngineCallback::OnCriticalError">
+    <summary>
+      <para>Called if a critical system error occurs that requires XAudio2 to be closed down and restarted.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2enginecallback-oncriticalerror" /></para>
+      <param name="error">Error code returned by XAudio2.</param>
+    </summary>
+  </comment>
+  <comment id="XAudio2CutoffFrequencyToOnePoleCoefficient">
+    <summary>
+      <para>Inline function that converts from filter cutoff frequencies expressed in hertz to the filter coefficients used with the Frequency member of the XAUDIO2_FILTER_PARAMETERS structure.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-xaudio2cutofffrequencytoonepolecoefficient" /></para>
+      <param name="cutoffFrequency">The cutoff frequency in hertz. Frequencies greater than <i>SampleRate</i> are clamped to XAUDIO2_MAX_FILTER_FREQUENCY.</param>
+      <param name="sampleRate">The sample rate of the audio data affected by the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_filter_parameters">XAUDIO2_FILTER_PARAMETERS</a> structure.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2VoiceCallback">
+    <summary>
+      <para>The IXAudio2VoiceCallback interface contains methods that notify the client when certain events happen in a given IXAudio2SourceVoice.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nn-xaudio2-ixaudio2voicecallback" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2MasteringVoice">
+    <summary>
+      <para>A mastering voice is used to represent the audio output device.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nn-xaudio2-ixaudio2masteringvoice" /></para>
+    </summary>
+  </comment>
+  <comment id="IXAudio2Voice::SetChannelVolumes">
+    <summary>
+      <para>Sets the volume levels for the voice, per channel.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voice-setchannelvolumes" /></para>
+      <param name="channels">Number of channels in the voice.</param>
+      <param name="volumes">Array containing the new volumes of each channel in the voice. The array must have <i>Channels</i> elements. See Remarks for more information on volume levels.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="operationSet">Identifies this call as part of a deferred batch. See the <a href="https://docs.microsoft.com/windows/desktop/xaudio2/xaudio2-operation-sets">XAudio2 Operation Sets</a> overview for more information.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2VoiceCallback::OnVoiceError">
+    <summary>
+      <para>Called when a critical error occurs during voice processing.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2voicecallback-onvoiceerror" /></para>
+      <param name="bufferContext">Context pointer that was assigned to the <b>pContext</b> member of the <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_buffer">XAUDIO2_BUFFER</a> structure when the buffer was submitted.</param>
+      <param name="error">The HRESULT code of the error encountered.</param>
+    </summary>
+  </comment>
+  <comment id="IXAudio2SourceVoice::GetState">
+    <summary>
+      <para>Returns the voice's current cursor position data.</para>
+      <para>Microsoft Docs: <see href="https://docs.microsoft.com/windows/win32/api//xaudio2/nf-xaudio2-ixaudio2sourcevoice-getstate" /></para>
+      <param name="voiceState">Pointer to an <a href="https://docs.microsoft.com/windows/desktop/api/xaudio2/ns-xaudio2-xaudio2_voice_state">XAUDIO2_VOICE_STATE</a> structure containing the state of the voice.</param>
+      <param name="X2DEFAULT">TBD</param>
+      <param name="flags">Flags controlling which voice state data should be returned. Valid values are 0 or <b>XAUDIO2_VOICE_NOSAMPLESPLAYED</b>. The default value is 0. If you specify <b>XAUDIO2_VOICE_NOSAMPLESPLAYED</b>, <b>GetState</b> returns only the buffer state, not the sampler state. <b>GetState</b> takes roughly one-third as much time to complete when you specify 
+<b>XAUDIO2_VOICE_NOSAMPLESPLAYED</b>.</param>
+    </summary>
+  </comment>
+</comments>

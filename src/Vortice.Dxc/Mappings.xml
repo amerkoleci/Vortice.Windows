@@ -27,9 +27,6 @@
   </naming>
 
   <mapping>
-    <map enum="DXC(\d+)(.*)" name-tmp="$2" />
-    <map struct="Dxc(\d+)(.*)" name-tmp="$2" />
-
     <map method="IDxcUtils::(.*)" property="false" hresult="true" check="false"/>
     <map method="IDxcUtils::CreateReflection" visibility="private" hresult="true" check="false"/>
     <map param="IDxcUtils::CreateReflection::ppvReflection" type="void" attribute="out" />
