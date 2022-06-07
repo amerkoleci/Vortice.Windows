@@ -46,7 +46,7 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
-  <!-- Supporess generated documentation mismatch warnings -->
+  <!-- Suppress generated documentation mismatch warnings -->
   <PropertyGroup>
     <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);CS1571;CS1572;CS1573</MSBuildWarningsAsMessages>
   </PropertyGroup>
