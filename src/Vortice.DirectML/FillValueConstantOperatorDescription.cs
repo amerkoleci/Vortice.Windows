@@ -48,4 +48,9 @@ public partial struct FillValueConstantOperatorDescription : IOperatorDescriptio
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(FillValueConstantOperatorDescription description)
+    {
+        return new(description);
+    }
 }

@@ -44,4 +44,9 @@ public partial struct ActivationHardmaxOperatorDescription : IOperatorDescriptio
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ActivationHardmaxOperatorDescription description)
+    {
+        return new(description);
+    }
 }

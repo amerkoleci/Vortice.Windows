@@ -125,4 +125,9 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ConvolutionOperatorDescription description)
+    {
+        return new(description);
+    }
 }

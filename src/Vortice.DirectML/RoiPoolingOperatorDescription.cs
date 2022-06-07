@@ -60,4 +60,9 @@ public partial struct RoiPoolingOperatorDescription : IOperatorDescription, IOpe
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(RoiPoolingOperatorDescription description)
+    {
+        return new(description);
+    }
 }

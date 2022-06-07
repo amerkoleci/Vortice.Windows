@@ -66,4 +66,9 @@ public partial struct ScatterNdOperatorDescription : IOperatorDescription, IOper
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ScatterNdOperatorDescription description)
+    {
+        return new(description);
+    }
 }

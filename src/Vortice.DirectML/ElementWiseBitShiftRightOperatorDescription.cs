@@ -50,4 +50,9 @@ public partial struct ElementWiseBitShiftRightOperatorDescription : IOperatorDes
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ElementWiseBitShiftRightOperatorDescription description)
+    {
+        return new(description);
+    }
 }

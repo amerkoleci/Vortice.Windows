@@ -54,4 +54,9 @@ public partial struct Upsample2DOperatorDescription : IOperatorDescription, IOpe
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(Upsample2DOperatorDescription description)
+    {
+        return new(description);
+    }
 }

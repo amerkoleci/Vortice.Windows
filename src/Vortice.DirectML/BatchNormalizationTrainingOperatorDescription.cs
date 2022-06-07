@@ -94,4 +94,9 @@ public partial struct BatchNormalizationTrainingOperatorDescription : IOperatorD
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(BatchNormalizationTrainingOperatorDescription description)
+    {
+        return new(description);
+    }
 }

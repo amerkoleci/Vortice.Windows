@@ -57,4 +57,9 @@ public partial struct ArgmaxOperatorDescription : IOperatorDescription, IOperato
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ArgmaxOperatorDescription description)
+    {
+        return new(description);
+    }
 }

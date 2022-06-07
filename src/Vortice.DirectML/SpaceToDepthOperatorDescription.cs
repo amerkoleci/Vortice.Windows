@@ -49,4 +49,9 @@ public partial struct SpaceToDepthOperatorDescription : IOperatorDescription, IO
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(SpaceToDepthOperatorDescription description)
+    {
+        return new(description);
+    }
 }

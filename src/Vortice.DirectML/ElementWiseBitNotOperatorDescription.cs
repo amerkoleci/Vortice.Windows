@@ -44,4 +44,9 @@ public partial struct ElementWiseBitNotOperatorDescription : IOperatorDescriptio
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ElementWiseBitNotOperatorDescription description)
+    {
+        return new(description);
+    }
 }

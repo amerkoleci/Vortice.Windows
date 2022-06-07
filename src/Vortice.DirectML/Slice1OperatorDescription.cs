@@ -69,4 +69,9 @@ public partial struct Slice1OperatorDescription : IOperatorDescription, IOperato
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(Slice1OperatorDescription description)
+    {
+        return new(description);
+    }
 }

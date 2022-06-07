@@ -69,4 +69,9 @@ public partial struct ElementWiseClip1OperatorDescription : IOperatorDescription
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ElementWiseClip1OperatorDescription description)
+    {
+        return new(description);
+    }
 }

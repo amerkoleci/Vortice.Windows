@@ -51,4 +51,9 @@ public partial struct ActivationSigmoidOperatorDescription : IFusableActivationO
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ActivationSigmoidOperatorDescription description)
+    {
+        return new(description);
+    }
 }

@@ -50,4 +50,9 @@ public partial struct ElementWiseModulusFloorOperatorDescription : IOperatorDesc
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ElementWiseModulusFloorOperatorDescription description)
+    {
+        return new(description);
+    }
 }

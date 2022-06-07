@@ -74,4 +74,9 @@ public partial struct Resample1OperatorDescription : IOperatorDescription, IOper
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(Resample1OperatorDescription description)
+    {
+        return new(description);
+    }
 }

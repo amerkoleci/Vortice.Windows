@@ -55,4 +55,9 @@ public partial struct ReverseSubsequencesOperatorDescription : IOperatorDescript
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ReverseSubsequencesOperatorDescription description)
+    {
+        return new(description);
+    }
 }

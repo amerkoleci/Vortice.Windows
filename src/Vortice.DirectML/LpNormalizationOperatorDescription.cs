@@ -59,4 +59,9 @@ public partial struct LpNormalizationOperatorDescription : IOperatorDescription,
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(LpNormalizationOperatorDescription description)
+    {
+        return new(description);
+    }
 }

@@ -87,4 +87,9 @@ public partial struct MaxPooling1OperatorDescription : IOperatorDescription, IOp
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(MaxPooling1OperatorDescription description)
+    {
+        return new(description);
+    }
 }

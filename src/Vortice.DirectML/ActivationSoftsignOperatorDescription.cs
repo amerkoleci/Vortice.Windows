@@ -51,4 +51,9 @@ public partial struct ActivationSoftsignOperatorDescription : IFusableActivation
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ActivationSoftsignOperatorDescription description)
+    {
+        return new(description);
+    }
 }

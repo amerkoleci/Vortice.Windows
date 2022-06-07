@@ -57,4 +57,9 @@ public partial struct ArgminOperatorDescription : IOperatorDescription, IOperato
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(ArgminOperatorDescription description)
+    {
+        return new(description);
+    }
 }

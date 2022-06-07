@@ -55,4 +55,9 @@ public partial struct GatherElementsOperatorDescription : IOperatorDescription, 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
+
+    public static implicit operator OperatorDescription(GatherElementsOperatorDescription description)
+    {
+        return new(description);
+    }
 }
