@@ -544,7 +544,7 @@ public unsafe partial class ID3D11Device
         Texture2DDescription description = new(format, width, height, 1, 1, bindFlags, miscFlags: miscFlags);
         fixed (T* initialDataPtr = initialData)
         {
-            FormatHelper.GetSurfaceInfo(format, width, height, out _, out int rowPitch, out int slicePitch);
+            FormatHelper.GetSurfaceInfo(format, width, height, out int rowPitch, out int slicePitch);
             SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
             return CreateTexture2D(description, &initData);
         }
@@ -558,7 +558,7 @@ public unsafe partial class ID3D11Device
         Texture2DDescription description = new(format, width, height, 1, 1, bindFlags, miscFlags: miscFlags);
         fixed (T* initialDataPtr = initialData)
         {
-            FormatHelper.GetSurfaceInfo(format, width, height, out _, out int rowPitch, out int slicePitch);
+            FormatHelper.GetSurfaceInfo(format, width, height, out int rowPitch, out int slicePitch);
             SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
             return CreateTexture2D(description, &initData);
         }

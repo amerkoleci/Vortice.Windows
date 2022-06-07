@@ -1917,7 +1917,6 @@ public unsafe partial class ID3D11DeviceContext
                 description.Format,
                 description.GetWidth(description.Width),
                 description.GetHeight(description.Height),
-                out _,
                 out int rowPitch,
                 out int slicePitch);
 
@@ -1935,7 +1934,6 @@ public unsafe partial class ID3D11DeviceContext
                 description.Format,
                 description.GetWidth(description.Width),
                 description.GetHeight(description.Height),
-                out _,
                 out int rowPitch,
                 out int slicePitch);
 

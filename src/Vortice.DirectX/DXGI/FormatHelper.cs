@@ -553,4 +553,9 @@ public static class FormatHelper
             slicePitch = rowPitch * height;
         }
     }
+
+    public static void GetSurfaceInfo(Format format, int width, int height, out int rowPitch,out int slicePitch)
+    {
+        GetSurfaceInfo(format, width, height, out rowPitch, out slicePitch, out _);
+    }
 }

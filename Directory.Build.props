@@ -13,7 +13,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
 
-    <VersionPrefix>2.1.17</VersionPrefix>
+    <VersionPrefix>2.1.18</VersionPrefix>
     <VersionSuffix Condition="'$(VersionSuffix)' == ''"></VersionSuffix>
 
     <SignAssembly Condition="'$(SignAssembly)' == ''">false</SignAssembly>
