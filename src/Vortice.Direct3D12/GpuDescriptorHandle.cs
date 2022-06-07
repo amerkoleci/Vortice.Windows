@@ -21,13 +21,13 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
 
     public GpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
     {
-        ptr = (ulong)((long)ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize));
+        Ptr = (ulong)((long)Ptr + (offsetInDescriptors * descriptorIncrementSize));
         return this;
     }
 
     public GpuDescriptorHandle Offset(int offsetScaledByIncrementSize)
     {
-        ptr = (ulong)((long)ptr + (long)offsetScaledByIncrementSize);
+        Ptr = (ulong)((long)Ptr + (long)offsetScaledByIncrementSize);
         return this;
     }
 
@@ -43,12 +43,12 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
 
     public static void InitOffsetted(out GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetScaledByIncrementSize)
     {
-        handle.ptr = (ulong)((long)@base.ptr + (long)offsetScaledByIncrementSize);
+        handle.Ptr = (ulong)((long)@base.Ptr + (long)offsetScaledByIncrementSize);
     }
 
     public static void InitOffsetted(out GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
     {
-        handle.ptr = (ulong)((long)@base.ptr + ((long)offsetInDescriptors * (long)descriptorIncrementSize));
+        handle.Ptr = (ulong)((long)@base.Ptr + (offsetInDescriptors * descriptorIncrementSize));
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
     /// True if the current left is equal to the <paramref name="right"/> parameter; otherwise, false.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator ==(GpuDescriptorHandle left, GpuDescriptorHandle right) => (left.ptr == right.ptr);
+    public static bool operator ==(GpuDescriptorHandle left, GpuDescriptorHandle right) => (left.Ptr == right.Ptr);
 
     /// <summary>
     /// Compares two <see cref="GpuDescriptorHandle"/> objects for inequality.
@@ -82,18 +82,18 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
     /// True if the current left is unequal to the <paramref name="right"/> parameter; otherwise, false.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator !=(GpuDescriptorHandle left, GpuDescriptorHandle right) => (left.ptr != right.ptr);
+    public static bool operator !=(GpuDescriptorHandle left, GpuDescriptorHandle right) => (left.Ptr != right.Ptr);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator ulong(GpuDescriptorHandle left) => left.ptr;
+    public static implicit operator ulong(GpuDescriptorHandle left) => left.Ptr;
 
     /// <inheritdoc/>
-    public override int GetHashCode() => ptr.GetHashCode();
+    public override int GetHashCode() => Ptr.GetHashCode();
 
     /// <inheritdoc/>
     public override bool Equals(object? obj) => obj is GpuDescriptorHandle handle && Equals(handle);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Equals(GpuDescriptorHandle other) => this == other;
+    public bool Equals(GpuDescriptorHandle other) => Ptr == other.Ptr;
 }

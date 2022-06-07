@@ -1893,11 +1893,53 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="depthPitch">The depth pitch.</param>
     /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
-    public void UpdateSubresource<T>(Span<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    public void UpdateSubresource<T>(ReadOnlySpan<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {
             UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
+        }
+    }
+
+    public void WriteTexture<T>(ID3D11Texture2D resource, int arraySlice, int mipLevel, T[] data) where T : unmanaged
+    {
+        ReadOnlySpan<T> span = data.AsSpan();
+        WriteTexture(resource, arraySlice, mipLevel, span);
+    }
+
+    public void WriteTexture<T>(ID3D11Texture2D resource, int arraySlice, int mipLevel, ReadOnlySpan<T> data) where T : unmanaged
+    {
+        Texture2DDescription description = resource.Description;
+        fixed (T* dataPtr = data)
+        {
+            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            DXGI.FormatHelper.GetSurfaceInfo(
+                description.Format,
+                description.GetWidth(description.Width),
+                description.GetHeight(description.Height),
+                out _,
+                out int rowPitch,
+                out int slicePitch);
+
+            UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
+        }
+    }
+
+    public unsafe void WriteTexture<T>(ID3D11Texture2D resource, int arraySlice, int mipLevel, ref T data) where T : unmanaged
+    {
+        Texture2DDescription description = resource.Description;
+        fixed (T* dataPtr = &data)
+        {
+            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            DXGI.FormatHelper.GetSurfaceInfo(
+                description.Format,
+                description.GetWidth(description.Width),
+                description.GetHeight(description.Height),
+                out _,
+                out int rowPitch,
+                out int slicePitch);
+
+            UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
         }
     }
 

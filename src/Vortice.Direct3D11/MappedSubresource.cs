@@ -49,7 +49,7 @@ public unsafe partial struct MappedSubresource
     public Span<T> AsSpan<T>(ID3D11Texture1D resource, int mipSlice, int arraySlice) where T : unmanaged
     {
         resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
-        Span<byte> source = new(DataPointer.ToPointer(), mipSize * resource.Description.Format.SizeOfInBytes());
+        Span<byte> source = new(DataPointer.ToPointer(), mipSize * RowPitch);
         return MemoryMarshal.Cast<byte, T>(source);
     }
 

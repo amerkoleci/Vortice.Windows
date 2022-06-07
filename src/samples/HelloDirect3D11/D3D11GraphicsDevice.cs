@@ -8,6 +8,7 @@ using Vortice;
 using Vortice.D3DCompiler;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
+using Vortice.Direct3D11.Debug;
 using Vortice.DXGI;
 using Vortice.DXGI.Debug;
 using Vortice.Mathematics;
@@ -194,8 +195,24 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         DeviceContext.ClearState();
         DeviceContext.Flush();
         DeviceContext.Dispose();
-        Device.Dispose();
         SwapChain?.Dispose();
+
+#if DEBUG
+        uint refCount = Device.Release();
+        if (refCount > 0)
+        {
+            System.Diagnostics.Debug.WriteLine($"Direct3D11: There are {refCount} unreleased references left on the device");
+
+            ID3D11Debug? d3d11Debug = Device.QueryInterfaceOrNull<ID3D11Debug>();
+            if (d3d11Debug != null)
+            {
+                d3d11Debug.ReportLiveDeviceObjects(ReportLiveDeviceObjectFlags.Detail | ReportLiveDeviceObjectFlags.IgnoreInternal);
+                d3d11Debug.Dispose();
+            }
+        }
+#else
+        Device.Dispose();
+#endif
         Factory.Dispose();
 
 #if DEBUG
@@ -323,7 +340,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             {
                 for (int level = 0; level < desc.MipLevels; ++level)
                 {
-                    int index = ID3D11Resource.CalculateSubResourceIndex(level, item, desc.MipLevels);
+                    int index = CalculateSubResourceIndex(level, item, desc.MipLevels);
                     DeviceContext.ResolveSubresource(temp, index, source, index, format);
                 }
             }

@@ -1,24 +1,55 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
-using System.IO;
-using Xunit;
+using NUnit.Framework;
 
-namespace Vortice.Dxc.Test
+namespace Vortice.Dxc.Test;
+
+[TestFixture(TestOf = typeof(DxcCompiler))]
+public class CompileTests
 {
-    public class CompileTests
+    private const string ShaderCodeNotSignedMessage = "Shader code is not signed.";
+
+    private string AssetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
+
+    [TestCase]
+    public void SingleFileTest()
     {
-        private const string ShaderCodeNotSignedMessage = "Shader code is not signed.";
+        string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "TriangleSingleFile.hlsl"));
 
-        private string AssetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
+        using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
 
-        [Fact]
-        public void SingleFileTest()
+        Assert.True(results.GetStatus().Success);
+
+        var shaderCode = results.GetObjectBytecodeArray();
+
+        Assert.True(shaderCode.Length > 0);
+
+        Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
+    }
+
+    [TestCase]
+    public void ErrorTest()
+    {
+        string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "TriangleError.hlsl"));
+
+        using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
+
+        Assert.True(results.GetStatus().Failure);
+
+        var errorTest = results.GetErrors();
+
+        Assert.True(errorTest!.Contains("error: no member named 'ThisIsAnError' in 'PSInput'"));
+    }
+
+    [TestCase]
+    public void ShaderIncludeTest()
+    {
+        string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "Triangle.hlsl"));
+
+        using (var includeHandler = new ShaderIncludeHandler(AssetsPath))
         {
-            string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "TriangleSingleFile.hlsl"));
-
-            using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
+            using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", includeHandler: includeHandler);
 
             Assert.True(results.GetStatus().Success);
 
@@ -28,56 +59,23 @@ namespace Vortice.Dxc.Test
 
             Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
         }
+    }
 
-        [Fact]
-        public void ErrorTest()
-        {
-            string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "TriangleError.hlsl"));
+    [TestCase]
+    public void DxcDefineTest()
+    {
+        string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "TriangleSingleFile.hlsl"));
 
-            using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
+        var defines = new DxcDefine[] { new DxcDefine { Name = "TEST", Value = "1" } };
 
-            Assert.True(results.GetStatus().Failure);
+        using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", defines: defines);
 
-            var error = results.GetErrors();
+        Assert.True(results.GetStatus().Success);
 
-            Assert.Contains("error: no member named 'ThisIsAnError' in 'PSInput'", error);
-        }
+        var shaderCode = results.GetObjectBytecodeArray();
 
-        [Fact]
-        public void ShaderIncludeTest()
-        {
-            string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "Triangle.hlsl"));
+        Assert.True(shaderCode.Length > 0);
 
-            using (var includeHandler = new ShaderIncludeHandler(AssetsPath))
-            {
-                using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", includeHandler: includeHandler);
-
-                Assert.True(results.GetStatus().Success);
-
-                var shaderCode = results.GetObjectBytecodeArray();
-
-                Assert.True(shaderCode.Length > 0);
-
-                Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
-            }
-        }
-
-        [Fact]
-        public void DxcDefineTest()
-        {
-            string shaderSource = File.ReadAllText(Path.Combine(AssetsPath, "TriangleSingleFile.hlsl"));
-
-            var defines = new DxcDefine[] { new DxcDefine { Name = "TEST", Value = "1" } };
-
-            using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", defines: defines);
-
-            Assert.True(results.GetStatus().Success);
-
-            var shaderCode = results.GetObjectBytecodeArray();
-
-            Assert.True(shaderCode.Length > 0);
-
-            Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
-        }
+        Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
     }
 }

@@ -1,14 +1,13 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-namespace Vortice.Dxc
+namespace Vortice.Dxc;
+
+public partial class IDxcAssembler
 {
-    public partial class IDxcAssembler
+    public IDxcOperationResult AssembleToContainer(IDxcBlob shader)
     {
-        public IDxcOperationResult AssembleToContainer(IDxcBlob shader)
-        {
-            AssembleToContainer(shader, out IDxcOperationResult result).CheckError();
-            return result;
-        }
+        AssembleToContainer(shader, out IDxcOperationResult result).CheckError();
+        return result;
     }
 }

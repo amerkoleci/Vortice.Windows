@@ -23,7 +23,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
 
     public readonly Window Window;
     public readonly IDXGIFactory4 DXGIFactory;
-    private readonly ID3D12Device2 _d3d12Device;
+    private readonly ID3D12Device2 Device;
     private readonly ID3D12DescriptorHeap _rtvDescriptorHeap;
     private readonly int _rtvDescriptorSize;
     private readonly ID3D12Resource[] _renderTargets;
@@ -74,6 +74,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
 
         DXGIFactory = CreateDXGIFactory2<IDXGIFactory4>(validation);
 
+        ID3D12Device2? d3d12Device = default;
         for (int adapterIndex = 0; DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1 adapter).Success; adapterIndex++)
         {
             AdapterDescription1 desc = adapter.Description1;
@@ -86,7 +87,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
                 continue;
             }
 
-            if (D3D12CreateDevice(adapter, FeatureLevel.Level_11_0, out _d3d12Device).Success)
+            if (D3D12CreateDevice(adapter, FeatureLevel.Level_11_0, out d3d12Device).Success)
             {
                 adapter.Dispose();
 
@@ -102,8 +103,13 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             }
         }
 
+        if (d3d12Device == null)
+            throw new PlatformNotSupportedException("Cannot create ID3D12Device");
+
+        Device = d3d12Device!;
+
         // Create Command queue.
-        GraphicsQueue = _d3d12Device!.CreateCommandQueue(CommandListType.Direct);
+        GraphicsQueue = Device.CreateCommandQueue(CommandListType.Direct);
         GraphicsQueue.Name = "Graphics Queue";
 
         SwapChainDescription1 swapChainDesc = new()
@@ -125,8 +131,8 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             _backbufferIndex = SwapChain.CurrentBackBufferIndex;
         }
 
-        _rtvDescriptorHeap = _d3d12Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
-        _rtvDescriptorSize = _d3d12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.RenderTargetView);
+        _rtvDescriptorHeap = Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
+        _rtvDescriptorSize = Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.RenderTargetView);
 
 
         if (_depthStencilFormat != Format.Unknown)
@@ -136,7 +142,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
 
             ClearValue depthOptimizedClearValue = new ClearValue(_depthStencilFormat, 1.0f, 0);
 
-            _depthStencilTexture = _d3d12Device.CreateCommittedResource(
+            _depthStencilTexture = Device.CreateCommittedResource(
                 new HeapProperties(HeapType.Default),
                 HeapFlags.None,
                 depthStencilDesc,
@@ -150,8 +156,8 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
                 ViewDimension = DepthStencilViewDimension.Texture2D
             };
 
-            _dsvDescriptorHeap = _d3d12Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.DepthStencilView, 1));
-            _d3d12Device.CreateDepthStencilView(_depthStencilTexture, dsViewDesc, _dsvDescriptorHeap.GetCPUDescriptorHandleForHeapStart());
+            _dsvDescriptorHeap = Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.DepthStencilView, 1));
+            Device.CreateDepthStencilView(_depthStencilTexture, dsViewDesc, _dsvDescriptorHeap.GetCPUDescriptorHandleForHeapStart());
         }
 
         // Create frame resources.
@@ -163,7 +169,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             for (int i = 0; i < RenderLatency; i++)
             {
                 _renderTargets[i] = SwapChain.GetBuffer<ID3D12Resource>(i);
-                _d3d12Device.CreateRenderTargetView(_renderTargets[i], null, rtvHandle);
+                Device.CreateRenderTargetView(_renderTargets[i], null, rtvHandle);
                 rtvHandle += _rtvDescriptorSize;
             }
         }
@@ -171,7 +177,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         _commandAllocators = new ID3D12CommandAllocator[RenderLatency];
         for (int i = 0; i < RenderLatency; i++)
         {
-            _commandAllocators[i] = _d3d12Device.CreateCommandAllocator(CommandListType.Direct);
+            _commandAllocators[i] = Device.CreateCommandAllocator(CommandListType.Direct);
         }
 
         RootSignatureFlags rootSignatureFlags = RootSignatureFlags.AllowInputAssemblerInputLayout;
@@ -182,7 +188,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         rootSignatureFlags |= RootSignatureFlags.DenyMeshShaderRootAccess;
         RootSignatureDescription1 rootSignatureDesc = new(rootSignatureFlags);
 
-        _rootSignature = _d3d12Device.CreateRootSignature(rootSignatureDesc);
+        _rootSignature = Device.CreateRootSignature(rootSignatureDesc);
         InputElementDescription[] inputElementDescs = new[]
         {
             new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
@@ -208,13 +214,13 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             SampleDescription = SampleDescription.Default
         };
 
-        _pipelineState = _d3d12Device.CreatePipelineState(pipelineStateStream);
-        _commandList = _d3d12Device.CreateCommandList<ID3D12GraphicsCommandList4>(CommandListType.Direct, _commandAllocators[0], _pipelineState);
+        _pipelineState = Device.CreatePipelineState(pipelineStateStream);
+        _commandList = Device.CreateCommandList<ID3D12GraphicsCommandList4>(CommandListType.Direct, _commandAllocators[0], _pipelineState);
         _commandList.Close();
 
         int vertexBufferSize = 3 * Unsafe.SizeOf<VertexPositionColor>();
 
-        _vertexBuffer = _d3d12Device.CreateCommittedResource(
+        _vertexBuffer = Device.CreateCommittedResource(
             new HeapProperties(HeapType.Upload),
             HeapFlags.None,
             ResourceDescription.Buffer((ulong)vertexBufferSize),
@@ -240,13 +246,12 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         //}
 
         // Create synchronization objects.
-        _frameFence = _d3d12Device.CreateFence(0);
+        _frameFence = Device.CreateFence(0);
         _frameFenceEvent = new AutoResetEvent(false);
     }
 
     public bool IsTearingSupported { get; }
 
-    public ID3D12Device2 D3D12Device => _d3d12Device;
     public ID3D12CommandQueue GraphicsQueue { get; }
 
     public IDXGISwapChain3 SwapChain { get; }
@@ -272,7 +277,24 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         SwapChain.Dispose();
         _frameFence.Dispose();
         GraphicsQueue.Dispose();
-        _d3d12Device.Dispose();
+
+#if DEBUG
+        uint refCount = Device.Release();
+        if (refCount > 0)
+        {
+            System.Diagnostics.Debug.WriteLine($"Direct3D11: There are {refCount} unreleased references left on the device");
+
+            ID3D12DebugDevice? d3d12DebugDevice = Device.QueryInterfaceOrNull<ID3D12DebugDevice>();
+            if (d3d12DebugDevice != null)
+            {
+                d3d12DebugDevice.ReportLiveDeviceObjects(ReportLiveDeviceObjectFlags.Detail | ReportLiveDeviceObjectFlags.IgnoreInternal);
+                d3d12DebugDevice.Dispose();
+            }
+        }
+#else
+        Device.Dispose();
+#endif
+
         DXGIFactory.Dispose();
 
 #if DEBUG

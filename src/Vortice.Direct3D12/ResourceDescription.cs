@@ -63,6 +63,14 @@ public partial struct ResourceDescription
         return new ResourceDescription(ResourceDimension.Buffer, alignment, width, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
     }
 
+    public static ResourceDescription Buffer(
+        int width,
+        ResourceFlags flags = ResourceFlags.None,
+        int alignment = 0)
+    {
+        return new ResourceDescription(ResourceDimension.Buffer, (ulong)alignment, (ulong)width, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
+    }
+
     public static ResourceDescription Texture1D(Format format,
         ulong width,
         ushort arraySize = 1,

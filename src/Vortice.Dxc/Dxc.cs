@@ -2,8 +2,6 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using SharpGen.Runtime;
 
 namespace Vortice.Dxc;
 
@@ -232,7 +230,7 @@ public static partial class Dxc
     public static T DxcCreateInstance<T>(Guid classGuid) where T : ComObject
     {
         DxcCreateInstance(classGuid, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public static Result DxcCreateInstance<T>(Guid classGuid, out T? instance) where T : ComObject
