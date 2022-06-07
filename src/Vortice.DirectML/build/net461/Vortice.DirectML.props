@@ -28,7 +28,7 @@
       <Visible>False</Visible>
     </Content>
 
-    <Content Condition="Exists('$(DirectMLDebugLibrary)')">
+    <Content Include="$(DirectMLDebugLibrary)" Condition="Exists('$(DirectMLDebugLibrary)')">
       <Link>%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Visible>False</Visible>
