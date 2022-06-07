@@ -61,9 +61,4 @@ public partial struct ActivationShrinkOperatorDescription : IFusableActivationOp
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ActivationShrinkOperatorDescription description)
-    {
-        return new(description);
-    }
 }

@@ -65,9 +65,4 @@ public partial struct ElementWiseClipGrad1OperatorDescription : IOperatorDescrip
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseClipGrad1OperatorDescription description)
-    {
-        return new(description);
-    }
 }

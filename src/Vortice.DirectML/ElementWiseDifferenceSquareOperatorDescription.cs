@@ -50,9 +50,4 @@ public partial struct ElementWiseDifferenceSquareOperatorDescription : IOperator
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseDifferenceSquareOperatorDescription description)
-    {
-        return new(description);
-    }
 }

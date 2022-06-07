@@ -77,9 +77,4 @@ public partial struct Padding1OperatorDescription : IOperatorDescription, IOpera
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(Padding1OperatorDescription description)
-    {
-        return new(description);
-    }
 }

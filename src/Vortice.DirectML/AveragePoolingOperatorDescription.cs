@@ -81,9 +81,4 @@ public partial struct AveragePoolingOperatorDescription : IOperatorDescription, 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(AveragePoolingOperatorDescription description)
-    {
-        return new(description);
-    }
 }

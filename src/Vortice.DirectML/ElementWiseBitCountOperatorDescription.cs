@@ -44,9 +44,4 @@ public partial struct ElementWiseBitCountOperatorDescription : IOperatorDescript
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseBitCountOperatorDescription description)
-    {
-        return new(description);
-    }
 }

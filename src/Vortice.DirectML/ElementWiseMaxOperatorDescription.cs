@@ -50,9 +50,4 @@ public partial struct ElementWiseMaxOperatorDescription : IOperatorDescription, 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseMaxOperatorDescription description)
-    {
-        return new(description);
-    }
 }

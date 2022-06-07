@@ -85,9 +85,4 @@ public partial struct BatchNormalizationTrainingGradOperatorDescription : IOpera
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(BatchNormalizationTrainingGradOperatorDescription description)
-    {
-        return new(description);
-    }
 }

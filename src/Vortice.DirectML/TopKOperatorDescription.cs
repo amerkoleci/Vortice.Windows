@@ -60,9 +60,4 @@ public partial struct TopKOperatorDescription : IOperatorDescription, IOperatorD
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(TopKOperatorDescription description)
-    {
-        return new(description);
-    }
 }

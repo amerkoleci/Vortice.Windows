@@ -101,9 +101,4 @@ public partial struct QuantizedLinearMatrixMultiplyOperatorDescription : IOperat
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(QuantizedLinearMatrixMultiplyOperatorDescription description)
-    {
-        return new(description);
-    }
 }

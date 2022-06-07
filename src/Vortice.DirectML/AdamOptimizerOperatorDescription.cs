@@ -100,9 +100,4 @@ public partial struct AdamOptimizerOperatorDescription : IOperatorDescription, I
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(AdamOptimizerOperatorDescription description)
-    {
-        return new(description);
-    }
 }

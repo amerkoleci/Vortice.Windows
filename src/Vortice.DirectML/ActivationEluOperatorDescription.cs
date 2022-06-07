@@ -56,9 +56,4 @@ public partial struct ActivationEluOperatorDescription : IFusableActivationOpera
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ActivationEluOperatorDescription description)
-    {
-        return new(description);
-    }
 }

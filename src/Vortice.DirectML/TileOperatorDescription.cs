@@ -52,9 +52,4 @@ public partial struct TileOperatorDescription : IOperatorDescription, IOperatorD
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(TileOperatorDescription description)
-    {
-        return new(description);
-    }
 }

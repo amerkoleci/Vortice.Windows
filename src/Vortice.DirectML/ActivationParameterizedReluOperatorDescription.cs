@@ -50,9 +50,4 @@ public partial struct ActivationParameterizedReluOperatorDescription : IOperator
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ActivationParameterizedReluOperatorDescription description)
-    {
-        return new(description);
-    }
 }
