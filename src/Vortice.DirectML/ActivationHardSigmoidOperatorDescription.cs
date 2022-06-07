@@ -61,9 +61,4 @@ public partial struct ActivationHardSigmoidOperatorDescription : IFusableActivat
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ActivationHardSigmoidOperatorDescription description)
-    {
-        return new(description);
-    }
 }

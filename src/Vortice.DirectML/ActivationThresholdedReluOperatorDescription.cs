@@ -56,9 +56,4 @@ public partial struct ActivationThresholdedReluOperatorDescription : IFusableAct
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ActivationThresholdedReluOperatorDescription description)
-    {
-        return new(description);
-    }
 }

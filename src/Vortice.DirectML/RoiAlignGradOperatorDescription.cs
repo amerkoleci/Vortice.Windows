@@ -125,9 +125,4 @@ public partial struct RoiAlignGradOperatorDescription : IOperatorDescription, IO
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(RoiAlignGradOperatorDescription description)
-    {
-        return new(description);
-    }
 }

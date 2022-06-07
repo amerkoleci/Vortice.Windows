@@ -93,9 +93,4 @@ public partial struct MeanVarianceNormalization1OperatorDescription : IOperatorD
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(MeanVarianceNormalization1OperatorDescription description)
-    {
-        return new(description);
-    }
 }

@@ -106,9 +106,4 @@ public partial struct RoiAlign1OperatorDescription : IOperatorDescription, IOper
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(RoiAlign1OperatorDescription description)
-    {
-        return new(description);
-    }
 }

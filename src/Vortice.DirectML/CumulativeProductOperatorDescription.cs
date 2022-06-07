@@ -59,9 +59,4 @@ public partial struct CumulativeProductOperatorDescription : IOperatorDescriptio
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(CumulativeProductOperatorDescription description)
-    {
-        return new(description);
-    }
 }

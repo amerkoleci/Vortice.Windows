@@ -48,9 +48,4 @@ public partial struct DiagonalMatrixOperatorDescription : IOperatorDescription, 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(DiagonalMatrixOperatorDescription description)
-    {
-        return new(description);
-    }
 }

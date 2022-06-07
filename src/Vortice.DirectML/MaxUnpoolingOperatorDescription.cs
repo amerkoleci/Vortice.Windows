@@ -50,9 +50,4 @@ public partial struct MaxUnpoolingOperatorDescription : IOperatorDescription, IO
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(MaxUnpoolingOperatorDescription description)
-    {
-        return new(description);
-    }
 }

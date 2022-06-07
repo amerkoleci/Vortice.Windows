@@ -81,9 +81,4 @@ public partial struct LpPoolingOperatorDescription : IOperatorDescription, IOper
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(LpPoolingOperatorDescription description)
-    {
-        return new(description);
-    }
 }

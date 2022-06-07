@@ -49,9 +49,4 @@ public partial struct ElementWiseIsInfinityOperatorDescription : IOperatorDescri
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseIsInfinityOperatorDescription description)
-    {
-        return new(description);
-    }
 }

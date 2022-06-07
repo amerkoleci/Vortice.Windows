@@ -72,9 +72,4 @@ public partial struct JoinOperatorDescription : IOperatorDescription, IOperatorD
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(JoinOperatorDescription description)
-    {
-        return new(description);
-    }
 }

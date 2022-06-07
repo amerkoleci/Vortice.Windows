@@ -56,9 +56,4 @@ public partial struct ActivationLeakyReluOperatorDescription : IFusableActivatio
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ActivationLeakyReluOperatorDescription description)
-    {
-        return new(description);
-    }
 }

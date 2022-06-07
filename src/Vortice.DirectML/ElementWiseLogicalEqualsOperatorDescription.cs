@@ -50,9 +50,4 @@ public partial struct ElementWiseLogicalEqualsOperatorDescription : IOperatorDes
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseLogicalEqualsOperatorDescription description)
-    {
-        return new(description);
-    }
 }

@@ -148,9 +148,4 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(QuantizedLinearConvolutionOperatorDescription description)
-    {
-        return new(description);
-    }
 }

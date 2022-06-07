@@ -54,9 +54,4 @@ public partial struct ElementWiseAcoshOperatorDescription : IOperatorDescription
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseAcoshOperatorDescription description)
-    {
-        return new(description);
-    }
 }

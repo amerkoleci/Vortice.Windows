@@ -59,9 +59,4 @@ public partial struct ElementWiseConstantPowOperatorDescription : IOperatorDescr
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseConstantPowOperatorDescription description)
-    {
-        return new(description);
-    }
 }

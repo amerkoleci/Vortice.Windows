@@ -55,9 +55,4 @@ public partial struct OneHotOperatorDescription : IOperatorDescription, IOperato
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(OneHotOperatorDescription description)
-    {
-        return new(description);
-    }
 }

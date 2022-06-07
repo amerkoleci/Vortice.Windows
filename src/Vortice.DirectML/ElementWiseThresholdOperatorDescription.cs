@@ -59,9 +59,4 @@ public partial struct ElementWiseThresholdOperatorDescription : IOperatorDescrip
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseThresholdOperatorDescription description)
-    {
-        return new(description);
-    }
 }

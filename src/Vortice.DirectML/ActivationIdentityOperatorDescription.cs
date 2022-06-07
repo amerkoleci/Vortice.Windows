@@ -51,9 +51,4 @@ public partial struct ActivationIdentityOperatorDescription : IFusableActivation
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ActivationIdentityOperatorDescription description)
-    {
-        return new(description);
-    }
 }

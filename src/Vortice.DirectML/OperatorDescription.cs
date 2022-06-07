@@ -13,6 +13,11 @@ public partial struct OperatorDescription
         Description = description;
     }
 
+    public static implicit operator OperatorDescription(IOperatorDescription description)
+    {
+        return new OperatorDescription(description);
+    }
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

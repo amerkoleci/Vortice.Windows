@@ -81,9 +81,4 @@ public partial struct AveragePoolingGradOperatorDescription : IOperatorDescripti
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(AveragePoolingGradOperatorDescription description)
-    {
-        return new(description);
-    }
 }

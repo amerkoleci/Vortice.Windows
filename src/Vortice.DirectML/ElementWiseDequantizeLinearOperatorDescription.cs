@@ -56,9 +56,4 @@ public partial struct ElementWiseDequantizeLinearOperatorDescription : IOperator
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseDequantizeLinearOperatorDescription description)
-    {
-        return new(description);
-    }
 }

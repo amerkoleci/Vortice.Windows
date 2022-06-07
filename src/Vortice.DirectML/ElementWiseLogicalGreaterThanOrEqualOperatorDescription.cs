@@ -50,9 +50,4 @@ public partial struct ElementWiseLogicalGreaterThanOrEqualOperatorDescription : 
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseLogicalGreaterThanOrEqualOperatorDescription description)
-    {
-        return new(description);
-    }
 }

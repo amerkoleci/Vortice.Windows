@@ -75,9 +75,4 @@ public partial struct LocalResponseNormalizationGradientOperatorDescription : IO
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(LocalResponseNormalizationGradientOperatorDescription description)
-    {
-        return new(description);
-    }
 }

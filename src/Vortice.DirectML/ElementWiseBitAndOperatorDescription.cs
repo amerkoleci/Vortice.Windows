@@ -50,9 +50,4 @@ public partial struct ElementWiseBitAndOperatorDescription : IOperatorDescriptio
         UnsafeUtilities.Free(@ref);
     }
     #endregion
-
-    public static implicit operator OperatorDescription(ElementWiseBitAndOperatorDescription description)
-    {
-        return new(description);
-    }
 }
