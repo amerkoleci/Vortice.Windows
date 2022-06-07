@@ -1915,8 +1915,8 @@ public unsafe partial class ID3D11DeviceContext
             int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
             DXGI.FormatHelper.GetSurfaceInfo(
                 description.Format,
-                description.GetWidth(description.Width),
-                description.GetHeight(description.Height),
+                description.GetWidth(mipLevel),
+                description.GetHeight(mipLevel),
                 out int rowPitch,
                 out int slicePitch);
 
@@ -1932,8 +1932,8 @@ public unsafe partial class ID3D11DeviceContext
             int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
             DXGI.FormatHelper.GetSurfaceInfo(
                 description.Format,
-                description.GetWidth(description.Width),
-                description.GetHeight(description.Height),
+                description.GetWidth(mipLevel),
+                description.GetHeight(mipLevel),
                 out int rowPitch,
                 out int slicePitch);
 
