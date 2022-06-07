@@ -13,7 +13,7 @@ public static class Program
         Configuration.EnableObjectTracking = true;
 #endif
 
-        using DmlDevice app = new();
+        using HelloDml app = new();
         app.Run();
     }
 }

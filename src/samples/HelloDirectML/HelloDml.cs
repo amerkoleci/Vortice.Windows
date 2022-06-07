@@ -9,7 +9,7 @@ using static Vortice.DirectML.DML;
 
 namespace HelloDirectML;
 
-public class DmlDevice : IDisposable
+public class HelloDml : IDisposable
 {
     public readonly IDXGIFactory4 DXGIFactory;
     public readonly ID3D12Device2 D3D12Device;
@@ -21,7 +21,7 @@ public class DmlDevice : IDisposable
 
     public bool IsSupported() => D3D12.IsSupported(Vortice.Direct3D.FeatureLevel.Level_12_0);
 
-    public DmlDevice()
+    public HelloDml()
     {
         if (!IsSupported())
         {
