@@ -45,7 +45,7 @@ namespace Vortice.Dxc
             };
 
             CreateReflection(ref reflectionData, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr)!;
         }
 
         public IDxcCompilerArgs BuildArguments(string sourceName, string entryPoint, string targetProfile, string[] arguments, DxcDefine[] defines)

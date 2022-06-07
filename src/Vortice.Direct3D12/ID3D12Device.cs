@@ -322,6 +322,25 @@ public unsafe partial class ID3D12Device
     }
 
     #region CreateCommittedResource
+    public ID3D12Resource CreateCommittedResource(HeapType heapType,
+        HeapFlags heapFlags,
+        ResourceDescription description,
+        ResourceStates initialResourceState,
+        ClearValue? optimizedClearValue = null)
+    {
+        HeapProperties heapProperties = new HeapProperties(heapType);
+        CreateCommittedResource(
+            ref heapProperties,
+            heapFlags,
+            ref description,
+            initialResourceState,
+            optimizedClearValue,
+            typeof(ID3D12Resource).GUID,
+            out IntPtr nativePtr).CheckError();
+
+        return new(nativePtr);
+    }
+
     public ID3D12Resource CreateCommittedResource(HeapProperties heapProperties,
         HeapFlags heapFlags,
         ResourceDescription description,

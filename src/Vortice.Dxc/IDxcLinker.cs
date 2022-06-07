@@ -1,105 +1,103 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System;
 using SharpGen.Runtime;
 
-namespace Vortice.Dxc
+namespace Vortice.Dxc;
+
+public partial class IDxcLinker
 {
-    public partial class IDxcLinker
+    public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, string[] arguments)
     {
-        public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, string[] arguments)
+        Link(entryName, targetProfile, libNames, arguments, out IDxcOperationResult? result).CheckError();
+        return result!;
+    }
+
+    public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount)
+    {
+        Link(entryName, targetProfile, libNames, libCount, arguments, argumentsCount, out IDxcOperationResult? result).CheckError();
+        return result!;
+    }
+
+    public unsafe Result Link(string entryName, string targetProfile, string[] libNames, string[] arguments, out IDxcOperationResult? result)
+    {
+        IntPtr* libNamesPtr = (IntPtr*)0;
+        IntPtr* argumentsPtr = (IntPtr*)0;
+
+        try
         {
-            Link(entryName, targetProfile, libNames, arguments, out IDxcOperationResult? result).CheckError();
-            return result!;
+            if (libNames?.Length > 0)
+            {
+                libNamesPtr = Interop.AllocToPointers(libNames, libNames.Length);
+            }
+
+            if (arguments?.Length > 0)
+            {
+                argumentsPtr = Interop.AllocToPointers(arguments, arguments.Length);
+            }
+
+            Result hr = Link(entryName,
+                targetProfile,
+                (IntPtr)libNamesPtr, (libNames?.Length) ?? 0,
+                (IntPtr)argumentsPtr, (arguments?.Length) ?? 0,
+                out result);
+
+            if (hr.Failure)
+            {
+                result = default;
+                return default;
+            }
+
+            return hr;
         }
-
-        public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount)
+        finally
         {
-            Link(entryName, targetProfile, libNames, libCount, arguments, argumentsCount, out IDxcOperationResult? result).CheckError();
-            return result!;
+            if (libNamesPtr != null)
+                Interop.Free(libNamesPtr);
+
+            if (argumentsPtr != null)
+                Interop.Free(argumentsPtr);
         }
+    }
 
-        public unsafe Result Link(string entryName, string targetProfile, string[] libNames, string[] arguments, out IDxcOperationResult? result)
+    public unsafe Result Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount, out IDxcOperationResult? result)
+    {
+        IntPtr* libNamesPtr = (IntPtr*)0;
+        IntPtr* argumentsPtr = (IntPtr*)0;
+
+        try
         {
-            IntPtr* libNamesPtr = (IntPtr*)0;
-            IntPtr* argumentsPtr = (IntPtr*)0;
-
-            try
+            if (libNames != null && libCount > 0)
             {
-                if (libNames?.Length > 0)
-                {
-                    libNamesPtr = Interop.AllocToPointers(libNames, libNames.Length);
-                }
-
-                if (arguments?.Length > 0)
-                {
-                    argumentsPtr = Interop.AllocToPointers(arguments, arguments.Length);
-                }
-
-                Result hr = Link(entryName,
-                    targetProfile,
-                    (IntPtr)libNamesPtr, (libNames?.Length) ?? 0,
-                    (IntPtr)argumentsPtr, (arguments?.Length) ?? 0,
-                    out result);
-
-                if (hr.Failure)
-                {
-                    result = default;
-                    return default;
-                }
-
-                return hr;
+                libNamesPtr = Interop.AllocToPointers(libNames, libCount);
             }
-            finally
+
+            if (arguments != null && argumentsCount > 0)
             {
-                if (libNamesPtr != null)
-                    Interop.Free(libNamesPtr);
-
-                if (argumentsPtr != null)
-                    Interop.Free(argumentsPtr);
+                argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
             }
+
+            Result hr = Link(entryName,
+                targetProfile,
+                (IntPtr)libNamesPtr, libCount,
+                (IntPtr)argumentsPtr, argumentsCount,
+                out result);
+
+            if (hr.Failure)
+            {
+                result = default;
+                return default;
+            }
+
+            return hr;
         }
-
-        public unsafe Result Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount, out IDxcOperationResult? result)
+        finally
         {
-            IntPtr* libNamesPtr = (IntPtr*)0;
-            IntPtr* argumentsPtr = (IntPtr*)0;
+            if (libNamesPtr != null)
+                Interop.Free(libNamesPtr);
 
-            try
-            {
-                if (libNames != null && libCount > 0)
-                {
-                    libNamesPtr = Interop.AllocToPointers(libNames, libCount);
-                }
-
-                if (arguments != null && argumentsCount > 0)
-                {
-                    argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
-                }
-
-                Result hr = Link(entryName,
-                    targetProfile,
-                    (IntPtr)libNamesPtr, libCount,
-                    (IntPtr)argumentsPtr, argumentsCount,
-                    out result);
-
-                if (hr.Failure)
-                {
-                    result = default;
-                    return default;
-                }
-
-                return hr;
-            }
-            finally
-            {
-                if (libNamesPtr != null)
-                    Interop.Free(libNamesPtr);
-
-                if (argumentsPtr != null)
-                    Interop.Free(argumentsPtr);
-            }
+            if (argumentsPtr != null)
+                Interop.Free(argumentsPtr);
         }
     }
 }

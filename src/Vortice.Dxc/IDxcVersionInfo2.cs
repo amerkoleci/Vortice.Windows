@@ -1,14 +1,13 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-namespace Vortice.Dxc
+namespace Vortice.Dxc;
+
+public partial class IDxcVersionInfo
 {
-    public partial class IDxcVersionInfo
+    public int GetFlags()
     {
-        public int GetFlags()
-        {
-            GetFlags(out int result).CheckError();
-            return result;
-        }
+        GetFlags(out int result).CheckError();
+        return result;
     }
 }

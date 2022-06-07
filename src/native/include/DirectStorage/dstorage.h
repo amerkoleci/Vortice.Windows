@@ -16,7 +16,7 @@
 #include <d3d12.h>
 #include <dstorageerr.h>
 
-#define DSTORAGE_SDK_VERSION 1
+#define DSTORAGE_SDK_VERSION 2
 
 interface ID3D12Resource;
 interface ID3D12Fence;
@@ -81,7 +81,7 @@ enum DSTORAGE_REQUEST_DESTINATION_TYPE : UINT64 {
 
     /// <summary>
     /// The destination of the DStorage request is an ID3D12Resource
-    /// that is a texture which will recieve all subresources in a
+    /// that is a texture which will receive all subresources in a
     /// single request.
     /// </summary>
     DSTORAGE_REQUEST_DESTINATION_MULTIPLE_SUBRESOURCES = 3,
@@ -211,7 +211,7 @@ enum DSTORAGE_DEBUG {
     DSTORAGE_DEBUG_BREAK_ON_ERROR       = 0x02,
 
     /// <summary>
-    /// Include IDStorageStatusArray and ID3D12Fence names in ETW events.
+    /// Include object names in ETW events.
     /// </summary>
     DSTORAGE_DEBUG_RECORD_OBJECT_NAMES  = 0x04
 };
@@ -269,7 +269,7 @@ struct DSTORAGE_SOURCE_MEMORY {
     void const* Source;
 
     /// <summary>
-    /// Size, in bytes, of the buffer to read from the source.
+    /// Number of bytes to read from the source buffer.
     /// </summary>
     UINT32 Size;
 };
@@ -285,8 +285,7 @@ struct DSTORAGE_DESTINATION_MEMORY {
     void* Buffer;
 
     /// <summary>
-    /// Size, in bytes, of the buffer to receive the final result of a
-    /// request.
+    /// Number of bytes to write to the destination buffer.
     /// </summary>
     UINT32 Size;
 };
@@ -307,8 +306,7 @@ struct DSTORAGE_DESTINATION_BUFFER {
     UINT64 Offset;
 
     /// <summary>
-    /// Size, in bytes, of the buffer to receive the final result of a
-    /// request.
+    /// Number of bytes to write to the destination buffer.
     /// </summary>
     UINT32 Size;
 };
@@ -417,8 +415,14 @@ struct DSTORAGE_REQUEST {
     DSTORAGE_DESTINATION Destination;
 
     /// <summary>
-    /// The uncompressed size in bytes for the destination
-    /// for this request.
+    /// The uncompressed size in bytes for the destination for this request.
+    /// If the request is not compressed, this can be left as 0. Else, this
+    /// should be equal to the destination size.
+    ///
+    /// If the destination is to memory or buffer, the destination size should
+    /// be specified in the corresponding struct (e.g. DSTORAGE_DESTINATION_MEMORY).
+    /// For textures, it's the value of pTotalBytes returned by GetCopyableFootprints().
+    /// For tiles, it's 64k * number of tiles.
     /// </summary>
     UINT32 UncompressedSize;
 
@@ -532,6 +536,18 @@ enum DSTORAGE_STAGING_BUFFER_SIZE : UINT32 {
     DSTORAGE_STAGING_BUFFER_SIZE_32MB = 32 * 1048576,
 };
 
+enum DSTORAGE_CUSTOM_DECOMPRESSION_FLAGS : UINT32
+{
+    DSTORAGE_CUSTOM_DECOMPRESSION_FLAG_NONE = 0x00,
+
+    /// <summary>
+    /// The uncompressed destination buffer is located in an
+    /// upload heap and is marked as WRITE_COMBINED.
+    /// </summary>
+    DSTORAGE_CUSTOM_DECOMPRESSION_FLAG_DEST_IN_UPLOAD_HEAP = 0x01,
+};
+DEFINE_ENUM_FLAG_OPERATORS(DSTORAGE_CUSTOM_DECOMPRESSION_FLAGS)
+
 /// <summary>
 /// A custom decompression request.  Use IDStorageCustomDecompressionQueue to
 /// retrieve these requests.
@@ -549,6 +565,16 @@ struct DSTORAGE_CUSTOM_DECOMPRESSION_REQUEST {
     /// The compression format.  This will be >= DSTORAGE_CUSTOM_COMPRESSION_0.
     /// </summary>
     DSTORAGE_COMPRESSION_FORMAT CompressionFormat;
+
+    /// <summary>
+    /// Reserved for future use
+    /// </summary>
+    UINT8 Reserved[3];
+
+    /// <summary>
+    /// Flags containing additional details about the decompression request.
+    /// </summary>
+    DSTORAGE_CUSTOM_DECOMPRESSION_FLAGS Flags;
 
     /// <summary>
     /// The size of SrcBuffer in bytes.
@@ -639,8 +665,7 @@ DECLARE_INTERFACE_IID_(IDStorageFactory, IUnknown, "6924ea0c-c3cd-4826-b10a-f64f
     virtual HRESULT STDMETHODCALLTYPE CreateQueue(const DSTORAGE_QUEUE_DESC *desc, REFIID riid, _COM_Outptr_ void **ppv) = 0;
 
     /// <summary>
-    /// Opens a file for DStorage access. The file must be stored on a DStorage
-    /// supported NVMe device.
+    /// Opens a file for DStorage access.
     /// </summary>
     /// <param name="path">Path of the file to be opened.</param>
     /// <param name="riid">Specifies the DStorage file interface, such as
@@ -670,11 +695,24 @@ DECLARE_INTERFACE_IID_(IDStorageFactory, IUnknown, "6924ea0c-c3cd-4826-b10a-f64f
     virtual void STDMETHODCALLTYPE SetDebugFlags(UINT32 flags) = 0;
 
     /// <summary>
-    /// Sets the size of staging buffer used to temporarily store content loaded
-    /// from the storage device before it is decompressed. If only memory
-    /// sourced queues are used, the staging buffer can be 0 sized.
+    /// Sets the size of staging buffer(s) used to temporarily store content loaded
+    /// from the storage device before they are decompressed. If only uncompressed
+    /// memory sourced queues writing to cpu memory destinations are used, the
+    /// staging buffer can be 0 sized.
     /// </summary>
-    /// <param name="size">Size, in bytes, of the staging buffer.</param>
+    /// <param name="size">Size, in bytes, of each staging buffer used
+    /// to complete a request.</param>
+    ///
+    /// <remarks>
+    /// The default the staging buffer is DSTORAGE_STAGING_BUFFER_SIZE_32MB.
+    /// If multiple staging buffers are necessary to complete a request, each
+    /// separate staging buffer is allocated to this staging buffer size.
+    ///
+    /// If the destination is a GPU resource, some, but not all of the staging
+    /// buffers will be allocated from VRAM.
+    ///
+    /// Requests that exceed the specified size to SetStagingBufferSize will fail.
+    /// </remarks>
     virtual HRESULT STDMETHODCALLTYPE SetStagingBufferSize(UINT32 size) = 0;
 };
 
@@ -732,6 +770,8 @@ DECLARE_INTERFACE_IID_(IDStorageQueue, IUnknown, "cfdbd83f-9e06-4fda-8ea5-690421
     /// <summary>
     /// Enqueues a read request to the queue. The request remains in the queue
     /// until Submit is called, or until the queue is 1/2 full.
+    /// If there are no free entries in the queue the enqueue operation will
+    /// block until one becomes available.
     /// </summary>
     /// <param name="request">The read request to be queued.</param>
     virtual void STDMETHODCALLTYPE EnqueueRequest(const DSTORAGE_REQUEST *request) = 0;
@@ -742,6 +782,8 @@ DECLARE_INTERFACE_IID_(IDStorageQueue, IUnknown, "cfdbd83f-9e06-4fda-8ea5-690421
     /// since the previous status write entry, the HResult of the enqueued
     /// status entry stores the failure code of the first failed request in the
     /// enqueue order.
+    /// If there are no free entries in the queue the enqueue operation will
+    /// block until one becomes available.
     /// </summary>
     /// <param name="statusArray">IDStorageStatusArray object.</param>
     /// <param name="index">Index of the status entry in the
@@ -751,6 +793,8 @@ DECLARE_INTERFACE_IID_(IDStorageQueue, IUnknown, "cfdbd83f-9e06-4fda-8ea5-690421
     /// <summary>
     /// Enqueues fence write. The fence write happens when all requests before
     /// the fence entry complete.
+    /// If there are no free entries in the queue the enqueue operation will
+    /// block until one becomes available.
     /// </summary>
     /// <param name="fence">An ID3D12Fence to be written.</param>
     /// <param name="value">The value to write to the fence.</param>
@@ -846,7 +890,7 @@ extern "C" {
 /// Configures DirectStorage. This must be called before the first call to
 /// DStorageGetFactory.  If this is not called then default values are used.
 /// </summary>
-HRESULT DStorageSetConfiguration(DSTORAGE_CONFIGURATION const* configuration);
+HRESULT WINAPI DStorageSetConfiguration(DSTORAGE_CONFIGURATION const* configuration);
 
 /// <summary>
 /// Returns the static DStorage factory object used to create DStorage queues,
@@ -856,6 +900,6 @@ HRESULT DStorageSetConfiguration(DSTORAGE_CONFIGURATION const* configuration);
 /// __uuidof(IDStorageFactory)</param>
 /// <param name="ppv">Receives the DStorage factory object.</param>
 /// <returns>Standard HRESULT error code.</returns>
-HRESULT DStorageGetFactory(REFIID riid, void **ppv);
+HRESULT WINAPI DStorageGetFactory(REFIID riid, void** ppv);
 
 }

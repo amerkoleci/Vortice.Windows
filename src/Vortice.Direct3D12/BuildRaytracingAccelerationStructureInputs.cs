@@ -19,7 +19,7 @@ public partial class BuildRaytracingAccelerationStructureInputs
 
     public ElementsLayout Layout { get; set; }
 
-    public long InstanceDescriptions { get; set; }
+    public ulong InstanceDescriptions { get; set; }
 
     public RaytracingGeometryDescription[]? GeometryDescriptions { get; set; }
 
@@ -47,13 +47,13 @@ public partial class BuildRaytracingAccelerationStructureInputs
     internal unsafe struct Union
     {
         [FieldOffset(0)]
-        public long InstanceDescs;
+        public ulong InstanceDescs;
 
         [FieldOffset(0)]
         public IntPtr pGeometryDescs;
     }
 
-    internal unsafe void __MarshalFree(ref __Native @ref)
+    internal void __MarshalFree(ref __Native @ref)
     {
         @ref.__MarshalFree();
     }
@@ -69,7 +69,7 @@ public partial class BuildRaytracingAccelerationStructureInputs
         {
             if (@ref.Type == RaytracingAccelerationStructureType.TopLevel)
             {
-                InstanceDescriptions = Unsafe.Read<long>(@ref.Union.pGeometryDescs.ToPointer());
+                InstanceDescriptions = Unsafe.Read<ulong>(@ref.Union.pGeometryDescs.ToPointer());
             }
             else
             {
@@ -79,7 +79,7 @@ public partial class BuildRaytracingAccelerationStructureInputs
         }
     }
 
-    internal unsafe void __MarshalTo(ref __Native @ref)
+    internal void __MarshalTo(ref __Native @ref)
     {
         @ref.Type = Type;
         @ref.Flags = Flags;

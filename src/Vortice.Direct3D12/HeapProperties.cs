@@ -5,9 +5,9 @@ namespace Vortice.Direct3D12;
 
 public partial struct HeapProperties
 {
-    public static readonly HeapProperties DefaultHeapProperties = new(HeapType.Default, CpuPageProperty.Unknown, MemoryPool.Unknown);
-    public static readonly HeapProperties UploadHeapProperties = new(HeapType.Upload, CpuPageProperty.Unknown, MemoryPool.Unknown);
-    public static readonly HeapProperties ReadbackHeapProperties = new(HeapType.Readback, CpuPageProperty.Unknown, MemoryPool.Unknown);
+    public static readonly HeapProperties DefaultHeapProperties = new(HeapType.Default);
+    public static readonly HeapProperties UploadHeapProperties = new(HeapType.Upload);
+    public static readonly HeapProperties ReadbackHeapProperties = new(HeapType.Readback);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HeapProperties"/> struct.

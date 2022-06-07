@@ -8,8 +8,134 @@ using SharpGen.Runtime.Win32;
 
 namespace Vortice.MediaFoundation;
 
-public partial class IMFAttributes
+public unsafe partial class IMFAttributes
 {
+    public string FriendlyName
+    {
+        get => GetString(CaptureDeviceAttributeKeys.FriendlyName);
+        set => Set(CaptureDeviceAttributeKeys.FriendlyName, value);
+    }
+
+    public Guid SourceType
+    {
+        get => GetGUID(CaptureDeviceAttributeKeys.SourceType);
+        set => Set(CaptureDeviceAttributeKeys.SourceType, value);
+    }
+
+    public bool IsAudioDevice => SourceType == CaptureDeviceAttributeKeys.SourceTypeAudcap;
+
+    public RegisterTypeInfo MediaType
+    {
+        get
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeVidcap)
+            {
+                return default;
+            }
+
+            RegisterTypeInfo result = default;
+            GetBlob(CaptureDeviceAttributeKeys.MediaType, &result, sizeof(RegisterTypeInfo), IntPtr.Zero);
+            return result;
+        }
+        set
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeVidcap)
+            {
+                return;
+            }
+
+            SetBlob(CaptureDeviceAttributeKeys.MediaType, (IntPtr)Unsafe.AsPointer(ref value), sizeof(RegisterTypeInfo));
+        }
+    }
+
+    public string AudioEndPointID
+    {
+        get
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeAudcap)
+            {
+                return string.Empty;
+            }
+
+            return GetString(CaptureDeviceAttributeKeys.SourceTypeAudcapEndpointId);
+        }
+        set
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeAudcap)
+            {
+                return;
+            }
+
+            Set(CaptureDeviceAttributeKeys.SourceTypeAudcapEndpointId, value);
+        }
+    }
+
+    public Guid VideoDeviceCategory
+    {
+        get
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeVidcap)
+            {
+                return Guid.Empty;
+            }
+
+            return GetGUID(CaptureDeviceAttributeKeys.SourceTypeVidcapCategory);
+        }
+        set
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeVidcap)
+            {
+                return;
+            }
+
+            Set(CaptureDeviceAttributeKeys.SourceTypeVidcapCategory, value);
+        }
+    }
+
+    public bool VideoDeviceIsHardware
+    {
+        get
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeVidcap)
+            {
+                return false;
+            }
+
+            return GetInt(CaptureDeviceAttributeKeys.SourceTypeVidcapHwSource) == 1;
+        }
+        set
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeVidcap)
+            {
+                return;
+            }
+
+            Set(CaptureDeviceAttributeKeys.SourceTypeVidcapHwSource, value);
+        }
+    }
+
+    public string SymbolicLink
+    {
+        get
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeVidcap)
+            {
+                return string.Empty;
+            }
+
+            return GetString(CaptureDeviceAttributeKeys.SourceTypeVidcapSymbolicLink);
+        }
+        set
+        {
+            if (SourceType != CaptureDeviceAttributeKeys.SourceTypeVidcap)
+            {
+                return;
+            }
+
+            Set(CaptureDeviceAttributeKeys.SourceTypeVidcapSymbolicLink, value);
+        }
+    }
+
     /// <summary>	
     /// Gets an item value
     /// </summary>	
@@ -130,7 +256,7 @@ public partial class IMFAttributes
             byte[] buffer = new byte[length];
             fixed (void* pBuffer = buffer)
             {
-                GetBlob(guidKey, (IntPtr)pBuffer, buffer.Length, IntPtr.Zero);
+                GetBlob(guidKey, pBuffer, buffer.Length, IntPtr.Zero);
             }
 
             return (T)(object)buffer;
@@ -144,8 +270,8 @@ public partial class IMFAttributes
                 throw new ArgumentException("Size of the structure doesn't match the size of stored value");
             }
 
-            T value = default(T);
-            GetBlob(guidKey, (IntPtr)Unsafe.AsPointer(ref value), Unsafe.SizeOf<T>(), IntPtr.Zero);
+            T value = default;
+            GetBlob(guidKey, Unsafe.AsPointer(ref value), Unsafe.SizeOf<T>(), IntPtr.Zero);
             return value;
         }
 
@@ -172,9 +298,36 @@ public partial class IMFAttributes
     /// <msdn-id>ms704598</msdn-id>	
     /// <unmanaged>HRESULT IMFAttributes::GetItem([In] const GUID&amp; guidKey,[In] void* pValue)</unmanaged>	
     /// <unmanaged-short>IMFAttributes::GetItem</unmanaged-short>	
-    public unsafe T Get<T>(MediaAttributeKey<T> guidKey)
+    public T Get<T>(MediaAttributeKey<T> guidKey)
     {
         return Get<T>(guidKey.Guid);
+    }
+    public string GetString(Guid guidKey)
+    {
+        int length = GetStringLength(guidKey);
+        char* wstr = stackalloc char[length + 1];
+        GetString(guidKey, new IntPtr(wstr), length + 1, IntPtr.Zero);
+        return Marshal.PtrToStringUni(new IntPtr(wstr));
+    }
+
+    public string GetString(MediaAttributeKey guidKey)
+    {
+        return GetString(guidKey.Guid);
+    }
+
+    public void Set(Guid guidKey, float value)
+    {
+        Set(guidKey, (double)value);
+    }
+
+    public void Set(Guid guidKey, bool value)
+    {
+        Set_(guidKey, value ? 1 : 0);
+    }
+
+    public void Set(Guid guidKey, int value)
+    {
+        Set_(guidKey, value);
     }
 
     /// <summary>	
@@ -189,7 +342,7 @@ public partial class IMFAttributes
     /// <msdn-id>bb970346</msdn-id>	
     /// <unmanaged>HRESULT IMFAttributes::SetItem([In] const GUID&amp; guidKey,[In] const PROPVARIANT&amp; Value)</unmanaged>	
     /// <unmanaged-short>IMFAttributes::SetItem</unmanaged-short>	
-    public unsafe void Set<T>(Guid guidKey, T value)
+    public void Set<T>(Guid guidKey, T value)
     {
         // Perform conversions to supported types
         // int
@@ -219,7 +372,7 @@ public partial class IMFAttributes
             return;
         }
 
-        if(value is ulong ulvalue)
+        if (value is ulong ulvalue)
         {
             Set_(guidKey, ulvalue);
             return;
@@ -233,19 +386,19 @@ public partial class IMFAttributes
 
         if (typeof(T) == typeof(Guid))
         {
-            Set_(guidKey, (Guid)(object)value);
+            Set(guidKey, (Guid)(object)value);
             return;
         }
 
         if (typeof(T) == typeof(string))
         {
-            Set_(guidKey, value.ToString());
+            Set(guidKey, value.ToString());
             return;
         }
 
         if (typeof(T) == typeof(double) || typeof(T) == typeof(float))
         {
-            Set_(guidKey, Convert.ToDouble(value));
+            Set(guidKey, Convert.ToDouble(value));
             return;
         }
 
@@ -266,7 +419,7 @@ public partial class IMFAttributes
 
         if (typeof(T) == typeof(ComObject) || typeof(IUnknown).IsAssignableFrom(typeof(T)))
         {
-            Set_(guidKey, ((IUnknown)(object)value));
+            Set(guidKey, ((IUnknown)(object)value));
             return;
         }
 
@@ -285,7 +438,7 @@ public partial class IMFAttributes
     /// <msdn-id>bb970346</msdn-id>	
     /// <unmanaged>HRESULT IMFAttributes::SetItem([In] const GUID&amp; guidKey,[In] const PROPVARIANT&amp; Value)</unmanaged>	
     /// <unmanaged-short>IMFAttributes::SetItem</unmanaged-short>	
-    public unsafe void Set<T>(MediaAttributeKey<T> guidKey, T value)
+    public void Set<T>(MediaAttributeKey<T> guidKey, T value)
     {
         Set(guidKey.Guid, value);
     }

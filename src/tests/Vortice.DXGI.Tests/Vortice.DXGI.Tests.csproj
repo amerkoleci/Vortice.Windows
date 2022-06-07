@@ -12,13 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Vortice.D3DCompiler\Vortice.D3DCompiler.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Assets\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Vortice.DXGI\Vortice.DXGI.csproj" />
+  </ItemGroup>
+  
 </Project>

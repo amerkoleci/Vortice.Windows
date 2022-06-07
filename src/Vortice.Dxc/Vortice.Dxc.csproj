@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Include="System.Runtime.InteropServices" />
+    <Using Include="SharpGen.Runtime" />
+    
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="SharpGen.Runtime.COM" />
   </ItemGroup>

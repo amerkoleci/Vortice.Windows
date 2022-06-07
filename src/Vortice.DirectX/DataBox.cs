@@ -18,54 +18,50 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.Runtime.InteropServices;
+namespace Vortice;
 
-namespace Vortice
+/// <summary>
+/// Provides access to data organized in 3D.
+/// </summary>
+[StructLayout(LayoutKind.Sequential)]
+public readonly struct DataBox
 {
     /// <summary>
-    /// Provides access to data organized in 3D.
+    /// Initializes a new instance of the <see cref="DataBox"/> struct.
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public readonly struct DataBox
+    /// <param name="dataPointer">The data pointer.</param>
+    /// <param name="rowPitch">The row pitch.</param>
+    /// <param name="slicePitch">The slice pitch.</param>
+    public DataBox(IntPtr dataPointer, int rowPitch = 0, int slicePitch = 0)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DataBox"/> struct.
-        /// </summary>
-        /// <param name="dataPointer">The data pointer.</param>
-        /// <param name="rowPitch">The row pitch.</param>
-        /// <param name="slicePitch">The slice pitch.</param>
-        public DataBox(IntPtr dataPointer, int rowPitch = 0, int slicePitch = 0)
+        DataPointer = dataPointer;
+        RowPitch = rowPitch;
+        SlicePitch = slicePitch;
+    }
+
+    /// <summary>
+    /// Pointer to the data.
+    /// </summary>
+    public readonly IntPtr DataPointer;
+
+    /// <summary>
+    /// Gets the number of bytes per row.
+    /// </summary>
+    public readonly int RowPitch;
+
+    /// <summary>
+    /// Gets the number of bytes per slice (for a 3D texture, a slice is a 2D image)
+    /// </summary>
+    public readonly int SlicePitch;
+
+    /// <summary>
+    /// Gets a value indicating whether this instance is empty.
+    /// </summary>
+    public bool IsEmpty
+    {
+        get
         {
-            DataPointer = dataPointer;
-            RowPitch = rowPitch;
-            SlicePitch = slicePitch;
-        }
-
-        /// <summary>
-        /// Pointer to the data.
-        /// </summary>
-        public readonly IntPtr DataPointer;
-
-        /// <summary>
-        /// Gets the number of bytes per row.
-        /// </summary>
-        public readonly int RowPitch;
-
-        /// <summary>
-        /// Gets the number of bytes per slice (for a 3D texture, a slice is a 2D image)
-        /// </summary>
-        public readonly int SlicePitch;
-
-        /// <summary>
-        /// Gets a value indicating whether this instance is empty.
-        /// </summary>
-        public bool IsEmpty
-        {
-            get
-            {
-                return DataPointer == IntPtr.Zero && RowPitch == 0 && SlicePitch == 0;
-            }
+            return DataPointer == IntPtr.Zero && RowPitch == 0 && SlicePitch == 0;
         }
     }
 }
