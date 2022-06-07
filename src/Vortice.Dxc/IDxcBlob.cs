@@ -1,16 +1,18 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Runtime.CompilerServices;
+
 namespace Vortice.Dxc;
 
-public partial class IDxcBlob
+public unsafe partial class IDxcBlob
 {
-    public unsafe Span<byte> AsByte()
+    public Span<byte> AsByte()
     {
         return new Span<byte>((byte*)GetBufferPointer(), GetBufferSize());
     }
 
-    public unsafe byte[] ToArray()
+    public byte[] ToArray()
     {
         byte[] result = new byte[GetBufferSize()];
         fixed (void* dstPtr = result)

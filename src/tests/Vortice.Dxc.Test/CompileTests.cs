@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Vortice.Dxc.Test;
 
-[TestFixture(TestOf = typeof(CompileTests))]
+[TestFixture(TestOf = typeof(DxcCompiler))]
 public class CompileTests
 {
     private const string ShaderCodeNotSignedMessage = "Shader code is not signed.";

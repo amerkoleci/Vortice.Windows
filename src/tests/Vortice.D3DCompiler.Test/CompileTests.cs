@@ -6,7 +6,7 @@ using Vortice.Direct3D;
 
 namespace Vortice.D3DCompiler.Test;
 
-[TestFixture(TestOf = typeof(CompileTests))]
+[TestFixture(TestOf = typeof(Compiler))]
 public class CompileTests
 {
     private string AssetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
