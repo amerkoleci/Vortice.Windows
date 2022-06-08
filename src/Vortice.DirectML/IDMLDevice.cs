@@ -8,26 +8,30 @@ namespace Vortice.DirectML;
 public partial class IDMLDevice
 {
     /// <summary>
+    /// Gets the highest supported feature level.
+    /// </summary>
+    public FeatureLevel HighestFeatureLevel => CheckFeatureLevelsSupport(typeof(FeatureLevel).GetEnumValues().Cast<FeatureLevel>().ToArray());
+
+    /// <summary>
     /// Query for the feature levels supported by the device
     /// </summary>
     /// <param name="requestedFeatureLevels">An array of feature levels to query support for. The highest feature level in this array that is supported by the device is returned.</param>
     /// <returns>The highest feature level of the provided feature levels that is supported by this device.</returns>
     public unsafe FeatureLevel CheckFeatureLevelsSupport(params FeatureLevel[] requestedFeatureLevels)
     {
-        FeatureLevel* featureLevels = stackalloc FeatureLevel[requestedFeatureLevels.Length];
-
-        var query = new FeatureQueryFeatureLevels()
+        fixed (FeatureLevel* featureLevels = requestedFeatureLevels)
         {
-            RequestedFeatureLevelCount = requestedFeatureLevels.Length,
-            RequestedFeatureLevels = new(featureLevels),
-        };
-        UnsafeUtilities.Write(query.RequestedFeatureLevels, requestedFeatureLevels);
+            var query = new FeatureQueryFeatureLevels()
+            {
+                RequestedFeatureLevelCount = requestedFeatureLevels.Length,
+                RequestedFeatureLevels = new(featureLevels),
+            };
+            var data = new FeatureDataFeatureLevels();
 
-        var data = new FeatureDataFeatureLevels();
+            CheckFeatureSupport(Feature.FeatureLevels, sizeof(FeatureQueryFeatureLevels), new(&query), sizeof(FeatureDataFeatureLevels), new(&data)).CheckError();
 
-        CheckFeatureSupport(Feature.FeatureLevels, sizeof(FeatureQueryFeatureLevels), new(&query), sizeof(FeatureDataFeatureLevels), new(&data));
-
-        return data.MaxSupportedFeatureLevel;
+            return data.MaxSupportedFeatureLevel;
+        }
     }
 
     /// <summary>
