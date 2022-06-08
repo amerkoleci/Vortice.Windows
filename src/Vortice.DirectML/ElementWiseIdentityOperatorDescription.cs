@@ -19,6 +19,9 @@ public partial struct ElementWiseIdentityOperatorDescription : IOperatorDescript
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_IDENTITY_OPERATOR_DESC::ScaleBias']/*" />
     public ScaleBias? ScaleBias { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseIdentity";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

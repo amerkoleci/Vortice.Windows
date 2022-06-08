@@ -19,6 +19,9 @@ public partial struct NonzeroCoordinatesOperatorDescription : IOperatorDescripti
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_NONZERO_COORDINATES_OPERATOR_DESC::OutputCoordinatesTensor']/*" />
     public TensorDescription OutputCoordinatesTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"NonzeroCoordinates";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -25,6 +25,9 @@ public partial struct GatherNdOperatorDescription : IOperatorDescription, IOpera
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ND_OPERATOR_DESC::IndicesDimensionCount']/*" />
     public int IndicesDimensionCount { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"GatherNd: InputDimensionCount={InputDimensionCount} IndicesDimensionCount={IndicesDimensionCount}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

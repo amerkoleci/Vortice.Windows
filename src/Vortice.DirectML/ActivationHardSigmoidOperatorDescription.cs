@@ -22,6 +22,9 @@ public partial struct ActivationHardSigmoidOperatorDescription : IFusableActivat
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_HARD_SIGMOID_OPERATOR_DESC::Beta']/*" />
     public float Beta { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationHardSigmoid: Alpha={Alpha} Beta={Beta}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

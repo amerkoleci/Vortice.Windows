@@ -22,6 +22,9 @@ public partial struct ElementWiseDequantizeLinearOperatorDescription : IOperator
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_DEQUANTIZE_LINEAR_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseDequantizeLinear";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

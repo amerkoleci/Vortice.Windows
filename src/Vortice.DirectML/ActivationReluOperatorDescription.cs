@@ -16,6 +16,9 @@ public partial struct ActivationReluOperatorDescription : IFusableActivationOper
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_RELU_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription? OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationRelu";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -22,6 +22,9 @@ public partial struct InputGraphEdgeDescription : IGraphEdgeDescription, IGraphE
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INPUT_GRAPH_EDGE_DESC::Name']/*" />
     public string? Name { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Input:{(string.IsNullOrEmpty(Name) ? "" : $" Name={Name}")} ToNode={ToNodeIndex}[{ToNodeInputIndex}]";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

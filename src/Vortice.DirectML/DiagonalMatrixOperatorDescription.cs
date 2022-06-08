@@ -19,6 +19,9 @@ public partial struct DiagonalMatrixOperatorDescription : IOperatorDescription, 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_DIAGONAL_MATRIX_OPERATOR_DESC::Value']/*" />
     public float Value { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"DiagonalMatrix: Offset={Offset} Value={Value}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

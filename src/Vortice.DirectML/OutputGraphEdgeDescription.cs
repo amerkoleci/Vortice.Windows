@@ -22,6 +22,9 @@ public partial struct OutputGraphEdgeDescription : IGraphEdgeDescription, IGraph
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_OUTPUT_GRAPH_EDGE_DESC::Name']/*" />
     public string? Name { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Output:{(string.IsNullOrEmpty(Name) ? "" : $" Name={Name}")} FromNode={FromNodeIndex}[{FromNodeOutputIndex}]";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

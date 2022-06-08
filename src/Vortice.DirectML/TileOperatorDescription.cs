@@ -19,6 +19,9 @@ public partial struct TileOperatorDescription : IOperatorDescription, IOperatorD
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TILE_OPERATOR_DESC::Repeats']/*" />
     public int[] Repeats { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Tile";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

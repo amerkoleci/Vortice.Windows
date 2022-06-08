@@ -22,6 +22,9 @@ public partial struct ActivationShrinkOperatorDescription : IFusableActivationOp
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SHRINK_OPERATOR_DESC::Threshold']/*" />
     public float Threshold { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationShrink: Bias={Bias} Threshold={Threshold}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

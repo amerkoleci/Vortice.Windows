@@ -19,6 +19,9 @@ public partial struct ActivationSoftplusOperatorDescription : IFusableActivation
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SOFTPLUS_OPERATOR_DESC::Steepness']/*" />
     public float Steepness { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationSoftplus: Steepness={Steepness}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

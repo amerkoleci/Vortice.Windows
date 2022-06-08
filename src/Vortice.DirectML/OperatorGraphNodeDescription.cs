@@ -16,6 +16,9 @@ public partial struct OperatorGraphNodeDescription : IGraphNodeDescription, IGra
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_OPERATOR_GRAPH_NODE_DESC::Name']/*" />
     public string? Name { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Operator{(string.IsNullOrEmpty(Name) ? "" : $": Name={Name}")}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

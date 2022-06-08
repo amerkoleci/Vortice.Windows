@@ -49,6 +49,9 @@ public partial struct ConvolutionOperatorDescription : IOperatorDescription, IOp
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_OPERATOR_DESC::FusedActivation']/*" />
     public OperatorDescription? FusedActivation { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Convolution: Mode={Mode} Direction={Direction} GroupCount={GroupCount}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

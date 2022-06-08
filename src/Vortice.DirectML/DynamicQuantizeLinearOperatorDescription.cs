@@ -22,6 +22,9 @@ public partial struct DynamicQuantizeLinearOperatorDescription : IOperatorDescri
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_DYNAMIC_QUANTIZE_LINEAR_OPERATOR_DESC::OutputZeroPointTensor']/*" />
     public TensorDescription OutputZeroPointTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"DynamicQuantizeLinear";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

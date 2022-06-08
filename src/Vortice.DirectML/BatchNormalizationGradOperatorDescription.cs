@@ -37,6 +37,9 @@ public partial struct BatchNormalizationGradOperatorDescription : IOperatorDescr
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_GRAD_OPERATOR_DESC::Epsilon']/*" />
     public float Epsilon { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"BatchNormalizationGrad: Epsilon={Epsilon}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

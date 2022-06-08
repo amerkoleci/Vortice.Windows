@@ -40,6 +40,9 @@ public partial struct RnnOperatorDescription : IOperatorDescription, IOperatorDe
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RNN_OPERATOR_DESC::Direction']/*" />
     public RecurrentNetworkDirection Direction { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Rnn: Direction={Direction}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

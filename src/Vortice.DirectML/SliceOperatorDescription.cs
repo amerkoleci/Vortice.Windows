@@ -25,6 +25,9 @@ public partial struct SliceOperatorDescription : IOperatorDescription, IOperator
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE_OPERATOR_DESC::Strides']/*" />
     public int[] Strides { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Slice";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

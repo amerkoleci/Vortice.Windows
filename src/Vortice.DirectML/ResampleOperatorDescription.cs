@@ -22,6 +22,9 @@ public partial struct ResampleOperatorDescription : IOperatorDescription, IOpera
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_OPERATOR_DESC::Scales']/*" />
     public float[] Scales { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Resample: InterpolationMode={InterpolationMode}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

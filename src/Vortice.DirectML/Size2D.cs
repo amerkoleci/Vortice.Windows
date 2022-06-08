@@ -15,4 +15,7 @@ public partial struct Size2D
         Width = width;
         Height = height;
     }
+
+    ///<inheritdoc></inheritdoc>
+    public override string ToString() => $"Width={Width} Height={Height}";
 }

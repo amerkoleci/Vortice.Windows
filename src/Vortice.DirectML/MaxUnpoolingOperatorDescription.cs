@@ -19,6 +19,9 @@ public partial struct MaxUnpoolingOperatorDescription : IOperatorDescription, IO
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_UNPOOLING_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"MaxUnpooling";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

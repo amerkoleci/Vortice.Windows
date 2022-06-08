@@ -19,6 +19,9 @@ public partial struct ElementWiseBitShiftLeftOperatorDescription : IOperatorDesc
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_BIT_SHIFT_LEFT_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseBitShiftLeft";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -10,6 +10,8 @@ public partial struct BufferBinding: IBindingDescription, IBindingDescriptionMar
     /// </summary>
     public BindingType BindingType => BindingType.Buffer;
 
+    public override string ToString() => $"{BindingType} Size={SizeInBytes} Offset={Offset}";
+
     #region Marshal
     unsafe IntPtr IBindingDescriptionMarshal.__MarshalAlloc()
     {

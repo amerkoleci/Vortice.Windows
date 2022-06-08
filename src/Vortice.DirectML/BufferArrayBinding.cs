@@ -13,6 +13,8 @@ public partial struct BufferArrayBinding: IBindingDescription, IBindingDescripti
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_ARRAY_BINDING::Bindings']/*" />
     public BufferBinding[] Bindings;
 
+    public override string ToString() => $"{BindingType} Count={Bindings.Length}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -25,6 +25,9 @@ public partial struct ElementWiseClipOperatorDescription : IOperatorDescription,
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_CLIP_OPERATOR_DESC::Max']/*" />
     public float Maximum { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseClip: Minimum={Minimum} Maximum={Maximum}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

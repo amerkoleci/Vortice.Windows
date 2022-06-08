@@ -34,6 +34,9 @@ public partial struct MaxPooling2OperatorDescription : IOperatorDescription, IOp
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING2_OPERATOR_DESC::Dilations']/*" />
     public int[] Dilations { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"MaxPooling2";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

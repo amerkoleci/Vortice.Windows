@@ -25,6 +25,9 @@ public partial struct ScatterOperatorDescription : IOperatorDescription, IOperat
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCATTER_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Scatter: Axis={Axis}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

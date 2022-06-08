@@ -43,6 +43,9 @@ public partial struct GruOperatorDescription : IOperatorDescription, IOperatorDe
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GRU_OPERATOR_DESC::LinearBeforeReset']/*" />
     public bool LinearBeforeReset { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Gru: Direction={Direction} LinearBeforeReset={LinearBeforeReset}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

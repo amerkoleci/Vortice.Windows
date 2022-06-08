@@ -22,6 +22,9 @@ public partial struct RandomGeneratorOperatorDescription : IOperatorDescription,
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RANDOM_GENERATOR_OPERATOR_DESC::Type']/*" />
     public RandomGeneratorType Type { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"RandomGenerator: Type={Type}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

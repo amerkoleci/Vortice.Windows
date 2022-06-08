@@ -58,6 +58,9 @@ public partial struct LstmOperatorDescription : IOperatorDescription, IOperatorD
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LSTM_OPERATOR_DESC::CoupleInputForget']/*" />
     public bool CoupleInputForget { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Lstm: Direction={Direction} ClipThreshold={ClipThreshold} UseClipThreshold={UseClipThreshold} CoupleInputForget={CoupleInputForget}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

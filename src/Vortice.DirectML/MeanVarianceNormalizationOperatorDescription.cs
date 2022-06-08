@@ -34,6 +34,9 @@ public partial struct MeanVarianceNormalizationOperatorDescription : IOperatorDe
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MEAN_VARIANCE_NORMALIZATION_OPERATOR_DESC::FusedActivation']/*" />
     public OperatorDescription? FusedActivation { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"MeanVarianceNormalization: CrossChannel={CrossChannel} NormalizeVariance={NormalizeVariance} Epsilon={Epsilon}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

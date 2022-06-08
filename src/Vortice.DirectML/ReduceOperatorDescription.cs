@@ -22,6 +22,9 @@ public partial struct ReduceOperatorDescription : IOperatorDescription, IOperato
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REDUCE_OPERATOR_DESC::Axes']/*" />
     public int[] Axes { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Reduce: Function={Function}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

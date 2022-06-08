@@ -37,6 +37,9 @@ public partial struct QuantizedLinearMatrixMultiplyOperatorDescription : IOperat
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_MATRIX_MULTIPLY_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"QuantizedLinearMatrixMultiply";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

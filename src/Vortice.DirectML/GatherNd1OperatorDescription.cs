@@ -28,6 +28,9 @@ public partial struct GatherNd1OperatorDescription : IOperatorDescription, IOper
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ND1_OPERATOR_DESC::BatchDimensionCount']/*" />
     public int BatchDimensionCount { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"GatherNd1: InputDimensionCount={InputDimensionCount} IndicesDimensionCount={IndicesDimensionCount} BatchDimensionCount={BatchDimensionCount}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

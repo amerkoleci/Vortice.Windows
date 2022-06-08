@@ -13,6 +13,8 @@ public partial struct BindingDescription
         Description = binding;
     }
 
+    public override string ToString() => $"{Description} as {nameof(BindingDescription)}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

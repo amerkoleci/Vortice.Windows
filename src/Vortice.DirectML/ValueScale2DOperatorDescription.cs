@@ -22,6 +22,9 @@ public partial struct ValueScale2DOperatorDescription : IOperatorDescription, IO
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_VALUE_SCALE_2D_OPERATOR_DESC::Bias']/*" />
     public float[] Bias { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ValueScale2D: Scale={Scale}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

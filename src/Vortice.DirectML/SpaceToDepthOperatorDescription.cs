@@ -19,6 +19,9 @@ public partial struct SpaceToDepthOperatorDescription : IOperatorDescription, IO
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SPACE_TO_DEPTH_OPERATOR_DESC::BlockSize']/*" />
     public int BlockSize { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"SpaceToDepth: BlockSize={BlockSize}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -23,6 +23,9 @@ public partial struct GraphDescription
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GRAPH_DESC::IntermediateEdges']/*" />
     public IntermediateGraphEdgeDescription[]? IntermediateEdges { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"GraphDescription: Inputs={InputCount} Outputs={OutputCount} Nodes={Nodes.Length} InputEdges={InputEdges?.Length ?? 0} OutputEdges={OutputEdges.Length} IntermediateEdges={IntermediateEdges?.Length ?? 0}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

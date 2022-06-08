@@ -15,4 +15,7 @@ public partial struct ScaleBias
         Scale = scale;
         Bias = bias;
     }
+
+    ///<inheritdoc></inheritdoc>
+    public override string ToString() => $"Scale={Scale} Bias={Bias}";
 }

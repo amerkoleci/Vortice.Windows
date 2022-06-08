@@ -22,6 +22,9 @@ public partial struct ReverseSubsequencesOperatorDescription : IOperatorDescript
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_REVERSE_SUBSEQUENCES_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ReverseSubsequences: Axis={Axis}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

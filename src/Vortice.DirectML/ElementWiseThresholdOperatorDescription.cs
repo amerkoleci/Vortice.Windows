@@ -22,6 +22,9 @@ public partial struct ElementWiseThresholdOperatorDescription : IOperatorDescrip
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_THRESHOLD_OPERATOR_DESC::Min']/*" />
     public float Minimum { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseThreshold: Minimum={Minimum}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

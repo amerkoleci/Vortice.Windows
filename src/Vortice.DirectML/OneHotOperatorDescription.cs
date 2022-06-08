@@ -22,6 +22,9 @@ public partial struct OneHotOperatorDescription : IOperatorDescription, IOperato
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ONE_HOT_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"OneHot: Axis={Axis}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

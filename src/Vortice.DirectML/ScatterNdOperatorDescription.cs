@@ -28,6 +28,9 @@ public partial struct ScatterNdOperatorDescription : IOperatorDescription, IOper
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SCATTER_ND_OPERATOR_DESC::IndicesDimensionCount']/*" />
     public int IndicesDimensionCount { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ScatterNd: InputDimensionCount={InputDimensionCount} IndicesDimensionCount={IndicesDimensionCount}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -28,6 +28,9 @@ public partial struct TopK1OperatorDescription : IOperatorDescription, IOperator
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K1_OPERATOR_DESC::AxisDirection']/*" />
     public AxisDirection AxisDirection { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"TopK1: Axis={Axis} K={K} AxisDirection={AxisDirection}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

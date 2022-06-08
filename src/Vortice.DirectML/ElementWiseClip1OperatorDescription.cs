@@ -28,6 +28,9 @@ public partial struct ElementWiseClip1OperatorDescription : IOperatorDescription
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_CLIP1_OPERATOR_DESC::Max']/*" />
     public ScalarUnion Maximum { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseClip1: MinMaxDataType={MinMaxDataType} Minimum={Minimum} Maximum={Maximum}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

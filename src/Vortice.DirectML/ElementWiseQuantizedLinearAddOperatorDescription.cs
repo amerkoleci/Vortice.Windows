@@ -37,6 +37,9 @@ public partial struct ElementWiseQuantizedLinearAddOperatorDescription : IOperat
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_QUANTIZED_LINEAR_ADD_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseQuantizedLinearAdd";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -31,6 +31,9 @@ public partial struct Padding1OperatorDescription : IOperatorDescription, IOpera
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_PADDING1_OPERATOR_DESC::EndPadding']/*" />
     public int[] EndPadding { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Padding1: PaddingMode={PaddingMode} PaddingValueDataType={PaddingValueDataType} PaddingValue={PaddingValue}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

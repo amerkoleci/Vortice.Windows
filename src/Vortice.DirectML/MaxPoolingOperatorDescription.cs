@@ -28,6 +28,9 @@ public partial struct MaxPoolingOperatorDescription : IOperatorDescription, IOpe
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING_OPERATOR_DESC::EndPadding']/*" />
     public int[] EndPadding { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"MaxPooling";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

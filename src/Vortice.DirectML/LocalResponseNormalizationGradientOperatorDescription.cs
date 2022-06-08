@@ -34,6 +34,9 @@ public partial struct LocalResponseNormalizationGradientOperatorDescription : IO
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LOCAL_RESPONSE_NORMALIZATION_GRAD_OPERATOR_DESC::Bias']/*" />
     public float Bias { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"LocalResponseNormalizationGradient: CrossChannel={CrossChannel} LocalSize={LocalSize} Alpha={Alpha} Beta={Beta} Bias={Bias}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

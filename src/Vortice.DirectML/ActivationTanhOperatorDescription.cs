@@ -16,6 +16,9 @@ public partial struct ActivationTanhOperatorDescription : IFusableActivationOper
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_TANH_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription? OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationTanh";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
