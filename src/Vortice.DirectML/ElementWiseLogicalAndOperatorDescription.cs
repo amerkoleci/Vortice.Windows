@@ -19,6 +19,9 @@ public partial struct ElementWiseLogicalAndOperatorDescription : IOperatorDescri
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_LOGICAL_AND_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseLogicalAnd";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

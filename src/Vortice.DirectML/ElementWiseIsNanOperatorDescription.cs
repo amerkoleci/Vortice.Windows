@@ -16,6 +16,9 @@ public partial struct ElementWiseIsNanOperatorDescription : IOperatorDescription
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_IS_NAN_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseIsNan";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

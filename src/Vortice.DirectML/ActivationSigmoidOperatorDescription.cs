@@ -16,6 +16,9 @@ public partial struct ActivationSigmoidOperatorDescription : IFusableActivationO
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SIGMOID_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription? OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationSigmoid";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

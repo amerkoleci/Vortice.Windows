@@ -22,6 +22,9 @@ public partial struct ElementWiseAdd1OperatorDescription : IOperatorDescription,
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_ADD1_OPERATOR_DESC::FusedActivation']/*" />
     public OperatorDescription? FusedActivation { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseAdd1";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

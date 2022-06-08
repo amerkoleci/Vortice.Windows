@@ -25,6 +25,9 @@ public partial struct RoiPoolingOperatorDescription : IOperatorDescription, IOpe
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_POOLING_OPERATOR_DESC::PooledSize']/*" />
     public Size2D PooledSize { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"RoiPooling: SpatialScale={SpatialScale} PooledSize={PooledSize}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

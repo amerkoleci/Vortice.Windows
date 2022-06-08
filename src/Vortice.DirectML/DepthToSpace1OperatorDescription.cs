@@ -22,6 +22,9 @@ public partial struct DepthToSpace1OperatorDescription : IOperatorDescription, I
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_DEPTH_TO_SPACE1_OPERATOR_DESC::Order']/*" />
     public DepthSpaceOrder Order { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"DepthToSpace1: BlockSize={BlockSize} Order={Order}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

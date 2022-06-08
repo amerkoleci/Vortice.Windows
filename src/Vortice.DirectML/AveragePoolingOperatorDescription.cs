@@ -31,6 +31,9 @@ public partial struct AveragePoolingOperatorDescription : IOperatorDescription, 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_AVERAGE_POOLING_OPERATOR_DESC::IncludePadding']/*" />
     public bool IncludePadding { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"AveragePooling: IncludePadding={IncludePadding}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

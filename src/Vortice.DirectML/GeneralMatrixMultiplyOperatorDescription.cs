@@ -37,6 +37,9 @@ public partial struct GeneralMatrixMultiplyOperatorDescription : IOperatorDescri
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GEMM_OPERATOR_DESC::FusedActivation']/*" />
     public OperatorDescription? FusedActivation { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"GeneralMatrixMultiply: TransformA={TransformA} TransformB={TransformB} Alpha={Alpha} Beta={Beta}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

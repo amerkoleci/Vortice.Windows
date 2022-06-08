@@ -22,6 +22,9 @@ public partial struct ElementWiseConstantPowOperatorDescription : IOperatorDescr
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_CONSTANT_POW_OPERATOR_DESC::Exponent']/*" />
     public float Exponent { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseConstantPow: Exponent={Exponent}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

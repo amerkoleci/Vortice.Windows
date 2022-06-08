@@ -16,6 +16,9 @@ public partial struct ElementWiseBitNotOperatorDescription : IOperatorDescriptio
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_BIT_NOT_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseBitNot";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

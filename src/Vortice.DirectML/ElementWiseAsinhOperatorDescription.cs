@@ -19,6 +19,9 @@ public partial struct ElementWiseAsinhOperatorDescription : IOperatorDescription
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_ASINH_OPERATOR_DESC::ScaleBias']/*" />
     public ScaleBias? ScaleBias { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseAsinh";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

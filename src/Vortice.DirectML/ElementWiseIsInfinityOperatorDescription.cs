@@ -19,6 +19,9 @@ public partial struct ElementWiseIsInfinityOperatorDescription : IOperatorDescri
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_IS_INFINITY_OPERATOR_DESC::InfinityMode']/*" />
     public IsInfinityMode InfinityMode { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseIsInfinity: InfinityMode={InfinityMode}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

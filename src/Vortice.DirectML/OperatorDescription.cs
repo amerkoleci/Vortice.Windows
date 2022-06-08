@@ -13,6 +13,7 @@ public partial struct OperatorDescription
         Description = description;
     }
 
+    /// <inheritdoc></inheritdoc>/>
     public override string ToString() => $"{Description} as {nameof(OperatorDescription)}";
 
     #region Marshal

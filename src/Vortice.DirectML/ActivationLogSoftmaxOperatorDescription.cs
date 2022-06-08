@@ -16,6 +16,9 @@ public partial struct ActivationLogSoftmaxOperatorDescription : IOperatorDescrip
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_LOG_SOFTMAX_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationLogSoftmax";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

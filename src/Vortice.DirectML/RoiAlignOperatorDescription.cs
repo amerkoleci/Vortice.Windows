@@ -43,6 +43,9 @@ public partial struct RoiAlignOperatorDescription : IOperatorDescription, IOpera
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_OPERATOR_DESC::MaximumSamplesPerOutput']/*" />
     public int MaximumSamplesPerOutput { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"RoiAlign: ReductionFunction={ReductionFunction} InterpolationMode={InterpolationMode} SpatialScaleX={SpatialScaleX} SpatialScaleY={SpatialScaleY} OutOfBoundsInputValue={OutOfBoundsInputValue} MinimumSamplesPerOutput={MinimumSamplesPerOutput} MaximumSamplesPerOutput={MaximumSamplesPerOutput}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

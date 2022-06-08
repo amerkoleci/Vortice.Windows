@@ -19,6 +19,9 @@ public partial struct ActivationParameterizedReluOperatorDescription : IOperator
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_PARAMETERIZED_RELU_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationParameterizedRelu";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

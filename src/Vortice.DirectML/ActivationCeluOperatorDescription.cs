@@ -19,6 +19,9 @@ public partial struct ActivationCeluOperatorDescription : IFusableActivationOper
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_CELU_OPERATOR_DESC::Alpha']/*" />
     public float Alpha { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationCelu: Alpha={Alpha}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

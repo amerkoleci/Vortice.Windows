@@ -46,6 +46,9 @@ public partial struct AdamOptimizerOperatorDescription : IOperatorDescription, I
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ADAM_OPTIMIZER_OPERATOR_DESC::Epsilon']/*" />
     public float Epsilon { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"AdamOptimizer: LearningRate={LearningRate} Beta1={Beta1} Beta2={Beta2} Epsilon={Epsilon}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

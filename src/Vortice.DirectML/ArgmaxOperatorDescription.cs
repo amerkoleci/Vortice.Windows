@@ -22,6 +22,9 @@ public partial struct ArgmaxOperatorDescription : IOperatorDescription, IOperato
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ARGMAX_OPERATOR_DESC::AxisDirection']/*" />
     public AxisDirection AxisDirection { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Argmax: AxisDirection={AxisDirection}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

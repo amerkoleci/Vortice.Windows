@@ -40,6 +40,9 @@ public partial struct ConvolutionIntegerOperatorDescription : IOperatorDescripti
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CONVOLUTION_INTEGER_OPERATOR_DESC::GroupCount']/*" />
     public int GroupCount { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ConvolutionInteger: GroupCount={GroupCount}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

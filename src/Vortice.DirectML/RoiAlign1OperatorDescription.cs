@@ -52,6 +52,9 @@ public partial struct RoiAlign1OperatorDescription : IOperatorDescription, IOper
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN1_OPERATOR_DESC::AlignRegionsToCorners']/*" />
     public bool AlignRegionsToCorners { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"RoiAlign1: ReductionFunction={ReductionFunction} InterpolationMode={InterpolationMode} SpatialScaleX={SpatialScaleX} SpatialScaleY={SpatialScaleY} InputPixelOffset={InputPixelOffset} OutputPixelOffset={OutputPixelOffset} OutOfBoundsInputValue={OutOfBoundsInputValue} MinimumSamplesPerOutput={MinimumSamplesPerOutput} MaximumSamplesPerOutput={MaximumSamplesPerOutput} AlignRegionsToCorners={AlignRegionsToCorners}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

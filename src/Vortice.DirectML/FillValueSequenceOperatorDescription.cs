@@ -22,6 +22,9 @@ public partial struct FillValueSequenceOperatorDescription : IOperatorDescriptio
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_SEQUENCE_OPERATOR_DESC::ValueDelta']/*" />
     public ScalarUnion ValueDelta { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"FillValueSequence: ValueDataType={ValueDataType} ValueStart={ValueStart} ValueDelta={ValueDelta}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

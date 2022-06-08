@@ -55,6 +55,9 @@ public partial struct QuantizedLinearConvolutionOperatorDescription : IOperatorD
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_QUANTIZED_LINEAR_CONVOLUTION_OPERATOR_DESC::GroupCount']/*" />
     public int GroupCount { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"QuantizedLinearConvolution: GroupCount={GroupCount}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

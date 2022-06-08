@@ -31,6 +31,9 @@ public partial struct LpPoolingOperatorDescription : IOperatorDescription, IOper
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LP_POOLING_OPERATOR_DESC::P']/*" />
     public int P { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"LpPooling: P={P}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

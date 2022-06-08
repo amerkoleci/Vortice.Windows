@@ -25,6 +25,9 @@ public partial struct GatherOperatorDescription : IOperatorDescription, IOperato
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_OPERATOR_DESC::IndexDimensions']/*" />
     public int IndexDimensions { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Gather: Axis={Axis} IndexDimensions={IndexDimensions}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

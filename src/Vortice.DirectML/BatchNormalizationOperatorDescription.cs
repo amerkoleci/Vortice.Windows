@@ -37,6 +37,9 @@ public partial struct BatchNormalizationOperatorDescription : IOperatorDescripti
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_OPERATOR_DESC::FusedActivation']/*" />
     public OperatorDescription? FusedActivation { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"BatchNormalization: Spatial={Spatial} Epsilon={Epsilon}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -19,6 +19,9 @@ public partial struct ElementWiseSinOperatorDescription : IOperatorDescription, 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_SIN_OPERATOR_DESC::ScaleBias']/*" />
     public ScaleBias? ScaleBias { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseSin";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

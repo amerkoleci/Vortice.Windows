@@ -25,6 +25,9 @@ public partial struct CumulativeSummationOperatorDescription : IOperatorDescript
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CUMULATIVE_SUMMATION_OPERATOR_DESC::HasExclusiveSum']/*" />
     public bool HasExclusiveSum { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"CumulativeSummation: Axis={Axis} AxisDirection={AxisDirection} HasExclusiveSum={HasExclusiveSum}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

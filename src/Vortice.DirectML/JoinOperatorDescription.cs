@@ -19,6 +19,9 @@ public partial struct JoinOperatorDescription : IOperatorDescription, IOperatorD
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_JOIN_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Join: Axis={Axis}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

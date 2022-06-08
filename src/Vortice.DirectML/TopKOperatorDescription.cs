@@ -25,6 +25,9 @@ public partial struct TopKOperatorDescription : IOperatorDescription, IOperatorD
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_TOP_K_OPERATOR_DESC::K']/*" />
     public int K { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"TopK: Axis={Axis} K={K}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

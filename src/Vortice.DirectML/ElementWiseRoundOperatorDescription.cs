@@ -19,6 +19,9 @@ public partial struct ElementWiseRoundOperatorDescription : IOperatorDescription
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_ROUND_OPERATOR_DESC::RoundingMode']/*" />
     public RoundingMode RoundingMode { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseRound: RoundingMode={RoundingMode}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

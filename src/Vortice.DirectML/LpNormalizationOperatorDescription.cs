@@ -25,6 +25,9 @@ public partial struct LpNormalizationOperatorDescription : IOperatorDescription,
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_LP_NORMALIZATION_OPERATOR_DESC::P']/*" />
     public int P { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"LpNormalization: Axis={Axis} Epsilon={Epsilon} P={P}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

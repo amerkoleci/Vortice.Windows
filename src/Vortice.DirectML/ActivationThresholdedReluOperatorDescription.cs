@@ -19,6 +19,9 @@ public partial struct ActivationThresholdedReluOperatorDescription : IFusableAct
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_THRESHOLDED_RELU_OPERATOR_DESC::Alpha']/*" />
     public float Alpha { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationThresholdedRelu: Alpha={Alpha}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

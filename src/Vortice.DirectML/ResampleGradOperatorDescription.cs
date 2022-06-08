@@ -28,6 +28,9 @@ public partial struct ResampleGradOperatorDescription : IOperatorDescription, IO
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_RESAMPLE_GRAD_OPERATOR_DESC::OutputPixelOffsets']/*" />
     public float[] OutputPixelOffsets { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ResampleGrad: InterpolationMode={InterpolationMode}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

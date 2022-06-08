@@ -22,6 +22,9 @@ public partial struct ActivationScaledEluOperatorDescription : IFusableActivatio
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SCALED_ELU_OPERATOR_DESC::Gamma']/*" />
     public float Gamma { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationScaledElu: Alpha={Alpha} Gamma={Gamma}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

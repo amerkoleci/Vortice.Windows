@@ -22,6 +22,9 @@ public partial struct ArgminOperatorDescription : IOperatorDescription, IOperato
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ARGMIN_OPERATOR_DESC::AxisDirection']/*" />
     public AxisDirection AxisDirection { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Argmin: AxisDirection={AxisDirection}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

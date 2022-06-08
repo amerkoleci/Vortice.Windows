@@ -25,6 +25,9 @@ public partial struct CumulativeProductOperatorDescription : IOperatorDescriptio
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CUMULATIVE_PRODUCT_OPERATOR_DESC::HasExclusiveProduct']/*" />
     public bool HasExclusiveProduct { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"CumulativeProduct: Axis={Axis} AxisDirection={AxisDirection} HasExclusiveProduct={HasExclusiveProduct}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -25,6 +25,9 @@ public partial struct SliceGradOperatorDescription : IOperatorDescription, IOper
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_SLICE_GRAD_OPERATOR_DESC::InputWindowStrides']/*" />
     public int[] InputWindowStrides { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"SliceGrad";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

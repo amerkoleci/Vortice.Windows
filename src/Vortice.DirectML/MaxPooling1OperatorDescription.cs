@@ -31,6 +31,9 @@ public partial struct MaxPooling1OperatorDescription : IOperatorDescription, IOp
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_MAX_POOLING1_OPERATOR_DESC::EndPadding']/*" />
     public int[] EndPadding { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"MaxPooling1";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

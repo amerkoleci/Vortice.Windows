@@ -28,6 +28,9 @@ public partial struct PaddingOperatorDescription : IOperatorDescription, IOperat
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_PADDING_OPERATOR_DESC::EndPadding']/*" />
     public int[] EndPadding { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Padding: PaddingMode={PaddingMode} PaddingValue={PaddingValue}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

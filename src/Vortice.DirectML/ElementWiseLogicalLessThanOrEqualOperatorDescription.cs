@@ -19,6 +19,9 @@ public partial struct ElementWiseLogicalLessThanOrEqualOperatorDescription : IOp
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ELEMENT_WISE_LOGICAL_LESS_THAN_OR_EQUAL_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ElementWiseLogicalLessThanOrEqual";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

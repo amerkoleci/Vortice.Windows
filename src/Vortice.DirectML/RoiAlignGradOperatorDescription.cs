@@ -55,6 +55,9 @@ public partial struct RoiAlignGradOperatorDescription : IOperatorDescription, IO
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ROI_ALIGN_GRAD_OPERATOR_DESC::AlignRegionsToCorners']/*" />
     public bool AlignRegionsToCorners { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"RoiAlignGrad: ReductionFunction={ReductionFunction} InterpolationMode={InterpolationMode} SpatialScaleX={SpatialScaleX} SpatialScaleY={SpatialScaleY} InputPixelOffset={InputPixelOffset} OutputPixelOffset={OutputPixelOffset} MinimumSamplesPerOutput={MinimumSamplesPerOutput} MaximumSamplesPerOutput={MaximumSamplesPerOutput} AlignRegionsToCorners={AlignRegionsToCorners}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

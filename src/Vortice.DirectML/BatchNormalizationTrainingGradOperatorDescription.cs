@@ -37,6 +37,9 @@ public partial struct BatchNormalizationTrainingGradOperatorDescription : IOpera
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BATCH_NORMALIZATION_TRAINING_GRAD_OPERATOR_DESC::Epsilon']/*" />
     public float Epsilon { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"BatchNormalizationTrainingGrad: Epsilon={Epsilon}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

@@ -16,6 +16,9 @@ public partial struct CastOperatorDescription : IOperatorDescription, IOperatorD
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_CAST_OPERATOR_DESC::OutputTensor']/*" />
     public TensorDescription OutputTensor { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Cast";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

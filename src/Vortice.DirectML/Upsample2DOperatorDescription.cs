@@ -22,6 +22,9 @@ public partial struct Upsample2DOperatorDescription : IOperatorDescription, IOpe
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_UPSAMPLE_2D_OPERATOR_DESC::InterpolationMode']/*" />
     public InterpolationMode InterpolationMode { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Upsample2D: ScaleSize={ScaleSize} InterpolationMode={InterpolationMode}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

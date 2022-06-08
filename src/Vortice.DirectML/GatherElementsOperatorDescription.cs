@@ -22,6 +22,9 @@ public partial struct GatherElementsOperatorDescription : IOperatorDescription, 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_GATHER_ELEMENTS_OPERATOR_DESC::Axis']/*" />
     public int Axis { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"GatherElements: Axis={Axis}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

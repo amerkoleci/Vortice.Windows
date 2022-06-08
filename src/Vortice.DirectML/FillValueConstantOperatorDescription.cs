@@ -19,6 +19,9 @@ public partial struct FillValueConstantOperatorDescription : IOperatorDescriptio
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_FILL_VALUE_CONSTANT_OPERATOR_DESC::Value']/*" />
     public ScalarUnion Value { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"FillValueConstant: ValueDataType={ValueDataType} Value={Value}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
