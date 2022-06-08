@@ -96,6 +96,7 @@ public class HelloDml : IDisposable
         var tensorSizes = new int[] { 1, 2, 3, 4 };
         var tensorElementCount = tensorSizes.Aggregate((a, b) => a * b);
 
+#if true
         var bufferTensorDesc = new BufferTensorDescription()
         {
             DataType = TensorDataType.Float32,
@@ -130,7 +131,22 @@ public class HelloDml : IDisposable
 
         // 24 elements * 4 == 96 bytes.
         long tensorBufferSize = bufferTensorDesc.TotalTensorSizeInBytes;
+#else
+        // Create DirectML operator(s). Operators represent abstract functions such as "multiply", "reduce", "convolution", or even
+        // compound operations such as recurrent neural nets. This example creates an instance of the Identity operator,
+        // which applies the function f(x) = x for all elements in a tensor.
+        Graph graph = new Graph(DMLDevice.QueryInterface<IDMLDevice1>());
+        var input = Expression.InputTensor(graph, 0, TensorDataType.Float32, tensorSizes);
 
+        // Creates the DirectMLX Graph then takes the compiled operator(s) and attaches it to the relative COM Interface.
+        var output = Expression.Identity(input);
+
+        var executionFlags = ExecutionFlags.AllowHalfPrecisionComputation;
+        using IDMLCompiledOperator dmlCompiledOperator = graph.Compile(executionFlags, output);
+
+        // 24 elements * 4 == 96 bytes.
+        long tensorBufferSize = input.OutputTensorDescription.TotalTensorSizeInBytes;
+#endif
 
         using var dmlOperatorInitializer = DMLDevice.CreateOperatorInitializer(new IDMLCompiledOperator[] { dmlCompiledOperator });
 
