@@ -13,6 +13,8 @@ public partial struct OperatorDescription
         Description = description;
     }
 
+    public override string ToString() => $"{Description} as {nameof(OperatorDescription)}";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
