@@ -176,7 +176,7 @@ public class HelloDml : IDisposable
         ID3D12Resource? temporaryBuffer = null;
         if (temporaryResourceSize != 0)
         {
-            temporaryBuffer = D3D12Device.CreateCommittedResource(HeapProperties.DefaultHeapProperties, HeapFlags.None, ResourceDescription.Buffer(persistentResourceSize, ResourceFlags.AllowUnorderedAccess), ResourceStates.Common);
+            temporaryBuffer = D3D12Device.CreateCommittedResource(HeapProperties.DefaultHeapProperties, HeapFlags.None, ResourceDescription.Buffer(temporaryResourceSize, ResourceFlags.AllowUnorderedAccess), ResourceStates.Common);
 
             if (initializeBindingProperties.TemporaryResourceSize != 0)
             {
