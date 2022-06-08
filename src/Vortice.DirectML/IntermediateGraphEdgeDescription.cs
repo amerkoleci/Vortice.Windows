@@ -25,6 +25,9 @@ public partial struct IntermediateGraphEdgeDescription : IGraphEdgeDescription, 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_INTERMEDIATE_GRAPH_EDGE_DESC::Name']/*" />
     public string? Name { get; set; }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"Intermediate:{(string.IsNullOrEmpty(Name) ? "" : $" Name={Name}")} FromNode={FromNodeIndex}[{FromNodeOutputIndex}] ToNode={ToNodeIndex}[{ToNodeInputIndex}]";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native

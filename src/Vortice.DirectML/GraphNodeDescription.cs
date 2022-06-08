@@ -13,6 +13,9 @@ public partial struct GraphNodeDescription
         Description = description;
     }
 
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"{Description} as GraphNodeDescription";
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
