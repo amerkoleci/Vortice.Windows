@@ -87,7 +87,7 @@ public class HelloDml : IDisposable
 #endif
         DMLDevice = DMLCreateDevice(D3D12Device, createFlags);
 
-        var supportedFeatureLevel = DMLDevice.CheckFeatureLevelsSupport(FeatureLevel.Level4_0, FeatureLevel.Level3_1, FeatureLevel.Level3_0, FeatureLevel.Level2_1, FeatureLevel.Level2_0, FeatureLevel.Level1_0);
+        var supportedFeatureLevel = DMLDevice.CheckFeatureLevelsSupport(typeof(FeatureLevel).GetEnumValues().Cast<FeatureLevel>().ToArray());
         Console.WriteLine($"Highest supported feature level: {supportedFeatureLevel}");
     }
 
