@@ -54,9 +54,9 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     {
         var elementSizeInBytes = dataType switch
         {
-            TensorDataType.Float64 or TensorDataType.Uint64 or TensorDataType.Int64 => 8,
-            TensorDataType.Float32 or TensorDataType.Uint32 or TensorDataType.Int32 => 4,
-            TensorDataType.Float16 or TensorDataType.Uint16 or TensorDataType.Int16 => 2,
+            TensorDataType.Uint64 or TensorDataType.Int64 or TensorDataType.Float64 => 8,
+            TensorDataType.Uint32 or TensorDataType.Int32 or TensorDataType.Float32 => 4,
+            TensorDataType.Uint16 or TensorDataType.Int16 or TensorDataType.Float16 => 2,
             TensorDataType.Uint8 or TensorDataType.Int8 => 1,
             _ => 0
         };
