@@ -121,7 +121,7 @@ public static partial class DML
         where T : IDMLDevice
     {
         DMLCreateDevice(d3d12Device, createDeviceFlags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr) ?? throw new NullReferenceException();
     }
 
     public static Result DMLCreateDevice<T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags, out T? device)
@@ -153,7 +153,7 @@ public static partial class DML
             typeof(T).GUID,
             out IntPtr nativePtr).CheckError();
 
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr) ?? throw new NullReferenceException();
     }
 
     public static Result DMLCreateDevice<T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags, FeatureLevel minimumFeatureLevel, out T? device)
