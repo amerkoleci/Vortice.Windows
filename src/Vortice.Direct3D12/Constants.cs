@@ -38,7 +38,7 @@ public static partial class D3D12
     public const int CommonShaderSamplerRegisterCount = 16;
     public const int CommonShaderSamplerRegisterReadsPerInstance = 1;
     public const int CommonShaderSamplerRegisterReadPorts = 1;
-    public const int CommonShaderSamplerSlot_ount = 16;
+    public const int CommonShaderSamplerSlotCount = 16;
 
     public const int CommonShaderSubroutineNestingLimit = 32;
 
@@ -138,13 +138,13 @@ public static partial class D3D12
     public const int DefaultMaxAnisotropy = 16;
 
     public const float DefaultMipLodBias = 0.0f;
-    public const int DefaultMsaaResourcePlacementAlignment = 4194304;
+    public const uint DefaultMsaaResourcePlacementAlignment = 4194304;
 
     public const int DefaultRenderTargetArrayIndex = 0;
 
     public const int DefaultResourcePlacementAlignment = 65536;
 
-    public const int DefaultSampleMas = unchecked((int)0xffffffff);
+    public const int DefaultSampleMask = unchecked((int)0xffffffff);
 
     public const int DefaultScissorEndX = 0;
     public const int DefaultScissorEndY = 0;
@@ -383,7 +383,7 @@ public static partial class D3D12
     public const int RequestDepthStencilObjectCountPerDevice = 4096;
     public const int RequestDrawIndexedIndexCount2ToExp = 32;
     public const int RequestDrawVertexCount2ToExp = 32;
-    public const int RequestFILTERING_HW_ADDRESSABLE_ResourceDimension = 16384;
+    public const int RequestFilteringHardwareAddressableResourceDimension = 16384;
     public const int RequestGeometryShaderInvocation32BitOutputComponentLimit = 1024;
     public const int RequestImmediateConstantBufferElementCount = 4096;
     public const int RequestMaxAnisotropy = 16;
@@ -423,8 +423,8 @@ public static partial class D3D12
 
     public const int SimultaneousRenderTargetCount = 8;
 
-    public const int SmallMsaaResourcePlacementAlignment = 65536;
-    public const int SmallResourcePlacementAlignment = 4096;
+    public const uint SmallMsaaResourcePlacementAlignment = 65536;
+    public const uint SmallResourcePlacementAlignment = 4096;
 
     public const int StreamOutputBufferMaxStrideInBytes = 2048;
     public const int StreamOutputBufferMaxWriteWindowInBytes = 512;
@@ -440,8 +440,8 @@ public static partial class D3D12
     public const float SpecVersion = 1.16f;
 
     public const float SrgbGamma = 2.2f;
-    public const float SrgbToFloatDenoMinator1 = 12.92f;
-    public const float SrgbToFloatDenoMinator2 = 1.055f;
+    public const float SrgbToFloatDenominator1 = 12.92f;
+    public const float SrgbToFloatDenominator2 = 1.055f;
     public const float SrgbToFloatExponent = 2.4f;
     public const float SrgbToFloatOffset = 0.055f;
     public const float SrgbToFloatThreshold = 0.04045f;
@@ -456,8 +456,8 @@ public static partial class D3D12
     public const int StandardVertexElementCount = 32;
     public const int StandardVertexTotalComponentCount = 64;
 
-    public const int SubPixelFractionalBitCount = 8;
-    public const int SubTexelFractionalBitCount = 8;
+    public const int SubpixelFractionalBitCount = 8;
+    public const int SubtexelFractionalBitCount = 8;
 
     public const int SystemReservedRegisterSpaceValuesEnd = unchecked((int)0xffffffff);
     public const int SystemReservedRegisterSpaceValuesStart = unchecked((int)0xfffffff0);
@@ -507,7 +507,7 @@ public static partial class D3D12
     public const int VertexShaderOutputRegisterComponentBitCount = 32;
     public const int VertexShaderOutputRegisterCount = 32;
 
-    public const int WHQLContextCountForResourceLimit = 10;
-    public const int WHQLDrawIndexedIndexCount2ToExp = 25;
-    public const int WHQLDrawVertexCount2ToExp = 25;
+    public const int WhqlContextCountForResourceLimit = 10;
+    public const int WhqlDrawIndexedIndexCount2ToExp = 25;
+    public const int WhqlDrawVertexCount2ToExp = 25;
 }
