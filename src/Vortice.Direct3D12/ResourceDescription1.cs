@@ -70,6 +70,17 @@ public partial struct ResourceDescription1
         return new ResourceDescription1(ResourceDimension.Buffer, alignment, width, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags, 0, 0, 0);
     }
 
+    public static ResourceDescription1 Buffer(
+        long width,
+        ResourceFlags flags = ResourceFlags.None,
+        long alignment = 0)
+    {
+        checked
+        {
+            return new ResourceDescription1(ResourceDimension.Buffer, (ulong)alignment, (ulong)width, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags, 0, 0, 0);
+        }
+    }
+
     public static ResourceDescription1 Texture1D(Format format,
         ulong width,
         ushort arraySize = 1,
@@ -80,6 +91,21 @@ public partial struct ResourceDescription1
     {
         return new ResourceDescription1(ResourceDimension.Texture1D, alignment, width, 1, arraySize,
             mipLevels, format, 1, 0, layout, flags, 0, 0, 0);
+    }
+
+    public static ResourceDescription1 Texture1D(Format format,
+        long width,
+        int arraySize = 1,
+        int mipLevels = 0,
+        ResourceFlags flags = ResourceFlags.None,
+        TextureLayout layout = TextureLayout.Unknown,
+        long alignment = 0)
+    {
+        checked
+        {
+            return new ResourceDescription1(ResourceDimension.Texture1D, (ulong)alignment, (ulong)width, 1, (ushort)arraySize,
+                (ushort)mipLevels, format, 1, 0, layout, flags, 0, 0, 0);
+        }
     }
 
     public static ResourceDescription1 Texture2D(Format format,
@@ -101,6 +127,28 @@ public partial struct ResourceDescription1
             samplerFeedbackMipRegionWidth, samplerFeedbackMipRegionHeight, samplerFeedbackMipRegionDepth);
     }
 
+    public static ResourceDescription1 Texture2D(Format format,
+        long width,
+        int height,
+        int arraySize = 1,
+        int mipLevels = 0,
+        int sampleCount = 1,
+        int sampleQuality = 0,
+        ResourceFlags flags = ResourceFlags.None,
+        TextureLayout layout = TextureLayout.Unknown,
+        long alignment = 0,
+        int samplerFeedbackMipRegionWidth = 0,
+        int samplerFeedbackMipRegionHeight = 0,
+        int samplerFeedbackMipRegionDepth = 0)
+    {
+        checked
+        {
+            return new ResourceDescription1(ResourceDimension.Texture2D, (ulong)alignment, (ulong)width, height,
+                (ushort)arraySize, (ushort)mipLevels, format, sampleCount, sampleQuality, layout, flags,
+                samplerFeedbackMipRegionWidth, samplerFeedbackMipRegionHeight, samplerFeedbackMipRegionDepth);
+        }
+    }
+
     public static ResourceDescription1 Texture3D(Format format,
         ulong width,
         int height,
@@ -112,6 +160,22 @@ public partial struct ResourceDescription1
     {
         return new ResourceDescription1(ResourceDimension.Texture3D, alignment, width, height, depth,
             mipLevels, format, 1, 0, layout, flags, 0, 0, 0);
+    }
+
+    public static ResourceDescription1 Texture3D(Format format,
+        long width,
+        int height,
+        int depth,
+        int mipLevels = 0,
+        ResourceFlags flags = ResourceFlags.None,
+        TextureLayout layout = TextureLayout.Unknown,
+        long alignment = 0)
+    {
+        checked
+        {
+            return new ResourceDescription1(ResourceDimension.Texture3D, (ulong)alignment, (ulong)width, height,
+                (ushort)depth, (ushort)mipLevels, format, 1, 0, layout, flags, 0, 0, 0);
+        }
     }
 
     public int Depth => Dimension == ResourceDimension.Texture3D ? DepthOrArraySize : 1;
