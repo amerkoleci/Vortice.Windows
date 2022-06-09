@@ -28,6 +28,63 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::GuaranteedBaseOffsetAlignment']/*" />
     public int GuaranteedBaseOffsetAlignment { get; set; }
 
+    /// <summary>
+    /// Calculates the minimum implied tensor size in bytes given the data type, sizes, and
+    /// strides for this <see cref="BufferTensorDescription"/>.
+    /// </summary>
+    /// <returns></returns>
+    public long CalculateMinimumImpliedSize() => CalculateMinimumImpliedSize(DataType, Sizes, Strides);
+
+    /// <summary>
+    /// Calculates the minimum implied tensor size in bytes given the data type, sizes, and
+    /// strides.
+    /// </summary>
+    /// <param name="dataType"></param>
+    /// <param name="sizes"></param>
+    /// <param name="strides"></param>
+    /// <returns></returns>
+    /// <remarks>
+    /// Based on the DirectMLX.h DMLCalcBufferTensorSize function. See
+    /// <see href="https://github.com/microsoft/DirectML/blob/master/Libraries/DirectMLX.h"/>.
+    /// </remarks>
+    public static long CalculateMinimumImpliedSize(
+        TensorDataType dataType,
+        int[] sizes,
+        int[]? strides)
+    {
+        var elementSizeInBytes = dataType switch
+        {
+            TensorDataType.Uint64 or TensorDataType.Int64 or TensorDataType.Float64 => 8,
+            TensorDataType.Uint32 or TensorDataType.Int32 or TensorDataType.Float32 => 4,
+            TensorDataType.Uint16 or TensorDataType.Int16 or TensorDataType.Float16 => 2,
+            TensorDataType.Uint8 or TensorDataType.Int8 => 1,
+            _ => 0
+        };
+
+        long minimumImpliedSizeInBytes;
+        if (strides == null)
+        {
+            minimumImpliedSizeInBytes = 1;
+            for (var i = 0; i < sizes.Length; i++)
+            {
+                minimumImpliedSizeInBytes *= sizes[i];
+            }
+            minimumImpliedSizeInBytes *= elementSizeInBytes;
+        }
+        else
+        {
+            var indexOfLastElement = 0;
+            for (var i = 0; i < sizes.Length; i++)
+            {
+                indexOfLastElement += (sizes[i] - 1) * strides[i];
+            }
+            minimumImpliedSizeInBytes = (indexOfLastElement + 1) * elementSizeInBytes;
+        }
+
+        // Round up to the nearest 4 bytes.
+        return minimumImpliedSizeInBytes + 3 & ~3L;
+    }
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
