@@ -41,7 +41,6 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     /// </summary>
     /// <param name="dataType"></param>
     /// <param name="sizes"></param>
-    /// <param name="strides"></param>
     /// <returns></returns>
     /// <remarks>
     /// Based on the DirectMLX.h DMLCalcBufferTensorSize function. See
@@ -49,8 +48,27 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     /// </remarks>
     public static long CalculateMinimumImpliedSize(
         TensorDataType dataType,
-        int[] sizes,
-        int[]? strides)
+        params int[] sizes)
+    {
+        return CalculateMinimumImpliedSize(dataType, sizes, null);
+    }
+
+    /// <summary>
+    /// Calculates the minimum implied tensor size in bytes given the data type, sizes, and
+    /// strides.
+    /// </summary>
+    /// <param name="dataType"></param>
+    /// <param name="sizes"></param>
+    /// <param name="strides"></param>
+    /// <returns></returns>
+    /// <remarks>
+    /// Based on the DirectMLX.h DMLCalcBufferTensorSize function. See
+    /// <see href="https://github.com/microsoft/DirectML/blob/master/Libraries/DirectMLX.h"/>.
+    /// </remarks>
+    public static long CalculateMinimumImpliedSize(
+    TensorDataType dataType,
+    int[] sizes,
+    int[]? strides = null)
     {
         var elementSizeInBytes = dataType switch
         {
@@ -107,7 +125,8 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
         @ref->DimensionCount = Sizes.Length;
         @ref->PSizes = UnsafeUtilities.AllocToPointer(Sizes);
         @ref->PStrides = IntPtr.Zero;
-        if (Strides != null) {
+        if (Strides != null)
+        {
             if (Strides.Length != Sizes.Length) { throw new IndexOutOfRangeException("Strides must have the same length as Sizes."); }
             @ref->PStrides = UnsafeUtilities.AllocToPointer(Strides);
         }
