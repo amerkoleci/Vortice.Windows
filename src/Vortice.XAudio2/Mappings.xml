@@ -24,7 +24,7 @@
     <const from-guid="CLSID_XAudio2.*" class="Vortice.XAudio2.XAudio2" type="System.Guid">new System.Guid("$1")</const>
     <const from-guid="IID_IXAudio2" class="Vortice.XAudio2.XAudio2" type="System.Guid">new System.Guid("$1")</const>
 
-    <const from-macro="XAUDIO2_MAX_BUFFER_BYTES" type="int" cpp-type="int" name="MaximumBufferBytes" class="Vortice.XAudio2.XAudio2" visibility="public const">unchecked((int)$1)</const>
+    <const from-macro="XAUDIO2_MAX_BUFFER_BYTES" type="uint" cpp-type="int" name="MaximumBufferBytes" class="Vortice.XAudio2.XAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_MAX_QUEUED_BUFFERS" type="int" cpp-type="int" name="MaximumQueuedBuffers" class="Vortice.XAudio2.XAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_MAX_AUDIO_CHANNELS" type="int" cpp-type="int" name="MaximumAudioChannels" class="Vortice.XAudio2.XAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_MIN_SAMPLE_RATE" type="int" cpp-type="int" name="MinimumSampleRate" class="Vortice.XAudio2.XAudio2" visibility="public const" />
