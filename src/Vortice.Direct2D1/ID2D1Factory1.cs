@@ -34,7 +34,7 @@ public partial class ID2D1Factory1
         return CreateStrokeStyle(ref properties, dashes, dashes.Length);
     }
 
-    public Guid[] GetRegisteredEffects()
+    public Guid[] GetRegistereotdEffects()
     {
         Guid[] guids = Array.Empty<Guid>();
         GetRegisteredEffects(guids, 0, out _, out var count);
@@ -44,11 +44,11 @@ public partial class ID2D1Factory1
     }
 
     /// <summary>
-    /// Register a <see cref="ID2D1EffectImpl"/> factory.
+    /// Register a <see cref="CustomEffectBase"/> factory.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="effectFactory"></param>
-    public void RegisterEffect<T>(Func<T> effectFactory) where T : ID2D1EffectImpl
+    public void RegisterEffect<T>(Func<T> effectFactory) where T : CustomEffectBase
     {
         Guid effectId = typeof(T).GUID;
         RegisterEffect<T>(effectFactory, effectId);
@@ -60,7 +60,7 @@ public partial class ID2D1Factory1
     /// <typeparam name="T"></typeparam>
     /// <param name="effectFactory"></param>
     /// <param name="effectId"></param>
-    public void RegisterEffect<T>(Func<T> effectFactory, Guid effectId) where T : ID2D1EffectImpl
+    public void RegisterEffect<T>(Func<T> effectFactory, Guid effectId) where T : CustomEffectBase
     {
         CustomEffectFactory factory;
         lock (_customEffectFactories)
@@ -75,20 +75,20 @@ public partial class ID2D1Factory1
     }
 
     /// <summary>
-    /// Register a <see cref="ID2D1EffectImpl"/>.
+    /// Register a <see cref="CustomEffectBase"/>.
     /// </summary>
     /// <typeparam name="T">Type of </typeparam>
-    public void RegisterEffect<T>() where T : ID2D1EffectImpl, new()
+    public void RegisterEffect<T>() where T : CustomEffectBase, new()
     {
         RegisterEffect<T>(typeof(T).GUID);
     }
 
     /// <summary>
-    /// Register a <see cref="ID2D1EffectImpl"/>.
+    /// Register a <see cref="CustomEffectBase"/>.
     /// </summary>
     /// <typeparam name="T">Type of </typeparam>
     /// <param name="effectId"></param>
-    public void RegisterEffect<T>(Guid effectId) where T : ID2D1EffectImpl, new()
+    public void RegisterEffect<T>(Guid effectId) where T : CustomEffectBase, new()
     {
         lock (_customEffectFactories)
         {

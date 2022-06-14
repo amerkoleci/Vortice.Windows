@@ -13,7 +13,7 @@ public static unsafe class XInput
 
     private static readonly delegate* unmanaged<int, void> s_XInputEnable;
     private static readonly delegate* unmanaged<int, BatteryDeviceType, out BatteryInformation, int> s_XInputGetBatteryInformation;
-    private static readonly delegate* unmanaged<int, out Keystroke, int> s_XInputGetKeystroke;
+    private static readonly delegate* unmanaged<int, uint, out Keystroke, int> s_XInputGetKeystroke;
     private static readonly delegate* unmanaged<int, IntPtr, IntPtr, IntPtr, IntPtr, uint> s_XInputGetAudioDeviceIds;
 #else
     private static readonly delegate* unmanaged[Stdcall]<int, out State, int> s_XInputGetState;
@@ -22,7 +22,7 @@ public static unsafe class XInput
 
     private static readonly delegate* unmanaged[Stdcall]<int, void> s_XInputEnable;
     private static readonly delegate* unmanaged[Stdcall]<int, BatteryDeviceType, out BatteryInformation, int> s_XInputGetBatteryInformation;
-    private static readonly delegate* unmanaged[Stdcall]<int, out Keystroke, int> s_XInputGetKeystroke;
+    private static readonly delegate* unmanaged[Stdcall]<int, uint, out Keystroke, int> s_XInputGetKeystroke;
     private static readonly delegate* unmanaged[Stdcall]<int, IntPtr, IntPtr, IntPtr, IntPtr, uint> s_XInputGetAudioDeviceIds;
 #endif
 
@@ -73,11 +73,11 @@ public static unsafe class XInput
 #if NET6_0_OR_GREATER
             s_XInputEnable = (delegate* unmanaged<int, void>)GetExport("XInputEnable");
             s_XInputGetBatteryInformation = (delegate* unmanaged<int, BatteryDeviceType, out BatteryInformation, int>)GetExport("XInputGetBatteryInformation");
-            s_XInputGetKeystroke = (delegate* unmanaged<int, out Keystroke, int>)GetExport("XInputGetKeystroke");
+            s_XInputGetKeystroke = (delegate* unmanaged<int, uint, out Keystroke, int>)GetExport("XInputGetKeystroke");
 #else
             s_XInputEnable = (delegate* unmanaged[Stdcall]<int, void>)GetExport("XInputEnable");
             s_XInputGetBatteryInformation = (delegate* unmanaged[Stdcall]<int, BatteryDeviceType, out BatteryInformation, int>)GetExport("XInputGetBatteryInformation");
-            s_XInputGetKeystroke = (delegate* unmanaged[Stdcall]<int, out Keystroke, int>)GetExport("XInputGetKeystroke");
+            s_XInputGetKeystroke = (delegate* unmanaged[Stdcall]<int, uint, out Keystroke, int>)GetExport("XInputGetKeystroke");
 #endif
         }
 
@@ -207,7 +207,7 @@ public static unsafe class XInput
             ThrowNotSupportedXInput91("XInputGetKeystroke");
         }
 
-        return s_XInputGetKeystroke(userIndex, out keystroke) == 0;
+        return s_XInputGetKeystroke(userIndex, 0u, out keystroke) == 0;
     }
 
     public static uint GetAudioDeviceIds(int userIndex, IntPtr renderDeviceId, IntPtr renderCount, IntPtr captureDeviceId, IntPtr captureCount)
