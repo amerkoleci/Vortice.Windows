@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
+using Vortice.Multimedia;
 
 namespace Vortice.MediaFoundation;
 
@@ -134,6 +135,48 @@ public unsafe partial class IMFAttributes
 
             Set(CaptureDeviceAttributeKeys.SourceTypeVidcapSymbolicLink, value);
         }
+    }
+
+    public AudioStreamCategory AudioCategory
+    {
+        get => Get(MediaEngineAttributeKeys.AudioCategory);
+        set => Set(MediaEngineAttributeKeys.AudioCategory, value);
+    }
+
+    public AudioEndpointRole AudioEndpointRole
+    {
+        get => Get(MediaEngineAttributeKeys.AudioEndpointRole);
+        set => Set(MediaEngineAttributeKeys.AudioEndpointRole, value);
+    }
+
+    public MediaEngineProtectionFlags ContentProtectionFlags
+    {
+        get => Get(MediaEngineAttributeKeys.ContentProtectionFlags);
+        set => Set(MediaEngineAttributeKeys.ContentProtectionFlags, value);
+    }
+
+    public ComObject ContentProtectionManager
+    {
+        get => Get(MediaEngineAttributeKeys.ContentProtectionManager);
+        set => Set(MediaEngineAttributeKeys.ContentProtectionManager, value);
+    }
+
+    public IMFDXGIDeviceManager DxgiManager
+    {
+        get => Get(MediaEngineAttributeKeys.DxgiManager);
+        set => Set(MediaEngineAttributeKeys.DxgiManager, value);
+    }
+
+    public IMFMediaEngineExtension Extension
+    {
+        get => Get(MediaEngineAttributeKeys.Extension);
+        set => Set(MediaEngineAttributeKeys.Extension, value);
+    }
+
+    public int VideoOutputFormat
+    {
+        get => Get(MediaEngineAttributeKeys.VideoOutputFormat);
+        set => Set(MediaEngineAttributeKeys.VideoOutputFormat, value);
     }
 
     /// <summary>	

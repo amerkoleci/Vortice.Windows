@@ -14,7 +14,7 @@ public partial class IMFDXGIDeviceManager
     public T LockDevice<T>(IntPtr deviceHandle, bool block) where T : ComObject
     {
         LockDevice(deviceHandle, typeof(T).GUID, out IntPtr unkDevice, block).CheckError();
-        return MarshallingHelpers.FromPointer<T>(unkDevice);
+        return MarshallingHelpers.FromPointer<T>(unkDevice)!;
     }
 
     public Result LockDevice<T>(IntPtr deviceHandle, bool block, out T? device) where T : ComObject
@@ -36,7 +36,7 @@ public partial class IMFDXGIDeviceManager
     public T GetVideoService<T>(IntPtr deviceHandle) where T : ComObject
     {
         GetVideoService(deviceHandle, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result GetVideoService<T>(IntPtr deviceHandle, out T? service) where T : ComObject
