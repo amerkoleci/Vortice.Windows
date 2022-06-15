@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DirectMLLibrary>$(MSBuildThisFileDirectory)..\..\runtimes\win-$(DirectMLPlatform)\DirectML.dll</DirectMLLibrary>
-    <DirectMLDebugLibrary>$(MSBuildThisFileDirectory)..\..\runtimes\win-$(DirectMLPlatform)\DirectML.Debug.dll</DirectMLDebugLibrary>
+    <DirectMLLibrary>$(MSBuildThisFileDirectory)..\runtimes\win-$(DirectMLPlatform)\DirectML.dll</DirectMLLibrary>
+    <DirectMLDebugLibrary>$(MSBuildThisFileDirectory)..\runtimes\win-$(DirectMLPlatform)\DirectML.Debug.dll</DirectMLDebugLibrary>
   </PropertyGroup>
 
   <ItemGroup>

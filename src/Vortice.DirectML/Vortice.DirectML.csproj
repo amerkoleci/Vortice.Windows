@@ -12,7 +12,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Content Include="build\net461\Vortice.DirectML.props" PackagePath="build\net461\Vortice.DirectML.props" />
+    <Content Include="build\Vortice.DirectML.props" PackagePath="build\Vortice.DirectML.props" />
     <Content Include="runtimes\win-arm\native\DirectML.Debug.dll" PackagePath="runtimes\win-arm\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="runtimes\win-arm\native\DirectML.dll" PackagePath="runtimes\win-arm\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="runtimes\win-arm64\native\DirectML.Debug.dll" PackagePath="runtimes\win-arm64\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
