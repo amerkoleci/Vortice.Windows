@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
+using Vortice.DXGI;
 using Vortice.Multimedia;
 
 namespace Vortice.MediaFoundation;
@@ -173,7 +174,7 @@ public unsafe partial class IMFAttributes
         set => Set(MediaEngineAttributeKeys.Extension, value);
     }
 
-    public int VideoOutputFormat
+    public Format VideoOutputFormat
     {
         get => Get(MediaEngineAttributeKeys.VideoOutputFormat);
         set => Set(MediaEngineAttributeKeys.VideoOutputFormat, value);

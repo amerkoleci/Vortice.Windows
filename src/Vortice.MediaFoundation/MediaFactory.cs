@@ -3,6 +3,7 @@
 
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
+using Vortice.Multimedia;
 
 namespace Vortice.MediaFoundation;
 
@@ -85,6 +86,40 @@ public partial class MediaFactory
 
     public static unsafe IMFActivateCollection MFEnumDeviceSources(IMFAttributes attributes)
     {
+        MFEnumDeviceSources(attributes, out IntPtr pSourceActivate, out int count).CheckError();
+        return new(pSourceActivate, count);
+    }
+
+    public static unsafe IMFActivateCollection MFEnumAudioDeviceSources()
+    {
+        using IMFAttributes attributes = MFCreateAttributes(1);
+        attributes.SourceType = CaptureDeviceAttributeKeys.SourceTypeAudcap;
+        MFEnumDeviceSources(attributes, out IntPtr pSourceActivate, out int count).CheckError();
+        return new(pSourceActivate, count);
+    }
+
+    public static unsafe IMFActivateCollection MFEnumAudioDeviceSources(AudioEndpointRole audioEndpointRole)
+    {
+        using IMFAttributes attributes = MFCreateAttributes(2);
+        attributes.SourceType = CaptureDeviceAttributeKeys.SourceTypeAudcap;
+        attributes.AudioEndpointRole = audioEndpointRole;
+        MFEnumDeviceSources(attributes, out IntPtr pSourceActivate, out int count).CheckError();
+        return new(pSourceActivate, count);
+    }
+
+    public static unsafe IMFActivateCollection MFEnumVideoDeviceSources()
+    {
+        using IMFAttributes attributes = MFCreateAttributes(1);
+        attributes.SourceType = CaptureDeviceAttributeKeys.SourceTypeVidcap;
+        MFEnumDeviceSources(attributes, out IntPtr pSourceActivate, out int count).CheckError();
+        return new(pSourceActivate, count);
+    }
+
+    public static unsafe IMFActivateCollection MFEnumVideoDeviceSources(Guid videoDeviceCategory)
+    {
+        using IMFAttributes attributes = MFCreateAttributes(2);
+        attributes.SourceType = CaptureDeviceAttributeKeys.SourceTypeVidcap;
+        attributes.VideoDeviceCategory = videoDeviceCategory;
         MFEnumDeviceSources(attributes, out IntPtr pSourceActivate, out int count).CheckError();
         return new(pSourceActivate, count);
     }

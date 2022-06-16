@@ -2,6 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using SharpGen.Runtime;
+using Vortice.DXGI;
 using Vortice.Multimedia;
 using static Vortice.MediaFoundation.MediaEngineAttributeGuids;
 
@@ -19,5 +20,5 @@ public partial class MediaEngineAttributeKeys
     public static readonly MediaAttributeKey<IUnknown> Callback = new(CallbackGuid, nameof(Callback));
     public static readonly MediaAttributeKey<IUnknown> ContentProtectionManager = new(ContentProtectionManagerGuid, nameof(ContentProtectionManager));
     public static readonly MediaAttributeKey<IUnknown> PlaybackVisual = new(PlaybackVisualGuid, nameof(PlaybackVisual));
-    public static readonly MediaAttributeKey<int> VideoOutputFormat = new(VideoOutputFormatGuid, nameof(VideoOutputFormat));
+    public static readonly MediaAttributeKey<Format> VideoOutputFormat = new(VideoOutputFormatGuid, nameof(VideoOutputFormat));
 }

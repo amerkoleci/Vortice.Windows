@@ -26,10 +26,7 @@ public static unsafe class Program
     {
         Console.WriteLine("Enumerating Audio capture devices:");
 
-        using IMFAttributes attrs = MFCreateAttributes(1);
-        attrs.Set(CaptureDeviceAttributeKeys.SourceType, CaptureDeviceAttributeKeys.SourceTypeAudcap);
-
-        using (IMFActivateCollection devices = MFEnumDeviceSources(attrs))
+        using (IMFActivateCollection devices = MFEnumAudioDeviceSources())
         {
             foreach (IMFActivate capDevice in devices)
             {
@@ -43,10 +40,7 @@ public static unsafe class Program
     {
         Console.WriteLine("Enumerating Video capture devices");
 
-        using IMFAttributes attrs = MFCreateAttributes(1);
-        attrs.Set(CaptureDeviceAttributeKeys.SourceType, CaptureDeviceAttributeKeys.SourceTypeVidcap);
-
-        using (IMFActivateCollection devices = MFEnumDeviceSources(attrs))
+        using (IMFActivateCollection devices = MFEnumVideoDeviceSources())
         {
             foreach (IMFActivate capDevice in devices)
             {
