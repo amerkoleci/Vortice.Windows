@@ -2,6 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.InteropServices;
+using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
 
 namespace Vortice.MediaFoundation;
@@ -9,21 +10,23 @@ namespace Vortice.MediaFoundation;
 public partial class MFByteStream
 {
     private Stream? _sourceStream;
+    private readonly bool _disposeStream;
     private ComStreamProxy? _streamProxy;
 
     /// <summary>
     /// Instantiates a new instance <see cref="MFByteStream"/> from a <see cref="Stream"/>.
     /// </summary>
-    public MFByteStream(Stream sourceStream)
+    public MFByteStream(Stream sourceStream, bool disposeStream = false)
     {
         _sourceStream = sourceStream;
+        _disposeStream = disposeStream;
 
-        //if (PlatformDetection.IsAppContainerProcess)
-        //{
-        //    //var randomAccessStream = sourceStream.AsRandomAccessStream();
-        //    //MediaFactory.MFCreateMFByteStreamOnStreamEx(new ComObject(Marshal.GetIUnknownForObject(randomAccessStream)), this);
-        //}
-        //else
+        if (PlatformDetection.IsAppContainerProcess)
+        {
+            //var randomAccessStream = sourceStream.AsRandomAccessStream();
+            //MediaFactory.MFCreateMFByteStreamOnStreamEx(new ComObject(Marshal.GetIUnknownForObject(randomAccessStream)), this);
+        }
+        else
         {
             _streamProxy = new ComStreamProxy(sourceStream);
             MediaFactory.MFCreateMFByteStreamOnStream(_streamProxy, this);
@@ -38,6 +41,14 @@ public partial class MFByteStream
     {
     }
 
+    /// <summary>
+    /// Instantiates a new instance <see cref="MFByteStream"/> from a <see cref="Stream"/>.
+    /// </summary>
+    public MFByteStream(string fileName)
+        : this(File.OpenRead(fileName), true)
+    {
+    }
+
     protected override unsafe void DisposeCore(IntPtr nativePointer, bool disposing)
     {
         base.DisposeCore(nativePointer, disposing);
@@ -45,7 +56,13 @@ public partial class MFByteStream
         if (_streamProxy != null)
         {
             _streamProxy.Dispose();
-            _streamProxy = null;
+            _streamProxy = default;
+        }
+
+        if (_disposeStream)
+        {
+            _sourceStream?.Dispose();
+            _sourceStream = default;
         }
     }
 

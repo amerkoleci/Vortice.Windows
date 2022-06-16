@@ -578,6 +578,31 @@
     <short name="WAITFORSTABLE">WaitForStable</short>
     <short name="FORCEMUTE">ForceMute</short>
     <short name="CREATEFLAGS">CreateFlags</short>
+    <short name="LOADSTART">LoadStart</short>
+    <short name="LOADEDMETADATA">LoadedMetadata</short>
+    <short name="LOADEDDATA">LoadedData</short>
+    <short name="CANPLAY">CanPlay</short>
+    <short name="CANPLAYTHROUGH">CanPlayThrough</short>
+    <short name="TIMEUPDATE">TimeUpdate</short>
+    <short name="RATECHANGE">RateChange</short>
+    <short name="DURATIONCHANGE">DurationChange</short>
+    <short name="VOLUMECHANGE">VolumeChange</short>
+    <short name="FORMATCHANGE">FormatChange</short>
+    <short name="PURGEQUEUEDEVENTS">PurgeQueuedEvents</short>
+    <short name="BALANCECHANGE">BalanceChange</short>
+    <short name="DOWNLOADCOMPLETE">DownloadComplete</short>
+    <short name="BUFFERINGSTARTED">BufferingStarted</short>
+    <short name="BUFFERINGENDED">BufferingEnded</short>
+    <short name="FRAMESTEPCOMPLETED">FrameStepCompleted</short>
+    <short name="NOTIFYSTABLESTATE">NotifyStableState</short>
+    <short name="FIRSTFRAMEREADY">FirstFrameReady</short>
+    <short name="TRACKSCHANGE">TracksChange</short>
+    <short name="OPMINFO">OpmInformation</short>
+    <short name="RESOURCELOST">ResourceLost</short>
+    <short name="DELAYLOADEVENT">DelayLoadEvent</short>
+    <short name="STREAMRENDERINGERROR">StreamRenderingError</short>
+    <short name="SUPPORTEDRATES">SupportedRates</short>
+    <short name="AUDIOENDPOINTCHANGE">AudioendPointChange</short>
   </naming>
 
 

@@ -11,7 +11,7 @@ public static unsafe class Program
     static void Main()
     {
         // Initialize MediaFoundation
-        if (MFStartup().Failure)
+        if (MFStartup(true).Failure)
         {
             return;
         }

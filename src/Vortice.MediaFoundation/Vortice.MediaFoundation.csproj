@@ -6,6 +6,10 @@
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <Description>A .NET bindings for Media Foundation</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="IMFMediaEngineClassFactory.cs~RF1e0482.TMP" />
+  </ItemGroup>
   
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />

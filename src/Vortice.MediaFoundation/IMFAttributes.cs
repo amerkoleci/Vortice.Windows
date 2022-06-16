@@ -155,7 +155,7 @@ public unsafe partial class IMFAttributes
         set => Set(MediaEngineAttributeKeys.ContentProtectionFlags, value);
     }
 
-    public ComObject ContentProtectionManager
+    public IUnknown ContentProtectionManager
     {
         get => Get(MediaEngineAttributeKeys.ContentProtectionManager);
         set => Set(MediaEngineAttributeKeys.ContentProtectionManager, value);
@@ -462,7 +462,7 @@ public unsafe partial class IMFAttributes
 
         if (typeof(T) == typeof(ComObject) || typeof(IUnknown).IsAssignableFrom(typeof(T)))
         {
-            Set(guidKey, ((IUnknown)(object)value));
+            Set(guidKey, (IUnknown)value!);
             return;
         }
 

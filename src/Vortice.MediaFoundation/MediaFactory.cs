@@ -2,6 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using SharpGen.Runtime;
+using SharpGen.Runtime.Win32;
 
 namespace Vortice.MediaFoundation;
 
@@ -86,5 +87,11 @@ public partial class MediaFactory
     {
         MFEnumDeviceSources(attributes, out IntPtr pSourceActivate, out int count).CheckError();
         return new(pSourceActivate, count);
+    }
+
+    public static unsafe IStream MFCreateStreamOnMFByteStream(IMFByteStream byteStream)
+    {
+        MFCreateStreamOnMFByteStream(byteStream, out IStream stream).CheckError();
+        return stream;
     }
 }

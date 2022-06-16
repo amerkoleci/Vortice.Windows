@@ -16,8 +16,8 @@ public partial class MediaEngineAttributeKeys
     public static readonly MediaAttributeKey<IntPtr> PlaybackHwnd = new(PlaybackHwndGuid, nameof(PlaybackHwnd));
     public static readonly MediaAttributeKey<AudioStreamCategory> AudioCategory = new(AudioCategoryGuid, nameof(AudioCategory));
     public static readonly MediaAttributeKey<AudioEndpointRole> AudioEndpointRole = new(AudioEndpointRoleGuid, nameof(AudioEndpointRole));
-    public static readonly MediaAttributeKey<ComObject> Callback = new(CallbackGuid, nameof(Callback));
-    public static readonly MediaAttributeKey<ComObject> ContentProtectionManager = new(ContentProtectionManagerGuid, nameof(ContentProtectionManager));
-    public static readonly MediaAttributeKey<ComObject> PlaybackVisual = new(PlaybackVisualGuid, nameof(PlaybackVisual));
+    public static readonly MediaAttributeKey<IUnknown> Callback = new(CallbackGuid, nameof(Callback));
+    public static readonly MediaAttributeKey<IUnknown> ContentProtectionManager = new(ContentProtectionManagerGuid, nameof(ContentProtectionManager));
+    public static readonly MediaAttributeKey<IUnknown> PlaybackVisual = new(PlaybackVisualGuid, nameof(PlaybackVisual));
     public static readonly MediaAttributeKey<int> VideoOutputFormat = new(VideoOutputFormatGuid, nameof(VideoOutputFormat));
 }

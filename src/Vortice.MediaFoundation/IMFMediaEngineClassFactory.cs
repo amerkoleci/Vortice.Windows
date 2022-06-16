@@ -1,7 +1,6 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using static Vortice.MediaFoundation.MediaFactory;
 
@@ -24,26 +23,25 @@ public partial class IMFMediaEngineClassFactory
     {
         attributes ??= MFCreateAttributes(1);
 
-        //MediaEngineNotifyImpl mediaEngineNotifyImpl = new();
+        MediaEngineNotifyImpl mediaEngineNotifyImpl = new();
 
         try
         {
-            //attributes.AudioCategory = Multimedia.AudioStreamCategory.GameMedia;
-            //attributes.Set(MediaEngineAttributeKeys.Callback, new ComObject(MarshallingHelpers.ToCallbackPtr<ICallbackable>(mediaEngineNotifyImpl)));
+            attributes.Set(MediaEngineAttributeKeys.Callback, mediaEngineNotifyImpl);
             CreateInstance(createFlags, attributes, out IMFMediaEngine engine).CheckError();
 
-            //mediaEngineNotifyImpl.MediaEngine = engine;
-            //engine.mediaEngineNotifyImpl = mediaEngineNotifyImpl;
-            //if (playbackCallback != null)
-            //{
-            //    engine.PlaybackEvent += playbackCallback;
-            //}
+            mediaEngineNotifyImpl.MediaEngine = engine;
+            engine.mediaEngineNotifyImpl = mediaEngineNotifyImpl;
+            if (playbackCallback != null)
+            {
+                engine.PlaybackEvent += playbackCallback;
+            }
 
             return engine;
         }
         catch
         {
-            //mediaEngineNotifyImpl.Dispose();
+            mediaEngineNotifyImpl.Dispose();
             throw;
         }
     }
