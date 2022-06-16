@@ -11,7 +11,10 @@ public partial class IMFMediaEngineClassFactory
 {
     public IMFMediaEngineClassFactory()
     {
-        ComUtilities.CreateComInstance(ClsidMFMediaEngineClassFactory, ComContext.InprocServer, typeof(IMFMediaEngineClassFactory).GUID, this);
+        ComUtilities.CreateComInstance(
+            ClsidMFMediaEngineClassFactory,
+            ComContext.InprocServer, typeof(IMFMediaEngineClassFactory).GUID,
+            this);
     }
 
     public IMFMediaEngine CreateInstance(
@@ -21,33 +24,27 @@ public partial class IMFMediaEngineClassFactory
     {
         attributes ??= MFCreateAttributes(1);
 
-        MediaEngineNotifyImpl mediaEngineNotifyImpl = new();
+        //MediaEngineNotifyImpl mediaEngineNotifyImpl = new();
 
         try
         {
-            attributes.AudioCategory = Multimedia.AudioStreamCategory.GameMedia;
+            //attributes.AudioCategory = Multimedia.AudioStreamCategory.GameMedia;
             //attributes.Set(MediaEngineAttributeKeys.Callback, new ComObject(MarshallingHelpers.ToCallbackPtr<ICallbackable>(mediaEngineNotifyImpl)));
             CreateInstance(createFlags, attributes, out IMFMediaEngine engine).CheckError();
 
-            mediaEngineNotifyImpl.MediaEngine = engine;
-            engine.mediaEngineNotifyImpl = mediaEngineNotifyImpl;
-            if (playbackCallback != null)
-            {
-                engine.PlaybackEvent += playbackCallback;
-            }
+            //mediaEngineNotifyImpl.MediaEngine = engine;
+            //engine.mediaEngineNotifyImpl = mediaEngineNotifyImpl;
+            //if (playbackCallback != null)
+            //{
+            //    engine.PlaybackEvent += playbackCallback;
+            //}
 
             return engine;
         }
         catch
         {
-            mediaEngineNotifyImpl.Dispose();
+            //mediaEngineNotifyImpl.Dispose();
             throw;
         }
-    }
-
-    // Declare FilgraphManager as a COM coclass:
-    [ComImport, Guid("4D645ACE-26AA-4688-9BE1-DF3516990B93")]
-    private class MediaEngineClassFactoryImpl
-    {
     }
 }

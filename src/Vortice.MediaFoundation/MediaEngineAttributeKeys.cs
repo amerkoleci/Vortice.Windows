@@ -3,19 +3,21 @@
 
 using SharpGen.Runtime;
 using Vortice.Multimedia;
+using static Vortice.MediaFoundation.MediaEngineAttributeGuids;
 
 namespace Vortice.MediaFoundation;
 
 public partial class MediaEngineAttributeKeys
 {
-    public static readonly MediaAttributeKey<MediaEngineProtectionFlags> ContentProtectionFlags = new(ContentProtectionFlagsGuid, "ContentProtectionFlags");
-    public static readonly MediaAttributeKey<IMFDXGIDeviceManager> DxgiManager = new(DxgiManagerGuid, "DxgiManager");
-    public static readonly MediaAttributeKey<IMFMediaEngineExtension> Extension = new(ExtensionGuid, "Extension");
-    public static readonly MediaAttributeKey<IntPtr> OpmHwnd = new(OpmHwndGuid, "OpmHwnd");
-    public static readonly MediaAttributeKey<IntPtr> PlaybackHwnd = new(PlaybackHwndGuid, "PlaybackHwnd");
-    public static readonly MediaAttributeKey<AudioEndpointRole> AudioEndpointRole = new(AudioEndpointRoleGuid);
-    public static readonly MediaAttributeKey<ComObject> Callback = new(CallbackGuid);
-    public static readonly MediaAttributeKey<ComObject> ContentProtectionManager = new(ContentProtectionManagerGuid);
-    public static readonly MediaAttributeKey<ComObject> PlaybackVisual = new(PlaybackVisualGuid);
-    public static readonly MediaAttributeKey<int> VideoOutputFormat = new(VideoOutputFormatGuid);
+    public static readonly MediaAttributeKey<MediaEngineProtectionFlags> ContentProtectionFlags = new(ContentProtectionFlagsGuid, nameof(ContentProtectionFlags));
+    public static readonly MediaAttributeKey<IMFDXGIDeviceManager> DxgiManager = new(DxgiManagerGuid, nameof(DxgiManager));
+    public static readonly MediaAttributeKey<IMFMediaEngineExtension> Extension = new(ExtensionGuid, nameof(Extension));
+    public static readonly MediaAttributeKey<IntPtr> OpmHwnd = new(OpmHwndGuid, nameof(OpmHwnd));
+    public static readonly MediaAttributeKey<IntPtr> PlaybackHwnd = new(PlaybackHwndGuid, nameof(PlaybackHwnd));
+    public static readonly MediaAttributeKey<AudioStreamCategory> AudioCategory = new(AudioCategoryGuid, nameof(AudioCategory));
+    public static readonly MediaAttributeKey<AudioEndpointRole> AudioEndpointRole = new(AudioEndpointRoleGuid, nameof(AudioEndpointRole));
+    public static readonly MediaAttributeKey<ComObject> Callback = new(CallbackGuid, nameof(Callback));
+    public static readonly MediaAttributeKey<ComObject> ContentProtectionManager = new(ContentProtectionManagerGuid, nameof(ContentProtectionManager));
+    public static readonly MediaAttributeKey<ComObject> PlaybackVisual = new(PlaybackVisualGuid, nameof(PlaybackVisual));
+    public static readonly MediaAttributeKey<int> VideoOutputFormat = new(VideoOutputFormatGuid, nameof(VideoOutputFormat));
 }

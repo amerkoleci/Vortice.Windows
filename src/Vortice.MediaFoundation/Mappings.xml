@@ -51,6 +51,7 @@
     <create visibility="public static" class="CaptureEngineAttributeKeys" />
     <create visibility="public static" class="DeviceStreamAttributeKeys" />
     <create visibility="public static" class="MediaAttributeKeys" />
+    <create visibility="public static" class="MediaEngineAttributeGuids" />
     <create visibility="public static" class="MediaEngineAttributeKeys" />
     <create visibility="public static" class="Mpeg4MediaSinkAttributeKeys" />
     <create visibility="public static" class="NaluAttributeKeys" />
@@ -86,18 +87,18 @@
     <const from-guid="MF_VIDEO_PROCESSOR_ROTATION" class="Vortice.MediaFoundation.MediaAttributeKeys" type="System.Guid" name="VideoProcessorRotationGuid">new System.Guid("$1")</const>
     <const from-guid="MF_VIDEODSP_MODE" class="Vortice.MediaFoundation.MediaAttributeKeys" type="System.Guid" name="VideodspModeGuid">new System.Guid("$1")</const>
     <const from-guid="MF_XVP_DISABLE_FRC" class="Vortice.MediaFoundation.MediaAttributeKeys" type="System.Guid" name="XvpDisableFrcGuid">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_AUDIO_CATEGORY" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="MediaAttributeKey&lt;Vortice.Multimedia.AudioStreamCategory&gt;" name="AudioCategory">new MediaAttributeKey&lt;Vortice.Multimedia.AudioStreamCategory&gt;("$1", "AudioCategory")</const>
-    <const from-guid="MF_MEDIA_ENGINE_AUDIO_ENDPOINT_ROLE" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="AudioEndpointRoleGuid">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_CALLBACK" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="CallbackGuid">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_CONTENT_PROTECTION_FLAGS" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="ContentProtectionFlagsGuid">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_CONTENT_PROTECTION_MANAGER" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="ContentProtectionManagerGuid">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_DXGI_MANAGER" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="DxgiManagerGuid">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_EXTENSION" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="ExtensionGuid">new System.Guid("$1")</const>
-    <const from-guid="MF_MEDIA_ENGINE_OPM_HWND" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="OpmHwndGuid">new MediaAttributeKey&lt;System.IntPtr&gt;("$1", "OpmHwnd")</const>
-    <const from-guid="MF_MEDIA_ENGINE_OPM_IWINDOW" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="OpmIWindowGuid">new MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;("$1", "OpmIwindow")</const>
-    <const from-guid="MF_MEDIA_ENGINE_PLAYBACK_HWND" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="PlaybackHwndGuid">new MediaAttributeKey&lt;System.IntPtr&gt;("$1", "PlaybackHwnd")</const>
-    <const from-guid="MF_MEDIA_ENGINE_PLAYBACK_VISUAL" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="PlaybackVisualGuid">new MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;("$1", "PlaybackVisual")</const>
-    <const from-guid="MF_MEDIA_ENGINE_VIDEO_OUTPUT_FORMAT" class="Vortice.MediaFoundation.MediaEngineAttributeKeys" type="System.Guid" name="VideoOutputFormatGuid">new MediaAttributeKey&lt;int&gt;("$1", "VideoOutputFormat")</const>
+    <const from-guid="MF_MEDIA_ENGINE_AUDIO_CATEGORY" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="AudioCategoryGuid">new System.Guid("$1")</const>
+    <const from-guid="MF_MEDIA_ENGINE_AUDIO_ENDPOINT_ROLE" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="AudioEndpointRoleGuid">new System.Guid("$1")</const>
+    <const from-guid="MF_MEDIA_ENGINE_CALLBACK" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="CallbackGuid">new System.Guid("$1")</const>
+    <const from-guid="MF_MEDIA_ENGINE_CONTENT_PROTECTION_FLAGS" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="ContentProtectionFlagsGuid">new System.Guid("$1")</const>
+    <const from-guid="MF_MEDIA_ENGINE_CONTENT_PROTECTION_MANAGER" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="ContentProtectionManagerGuid">new System.Guid("$1")</const>
+    <const from-guid="MF_MEDIA_ENGINE_DXGI_MANAGER" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="DxgiManagerGuid">new System.Guid("$1")</const>
+    <const from-guid="MF_MEDIA_ENGINE_EXTENSION" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="ExtensionGuid">new System.Guid("$1")</const>
+    <const from-guid="MF_MEDIA_ENGINE_OPM_HWND" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="OpmHwndGuid">new MediaAttributeKey&lt;System.IntPtr&gt;("$1", "OpmHwnd")</const>
+    <const from-guid="MF_MEDIA_ENGINE_OPM_IWINDOW" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="OpmIWindowGuid">new MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;("$1", "OpmIwindow")</const>
+    <const from-guid="MF_MEDIA_ENGINE_PLAYBACK_HWND" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="PlaybackHwndGuid">new MediaAttributeKey&lt;System.IntPtr&gt;("$1", "PlaybackHwnd")</const>
+    <const from-guid="MF_MEDIA_ENGINE_PLAYBACK_VISUAL" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="PlaybackVisualGuid">new MediaAttributeKey&lt;SharpGen.Runtime.ComObject&gt;("$1", "PlaybackVisual")</const>
+    <const from-guid="MF_MEDIA_ENGINE_VIDEO_OUTPUT_FORMAT" class="Vortice.MediaFoundation.MediaEngineAttributeGuids" type="System.Guid" name="VideoOutputFormatGuid">new MediaAttributeKey&lt;int&gt;("$1", "VideoOutputFormat")</const>
 
     <const from-guid="MF_MPEG4SINK_MOOV_BEFORE_MDAT" class="Vortice.MediaFoundation.Mpeg4MediaSinkAttributeKeys" type="System.Guid" name="MoovBeforeMdat">new MediaAttributeKey&lt;int&gt;("$1", "MoovBeforeMdat")</const>
     <const from-guid="MF_MPEG4SINK_SPSPPS_PASSTHROUGH" class="Vortice.MediaFoundation.Mpeg4MediaSinkAttributeKeys" type="System.Guid" name="SpsppsPassthrough">new MediaAttributeKey&lt;bool&gt;("$1", "SpsppsPassthrough")</const>
