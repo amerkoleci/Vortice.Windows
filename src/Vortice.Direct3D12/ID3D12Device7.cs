@@ -24,13 +24,13 @@ public partial class ID3D12Device7
         return result;
     }
 
-    public T CreateProtectedResourceSession1<T>(ProtectedResourceSessionDescription1 description) where T : ID3D12ProtectedResourceSession1
+    public T CreateProtectedResourceSession1<T>(ProtectedResourceSessionDescription1 description) where T : ID3D12ProtectedResourceSession
     {
         CreateProtectedResourceSession1(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr);
     }
 
-    public Result CreateProtectedResourceSession1<T>(ProtectedResourceSessionDescription1 description, out T? session) where T : ID3D12ProtectedResourceSession1
+    public Result CreateProtectedResourceSession1<T>(ProtectedResourceSessionDescription1 description, out T? session) where T : ID3D12ProtectedResourceSession
     {
         Result result = CreateProtectedResourceSession1(ref description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
