@@ -11,7 +11,7 @@ public partial class ID3D12Object
     /// <remarks>
     /// This name is for use in debug diagnostics and tools.
     /// </remarks>
-    public unsafe string? Name
+    public unsafe string Name
     {
         get
         {
@@ -27,7 +27,7 @@ public partial class ID3D12Object
         }
         set
         {
-            SetName(value);
+            SetName(value ?? string.Empty);
         }
     }
 }
