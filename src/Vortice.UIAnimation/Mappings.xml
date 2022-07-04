@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-uianimation" xmlns="urn:SharpGen.Config">
   <namespace>Vortice.UIAnimation</namespace>
-  <depends>SharpGen.Runtime.COM</depends>
+  <depends>Vortice.DirectX</depends>
 
   <sdk name="WindowsSdk" version="10.0.22000.0" />
   <sdk name="StdLib" />
 
   <include file="UIAnimation.h" namespace="Vortice.UIAnimation" attach="true"/>
-  
-  <extension>
-
-  </extension>
 
   <bindings>
     <bind from="__MIDL___MIDL_itf_UIAnimation_0000_0002_0003" to="System.IntPtr" />
   </bindings>
+  
+  <extension>
+  </extension>
 
   <naming>
-    
   </naming>
 
   <mapping>
@@ -42,5 +40,23 @@
     <map struct="UI_ANIMATION_(.*)" name-tmp="$1"/>
 
     <!-- Interfaces -->
+    <map interface="IUIAnimationPriorityComparison" callback="true" callback-dual="false" callback-visibility="public" />
+    <map method="IUIAnimationPriorityComparison::(.*)" hresult="true" check="false"/>
+
+    <map interface="IUIAnimationPriorityComparison2" callback="true" callback-dual="false" callback-visibility="public" />
+    <map method="IUIAnimationPriorityComparison2::(.*)" hresult="true" check="false"/>
+
+    <map interface=".*Handler?" callback="true" callback-dual="true" callback-visibility="public" />
+    <!--<map interface=".*Handler2?" callback="true" callback-dual="false" callback-visibility="public" />-->
+
+    <map method="IUIAnimationTimer::IsEnabled" return="true" check="false" property="false" name="IsEnabled_" visibility="internal"/>
+
+    <!-- IUIAnimationTransition2 -->
+    <map method="IUIAnimationTransition2::IsDurationKnown" return="true" check="false" property="false" name="IsDurationKnown_" visibility="internal"/>
+    
+    <!-- IUIAnimationVariable2 -->
+    <!-- Remove dependencies on IDCompositionAnimation from this library, replace with ComObject. See SharpDX.DirectComposition for the actual wrappers. -->
+    <map param="IUIAnimationVariable2::GetCurve::animation" type="IUnknown" />
+    <map param="IUIAnimationVariable2::GetVectorCurve::animation" type="IUnknown" />
   </mapping>
 </config>
