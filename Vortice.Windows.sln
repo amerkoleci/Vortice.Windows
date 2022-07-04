@@ -95,6 +95,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI.Tests", "src\t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioPlay", "src\samples\MediaFoundation\AudioPlay\AudioPlay.csproj", "{FD18B683-7DC0-46AA-ABF6-0DFAD35A0DB6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.UIAnimation", "src\Vortice.UIAnimation\Vortice.UIAnimation.csproj", "{548FB18E-8525-42F8-9972-9EEB7392CAB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,10 @@ Global
 		{FD18B683-7DC0-46AA-ABF6-0DFAD35A0DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD18B683-7DC0-46AA-ABF6-0DFAD35A0DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD18B683-7DC0-46AA-ABF6-0DFAD35A0DB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{548FB18E-8525-42F8-9972-9EEB7392CAB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{548FB18E-8525-42F8-9972-9EEB7392CAB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{548FB18E-8525-42F8-9972-9EEB7392CAB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{548FB18E-8525-42F8-9972-9EEB7392CAB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

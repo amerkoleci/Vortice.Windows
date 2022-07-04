@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config id="vortice-uianimation" xmlns="urn:SharpGen.Config">
+  <namespace>Vortice.UIAnimation</namespace>
+  <depends>SharpGen.Runtime.COM</depends>
+
+  <sdk name="WindowsSdk" version="10.0.22000.0" />
+  <sdk name="StdLib" />
+
+  <include file="UIAnimation.h" namespace="Vortice.UIAnimation" attach="true"/>
+  
+  <extension>
+
+  </extension>
+
+  <bindings>
+    <bind from="__MIDL___MIDL_itf_UIAnimation_0000_0002_0003" to="System.IntPtr" />
+  </bindings>
+
+  <naming>
+    
+  </naming>
+
+  <mapping>
+    <!-- Enums -->
+    <map enum="UI_ANIMATION_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_(.*)" name-tmp="$1"/>
+    <map enum="UI_ANIMATION_DEPENDENCIES" flags="true"/>
+    <map enum-item="UI_ANIMATION_DEPENDENCY_(.*)" name-tmp="$1"/>
+
+    <map enum-item="UI_ANIMATION_IDLE_BEHAVIOR_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_MANAGER_(.*)" name-tmp="$1"/>
+
+    <map enum-item="UI_ANIMATION_MODE_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_PRIORITY_EFFECT_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_SCHEDULING_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_SLOPE_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_STORYBOARD_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_TIMER_CLIENT_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_UPDATE_(.*)" name-tmp="$1"/>
+    
+    <!-- Structs -->
+    <map struct="UI_ANIMATION_(.*)" name-tmp="$1"/>
+
+    <!-- Interfaces -->
+  </mapping>
+</config>
