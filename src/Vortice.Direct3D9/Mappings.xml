@@ -39,6 +39,9 @@
     <create class="D3DX9" visibility="internal static" />
     <create class="Vortice.Direct3D9on12.Apis" visibility="public static"/>
     
+    <create class="ResultCode" visibility="public"/>
+    <!--<const from-macro="D3DERR_DEVICELOST" cpp-type="int" name="DeviceLost" class="Vortice.Direct3D9.ResultCode" result="true" />-->
+    
     <const from-macro="D3D_SDK_VERSION" class="Vortice.Direct3D9.D3D9" type="int" name="SdkVersion" />
     <const from-macro="D3DX_VERSION" class="Vortice.Direct3D9.D3DX9" type="int" name="Version" />
     <const from-macro="D3DX_SDK_VERSION" class="Vortice.Direct3D9.D3DX9" type="int" name="SdkVersion" />
@@ -81,6 +84,7 @@
     <create-cpp enum="D3DVTXPCAPS" macro="D3DVTXPCAPS_.*"/>
     <create-cpp enum="D3DVS20CAPS" macro="D3DVS20CAPS_.*"/>
     <create-cpp enum="D3DVERTEXTEXTURESAMPLER" macro="D3DVERTEXTEXTURESAMPLER.*"/>
+
 
     <define struct="Vortice.Direct3D9.PaletteEntry" sizeof="4" />
   </extension>
@@ -1459,9 +1463,16 @@
     <map param="IDirect3DVolume9::LockBox::Flags" type="D3DLOCK"/>
     <map param="IDirect3DVolume9::LockBox::pLockedVolume" attribute="out" />
 
-    <map method="IDirect3DQuery9::GetType" name="GetQueryType" />
     <map method="IDirect3DResource9::GetType" name="GetResourceType" />
 
+    <!-- IDirect3DQuery9 -->
+    <map method="IDirect3DQuery9::GetDevice" persist="true"/>
+    <map method="IDirect3DQuery9::GetType" name="GetQueryType" property="false" visibility="private"/>
+    <map method="IDirect3DQuery9::Issue" hresult="true" check="false"/>
+    <map param="IDirect3DQuery9::Issue::dwIssueFlags" type="D3DISSUE" />
+    <map method="IDirect3DQuery9::GetData" hresult="true" check="false" visibility="private"/>
+    <map param="IDirect3DQuery9::GetData::pData" type="void" keep-pointers="true"/>
+    
     <!-- IDirect3DStateBlock9 -->
     <map method="IDirect3DStateBlock9::GetDevice" persist="true"/>
     <map param="IDirect3DStateBlock9::GetDevice::ppDevice" attribute="out" />

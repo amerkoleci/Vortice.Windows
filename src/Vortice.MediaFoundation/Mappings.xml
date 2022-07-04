@@ -792,6 +792,9 @@
     <!-- IMFMediaEngineClassFactory -->
     <map method="IMFMediaEngineClassFactory::CreateInstance" visibility="internal" hresult="true" check="false" />
     <map param="IMFMediaEngineClassFactory::CreateInstance::dwFlags" type="MF_MEDIA_ENGINE_CREATEFLAGS" name="flags"/>
+
+    <!-- IMFMediaEngine -->
+    <map method="IMFMediaEngine::SetSource" hresult="true" check="false" property="false"/>
     
     <!-- Functions -->
     <remove function="IMF.*"/>

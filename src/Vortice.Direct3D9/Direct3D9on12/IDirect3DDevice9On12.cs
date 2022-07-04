@@ -1,7 +1,6 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Direct3D12;
 using Vortice.Direct3D9;
 
 namespace Vortice.Direct3D9on12;
@@ -24,13 +23,13 @@ public partial class IDirect3DDevice9On12
     public T GetD3D12Device<T>() where T : ComObject
     {
         GetD3D12Device(typeof(T).GUID, out IntPtr devicePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(devicePtr);
+        return MarshallingHelpers.FromPointer<T>(devicePtr)!;
     }
 
     public T UnwrapUnderlyingResource<T>(IDirect3DResource9 resource, ComObject commandQueue) where T : ComObject
     {
         UnwrapUnderlyingResource(resource, commandQueue, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result UnwrapUnderlyingResource<T>(IDirect3DResource9 resource, ComObject commandQueue, out T? resource12) where T : ComObject

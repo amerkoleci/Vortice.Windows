@@ -14,7 +14,7 @@ public unsafe partial class IDirect3DSurface9
     public T GetContainer<T>() where T : ComObject
     {
         GetContainer(typeof(T).GUID, out IntPtr containerPtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(containerPtr);
+        return MarshallingHelpers.FromPointer<T>(containerPtr)!;
     }
 
     public Result GetContainer<T>(out T? container) where T : ComObject

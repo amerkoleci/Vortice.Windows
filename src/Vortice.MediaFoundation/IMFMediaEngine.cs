@@ -22,6 +22,20 @@ public unsafe partial class IMFMediaEngine
 
     internal MediaEngineNotifyImpl? mediaEngineNotifyImpl;
 
+    protected override void DisposeCore(IntPtr nativePointer, bool disposing)
+    {
+        base.DisposeCore(nativePointer, disposing);
+
+        if (disposing)
+        {
+            if (mediaEngineNotifyImpl != null)
+            {
+                mediaEngineNotifyImpl.Dispose();
+                mediaEngineNotifyImpl = null;
+            }
+        }
+    }
+
     internal void OnPlaybackEvent(MediaEngineEvent @event, nuint param1, int param2)
     {
         PlaybackEvent?.Invoke(@event, param1, param2);
