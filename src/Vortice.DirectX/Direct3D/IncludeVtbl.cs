@@ -14,11 +14,12 @@ internal static unsafe partial class IncludeVtbl
 {
     private static unsafe partial int OpenImpl_(IntPtr thisObject, int _includeType, void* _fileName, void* _parentData, void* _data, void* _bytes)
     {
-        var shadow = CppObjectShadow.ToAnyShadow<IncludeShadow>(thisObject);
-        var callback = shadow.ToCallback<Include>();
+        IncludeShadow shadow = CppObjectShadow.ToAnyShadow<IncludeShadow>(thisObject);
+        Include callback = shadow.ToCallback<Include>();
+
         try
         {
-            Vortice.Direct3D.IncludeType includeType = (Vortice.Direct3D.IncludeType)_includeType;
+            IncludeType includeType = (IncludeType)_includeType;
             IntPtr parentData = (IntPtr)_parentData;
             ref IntPtr data = ref Unsafe.AsRef<IntPtr>(_data);
             ref int bytes = ref Unsafe.AsRef<int>(_bytes);
@@ -38,15 +39,14 @@ internal static unsafe partial class IncludeVtbl
 
             GCHandle handle;
 
-            //if (stream is DataStream)
-            //{
-            //    // Magic shortcut if we happen to get a DataStream
-            //    var data = (DataStream)stream;
-            //    data = data.PositionPointer;
-            //    bytes = (int)(data.Length - data.Position);
-            //    handle = new GCHandle();
-            //}
-            //else
+            if (stream is DataStream dataStream)
+            {
+                // Magic shortcut if we happen to get a DataStream
+                data = dataStream.PositionPointer;
+                bytes = (int)(dataStream.Length - dataStream.Position);
+                handle = new GCHandle();
+            }
+            else
             {
                 // Read the stream into a byte array and pin it
                 byte[] streamBytes = ReadStream(stream);

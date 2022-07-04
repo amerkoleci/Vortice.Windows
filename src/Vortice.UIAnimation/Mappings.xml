@@ -35,28 +35,38 @@
     <map enum-item="UI_ANIMATION_STORYBOARD_(.*)" name-tmp="$1"/>
     <map enum-item="UI_ANIMATION_TIMER_CLIENT_(.*)" name-tmp="$1"/>
     <map enum-item="UI_ANIMATION_UPDATE_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_REPEAT_MODE_(.*)" name-tmp="$1"/>
+    <map enum-item="UI_ANIMATION_ROUNDING_(.*)" name-tmp="$1"/>
     
     <!-- Structs -->
     <map struct="UI_ANIMATION_(.*)" name-tmp="$1"/>
 
-    <!-- Interfaces -->
+    <!-- Callbacks -->
     <map interface="IUIAnimationPriorityComparison" callback="true" callback-dual="false" callback-visibility="public" />
     <map method="IUIAnimationPriorityComparison::(.*)" hresult="true" check="false"/>
 
     <map interface="IUIAnimationPriorityComparison2" callback="true" callback-dual="false" callback-visibility="public" />
     <map method="IUIAnimationPriorityComparison2::(.*)" hresult="true" check="false"/>
 
-    <map interface=".*Handler?" callback="true" callback-dual="true" callback-visibility="public" />
-    <!--<map interface=".*Handler2?" callback="true" callback-dual="false" callback-visibility="public" />-->
+    <map interface=".*Handler?" callback="true" callback-dual="true" callback-visibility="internal" />
+    <map interface="IUIAnimationStoryboardEventHandler2" callback="true" callback-dual="true" callback-visibility="internal" />
+    <map interface="IUIAnimationVariableCurveChangeHandler2" callback="true" callback-dual="true" callback-visibility="internal" />
+    <map interface="IUIAnimationVariableChangeHandler2" callback="true"  />
+    <map method="IUIAnimationVariableChangeHandler2::.+" hidden="true" managed-partial="true" />
 
+    <map interface="IUIAnimationVariableIntegerChangeHandler2" callback="true"  />
+    <map method="IUIAnimationVariableIntegerChangeHandler2::.+" hidden="true" managed-partial="true" />
+    
+    <!-- IUIAnimationTimer -->
     <map method="IUIAnimationTimer::IsEnabled" return="true" check="false" property="false" name="IsEnabled_" visibility="internal"/>
 
     <!-- IUIAnimationTransition2 -->
     <map method="IUIAnimationTransition2::IsDurationKnown" return="true" check="false" property="false" name="IsDurationKnown_" visibility="internal"/>
     
     <!-- IUIAnimationVariable2 -->
-    <!-- Remove dependencies on IDCompositionAnimation from this library, replace with ComObject. See SharpDX.DirectComposition for the actual wrappers. -->
+    <!-- Remove dependencies on IDCompositionAnimation from this library, replace with ComObject. See Vortice.DirectComposition for the actual wrappers. -->
     <map param="IUIAnimationVariable2::GetCurve::animation" type="IUnknown" />
     <map param="IUIAnimationVariable2::GetVectorCurve::animation" type="IUnknown" />
+
   </mapping>
 </config>

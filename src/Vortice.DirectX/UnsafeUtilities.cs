@@ -11,31 +11,37 @@ namespace Vortice;
 /// </summary>
 public static unsafe class UnsafeUtilities
 {
-    public static IntPtr Read<T>(IntPtr source, ref T value) where T : unmanaged
+    public static void Read<T>(void* source, T[] values) where T : unmanaged
     {
-        fixed (void* valuePtr = &value)
+        int count = values.Length;
+        fixed (void* dstPtr = values)
         {
-            Unsafe.CopyBlockUnaligned(valuePtr, (void*)source, (uint)(sizeof(T)));
-            return source + sizeof(T);
+            Unsafe.CopyBlockUnaligned(dstPtr, source, (uint)(count * sizeof(T)));
         }
     }
 
-    public static IntPtr Read<T>(IntPtr source, T[] values) where T : unmanaged
+    public static void Read<T>(void* source, T[] values, int count) where T : unmanaged
+    {
+        fixed (void* dstPtr = values)
+        {
+            Unsafe.CopyBlockUnaligned(dstPtr, source, (uint)(count * sizeof(T)));
+        }
+    }
+
+    public static void Read<T>(IntPtr source, T[] values) where T : unmanaged
     {
         int count = values.Length;
         fixed (void* dstPtr = values)
         {
             Unsafe.CopyBlockUnaligned(dstPtr, (void*)source, (uint)(count * sizeof(T)));
-            return source + sizeof(T) * count;
         }
     }
 
-    public static IntPtr Read<T>(IntPtr source, T[] values, int count) where T : unmanaged
+    public static void Read<T>(IntPtr source, T[] values, int count) where T : unmanaged
     {
         fixed (void* dstPtr = values)
         {
             Unsafe.CopyBlockUnaligned(dstPtr, (void*)source, (uint)(count * sizeof(T)));
-            return source + sizeof(T) * count;
         }
     }
 
