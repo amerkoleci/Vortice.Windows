@@ -7,7 +7,7 @@ using SharpGen.Runtime.Win32;
 
 namespace Vortice.MediaFoundation;
 
-public partial class MFByteStream
+public unsafe partial class MFByteStream
 {
     private Stream? _sourceStream;
     private readonly bool _disposeStream;
@@ -68,16 +68,13 @@ public partial class MFByteStream
 
     public uint Read(byte[] bRef, int offset, uint count)
     {
-        unsafe
+        fixed (void* ptr = &bRef[offset])
         {
-            fixed (void* ptr = &bRef[offset])
-            {
-                return Read((IntPtr)ptr, count);
-            }
+            return Read((IntPtr)ptr, count);
         }
     }
 
-    public unsafe void BeginRead(byte[] bRef, int offset, uint count, IMFAsyncCallback callback, object? context = default)
+    public void BeginRead(byte[] bRef, int offset, uint count, IMFAsyncCallback callback, object? context = default)
     {
         fixed (void* ptr = &bRef[offset])
         {
@@ -87,16 +84,13 @@ public partial class MFByteStream
 
     public uint Write(byte[] bRef, int offset, uint count)
     {
-        unsafe
+        fixed (void* ptr = &bRef[offset])
         {
-            fixed (void* ptr = &bRef[offset])
-            {
-                return Write((IntPtr)ptr, count);
-            }
+            return Write((IntPtr)ptr, count);
         }
     }
 
-    public unsafe void BeginWrite(byte[] bRef, int offset, uint count, IMFAsyncCallback callback, object? context = default)
+    public void BeginWrite(byte[] bRef, int offset, uint count, IMFAsyncCallback callback, object? context = default)
     {
         fixed (void* ptr = &bRef[offset])
         {

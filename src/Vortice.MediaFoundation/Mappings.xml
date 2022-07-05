@@ -795,6 +795,12 @@
 
     <!-- IMFMediaEngine -->
     <map method="IMFMediaEngine::SetSource" hresult="true" check="false" property="false"/>
+    <map method="IMFMediaEngine::OnVideoStreamTick" name="OnVideoStreamTick_"  hresult="true" check="false" />
+    <map method="IMFMediaEngine::GetReadyState" visibility="internal" property="false" />
+    <map method="IMFMediaEngine::GetNetworkState" visibility="internal" property="false" />
+    <map method="IMFMediaEngine::Play" hresult="true" check="false" />
+    <map method="IMFMediaEngine::Pause" hresult="true" check="false" />
+    <map method="IMFMediaEngine::Shutdown" hresult="true" check="false" />
     
     <!-- Functions -->
     <remove function="IMF.*"/>

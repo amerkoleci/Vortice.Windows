@@ -314,9 +314,9 @@ public unsafe partial class IMFAttributes
                 throw new ArgumentException("Size of the structure doesn't match the size of stored value");
             }
 
-            T value = default;
+            T? value = default;
             GetBlob(guidKey, Unsafe.AsPointer(ref value), Unsafe.SizeOf<T>(), IntPtr.Zero);
-            return value;
+            return value!;
         }
 
         if (typeof(T) == typeof(ComObject))

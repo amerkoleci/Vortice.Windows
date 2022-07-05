@@ -2,6 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using SharpGen.Runtime;
+using Vortice.Mathematics;
 
 namespace Vortice.MediaFoundation;
 
@@ -22,6 +23,27 @@ public unsafe partial class IMFMediaEngine
 
     internal MediaEngineNotifyImpl? mediaEngineNotifyImpl;
 
+    public MediaEngineReady ReadyState { get => (MediaEngineReady)GetReadyState(); }
+    public MediaEngineNetwork NetworkState { get => (MediaEngineNetwork)GetNetworkState(); }
+
+    public SizeI NativeVideoSize
+    {
+        get
+        {
+            GetNativeVideoSize(out int width, out int height);
+            return new(width, height);
+        }
+    }
+
+    public SizeI VideoAspectRatio
+    {
+        get
+        {
+            GetVideoAspectRatio(out int width, out int height);
+            return new(width, height);
+        }
+    }
+
     protected override void DisposeCore(IntPtr nativePointer, bool disposing)
     {
         base.DisposeCore(nativePointer, disposing);
@@ -34,6 +56,11 @@ public unsafe partial class IMFMediaEngine
                 mediaEngineNotifyImpl = null;
             }
         }
+    }
+
+    public bool OnVideoStreamTick(out long presentationTime)
+    {
+        return OnVideoStreamTick_(out presentationTime).Success;
     }
 
     internal void OnPlaybackEvent(MediaEngineEvent @event, nuint param1, int param2)
