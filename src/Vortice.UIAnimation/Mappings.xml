@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-uianimation" xmlns="urn:SharpGen.Config">
   <namespace>Vortice.UIAnimation</namespace>
-  <depends>Vortice.DirectX</depends>
 
   <sdk name="WindowsSdk" version="10.0.22000.0" />
   <sdk name="StdLib" />
@@ -60,16 +59,45 @@
     <!-- IUIAnimationTimer -->
     <map method="IUIAnimationTimer::IsEnabled" return="true" check="false" property="false" name="IsEnabled_" visibility="internal"/>
 
+    <!-- IUIAnimationTransitionLibrary2 -->
+    <map param="IUIAnimationTransitionLibrary2::CreateCubicBezierLinearVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateCubicVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateDiscreteVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateInstantaneousVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateLinearVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateLinearVectorTransitionFromSpeed::cDimension" relation="length(finalValue)"/>
+
     <!-- IUIAnimationTransition2 -->
     <map method="IUIAnimationTransition2::IsDurationKnown" return="true" check="false" property="false" name="IsDurationKnown_" visibility="internal"/>
-    
-    <!-- IUIAnimationVariable2 -->
-    <!-- Remove dependencies on IDCompositionAnimation from this library, replace with ComObject. See Vortice.DirectComposition for the actual wrappers. -->
-    <map param="IUIAnimationVariable2::GetCurve::animation" type="IUnknown" />
-    <map param="IUIAnimationVariable2::GetVectorCurve::animation" type="IUnknown" />
+    <map param="IUIAnimationTransition2::SetInitialVectorValue::cDimension" relation="length(value)" />
+    <map param="IUIAnimationTransition2::SetInitialVectorValue::cDimension" relation="length(value)" />
+    <map param="IUIAnimationTransition2::SetInitialVectorVelocity::cDimension" relation="length(velocity)" />
 
     <!-- IUIAnimationManager2 -->
     <map param="IUIAnimationManager2::CreateAnimationVectorVariable::cDimension" relation="length(initialValue)" />
 
+    <!-- IUIAnimationVariable2 -->
+    <!-- Remove dependencies on IDCompositionAnimation from this library, replace with ComObject. See Vortice.DirectComposition for the actual wrappers. -->
+    <map param="IUIAnimationVariable2::GetCurve::animation" type="IUnknown" />
+    <map method="IUIAnimationVariable2::GetFinalIntegerVectorValue" visibility="internal" />
+    <map param="IUIAnimationVariable2::GetFinalIntegerVectorValue::cDimension" relation="length(finalValue)" />
+    <map method="IUIAnimationVariable2::GetFinalVectorValue" visibility="internal" />
+    <map param="IUIAnimationVariable2::GetFinalVectorValue::cDimension" relation="length(finalValue)" />
+    <map method="IUIAnimationVariable2::GetIntegerVectorValue" visibility="internal" />
+    <map param="IUIAnimationVariable2::GetIntegerVectorValue::cDimension" relation="length(value)" />
+    <map method="IUIAnimationVariable2::GetPreviousIntegerVectorValue" visibility="internal" />
+    <map param="IUIAnimationVariable2::GetPreviousIntegerVectorValue::cDimension" relation="length(previousValue)" />
+    <map method="IUIAnimationVariable2::GetPreviousVectorValue" visibility="internal" />
+    <map param="IUIAnimationVariable2::GetPreviousVectorValue::cDimension" relation="length(previousValue)" />
+    <map method="IUIAnimationVariable2::GetVectorCurve" visibility="internal" />
+    <map param="IUIAnimationVariable2::GetVectorCurve::cDimension" relation="length(animation)" />
+    <!-- Remove dependencies on IDCompositionAnimation from this library, replace with ComObject. See Vortice.DirectComposition for the actual wrappers. -->
+    <map param="IUIAnimationVariable2::GetVectorCurve::animation" type="IUnknown" />
+    <map method="IUIAnimationVariable2::GetVectorValue" visibility="internal" />
+    <map param="IUIAnimationVariable2::GetVectorValue::cDimension" relation="length(value)" />
+    <map method="IUIAnimationVariable2::SetLowerBoundVector" visibility="internal" />
+    <map param="IUIAnimationVariable2::SetLowerBoundVector::cDimension" relation="length(bound)" />
+    <map method="IUIAnimationVariable2::SetUpperBoundVector" visibility="internal" />
+    <map param="IUIAnimationVariable2::SetUpperBoundVector::cDimension" relation="length(bound)" />
   </mapping>
 </config>
