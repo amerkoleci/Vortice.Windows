@@ -12,7 +12,7 @@
     <Using Include="SharpGen.Runtime" />
     
     <SharpGenMapping Include="Mappings.xml" />
-    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
+    <PackageReference Include="SharpGen.Runtime.COM" />
   </ItemGroup>
 
 </Project>

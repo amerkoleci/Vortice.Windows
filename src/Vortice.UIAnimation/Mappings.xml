@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-uianimation" xmlns="urn:SharpGen.Config">
   <namespace>Vortice.UIAnimation</namespace>
-
+  <depends>SharpGen.Runtime.COM</depends>
+  
   <sdk name="WindowsSdk" version="10.0.22000.0" />
   <sdk name="StdLib" />
 
@@ -9,6 +10,7 @@
 
   <bindings>
     <bind from="__MIDL___MIDL_itf_UIAnimation_0000_0002_0003" to="System.IntPtr" />
+    <bind from="UINT" to="System.Int32" />
   </bindings>
   
   <extension>

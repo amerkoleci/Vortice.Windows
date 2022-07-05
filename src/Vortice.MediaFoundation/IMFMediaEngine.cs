@@ -63,6 +63,18 @@ public unsafe partial class IMFMediaEngine
         return OnVideoStreamTick_(out presentationTime).Success;
     }
 
+    public void TransferVideoFrame(IUnknown destinationSurface, in RectI destinationRect)
+    {
+        RawRect dst = destinationRect;
+        TransferVideoFrame(destinationSurface, null, dst, null);
+    }
+
+    public void TransferVideoFrame(IUnknown destinationSurface, VideoNormalizedRect sourceRect, in RectI destinationRect)
+    {
+        RawRect dst = destinationRect;
+        TransferVideoFrame(destinationSurface, sourceRect, dst, null);
+    }
+
     internal void OnPlaybackEvent(MediaEngineEvent @event, nuint param1, int param2)
     {
         PlaybackEvent?.Invoke(@event, param1, param2);
