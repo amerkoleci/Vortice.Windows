@@ -59,8 +59,19 @@
     <!-- IUIAnimationTimer -->
     <map method="IUIAnimationTimer::IsEnabled" return="true" check="false" property="false" name="IsEnabled_" visibility="internal"/>
 
+    <!-- IUIAnimationTransitionLibrary2 -->
+    <map param="IUIAnimationTransitionLibrary2::CreateCubicBezierLinearVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateCubicVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateDiscreteVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateInstantaneousVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateLinearVectorTransition::cDimension" relation="length(finalValue)"/>
+    <map param="IUIAnimationTransitionLibrary2::CreateLinearVectorTransitionFromSpeed::cDimension" relation="length(finalValue)"/>
+
     <!-- IUIAnimationTransition2 -->
     <map method="IUIAnimationTransition2::IsDurationKnown" return="true" check="false" property="false" name="IsDurationKnown_" visibility="internal"/>
+    <map param="IUIAnimationTransition2::SetInitialVectorValue::cDimension" relation="length(value)" />
+    <map param="IUIAnimationTransition2::SetInitialVectorValue::cDimension" relation="length(value)" />
+    <map param="IUIAnimationTransition2::SetInitialVectorVelocity::cDimension" relation="length(velocity)" />
 
     <!-- IUIAnimationManager2 -->
     <map param="IUIAnimationManager2::CreateAnimationVectorVariable::cDimension" relation="length(initialValue)" />
