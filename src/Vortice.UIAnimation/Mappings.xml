@@ -68,5 +68,8 @@
     <map param="IUIAnimationVariable2::GetCurve::animation" type="IUnknown" />
     <map param="IUIAnimationVariable2::GetVectorCurve::animation" type="IUnknown" />
 
+    <!-- IUIAnimationManager2 -->
+    <map param="IUIAnimationManager2::CreateAnimationVectorVariable::cDimension" relation="length(initialValue)" />
+
   </mapping>
 </config>
