@@ -99,6 +99,5 @@
     <map param="IUIAnimationVariable2::SetLowerBoundVector::cDimension" relation="length(bound)" />
     <map method="IUIAnimationVariable2::SetUpperBoundVector" visibility="internal" />
     <map param="IUIAnimationVariable2::SetUpperBoundVector::cDimension" relation="length(bound)" />
-
   </mapping>
 </config>
