@@ -91,7 +91,6 @@
     <map param="IUIAnimationVariable2::GetPreviousIntegerVectorValue::cDimension" relation="length(previousValue)" />
     <map method="IUIAnimationVariable2::GetPreviousVectorValue" visibility="internal" />
     <map param="IUIAnimationVariable2::GetPreviousVectorValue::cDimension" relation="length(previousValue)" />
-    <map method="IUIAnimationVariable2::GetVectorCurve" visibility="internal" />
     <map param="IUIAnimationVariable2::GetVectorCurve::cDimension" relation="length(animation)" />
     <!-- Remove dependencies on IDCompositionAnimation from this library, replace with ComObject. See Vortice.DirectComposition for the actual wrappers. -->
     <map param="IUIAnimationVariable2::GetVectorCurve::animation" type="IUnknown" />
