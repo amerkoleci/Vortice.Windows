@@ -3,7 +3,7 @@
   <namespace>Vortice.WinUI</namespace>
   <depends>Vortice.DXGI</depends>
 
-  <sdk name="WindowsSdk" version="10.0.22000.0" />
+  <sdk name="WindowsSdk" version="10.0.22621.0" />
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/WinUI</include-dir>
 

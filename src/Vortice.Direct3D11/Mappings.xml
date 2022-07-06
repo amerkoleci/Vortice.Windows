@@ -4,7 +4,7 @@
   <depends>Vortice.DXGI</depends>
 
   <sdk name="StdLib" />
-  <sdk name="WindowsSdk" version="10.0.22000.0" />
+  <sdk name="WindowsSdk" version="10.0.22621.0" />
 
   <include-prolog>
     #define D3D11_NO_HELPERS

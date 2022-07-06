@@ -3,7 +3,7 @@
   <namespace>Vortice.DXGI</namespace>
   <depends>Vortice.DirectX</depends>
 
-  <sdk name="WindowsSdk" version="10.0.22000.0" />
+  <sdk name="WindowsSdk" version="10.0.22621.0" />
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 
@@ -293,6 +293,7 @@
     <map param="CreateDXGIFactory.*?::ppFactory" attribute="out" />
 
     <map function="DXGIDeclareAdapterRemovalSupport" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
+    <map function="DXGIDisableVBlankVirtualization" dll='"dxgi.dll"' group="Vortice.DXGI.DXGI" hresult="true" check="false" />
     
     <map param="IDXGIOutput1::DuplicateOutput::ppOutputDuplication" attribute="out" return="true"/>
 

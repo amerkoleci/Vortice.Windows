@@ -4,7 +4,7 @@
   <depends>Vortice.Direct3D12</depends>
 
   <sdk name="StdLib" />
-  <sdk name="WindowsSdk" version="10.0.22000.0" />
+  <sdk name="WindowsSdk" version="10.0.22621.0" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/DirectStorage</include-dir>
 
   <include file="dstorage.h" namespace="Vortice.DirectStorage" attach="true"/>

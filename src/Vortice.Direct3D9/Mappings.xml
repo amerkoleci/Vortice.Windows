@@ -4,7 +4,7 @@
   <depends>Vortice.DirectX</depends>
 
   <sdk name="StdLib" />
-  <sdk name="WindowsSdk" version="10.0.22000.0" />
+  <sdk name="WindowsSdk" version="10.0.22621.0" />
 
   <include file="windows.h" />
   <include file="d3d9types.h" namespace="Vortice.Direct3D9" attach="true"/>

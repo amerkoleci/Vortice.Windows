@@ -29,7 +29,7 @@ In order to compile, make sure **no spaces** are present in the solution path ot
 Also, you need to install **Visual Studio 2022** with the following components:
 
 - [x] Visual C++ Toolset Component
-- [x] Windows 11 SDK (10.0.22000.0)
+- [x] Windows 11 SDK (10.0.22621.0)
 - [x] .NET 6.0 SDK
 
 ## Projects using Vortice.Windows
