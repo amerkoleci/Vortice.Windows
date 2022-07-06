@@ -65,18 +65,6 @@ public partial class IUIAnimationVariable2
         }
     }
 
-    /// <unmanaged>HRESULT IUIAnimationVariable2::GetVectorCurve([In, Buffer] IDCompositionAnimation** animation, [In] UINT cDimension)</unmanaged>
-    /// <unmanaged-short>IUIAnimationVariable2::GetVectorCurve</unmanaged-short>
-    public IUnknown[] VectorCurve
-    {
-        get
-        {
-            IUnknown[] result = new IUnknown[Dimension];
-            GetVectorCurve(result);
-            return result;
-        }
-    }
-
     /// <unmanaged>HRESULT IUIAnimationVariable2::GetVectorValue([Out, Buffer] double* value, [In] UINT cDimension)</unmanaged>
     /// <unmanaged-short>IUIAnimationVariable2::GetVectorValue</unmanaged-short>
     public double[] VectorValue
