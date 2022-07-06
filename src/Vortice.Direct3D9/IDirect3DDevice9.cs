@@ -4,20 +4,26 @@
 using System.Globalization;
 using System.Numerics;
 using System.Reflection;
-using Vortice.Direct3D;
+using Vortice.Mathematics;
 
 namespace Vortice.Direct3D9;
 
 public unsafe partial class IDirect3DDevice9
 {
-    public IDirect3DVertexShader9 CreateVertexShader(Blob blob)
+    public IDirect3DVertexShader9 CreateVertexShader<T>(ReadOnlySpan<T> data) where T : unmanaged
     {
-        return CreateVertexShader(blob.BufferPointer);
+        fixed (T* dataPtr = data)
+        {
+            return CreateVertexShader(dataPtr);
+        }
     }
 
-    public IDirect3DPixelShader9 CreatePixelShader(Blob blob)
+    public IDirect3DPixelShader9 CreatePixelShader<T>(ReadOnlySpan<T> data) where T : unmanaged
     {
-        return CreatePixelShader(blob.BufferPointer);
+        fixed (T* dataPtr = data)
+        {
+            return CreatePixelShader(dataPtr);
+        }
     }
 
     public IDirect3DVertexBuffer9 CreateVertexBuffer(int sizeInBytes, Usage usage, VertexFormat vertexFormat, Pool pool)
@@ -144,7 +150,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="zdepth">The value that will be used to fill the cleared depth buffer.</param>
     /// <param name="stencil">The value that will be used to fill the cleared stencil buffer.</param>
     /// <param name="rectangles">The areas on the surfaces that will be cleared.</param>
-    public void Clear(ClearFlags clearFlags, Color color, float zdepth, int stencil, RawRect[] rectangles)
+    public void Clear(ClearFlags clearFlags, Color color, float zdepth, int stencil, Rect[] rectangles)
     {
         Clear_(rectangles == null ? 0 : rectangles.Length, rectangles, clearFlags, Helpers.ToBgra(color), zdepth, stencil);
     }
@@ -719,7 +725,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="sourceRectangle">The area of the back buffer that should be presented.</param>
     /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
     /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
-    public Result Present(RectI sourceRectangle, RectI destinationRectangle)
+    public Result Present(Rect sourceRectangle, Rect destinationRectangle)
     {
         return Present(sourceRectangle, destinationRectangle, IntPtr.Zero);
     }
@@ -732,10 +738,8 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
     /// <param name="windowOverride">The destination window whose client area is taken as the target for this presentation.</param>
     /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
-    public Result Present(RectI sourceRectangle, RectI destinationRectangle, IntPtr windowOverride)
+    public Result Present(Rect sourceRectangle, Rect destinationRectangle, IntPtr windowOverride)
     {
-        RawRect rawSourceRectangle = sourceRectangle;
-        RawRect rawDestinationRectangle = destinationRectangle;
-        return Present(&rawSourceRectangle, &rawDestinationRectangle, windowOverride, null);
+        return Present(&sourceRectangle, &destinationRectangle, windowOverride, null);
     }
 }

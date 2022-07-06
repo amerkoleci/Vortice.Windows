@@ -10,11 +10,11 @@
   <ItemGroup>
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
-    <Using Include="Vortice.Mathematics" />
     
     <SharpGenMapping Include="Mappings.xml" />
     <SharpGenExternalDocs Include="Documentation.xml" />
-    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
+    <PackageReference Include="SharpGen.Runtime.COM" />
+    <PackageReference Include="Vortice.Mathematics" />
   </ItemGroup>
 
 </Project>

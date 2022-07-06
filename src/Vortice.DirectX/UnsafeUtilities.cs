@@ -134,18 +134,6 @@ public static unsafe class UnsafeUtilities
 
 #if !NET6_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ref T GetReference<T>(Span<T> span)
-    {
-        return ref global::System.Runtime.InteropServices.MemoryMarshal.GetReference(span);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ref T GetReference<T>(ReadOnlySpan<T> span)
-    {
-        return ref global::System.Runtime.InteropServices.MemoryMarshal.GetReference(span);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref T GetArrayDataReference<T>(T[] array)
     {
         return ref global::System.Runtime.InteropServices.MemoryMarshal.GetReference(array.AsSpan());

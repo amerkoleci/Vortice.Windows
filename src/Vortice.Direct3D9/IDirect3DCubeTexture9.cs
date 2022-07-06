@@ -19,10 +19,9 @@ public unsafe partial class IDirect3DCubeTexture9
     /// </summary>
     /// <param name="faceType">Type of the face.</param>
     /// <param name="dirtyRect">The dirty rectangle.</param>
-    public void AddDirtyRect(CubeMapFace faceType, in RectI dirtyRect)
+    public void AddDirtyRect(CubeMapFace faceType, Rect dirtyRect)
     {
-        RawRect rawRect = dirtyRect;
-        AddDirtyRect(faceType, &rawRect);
+        AddDirtyRect(faceType, &dirtyRect);
     }
 
     /// <summary>
@@ -31,12 +30,11 @@ public unsafe partial class IDirect3DCubeTexture9
     /// <param name="faceType">Type of the face.</param>
     /// <param name="level">The level.</param>
     /// <param name="flags">The flags.</param>
-    /// <returns>A <see cref="DataRectangle"/> describing the region locked.</returns>
+    /// <returns>A <see cref="LockedRectangle"/> describing the region locked.</returns>
     /// <unmanaged>HREULT IDirect3DCubeTexture9::LockRect([In] D3DCUBEMAP_FACES FaceType,[In] unsigned int Level,[In] D3DLOCKED_RECT* pLockedRect,[In] const void* pRect,[In] D3DLOCK Flags)</unmanaged>
-    public DataRectangle LockRect(CubeMapFace faceType, int level, LockFlags flags)
+    public LockedRectangle LockRect(CubeMapFace faceType, int level, LockFlags flags)
     {
-        LockedRectangle lockedRect = LockRect(faceType, level, null, flags);
-        return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
+        return LockRect(faceType, level, null, flags);
     }
 
     /// <summary>
@@ -46,11 +44,9 @@ public unsafe partial class IDirect3DCubeTexture9
     /// <param name="level">The level.</param>
     /// <param name="rectangle">The rectangle.</param>
     /// <param name="flags">The flags.</param>
-    /// <returns>A <see cref="DataRectangle"/> describing the region locked.</returns>
-    public DataRectangle LockRect(CubeMapFace faceType, int level, in RectI rectangle, LockFlags flags)
+    /// <returns>A <see cref="LockedRectangle"/> describing the region locked.</returns>
+    public LockedRectangle LockRect(CubeMapFace faceType, int level, Rect rectangle, LockFlags flags)
     {
-        RawRect rawRect = rectangle;
-        LockedRectangle lockedRect = LockRect(faceType, level, &rawRect, flags);
-        return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
+        return LockRect(faceType, level, &rectangle, flags);
     }
 }

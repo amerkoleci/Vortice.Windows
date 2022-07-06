@@ -33,11 +33,9 @@ public unsafe partial class IDirect3DSwapChain9
     /// <param name="sourceRectangle">The area of the back buffer that should be presented.</param>
     /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
     /// <unmanaged>HRESULT IDirect3DSwapChain9::Present([In, Optional] const void* pSourceRect,[InOut, Optional] const void* pDestRect,[In] HWND hDestWindowOverride,[In] const RGNDATA* pDirtyRegion,[In] unsigned int dwFlags)</unmanaged>
-    public void Present(RectI sourceRectangle, RectI destinationRectangle, Present presentFlags)
+    public void Present(Rect sourceRectangle, Rect destinationRectangle, Present presentFlags)
     {
-        RawRect sourceRect = sourceRectangle;
-        RawRect destRect = destinationRectangle;
-        Present(&sourceRect, &destRect, IntPtr.Zero, null, (int)presentFlags);
+        Present(&sourceRectangle, &destinationRectangle, IntPtr.Zero, null, (int)presentFlags);
     }
 
     /// <summary>
@@ -48,10 +46,8 @@ public unsafe partial class IDirect3DSwapChain9
     /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
     /// <param name="windowOverride">The destination window whose client area is taken as the target for this presentation.</param>
     /// <unmanaged>HRESULT IDirect3DSwapChain9::Present([In, Optional] const void* pSourceRect,[InOut, Optional] const void* pDestRect,[In] HWND hDestWindowOverride,[In] const RGNDATA* pDirtyRegion,[In] unsigned int dwFlags)</unmanaged>
-    public void Present(RectI sourceRectangle, RectI destinationRectangle, IntPtr windowOverride, Present presentFlags)
+    public void Present(Rect sourceRectangle, Rect destinationRectangle, IntPtr windowOverride, Present presentFlags)
     {
-        RawRect sourceRect = sourceRectangle;
-        RawRect destRect = destinationRectangle;
-        Present(&sourceRect, &destRect, windowOverride, null, (int)presentFlags);
+        Present(&sourceRectangle, &destinationRectangle, windowOverride, null, (int)presentFlags);
     }
 }

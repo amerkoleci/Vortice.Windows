@@ -9,7 +9,7 @@ public unsafe partial class IDirect3DVolume9
 {
     public T GetContainer<T>(Guid guid) where T : ComObject
     {
-        var containerPtr = GetContainer(guid);
+        IntPtr containerPtr = GetContainer(guid);
         return MarshallingHelpers.FromPointer<T>(containerPtr)!;
     }
 
@@ -18,10 +18,9 @@ public unsafe partial class IDirect3DVolume9
     /// </summary>
     /// <param name="flags">The lock flags.</param>
     /// <returns>The locked region of this resource.</returns>
-    public DataBox LockBox(LockFlags flags)
+    public LockedBox LockBox(LockFlags flags)
     {
-        LockedBox lockedBox = LockBox(IntPtr.Zero, flags);
-        return new DataBox(lockedBox.Bits, lockedBox.RowPitch, lockedBox.SlicePitch);
+        return LockBox((void*)null, flags);
     }
 
     /// <summary>
@@ -30,9 +29,8 @@ public unsafe partial class IDirect3DVolume9
     /// <param name="box">The box.</param>
     /// <param name="flags">The flags.</param>
     /// <returns>The locked region of this resource</returns>
-    public DataBox LockBox(Box box, LockFlags flags)
+    public LockedBox LockBox(Box box, LockFlags flags)
     {
-        LockedBox lockedBox = LockBox(new IntPtr(&box), flags);
-        return new DataBox(lockedBox.Bits, lockedBox.RowPitch, lockedBox.SlicePitch);
+        return LockBox(&box, flags);
     }
 }

@@ -3,7 +3,7 @@
 
 using System.Runtime.CompilerServices;
 
-namespace Vortice;
+namespace Vortice.Direct3D9;
 
 [StructLayout(LayoutKind.Explicit)]
 internal struct LARGE_INTEGER
@@ -25,7 +25,7 @@ internal struct LARGE_INTEGER
 #if NET5_0_OR_GREATER
             return ref MemoryMarshal.GetReference(MemoryMarshal.CreateSpan(ref Anonymous.LowPart, 1));
 #else
-            return ref MemoryMarshal.GetReference(UnsafeUtilities.CreateSpan(ref Anonymous.LowPart, 1));
+            return ref MemoryMarshal.GetReference(Helpers.CreateSpan(ref Anonymous.LowPart, 1));
 #endif
         }
     }
@@ -38,7 +38,7 @@ internal struct LARGE_INTEGER
 #if NET5_0_OR_GREATER
             return ref MemoryMarshal.GetReference(MemoryMarshal.CreateSpan(ref Anonymous.HighPart, 1));
 #else
-            return ref MemoryMarshal.GetReference(UnsafeUtilities.CreateSpan(ref Anonymous.HighPart, 1));
+            return ref MemoryMarshal.GetReference(Helpers.CreateSpan(ref Anonymous.HighPart, 1));
 #endif
         }
     }

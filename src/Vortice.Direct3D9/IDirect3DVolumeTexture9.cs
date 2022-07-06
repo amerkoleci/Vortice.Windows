@@ -12,7 +12,7 @@ public unsafe partial class IDirect3DVolumeTexture9
     /// </summary>
     public void AddDirtyBox()
     {
-        AddDirtyBox(IntPtr.Zero);
+        AddDirtyBox((void*)null);
     }
 
     /// <summary>
@@ -21,7 +21,7 @@ public unsafe partial class IDirect3DVolumeTexture9
     /// <param name="box">The dirty box.</param>
     public void AddDirtyBox(Box box)
     {
-        AddDirtyBox(new IntPtr(&box));
+        AddDirtyBox(&box);
     }
 
     /// <summary>
@@ -29,11 +29,10 @@ public unsafe partial class IDirect3DVolumeTexture9
     /// </summary>
     /// <param name="level">The level.</param>
     /// <param name="flags">The flags.</param>
-    /// <returns>A <see cref="DataBox"/> describing the region locked.</returns>
-    public DataBox LockBox(int level, LockFlags flags)
+    /// <returns>A <see cref="LockedBox"/> describing the region locked.</returns>
+    public LockedBox LockBox(int level, LockFlags flags)
     {
-        var lockedRect = LockBox(level, IntPtr.Zero, flags);
-        return new DataBox(lockedRect.Bits, lockedRect.RowPitch, lockedRect.SlicePitch);
+        return LockBox(level, (void*)null, flags);
     }
 
     /// <summary>
@@ -42,10 +41,9 @@ public unsafe partial class IDirect3DVolumeTexture9
     /// <param name="level">The level.</param>
     /// <param name="box">The box.</param>
     /// <param name="flags">The flags.</param>
-    /// <returns>A <see cref="DataRectangle"/> describing the region locked.</returns>
-    public DataBox LockBox(int level, Box box, LockFlags flags)
+    /// <returns>A <see cref="LockedBox"/> describing the region locked.</returns>
+    public LockedBox LockBox(int level, Box box, LockFlags flags)
     {
-        var lockedRect = LockBox(level, new IntPtr(&box), flags);
-        return new DataBox(lockedRect.Bits, lockedRect.RowPitch, lockedRect.SlicePitch);
+        return LockBox(level, &box, flags);
     }
 }

@@ -17,7 +17,7 @@ public unsafe partial class IDirect3DResource9
         {
             byte* pname = stackalloc byte[1024];
             int size = 1024 - 1;
-            if (GetPrivateData(CommonGuid.DebugObjectName, new IntPtr(pname), ref size).Failure)
+            if (GetPrivateData(Helpers.DebugObjectName, new IntPtr(pname), ref size).Failure)
             {
                 return string.Empty;
             }
@@ -29,12 +29,12 @@ public unsafe partial class IDirect3DResource9
         {
             if (string.IsNullOrEmpty(value))
             {
-                SetPrivateData(CommonGuid.DebugObjectName, IntPtr.Zero, 0, 0);
+                SetPrivateData(Helpers.DebugObjectName, IntPtr.Zero, 0, 0);
             }
             else
             {
-                var namePtr = Marshal.StringToHGlobalAnsi(value);
-                SetPrivateData(CommonGuid.DebugObjectName, namePtr, value.Length, 0);
+                IntPtr namePtr = Marshal.StringToHGlobalAnsi(value);
+                SetPrivateData(Helpers.DebugObjectName, namePtr, value.Length, 0);
             }
         }
     }

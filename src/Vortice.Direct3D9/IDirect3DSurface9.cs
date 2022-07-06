@@ -35,10 +35,9 @@ public unsafe partial class IDirect3DSurface9
     /// </summary>
     /// <param name="flags">The type of lock to perform.</param>
     /// <returns>A pointer to the locked region</returns>
-    public DataRectangle LockRect(LockFlags flags)
+    public LockedRectangle LockRect(LockFlags flags)
     {
-        LockedRectangle lockedRect = LockRect(null, flags);
-        return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
+        return LockRect(null, flags);
     }
 
     /// <summary>
@@ -47,10 +46,8 @@ public unsafe partial class IDirect3DSurface9
     /// <param name="rect">The rectangle to lock.</param>
     /// <param name="flags">The type of lock to perform.</param>
     /// <returns>A pointer to the locked region</returns>
-    public DataRectangle LockRect(in RectI rect, LockFlags flags)
+    public LockedRectangle LockRect(Rect rect, LockFlags flags)
     {
-        RawRect rawRect = rect;
-        LockedRectangle lockedRect = LockRect(&rawRect, flags);
-        return new DataRectangle(lockedRect.Bits, lockedRect.Pitch);
+        return LockRect(&rect, flags);
     }
 }

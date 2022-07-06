@@ -49,17 +49,17 @@ public unsafe partial class IDirect3DDevice9Ex
         PresentEx(null, null, IntPtr.Zero, null, (int)flags);
     }
 
-    public void PresentEx(Present flags, RawRect sourceRectangle, RawRect destinationRectangle)
+    public void PresentEx(Present flags, Rect sourceRectangle, Rect destinationRectangle)
     {
         PresentEx(flags, sourceRectangle, destinationRectangle, IntPtr.Zero);
     }
 
-    public void PresentEx(Present flags, RawRect sourceRectangle, RawRect destinationRectangle, IntPtr windowOverride)
+    public void PresentEx(Present flags, Rect sourceRectangle, Rect destinationRectangle, IntPtr windowOverride)
     {
         PresentEx(&sourceRectangle, &destinationRectangle, windowOverride, null, (int)flags);
     }
 
-    public void PresentEx(Present flags, RawRect sourceRectangle, RawRect destinationRectangle, IntPtr windowOverride, IntPtr dirtyRegionRGNData)
+    public void PresentEx(Present flags, Rect sourceRectangle, Rect destinationRectangle, IntPtr windowOverride, IntPtr dirtyRegionRGNData)
     {
         PresentEx(&sourceRectangle, &destinationRectangle, windowOverride, dirtyRegionRGNData.ToPointer(), (int)flags);
     }

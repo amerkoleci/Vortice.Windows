@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config id="vortice-direct3d9" xmlns="urn:SharpGen.Config">
   <namespace>Vortice.Direct3D9</namespace>
-  <depends>Vortice.DirectX</depends>
+  <depends>SharpGen.Runtime.COM</depends>
 
   <sdk name="StdLib" />
   <sdk name="WindowsSdk" version="10.0.22621.0" />
@@ -35,6 +35,19 @@
   <include file="d3d9on12.h" namespace="Vortice.Direct3D9on12" attach="true"/>
 
   <extension>
+    <define struct="Vortice.Direct3D9.Rect" sizeof="16" />
+    <define struct="Vortice.Direct3D9.PaletteEntry" sizeof="4" />
+    <define struct="Vortice.Direct3D9.Luid" sizeof="8" />
+    
+    <define struct="System.Numerics.Vector3" sizeof="12" />
+    <define struct="System.Numerics.Vector4" sizeof="16" />
+    <define struct="System.Numerics.Matrix4x4" sizeof="64" />
+
+    <define struct="Vortice.Mathematics.Int2" sizeof="8" />
+    <define struct="Vortice.Mathematics.Int4" sizeof="16" />
+    <define struct="Vortice.Mathematics.Color4" sizeof="16" />
+    <define struct="Vortice.Mathematics.Box" sizeof="24" />
+    
     <create class="D3D9" visibility="public static" />
     <create class="D3DX9" visibility="internal static" />
     <create class="Vortice.Direct3D9on12.Apis" visibility="public static"/>
@@ -84,21 +97,29 @@
     <create-cpp enum="D3DVTXPCAPS" macro="D3DVTXPCAPS_.*"/>
     <create-cpp enum="D3DVS20CAPS" macro="D3DVS20CAPS_.*"/>
     <create-cpp enum="D3DVERTEXTEXTURESAMPLER" macro="D3DVERTEXTEXTURESAMPLER.*"/>
-
-
-    <define struct="Vortice.Direct3D9.PaletteEntry" sizeof="4" />
   </extension>
 
   <bindings>
     <bind from="WORD" to="System.Int16" />
+    <bind from="UINT" to="System.Int32" />
+    <bind from="UINT32" to="System.Int32" />
+    
+    <bind from="HWND" to="System.IntPtr"/>
+    <bind from="HMONITOR" to="System.IntPtr"/>
+    <bind from="HDC" to="System.IntPtr"/>
     <bind from="D3DVECTOR" to="System.Numerics.Vector3" />
     <bind from="D3DMATRIX" to="System.Numerics.Matrix4x4" />
     <bind from="PALETTEENTRY" to="Vortice.Direct3D9.PaletteEntry"/>
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
-    <bind from="D3DRECT" to="Vortice.RawRect" />
+    <bind from="POINT" to="Vortice.Mathematics.Int2" />
+    <bind from="RECT" to="Vortice.Direct3D9.Rect" />
+    <bind from="D3DRECT" to="Vortice.Direct3D9.Rect" />
+    <bind from="LUID" to="Vortice.Direct3D9.Luid"/>
+    
     <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
     <bind from="D3DBOX" to="Vortice.Mathematics.Box"/>
+    
     <bind from="ID3D12CommandQueue" to="SharpGen.Runtime.ComObject" />
     <bind from="ID3D12Fence" to="SharpGen.Runtime.ComObject" />
   </bindings>
@@ -161,9 +182,6 @@
   </naming>
 
   <mapping>
-    <!-- Enums -->
-    <map enum="D3D(\d+)(.*)" name-tmp="$2" />
-
     <!-- D3DDEVTYPE -->
     <map enum="D3DDEVTYPE" name="DeviceType" flags="false" none="false"/>
     <map enum-item="D3DDEVTYPE_HAL" name="Hardware"/>
@@ -582,11 +600,6 @@
     <map enum-item="D3DRS_DESTBLENDALPHA" name="DestinationBlendAlpha"/>
     <map enum-item="D3DRS_BLENDOPALPHA" name="BlendOperationAlpha"/>
 
-    <map enum="D3DX_RESOURCE_RESIDENCY" name="ResourceResidency" flags="false" none="false"/>
-    <map enum-item="D3DX_RESOURCE_RESIDENCY_RESIDENT" name="Resident"/>
-    <map enum-item="D3DX_RESOURCE_RESIDENCY_RESIDENT_IN_SHARED_MEMORY" name="ResidentInSharedMemory"/>
-    <map enum-item="D3DX_RESOURCE_RESIDENCY_NOT_RESIDENT" name="NotResident"/>
-
     <map enum="D3DRESOURCETYPE" name="ResourceType" flags="false" none="false"/>
     <map enum-item="D3DRTYPE_SURFACE" name="Surface"/>
     <map enum-item="D3DRTYPE_VOLUME" name="Volume"/>
@@ -657,10 +670,6 @@
     <map enum="D3DTRANSFORMSTATETYPE" name="TransformState" flags="false" none="false"/>
     <map enum-item="D3DTS_VIEW" name="View"/>
     <map enum-item="D3DTS_PROJECTION" name="Projection"/>
-    <map enum-item="D3DTS_WORLD" name="World"/>
-    <map enum-item="D3DTS_WORLD1" name="World1"/>
-    <map enum-item="D3DTS_WORLD2" name="World2"/>
-    <map enum-item="D3DTS_WORLD3" name="World3"/>
     <map enum-item="D3DTS_TEXTURE0" name="Texture0"/>
     <map enum-item="D3DTS_TEXTURE1" name="Texture1"/>
     <map enum-item="D3DTS_TEXTURE2" name="Texture2"/>
@@ -699,9 +708,6 @@
     <map enum-item="D3DCOMPOSERECTS_OR" name="Or"/>
     <map enum-item="D3DCOMPOSERECTS_AND" name="And"/>
     <map enum-item="D3DCOMPOSERECTS_NEG" name="Negate"/>
-
-    <map enum="D3DXCOMPRESSION_FLAGS" name="CompressionFlags" flags="false" none="false"/>
-    <map enum-item="D3DXCOMPRESS_DEFAULT" name="Default"/>
 
     <map enum="D3DCOLORWRITEENABLE" name="ColorWriteEnable" flags="true" none="false"/>
     <map enum-item="D3DCOLORWRITEENABLE_ALPHA" name="Alpha"/>
@@ -749,8 +755,6 @@
     <map enum-item="D3DPRESENTFLAG_UNPRUNEDMODE" name="UnprunedMode"/>
     <map enum-item="D3DPRESENTFLAG_VIDEO" name="Video"/>
     <map enum-item="D3DPRESENTFLAG_OVERLAY_LIMITEDRGB" name="OverlayLimitedRgb"/>
-    <map enum-item="D3DPRESENTFLAG_OVERLAY_YC" name="OverlayYCbCr_BT709"/>
-    <map enum-item="D3DPRESENTFLAG_OVERLAY_YC" name="OverlayYCbCr_xvYCC"/>
     <map enum-item="D3DPRESENTFLAG_RESTRICTED_CONTENT" name="RestrictedContent"/>
     <map enum-item="D3DPRESENTFLAG_RESTRICT_SHARED_RESOURCE_DRIVER" name="RestrictSharedResourceDriver"/>
 
@@ -1234,8 +1238,11 @@
     <map struct="D3DDEVINFO_D3D9CACHEUTILIZATION" name="CacheUtilization"/>
     <map struct="D3DDEVINFO_D3DVERTEXSTATS" name="VertexStats"/>
 
-    <map struct="D3DLOCKED_RECT" visibility="internal"/>
-    <map struct="D3DLOCKED_BOX" visibility="internal"/>
+    <map struct="D3DLOCKED_RECT" name="LockedRectangle" />
+    <map field="D3DLOCKED_RECT::pBits" name="DataPointer"/>
+    
+    <map struct="D3DLOCKED_BOX" name="LockedBox" />
+    <map field="D3DLOCKED_BOX::pBits" name="DataPointer"/>
 
     <map struct="D3D9ON12_ARGS" name="D3D9On12Arguments" marshal="true" />
     <remove field="D3D9ON12_ARGS::.*"/>
@@ -1300,9 +1307,12 @@
     <map param="IDirect3DDevice9::ColorFill::pRect" attribute="in optional" />
 
     <map param="IDirect3DDevice9::Create.*::pp.*" attribute="out" return="true" />
-    <map param="IDirect3DDevice9::CreateVertexShader::pFunction" type="void"/>
-    <map param="IDirect3DDevice9::CreatePixelShader::pFunction" type="void"/>
+    <map method="IDirect3DDevice9::CreateVertexShader" visibility="internal" />
+    <map param="IDirect3DDevice9::CreateVertexShader::pFunction" type="void" keep-pointers="true"/>
 
+    <map method="IDirect3DDevice9::CreatePixelShader" visibility="internal" />
+    <map param="IDirect3DDevice9::CreatePixelShader::pFunction" type="void" keep-pointers="true"/>
+    
     <map method="IDirect3DDevice9::CreateVertexBuffer" visibility="internal" name="CreateVertexBuffer_" />
     <map param="IDirect3DDevice9::CreateVertexBuffer::FVF" name="vertexFormat" type="D3DFVF" />
     <map param="IDirect3DDevice9::CreateVertexBuffer::Usage" type="D3DUSAGE" />
@@ -1442,12 +1452,12 @@
     <map param="IDirect3DVolumeTexture9::GetLevelDesc::pDesc" return="true" attribute="out" />
     <map param="IDirect3DVolumeTexture9::GetVolumeLevel::ppVolumeLevel" return="true" attribute="out" />
     <map method="IDirect3DVolumeTexture9::LockBox" visibility="internal" />
-    <map param="IDirect3DVolumeTexture9::LockBox::pBox" type="void"/>
+    <map param="IDirect3DVolumeTexture9::LockBox::pBox" type="void" keep-pointers="true"/>
     <map param="IDirect3DVolumeTexture9::LockBox::Flags" type="D3DLOCK"/>
     <map param="IDirect3DVolumeTexture9::LockBox::pLockedVolume" attribute="out" />
 
     <map method="IDirect3DVolumeTexture9::AddDirtyBox" visibility="internal" />
-    <map param="IDirect3DVolumeTexture9::AddDirtyBox::pDirtyBox" type="void" />
+    <map param="IDirect3DVolumeTexture9::AddDirtyBox::pDirtyBox" type="void" keep-pointers="true"/>
 
     <!-- IDirect3DVolume9 -->
     <map method="IDirect3DVolume9::GetDevice" persist="true"/>
@@ -1459,7 +1469,7 @@
     <map param="IDirect3DVolume9::GetContainer::ppContainer" attribute="out"/>
     
     <map method="IDirect3DVolume9::LockBox" visibility="internal" />
-    <map param="IDirect3DVolume9::LockBox::pBox" type="void"/>
+    <map param="IDirect3DVolume9::LockBox::pBox" type="void" keep-pointers="true"/>
     <map param="IDirect3DVolume9::LockBox::Flags" type="D3DLOCK"/>
     <map param="IDirect3DVolume9::LockBox::pLockedVolume" attribute="out" />
 
@@ -1477,7 +1487,6 @@
     <map method="IDirect3DStateBlock9::GetDevice" persist="true"/>
     <map param="IDirect3DStateBlock9::GetDevice::ppDevice" attribute="out" />
     
-    <map function="D3D9(.*)" dll='"d3d9.dll"' group="Vortice.Direct3D9.D3D9" visibility="internal" />
     <map function="Direct3D(.*)" dll='"d3d9.dll"' group="Vortice.Direct3D9.D3D9" check="false" visibility="internal" />
 
     <map param="IDirect3DDevice9On12::GetD3D12Device::ppvDevice" attribute="out" return="false" />
