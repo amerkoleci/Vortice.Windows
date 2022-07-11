@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="IMFMediaEngineClassFactory.cs~RF1e0482.TMP" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
   </ItemGroup>

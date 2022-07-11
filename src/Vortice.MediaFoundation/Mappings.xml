@@ -35,6 +35,7 @@
   <extension>
     <context id="mediafoundation-all"/>
 
+    <define struct="Vortice.Mathematics.ColorBgra" sizeof="16" />
     <define struct="Vortice.MediaFoundation.Mpeg1VideoInformation" sizeof="32" />
     <define struct="Vortice.MediaFoundation.Mpeg2VideoInformation" sizeof="32" />
     <define struct="Vortice.MediaFoundation.VideoInformationHeader2" sizeof="32" />
@@ -562,7 +563,7 @@
     <bind from="MPEG2VIDEOINFO" to="Vortice.MediaFoundation.Mpeg2VideoInformation"/>
     <bind from="VIDEOINFOHEADER2" to="Vortice.MediaFoundation.VideoInformationHeader2"/>
     <bind from="RESOURCE_CHARACTERISTICS" to="Vortice.MediaFoundation.ResourceCharacteristics"/>
-    <bind from="MFARGB" to="Vortice.Mathematics.Color4"/>
+    <bind from="MFARGB" to="Vortice.Mathematics.ColorBgra"/>
   </bindings>
 
   <naming>
