@@ -15,7 +15,7 @@ public partial class ID3D12Device5
     public T CreateMetaCommand<T>(Guid commandId) where T : ID3D12MetaCommand
     {
         CreateMetaCommand(commandId, 0, IntPtr.Zero, 0, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public partial class ID3D12Device5
     public T CreateMetaCommand<T>(Guid commandId, int nodeMask) where T : ID3D12MetaCommand
     {
         CreateMetaCommand(commandId, nodeMask, IntPtr.Zero, 0, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ public partial class ID3D12Device5
     public T CreateMetaCommand<T>(Guid commandId, Blob blob) where T : ID3D12MetaCommand
     {
         CreateMetaCommand(commandId, 0, blob.BufferPointer, blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public partial class ID3D12Device5
     public T CreateMetaCommand<T>(Guid commandId, int nodeMask, Blob blob) where T : ID3D12MetaCommand
     {
         CreateMetaCommand(commandId, nodeMask, blob.BufferPointer, blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -148,7 +148,7 @@ public partial class ID3D12Device5
     public T CreateStateObject<T>(StateObjectDescription description) where T : ID3D12StateObject
     {
         CreateStateObject(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>

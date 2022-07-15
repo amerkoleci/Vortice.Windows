@@ -33,6 +33,6 @@ public partial class ID3D12ProtectedSession
     public T GetStatusFence<T>() where T : ID3D12Fence
     {
         GetStatusFence(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 }

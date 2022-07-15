@@ -34,7 +34,7 @@ public unsafe partial class ID3D12Device2
     public T CreatePipelineState<T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
     {
         CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreatePipelineState<T>(PipelineStateStreamDescription description, out T? pipelineState) where T : ID3D12PipelineState

@@ -46,7 +46,7 @@ public partial class ID3D12VideoDevice
     public T CreateVideoDecoder<T>(VideoDecoderDescription description) where T : ID3D12VideoDecoder
     {
         CreateVideoDecoder(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateVideoDecoder<T>(VideoDecoderDescription description, out T? videoDecoder) where T : ID3D12VideoDecoder
@@ -86,7 +86,7 @@ public partial class ID3D12VideoDevice
     public T CreateVideoDecoderHeap<T>(VideoDecoderHeapDescription description) where T : ID3D12VideoDecoderHeap
     {
         CreateVideoDecoderHeap(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateVideoDecoderHeap<T>(VideoDecoderHeapDescription description, out T? videoDecoder) where T : ID3D12VideoDecoderHeap
@@ -122,7 +122,7 @@ public partial class ID3D12VideoDevice
         VideoProcessInputStreamDescription[] inputStreamDescriptions) where T : ID3D12VideoProcessor
     {
         CreateVideoProcessor(nodeMask, ref outputStreamDescription, inputStreamDescriptions.Length, inputStreamDescriptions, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public T CreateVideoProcessor<T>(
@@ -132,7 +132,7 @@ public partial class ID3D12VideoDevice
         VideoProcessInputStreamDescription[] inputStreamDescriptions) where T : ID3D12VideoProcessor
     {
         CreateVideoProcessor(nodeMask, ref outputStreamDescription, inputStreamDescriptionsCount, inputStreamDescriptions, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateVideoProcessor<T>(

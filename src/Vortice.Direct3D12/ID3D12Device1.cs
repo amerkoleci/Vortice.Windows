@@ -54,7 +54,7 @@ public unsafe partial class ID3D12Device1
     public T CreatePipelineLibrary<T>(Blob blob) where T : ID3D12PipelineLibrary
     {
         CreatePipelineLibrary(blob.BufferPointer.ToPointer(), blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreatePipelineLibrary<T>(Blob blob, out T? pipelineLibrary) where T : ID3D12PipelineLibrary

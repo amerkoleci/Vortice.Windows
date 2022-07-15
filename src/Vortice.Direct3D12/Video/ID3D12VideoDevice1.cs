@@ -18,7 +18,7 @@ public partial class ID3D12VideoDevice1
     public T CreateVideoMotionEstimator<T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionEstimator
     {
         CreateVideoMotionEstimator(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateVideoMotionEstimator<T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoMotionEstimator) where T : ID3D12VideoMotionEstimator
@@ -43,7 +43,7 @@ public partial class ID3D12VideoDevice1
     public T CreateVideoMotionVectorHeap<T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionVectorHeap
     {
         CreateVideoMotionVectorHeap(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateVideoMotionVectorHeap<T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoMotionEstimator) where T : ID3D12VideoMotionVectorHeap

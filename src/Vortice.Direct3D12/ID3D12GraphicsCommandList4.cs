@@ -12,6 +12,7 @@ public unsafe partial class ID3D12GraphicsCommandList4
         RenderPassRenderTargetDescription.__Native renderTargetNative = default;
         renderTarget.__MarshalTo(ref renderTargetNative);
         BeginRenderPass(1, &renderTargetNative, depthStencil, flags);
+        renderTarget.__MarshalFree(ref renderTargetNative);
     }
 
     /// <summary>
@@ -33,6 +34,11 @@ public unsafe partial class ID3D12GraphicsCommandList4
         fixed (RenderPassRenderTargetDescription.__Native* renderTargetsPtr = renderTargetsNative)
         {
             BeginRenderPass(renderTargetCount, renderTargetsPtr, depthStencil, flags);
+        }
+
+        for (int i = 0; i < renderTargetCount; ++i)
+        {
+            renderTargets[i].__MarshalFree(ref renderTargetsNative[i]);
         }
     }
 
@@ -67,6 +73,11 @@ public unsafe partial class ID3D12GraphicsCommandList4
         fixed (RenderPassRenderTargetDescription.__Native* renderTargetsPtr = renderTargetsNative)
         {
             BeginRenderPass(renderTargetCount, renderTargetsPtr, depthStencil, flags);
+        }
+
+        for (int i = 0; i < renderTargetCount; ++i)
+        {
+            renderTargets[i].__MarshalFree(ref renderTargetsNative[i]);
         }
     }
 

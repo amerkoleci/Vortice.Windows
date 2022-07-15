@@ -26,6 +26,12 @@
     <create class="ShaderComponentMapping" visibility="public static" />
     <const from-macro="D3D12_SHADER_COMPONENT_MAPPING_(.*)" type="int" cpp-type="int" name="$1" class="Vortice.Direct3D12.ShaderComponentMapping" visibility="public const"></const>
     <const from-macro="D3D12_PREVIEW_SDK_VERSION" class="Vortice.Direct3D12.D3D12" type="int" name="PreviewSdkVersion" />
+    <const from-guid="CLSID_D3D12Debug" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DebugClsId">new System.Guid("$1")</const>
+    <const from-guid="CLSID_D3D12Tools" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12ToolsClsId">new System.Guid("$1")</const>
+    <const from-guid="CLSID_D3D12DeviceRemovedExtendedData" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DeviceRemovedExtendedDataClsId">new System.Guid("$1")</const>
+    <const from-guid="CLSID_D3D12SDKConfiguration" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12SDKConfigurationClsId">new System.Guid("$1")</const>
+    <const from-guid="CLSID_D3D12DeviceFactory" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DeviceFactoryClsId">new System.Guid("$1")</const>
+    
   </extension>
 
   <bindings>
@@ -56,6 +62,7 @@
     <short name="TRIANGLE">Triangle</short>
     <short name="TRIANGLES">Triangles</short>
     <short name="LIST">List</short>
+    <short name="LISTS">Lists</short>
     <short name="ADJACENCY">Adjacency</short>
     <short name="ADJ">Adjacency</short>
     <short name="STRIP">Strip</short>
@@ -88,6 +95,7 @@
     <short name="VPIV">VideoProcessorInputView</short>
     <short name="VPOV">VideoProcessorOutputView</short>
     <short name="SUBRESOURCE">Subresource</short>
+    <short name="SUBRESOURCES">Subresources</short>
     <short name="FOOTPRINT">FootPrint</short>
     <short name="IA">InputAssembler</short>
     <short name="SRC">Source</short>
@@ -515,18 +523,19 @@
 
     <map enum="D3D12_FORMAT_SUPPORT1" flags="true"/>
     <map enum="D3D12_FORMAT_SUPPORT2" flags="true"/>
-    
+
     <!-- D3D_SHADER_MODEL -->
     <map enum="D3D_SHADER_MODEL" name="ShaderModel"/>
-    <map enum-item="D3D_SHADER_MODEL_5_1" name="Model5_1"/>
-    <map enum-item="D3D_SHADER_MODEL_6_0" name="Model6_0"/>
-    <map enum-item="D3D_SHADER_MODEL_6_1" name="Model6_1"/>
-    <map enum-item="D3D_SHADER_MODEL_6_2" name="Model6_2"/>
-    <map enum-item="D3D_SHADER_MODEL_6_3" name="Model6_3"/>
-    <map enum-item="D3D_SHADER_MODEL_6_4" name="Model6_4"/>
-    <map enum-item="D3D_SHADER_MODEL_6_5" name="Model6_5"/>
-    <map enum-item="D3D_SHADER_MODEL_6_6" name="Model6_6"/>
-    <map enum-item="D3D_SHADER_MODEL_6_7" name="Model6_7"/>
+    <map enum-item="D3D_SHADER_MODEL_5_1" name="Model5_1" />
+    <map enum-item="D3D_SHADER_MODEL_6_0" name="Model6_0" />
+    <map enum-item="D3D_SHADER_MODEL_6_1" name="Model6_1" />
+    <map enum-item="D3D_SHADER_MODEL_6_2" name="Model6_2" />
+    <map enum-item="D3D_SHADER_MODEL_6_3" name="Model6_3" />
+    <map enum-item="D3D_SHADER_MODEL_6_4" name="Model6_4" />
+    <map enum-item="D3D_SHADER_MODEL_6_5" name="Model6_5" />
+    <map enum-item="D3D_SHADER_MODEL_6_6" name="Model6_6" />
+    <map enum-item="D3D_SHADER_MODEL_6_7" name="Model6_7" />
+    <map enum-item="D3D_SHADER_MODEL_6_8" name="Model6_8" />
 
     <map enum-item="D3D12_WAVE_MMA_TIER_1_0" name="Tier1_0"/>
 
@@ -556,6 +565,8 @@
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS11" name="Options11"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS12" name="Options12"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS13" name="Options13"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS14" name="Options14"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS15" name="Options15"/>
 
     <map enum="D3D12_BLEND_OP" name="BlendOperation" />
     <map enum="D3D12_COMPARISON_FUNC" name="ComparisonFunction" />
@@ -567,6 +578,9 @@
     <map enum-item="D3D12_VIDEO_MOTION_ESTIMATOR_SEARCH_BLOCK_SIZE_16X16" name="Size16x16"/>
     <map enum-item="D3D12_VIDEO_MOTION_ESTIMATOR_SEARCH_BLOCK_SIZE_FLAG_8X8" name="Size8x8"/>
     <map enum-item="D3D12_VIDEO_MOTION_ESTIMATOR_SEARCH_BLOCK_SIZE_FLAG_16X16" name="Size16x16"/>
+
+    <map enum-item="D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK_UINT" name="OpaqueBlackUInt" />
+    <map enum-item="D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE_UINT" name="OpaqueWhiteUInt" />
 
     <!-- structs -->
     <map struct="D3D(\d+)(.*)" name-tmp="$2" />
@@ -613,8 +627,8 @@
     <remove field="D3D12_TEXTURE_COPY_LOCATION::.*" />
     <remove field="D3D12_BUILD_RAYTRACING_ACCELERATION_STRUCTURE_INPUTS::.*" />
     <remove field="D3D12_VERSIONED_DEVICE_REMOVED_EXTENDED_DATA::.*"/>
-    
-    
+
+
     <map field="D3D12_RESOURCE_TRANSITION_BARRIER::pResource" name="ResourcePointer" type="void" visibility="private"/>
     <map field="D3D12_RESOURCE_ALIASING_BARRIER::pResourceBefore" name="ResourceBeforePointer" type="void" visibility="private"/>
     <map field="D3D12_RESOURCE_ALIASING_BARRIER::pResourceAfter" name="ResourceAfterPointer" type="void" visibility="private"/>
@@ -664,6 +678,7 @@
     <map field="D3D12_CLEAR_VALUE::Color" type="VORTICE_COLOR4" array="" override-native-type="true" />
 
     <map struct="D3D12_DEPTH_STENCILOP_DESC" name="DepthStencilOperationDescription" />
+    <map struct="D3D12_DEPTH_STENCILOP_DESC1" name="DepthStencilOperationDescription1" />
 
     <map struct="D3D12_SHADER_BYTECODE" name="ShaderBytecode" struct-to-class="true" marshal="true" />
     <remove field="D3D12_SHADER_BYTECODE::.*"/>
@@ -781,7 +796,7 @@
 
     <!-- ID3D12Device methods -->
     <map method="ID3D12Device::GetAdapterLuid" custom-vtbl="true" visibility="private" property="false" />
-    
+
     <map method="ID3D12Device::CheckFeatureSupport" visibility="internal" check="false"/>
     <map param="ID3D12Device::CheckFeatureSupport::pFeatureSupportData" type="void" keep-pointers="true"/>
     <map method="ID3D12Device::GetDeviceRemovedReason" check="false"/>
@@ -911,6 +926,25 @@
     <map method="ID3D12Device9::CreateCommandQueue1" visibility="private" hresult="true" check="false" />
     <map method="ID3D12Device9::CreateShaderCacheSession" visibility="private" hresult="true" check="false" />
 
+    <!-- ID3D12Device10 -->
+    <map method="ID3D12Device10::CreateCommittedResource3" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device10::CreateCommittedResource3::pCastableFormats" type="void" keep-pointers="true"/>
+
+    <map method="ID3D12Device10::CreatePlacedResource2" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device10::CreatePlacedResource2::pCastableFormats" type="void" keep-pointers="true"/>
+
+    <map method="ID3D12Device10::CreateReservedResource2" visibility="private" hresult="true" check="false" />
+    <map param="ID3D12Device10::CreateReservedResource2::pCastableFormats" type="void" keep-pointers="true"/>
+
+    <!-- ID3D12Device11 -->
+    <map param="ID3D12Device11::CreateSampler::pDesc" attribute="in value"/>
+
+    <!-- ID3D12SDKConfiguration methods -->
+    <map method="ID3D12SDKConfiguration::SetSDKVersion" hresult="true" check="false"/>
+
+    <!-- ID3D12SDKConfiguration1 methods -->
+    <map method="ID3D12SDKConfiguration1::CreateDeviceFactory" visibility="private" hresult="true" check="false"/>
+
     <!-- ID3D12Debug1 -->
     <map method="ID3D12Debug1::SetEnableGPUBasedValidation" property="false" />
     <map method="ID3D12Debug1::SetEnableSynchronizedCommandQueueValidation" property="false" />
@@ -922,6 +956,20 @@
     <map method="ID3D12Debug3::SetEnableGPUBasedValidation" property="false" />
     <map method="ID3D12Debug3::SetEnableSynchronizedCommandQueueValidation" property="false" />
     <map method="ID3D12Debug3::SetGPUBasedValidationFlags" property="false" />
+
+    <!-- ID3D12DebugCommandList1 -->
+    <map method="ID3D12DebugCommandList1::.*" property="false" hresult="true" check="false" />
+    <map method="ID3D12DebugCommandList1::GetDebugParameter" visibility="internal" hresult="true" check="false" />
+    <map param="ID3D12DebugCommandList1::GetDebugParameter::pData" type="void" keep-pointers="true"/>
+    <map method="ID3D12DebugCommandList1::SetDebugParameter" visibility="internal" hresult="true" check="false" />
+    <map param="ID3D12DebugCommandList1::SetDebugParameter::pData" type="void" keep-pointers="true"/>
+
+    <!-- ID3D12DebugCommandList2 -->
+    <map method="ID3D12DebugCommandList2::.*" property="false" hresult="true" check="false" />
+    <map method="ID3D12DebugCommandList2::GetDebugParameter" visibility="internal" hresult="true" check="false" />
+    <map param="ID3D12DebugCommandList2::GetDebugParameter::pData" type="void" keep-pointers="true"/>
+    <map method="ID3D12DebugCommandList2::SetDebugParameter" visibility="internal" hresult="true" check="false" />
+    <map param="ID3D12DebugCommandList2::SetDebugParameter::pData" type="void" keep-pointers="true"/>
 
     <!-- ID3D12CommandQueue -->
     <map method="ID3D12CommandQueue::.*" property="false" hresult="true" check="false" />
@@ -1001,6 +1049,22 @@
     <map method="ID3D12GraphicsCommandList4::BeginRenderPass" visibility="private"/>
     <map param="ID3D12GraphicsCommandList4::BeginRenderPass::pRenderTargets" type="void" keep-pointers="true"/>
 
+    <!-- ID3D12GraphicsCommandList7 -->
+    <map param="ID3D12GraphicsCommandList7::Barrier::pBarrierGroups" type="void" keep-pointers="true"/>
+    <map method="ID3D12GraphicsCommandList7::Barrier" visibility="private"/>
+
+    <!-- ID3D12DeviceConfiguration -->
+    <map method="ID3D12DeviceConfiguration::SerializeVersionedRootSignature" hresult="true" check="false"/>
+    <map method="ID3D12DeviceConfiguration::CreateVersionedRootSignatureDeserializer" visibility="private" hresult="true" check="false"/>
+    <map param="ID3D12DeviceConfiguration::CreateVersionedRootSignatureDeserializer::pBlob" type="void" keep-pointers="true"/>
+
+    <!-- ID3D12DeviceFactory -->
+    <map method="ID3D12DeviceFactory::InitializeFromGlobalState" hresult="true" check="false"/>
+    <map method="ID3D12DeviceFactory::ApplyToGlobalState" hresult="true" check="false"/>
+    <map method="ID3D12DeviceFactory::GetConfigurationInterface" visibility="private" hresult="true" check="false"/>
+    <map method="ID3D12DeviceFactory::CreateDevice" visibility="private" hresult="true" check="false"/>
+    <map param="ID3D12DeviceFactory::CreateDevice::adapter" type="void" attribute="in"/>
+    
     <!-- ID3D12DescriptorHeap -->
     <map method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" property="false" />
     <map method="ID3D12DescriptorHeap::GetGPUDescriptorHandleForHeapStart" property="false" />
@@ -1025,10 +1089,10 @@
     <map function="D3D12GetDebugInterface" hresult="true" check="false"/>
     <map function="D3D12SerializeRootSignature" hresult="true" check="false"/>
     <map function="D3D12SerializeVersionedRootSignature" hresult="true" check="false"/>
-    
+
     <map function="D3D12CreateVersionedRootSignatureDeserializer" hresult="true" check="false"/>
     <map param="D3D12CreateVersionedRootSignatureDeserializer::pSrcData" type="void" keep-pointers="true"/>
-    
+
     <map method="ID3D12CommandList::GetType" name="GetCommandListType" />
 
     <map field="D3D12_GPU_DESCRIPTOR_HANDLE::ptr" name="Ptr"/>
@@ -1039,9 +1103,12 @@
 
     <map field="D3D12_PIPELINE_STATE_STREAM_DESC::pPipelineStateSubobjectStream" name="SubObjectStream"/>
 
+    <!-- D3D12_RENDER_TARGET_BLEND_DESC struct -->
+    <map field="D3D12_DEVICE_CONFIGURATION_DESC::GpuBasedValidationFlags" type="D3D12_GPU_BASED_VALIDATION_FLAGS" />
+
     <!-- d3d12shader -->
     <map enum-item="D3D12_SHVER_(.*)" name-tmp="$1"/>
-    
+
     <map struct="D3D12_SHADER_BUFFER_DESC" name="ConstantBufferDescription" />
     <map field="D3D12_SHADER_BUFFER_DESC::uFlags" name="Flags" type="D3D_SHADER_CBUFFER_FLAGS" />
     <map field="D3D12_SHADER_BUFFER_DESC::Variables" name="VariableCount" />

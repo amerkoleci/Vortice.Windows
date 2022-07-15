@@ -1,6 +1,8 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using Vortice.DXGI;
+
 namespace Vortice.Direct3D12;
 
 public partial class ID3D12Device8
@@ -21,7 +23,7 @@ public partial class ID3D12Device8
             protectedSession,
             typeof(T).GUID, out IntPtr nativePtr).CheckError();
 
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public T CreateCommittedResource2<T>(
@@ -30,7 +32,8 @@ public partial class ID3D12Device8
         ResourceDescription1 description,
         ResourceStates initialResourceState,
         ClearValue optimizedClearValue,
-        ID3D12ProtectedResourceSession protectedSession) where T : ID3D12Resource
+        ID3D12ProtectedResourceSession protectedSession,
+        Format[] castableFormats) where T : ID3D12Resource
     {
         CreateCommittedResource2(
             ref heapProperties,
@@ -41,7 +44,7 @@ public partial class ID3D12Device8
             protectedSession,
             typeof(T).GUID, out IntPtr nativePtr).CheckError();
 
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public T? CreatePlacedResource1<T>(ID3D12Heap heap, ulong heapOffset, ResourceDescription1 description, ResourceStates initialState, ClearValue? optimizedClearValue = null) where T : ID3D12Resource
@@ -56,7 +59,7 @@ public partial class ID3D12Device8
 
         if (result.Success)
         {
-            return MarshallingHelpers.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr)!;
         }
 
         return default;
@@ -83,7 +86,7 @@ public partial class ID3D12Device8
             return result;
         }
 
-        resource = MarshallingHelpers.FromPointer<T>(nativePtr);
+        resource = MarshallingHelpers.FromPointer<T>(nativePtr)!;
         return result;
     }
 
@@ -109,7 +112,7 @@ public partial class ID3D12Device8
             return result;
         }
 
-        resource = MarshallingHelpers.FromPointer<T>(nativePtr);
+        resource = MarshallingHelpers.FromPointer<T>(nativePtr)!;
         return result;
     }
 }

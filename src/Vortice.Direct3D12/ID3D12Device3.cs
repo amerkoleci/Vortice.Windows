@@ -23,7 +23,7 @@ public partial class ID3D12Device3
     public T OpenExistingHeapFromAddress<T>(IntPtr address) where T : ID3D12Heap
     {
         OpenExistingHeapFromAddress(address, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result OpenExistingHeapFromAddress<T>(IntPtr address, out T? heap) where T : ID3D12Heap
@@ -42,7 +42,7 @@ public partial class ID3D12Device3
     public T OpenExistingHeapFromFileMapping<T>(IntPtr fileMapping) where T : ID3D12Heap
     {
         OpenExistingHeapFromFileMapping(fileMapping, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result OpenExistingHeapFromFileMapping<T>(IntPtr fileMapping, out T? heap) where T : ID3D12Heap

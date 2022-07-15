@@ -21,6 +21,6 @@ public partial class ID3D12VideoDecoder1
     public T GetProtectedResourceSession<T>() where T : ID3D12ProtectedResourceSession
     {
         GetProtectedResourceSession(typeof(T).GUID, out IntPtr protectedSessionPtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(protectedSessionPtr);
+        return MarshallingHelpers.FromPointer<T>(protectedSessionPtr)!;
     }
 }

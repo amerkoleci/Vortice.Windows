@@ -84,6 +84,8 @@ public unsafe partial class ID3D12Device
             FeatureDataD3D12Options11 => Feature.Options11,
             FeatureDataD3D12Options12 => Feature.Options12,
             FeatureDataD3D12Options13 => Feature.Options13,
+            FeatureDataD3D12Options14 => Feature.Options14,
+            FeatureDataD3D12Options15 => Feature.Options15,
             _ => throw new ArgumentException(nameof(T)),
         };
 
@@ -183,6 +185,14 @@ public unsafe partial class ID3D12Device
     public FeatureDataD3D12Options13 Options13
     {
         get => CheckFeatureSupport<FeatureDataD3D12Options13>(Feature.Options13);
+    }
+    public FeatureDataD3D12Options14 Options14
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options14>(Feature.Options14);
+    }
+    public FeatureDataD3D12Options15 Options15
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options15>(Feature.Options15);
     }
     public FeatureDataArchitecture Architecture
     {
@@ -421,7 +431,7 @@ public unsafe partial class ID3D12Device
             typeof(T).GUID,
             out IntPtr nativePtr).CheckError();
 
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateCommittedResource<T>(HeapProperties heapProperties, HeapFlags heapFlags, ResourceDescription description, ResourceStates initialResourceState, out T? resource) where T : ID3D12Resource
@@ -489,7 +499,7 @@ public unsafe partial class ID3D12Device
     public T CreateCommandQueue<T>(in CommandQueueDescription description) where T : ID3D12CommandQueue
     {
         CreateCommandQueue(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public T CreateCommandQueue<T>(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
@@ -556,7 +566,7 @@ public unsafe partial class ID3D12Device
     public T CreateDescriptorHeap<T>(in DescriptorHeapDescription description) where T : ID3D12DescriptorHeap
     {
         CreateDescriptorHeap(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateDescriptorHeap<T>(in DescriptorHeapDescription description, out T? descriptorHeap) where T : ID3D12DescriptorHeap
@@ -596,7 +606,7 @@ public unsafe partial class ID3D12Device
     public T CreateCommandAllocator<T>(CommandListType type) where T : ID3D12CommandAllocator
     {
         CreateCommandAllocator(type, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateCommandAllocator<T>(CommandListType type, out T? commandAllocator) where T : ID3D12CommandAllocator
@@ -617,13 +627,13 @@ public unsafe partial class ID3D12Device
     public T CreateCommandList<T>(CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState? initialState = default) where T : ID3D12CommandList
     {
         CreateCommandList(0, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public T CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState? initialState = default) where T : ID3D12CommandList
     {
         CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState, out T? commandList) where T : ID3D12CommandList
@@ -664,7 +674,7 @@ public unsafe partial class ID3D12Device
     public T CreateFence<T>(ulong initialValue = 0, FenceFlags flags = FenceFlags.None) where T : ID3D12Fence
     {
         CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateFence<T>(ulong initialValue, FenceFlags flags, out T? fence) where T : ID3D12Fence
@@ -685,7 +695,7 @@ public unsafe partial class ID3D12Device
     public T CreateHeap<T>(in HeapDescription description) where T : ID3D12Heap
     {
         CreateHeap(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateHeap<T>(in HeapDescription description, out T? heap) where T : ID3D12Heap
@@ -732,7 +742,7 @@ public unsafe partial class ID3D12Device
     public T CreateRootSignature<T>(int nodeMask, IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
     {
         CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public T CreateRootSignature<T>(int nodeMask, Blob blob) where T : ID3D12RootSignature
@@ -751,7 +761,7 @@ public unsafe partial class ID3D12Device
     public T CreateRootSignature<T>(IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
     {
         CreateRootSignature(0, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public T CreateRootSignature<T>(Blob blob) where T : ID3D12RootSignature
@@ -788,7 +798,7 @@ public unsafe partial class ID3D12Device
         try
         {
             CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr)!;
         }
         finally
         {
@@ -975,7 +985,7 @@ public unsafe partial class ID3D12Device
     public T CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature) where T : ID3D12CommandSignature
     {
         CreateCommandSignature(description, rootSignature, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature, out T? commandSignature) where T : ID3D12CommandSignature
@@ -996,7 +1006,7 @@ public unsafe partial class ID3D12Device
     public T CreateComputePipelineState<T>(ComputePipelineStateDescription description) where T : ID3D12PipelineState
     {
         CreateComputePipelineState(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateComputePipelineState<T>(ComputePipelineStateDescription description, out T? pipelineState) where T : ID3D12PipelineState
@@ -1017,7 +1027,7 @@ public unsafe partial class ID3D12Device
     public T CreateGraphicsPipelineState<T>(GraphicsPipelineStateDescription description) where T : ID3D12PipelineState
     {
         CreateGraphicsPipelineState(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateGraphicsPipelineState<T>(GraphicsPipelineStateDescription description, out T? pipelineState) where T : ID3D12PipelineState
@@ -1038,7 +1048,7 @@ public unsafe partial class ID3D12Device
     public T CreateQueryHeap<T>(QueryHeapDescription description) where T : ID3D12QueryHeap
     {
         CreateQueryHeap(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateQueryHeap<T>(in QueryHeapDescription description, out T? queryHeap) where T : ID3D12QueryHeap
@@ -1064,7 +1074,7 @@ public unsafe partial class ID3D12Device
         ClearValue? clearValue = null) where T : ID3D12Resource
     {
         CreatePlacedResource(heap, heapOffset, ref resourceDescription, initialState, clearValue, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreatePlacedResource<T>(
@@ -1109,7 +1119,7 @@ public unsafe partial class ID3D12Device
     public T CreateReservedResource<T>(ResourceDescription resourceDescription, ResourceStates initialState, ClearValue? clearValue = null) where T : ID3D12Resource
     {
         CreateReservedResource(ref resourceDescription, initialState, clearValue, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateReservedResource<T>(ResourceDescription resourceDescription, ResourceStates initialState, out T? resource) where T : ID3D12Resource
@@ -1240,7 +1250,7 @@ public unsafe partial class ID3D12Device
     public T OpenSharedHandle<T>(IntPtr handle) where T : ComObject
     {
         OpenSharedHandle(handle, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>

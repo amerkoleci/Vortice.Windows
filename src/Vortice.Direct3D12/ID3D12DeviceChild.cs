@@ -21,6 +21,6 @@ public partial class ID3D12DeviceChild
     public T GetDevice<T>() where T : ID3D12Device
     {
         GetDevice(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 }

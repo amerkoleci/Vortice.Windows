@@ -19,7 +19,7 @@ public partial class ID3D12VideoDevice2
     public T CreateVideoDecoder1<T>(VideoDecoderDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoDecoder1
     {
         CreateVideoDecoder1(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateVideoDecoder1<T>(VideoDecoderDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoDecoder) where T : ID3D12VideoDecoder1
@@ -46,7 +46,7 @@ public partial class ID3D12VideoDevice2
     public T CreateVideoDecoderHeap1<T>(VideoDecoderHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoDecoderHeap1
     {
         CreateVideoDecoderHeap1(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateVideoDecoderHeap1<T>(VideoDecoderHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoDecoder) where T : ID3D12VideoDecoderHeap1
@@ -73,7 +73,7 @@ public partial class ID3D12VideoDevice2
     public T CreateVideoExtensionCommand<T>(VideoExtensionCommandDescription description, IntPtr creationParameters, PointerSize creationParametersDataSizeInBytes, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoExtensionCommand
     {
         CreateVideoExtensionCommand(ref description, creationParameters, creationParametersDataSizeInBytes, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateVideoExtensionCommand<T>(
@@ -147,7 +147,7 @@ public partial class ID3D12VideoDevice2
             typeof(T).GUID,
             out IntPtr nativePtr).CheckError();
 
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public T CreateVideoProcessor1<T>(
@@ -165,7 +165,7 @@ public partial class ID3D12VideoDevice2
             protectedResourceSession,
             typeof(T).GUID,
             out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateVideoProcessor1<T>(

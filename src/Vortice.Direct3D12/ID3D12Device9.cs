@@ -27,7 +27,7 @@ public partial class ID3D12Device9
     public T CreateCommandQueue1<T>(in CommandQueueDescription description, Guid creatorID) where T : ID3D12CommandQueue
     {
         CreateCommandQueue1(description, creatorID, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateCommandQueue1<T>(in CommandQueueDescription description, Guid creatorID, out T? commandQueue) where T : ID3D12CommandQueue
@@ -46,7 +46,7 @@ public partial class ID3D12Device9
     public T CreateShaderCacheSession<T>(ShaderCacheSessionDescription description) where T : ID3D12ShaderCacheSession
     {
         CreateShaderCacheSession(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateShaderCacheSession<T>(ShaderCacheSessionDescription description, out T? session) where T : ID3D12ShaderCacheSession

@@ -407,6 +407,30 @@ public readonly struct PipelineStateSubObjectTypeDepthStencil1 : IPipelineStateS
 }
 
 [StructLayout(LayoutKind.Explicit)]
+public readonly struct PipelineStateSubObjectTypeDepthStencil2 : IPipelineStateStreamSubObject
+{
+    [FieldOffset(0)]
+    internal readonly AlignedSubObjectType<DepthStencilDescription2> _type;
+
+    [FieldOffset(0)]
+    internal readonly PointerSize _pad;
+
+    public PipelineStateSubObjectTypeDepthStencil2(in DepthStencilDescription2 description)
+    {
+        _pad = default;
+        _type._type = PipelineStateSubObjectType.DepthStencil2;
+        _type._inner = description;
+    }
+
+    public static implicit operator PipelineStateSubObjectTypeDepthStencil2(in DepthStencilDescription2 description)
+    {
+        return new (description);
+    }
+
+    PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.DepthStencil2;
+}
+
+[StructLayout(LayoutKind.Explicit)]
 public readonly struct PipelineStateSubObjectTypeDepthStencilFormat : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]

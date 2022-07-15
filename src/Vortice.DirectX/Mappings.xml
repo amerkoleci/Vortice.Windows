@@ -333,6 +333,10 @@
     <map enum-item="D3D_SIF_(.*)" name-tmp="$1" />
     <map enum-item="D3D_SIT_(.*)" name-tmp="$1" />
     <map enum-item="D3D_CT_(.*)" name-tmp="$1" />
+    <map enum-item="D3DFL_(.*)" name-tmp="$1" />
+    <map enum-item="D3DFTL_(.*)" name-tmp="$1" />
+    <map enum-item="D3DFCN_(.*)" name-tmp="$1" />
+    <map enum-item="D3DFCI_(.*)" name-tmp="$1" />
     <map enum="D3D_DRIVER_TYPE" name="DriverType" />
     <map enum-item="D3D_DRIVER_TYPE_(.*)" name-tmp="$1" />
     <map enum="D3D_NAME" name="SystemValueType" />

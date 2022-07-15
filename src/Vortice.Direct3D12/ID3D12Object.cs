@@ -23,7 +23,7 @@ public partial class ID3D12Object
             }
 
             pname[size] = 0;
-            return Marshal.PtrToStringUni(new IntPtr(pname));
+            return Marshal.PtrToStringUni(new IntPtr(pname))!;
         }
         set
         {

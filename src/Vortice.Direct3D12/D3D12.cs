@@ -181,7 +181,7 @@ public static unsafe partial class D3D12
             typeof(T).GUID,
             out IntPtr nativePtr).CheckError();
 
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public static Result D3D12CreateDevice<T>(IntPtr adapterPtr, out T? device) where T : ID3D12Device
@@ -205,7 +205,7 @@ public static unsafe partial class D3D12
     public static T D3D12CreateDevice<T>(IntPtr adapterPtr, FeatureLevel minFeatureLevel) where T : ID3D12Device
     {
         D3D12CreateDevice(adapterPtr, minFeatureLevel, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     private static Result D3D12CreateDeviceNoDevice(IntPtr adapterPtr, FeatureLevel minFeatureLevel)
@@ -232,7 +232,7 @@ public static unsafe partial class D3D12
     public static T D3D12GetDebugInterface<T>() where T : ComObject
     {
         D3D12GetDebugInterface(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public static string D3D12SerializeVersionedRootSignature(VersionedRootSignatureDescription description, out Blob blob)
@@ -271,7 +271,7 @@ public static unsafe partial class D3D12
     private static T D3D12CreateVersionedRootSignatureDeserializer<T>(void* signatureData, PointerSize signatureDataLength) where T : ID3D12VersionedRootSignatureDeserializer
     {
         D3D12CreateVersionedRootSignatureDeserializer(signatureData, signatureDataLength, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public static Result D3D12CreateVersionedRootSignatureDeserializer<T>(byte[] signatureData, out T? rootSignatureDeserializer) where T : ID3D12VersionedRootSignatureDeserializer
