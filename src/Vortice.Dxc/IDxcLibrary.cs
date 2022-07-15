@@ -55,9 +55,20 @@ public partial class IDxcLibrary
         return result;
     }
 
+    public IDxcBlobEncoding GetBlobAsWide(IDxcBlob blob)
+    {
+        GetBlobAsWide(blob, out IDxcBlobEncoding result).CheckError();
+        return result;
+    }
+
+    public Result GetBlobAsUtf16(IDxcBlob blob, out IDxcBlobEncoding blobEncoding)
+    {
+        return GetBlobAsWide(blob, out blobEncoding);
+    }
+
     public IDxcBlobEncoding GetBlobAsUtf16(IDxcBlob blob)
     {
-        GetBlobAsUtf16(blob, out IDxcBlobEncoding result).CheckError();
+        GetBlobAsWide(blob, out IDxcBlobEncoding result).CheckError();
         return result;
     }
 }

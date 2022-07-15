@@ -18,8 +18,7 @@
 
   <ItemGroup>
     <Content Include="build\net461\Vortice.Dxc.props" PackagePath="build\net461\Vortice.Dxc.props" />
-    <Content Include="runtimes\win-x64\native\dxil.dll" Link="runtimes\win-x64\native\dxil.dll" Visible="False" CopyToOutputDirectory="PreserveNewest" PackagePath="runtimes\win-x64\native\dxil.dll" />
-    <Content Include="runtimes\win-x64\native\dxcompiler.dll" Link="runtimes\win-x64\native\dxcompiler.dll" Visible="False" CopyToOutputDirectory="PreserveNewest" PackagePath="runtimes\win-x64\native\dxcompiler.dll" />
+    <Content Include="runtimes\**" PackagePath="runtimes" Pack="true" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

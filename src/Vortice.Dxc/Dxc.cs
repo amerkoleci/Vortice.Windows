@@ -114,8 +114,8 @@ public static partial class Dxc
                 string dxcompilerPath = Path.Combine(AppContext.BaseDirectory, $@"runtimes\{rid}\native\dxcompiler.dll");
                 string dxilPath = Path.Combine(AppContext.BaseDirectory, $@"runtimes\{rid}\native\dxil.dll");
 
-                    // Load DXIL first so that DXC doesn't fail to load it, and then DXIL, both from the NuGet path
-                    if (NativeLibrary.TryLoad(dxilPath, out _) &&
+                // Load DXIL first so that DXC doesn't fail to load it, and then DXIL, both from the NuGet path
+                if (NativeLibrary.TryLoad(dxilPath, out _) &&
                     NativeLibrary.TryLoad(dxcompilerPath, out IntPtr handle))
                 {
                     return handle;

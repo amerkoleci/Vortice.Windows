@@ -1,16 +1,13 @@
-// Copyright (c) Amer Koleci and contributors.
-// Distributed under the MIT license. See the LICENSE file in the project root for more information.
+// Copyright © Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using SharpGen.Runtime;
+namespace Vortice.Dxc;
 
-namespace Vortice.Dxc
+public partial class IDxcPdbUtils
 {
-    public partial class IDxcPdbUtils
+    public IDxcResult CompileForFullPDB()
     {
-        public IDxcResult CompileForFullPDB()
-        {
-            CompileForFullPDB(out IDxcResult result).CheckError();
-            return result;
-        }
+        CompileForFullPDB(out IDxcResult result).CheckError();
+        return result;
     }
 }

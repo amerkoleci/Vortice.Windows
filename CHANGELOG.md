@@ -1,9 +1,14 @@
 # Changelog
 
-Current Stable Release:    2.1.2 (March 2022)
+Current Stable Release:    2.1.19 (May 2022)
 
 -----------------------------------------------
-Release:     2.2.0 (May 2022)
+Release:     2.2.X (August 2022)
+-----------------------------------------------
+- [ENH] Dxc: Update DX Compiler to July 2022 release, add ARM64 support
+
+-----------------------------------------------
+Release:     2.1.19 (May 2022)
 -----------------------------------------------
 - [ENH] Direct3D11: Improve creation methods and better Span usage.
 - [ENH] DXGI: Add FormatHelper.GetSurfaceInfo based on DirectXTex.
