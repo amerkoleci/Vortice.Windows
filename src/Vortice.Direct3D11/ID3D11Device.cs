@@ -616,7 +616,7 @@ public unsafe partial class ID3D11Device
     public T OpenSharedResource<T>(IntPtr handle) where T : ID3D11Resource
     {
         OpenSharedResource(handle, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>

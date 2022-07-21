@@ -21,6 +21,6 @@ public partial class ID3D11On12Device1
     public T GetD3D12Device<T>() where T : ComObject
     {
         GetD3D12Device(typeof(T).GUID, out IntPtr devicePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(devicePtr);
+        return MarshallingHelpers.FromPointer<T>(devicePtr)!;
     }
 }

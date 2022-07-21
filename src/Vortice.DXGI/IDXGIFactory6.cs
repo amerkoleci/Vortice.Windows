@@ -21,7 +21,7 @@ public partial class IDXGIFactory6
     public T EnumAdapterByGpuPreference<T>(int index, GpuPreference gpuPreference) where T : IDXGIAdapter
     {
         EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(adapterPtr);
+        return MarshallingHelpers.FromPointer<T>(adapterPtr)!;
     }
 
     /// <summary>

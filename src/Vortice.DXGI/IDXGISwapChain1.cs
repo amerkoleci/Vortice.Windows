@@ -29,7 +29,7 @@ public partial class IDXGISwapChain1
     public T GetCoreWindow<T>() where T : ComObject
     {
         GetCoreWindow(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>

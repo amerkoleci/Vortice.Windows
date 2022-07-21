@@ -14,7 +14,7 @@ public partial class ID3D11Device5
     public T CreateFence<T>(ulong initialValue, FenceFlags flags = FenceFlags.None) where T : ID3D11Fence
     {
         CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateFence<T>(ulong initialValue, FenceFlags flags, out T? fence) where T: ID3D11Fence
@@ -39,7 +39,7 @@ public partial class ID3D11Device5
     public T OpenSharedFence<T>(IntPtr fenceHandle) where T : ID3D11Fence
     {
         OpenSharedFence(fenceHandle, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result OpenSharedFence<T>(IntPtr fenceHandle, out T? fence) where T : ID3D11Fence

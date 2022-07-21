@@ -18,7 +18,26 @@ public unsafe partial class ID3D11DeviceContext
     /// </summary>
     public const int KeepUnorderedAccessViews = -1;
 
-    private static readonly int[] s_NegativeOnes = new int[8]
+    private static readonly void*[] s_NullBuffers = new void*[CommonShaderConstantBufferSlotCount]
+    {
+        null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null
+    };
+
+    private static readonly void*[] s_NullSamplers = new void*[CommonShaderSamplerSlotCount]
+    {
+        null, null, null, null, null, null, null, null,
+        null, null, null, null, null, null, null, null
+    };
+
+    private static readonly void*[] s_NullUAVs = new void*[UnorderedAccessViewRegisterCount]
+    {
+        null, null, null,
+        null, null, null,
+        null, null
+    };
+
+    private static readonly int[] s_NegativeOnes = new int[UnorderedAccessViewRegisterCount]
     {
         KeepUnorderedAccessViews, KeepUnorderedAccessViews, KeepUnorderedAccessViews,
         KeepUnorderedAccessViews, KeepUnorderedAccessViews, KeepUnorderedAccessViews,
@@ -103,10 +122,11 @@ public unsafe partial class ID3D11DeviceContext
 
     public void OMUnsetUnorderedAccessView(int startSlot, int uavInitialCount = -1)
     {
+        void* nullUAV = default;
         OMSetRenderTargetsAndUnorderedAccessViews(
             KeepRenderTargetsAndDepthStencil, null, IntPtr.Zero,
             startSlot, 1,
-            null,
+            &nullUAV,
             &uavInitialCount
             );
     }
@@ -824,12 +844,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void VSUnsetConstantBuffer(int slot)
     {
-        VSSetConstantBuffers(slot, 1, (void*)null);
+        void* nullBuffer = default;
+        VSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
     public void VSUnsetConstantBuffers(int startSlot, int count)
     {
-        VSSetConstantBuffers(startSlot, count, (void*)null);
+        fixed (void* nullBuffersPtr = s_NullBuffers)
+        {
+            VSSetConstantBuffers(startSlot, count, nullBuffersPtr);
+        }
     }
 
     public void VSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
@@ -855,14 +879,18 @@ public unsafe partial class ID3D11DeviceContext
         VSSetConstantBuffers(startSlot, count, ppConstantBuffers);
     }
 
-    public void VSUnsetSampler(int slot, ID3D11SamplerState? sampler)
+    public void VSUnsetSampler(int slot)
     {
-        VSSetSamplers(slot, 1, (void*)null);
+        void* nullSampler = default;
+        VSSetSamplers(slot, 1, &nullSampler);
     }
 
     public void VSUnsetSamplers(int startSlot, int count)
     {
-        VSSetSamplers(startSlot, count, (void*)null);
+        fixed (void* nullSamplersPtr = s_NullSamplers)
+        {
+            VSSetSamplers(startSlot, count, nullSamplersPtr);
+        }
     }
 
     public void VSSetSampler(int slot, ID3D11SamplerState? sampler)
@@ -890,12 +918,20 @@ public unsafe partial class ID3D11DeviceContext
 
     public void VSUnsetShaderResource(int slot)
     {
-        VSSetShaderResources(slot, 1, (void*)null);
+        void* nullResource = default;
+        VSSetShaderResources(slot, 1, &nullResource);
     }
 
     public void VSUnsetShaderResources(int startSlot, int count)
     {
-        VSSetShaderResources(startSlot, count, (void*)null);
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            ppShaderResourceViews[i] = IntPtr.Zero;
+        }
+
+        VSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
     public void VSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
@@ -971,12 +1007,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void PSUnsetConstantBuffer(int slot)
     {
-        PSSetConstantBuffers(slot, 1, (void*)null);
+        void* nullBuffer = default;
+        PSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
-    public void PSSetConstantBuffers(int startSlot, int count)
+    public void PSUnsetConstantBuffers(int startSlot, int count)
     {
-        PSSetConstantBuffers(startSlot, count, (void*)null);
+        fixed (void* nullBuffersPtr = s_NullBuffers)
+        {
+            PSSetConstantBuffers(startSlot, count, nullBuffersPtr);
+        }
     }
 
     public void PSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
@@ -1004,12 +1044,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void PSUnsetSampler(int slot)
     {
-        PSSetSamplers(slot, 1, (void*)null);
+        void* nullSampler = default;
+        PSSetSamplers(slot, 1, &nullSampler);
     }
 
     public void PSUnsetSamplers(int startSlot, int count)
     {
-        PSSetSamplers(startSlot, count, (void*)null);
+        fixed (void* nullSamplersPtr = s_NullSamplers)
+        {
+            PSSetSamplers(startSlot, count, nullSamplersPtr);
+        }
     }
 
     public void PSSetSampler(int slot, ID3D11SamplerState? sampler)
@@ -1038,12 +1082,20 @@ public unsafe partial class ID3D11DeviceContext
 
     public void PSUnsetShaderResource(int slot)
     {
-        PSSetShaderResources(slot, 1, (void*)null);
+        void* nullResource = default;
+        PSSetShaderResources(slot, 1, &nullResource);
     }
 
     public void PSUnsetShaderResources(int startSlot, int count)
     {
-        PSSetShaderResources(startSlot, count, (void*)null);
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            ppShaderResourceViews[i] = IntPtr.Zero;
+        }
+
+        PSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
     public void PSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
@@ -1119,12 +1171,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void DSUnsetConstantBuffer(int slot)
     {
-        DSSetConstantBuffers(slot, 1, (void*)null);
+        void* nullBuffer = default;
+        DSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
     public void DSUnsetConstantBuffers(int startSlot, int count)
     {
-        DSSetConstantBuffers(startSlot, count, (void*)null);
+        fixed (void* nullBuffersPtr = s_NullBuffers)
+        {
+            DSSetConstantBuffers(startSlot, count, nullBuffersPtr);
+        }
     }
 
     public void DSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
@@ -1152,12 +1208,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void DSUnsetSampler(int slot)
     {
-        DSSetSamplers(slot, 1, (void*)null);
+        void* nullSampler = default;
+        DSSetSamplers(slot, 1, &nullSampler);
     }
 
     public void DSUnsetSamplers(int startSlot, int count)
     {
-        DSSetSamplers(startSlot, count, (void*)null);
+        fixed (void* nullSamplersPtr = s_NullSamplers)
+        {
+            DSSetSamplers(startSlot, count, nullSamplersPtr);
+        }
     }
 
     public void DSSetSampler(int slot, ID3D11SamplerState? sampler)
@@ -1185,12 +1245,20 @@ public unsafe partial class ID3D11DeviceContext
 
     public void DSUnsetShaderResource(int slot)
     {
-        DSSetShaderResources(slot, 1, (void*)null);
+        void* nullResource = default;
+        DSSetShaderResources(slot, 1, &nullResource);
     }
 
     public void DSUnsetShaderResources(int startSlot, int count)
     {
-        DSSetShaderResources(startSlot, count, (void*)null);
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            ppShaderResourceViews[i] = IntPtr.Zero;
+        }
+
+        DSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
     public void DSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
@@ -1266,12 +1334,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void HSUnsetConstantBuffer(int slot)
     {
-        HSSetConstantBuffers(slot, 1, (void*)null);
+        void* nullBuffer = default;
+        HSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
     public void HSUnsetConstantBuffers(int startSlot, int count)
     {
-        HSSetConstantBuffers(startSlot, count, (void*)null);
+        fixed (void* nullBuffersPtr = s_NullBuffers)
+        {
+            HSSetConstantBuffers(startSlot, count, nullBuffersPtr);
+        }
     }
 
     public void HSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
@@ -1297,15 +1369,18 @@ public unsafe partial class ID3D11DeviceContext
         HSSetConstantBuffers(startSlot, count, ppConstantBuffers);
     }
 
-
     public void HSUnsetSampler(int slot)
     {
-        HSSetSamplers(slot, 1, (void*)null);
+        void* nullSampler = default;
+        HSSetSamplers(slot, 1, &nullSampler);
     }
 
     public void HSUnsetSamplers(int startSlot, int count)
     {
-        HSSetSamplers(startSlot, count, (void*)null);
+        fixed (void* nullSamplersPtr = s_NullSamplers)
+        {
+            HSSetSamplers(startSlot, count, nullSamplersPtr);
+        }
     }
 
     public void HSSetSampler(int slot, ID3D11SamplerState? sampler)
@@ -1333,12 +1408,20 @@ public unsafe partial class ID3D11DeviceContext
 
     public void HSUnsetShaderResource(int slot)
     {
-        HSSetShaderResources(slot, 1, (void*)null);
+        void* nullResource = default;
+        HSSetShaderResources(slot, 1, &nullResource);
     }
 
     public void HSUnsetShaderResources(int startSlot, int count)
     {
-        HSSetShaderResources(startSlot, count, (void*)null);
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            ppShaderResourceViews[i] = IntPtr.Zero;
+        }
+
+        HSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
     public void HSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
@@ -1414,12 +1497,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void GSUnsetConstantBuffer(int slot)
     {
-        GSSetConstantBuffers(slot, 1, (void*)null);
+        void* nullBuffer = default;
+        GSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
     public void GSUnsetConstantBuffers(int startSlot, int count)
     {
-        GSSetConstantBuffers(startSlot, count, (void*)null);
+        fixed (void* nullBuffersPtr = s_NullBuffers)
+        {
+            GSSetConstantBuffers(startSlot, count, nullBuffersPtr);
+        }
     }
 
     public void GSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
@@ -1447,12 +1534,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void GSUnsetSampler(int slot)
     {
-        GSSetSamplers(slot, 1, (void*)null);
+        void* nullSampler = default;
+        GSSetSamplers(slot, 1, &nullSampler);
     }
 
     public void GSUnsetSamplers(int startSlot, int count)
     {
-        GSSetSamplers(startSlot, count, (void*)null);
+        fixed (void* nullSamplersPtr = s_NullSamplers)
+        {
+            GSSetSamplers(startSlot, count, nullSamplersPtr);
+        }
     }
 
     public void GSSetSampler(int slot, ID3D11SamplerState? sampler)
@@ -1480,12 +1571,20 @@ public unsafe partial class ID3D11DeviceContext
 
     public void GSUnsetShaderResource(int slot)
     {
-        GSSetShaderResources(slot, 1, (void*)null);
+        void* nullResource = default;
+        GSSetShaderResources(slot, 1, &nullResource);
     }
 
     public void GSUnsetShaderResources(int startSlot, int count)
     {
-        GSSetShaderResources(startSlot, count, (void*)null);
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            ppShaderResourceViews[i] = IntPtr.Zero;
+        }
+
+        GSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
     public void GSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
@@ -1561,12 +1660,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void CSUnsetConstantBuffer(int slot)
     {
-        CSSetConstantBuffers(slot, 1, (void*)null);
+        void* nullBuffer = default;
+        CSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
     public void CSUnsetConstantBuffers(int startSlot, int count)
     {
-        CSSetConstantBuffers(startSlot, count, (void*)null);
+        fixed (void* nullBuffersPtr = s_NullBuffers)
+        {
+            CSSetConstantBuffers(startSlot, count, nullBuffersPtr);
+        }
     }
 
     public void CSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
@@ -1594,12 +1697,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void CSUnsetSampler(int slot)
     {
-        CSSetSamplers(slot, 1, (void*)null);
+        void* nullSampler = default;
+        CSSetSamplers(slot, 1, &nullSampler);
     }
 
     public void CSUnsetSamplers(int startSlot, int count)
     {
-        CSSetSamplers(startSlot, count, (void*)null);
+        fixed (void* nullSamplersPtr = s_NullSamplers)
+        {
+            CSSetSamplers(startSlot, count, nullSamplersPtr);
+        }
     }
 
     public void CSSetSampler(int slot, ID3D11SamplerState? sampler)
@@ -1627,12 +1734,20 @@ public unsafe partial class ID3D11DeviceContext
 
     public void CSUnsetShaderResource(int slot)
     {
-        CSSetShaderResources(slot, 1, (void*)null);
+        void* nullResource = default;
+        CSSetShaderResources(slot, 1, &nullResource);
     }
 
     public void CSUnsetShaderResources(int startSlot, int count)
     {
-        CSSetShaderResources(startSlot, count, (void*)null);
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            ppShaderResourceViews[i] = IntPtr.Zero;
+        }
+
+        CSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
     public void CSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
@@ -1759,12 +1874,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void CSUnsetUnorderedAccessView(int slot, int uavInitialCount = -1)
     {
-        CSSetUnorderedAccessViews(slot, 1, null, &uavInitialCount);
+        void* nullUAV = default;
+        CSSetUnorderedAccessViews(slot, 1, &nullUAV, &uavInitialCount);
     }
 
     public void CSUnsetUnorderedAccessViews(int startSlot, int count, int uavInitialCount = -1)
     {
-        CSSetUnorderedAccessViews(startSlot, count, null, &uavInitialCount);
+        fixed (void* nullUAVsPtr = s_NullUAVs)
+        {
+            CSSetUnorderedAccessViews(startSlot, count, nullUAVsPtr, &uavInitialCount);
+        }
     }
 
     #endregion

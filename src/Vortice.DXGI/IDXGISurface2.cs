@@ -8,7 +8,7 @@ public partial class IDXGISurface2
     public T GetResource<T>(out int subresourceIndex) where T : ComObject
     {
         GetResource(typeof(T).GUID, out IntPtr nativePtr, out subresourceIndex).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result GetResource<T>(out int subresourceIndex, out T? parentResource) where T : ComObject

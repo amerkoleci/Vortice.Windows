@@ -8,7 +8,7 @@ public partial class IDXGIDeviceSubObject
     public T GetDevice<T>() where T : IDXGIDevice
     {
         GetDevice(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result GetDevice<T>(out T? device) where T : IDXGIDevice

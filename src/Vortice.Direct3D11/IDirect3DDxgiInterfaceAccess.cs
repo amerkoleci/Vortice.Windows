@@ -8,7 +8,7 @@ public partial class IDirect3DDxgiInterfaceAccess
     public T GetInterface<T>() where T : ComObject
     {
         GetInterface(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result GetInterface<T>(out T? @interface) where T: ComObject

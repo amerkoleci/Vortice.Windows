@@ -37,7 +37,7 @@ public partial class IDXGISwapChain
     public T GetBuffer<T>(int index) where T : ComObject
     {
         GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result GetBuffer<T>(int index, out T? surface) where T : ComObject

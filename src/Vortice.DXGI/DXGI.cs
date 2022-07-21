@@ -50,7 +50,7 @@ public partial class DXGI
     public static T CreateDXGIFactory1<T>() where T : IDXGIFactory1
     {
         CreateDXGIFactory1(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -82,7 +82,7 @@ public partial class DXGI
     {
         int flags = debug ? CreateFactoryDebug : 0x00;
         CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -120,6 +120,6 @@ public partial class DXGI
     public static T DXGIGetDebugInterface1<T>() where T : ComObject
     {
         DXGIGetDebugInterface1(0, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 }

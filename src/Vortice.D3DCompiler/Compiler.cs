@@ -732,7 +732,7 @@ public unsafe static partial class Compiler
         fixed (byte* shaderBytecodePtr = shaderBytecode)
         {
             Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr)!;
         }
     }
 
@@ -757,7 +757,7 @@ public unsafe static partial class Compiler
         fixed (byte* shaderBytecodePtr = shaderBytecode)
         {
             Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(nativePtr);
+            return MarshallingHelpers.FromPointer<T>(nativePtr)!;
         }
     }
 

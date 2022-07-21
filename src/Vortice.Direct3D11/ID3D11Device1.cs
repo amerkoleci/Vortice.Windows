@@ -29,7 +29,7 @@ public partial class ID3D11Device1
     public T OpenSharedResource1<T>(IntPtr handle) where T : ID3D11Resource
     {
         OpenSharedResource1(handle, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result OpenSharedResource1<T>(IntPtr handle, out T? resource) where T : ID3D11Resource
@@ -48,7 +48,7 @@ public partial class ID3D11Device1
     public T OpenSharedResourceByName<T>(string name, SharedResourceFlags access) where T : ID3D11Resource
     {
         OpenSharedResourceByName(name, (int)access, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result OpenSharedResourceByName<T>(string name, SharedResourceFlags access, out T? resource) where T : ID3D11Resource

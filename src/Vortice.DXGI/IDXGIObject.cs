@@ -52,6 +52,6 @@ public unsafe partial class IDXGIObject
     public T GetParent<T>() where T : ComObject
     {
         GetParent(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 }

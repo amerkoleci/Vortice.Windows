@@ -10,7 +10,7 @@ public partial class ID3D11On12Device2
     public T UnwrapUnderlyingResource<T>(ID3D11Resource resource, ComObject commandQueue) where T : ComObject
     {
         UnwrapUnderlyingResource(resource, commandQueue, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result UnwrapUnderlyingResource<T>(ID3D11Resource resource, ComObject commandQueue, out T? resource12) where T : ComObject

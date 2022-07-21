@@ -32,7 +32,7 @@ public partial class IDXGIFactory4
     public T EnumWarpAdapter<T>() where T : IDXGIAdapter
     {
         EnumWarpAdapter(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -63,6 +63,6 @@ public partial class IDXGIFactory4
     public T EnumAdapterByLuid<T>(Luid adapterLuid) where T : IDXGIAdapter
     {
         EnumAdapterByLuid(adapterLuid, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 }
