@@ -5,6 +5,7 @@ Current Stable Release:    2.1.19 (May 2022)
 -----------------------------------------------
 Release:     2.2.X (August 2022)
 -----------------------------------------------
+- [ENH] XAudio2: Add XAPO support.
 - [FIX] Direct3D11: FIX bug with marshalling and unset methods in ID3D11DeviceContext.
 - [ENH] Direct3D12: Update headers to Agility SDK 1.606.3.
 - [ENH] Dxc: Update DX Compiler to July 2022 release, add ARM64 support

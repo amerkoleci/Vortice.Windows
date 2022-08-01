@@ -3,11 +3,11 @@
 
 namespace Vortice.XAudio2.Fx;
 
-public static partial class Fx
+public static unsafe partial class Fx
 {
     public static ReverbParameters ReverbConvertI3DL2ToNative(ReverbI3DL2Parameters I3DL2Parameters, bool sevenDotOneReverb = true)
     {
-        ReverbParameters result = new ReverbParameters();
+        ReverbParameters result = new();
 
         float reflectionsDelay;
         float reverbDelay;
@@ -34,8 +34,8 @@ public static partial class Fx
         result.HighEQCutoff = 6;
 
         // The rest of the I3DL2 parameters map to the native property set
-        result.RoomFilterMain = (float)I3DL2Parameters.Room / 100.0f;
-        result.RoomFilterHF = (float)I3DL2Parameters.RoomHF / 100.0f;
+        result.RoomFilterMain = I3DL2Parameters.Room / 100.0f;
+        result.RoomFilterHF = I3DL2Parameters.RoomHF / 100.0f;
 
         if (I3DL2Parameters.DecayHFRatio >= 1.0f)
         {
@@ -57,7 +57,7 @@ public static partial class Fx
         reflectionsDelay = I3DL2Parameters.ReflectionsDelay * 1000.0f;
         if (reflectionsDelay >= ReverbMaxReflectionsDelay) // 300
         {
-            reflectionsDelay = (float)(ReverbMaxReflectionsDelay - 1);
+            reflectionsDelay = ReverbMaxReflectionsDelay - 1;
         }
         else if (reflectionsDelay <= 1)
         {
@@ -84,57 +84,45 @@ public static partial class Fx
         return result;
     }
 
-    public static Result CreateAudioVolumeMeter<T>(out T? volumeMeter) where T : ComObject
+    public static Result XAudio2CreateVolumeMeter(out ComObject? volumeMeter) 
     {
-        unsafe
+        IntPtr reverbPtr = default;
+        Result result = XAudio2Native.CreateAudioVolumeMeter(0u, &reverbPtr);
+        if (result.Failure)
         {
-            IntPtr reverbPtr = default;
-            Result result = XAudio2Native.CreateAudioVolumeMeter(0u, &reverbPtr);
-            if (result.Failure)
-            {
-                volumeMeter = default;
-                return result;
-            }
-
-            volumeMeter = MarshallingHelpers.FromPointer<T>(reverbPtr);
+            volumeMeter = default;
             return result;
         }
+
+        volumeMeter = new(reverbPtr);
+        return result;
     }
 
-    public static T CreateAudioVolumeMeter<T>() where T : ComObject
+    public static ComObject XAudio2CreateVolumeMeter()
     {
-        unsafe
-        {
-            IntPtr reverbPtr = default;
-            XAudio2Native.CreateAudioVolumeMeter(0u, &reverbPtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(reverbPtr);
-        }
+        IntPtr reverbPtr = default;
+        XAudio2Native.CreateAudioVolumeMeter(0u, &reverbPtr).CheckError();
+        return new(reverbPtr)!;
     }
 
-    public static Result CreateAudioReverb<T>(out T? reverb) where T : ComObject
+    public static Result XAudio2CreateReverb(out ComObject? reverb)
     {
-        unsafe
+        IntPtr reverbPtr = default;
+        Result result = XAudio2Native.CreateAudioReverb(0u, &reverbPtr);
+        if (result.Failure)
         {
-            IntPtr reverbPtr = default;
-            Result result = XAudio2Native.CreateAudioReverb(0u, &reverbPtr);
-            if (result.Failure)
-            {
-                reverb = default;
-                return result;
-            }
-
-            reverb = MarshallingHelpers.FromPointer<T>(reverbPtr);
+            reverb = default;
             return result;
         }
+
+        reverb = new(reverbPtr);
+        return result;
     }
 
-    public static T CreateAudioReverb<T>() where T : ComObject
+    public static ComObject XAudio2CreateReverb() 
     {
-        unsafe
-        {
-            IntPtr reverbPtr = default;
-            XAudio2Native.CreateAudioReverb(0u, &reverbPtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(reverbPtr);
-        }
+        IntPtr reverbPtr = default;
+        XAudio2Native.CreateAudioReverb(0u, &reverbPtr).CheckError();
+        return new ComObject(reverbPtr);
     }
 }

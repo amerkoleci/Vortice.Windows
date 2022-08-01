@@ -10,6 +10,13 @@
   <include file="xaudio2.h" attach="true" />
   <include file="xaudio2fx.h" attach="true" namespace="Vortice.XAudio2.Fx" />
   <include file="x3daudio.h" attach="true" />
+  <include file="xapo.h" attach="true" namespace="Vortice.XAPO" >
+    <!-- Define XAPO_FLAG_DEFAULT -->
+    <post>
+      #define XAPO_FLAG_DEFAULT (XAPO_FLAG_CHANNELS_MUST_MATCH|XAPO_FLAG_FRAMERATE_MUST_MATCH|XAPO_FLAG_BITSPERSAMPLE_MUST_MATCH|XAPO_FLAG_BUFFERCOUNT_MUST_MATCH|XAPO_FLAG_INPLACE_SUPPORTED)
+    </post>
+  </include>
+  <include file="xapofx.h" attach="true" namespace="Vortice.XAPO" />
 
   <extension>
     <create class="Vortice.XAudio2.XAudio2" visibility="public static"/>
@@ -112,6 +119,20 @@
     <const from-macro="XAUDIO2FX_REVERB_DEFAULT_DENSITY"           type="float" cpp-type="float" name="ReverbDefaultDensity" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
     <const from-macro="XAUDIO2FX_REVERB_DEFAULT_ROOM_SIZE"         type="float" cpp-type="float" name="ReverbDefaultRoomSize" class="Vortice.XAudio2.Fx.Fx" visibility="public const" />
 
+    <!-- XAPO -->
+    <create-cpp enum="XAPO_PROPERTY_TYPE" macro="XAPO_FLAG_(.*)" />
+    <create class="Vortice.XAPO.XAPO" />
+    
+    <const from-guid="CLSID_FXEQ" class="Vortice.XAPO.XAPO" type="System.Guid">new System.Guid("$1")</const>
+    <const from-guid="CLSID_FXMasteringLimiter" class="Vortice.XAPO.XAPO" type="System.Guid" >new System.Guid("$1")</const>
+    <const from-guid="CLSID_FXReverb" class="Vortice.XAPO.XAPO" type="System.Guid" >new System.Guid("$1")</const>
+    <const from-guid="CLSID_FXEcho" class="Vortice.XAPO.XAPO" type="System.Guid" >new System.Guid("$1")</const>
+
+    <const from-macro="FXMASTERINGLIMITER_(.*)" class="Vortice.XAPO.XAPO" type="int" name="$1" />
+    <const from-macro="FXEQ_(.*)" class="Vortice.XAPO.XAPO" type="float" name="$1" />
+    <const from-macro="FXREVERB_(.*)" class="Vortice.XAPO.XAPO" type="float" name="$1" />
+    <const from-macro="FXECHO_(.*)" class="Vortice.XAPO.XAPO" type="float" name="$1" />
+
   </extension>
 
   <bindings>
@@ -119,6 +140,12 @@
     <bind from="X3DAUDIOHANDLE" to="Vortice.XAudio2.X3DAudioHandle" />
     <bind from="X3DAUDIO_VECTOR" to="System.Numerics.Vector3"/>
   </bindings>
+
+  <naming>
+    <short name="BITSPERSAMPLE">BitsPerSample</short>
+    <short name="BUFFERCOUNT">BufferCount</short>
+    <short name="INPLACE">InPlace</short>
+  </naming>
 
   <mapping>
     <!-- Enums -->
@@ -132,7 +159,6 @@
     <map enum-item="XAUDIO2_VOICE_NOPITCH" name="NoPitch"/>
     <map enum-item="XAUDIO2_VOICE_NOSRC" name="NoSampleRateConversion"/>
     <map enum-item="XAUDIO2_VOICE_USEFILTER" name="UseFilter"/>
-    <map enum-item="XAUDIO2_VOICE_MUSIC" name="Music"/>
     <map enum-item="XAUDIO2_SEND_(USEFILTER)" name="UseFilter"/>
 
     <!-- Structs -->
@@ -185,8 +211,6 @@
     <map field="XAUDIO2FX_VOLUMEMETER_LEVELS::pRMSLevels" visibility="internal" />
 
     <!-- IXAudio2 -->
-    <map method="IXAudio2::Initialize" visibility="internal" />
-    <map method="IXAudio2::GetDeviceDetails" visibility="internal" />
     <map method="IXAudio2::Create.*" visibility="internal" />
     <map param="IXAudio2::CreateSourceVoice::Flags" type="XAUDIO2_VOICE_FLAGS" />
     <map param="IXAudio2::CreateSourceVoice::pSourceFormat" type="void" />
@@ -220,7 +244,6 @@
 
     <!-- X3DAudio -->
     <!-- Enums -->
-    <map enum="X3DAUDIO(.*)" name-tmp="$1" />
     <map enum="X3DAudioCalculateFlags" name="CalculateFlags" flags="true"/>
     <map enum-item="X3DAUDIO_CALCULATE_(.*)" name-tmp="$1" />
     <map enum-item="X3DAUDIO_CALCULATE_ZEROCENTER" name="ZeroCenter"/>
@@ -243,12 +266,39 @@
     <map field="X3DAUDIO_DSP_SETTINGS::SrcChannelCount" name="SourceChannelCount" visibility="public readonly"/>
     <map field="X3DAUDIO_DSP_SETTINGS::DstChannelCount" name="DestinationChannelCount" visibility="public readonly"/>
 
-    <map field=".*::LFE(.*)" name="Lfe$1"/>
     <map field=".*::LPF(.*)" name="Lpf$1"/>
 
     <map struct="XAUDIO2FX_VOLUMEMETER_LEVELS" name="VolumeMeterLevels" struct-to-class="true" marshal="true" />
     <remove field="XAUDIO2FX_VOLUMEMETER_LEVELS::.*"/>
 
     <remove function="X3DAudio.*"/>
+
+    <!-- XAPO -->
+    <map enum="XAPO_(.*)" name-tmp="$1" />
+    <map enum="XAPO_PROPERTY_TYPE" name="PropertyFlags" namespace="Vortice.XAPO" flags="true" />
+    <map enum-item="XAPO_FLAG_(.*)" name-tmp="$1" />
+
+    <map struct="XAPO_(.*)" name-tmp="$1" />
+    <map struct="FX(.*)" name-tmp="$1" />
+
+    <map struct="FXECHO_INITDATA" name-tmp="EchoInitData" />
+    <map struct="FXEQ_PARAMETERS" name-tmp="EqualizerParameters" />
+    <map struct="FXMASTERINGLIMITER_PARAMETERS" name="MasteringLimiterParameters" />
+
+    <map struct="XAPO_REGISTRATION_PROPERTIES" name="RegistrationProperties" />
+    <map field="XAPO_REGISTRATION_PROPERTIES::Flags" type="XAPO_PROPERTY_TYPE" />
+
+    <map struct="XAPO_PROCESS_BUFFER_PARAMETERS" name="ProcessBufferParameters" />
+    <map field="XAPO_PROCESS_BUFFER_PARAMETERS::pBuffer" name="Buffer" />
+    
+    <map struct="XAPO_LOCKFORPROCESS_BUFFER_PARAMETERS" name="LockParameters" />
+    <map struct="XAPO_LOCKFORPROCESS_BUFFER_PARAMETERS" native="true" struct-to-class="false" marshal="true" new="false" />
+    <map field="XAPO_LOCKFORPROCESS_BUFFER_PARAMETERS::pFormat" visibility="internal" />
+    <map field="XAPO_LOCKFORPROCESS_BUFFER_PARAMETERS::pFormat" name="FormatPointer" />
+
+    <map interface="IXAPO" name="IXAPO" />
+    
+    <map function="CreateFX" dll='"xaudio2_9.dll"' group="Vortice.XAPO.XAPO" visibility="internal" hresult="true" check="false"/> />
+    <map param="CreateFX::pInitDat" type="void" keep-pointers="true" />
   </mapping>
 </config>

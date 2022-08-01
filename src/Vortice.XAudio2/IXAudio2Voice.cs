@@ -6,7 +6,7 @@ using Vortice.XAudio2.Fx;
 
 namespace Vortice.XAudio2;
 
-public partial class IXAudio2Voice
+public unsafe partial class IXAudio2Voice
 {
     /// <summary>	
     /// Gets or Sets the overall volume level for the voice.	
@@ -226,23 +226,23 @@ public partial class IXAudio2Voice
     /// <param name="effectIndex">Zero-based index of an effect within the voice's effect chain.</param>
     /// <param name="effectParameter">The current values of the effect-specific parameters.</param>
     /// <param name="operationSet">Identifies this call as part of a deferred batch.</param>
-    public unsafe Result SetEffectParameters<T>(int effectIndex, T effectParameter, int operationSet = 0) where T : unmanaged
+    public Result SetEffectParameters<T>(int effectIndex, T effectParameter, int operationSet = 0) where T : unmanaged
     {
         return SetEffectParameters(effectIndex, new IntPtr(&effectParameter), sizeof(T), operationSet);
     }
 
-    public unsafe Result SetEffectParameters(int effectIndex, ReverbParameters reverbParameters, int operationSet = 0)
+    public Result SetEffectParameters(int effectIndex, ReverbParameters reverbParameters, int operationSet = 0)
     {
         return SetEffectParameters(effectIndex, new IntPtr(&reverbParameters), sizeof(ReverbParameters), operationSet);
     }
 
-    public unsafe Result SetEffectParameters(int effectIndex, ReverbI3DL2Parameters reverbParameters, bool sevenDotOneReverb = true, int operationSet = 0)
+    public Result SetEffectParameters(int effectIndex, ReverbI3DL2Parameters reverbParameters, bool sevenDotOneReverb = true, int operationSet = 0)
     {
         ReverbParameters reverbParametersNative = Fx.Fx.ReverbConvertI3DL2ToNative(reverbParameters, sevenDotOneReverb);
         return SetEffectParameters(effectIndex, new IntPtr(&reverbParametersNative), sizeof(ReverbParameters), operationSet);
     }
 
-    public unsafe Result SetEffectParameters(int effectIndex, VolumeMeterLevels meterLevels, int operationSet = 0)
+    public Result SetEffectParameters(int effectIndex, VolumeMeterLevels meterLevels, int operationSet = 0)
     {
         VolumeMeterLevels.__Native native = default;
         meterLevels.__MarshalTo(ref native);
