@@ -12,10 +12,10 @@ public static partial class DxcCompiler
     {
         if (includeHandler == null)
         {
-            includeHandler = Utils!.CreateDefaultIncludeHandler();
+            includeHandler = Utils.CreateDefaultIncludeHandler();
             try
             {
-                return Compiler!.Compile(shaderSource, arguments, includeHandler);
+                return Compiler.Compile(shaderSource, arguments, includeHandler);
             }
             finally
             {
@@ -24,7 +24,7 @@ public static partial class DxcCompiler
         }
         else
         {
-            return Compiler!.Compile(shaderSource, arguments, includeHandler);
+            return Compiler.Compile(shaderSource, arguments, includeHandler);
         }
     }
 
@@ -228,20 +228,26 @@ public static partial class DxcCompiler
             case DxcShaderStage.Vertex:
                 shaderProfile = "vs";
                 break;
-            case DxcShaderStage.Pixel:
-                shaderProfile = "ps";
-                break;
-            case DxcShaderStage.Geometry:
-                shaderProfile = "gs";
-                break;
             case DxcShaderStage.Hull:
                 shaderProfile = "hs";
                 break;
             case DxcShaderStage.Domain:
                 shaderProfile = "ds";
                 break;
+            case DxcShaderStage.Geometry:
+                shaderProfile = "gs";
+                break;
+            case DxcShaderStage.Pixel:
+                shaderProfile = "ps";
+                break;
             case DxcShaderStage.Compute:
                 shaderProfile = "cs";
+                break;
+            case DxcShaderStage.Amplification:
+                shaderProfile = "as";
+                break;
+            case DxcShaderStage.Mesh:
+                shaderProfile = "ms";
                 break;
             case DxcShaderStage.Library:
                 shaderProfile = "lib";
