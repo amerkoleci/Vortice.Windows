@@ -18,10 +18,10 @@ public static class FormatHelper
     public const Format Xbox_R4G4_UNorm = (Format)190;
 
     /// <summary>
-    /// Calculates the size of a <see cref="Format"/> in bytes. Can be 0 for compressed format (as they are less than 1 byte)
+    /// Return the BPP for a given <see cref="Format"/>.
     /// </summary>
     /// <param name="format">The DXGI format.</param>
-    /// <returns>size of in bytes</returns>
+    /// <returns>BPP of </returns>
     public static int BitsPerPixel(this Format format)
     {
         switch (format)
