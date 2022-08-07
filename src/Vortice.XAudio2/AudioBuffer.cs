@@ -75,7 +75,7 @@ public partial class AudioBuffer : IDisposable
     public static unsafe AudioBuffer Create<T>(ReadOnlySpan<T> data, BufferFlags flags = BufferFlags.EndOfStream) where T : unmanaged
     {
         int sizeInBytes = data.Length * sizeof(T);
-        void* dataPtr = MemoryHelpers.AllocateMemory((nuint)data.Length);
+        void* dataPtr = MemoryHelpers.AllocateMemory((nuint)sizeInBytes);
         MemoryHelpers.CopyMemory(dataPtr, data);
         return new AudioBuffer(flags, dataPtr, sizeInBytes, true);
     }
