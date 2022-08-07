@@ -1,0 +1,15 @@
+﻿SpaceVehicleFlyby.wav
+
+Source: GDC 2016 Game Audio Bundle
+Licence : Royalty free. Without attribution.
+Contact: timothy@sonniss.com
+
+file type       audio / wav
+Encoding        Microsoft PCM
+Codec name      pcm_s24le
+Codec long name PCM signed 24-bit little-endian
+Channels        2
+SampleRate      96000
+Bits / Sample   24
+Duration        3.976052
+Bitrate         4608000
