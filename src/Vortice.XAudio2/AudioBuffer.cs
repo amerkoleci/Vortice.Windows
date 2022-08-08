@@ -4,11 +4,12 @@
 using System.Runtime.CompilerServices;
 
 namespace Vortice.XAudio2;
-public partial class AudioBuffer : IDisposable
+
+public unsafe partial class AudioBuffer : IDisposable
 {
     private readonly bool _ownsBuffer;
 
-    private unsafe AudioBuffer(BufferFlags flags, void* data, int sizeInBytes, bool ownsBuffer)
+    private AudioBuffer(BufferFlags flags, void* data, int sizeInBytes, bool ownsBuffer)
     {
         Flags = flags;
         AudioBytes = sizeInBytes;
@@ -30,19 +31,19 @@ public partial class AudioBuffer : IDisposable
         _ownsBuffer = false;
     }
 
-    public unsafe AudioBuffer(int sizeInBytes, BufferFlags flags = BufferFlags.EndOfStream)
+    public AudioBuffer(int sizeInBytes, BufferFlags flags = BufferFlags.EndOfStream)
     {
         Flags = flags;
         AudioBytes = sizeInBytes;
-        AudioDataPointer = new IntPtr(MemoryHelpers.AllocateMemory((nuint)sizeInBytes));
+        AudioDataPointer = (IntPtr)MemoryHelpers.AllocateMemory((nuint)sizeInBytes);
         _ownsBuffer = true;
     }
 
-    public unsafe AudioBuffer(byte[] data, BufferFlags flags = BufferFlags.EndOfStream)
+    public AudioBuffer(byte[] data, BufferFlags flags = BufferFlags.EndOfStream)
     {
         Flags = flags;
         AudioBytes = data.Length;
-        AudioDataPointer = new IntPtr(MemoryHelpers.AllocateMemory((nuint)data.Length));
+        AudioDataPointer = (IntPtr)MemoryHelpers.AllocateMemory((nuint)data.Length);
         fixed (void* dataPtr = &data[0])
         {
             Unsafe.CopyBlockUnaligned(AudioDataPointer.ToPointer(), dataPtr, (uint)data.Length);
@@ -60,19 +61,21 @@ public partial class AudioBuffer : IDisposable
     {
         int length = (int)stream.Length - (int)stream.Position;
 
-        unsafe
-        {
-            AudioDataPointer = new(MemoryHelpers.AllocateMemory((nuint)length));
-            MemoryHelpers.CopyMemory(AudioDataPointer, stream.PositionPointer, length);
-        }
+        AudioDataPointer = new(MemoryHelpers.AllocateMemory((nuint)length));
+        MemoryHelpers.CopyMemory(AudioDataPointer, stream.PositionPointer, length);
 
         Flags = flags;
         AudioBytes = (int)stream.Length;
-
         _ownsBuffer = true;
     }
 
-    public static unsafe AudioBuffer Create<T>(ReadOnlySpan<T> data, BufferFlags flags = BufferFlags.EndOfStream) where T : unmanaged
+    public static AudioBuffer Create<T>(T[] data, BufferFlags flags = BufferFlags.EndOfStream) where T : unmanaged
+    {
+        ReadOnlySpan<T> span = data.AsSpan();
+        return Create(span, flags);
+    }
+
+    public static AudioBuffer Create<T>(ReadOnlySpan<T> data, BufferFlags flags = BufferFlags.EndOfStream) where T : unmanaged
     {
         int sizeInBytes = data.Length * sizeof(T);
         void* dataPtr = MemoryHelpers.AllocateMemory((nuint)sizeInBytes);
@@ -88,5 +91,12 @@ public partial class AudioBuffer : IDisposable
             MemoryHelpers.FreeMemory(AudioDataPointer);
             AudioDataPointer = IntPtr.Zero;
         }
+    }
+
+    public Span<byte> AsSpan() => new(AudioDataPointer.ToPointer(), AudioBytes);
+
+    public Span<T> AsSpan<T>() where T : unmanaged
+    {
+        return new(AudioDataPointer.ToPointer(), AudioBytes / sizeof(T));
     }
 }

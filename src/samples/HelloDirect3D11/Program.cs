@@ -58,7 +58,7 @@ public static class Program
         private unsafe void SaveScreenshot(string path, ContainerFormat format = ContainerFormat.Jpeg)
         {
             var d3d11GraphicsDevice = ((D3D11GraphicsDevice)_graphicsDevice!);
-            ID3D11Texture2D source = Headless ? d3d11GraphicsDevice!.OffscreenTexture : d3d11GraphicsDevice!.BackBufferTexture;
+            ID3D11Texture2D source = Headless ? d3d11GraphicsDevice!.OffscreenTexture! : d3d11GraphicsDevice!.BackBufferTexture!;
 
             path = Path.Combine(AppContext.BaseDirectory, path);
 
