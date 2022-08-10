@@ -11,5 +11,5 @@ public enum RegisterComponentMaskFlags : byte
     ComponentY = 2,
     ComponentZ = 4,
     ComponentW = 8,
-    All
+    All = ComponentX | ComponentY | ComponentZ | ComponentW,
 }
