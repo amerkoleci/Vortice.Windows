@@ -161,7 +161,7 @@ public readonly struct FourCC : IEquatable<FourCC>, IFormattable
     /// <param name="formatProvider">The format provider for formatting
     /// numbers.</param>
     /// <returns>The requested string representation.</returns>
-    /// <exception cref="System.FormatException">In case of
+    /// <exception cref="FormatException">In case of
     /// <paramref name="format"/> is not "G", "I" or a valid number
     /// format.</exception>
     public string ToString(string format, IFormatProvider formatProvider)

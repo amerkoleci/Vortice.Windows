@@ -23,7 +23,6 @@ public partial class ID3D11InfoQueue
         return message;
     }
 
-
     public unsafe InfoQueueFilter? GetStorageFilter()
     {
         PointerSize sizeFilter = PointerSize.Zero;

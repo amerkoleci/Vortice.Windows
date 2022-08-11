@@ -99,7 +99,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.UIAnimation", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XAudio2", "XAudio2", "{EE9A8210-CCAF-425A-9ABA-6B73BCF8AC91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloXAudio2", "HelloXAudio2\HelloXAudio2.csproj", "{A08D15FF-01C6-49BF-A3BA-BC2EA32435BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloXAudio2", "src\samples\HelloXAudio2\HelloXAudio2.csproj", "{A08D15FF-01C6-49BF-A3BA-BC2EA32435BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

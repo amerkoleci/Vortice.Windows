@@ -31,7 +31,7 @@ public partial class IDXCoreAdapterFactory
     public T CreateAdapterList<T>(int numAttributes, Guid[] filterAttributes) where T : IDXCoreAdapterList
     {
         CreateAdapterList(numAttributes, filterAttributes, typeof(T).GUID, out IntPtr adapterListPtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(adapterListPtr);
+        return MarshallingHelpers.FromPointer<T>(adapterListPtr)!;
     }
 
     public Result GetAdapterByLuid<T>(Luid adapterLUID, out T? adapter) where T : IDXCoreAdapter

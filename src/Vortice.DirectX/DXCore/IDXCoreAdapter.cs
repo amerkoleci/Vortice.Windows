@@ -33,7 +33,7 @@ public unsafe partial class IDXCoreAdapter
     public T GetFactory<T>() where T : IDXCoreAdapterFactory
     {
         GetFactory(typeof(T).GUID, out IntPtr factoryPtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(factoryPtr);
+        return MarshallingHelpers.FromPointer<T>(factoryPtr)!;
     }
 
     public Result GetFactory<T>(out T? factory) where T : IDXCoreAdapterFactory

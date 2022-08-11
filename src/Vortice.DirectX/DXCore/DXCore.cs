@@ -45,6 +45,6 @@ public static partial class DXCore
     public static T DXCoreCreateAdapterFactory<T>() where T : IDXCoreAdapterFactory
     {
         DXCoreCreateAdapterFactory(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 }

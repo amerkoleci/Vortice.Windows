@@ -8,7 +8,7 @@ public partial class IDXCoreAdapterList
     public T GetAdapter<T>(int index) where T : IDXCoreAdapter
     {
         GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(adapterPtr);
+        return MarshallingHelpers.FromPointer<T>(adapterPtr)!;
     }
 
     public Result GetAdapter<T>(int index, out T? adapter) where T : IDXCoreAdapter
@@ -27,7 +27,7 @@ public partial class IDXCoreAdapterList
     public T GetFactory<T>() where T : IDXCoreAdapterFactory
     {
         GetFactory(typeof(T).GUID, out IntPtr factoryPtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(factoryPtr);
+        return MarshallingHelpers.FromPointer<T>(factoryPtr)!;
     }
 
     public Result GetFactory<T>(out T? factory) where T : IDXCoreAdapterFactory

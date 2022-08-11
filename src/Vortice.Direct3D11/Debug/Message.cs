@@ -1,8 +1,6 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.InteropServices;
-
 namespace Vortice.Direct3D11.Debug;
 
 public partial struct Message
@@ -21,7 +19,7 @@ public partial struct Message
         public MessageSeverity Severity;
         public MessageId Id;
         public unsafe sbyte* pDescription;
-        public nint DescriptionByteLength;
+        public PointerSize DescriptionByteLength;
     }
 
     internal unsafe void __MarshalFrom(ref __Native @ref)

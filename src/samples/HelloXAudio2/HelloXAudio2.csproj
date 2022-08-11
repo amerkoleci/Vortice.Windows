@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Vortice.XAudio2\Vortice.XAudio2.csproj" />
+    <ProjectReference Include="..\..\Vortice.XAudio2\Vortice.XAudio2.csproj" />
   </ItemGroup>
 
 </Project>

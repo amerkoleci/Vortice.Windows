@@ -13,12 +13,12 @@ public partial struct Message
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal struct __Native
+    internal unsafe struct __Native
     {
         public MessageCategory Category;
         public MessageSeverity Severity;
         public MessageId Id;
-        public IntPtr PDescription;
+        public sbyte* pDescription;
         public PointerSize DescriptionByteLength;
     }
 
@@ -27,7 +27,7 @@ public partial struct Message
         Category = @ref.Category;
         Severity = @ref.Severity;
         Id = @ref.Id;
-        Description = (@ref.PDescription == IntPtr.Zero) ? null : Marshal.PtrToStringAnsi(@ref.PDescription, @ref.DescriptionByteLength);
+        Description = (@ref.pDescription == null) ? null : new string(@ref.pDescription, 0, (int)@ref.DescriptionByteLength);
         DescriptionByteLength = @ref.DescriptionByteLength;
     }
     #endregion Marshal
