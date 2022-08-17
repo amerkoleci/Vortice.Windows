@@ -1,7 +1,6 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Runtime.CompilerServices;
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12;
@@ -453,16 +452,31 @@ public unsafe partial class ID3D12GraphicsCommandList
     }
     #endregion
 
-    public void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
+    /// <summary>
+    /// Sets the graphics render target and/or the depth/stencil target.
+    /// </summary>
+    /// <param name="renderTargetDescriptor"> A descriptor handle that points to the render target. This should have
+    /// been created using <see cref="ID3D12Device.CreateRenderTargetView"/>. Can be <c>null</c> to unbind the render
+    /// target. </param>
+    /// <param name="depthStencilDescriptor"> A descriptor handle that points to the depth/stencil target. This should
+    /// have been created using <see cref="ID3D12Device.CreateDepthStencilView"/>. Can be <c>null</c> to unbind the
+    /// depth/stencil target. </param>
+    public void OMSetRenderTargets(CpuDescriptorHandle? renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
     {
-        OMSetRenderTargets(1, &renderTargetDescriptor, false, depthStencilDescriptor);
+        if (renderTargetDescriptor == null)
+            OMSetRenderTargets(0, null, false, depthStencilDescriptor);
+        else
+            OMSetRenderTargets(1, &renderTargetDescriptor, false, depthStencilDescriptor);
     }
 
-    public void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, bool RTsSingleHandleToDescriptorRange, CpuDescriptorHandle? depthStencilDescriptor = null)
-    {
-        OMSetRenderTargets(1, &renderTargetDescriptor, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
-    }
-
+    /// <summary>
+    /// Sets an array of graphics render targets and/or the depth/stencil target.
+    /// </summary>
+    /// <param name="renderTargetDescriptors"> An array of descriptor handles that point to the render targets. Each
+    /// handle should have been created using <see cref="ID3D12Device.CreateRenderTargetView"/>. </param>
+    /// <param name="depthStencilDescriptor"> A descriptor handle that points to the depth/stencil target. This should
+    /// have been created using <see cref="ID3D12Device.CreateDepthStencilView"/>. Can be <c>null</c> to unbind the
+    /// depth/stencil target. </param>
     public void OMSetRenderTargets(CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
     {
         fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
@@ -471,28 +485,34 @@ public unsafe partial class ID3D12GraphicsCommandList
         }
     }
 
-    public void OMSetRenderTargets(CpuDescriptorHandle[] renderTargetDescriptors, bool RTsSingleHandleToDescriptorRange, CpuDescriptorHandle? depthStencilDescriptor = null)
+    /// <summary>
+    /// Sets an array of graphics render targets and/or the depth/stencil target.
+    /// </summary>
+    /// <param name="renderTargetDescriptors"> A read-only list of descriptor handles that point to the render targets.
+    /// Each handle should have been created using <see cref="ID3D12Device.CreateRenderTargetView"/>. </param>
+    /// <param name="depthStencilDescriptor"> A descriptor handle that points to the depth/stencil target. This should
+    /// have been created using <see cref="ID3D12Device.CreateDepthStencilView"/>. Can be <c>null</c> to unbind the
+    /// depth/stencil target. </param>
+    public void OMSetRenderTargets(ReadOnlySpan<CpuDescriptorHandle> renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
     {
         fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
         {
-            OMSetRenderTargets(renderTargetDescriptors.Length, renderTargetDescriptorsPtr, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
+            OMSetRenderTargets(renderTargetDescriptors.Length, renderTargetDescriptorsPtr, false, depthStencilDescriptor);
         }
     }
 
-    public void OMSetRenderTargets(int renderTargetDescriptorsCount, CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
+    /// <summary>
+    /// Sets an array of graphics render targets and/or the depth/stencil target.
+    /// </summary>
+    /// <param name="numRenderTargetDescriptors"> The number of render targets to set. </param>
+    /// <param name="firstRenderTargetDescriptor"> A descriptor handle that points to the first render target. This
+    /// handle should be the first in a contiguous set of descriptors. </param>
+    /// <param name="depthStencilDescriptor"> A descriptor handle that points to the depth/stencil target. This should
+    /// have been created using <see cref="ID3D12Device.CreateDepthStencilView"/>. Can be <c>null</c> to unbind the
+    /// depth/stencil target. </param>
+    public void OMSetRenderTargets(int numRenderTargetDescriptors, CpuDescriptorHandle firstRenderTargetDescriptor,  CpuDescriptorHandle? depthStencilDescriptor = null)
     {
-        fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
-        {
-            OMSetRenderTargets(renderTargetDescriptorsCount, renderTargetDescriptorsPtr, false, depthStencilDescriptor);
-        }
-    }
-
-    public void OMSetRenderTargets(int renderTargetDescriptorsCount, CpuDescriptorHandle[] renderTargetDescriptors, bool RTsSingleHandleToDescriptorRange, CpuDescriptorHandle? depthStencilDescriptor = null)
-    {
-        fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
-        {
-            OMSetRenderTargets(renderTargetDescriptorsCount, renderTargetDescriptorsPtr, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
-        }
+        OMSetRenderTargets(numRenderTargetDescriptors, &firstRenderTargetDescriptor, true, depthStencilDescriptor);
     }
 
     #region IASetVertexBuffers
