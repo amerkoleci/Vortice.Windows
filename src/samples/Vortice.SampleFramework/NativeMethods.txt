@@ -13,6 +13,7 @@ ShowWindow
 GetSystemMetrics
 AdjustWindowRectEx
 GetClientRect
+GetWindowRect
 IDC_ARROW
 WM_KEYDOWN
 WM_KEYUP

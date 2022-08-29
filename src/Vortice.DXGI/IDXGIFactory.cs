@@ -5,17 +5,43 @@ namespace Vortice.DXGI;
 
 public partial class IDXGIFactory
 {
-    /// <summary>
-    /// Get an instance of <see cref="IDXGIAdapter"/> or null if not found.
-    /// </summary>
-    /// <remarks>
-    /// Make sure to dispose the <see cref="IDXGIAdapter"/> instance.
-    /// </remarks>
-    /// <param name="index">The index to get from.</param>
-    /// <returns>Instance of <see cref="IDXGIAdapter"/> or null if not found.</returns>
-    public IDXGIAdapter GetAdapter(int index)
+    private List<IDXGIAdapter>? _adapters;
+
+    protected override void NativePointerUpdated(IntPtr oldNativePointer)
     {
-        EnumAdapters(index, out IDXGIAdapter adapter).CheckError();
-        return adapter;
+        base.NativePointerUpdated(oldNativePointer);
+        if (oldNativePointer != IntPtr.Zero)
+        {
+            if (_adapters != null)
+            {
+                foreach (IDXGIAdapter adapter in _adapters)
+                {
+                    MemoryHelpers.Dispose(adapter, true);
+                }
+
+                _adapters.Clear();
+                _adapters = default;
+            }
+        }
+    }
+
+    public IEnumerable<IDXGIAdapter> EnumAdapters()
+    {
+        if (_adapters == null)
+        {
+            _adapters = new List<IDXGIAdapter>();
+            while (true)
+            {
+                Result result = EnumAdapters(_adapters.Count, out IDXGIAdapter? adapter);
+                if (result.Failure || adapter == null)
+                {
+                    break;
+                }
+
+                _adapters.Add(adapter);
+            }
+        }
+
+        return _adapters!;
     }
 }

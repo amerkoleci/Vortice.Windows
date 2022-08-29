@@ -45,17 +45,23 @@ public readonly struct PipelineStateSubObjectTypeVertexShader : IPipelineStateSt
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
 
-    public PipelineStateSubObjectTypeVertexShader(ShaderBytecode bytecode)
+    public unsafe PipelineStateSubObjectTypeVertexShader(ReadOnlySpan<byte> byteCode)
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.VertexShader;
-        _type._inner = new ShaderBytecode.__Native();
-        bytecode.__MarshalTo(ref _type._inner);
+        fixed (byte* sourcePtr = byteCode)
+        {
+            _type._inner = new ShaderBytecode.__Native
+            {
+                pShaderBytecode = sourcePtr,
+                BytecodeLength = (nuint)byteCode.Length
+            };
+        }
     }
 
-    public static implicit operator PipelineStateSubObjectTypeVertexShader(ShaderBytecode bytecode)
+    public static implicit operator PipelineStateSubObjectTypeVertexShader(ReadOnlySpan<byte> byteCode)
     {
-        return new PipelineStateSubObjectTypeVertexShader(bytecode);
+        return new PipelineStateSubObjectTypeVertexShader(byteCode);
     }
 
     PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.VertexShader;
@@ -70,17 +76,24 @@ public readonly struct PipelineStateSubObjectTypePixelShader : IPipelineStateStr
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
 
-    public PipelineStateSubObjectTypePixelShader(ShaderBytecode bytecode)
+    public unsafe PipelineStateSubObjectTypePixelShader(ReadOnlySpan<byte> byteCode)
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.PixelShader;
         _type._inner = new ShaderBytecode.__Native();
-        bytecode.__MarshalTo(ref _type._inner);
+        fixed (byte* sourcePtr = byteCode)
+        {
+            _type._inner = new ShaderBytecode.__Native
+            {
+                pShaderBytecode = sourcePtr,
+                BytecodeLength = (nuint)byteCode.Length
+            };
+        }
     }
 
-    public static implicit operator PipelineStateSubObjectTypePixelShader(ShaderBytecode bytecode)
+    public static implicit operator PipelineStateSubObjectTypePixelShader(ReadOnlySpan<byte> byteCode)
     {
-        return new PipelineStateSubObjectTypePixelShader(bytecode);
+        return new PipelineStateSubObjectTypePixelShader(byteCode);
     }
 
     PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.PixelShader;
@@ -95,17 +108,24 @@ public readonly struct PipelineStateSubObjectTypeGeometryShader : IPipelineState
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
 
-    public PipelineStateSubObjectTypeGeometryShader(ShaderBytecode bytecode)
+    public unsafe PipelineStateSubObjectTypeGeometryShader(ReadOnlySpan<byte> byteCode)
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.GeometryShader;
         _type._inner = new ShaderBytecode.__Native();
-        bytecode.__MarshalTo(ref _type._inner);
+        fixed (byte* sourcePtr = byteCode)
+        {
+            _type._inner = new ShaderBytecode.__Native
+            {
+                pShaderBytecode = sourcePtr,
+                BytecodeLength = (nuint)byteCode.Length
+            };
+        }
     }
 
-    public static implicit operator PipelineStateSubObjectTypeGeometryShader(ShaderBytecode bytecode)
+    public static implicit operator PipelineStateSubObjectTypeGeometryShader(ReadOnlySpan<byte> byteCode)
     {
-        return new PipelineStateSubObjectTypeGeometryShader(bytecode);
+        return new PipelineStateSubObjectTypeGeometryShader(byteCode);
     }
 
     PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.GeometryShader;
@@ -145,17 +165,24 @@ public readonly struct PipelineStateSubObjectTypeHullShader : IPipelineStateStre
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
 
-    public PipelineStateSubObjectTypeHullShader(ShaderBytecode bytecode)
+    public unsafe PipelineStateSubObjectTypeHullShader(ReadOnlySpan<byte> byteCode)
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.HullShader;
         _type._inner = new ShaderBytecode.__Native();
-        bytecode.__MarshalTo(ref _type._inner);
+        fixed (byte* sourcePtr = byteCode)
+        {
+            _type._inner = new ShaderBytecode.__Native
+            {
+                pShaderBytecode = sourcePtr,
+                BytecodeLength = (nuint)byteCode.Length
+            };
+        }
     }
 
-    public static implicit operator PipelineStateSubObjectTypeHullShader(ShaderBytecode bytecode)
+    public static implicit operator PipelineStateSubObjectTypeHullShader(ReadOnlySpan<byte> byteCode)
     {
-        return new PipelineStateSubObjectTypeHullShader(bytecode);
+        return new PipelineStateSubObjectTypeHullShader(byteCode);
     }
 
     PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.HullShader;
@@ -170,17 +197,24 @@ public readonly struct PipelineStateSubObjectTypeDomainShader : IPipelineStateSt
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
 
-    public PipelineStateSubObjectTypeDomainShader(ShaderBytecode bytecode)
+    public unsafe PipelineStateSubObjectTypeDomainShader(ReadOnlySpan<byte> byteCode)
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.DomainShader;
         _type._inner = new ShaderBytecode.__Native();
-        bytecode.__MarshalTo(ref _type._inner);
+        fixed (byte* sourcePtr = byteCode)
+        {
+            _type._inner = new ShaderBytecode.__Native
+            {
+                pShaderBytecode = sourcePtr,
+                BytecodeLength = (nuint)byteCode.Length
+            };
+        }
     }
 
-    public static implicit operator PipelineStateSubObjectTypeDomainShader(ShaderBytecode bytecode)
+    public static implicit operator PipelineStateSubObjectTypeDomainShader(ReadOnlySpan<byte> byteCode)
     {
-        return new PipelineStateSubObjectTypeDomainShader(bytecode);
+        return new PipelineStateSubObjectTypeDomainShader(byteCode);
     }
 
     PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.DomainShader;
@@ -195,17 +229,24 @@ public readonly struct PipelineStateSubObjectTypeAmplificationShader : IPipeline
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
 
-    public PipelineStateSubObjectTypeAmplificationShader(ShaderBytecode bytecode)
+    public unsafe PipelineStateSubObjectTypeAmplificationShader(ReadOnlySpan<byte> byteCode)
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.AmplificationShader;
         _type._inner = new ShaderBytecode.__Native();
-        bytecode.__MarshalTo(ref _type._inner);
+        fixed (byte* sourcePtr = byteCode)
+        {
+            _type._inner = new ShaderBytecode.__Native
+            {
+                pShaderBytecode = sourcePtr,
+                BytecodeLength = (nuint)byteCode.Length
+            };
+        }
     }
 
-    public static implicit operator PipelineStateSubObjectTypeAmplificationShader(ShaderBytecode bytecode)
+    public static implicit operator PipelineStateSubObjectTypeAmplificationShader(ReadOnlySpan<byte> byteCode)
     {
-        return new PipelineStateSubObjectTypeAmplificationShader(bytecode);
+        return new PipelineStateSubObjectTypeAmplificationShader(byteCode);
     }
 
     PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.AmplificationShader;
@@ -220,17 +261,24 @@ public readonly struct PipelineStateSubObjectTypeMeshShader : IPipelineStateStre
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
 
-    public PipelineStateSubObjectTypeMeshShader(ShaderBytecode bytecode)
+    public unsafe PipelineStateSubObjectTypeMeshShader(ReadOnlySpan<byte> byteCode)
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.MeshShader;
         _type._inner = new ShaderBytecode.__Native();
-        bytecode.__MarshalTo(ref _type._inner);
+        fixed (byte* sourcePtr = byteCode)
+        {
+            _type._inner = new ShaderBytecode.__Native
+            {
+                pShaderBytecode = sourcePtr,
+                BytecodeLength = (nuint)byteCode.Length
+            };
+        }
     }
 
-    public static implicit operator PipelineStateSubObjectTypeMeshShader(ShaderBytecode bytecode)
+    public static implicit operator PipelineStateSubObjectTypeMeshShader(ReadOnlySpan<byte> byteCode)
     {
-        return new PipelineStateSubObjectTypeMeshShader(bytecode);
+        return new PipelineStateSubObjectTypeMeshShader(byteCode);
     }
 
     PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.MeshShader;
@@ -245,17 +293,24 @@ public readonly struct PipelineStateSubObjectTypeComputeShader : IPipelineStateS
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
 
-    public PipelineStateSubObjectTypeComputeShader(ShaderBytecode bytecode)
+    public unsafe PipelineStateSubObjectTypeComputeShader(ReadOnlySpan<byte> byteCode)
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.ComputeShader;
         _type._inner = new ShaderBytecode.__Native();
-        bytecode.__MarshalTo(ref _type._inner);
+        fixed (byte* sourcePtr = byteCode)
+        {
+            _type._inner = new ShaderBytecode.__Native
+            {
+                pShaderBytecode = sourcePtr,
+                BytecodeLength = (nuint)byteCode.Length
+            };
+        }
     }
 
-    public static implicit operator PipelineStateSubObjectTypeComputeShader(ShaderBytecode bytecode)
+    public static implicit operator PipelineStateSubObjectTypeComputeShader(ReadOnlySpan<byte> byteCode)
     {
-        return new PipelineStateSubObjectTypeComputeShader(bytecode);
+        return new PipelineStateSubObjectTypeComputeShader(byteCode);
     }
 
     PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.ComputeShader;
@@ -424,7 +479,7 @@ public readonly struct PipelineStateSubObjectTypeDepthStencil2 : IPipelineStateS
 
     public static implicit operator PipelineStateSubObjectTypeDepthStencil2(in DepthStencilDescription2 description)
     {
-        return new (description);
+        return new(description);
     }
 
     PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.DepthStencil2;

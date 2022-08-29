@@ -23,16 +23,13 @@ public unsafe partial class Blob
         return result;
     }
 
-    public Span<byte> AsSpan()
+    public ReadOnlySpan<byte> AsSpan()
     {
-        Span<byte> result = new byte[GetBufferSize()];
-        fixed (byte* pResult = result)
-        {
-            Unsafe.CopyBlockUnaligned(pResult, (void*)GetBufferPointer(), (uint)result.Length);
-        }
-
-        return result;
+        return new ReadOnlySpan<byte>(GetBufferPointer().ToPointer(), (int)GetBufferSize());
     }
 
-    
+    public ReadOnlyMemory<byte> AsMemory()
+    {
+        return new ReadOnlySpan<byte>(GetBufferPointer().ToPointer(), (int)GetBufferSize()).ToArray();
+    }
 }

@@ -22,7 +22,7 @@ public static class FormatHelper
     /// </summary>
     /// <param name="format">The DXGI format.</param>
     /// <returns>BPP of </returns>
-    public static int BitsPerPixel(this Format format)
+    public static int GetBitsPerPixel(this Format format)
     {
         switch (format)
         {
@@ -547,7 +547,7 @@ public static class FormatHelper
         }
         else
         {
-            int bpp = BitsPerPixel(format);
+            int bpp = GetBitsPerPixel(format);
             rowPitch = (width * bpp + 7) / 8; // round up to nearest byte
             rowCount = height;
             slicePitch = rowPitch * height;

@@ -14,7 +14,7 @@ public static partial class DWrite
     public static T DWriteCreateFactory<T>(FactoryType factoryType = FactoryType.Shared) where T : IDWriteFactory
     {
         DWriteCreateFactory(factoryType, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>

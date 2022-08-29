@@ -75,22 +75,18 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         DXGIFactory = CreateDXGIFactory2<IDXGIFactory4>(validation);
 
         ID3D12Device2? d3d12Device = default;
-        for (int adapterIndex = 0; DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1 adapter).Success; adapterIndex++)
+        foreach (IDXGIAdapter1 adapter in DXGIFactory.EnumAdapters1())
         {
             AdapterDescription1 desc = adapter.Description1;
 
             // Don't select the Basic Render Driver adapter.
             if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
             {
-                adapter.Dispose();
-
                 continue;
             }
 
             if (D3D12CreateDevice(adapter, FeatureLevel.Level_11_0, out d3d12Device).Success)
             {
-                adapter.Dispose();
-
                 break;
             }
         }
@@ -195,26 +191,52 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
         };
 
-        byte[] vertexShaderByteCode = CompileBytecode(DxcShaderStage.Vertex, "Triangle.hlsl", "VSMain");
-        byte[] pixelShaderByteCode = CompileBytecode(DxcShaderStage.Pixel, "Triangle.hlsl", "PSMain");
+        ReadOnlyMemory<byte> vertexShaderByteCode = CompileBytecode(DxcShaderStage.Vertex, "Triangle.hlsl", "VSMain");
+        ReadOnlyMemory<byte> pixelShaderByteCode = CompileBytecode(DxcShaderStage.Pixel, "Triangle.hlsl", "PSMain");
 
-        PipelineStateStream pipelineStateStream = new()
+        bool usePSOStream = true;
+        if (usePSOStream)
         {
-            RootSignature = _rootSignature,
-            VertexShader = new ShaderBytecode(vertexShaderByteCode),
-            PixelShader = new ShaderBytecode(pixelShaderByteCode),
-            InputLayout = new InputLayoutDescription(inputElementDescs),
-            SampleMask = uint.MaxValue,
-            PrimitiveTopology = PrimitiveTopologyType.Triangle,
-            RasterizerState = RasterizerDescription.CullCounterClockwise,
-            BlendState = BlendDescription.Opaque,
-            DepthStencilState = DepthStencilDescription.Default,
-            RenderTargetFormats = new[] { Format.R8G8B8A8_UNorm },
-            DepthStencilFormat = _depthStencilFormat,
-            SampleDescription = SampleDescription.Default
-        };
+            PipelineStateStream pipelineStateStream = new()
+            {
+                RootSignature = _rootSignature,
+                VertexShader = vertexShaderByteCode.Span,
+                PixelShader = pixelShaderByteCode.Span,
+                InputLayout = new InputLayoutDescription(inputElementDescs),
+                SampleMask = uint.MaxValue,
+                PrimitiveTopology = PrimitiveTopologyType.Triangle,
+                RasterizerState = RasterizerDescription.CullCounterClockwise,
+                BlendState = BlendDescription.Opaque,
+                DepthStencilState = DepthStencilDescription.Default,
+                RenderTargetFormats = new[] { Format.R8G8B8A8_UNorm },
+                DepthStencilFormat = _depthStencilFormat,
+                SampleDescription = SampleDescription.Default
+            };
 
-        _pipelineState = Device.CreatePipelineState(pipelineStateStream);
+            _pipelineState = Device.CreatePipelineState(pipelineStateStream);
+        }
+        else
+        {
+
+            GraphicsPipelineStateDescription psoDesc = new()
+            {
+                RootSignature = _rootSignature,
+                VertexShader = vertexShaderByteCode,
+                PixelShader = pixelShaderByteCode,
+                InputLayout = new InputLayoutDescription(inputElementDescs),
+                SampleMask = uint.MaxValue,
+                PrimitiveTopologyType = PrimitiveTopologyType.Triangle,
+                RasterizerState = RasterizerDescription.CullCounterClockwise,
+                BlendState = BlendDescription.Opaque,
+                DepthStencilState = DepthStencilDescription.Default,
+                RenderTargetFormats = new[] { Format.R8G8B8A8_UNorm },
+                DepthStencilFormat = _depthStencilFormat,
+                SampleDescription = SampleDescription.Default
+            };
+
+            _pipelineState = Device.CreateGraphicsPipelineState(psoDesc);
+        }
+        
         _commandList = Device.CreateCommandList<ID3D12GraphicsCommandList4>(CommandListType.Direct, _commandAllocators[0], _pipelineState);
         _commandList.Close();
 
@@ -408,20 +430,20 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         return true;
     }
 
-    private static byte[] CompileBytecode(DxcShaderStage stage, string shaderName, string entryPoint)
+    private static ReadOnlyMemory<byte> CompileBytecode(DxcShaderStage stage, string shaderName, string entryPoint)
     {
         string assetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
         string shaderSource = File.ReadAllText(Path.Combine(assetsPath, shaderName));
 
-        using (var includeHandler = new ShaderIncludeHandler(assetsPath))
+        using (ShaderIncludeHandler includeHandler = new(assetsPath))
         {
-            using IDxcResult? results = DxcCompiler.Compile(stage, shaderSource, entryPoint, includeHandler: includeHandler);
-            if (results!.GetStatus().Failure)
+            using IDxcResult results = DxcCompiler.Compile(stage, shaderSource, entryPoint, includeHandler: includeHandler);
+            if (results.GetStatus().Failure)
             {
-                throw new Exception(results!.GetErrors());
+                throw new Exception(results.GetErrors());
             }
 
-            return results.GetObjectBytecodeArray();
+            return results.GetObjectBytecodeMemory();
         }
     }
 }

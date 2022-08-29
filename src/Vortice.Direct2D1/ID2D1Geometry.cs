@@ -281,7 +281,7 @@ public partial class ID2D1Geometry
     /// <param name="strokeStyle">The style of stroke to apply. </param>
     /// <returns>When this method returns, contains a boolean value set to true if the geometry's stroke contains the specified point; otherwise, false. You must allocate storage for this parameter. </returns>
     /// <unmanaged>HRESULT ID2D1Geometry::StrokeContainsPoint([None] D2D1_POINT_2F point,[None] float strokeWidth,[In, Optional] ID2D1StrokeStyle* strokeStyle,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out] BOOL* contains)</unmanaged>
-    public bool StrokeContainsPoint(Vector2 point, float strokeWidth, ID2D1StrokeStyle strokeStyle)
+    public bool StrokeContainsPoint(Vector2 point, float strokeWidth, ID2D1StrokeStyle? strokeStyle)
     {
         return StrokeContainsPoint(point, strokeWidth, strokeStyle, null, FlatteningTolerance);
     }

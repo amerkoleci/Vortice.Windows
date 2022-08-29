@@ -39,7 +39,7 @@ public class ShaderIncludeHandler : CallbackBase, IDxcIncludeHandler
             return Result.Fail;
         }
 
-        if (!_sourceFiles.TryGetValue(includeFile, out SourceCodeBlob sourceCodeBlob))
+        if (!_sourceFiles.TryGetValue(includeFile, out SourceCodeBlob? sourceCodeBlob))
         {
             byte[] data = NewMethod(includeFile);
 

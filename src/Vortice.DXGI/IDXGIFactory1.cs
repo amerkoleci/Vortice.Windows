@@ -5,34 +5,43 @@ namespace Vortice.DXGI;
 
 public partial class IDXGIFactory1
 {
-    /// <summary>
-    /// Get an instance of <see cref="IDXGIAdapter1"/> or null if not found.
-    /// </summary>
-    /// <remarks>
-    /// Make sure to dispose the <see cref="IDXGIAdapter1"/> instance.
-    /// </remarks>
-    /// <param name="index">The index to get from.</param>
-    /// <returns>Instance of <see cref="IDXGIAdapter1"/> or null if not found.</returns>
-    public IDXGIAdapter1 GetAdapter1(int index)
+    private List<IDXGIAdapter1>? _adapters1;
+
+    protected override void NativePointerUpdated(IntPtr oldNativePointer)
     {
-        EnumAdapters1(index, out IDXGIAdapter1 adapter).CheckError();
-        return adapter;
+        base.NativePointerUpdated(oldNativePointer);
+        if (oldNativePointer != IntPtr.Zero)
+        {
+            if (_adapters1 != null)
+            {
+                foreach (IDXGIAdapter1 adapter1 in _adapters1)
+                {
+                    MemoryHelpers.Dispose(adapter1, true);
+                }
+
+                _adapters1.Clear();
+                _adapters1 = default;
+            }
+        }
     }
 
-    /// <summary>
-    /// Gets the number of available adapters from this factory.
-    /// </summary>
-    /// <returns>The number of adapters</returns>
-    public int GetAdapterCount1()
+    public IEnumerable<IDXGIAdapter1> EnumAdapters1()
     {
-        int count = 0;
-
-        for (int adapterIndex = 0; EnumAdapters1(adapterIndex, out IDXGIAdapter1 adapter).Success; adapterIndex++)
+        if (_adapters1 == null)
         {
-            count++;
-            adapter.Dispose();
+            _adapters1 = new List<IDXGIAdapter1>();
+            while (true)
+            {
+                Result result = EnumAdapters1(_adapters1.Count, out IDXGIAdapter1? adapter);
+                if (result.Failure || adapter == null)
+                {
+                    break;
+                }
+
+                _adapters1.Add(adapter);
+            }
         }
 
-        return count;
+        return _adapters1!;
     }
 }

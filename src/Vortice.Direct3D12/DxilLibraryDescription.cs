@@ -1,6 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System;
 using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct3D12;
@@ -17,7 +18,7 @@ public partial class DxilLibraryDescription : IStateSubObjectDescription, IState
     /// </summary>
     /// <param name="dxilLibrary">The library to include in the state object. Must have been compiled with library target 6.3 or higher. It is fine to specify the same library multiple times either in the same state object / collection or across multiple, as long as the names exported each time don’t conflict in a given state object.</param>
     /// <param name="exports">Optional exports. For more information, see <see cref="ExportDescription"/>.</param>
-    public DxilLibraryDescription(ShaderBytecode dxilLibrary, params ExportDescription[] exports)
+    public DxilLibraryDescription(ReadOnlyMemory<byte> dxilLibrary, params ExportDescription[] exports)
     {
         DxilLibrary = dxilLibrary;
         Exports = exports;
@@ -26,7 +27,7 @@ public partial class DxilLibraryDescription : IStateSubObjectDescription, IState
     /// <summary>
     /// >The library to include in the state object.
     /// </summary>
-    public ShaderBytecode DxilLibrary { get; private set; }
+    public ReadOnlyMemory<byte> DxilLibrary { get; private set; }
 
     /// <summary>	
     /// Optional exports.
@@ -46,7 +47,8 @@ public partial class DxilLibraryDescription : IStateSubObjectDescription, IState
     {
         __Native* native = (__Native*)Marshal.AllocHGlobal(sizeof(__Native));
 
-        DxilLibrary.__MarshalTo(ref native->DXILLibrary);
+        native->DXILLibrary.pShaderBytecode = UnsafeUtilities.AllocWithData(DxilLibrary.Span);
+        native->DXILLibrary.BytecodeLength = (uint)DxilLibrary.Length;
         native->NumExports = Exports?.Length ?? 0;
         if (native->NumExports > 0)
         {
@@ -65,7 +67,7 @@ public partial class DxilLibraryDescription : IStateSubObjectDescription, IState
     unsafe void IStateSubObjectDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
     {
         ref __Native nativeLibrary = ref Unsafe.AsRef<__Native>(pDesc.ToPointer());
-        DxilLibrary.__MarshalFree(ref nativeLibrary.DXILLibrary);
+        UnsafeUtilities.Free(nativeLibrary.DXILLibrary.pShaderBytecode);
 
         if (nativeLibrary.pExports != null)
         {

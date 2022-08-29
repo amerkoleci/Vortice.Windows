@@ -17,7 +17,7 @@ public static partial class DComp
     public static T DCompositionCreateDevice<T>(IDXGIDevice dxgiDevice) where T : IDCompositionDevice
     {
         DCompositionCreateDevice(dxgiDevice, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public static partial class DComp
     public static T DCompositionCreateDevice2<T>(IUnknown renderingDevice) where T : IDCompositionDevice
     {
         DCompositionCreateDevice2(renderingDevice, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -81,7 +81,7 @@ public static partial class DComp
     public static T DCompositionCreateDevice3<T>(IUnknown renderingDevice) where T : IDCompositionDevice
     {
         DCompositionCreateDevice3(renderingDevice, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>

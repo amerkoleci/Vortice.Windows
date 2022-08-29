@@ -13,19 +13,27 @@ public partial class IDxcResult
         }
     }
 
-    public Span<byte> GetObjectBytecode()
+    public ReadOnlyMemory<byte> GetObjectBytecodeMemory()
     {
         using (IDxcBlob? blob = GetOutput(DxcOutKind.Object))
         {
-            return blob!.AsByte();
+            return blob!.AsMemory();
         }
     }
 
-    public Span<byte> GetObjectBytecode(out IDxcBlobWide? outputName)
+    public ReadOnlySpan<byte> GetObjectBytecode()
+    {
+        using (IDxcBlob? blob = GetOutput(DxcOutKind.Object))
+        {
+            return blob!.AsSpan();
+        }
+    }
+
+    public ReadOnlySpan<byte> GetObjectBytecode(out IDxcBlobWide? outputName)
     {
         using (IDxcBlob? blob = GetOutput<IDxcBlob>(DxcOutKind.Object, out outputName))
         {
-            return blob!.AsByte();
+            return blob!.AsSpan();
         }
     }
 
@@ -33,7 +41,7 @@ public partial class IDxcResult
     {
         using (IDxcBlob? blob = GetOutput(DxcOutKind.Object))
         {
-            return blob!.ToArray();
+            return blob!.AsBytes();
         }
     }
 
@@ -41,7 +49,7 @@ public partial class IDxcResult
     {
         using (IDxcBlob? blob = GetOutput<IDxcBlob>(DxcOutKind.Object, out outputName))
         {
-            return blob!.ToArray();
+            return blob!.AsBytes();
         }
     }
 

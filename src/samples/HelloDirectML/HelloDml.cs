@@ -43,22 +43,18 @@ public class HelloDml : IDisposable
 
         ID3D12Device2? device = default;
 
-        for (int adapterIndex = 0; DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1 adapter).Success; adapterIndex++)
+        foreach (IDXGIAdapter1 adapter in DXGIFactory.EnumAdapters1())
         {
             AdapterDescription1 desc = adapter.Description1;
 
             // Don't select the Basic Render Driver adapter.
             if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
             {
-                adapter.Dispose();
-
                 continue;
             }
 
             if (D3D12.D3D12CreateDevice(adapter, Vortice.Direct3D.FeatureLevel.Level_11_0, out device).Success)
             {
-                adapter.Dispose();
-
                 break;
             }
         }

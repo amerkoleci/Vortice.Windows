@@ -55,18 +55,6 @@ public partial class ShaderBytecode
         @ref.__MarshalFree();
     }
 
-    internal unsafe void __MarshalFrom(ref __Native @ref)
-    {
-        Data = new byte[@ref.BytecodeLength];
-        if (@ref.BytecodeLength > 0)
-        {
-            fixed (void* dstPtr = Data)
-            {
-                Unsafe.CopyBlockUnaligned(dstPtr, @ref.pShaderBytecode, (uint)(@ref.BytecodeLength));
-            }
-        }
-    }
-
     internal unsafe void __MarshalTo(ref __Native @ref)
     {
         if (Data?.Length > 0)

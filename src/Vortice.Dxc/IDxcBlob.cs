@@ -7,12 +7,7 @@ namespace Vortice.Dxc;
 
 public unsafe partial class IDxcBlob
 {
-    public Span<byte> AsByte()
-    {
-        return new Span<byte>((byte*)GetBufferPointer(), GetBufferSize());
-    }
-
-    public byte[] ToArray()
+    public byte[] AsBytes()
     {
         byte[] result = new byte[GetBufferSize()];
         fixed (void* dstPtr = result)
@@ -20,5 +15,15 @@ public unsafe partial class IDxcBlob
             Unsafe.CopyBlockUnaligned(dstPtr, (void*)GetBufferPointer(), (uint)result.Length);
             return result;
         }
+    }
+
+    public ReadOnlySpan<byte> AsSpan()
+    {
+        return new ReadOnlySpan<byte>(GetBufferPointer().ToPointer(), (int)GetBufferSize());
+    }
+
+    public ReadOnlyMemory<byte> AsMemory()
+    {
+        return new ReadOnlySpan<byte>(GetBufferPointer().ToPointer(), (int)GetBufferSize()).ToArray();
     }
 }

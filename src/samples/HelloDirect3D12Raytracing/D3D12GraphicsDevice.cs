@@ -132,17 +132,16 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
             if (_d3d12Device == null)
             {
-                for (int adapterIndex = 0;
-                    _d3d12Device == null && DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1 adapter).Success;
-                    adapterIndex++)
+                foreach (IDXGIAdapter1 adapter in DXGIFactory.EnumAdapters1())
                 {
+                    if (_d3d12Device != null)
+                        break;
+
                     AdapterDescription1 desc = adapter.Description1;
 
                     // Don't select the Basic Render Driver adapter.
                     if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
                     {
-                        adapter.Dispose();
-
                         continue;
                     }
 
@@ -150,9 +149,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                     {
                         if (D3D12CreateDevice(adapter, s_featureLevels[i], out _d3d12Device).Success)
                         {
-                            adapter.Dispose();
-
-                            Console.WriteLine($"Create Direct3D12 device {s_featureLevels[i]} with adapter ({adapterIndex}): VID:{desc.VendorId:X}, PID:{desc.DeviceId:X} - {desc.Description}");
+                            Console.WriteLine($"Create Direct3D12 device {s_featureLevels[i]} with adapter: VID:{desc.VendorId:X}, PID:{desc.DeviceId:X} - {desc.Description}");
                             break;
                         }
                     }
@@ -271,9 +268,9 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
             var missShaderBlob = CompileLibraryShader(@"Shaders\Miss.hlsl");
 
             // Create the pipeline
-            var rayGenLibrary = new StateSubObject(new DxilLibraryDescription(new ShaderBytecode(rayGenShaderBlob), new ExportDescription("RayGen")));
-            var hitLibrary = new StateSubObject(new DxilLibraryDescription(new ShaderBytecode(hitShaderBlob), new ExportDescription("ClosestHit")));
-            var missLibrary = new StateSubObject(new DxilLibraryDescription(new ShaderBytecode(missShaderBlob), new ExportDescription("Miss")));
+            var rayGenLibrary = new StateSubObject(new DxilLibraryDescription(rayGenShaderBlob, new ExportDescription("RayGen")));
+            var hitLibrary = new StateSubObject(new DxilLibraryDescription(hitShaderBlob, new ExportDescription("ClosestHit")));
+            var missLibrary = new StateSubObject(new DxilLibraryDescription(missShaderBlob, new ExportDescription("Miss")));
 
             var hitGroup = new StateSubObject(new HitGroupDescription("HitGroup", HitGroupType.Triangles, closestHitShaderImport: "ClosestHit"));
 
@@ -707,21 +704,18 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
         infoQueue.ClearStoredMessages();
     }
 
-    private static byte[] CompileLibraryShader(string filePath)
+    private static ReadOnlyMemory<byte> CompileLibraryShader(string filePath)
     {
         string? source = File.ReadAllText(filePath);
 
-        IDxcResult? result = DxcCompiler.Compile(DxcShaderStage.Library, source, "", new DxcCompilerOptions { ShaderModel = DxcShaderModel.Model6_3, EnableDebugInfo = true }, filePath);
+        using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Library, source, "", new DxcCompilerOptions { ShaderModel = DxcShaderModel.Model6_3, EnableDebugInfo = true }, filePath);
 
-        if (result == null || result.GetStatus().Failure)
+        if (results.GetStatus().Failure)
         {
-            throw new Exception(result!.GetErrors());
+            throw new Exception(results.GetErrors());
         }
 
-        byte[] data = result.GetObjectBytecodeArray();
-
-        result.Dispose();
-        return data;
+        return results.GetObjectBytecodeMemory();
     }
 
     private readonly struct Vertex

@@ -20,7 +20,7 @@ public static partial class D2D1
         };
 
         D2D1CreateFactory(factoryType, typeof(T).GUID, options, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public static partial class D2D1
     public static T D2D1CreateFactory<T>(FactoryType factoryType, FactoryOptions options) where T : ID2D1Factory
     {
         D2D1CreateFactory(factoryType, typeof(T).GUID, options, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>

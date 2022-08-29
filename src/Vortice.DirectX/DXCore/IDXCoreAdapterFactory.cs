@@ -50,6 +50,6 @@ public partial class IDXCoreAdapterFactory
     public T GetAdapterByLuid<T>(Luid adapterLUID) where T : IDXCoreAdapter
     {
         GetAdapterByLuid(adapterLUID, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(adapterPtr);
+        return MarshallingHelpers.FromPointer<T>(adapterPtr)!;
     }
 }

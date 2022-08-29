@@ -9,7 +9,7 @@ namespace Vortice.D3DCompiler;
 public unsafe static partial class Compiler
 {
     #region Compile
-    public static Blob Compile(
+    public static ReadOnlyMemory<byte> Compile(
         string shaderSource,
         string entryPoint,
         string sourceName,
@@ -51,7 +51,9 @@ public unsafe static partial class Compiler
             }
 
             errorBlob?.Dispose();
-            return blob;
+            ReadOnlyMemory<byte> bytecode = blob.AsMemory();
+            blob.Dispose();
+            return bytecode;
         }
         finally
         {
@@ -62,7 +64,7 @@ public unsafe static partial class Compiler
         }
     }
 
-    public static Blob Compile(
+    public static ReadOnlyMemory<byte> Compile(
         string shaderSource,
         string entryPoint,
         string sourceName,
@@ -105,7 +107,9 @@ public unsafe static partial class Compiler
             }
 
             errorBlob?.Dispose();
-            return blob;
+            ReadOnlyMemory<byte> bytecode = blob.AsMemory();
+            blob.Dispose();
+            return bytecode;
         }
         finally
         {
@@ -601,7 +605,7 @@ public unsafe static partial class Compiler
             out errorBlob);
     }
 
-    public static Blob CompileFromFile(
+    public static ReadOnlyMemory<byte> CompileFromFile(
         string fileName,
         string entryPoint,
         string profile,
@@ -632,10 +636,12 @@ public unsafe static partial class Compiler
         }
 
         errorBlob?.Dispose();
-        return blob;
+        ReadOnlyMemory<byte> bytecode = blob.AsMemory();
+        blob.Dispose();
+        return bytecode;
     }
 
-    public static Blob CompileFromFile(
+    public static ReadOnlyMemory<byte> CompileFromFile(
         string fileName,
         ShaderMacro[] macros,
         string entryPoint,
@@ -667,10 +673,12 @@ public unsafe static partial class Compiler
         }
 
         errorBlob?.Dispose();
-        return blob;
+        ReadOnlyMemory<byte> bytecode = blob.AsMemory();
+        blob.Dispose();
+        return bytecode;
     }
 
-    public static Blob CompileFromFile(
+    public static ReadOnlyMemory<byte> CompileFromFile(
         string fileName,
         ShaderMacro[] macros,
         Include include,
@@ -703,7 +711,9 @@ public unsafe static partial class Compiler
         }
 
         errorBlob?.Dispose();
-        return blob;
+        ReadOnlyMemory<byte> bytecode = blob.AsMemory();
+        blob.Dispose();
+        return bytecode;
     }
     #endregion
 
@@ -713,7 +723,7 @@ public unsafe static partial class Compiler
         return blob;
     }
 
-    public static T Reflect<T>(Span<byte> shaderBytecode) where T : ComObject
+    public static T Reflect<T>(ReadOnlySpan<byte> shaderBytecode) where T : ComObject
     {
         fixed (byte* shaderBytecodePtr = shaderBytecode)
         {
@@ -722,7 +732,7 @@ public unsafe static partial class Compiler
         }
     }
 
-    public static Result Reflect<T>(Span<byte> shaderBytecode, out T? reflection) where T : ComObject
+    public static Result Reflect<T>(ReadOnlySpan<byte> shaderBytecode, out T? reflection) where T : ComObject
     {
         fixed (byte* shaderBytecodePtr = shaderBytecode)
         {
@@ -740,27 +750,14 @@ public unsafe static partial class Compiler
 
     public static T Reflect<T>(byte[] shaderBytecode) where T : ComObject
     {
-        fixed (byte* shaderBytecodePtr = shaderBytecode)
-        {
-            Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(nativePtr)!;
-        }
+        ReadOnlySpan<byte> span = shaderBytecode.AsSpan();
+        return Reflect<T>(span);
     }
 
     public static Result Reflect<T>(byte[] shaderBytecode, out T? reflection) where T : ComObject
     {
-        fixed (byte* shaderBytecodePtr = shaderBytecode)
-        {
-            Result result = Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Success)
-            {
-                reflection = MarshallingHelpers.FromPointer<T>(nativePtr);
-                return result;
-            }
-
-            reflection = null;
-            return result;
-        }
+        ReadOnlySpan<byte> span = shaderBytecode.AsSpan();
+        return Reflect(span, out reflection);
     }
 
     public static Result GetInputSignatureBlob(Blob srcData, out Blob signatureBlob)
@@ -783,15 +780,6 @@ public unsafe static partial class Compiler
         }
     }
 
-    public static Blob GetInputSignatureBlob(byte[] srcData)
-    {
-        fixed (byte* pSrcData = srcData)
-        {
-            GetInputSignatureBlob((IntPtr)pSrcData, srcData.Length, out Blob signatureBlob).CheckError();
-            return signatureBlob;
-        }
-    }
-
     public static Result GetOutputSignatureBlob(Blob srcData, out Blob signatureBlob)
     {
         return GetOutputSignatureBlob(srcData.BufferPointer, srcData.BufferSize, out signatureBlob);
@@ -804,15 +792,6 @@ public unsafe static partial class Compiler
     }
 
     public static Blob GetOutputSignatureBlob(ReadOnlySpan<byte> srcData)
-    {
-        fixed (byte* pSrcData = srcData)
-        {
-            GetOutputSignatureBlob((IntPtr)pSrcData, srcData.Length, out Blob signatureBlob).CheckError();
-            return signatureBlob;
-        }
-    }
-
-    public static Blob GetOutputSignatureBlob(byte[] srcData)
     {
         fixed (byte* pSrcData = srcData)
         {

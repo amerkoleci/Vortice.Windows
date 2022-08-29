@@ -3,6 +3,7 @@
 
 using System.Runtime.CompilerServices;
 using Vortice.DXGI;
+using static Vortice.UnsafeUtilities;
 
 namespace Vortice.Direct3D12;
 
@@ -12,15 +13,15 @@ public partial class GraphicsPipelineStateDescription
 
     public ID3D12RootSignature? RootSignature { get; set; }
 
-    public ShaderBytecode? VertexShader { get; set; }
+    public ReadOnlyMemory<byte> VertexShader { get; set; }
 
-    public ShaderBytecode? PixelShader { get; set; }
+    public ReadOnlyMemory<byte> PixelShader { get; set; }
 
-    public ShaderBytecode? DomainShader { get; set; }
+    public ReadOnlyMemory<byte> DomainShader { get; set; }
 
-    public ShaderBytecode? HullShader { get; set; }
+    public ReadOnlyMemory<byte> HullShader { get; set; }
 
-    public ShaderBytecode? GeometryShader { get; set; }
+    public ReadOnlyMemory<byte> GeometryShader { get; set; }
 
     public StreamOutputDescription? StreamOutput { get; set; }
 
@@ -46,7 +47,7 @@ public partial class GraphicsPipelineStateDescription
 
     public Format DepthStencilFormat { get; set; }
 
-    public SampleDescription SampleDescription { get; set; } = new SampleDescription(1, 0);
+    public SampleDescription SampleDescription { get; set; } = SampleDescription.Default;
 
     public int NodeMask { get; set; }
 
@@ -87,14 +88,19 @@ public partial class GraphicsPipelineStateDescription
         public PipelineStateFlags Flags;
     }
 
-    internal void __MarshalFree(ref __Native @ref)
+    internal unsafe void __MarshalFree(ref __Native @ref)
     {
         GC.KeepAlive(RootSignature);
-        VertexShader?.__MarshalFree(ref @ref.VertexShader);
-        PixelShader?.__MarshalFree(ref @ref.PixelShader);
-        DomainShader?.__MarshalFree(ref @ref.DomainShader);
-        HullShader?.__MarshalFree(ref @ref.HullShader);
-        GeometryShader?.__MarshalFree(ref @ref.GeometryShader);
+        if (@ref.VertexShader.BytecodeLength > 0)
+            Free(@ref.VertexShader.pShaderBytecode);
+        if (@ref.PixelShader.BytecodeLength > 0)
+            Free(@ref.PixelShader.pShaderBytecode);
+        if (@ref.DomainShader.BytecodeLength > 0)
+            Free(@ref.DomainShader.pShaderBytecode);
+        if (@ref.HullShader.BytecodeLength > 0)
+            Free(@ref.HullShader.pShaderBytecode);
+        if (@ref.GeometryShader.BytecodeLength > 0)
+            Free(@ref.GeometryShader.pShaderBytecode);
         StreamOutput?.__MarshalFree(ref @ref.StreamOutput);
         BlendState.__MarshalFree(ref @ref.BlendState);
         InputLayout?.__MarshalFree(ref @ref.InputLayout);
@@ -104,11 +110,31 @@ public partial class GraphicsPipelineStateDescription
     internal unsafe void __MarshalTo(ref __Native @ref)
     {
         @ref.RootSignature = MarshallingHelpers.ToCallbackPtr<ID3D12RootSignature>(RootSignature);
-        VertexShader?.__MarshalTo(ref @ref.VertexShader);
-        PixelShader?.__MarshalTo(ref @ref.PixelShader);
-        DomainShader?.__MarshalTo(ref @ref.DomainShader);
-        HullShader?.__MarshalTo(ref @ref.HullShader);
-        GeometryShader?.__MarshalTo(ref @ref.GeometryShader);
+        if (VertexShader.Length > 0)
+        {
+            @ref.VertexShader.pShaderBytecode = AllocWithData(VertexShader.Span);
+            @ref.VertexShader.BytecodeLength = (nuint)VertexShader.Length;
+        }
+        if (PixelShader.Length > 0)
+        {
+            @ref.PixelShader.pShaderBytecode = AllocWithData(PixelShader.Span);
+            @ref.PixelShader.BytecodeLength = (nuint)PixelShader.Length;
+        }
+        if (DomainShader.Length > 0)
+        {
+            @ref.DomainShader.pShaderBytecode = AllocWithData(DomainShader.Span);
+            @ref.DomainShader.BytecodeLength = (nuint)DomainShader.Length;
+        }
+        if (HullShader.Length > 0)
+        {
+            @ref.HullShader.pShaderBytecode = AllocWithData(HullShader.Span);
+            @ref.HullShader.BytecodeLength = (nuint)HullShader.Length;
+        }
+        if (GeometryShader.Length > 0)
+        {
+            @ref.GeometryShader.pShaderBytecode = AllocWithData(GeometryShader.Span);
+            @ref.GeometryShader.BytecodeLength = (nuint)GeometryShader.Length;
+        }
         StreamOutput?.__MarshalTo(ref @ref.StreamOutput);
         BlendState.__MarshalTo(ref @ref.BlendState);
         @ref.SampleMask = SampleMask;
