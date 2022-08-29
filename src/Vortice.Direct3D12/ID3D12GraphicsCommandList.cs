@@ -453,6 +453,14 @@ public unsafe partial class ID3D12GraphicsCommandList
     #endregion
 
     /// <summary>
+    /// Unsets the render targets.
+    /// </summary>
+    public void UnsetRenderTargets()
+    {
+        OMSetRenderTargets(0, (void*)null, false, null);
+    }
+
+    /// <summary>
     /// Sets the graphics render target and/or the depth/stencil target.
     /// </summary>
     /// <param name="renderTargetDescriptor"> A descriptor handle that points to the render target. This should have
@@ -461,12 +469,16 @@ public unsafe partial class ID3D12GraphicsCommandList
     /// <param name="depthStencilDescriptor"> A descriptor handle that points to the depth/stencil target. This should
     /// have been created using <see cref="ID3D12Device.CreateDepthStencilView"/>. Can be <c>null</c> to unbind the
     /// depth/stencil target. </param>
-    public void OMSetRenderTargets(CpuDescriptorHandle? renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
+    public void OMSetRenderTargets(CpuDescriptorHandle renderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
     {
-        if (renderTargetDescriptor == null)
+        if (renderTargetDescriptor.Ptr == 0)
+        {
             OMSetRenderTargets(0, null, false, depthStencilDescriptor);
+        }
         else
+        {
             OMSetRenderTargets(1, &renderTargetDescriptor, false, depthStencilDescriptor);
+        }
     }
 
     /// <summary>
@@ -510,7 +522,7 @@ public unsafe partial class ID3D12GraphicsCommandList
     /// <param name="depthStencilDescriptor"> A descriptor handle that points to the depth/stencil target. This should
     /// have been created using <see cref="ID3D12Device.CreateDepthStencilView"/>. Can be <c>null</c> to unbind the
     /// depth/stencil target. </param>
-    public void OMSetRenderTargets(int numRenderTargetDescriptors, CpuDescriptorHandle firstRenderTargetDescriptor,  CpuDescriptorHandle? depthStencilDescriptor = null)
+    public void OMSetRenderTargets(int numRenderTargetDescriptors, CpuDescriptorHandle firstRenderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
     {
         OMSetRenderTargets(numRenderTargetDescriptors, &firstRenderTargetDescriptor, true, depthStencilDescriptor);
     }
