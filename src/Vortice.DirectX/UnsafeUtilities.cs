@@ -1,6 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -74,15 +75,42 @@ public static unsafe class UnsafeUtilities
         }
     }
 
-    public static T* Alloc<T>(int count = 1) where T : unmanaged
+    public static void* Alloc(int byteCount) 
     {
-        return (T*)Marshal.AllocHGlobal(sizeof(T) * count);
+#if NET6_0_OR_GREATER
+        return NativeMemory.Alloc((nuint)byteCount);
+#else
+        return (void*)Marshal.AllocHGlobal(byteCount);
+#endif
+    }
+
+    public static void* Alloc(int elementCount, int elementSize)
+    {
+#if NET6_0_OR_GREATER
+        return NativeMemory.Alloc((nuint)elementCount, (nuint)elementSize);
+#else
+        return Alloc(elementCount * elementSize);
+#endif
+    }
+
+    public static T* Alloc<T>() where T : unmanaged
+    {
+#if NET6_0_OR_GREATER
+        return (T*)NativeMemory.Alloc((nuint)sizeof(T));
+#else
+        return (T*)Marshal.AllocHGlobal(sizeof(T));
+#endif
+    }
+
+    public static T* Alloc<T>(int elementCount) where T : unmanaged
+    {
+        return (T*)Alloc(elementCount, sizeof(T));
     }
 
     public static T* AllocWithData<T>(T source) where T : unmanaged
     {
         int sizeInBytes = sizeof(T);
-        T* dest = (T*)Marshal.AllocHGlobal(sizeInBytes);
+        T* dest = (T*)Alloc(sizeInBytes);
         Unsafe.CopyBlockUnaligned(dest, &source, (uint)sizeInBytes);
 
         return dest;
@@ -90,8 +118,15 @@ public static unsafe class UnsafeUtilities
 
     public static T* AllocWithData<T>(T[] source) where T : unmanaged
     {
+        ReadOnlySpan<T> span = source.AsSpan();
+
+        return AllocWithData(span);
+    }
+
+    public static T* AllocWithData<T>(ReadOnlySpan<T> source) where T : unmanaged
+    {
         int sizeInBytes = source.Length * sizeof(T);
-        T* dest = (T*)Marshal.AllocHGlobal(sizeInBytes);
+        T* dest = (T*)Alloc(sizeInBytes);
         fixed (T* sourcePtr = source)
         {
             Unsafe.CopyBlockUnaligned(dest, sourcePtr, (uint)sizeInBytes);
@@ -99,15 +134,23 @@ public static unsafe class UnsafeUtilities
 
         return dest;
     }
-    
+
     public static void Free(void* ptr)
     {
+#if NET6_0_OR_GREATER
+        NativeMemory.Free(ptr);
+#else
         Marshal.FreeHGlobal((IntPtr)ptr);
+#endif
     }
 
     public static void Free(IntPtr ptr)
     {
+#if NET6_0_OR_GREATER
+        NativeMemory.Free(ptr.ToPointer());
+#else
         Marshal.FreeHGlobal(ptr);
+#endif
     }
 
     public static IntPtr AllocToPointer<T>(T[]? values) where T : unmanaged

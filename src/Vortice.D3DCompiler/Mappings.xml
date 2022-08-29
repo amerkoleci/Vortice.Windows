@@ -103,7 +103,9 @@
     <map field="D3D_SHADER_DATA::pBytecode" name="BytecodePtr" />
 
 
+    <remove function="D3DCompressShaders" />
     <remove function="D3DDisassemble10Effect" />
+    
     <map function="D3D(.*)" name-tmp="$1" />
     <map function="D3D[^1].*" dll='"#(D3DCOMPILER_DLL_A)"' group="Vortice.D3DCompiler.Compiler" />
     <map param="D3DCompile.*?::Flags1" type="D3DCOMPILE_SHADER_FLAGS" />
@@ -114,6 +116,7 @@
     <map param="D3DPreprocess::pDefines" attribute="in buffer optional" />
     <map function="D3DGet.*SignatureBlob" check="false" />
     <map function="D3DReflect" hresult="true" check="false"/>
+    <map param="D3DCompile::pSrcData" type="void" keep-pointers="true"/>
     <map param="D3DReflect::pSrcData" type="void" keep-pointers="true"/>
     
     <map function="D3DStripShader" check="false" />

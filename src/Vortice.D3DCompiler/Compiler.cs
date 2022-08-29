@@ -1,6 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System;
 using Vortice.Direct3D;
 
 namespace Vortice.D3DCompiler;
@@ -25,7 +26,7 @@ public unsafe static partial class Compiler
         try
         {
             Result result = Compile(
-                shaderSourcePtr,
+                shaderSourcePtr.ToPointer(),
                 shaderSource.Length,
                 sourceName,
                 null,
@@ -79,7 +80,7 @@ public unsafe static partial class Compiler
         try
         {
             Result result = Compile(
-                shaderSourcePtr,
+                shaderSourcePtr.ToPointer(),
                 shaderSource.Length,
                 sourceName,
                 macros,
@@ -132,7 +133,7 @@ public unsafe static partial class Compiler
         try
         {
             Result result = Compile(
-                shaderSourcePtr,
+                shaderSourcePtr.ToPointer(),
                 shaderSource.Length,
                 sourceName,
                 macros,
@@ -183,7 +184,7 @@ public unsafe static partial class Compiler
         try
         {
             return Compile(
-                shaderSourcePtr,
+                shaderSourcePtr.ToPointer(),
                 shaderSource.Length,
                 sourceName,
                 null,
@@ -220,7 +221,7 @@ public unsafe static partial class Compiler
         try
         {
             return Compile(
-                shaderSourcePtr,
+                shaderSourcePtr.ToPointer(),
                 shaderSource.Length,
                 sourceName,
                 defines,
@@ -258,7 +259,7 @@ public unsafe static partial class Compiler
         try
         {
             return Compile(
-                shaderSourcePtr,
+                shaderSourcePtr.ToPointer(),
                 shaderSource.Length,
                 sourceName,
                 defines,
@@ -297,7 +298,7 @@ public unsafe static partial class Compiler
         try
         {
             return Compile(
-                shaderSourcePtr,
+                shaderSourcePtr.ToPointer(),
                 shaderSource.Length,
                 sourceName,
                 defines,
@@ -337,7 +338,7 @@ public unsafe static partial class Compiler
         try
         {
             return Compile(
-                shaderSourcePtr,
+                shaderSourcePtr.ToPointer(),
                 shaderSource.Length,
                 sourceName,
                 defines,
@@ -357,40 +358,37 @@ public unsafe static partial class Compiler
     }
 
     public static Result Compile(
-        byte[] shaderSource,
+        ReadOnlySpan<byte> source,
         string entryPoint,
         string sourceName,
         string profile,
         out Blob blob,
         out Blob errorBlob)
     {
-        if (shaderSource == null || shaderSource.Length == 0)
+        if (source.Length == 0)
         {
-            throw new ArgumentNullException(nameof(shaderSource));
+            throw new ArgumentNullException(nameof(source));
         }
 
-        unsafe
+        fixed (byte* sourcePtr = source)
         {
-            fixed (void* pData = &shaderSource[0])
-            {
-                return Compile(
-                    (IntPtr)pData,
-                    shaderSource.Length,
-                    sourceName,
-                    null,
-                    null,
-                    entryPoint,
-                    profile,
-                    ShaderFlags.None,
-                    EffectFlags.None,
-                    out blob,
-                    out errorBlob);
-            }
+            return Compile(
+                sourcePtr,
+                source.Length,
+                sourceName,
+                null,
+                null,
+                entryPoint,
+                profile,
+                ShaderFlags.None,
+                EffectFlags.None,
+                out blob,
+                out errorBlob);
         }
     }
 
     public static Result Compile(
-        byte[] shaderSource,
+        ReadOnlySpan<byte> source,
         ShaderMacro[] defines,
         string entryPoint,
         string sourceName,
@@ -398,33 +396,30 @@ public unsafe static partial class Compiler
         out Blob blob,
         out Blob errorBlob)
     {
-        if (shaderSource == null || shaderSource.Length == 0)
+        if (source.Length == 0)
         {
-            throw new ArgumentNullException(nameof(shaderSource));
+            throw new ArgumentNullException(nameof(source));
         }
 
-        unsafe
+        fixed (byte* sourcePtr = source)
         {
-            fixed (void* pData = &shaderSource[0])
-            {
-                return Compile(
-                    (IntPtr)pData,
-                    shaderSource.Length,
-                    sourceName,
-                    defines,
-                    null,
-                    entryPoint,
-                    profile,
-                    ShaderFlags.None,
-                    EffectFlags.None,
-                    out blob,
-                    out errorBlob);
-            }
+            return Compile(
+                sourcePtr,
+                source.Length,
+                sourceName,
+                defines,
+                null,
+                entryPoint,
+                profile,
+                ShaderFlags.None,
+                EffectFlags.None,
+                out blob,
+                out errorBlob);
         }
     }
 
     public static Result Compile(
-        byte[] shaderSource,
+        ReadOnlySpan<byte> source,
         ShaderMacro[] defines,
         Include include,
         string entryPoint,
@@ -433,33 +428,30 @@ public unsafe static partial class Compiler
         out Blob blob,
         out Blob errorBlob)
     {
-        if (shaderSource == null || shaderSource.Length == 0)
+        if (source.Length == 0)
         {
-            throw new ArgumentNullException(nameof(shaderSource));
+            throw new ArgumentNullException(nameof(source));
         }
 
-        unsafe
+        fixed (byte* sourcePtr = source)
         {
-            fixed (void* pData = &shaderSource[0])
-            {
-                return Compile(
-                    (IntPtr)pData,
-                    shaderSource.Length,
-                    sourceName,
-                    defines,
-                    include,
-                    entryPoint,
-                    profile,
-                    ShaderFlags.None,
-                    EffectFlags.None,
-                    out blob,
-                    out errorBlob);
-            }
+            return Compile(
+                sourcePtr,
+                source.Length,
+                sourceName,
+                defines,
+                include,
+                entryPoint,
+                profile,
+                ShaderFlags.None,
+                EffectFlags.None,
+                out blob,
+                out errorBlob);
         }
     }
 
     public static Result Compile(
-        byte[] shaderSource,
+        ReadOnlySpan<byte> source,
         ShaderMacro[] defines,
         Include include,
         string entryPoint,
@@ -469,33 +461,30 @@ public unsafe static partial class Compiler
         out Blob blob,
         out Blob errorBlob)
     {
-        if (shaderSource == null || shaderSource.Length == 0)
+        if (source.Length == 0)
         {
-            throw new ArgumentNullException(nameof(shaderSource));
+            throw new ArgumentNullException(nameof(source));
         }
 
-        unsafe
+        fixed (byte* sourcePtr = source)
         {
-            fixed (void* pData = &shaderSource[0])
-            {
-                return Compile(
-                    (IntPtr)pData,
-                    shaderSource.Length,
-                    sourceName,
-                    defines,
-                    include,
-                    entryPoint,
-                    profile,
-                    shaderFlags,
-                    EffectFlags.None,
-                    out blob,
-                    out errorBlob);
-            }
+            return Compile(
+                sourcePtr,
+                source.Length,
+                sourceName,
+                defines,
+                include,
+                entryPoint,
+                profile,
+                shaderFlags,
+                EffectFlags.None,
+                out blob,
+                out errorBlob);
         }
     }
 
     public static Result Compile(
-        byte[] shaderSource,
+        ReadOnlySpan<byte> source,
         ShaderMacro[] defines,
         Include include,
         string entryPoint,
@@ -506,28 +495,25 @@ public unsafe static partial class Compiler
         out Blob blob,
         out Blob errorBlob)
     {
-        if (shaderSource == null || shaderSource.Length == 0)
+        if (source.Length == 0)
         {
-            throw new ArgumentNullException(nameof(shaderSource));
+            throw new ArgumentNullException(nameof(source));
         }
 
-        unsafe
+        fixed (byte* sourcePtr = source)
         {
-            fixed (void* pData = &shaderSource[0])
-            {
-                return Compile(
-                    (IntPtr)pData,
-                    shaderSource.Length,
-                    sourceName,
-                    defines,
-                    include,
-                    entryPoint,
-                    profile,
-                    shaderFlags,
-                    effectFlags,
-                    out blob,
-                    out errorBlob);
-            }
+            return Compile(
+                sourcePtr,
+                source.Length,
+                sourceName,
+                defines,
+                include,
+                entryPoint,
+                profile,
+                shaderFlags,
+                effectFlags,
+                out blob,
+                out errorBlob);
         }
     }
     #endregion
@@ -775,41 +761,6 @@ public unsafe static partial class Compiler
             reflection = null;
             return result;
         }
-    }
-
-    public static ShaderBytecode CompressShaders(params ShaderBytecode[] shaderBytecodes)
-    {
-        Blob? blob = default;
-        ShaderData[] shaderData = new ShaderData[shaderBytecodes.Length];
-        GCHandle[] handles = new GCHandle[shaderBytecodes.Length];
-        try
-        {
-            for (int i = 0; i < shaderBytecodes.Length; i++)
-            {
-                handles[i] = GCHandle.Alloc(shaderBytecodes[i].Data, GCHandleType.Pinned);
-
-                shaderData[i] = new ShaderData
-                {
-                    BytecodePtr = handles[i].AddrOfPinnedObject(),
-                    BytecodeLength = shaderBytecodes[i].Data.Length
-                };
-            }
-            blob = CompressShaders(shaderBytecodes.Length, shaderData, 1);
-        }
-        finally
-        {
-            foreach (GCHandle handle in handles)
-            {
-                handle.Free();
-            }
-        }
-
-        if (blob == null)
-        {
-            return default;
-        }
-
-        return new ShaderBytecode(blob);
     }
 
     public static Result GetInputSignatureBlob(Blob srcData, out Blob signatureBlob)

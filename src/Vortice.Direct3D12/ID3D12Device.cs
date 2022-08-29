@@ -204,7 +204,7 @@ public unsafe partial class ID3D12Device
         get => CheckFeatureSupport<FeatureDataGpuVirtualAddressSupport>(Feature.GpuVirtualAddressSupport);
     }
 
-    
+
     public FeatureDataProtectedResourceSessionSupport ProtectedResourceSessionSupport
     {
         get => CheckFeatureSupport<FeatureDataProtectedResourceSessionSupport>(Feature.ProtectedResourceSessionSupport);
@@ -214,7 +214,7 @@ public unsafe partial class ID3D12Device
     {
         get => CheckFeatureSupport<FeatureDataArchitecture1>(Feature.Architecture1);
     }
-   
+
     public FeatureDataShaderCache ShaderCache
     {
         get => CheckFeatureSupport<FeatureDataShaderCache>(Feature.ShaderCache);
@@ -338,10 +338,28 @@ public unsafe partial class ID3D12Device
         ResourceStates initialResourceState,
         ClearValue? optimizedClearValue = null)
     {
-        HeapProperties heapProperties = new HeapProperties(heapType);
+        HeapProperties heapProperties = new(heapType);
         CreateCommittedResource(
             ref heapProperties,
             heapFlags,
+            ref description,
+            initialResourceState,
+            optimizedClearValue,
+            typeof(ID3D12Resource).GUID,
+            out IntPtr nativePtr).CheckError();
+
+        return new(nativePtr);
+    }
+
+    public ID3D12Resource CreateCommittedResource(HeapType heapType,
+        ResourceDescription description,
+        ResourceStates initialResourceState,
+        ClearValue? optimizedClearValue = null)
+    {
+        HeapProperties heapProperties = new(heapType);
+        CreateCommittedResource(
+            ref heapProperties,
+            HeapFlags.None,
             ref description,
             initialResourceState,
             optimizedClearValue,
@@ -584,13 +602,13 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateCommandAllocator
-    public ID3D12CommandAllocator CreateCommandAllocator(CommandListType type) 
+    public ID3D12CommandAllocator CreateCommandAllocator(CommandListType type)
     {
         CreateCommandAllocator(type, typeof(ID3D12CommandAllocator).GUID, out IntPtr nativePtr).CheckError();
         return new ID3D12CommandAllocator(nativePtr);
     }
 
-    public Result CreateCommandAllocator(CommandListType type, out ID3D12CommandAllocator? commandAllocator) 
+    public Result CreateCommandAllocator(CommandListType type, out ID3D12CommandAllocator? commandAllocator)
     {
         Result result = CreateCommandAllocator(type, typeof(ID3D12CommandAllocator).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -1021,6 +1039,25 @@ public unsafe partial class ID3D12Device
         pipelineState = MarshallingHelpers.FromPointer<T>(nativePtr);
         return result;
     }
+
+    public ID3D12PipelineState CreateComputePipelineState(ComputePipelineStateDescription description)
+    {
+        CreateComputePipelineState(description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr).CheckError();
+        return new ID3D12PipelineState(nativePtr);
+    }
+
+    public Result CreateComputePipelineState(ComputePipelineStateDescription description, out ID3D12PipelineState? pipelineState)
+    {
+        Result result = CreateComputePipelineState(description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr);
+        if (result.Failure)
+        {
+            pipelineState = default;
+            return result;
+        }
+
+        pipelineState = new ID3D12PipelineState(nativePtr);
+        return result;
+    }
     #endregion
 
     #region CreateGraphicsPipelineState
@@ -1040,6 +1077,25 @@ public unsafe partial class ID3D12Device
         }
 
         pipelineState = MarshallingHelpers.FromPointer<T>(nativePtr);
+        return result;
+    }
+
+    public ID3D12PipelineState CreateGraphicsPipelineState(GraphicsPipelineStateDescription description)
+    {
+        CreateGraphicsPipelineState(description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr).CheckError();
+        return new ID3D12PipelineState(nativePtr);
+    }
+
+    public Result CreateGraphicsPipelineState(GraphicsPipelineStateDescription description, out ID3D12PipelineState? pipelineState)
+    {
+        Result result = CreateGraphicsPipelineState(description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr);
+        if (result.Failure)
+        {
+            pipelineState = default;
+            return result;
+        }
+
+        pipelineState = new ID3D12PipelineState(nativePtr);
         return result;
     }
     #endregion

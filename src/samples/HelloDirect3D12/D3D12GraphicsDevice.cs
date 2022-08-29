@@ -351,7 +351,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         }
         else
         {
-            _commandList.OMSetRenderTargets(rtvDescriptor, false, dsvDescriptor);
+            _commandList.OMSetRenderTargets(rtvDescriptor, dsvDescriptor);
             _commandList.ClearRenderTargetView(rtvDescriptor, clearColor);
 
             if (dsvDescriptor.HasValue)
