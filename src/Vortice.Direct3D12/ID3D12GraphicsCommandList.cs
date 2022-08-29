@@ -473,7 +473,7 @@ public unsafe partial class ID3D12GraphicsCommandList
     {
         if (renderTargetDescriptor.Ptr == 0)
         {
-            OMSetRenderTargets(0, null, false, depthStencilDescriptor);
+            OMSetRenderTargets(0, (void*)null, false, depthStencilDescriptor);
         }
         else
         {
@@ -491,10 +491,8 @@ public unsafe partial class ID3D12GraphicsCommandList
     /// depth/stencil target. </param>
     public void OMSetRenderTargets(CpuDescriptorHandle[] renderTargetDescriptors, CpuDescriptorHandle? depthStencilDescriptor = null)
     {
-        fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
-        {
-            OMSetRenderTargets(renderTargetDescriptors.Length, renderTargetDescriptorsPtr, false, depthStencilDescriptor);
-        }
+        ReadOnlySpan<CpuDescriptorHandle> renderTargetDescriptorsSpan = renderTargetDescriptors.AsSpan();
+        OMSetRenderTargets(renderTargetDescriptorsSpan, depthStencilDescriptor);
     }
 
     /// <summary>
@@ -525,6 +523,27 @@ public unsafe partial class ID3D12GraphicsCommandList
     public void OMSetRenderTargets(int numRenderTargetDescriptors, CpuDescriptorHandle firstRenderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
     {
         OMSetRenderTargets(numRenderTargetDescriptors, &firstRenderTargetDescriptor, true, depthStencilDescriptor);
+    }
+
+    public void OMSetRenderTargets(
+        int numRenderTargetDescriptors,
+        ReadOnlySpan<CpuDescriptorHandle> renderTargetDescriptors,
+        bool RTsSingleHandleToDescriptorRange = false,
+        CpuDescriptorHandle? depthStencilDescriptor = null)
+    {
+        fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
+        {
+            OMSetRenderTargets(numRenderTargetDescriptors, renderTargetDescriptorsPtr, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
+        }
+    }
+
+    public void OMSetRenderTargets(
+        int numRenderTargetDescriptors,
+        CpuDescriptorHandle* renderTargetDescriptors,
+        bool RTsSingleHandleToDescriptorRange = false,
+        CpuDescriptorHandle? depthStencilDescriptor = null)
+    {
+        OMSetRenderTargets(numRenderTargetDescriptors, renderTargetDescriptors, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
     }
 
     #region IASetVertexBuffers
