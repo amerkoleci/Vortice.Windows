@@ -34,7 +34,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
     public readonly Window Window;
     public readonly IDXGIFactory4 DXGIFactory;
-    private readonly ID3D12Device5 _d3d12Device;
+    private readonly ID3D12Device5 Device;
     private readonly ID3D12InfoQueue? _infoQueue;
     private readonly ID3D12Resource[] _renderTargets;
     private readonly ID3D12DescriptorHeap _rtvHeap;
@@ -68,7 +68,6 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
     private ulong _frameIndex;
     private int _backbufferIndex;
 
-    public ID3D12Device2 D3D12Device => _d3d12Device!;
     public ID3D12CommandQueue GraphicsQueue { get; }
 
     public IDXGISwapChain3 SwapChain { get; }
@@ -97,12 +96,13 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
             DXGIFactory = CreateDXGIFactory2<IDXGIFactory4>(validation);
 
+            ID3D12Device5? d3d12Device = default;
             using (IDXGIFactory6? factory6 = DXGIFactory.QueryInterfaceOrNull<IDXGIFactory6>())
             {
                 if (factory6 != null)
                 {
                     for (int adapterIndex = 0;
-                        _d3d12Device == null && factory6.EnumAdapterByGpuPreference(adapterIndex, GpuPreference.HighPerformance,
+                        d3d12Device == null && factory6.EnumAdapterByGpuPreference(adapterIndex, GpuPreference.HighPerformance,
                         out IDXGIAdapter1? adapter).Success;
                         adapterIndex++)
                     {
@@ -118,7 +118,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
                         for (int i = 0; i < s_featureLevels.Length; i++)
                         {
-                            if (D3D12CreateDevice(adapter, s_featureLevels[i], out _d3d12Device).Success)
+                            if (D3D12CreateDevice(adapter, s_featureLevels[i], out d3d12Device).Success)
                             {
                                 adapter.Dispose();
 
@@ -130,11 +130,11 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 }
             }
 
-            if (_d3d12Device == null)
+            if (d3d12Device == null)
             {
                 foreach (IDXGIAdapter1 adapter in DXGIFactory.EnumAdapters1())
                 {
-                    if (_d3d12Device != null)
+                    if (d3d12Device != null)
                         break;
 
                     AdapterDescription1 desc = adapter.Description1;
@@ -147,7 +147,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
                     for (int i = 0; i < s_featureLevels.Length; i++)
                     {
-                        if (D3D12CreateDevice(adapter, s_featureLevels[i], out _d3d12Device).Success)
+                        if (D3D12CreateDevice(adapter, s_featureLevels[i], out d3d12Device).Success)
                         {
                             Console.WriteLine($"Create Direct3D12 device {s_featureLevels[i]} with adapter: VID:{desc.VendorId:X}, PID:{desc.DeviceId:X} - {desc.Description}");
                             break;
@@ -156,30 +156,32 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 }
             }
 
-            if (_d3d12Device == null)
+            if (d3d12Device == null)
             {
                 throw new NotSupportedException("Cannot create Direct3D12 device on current OS");
             }
 
+            Device = d3d12Device!;
+
             // Check raytracing support
-            if (_d3d12Device.Options5.RaytracingTier < RaytracingTier.Tier1_0)
+            if (Device.Options5.RaytracingTier < RaytracingTier.Tier1_0)
             {
                 throw new NotSupportedException("Raytracing not supported on current OS");
             }
 
             if (validation)
             {
-                _infoQueue = _d3d12Device.QueryInterfaceOrNull<ID3D12InfoQueue>();
+                _infoQueue = Device.QueryInterfaceOrNull<ID3D12InfoQueue>();
             }
 
             // Create synchronization objects.
-            _frameFence = _d3d12Device.CreateFence(0);
+            _frameFence = Device.CreateFence(0);
             _frameFenceEvent = new AutoResetEvent(false);
         }
 
         {
             // Create Command queue.
-            GraphicsQueue = _d3d12Device.CreateCommandQueue(CommandListType.Direct);
+            GraphicsQueue = Device.CreateCommandQueue(CommandListType.Direct);
 
             SwapChainDescription1 swapChainDesc = new()
             {
@@ -203,8 +205,8 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
         // Create frame resources
         {
-            _rtvHeap = _d3d12Device.CreateDescriptorHeap<ID3D12DescriptorHeap>(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
-            _rtvDescriptorSize = _d3d12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.RenderTargetView);
+            _rtvHeap = Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.RenderTargetView, RenderLatency));
+            _rtvDescriptorSize = Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.RenderTargetView);
 
             CpuDescriptorHandle rtvHandle = _rtvHeap.GetCPUDescriptorHandleForHeapStart();
 
@@ -213,7 +215,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
             for (int i = 0; i < RenderLatency; i++)
             {
                 _renderTargets[i] = SwapChain.GetBuffer<ID3D12Resource>(i);
-                _d3d12Device.CreateRenderTargetView(_renderTargets[i], null, rtvHandle);
+                Device.CreateRenderTargetView(_renderTargets[i], null, rtvHandle);
                 rtvHandle += _rtvDescriptorSize;
             }
         }
@@ -222,10 +224,10 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
             _commandAllocators = new ID3D12CommandAllocator[RenderLatency];
             for (int i = 0; i < RenderLatency; i++)
             {
-                _commandAllocators[i] = _d3d12Device.CreateCommandAllocator(CommandListType.Direct);
+                _commandAllocators[i] = Device.CreateCommandAllocator(CommandListType.Direct);
             }
 
-            _commandList = _d3d12Device.CreateCommandList<ID3D12GraphicsCommandList4>(0, CommandListType.Direct, _commandAllocators[0]);
+            _commandList = Device.CreateCommandList<ID3D12GraphicsCommandList4>(0, CommandListType.Direct, _commandAllocators[0]);
             _commandList.Close();
         }
 
@@ -233,7 +235,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
         {
             var globalRootSignatureDescription = new RootSignatureDescription1(RootSignatureFlags.None);
 
-            _globalRootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, globalRootSignatureDescription);
+            _globalRootSignature = Device.CreateRootSignature(globalRootSignatureDescription);
 
 
             var rayGenSignatureDescription = new RootSignatureDescription1(RootSignatureFlags.LocalRootSignature);
@@ -246,7 +248,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                             ), ShaderVisibility.All),
                 };
 
-            _rayGenRootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, rayGenSignatureDescription);
+            _rayGenRootSignature = Device.CreateRootSignature(rayGenSignatureDescription);
 
             var hitRootSignatureDescription = new RootSignatureDescription1(RootSignatureFlags.LocalRootSignature)
             {
@@ -255,12 +257,10 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                     new RootParameter1(RootParameterType.ShaderResourceView, new RootDescriptor1(0, 0), ShaderVisibility.All),
                 }
             };
-            _hitRootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, hitRootSignatureDescription);
+            _hitRootSignature = Device.CreateRootSignature(hitRootSignatureDescription);
 
             var missRootSignatureDescription = new RootSignatureDescription1(RootSignatureFlags.LocalRootSignature);
-
-            _missRootSignature = _d3d12Device.CreateRootSignature<ID3D12RootSignature>(0, missRootSignatureDescription);
-
+            _missRootSignature = Device.CreateRootSignature(missRootSignatureDescription);
 
             // Create the shaders
             var rayGenShaderBlob = CompileLibraryShader(@"Shaders\Raygen.hlsl");
@@ -313,7 +313,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                     globalRootSignatureStateObject,
                 };
 
-            _raytracingStateObject = _d3d12Device!.CreateStateObject<ID3D12StateObject>(new StateObjectDescription(StateObjectType.RaytracingPipeline, stateSubObjects));
+            _raytracingStateObject = Device.CreateStateObject(new StateObjectDescription(StateObjectType.RaytracingPipeline, stateSubObjects));
         }
 
         // Create the vertex buffer
@@ -329,10 +329,10 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
             int vertexBufferSize = 3 * vertexStride;
 
-            _vertexBuffer = _d3d12Device.CreateCommittedResource(HeapType.Upload,
-                    HeapFlags.None,
-                    ResourceDescription.Buffer((ulong)vertexBufferSize),
-                    ResourceStates.GenericRead);
+            _vertexBuffer = Device.CreateCommittedResource(
+                HeapType.Upload,
+                ResourceDescription.Buffer((ulong)vertexBufferSize),
+                ResourceStates.GenericRead);
 
             Span<Vertex> bufferData = _vertexBuffer.Map<Vertex>(0, 3);
             ReadOnlySpan<Vertex> src = new(triangleVertices);
@@ -359,7 +359,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 GeometryDescriptions = new[] { geometryDescription },
             };
 
-            var bottomLevelInfo = _d3d12Device.GetRaytracingAccelerationStructurePrebuildInfo(bottomLevelInputs);
+            var bottomLevelInfo = Device.GetRaytracingAccelerationStructurePrebuildInfo(bottomLevelInputs);
 
             if (bottomLevelInfo.ResultDataMaxSizeInBytes == 0)
                 throw new Exception("Failed to create bottom level inputs.");
@@ -373,29 +373,26 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 DescriptorsCount = 1,
             };
 
-            var topLevelInfo = _d3d12Device.GetRaytracingAccelerationStructurePrebuildInfo(topLevelInputs);
+            var topLevelInfo = Device.GetRaytracingAccelerationStructurePrebuildInfo(topLevelInputs);
 
             if (topLevelInfo.ResultDataMaxSizeInBytes == 0)
                 throw new Exception("Failed to create top level inputs.");
 
 
-            using ID3D12Resource scratchResource = _d3d12Device.CreateCommittedResource(
+            using ID3D12Resource scratchResource = Device.CreateCommittedResource(
                 HeapType.Default,
-                HeapFlags.None,
                 ResourceDescription.Buffer(Math.Max(topLevelInfo.ScratchDataSizeInBytes, bottomLevelInfo.ScratchDataSizeInBytes), ResourceFlags.AllowUnorderedAccess),
                 ResourceStates.UnorderedAccess
                 );
 
-            _bottomLevelAccelerationStructure = _d3d12Device.CreateCommittedResource(
+            _bottomLevelAccelerationStructure = Device.CreateCommittedResource(
                 HeapType.Default,
-                HeapFlags.None,
                 ResourceDescription.Buffer(Math.Max(topLevelInfo.ScratchDataSizeInBytes, bottomLevelInfo.ResultDataMaxSizeInBytes), ResourceFlags.AllowUnorderedAccess),
                 ResourceStates.RaytracingAccelerationStructure
                 );
 
-            _topLevelAccelerationStructure = _d3d12Device.CreateCommittedResource(
+            _topLevelAccelerationStructure = Device.CreateCommittedResource(
                 HeapType.Default,
-                HeapFlags.None,
                 ResourceDescription.Buffer(Math.Max(topLevelInfo.ScratchDataSizeInBytes, bottomLevelInfo.ResultDataMaxSizeInBytes), ResourceFlags.AllowUnorderedAccess),
                 ResourceStates.RaytracingAccelerationStructure
                 );
@@ -414,9 +411,8 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 AccelerationStructure = _bottomLevelAccelerationStructure.GPUVirtualAddress,
             };
 
-            _instanceBuffer = _d3d12Device.CreateCommittedResource(
-                new HeapProperties(HeapType.Upload),
-                HeapFlags.None,
+            _instanceBuffer = Device.CreateCommittedResource(
+                HeapType.Upload,
                 ResourceDescription.Buffer(sizeof(RaytracingInstanceDescription)),
                 ResourceStates.GenericRead);
 
@@ -473,9 +469,8 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 SampleDescription = new SampleDescription(1, 0),
             };
 
-            _outputBuffer = _d3d12Device.CreateCommittedResource(
-                new HeapProperties(HeapType.Default),
-                HeapFlags.None,
+            _outputBuffer = Device.CreateCommittedResource(
+                HeapType.Default,
                 outputBufferDescription,
                 ResourceStates.CopySource);
         }
@@ -484,19 +479,18 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
         {
             const int ShaderResourceDescriptorCount = 2;
 
-            _shaderViewHeap = _d3d12Device.CreateDescriptorHeap<ID3D12DescriptorHeap>(new DescriptorHeapDescription(DescriptorHeapType.ConstantBufferViewShaderResourceViewUnorderedAccessView, ShaderResourceDescriptorCount, DescriptorHeapFlags.ShaderVisible));
+            _shaderViewHeap = Device.CreateDescriptorHeap(new DescriptorHeapDescription(DescriptorHeapType.ConstantBufferViewShaderResourceViewUnorderedAccessView, ShaderResourceDescriptorCount, DescriptorHeapFlags.ShaderVisible));
 
-            var shaderViewDescriptorSize = _d3d12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.ConstantBufferViewShaderResourceViewUnorderedAccessView);
+            var shaderViewDescriptorSize = Device.GetDescriptorHandleIncrementSize(DescriptorHeapType.ConstantBufferViewShaderResourceViewUnorderedAccessView);
 
             var shaderViewHandle = _shaderViewHeap.GetCPUDescriptorHandleForHeapStart();
 
 
             var outputBufferViewDescription = new UnorderedAccessViewDescription { ViewDimension = UnorderedAccessViewDimension.Texture2D };
 
-            _d3d12Device.CreateUnorderedAccessView(_outputBuffer, null, outputBufferViewDescription, shaderViewHandle);
+            Device.CreateUnorderedAccessView(_outputBuffer, null, outputBufferViewDescription, shaderViewHandle);
 
-
-            var accelerationStructureViewDescription = new ShaderResourceViewDescription
+            ShaderResourceViewDescription accelerationStructureViewDescription = new()
             {
                 Format = Format.Unknown,
                 ViewDimension = ShaderResourceViewDimension.RaytracingAccelerationStructure,
@@ -504,7 +498,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 RaytracingAccelerationStructure = new RaytracingAccelerationStructureShaderResourceView { Location = _topLevelAccelerationStructure.GPUVirtualAddress },
             };
 
-            _d3d12Device.CreateShaderResourceView(null, accelerationStructureViewDescription, shaderViewHandle + shaderViewDescriptorSize);
+            Device.CreateShaderResourceView(null, accelerationStructureViewDescription, shaderViewHandle + shaderViewDescriptorSize);
         }
 
         // Create the shader binding table
@@ -517,10 +511,10 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
             var shaderBindingTableSize = _shaderBindingTableEntrySize * 3;
 
-            _shaderBindingTableBuffer = _d3d12Device.CreateCommittedResource<ID3D12Resource>(new HeapProperties(HeapType.Upload),
-                                                                               HeapFlags.None,
-                                                                               ResourceDescription.Buffer((ulong)shaderBindingTableSize),
-                                                                               ResourceStates.GenericRead);
+            _shaderBindingTableBuffer = Device.CreateCommittedResource(
+                HeapType.Upload,
+                ResourceDescription.Buffer(shaderBindingTableSize),
+                ResourceStates.GenericRead);
 
             byte* shaderBindingTableBufferDataPointer;
             _shaderBindingTableBuffer.Map(0, &shaderBindingTableBufferDataPointer).CheckError();
@@ -583,12 +577,12 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
         _vertexBuffer.Dispose();
 
 #if DEBUG
-        uint refCount = _d3d12Device.Release();
+        uint refCount = Device.Release();
         if (refCount > 0)
         {
             System.Diagnostics.Debug.WriteLine($"Direct3D11: There are {refCount} unreleased references left on the device");
 
-            ID3D12DebugDevice? d3d12DebugDevice = _d3d12Device.QueryInterfaceOrNull<ID3D12DebugDevice>();
+            ID3D12DebugDevice? d3d12DebugDevice = Device.QueryInterfaceOrNull<ID3D12DebugDevice>();
             if (d3d12DebugDevice != null)
             {
                 d3d12DebugDevice.ReportLiveDeviceObjects(ReportLiveDeviceObjectFlags.Detail | ReportLiveDeviceObjectFlags.IgnoreInternal);

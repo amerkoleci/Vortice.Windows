@@ -169,5 +169,35 @@ public partial class ID3D12Device5
         stateObject = MarshallingHelpers.FromPointer<T>(nativePtr);
         return result;
     }
+
+    /// <summary>
+    /// Creates a <see cref="ID3D12StateObject"/>.
+    /// </summary>
+    /// <param name="description">The description of the state object to create.</param>
+    /// <returns>An instance of <see cref="ID3D12StateObject"/>.</returns>
+    public ID3D12StateObject CreateStateObject(StateObjectDescription description) 
+    {
+        CreateStateObject(description, typeof(ID3D12StateObject).GUID, out IntPtr nativePtr).CheckError();
+        return new(nativePtr);
+    }
+
+    /// <summary>
+    /// Creates a <see cref="ID3D12StateObject"/>.
+    /// </summary>
+    /// <param name="description">The description of the state object to create.</param>
+    /// <param name="stateObject">An instance of <see cref="ID3D12StateObject"/>.</param>
+    /// <returns>The result of operation.</returns>
+    public Result CreateStateObject(StateObjectDescription description, out ID3D12StateObject? stateObject) 
+    {
+        Result result = CreateStateObject(description, typeof(ID3D12StateObject).GUID, out IntPtr nativePtr);
+        if (result.Failure)
+        {
+            stateObject = default;
+            return result;
+        }
+
+        stateObject = new(nativePtr);
+        return result;
+    }
     #endregion
 }

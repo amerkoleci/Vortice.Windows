@@ -1247,7 +1247,7 @@ public unsafe partial class ID3D12Device
 
     #region GetCopyableFootprints
 
-    public unsafe void GetCopyableFootprints(
+    public void GetCopyableFootprints(
         ResourceDescription resourceDesc,
         int firstSubresource,
         int numSubresources,
@@ -1257,7 +1257,9 @@ public unsafe partial class ID3D12Device
         GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, (void*)null, (void*)null, (void*)null, out totalBytes);
     }
 
-    public unsafe void GetCopyableFootprints(ResourceDescription resourceDesc, int firstSubresource, int numSubresources,
+    public void GetCopyableFootprints(ResourceDescription resourceDesc,
+        int firstSubresource,
+        int numSubresources,
         ulong baseOffset,
         PlacedSubresourceFootPrint[] layouts,
         int[] numRows,
@@ -1272,7 +1274,7 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public unsafe void GetCopyableFootprints(
+    public void GetCopyableFootprints(
         ResourceDescription resourceDesc,
         int firstSubresource,
         int numSubresources,

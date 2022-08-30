@@ -128,6 +128,19 @@ public unsafe partial class ID3D12Resource
         return mipSlice + arraySlice * mipLevels + planeSlice * mipLevels * arraySize;
     }
 
+    public static void DecomposeSubresource(
+        int subresource,
+        int mipLevels,
+        int arraySize,
+        out int mipSlice,
+        out int arraySlice,
+        out int planeSlice)
+    {
+        mipSlice = subresource % mipLevels;
+        arraySlice = (subresource / mipLevels) % arraySize;
+        planeSlice = subresource / (mipLevels * arraySize);
+    }
+
     public unsafe Result WriteToSubresource<T>(
         int destinationSubresource,
         Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
