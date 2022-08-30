@@ -18,4 +18,15 @@ public partial struct ConstantBufferViewDescription
         BufferLocation = bufferLocation;
         SizeInBytes = sizeInBytes;
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ConstantBufferViewDescription"/> struct.
+    /// </summary>
+    /// <param name="resource">The <see cref="ID3D12Resource"/> to get gpu virtual address.</param>
+    /// <param name="sizeInBytes">The size in bytes of the constant buffer.</param>
+    public ConstantBufferViewDescription(ID3D12Resource resource, int sizeInBytes = 0)
+    {
+        BufferLocation = resource.GPUVirtualAddress;
+        SizeInBytes = sizeInBytes == 0 ? (int)resource.Description.Width : sizeInBytes;
+    }
 }

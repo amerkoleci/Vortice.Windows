@@ -56,21 +56,21 @@ public partial struct ResourceDescription
     }
 
     public static ResourceDescription Buffer(
-        ulong width,
+        ulong sizeInBytes,
         ResourceFlags flags = ResourceFlags.None,
         ulong alignment = 0)
     {
-        return new ResourceDescription(ResourceDimension.Buffer, alignment, width, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
+        return new ResourceDescription(ResourceDimension.Buffer, alignment, sizeInBytes, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
     }
 
     public static ResourceDescription Buffer(
-        long width,
+        long sizeInBytes,
         ResourceFlags flags = ResourceFlags.None,
         long alignment = 0)
     {
         checked
         {
-            return new ResourceDescription(ResourceDimension.Buffer, (ulong)alignment, (ulong)width, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
+            return new ResourceDescription(ResourceDimension.Buffer, (ulong)alignment, (ulong)sizeInBytes, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
         }
     }
 

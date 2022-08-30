@@ -513,7 +513,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         }
         else
         {
-            OMSetRenderTargets(1, &renderTargetDescriptor, false, depthStencilDescriptor);
+            OMSetRenderTargets(1, (void*)&renderTargetDescriptor, false, depthStencilDescriptor);
         }
     }
 
@@ -543,7 +543,7 @@ public unsafe partial class ID3D12GraphicsCommandList
     {
         fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
         {
-            OMSetRenderTargets(renderTargetDescriptors.Length, renderTargetDescriptorsPtr, false, depthStencilDescriptor);
+            OMSetRenderTargets(renderTargetDescriptors.Length, (void*)renderTargetDescriptorsPtr, false, depthStencilDescriptor);
         }
     }
 
@@ -558,7 +558,7 @@ public unsafe partial class ID3D12GraphicsCommandList
     /// depth/stencil target. </param>
     public void OMSetRenderTargets(int numRenderTargetDescriptors, CpuDescriptorHandle firstRenderTargetDescriptor, CpuDescriptorHandle? depthStencilDescriptor = null)
     {
-        OMSetRenderTargets(numRenderTargetDescriptors, &firstRenderTargetDescriptor, true, depthStencilDescriptor);
+        OMSetRenderTargets(numRenderTargetDescriptors, (void*)&firstRenderTargetDescriptor, true, depthStencilDescriptor);
     }
 
     public void OMSetRenderTargets(
@@ -569,7 +569,7 @@ public unsafe partial class ID3D12GraphicsCommandList
     {
         fixed (CpuDescriptorHandle* renderTargetDescriptorsPtr = renderTargetDescriptors)
         {
-            OMSetRenderTargets(numRenderTargetDescriptors, renderTargetDescriptorsPtr, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
+            OMSetRenderTargets(numRenderTargetDescriptors, (void*)renderTargetDescriptorsPtr, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
         }
     }
 
@@ -579,7 +579,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         bool RTsSingleHandleToDescriptorRange = false,
         CpuDescriptorHandle? depthStencilDescriptor = null)
     {
-        OMSetRenderTargets(numRenderTargetDescriptors, renderTargetDescriptors, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
+        OMSetRenderTargets(numRenderTargetDescriptors, (void*)renderTargetDescriptors, RTsSingleHandleToDescriptorRange, depthStencilDescriptor);
     }
 
     #region IASetVertexBuffers
