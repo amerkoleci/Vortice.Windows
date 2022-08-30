@@ -50,16 +50,22 @@ public unsafe partial class ID3D12Resource
 
     public void SetData<T>(ReadOnlySpan<T> source, int offsetInBytes = 0) where T : unmanaged
     {
-        SetData(ref MemoryMarshal.GetReference(source), (uint)(source.Length * sizeof(T)), offsetInBytes);
+        void* pMappedData;
+        Map(0, default, &pMappedData).CheckError();
+        fixed (T* sourcePtr = source)
+        {
+            Unsafe.CopyBlockUnaligned((byte*)pMappedData + offsetInBytes, sourcePtr, (uint)(source.Length * sizeof(T)));
+        }
+        Unmap(0);
     }
 
-    public void SetData<T>(ref T source, uint sizeInBytes, int offsetInBytes = 0) where T : unmanaged
+    public void SetData<T>(in T source, int offsetInBytes = 0) where T : unmanaged
     {
         void* pMappedData;
         Map(0, default, &pMappedData).CheckError();
         fixed (void* sourcePointer = &source)
         {
-            Unsafe.CopyBlockUnaligned((byte*)pMappedData + offsetInBytes, sourcePointer, sizeInBytes);
+            Unsafe.CopyBlockUnaligned((byte*)pMappedData + offsetInBytes, sourcePointer, (uint)sizeof(T));
         }
         Unmap(0);
     }

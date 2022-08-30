@@ -991,6 +991,9 @@
     <map param="ID3D12GraphicsCommandList::ResourceBarrier::pBarriers" type="void" keep-pointers="true"/>
     <map method="ID3D12GraphicsCommandList::ResourceBarrier" visibility="private"/>
 
+    <map param="ID3D12GraphicsCommandList::SetDescriptorHeaps::ppDescriptorHeaps" type="void" keep-pointers="true"/>
+    <map method="ID3D12GraphicsCommandList::SetDescriptorHeaps" visibility="private"/>
+
     <map method="ID3D12GraphicsCommandList::SetPipelineState" property="false"/>
     <map method="ID3D12GraphicsCommandList::SetComputeRootSignature" property="false"/>
     <map method="ID3D12GraphicsCommandList::SetGraphicsRootSignature" property="false"/>

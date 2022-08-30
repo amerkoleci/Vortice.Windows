@@ -248,6 +248,7 @@
     <map method="IDXGIDevice::GetAdapter" property="false" hresult="true" check="false"/>
 
     <!-- IDXGIOutput -->
+    <map method="IDXGIOutput::GetDesc" persist="true"/>
     <map method="IDXGIOutput::FindClosestMatchingMode" visibility="private" />
     <map method="IDXGIOutput::GetDisplayModeList" visibility="private" />
     <map method="IDXGIOutput::SetDisplaySurface" property="false" />

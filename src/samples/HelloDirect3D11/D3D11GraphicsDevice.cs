@@ -445,12 +445,12 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
                     // The application creates the HDR10 signal.
                     ColorSpace = ColorSpaceType.RgbFullG2084NoneP2020;
                     break;
-            
+
                 case Format.R16G16B16A16_Float:
                     // The system creates the HDR10 signal; application uses linear values.
                     ColorSpace = ColorSpaceType.RgbFullG10NoneP709;
                     break;
-            
+
                 default:
                     ColorSpace = ColorSpaceType.RgbFullG22NoneP709;
                     break;
@@ -470,12 +470,12 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
 
     private static int ComputeIntersectionArea(
         int ax1, int ay1, int ax2, int ay2,
-        int bx1, int by1, int bx2, int by2) 
+        int bx1, int by1, int bx2, int by2)
     {
         return Math.Max(0, Math.Min(ax2, bx2) - Math.Max(ax1, bx1)) * Math.Max(0, Math.Min(ay2, by2) - Math.Max(ay1, by1));
     }
 
-private static ReadOnlyMemory<byte> CompileBytecode(string shaderName, string entryPoint, string profile)
+    private static ReadOnlyMemory<byte> CompileBytecode(string shaderName, string entryPoint, string profile)
     {
         string assetsPath = Path.Combine(AppContext.BaseDirectory, "Assets");
         string shaderFile = Path.Combine(assetsPath, shaderName);

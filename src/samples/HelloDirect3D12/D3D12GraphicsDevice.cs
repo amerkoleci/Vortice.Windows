@@ -248,7 +248,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             ResourceDescription.Buffer((ulong)vertexBufferSize),
             ResourceStates.GenericRead);
 
-        VertexPositionColor[] triangleVertices = new VertexPositionColor[]
+        ReadOnlySpan<VertexPositionColor> triangleVertices = new VertexPositionColor[]
         {
             new VertexPositionColor(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
             new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
@@ -256,17 +256,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         };
 
         _vertexBuffer.SetData(triangleVertices);
-        VertexPositionColor[] data = new VertexPositionColor[3];
-        _vertexBuffer.GetData(data.AsSpan());
-
-        //unsafe
-        //{
-        //    Span<VertexPositionColor> bufferData = _vertexBuffer.Map<VertexPositionColor>(0, 3);
-        //    ReadOnlySpan<VertexPositionColor> src = new(triangleVertices);
-        //    src.CopyTo(bufferData);
-        //    _vertexBuffer.Unmap(0);
-        //}
-
+        
         // Create synchronization objects.
         _frameFence = Device.CreateFence(0);
         _frameFenceEvent = new AutoResetEvent(false);

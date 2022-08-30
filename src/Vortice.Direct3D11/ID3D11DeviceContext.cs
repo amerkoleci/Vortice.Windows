@@ -97,7 +97,7 @@ public unsafe partial class ID3D11DeviceContext
         OMSetRenderTargets(renderTargetViews.Length, renderTargetViewsPtr, depthStencilView);
     }
 
-    public void OMSetRenderTargets(Span<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
+    public void OMSetRenderTargets(ReadOnlySpan<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
     {
         IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
         for (int i = 0; i < renderTargetViews.Length; i++)
