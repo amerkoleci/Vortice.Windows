@@ -133,14 +133,16 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
 
         if (_depthStencilFormat != Format.Unknown)
         {
-            ResourceDescription depthStencilDesc = ResourceDescription.Texture2D(_depthStencilFormat, (ulong)swapChainDesc.Width, swapChainDesc.Height, 1, 1);
-            depthStencilDesc.Flags |= ResourceFlags.AllowDepthStencil;
+            ResourceDescription depthStencilDesc = ResourceDescription.Texture2D(
+                _depthStencilFormat,
+                (uint)swapChainDesc.Width,
+                (uint)swapChainDesc.Height,
+                flags: ResourceFlags.AllowDepthStencil);
 
             ClearValue depthOptimizedClearValue = new ClearValue(_depthStencilFormat, 1.0f, 0);
 
             _depthStencilTexture = Device.CreateCommittedResource(
-                new HeapProperties(HeapType.Default),
-                HeapFlags.None,
+                HeapType.Default,
                 depthStencilDesc,
                 ResourceStates.DepthWrite,
                 depthOptimizedClearValue);
@@ -243,9 +245,8 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         int vertexBufferSize = 3 * Unsafe.SizeOf<VertexPositionColor>();
 
         _vertexBuffer = Device.CreateCommittedResource(
-            new HeapProperties(HeapType.Upload),
-            HeapFlags.None,
-            ResourceDescription.Buffer((ulong)vertexBufferSize),
+            HeapType.Upload,
+            ResourceDescription.Buffer(vertexBufferSize),
             ResourceStates.GenericRead);
 
         ReadOnlySpan<VertexPositionColor> triangleVertices = new VertexPositionColor[]
