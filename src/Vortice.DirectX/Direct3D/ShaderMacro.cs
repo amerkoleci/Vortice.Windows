@@ -1,6 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using Vortice.Mathematics;
 using static Vortice.UnsafeUtilities;
 
 namespace Vortice.Direct3D;
@@ -23,12 +24,8 @@ public partial struct ShaderMacro : IEquatable<ShaderMacro>
         return string.Equals(Name, other.Name) && string.Equals(Definition, other.Definition);
     }
 
-    public override bool Equals(object obj)
-    {
-        if (ReferenceEquals(null, obj))
-            return false;
-        return obj is ShaderMacro shaderMacro && Equals(shaderMacro);
-    }
+    /// <inheritdoc/>
+    public override bool Equals(object? obj) => obj is ShaderMacro value && Equals(value);
 
     public override int GetHashCode()
     {

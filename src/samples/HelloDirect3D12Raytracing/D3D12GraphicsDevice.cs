@@ -132,16 +132,16 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
             if (d3d12Device == null)
             {
-                foreach (IDXGIAdapter1 adapter in DXGIFactory.EnumAdapters1())
+                for (int adapterIndex = 0;
+                    DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
+                    adapterIndex++)
                 {
-                    if (d3d12Device != null)
-                        break;
-
                     AdapterDescription1 desc = adapter.Description1;
 
                     // Don't select the Basic Render Driver adapter.
                     if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
                     {
+                        adapter.Dispose();
                         continue;
                     }
 
@@ -149,6 +149,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                     {
                         if (D3D12CreateDevice(adapter, s_featureLevels[i], out d3d12Device).Success)
                         {
+                            adapter.Dispose();
                             Console.WriteLine($"Create Direct3D12 device {s_featureLevels[i]} with adapter: VID:{desc.VendorId:X}, PID:{desc.DeviceId:X} - {desc.Description}");
                             break;
                         }

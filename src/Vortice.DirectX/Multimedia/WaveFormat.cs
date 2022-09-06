@@ -228,7 +228,7 @@ public partial class WaveFormat
     /// <param name="channels">number of channels</param>
     public static WaveFormat CreateIeeeFloatWaveFormat(int sampleRate, int channels)
     {
-        var format = new WaveFormat
+        WaveFormat format = new()
         {
             waveFormatTag = WaveFormatEncoding.IeeeFloat,
             channels = (short)channels,
@@ -383,9 +383,9 @@ public partial class WaveFormat
     /// </summary>
     /// <param name="obj">Object to compare to</param>
     /// <returns>True if the objects are the same</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
-        if (!(obj is WaveFormat))
+        if (obj is not WaveFormat)
             return false;
 
         WaveFormat other = (WaveFormat)obj;
@@ -430,23 +430,23 @@ public partial class WaveFormat
     }
     internal unsafe void __MarshalFrom(ref __Native @ref)
     {
-        this.waveFormatTag = @ref.pcmWaveFormat.waveFormatTag;
-        this.channels = @ref.pcmWaveFormat.channels;
-        this.sampleRate = @ref.pcmWaveFormat.sampleRate;
-        this.averageBytesPerSecond = @ref.pcmWaveFormat.averageBytesPerSecond;
-        this.blockAlign = @ref.pcmWaveFormat.blockAlign;
-        this.bitsPerSample = @ref.pcmWaveFormat.bitsPerSample;
-        this.extraSize = @ref.extraSize;
+        waveFormatTag = @ref.pcmWaveFormat.waveFormatTag;
+        channels = @ref.pcmWaveFormat.channels;
+        sampleRate = @ref.pcmWaveFormat.sampleRate;
+        averageBytesPerSecond = @ref.pcmWaveFormat.averageBytesPerSecond;
+        blockAlign = @ref.pcmWaveFormat.blockAlign;
+        bitsPerSample = @ref.pcmWaveFormat.bitsPerSample;
+        extraSize = @ref.extraSize;
     }
     internal unsafe void __MarshalTo(ref __Native @ref)
     {
-        @ref.pcmWaveFormat.waveFormatTag = this.waveFormatTag;
-        @ref.pcmWaveFormat.channels = this.channels;
-        @ref.pcmWaveFormat.sampleRate = this.sampleRate;
-        @ref.pcmWaveFormat.averageBytesPerSecond = this.averageBytesPerSecond;
-        @ref.pcmWaveFormat.blockAlign = this.blockAlign;
-        @ref.pcmWaveFormat.bitsPerSample = this.bitsPerSample;
-        @ref.extraSize = this.extraSize;
+        @ref.pcmWaveFormat.waveFormatTag = waveFormatTag;
+        @ref.pcmWaveFormat.channels = channels;
+        @ref.pcmWaveFormat.sampleRate = sampleRate;
+        @ref.pcmWaveFormat.averageBytesPerSecond = averageBytesPerSecond;
+        @ref.pcmWaveFormat.blockAlign = blockAlign;
+        @ref.pcmWaveFormat.bitsPerSample = bitsPerSample;
+        @ref.extraSize = extraSize;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 2)]
@@ -477,22 +477,22 @@ public partial class WaveFormat
 
     internal unsafe void __MarshalFrom(ref __PcmNative @ref)
     {
-        this.waveFormatTag = @ref.waveFormatTag;
-        this.channels = @ref.channels;
-        this.sampleRate = @ref.sampleRate;
-        this.averageBytesPerSecond = @ref.averageBytesPerSecond;
-        this.blockAlign = @ref.blockAlign;
-        this.bitsPerSample = @ref.bitsPerSample;
-        this.extraSize = 0;
+        waveFormatTag = @ref.waveFormatTag;
+        channels = @ref.channels;
+        sampleRate = @ref.sampleRate;
+        averageBytesPerSecond = @ref.averageBytesPerSecond;
+        blockAlign = @ref.blockAlign;
+        bitsPerSample = @ref.bitsPerSample;
+        extraSize = 0;
     }
     internal unsafe void __MarshalTo(ref __PcmNative @ref)
     {
-        @ref.waveFormatTag = this.waveFormatTag;
-        @ref.channels = this.channels;
-        @ref.sampleRate = this.sampleRate;
-        @ref.averageBytesPerSecond = this.averageBytesPerSecond;
-        @ref.blockAlign = this.blockAlign;
-        @ref.bitsPerSample = this.bitsPerSample;
+        @ref.waveFormatTag = waveFormatTag;
+        @ref.channels = channels;
+        @ref.sampleRate = sampleRate;
+        @ref.averageBytesPerSecond = averageBytesPerSecond;
+        @ref.blockAlign = blockAlign;
+        @ref.bitsPerSample = bitsPerSample;
     }
     #endregion
 }

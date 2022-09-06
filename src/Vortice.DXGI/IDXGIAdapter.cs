@@ -5,48 +5,6 @@ namespace Vortice.DXGI;
 
 public partial class IDXGIAdapter
 {
-    private readonly List<IDXGIOutput> _outputs = new(8);
-
-    protected override void NativePointerUpdated(IntPtr oldNativePointer)
-    {
-        base.NativePointerUpdated(oldNativePointer);
-        if (oldNativePointer != IntPtr.Zero)
-        {
-            DisposeOutputs();
-        }
-    }
-
-    private void DisposeOutputs()
-    {
-        if (_outputs.Count > 0)
-        {
-            foreach (IDXGIOutput output in _outputs)
-            {
-                MemoryHelpers.Dispose(output, true);
-            }
-
-            _outputs.Clear();
-        }
-    }
-
-    public IEnumerable<IDXGIOutput> EnumOutputs()
-    {
-        DisposeOutputs();
-
-        while (true)
-        {
-            Result result = EnumOutputs(_outputs.Count, out IDXGIOutput? output);
-            if (result.Failure || output == null)
-            {
-                break;
-            }
-
-            _outputs.Add(output);
-        }
-
-        return _outputs;
-    }
-
     public bool CheckInterfaceSupport<T>() where T : ComObject
     {
         return CheckInterfaceSupport(typeof(T), out _);

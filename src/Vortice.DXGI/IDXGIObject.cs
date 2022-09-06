@@ -20,7 +20,7 @@ public unsafe partial class IDXGIObject
             }
 
             pname[size] = 0;
-            return Marshal.PtrToStringAnsi(new IntPtr(pname));
+            return Marshal.PtrToStringAnsi(new IntPtr(pname)) ?? string.Empty;
         }
         set
         {

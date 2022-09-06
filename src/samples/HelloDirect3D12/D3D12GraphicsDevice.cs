@@ -75,18 +75,22 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         DXGIFactory = CreateDXGIFactory2<IDXGIFactory4>(validation);
 
         ID3D12Device2? d3d12Device = default;
-        foreach (IDXGIAdapter1 adapter in DXGIFactory.EnumAdapters1())
+        for (int adapterIndex = 0;
+            DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
+            adapterIndex++)
         {
             AdapterDescription1 desc = adapter.Description1;
 
             // Don't select the Basic Render Driver adapter.
             if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
             {
+                adapter.Dispose();
                 continue;
             }
 
             if (D3D12CreateDevice(adapter, FeatureLevel.Level_11_0, out d3d12Device).Success)
             {
+                adapter.Dispose();
                 break;
             }
         }

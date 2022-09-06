@@ -261,13 +261,17 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             factory6.Dispose();
         }
 
-        foreach (IDXGIAdapter1 adapter in Factory.EnumAdapters1())
+        for (int adapterIndex = 0;
+            Factory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
+            adapterIndex++)
         {
             AdapterDescription1 desc = adapter.Description1;
 
             if ((desc.Flags & AdapterFlags.Software) != AdapterFlags.None)
             {
                 // Don't select the Basic Render Driver adapter.
+                adapter.Dispose();
+
                 continue;
             }
 
@@ -403,9 +407,13 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             IDXGIOutput? bestOutput = default;
             long bestIntersectArea = -1;
 
-            foreach (IDXGIAdapter1 adapter in Factory.EnumAdapters1())
+            for (int adapterIndex = 0;
+                Factory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
+                adapterIndex++)
             {
-                foreach (IDXGIOutput output in adapter.EnumOutputs())
+                for (int outputIndex = 0;
+                    adapter.EnumOutputs(outputIndex, out IDXGIOutput? output).Success;
+                    outputIndex++)
                 {
                     // Get the rectangle bounds of current output.
                     OutputDescription outputDesc = output.Description;
@@ -418,7 +426,13 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
                         bestOutput = output;
                         bestIntersectArea = intersectArea;
                     }
+                    else
+                    {
+                        output?.Dispose();
+                    }
                 }
+
+                adapter.Dispose();
             }
 
             if (bestOutput != null)
@@ -461,7 +475,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         if (swapChain3 != null)
         {
             SwapChainColorSpaceSupportFlags colorSpaceSupport = swapChain3.CheckColorSpaceSupport(ColorSpace);
-            if (colorSpaceSupport.HasFlag(SwapChainColorSpaceSupportFlags.Present))
+            if ((colorSpaceSupport & SwapChainColorSpaceSupportFlags.Present) != SwapChainColorSpaceSupportFlags.None)
             {
                 swapChain3.SetColorSpace1(ColorSpace);
             }
