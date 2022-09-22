@@ -1,9 +1,13 @@
 # Changelog
 
-Current Stable Release:    2.1.19 (May 2022)
+Current Stable Release:    2.1.32 (September 2022)
 
 -----------------------------------------------
-Release:     2.2.X (August 2022)
+Release:     2.2.X (December 2022)
+-----------------------------------------------
+
+-----------------------------------------------
+Release:     2.1.32 (September 2022)
 -----------------------------------------------
 - [ENH] XAudio2: Add XAPO support.
 - [FIX] Direct3D11: FIX bug with marshalling and unset methods in ID3D11DeviceContext.
