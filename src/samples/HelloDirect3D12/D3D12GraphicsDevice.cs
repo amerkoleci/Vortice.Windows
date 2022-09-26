@@ -72,6 +72,16 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             validation = false;
         }
 
+        if (D3D12GetDebugInterface(out ID3D12DeviceRemovedExtendedDataSettings1? dredSettings).Success)
+        {
+            // Turn on auto-breadcrumbs and page fault reporting.
+            dredSettings.SetAutoBreadcrumbsEnablement(DredEnablement.ForcedOn);
+            dredSettings.SetPageFaultEnablement(DredEnablement.ForcedOn);
+            dredSettings.SetBreadcrumbContextEnablement(DredEnablement.ForcedOn);
+
+            dredSettings.Dispose();
+        }
+
         DXGIFactory = CreateDXGIFactory2<IDXGIFactory4>(validation);
 
         ID3D12Device2? d3d12Device = default;
@@ -242,7 +252,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
 
             _pipelineState = Device.CreateGraphicsPipelineState(psoDesc);
         }
-        
+
         _commandList = Device.CreateCommandList<ID3D12GraphicsCommandList4>(CommandListType.Direct, _commandAllocators[0], _pipelineState);
         _commandList.Close();
 
@@ -261,7 +271,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         };
 
         _vertexBuffer.SetData(triangleVertices);
-        
+
         // Create synchronization objects.
         _frameFence = Device.CreateFence(0);
         _frameFenceEvent = new AutoResetEvent(false);
@@ -404,8 +414,10 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
 
         Result result = SwapChain.Present(1, PresentFlags.None);
         if (result.Failure
-            && result.Code == Vortice.DXGI.ResultCode.DeviceRemoved.Code)
+            && (result.Code == Vortice.DXGI.ResultCode.DeviceRemoved.Code || result.Code == Vortice.DXGI.ResultCode.DeviceReset.Code))
         {
+            HandleDeviceLost();
+
             return false;
         }
 
@@ -423,6 +435,49 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         _backbufferIndex = SwapChain.CurrentBackBufferIndex;
 
         return true;
+    }
+
+    private void HandleDeviceLost()
+    {
+        Result removedReason = Device.DeviceRemovedReason;
+
+        ID3D12DeviceRemovedExtendedData1? dred = Device.QueryInterfaceOrNull<ID3D12DeviceRemovedExtendedData1>();
+
+        if (dred != null)
+        {
+            if (dred.GetAutoBreadcrumbsOutput1(out DredAutoBreadcrumbsOutput1? dredAutoBreadcrumbsOutput).Success)
+            {
+                AutoBreadcrumbNode1? currentNode = dredAutoBreadcrumbsOutput.HeadAutoBreadcrumbNode;
+                int index = 0;
+                while (currentNode != null)
+                {
+                    string? cmdListName = currentNode.CommandListDebugName;
+                    string? cmdQueueName = currentNode.CommandQueueDebugName;
+                    int expected = currentNode.BreadcrumbCount;
+                    int actual = currentNode.LastBreadcrumbValue.GetValueOrDefault();
+
+                    bool errorOccurred = actual > 0 && actual < expected;
+
+                    if (actual == 0)
+                    {
+                        // Don't bother logging nodes that don't submit anything
+                        currentNode = currentNode.Next;
+                        ++index;
+                        continue;
+                    }
+
+                    currentNode = currentNode.Next;
+                    ++index;
+                }
+            }
+
+            if (dred.GetPageFaultAllocationOutput1(out DredPageFaultOutput1? pageFaultOutput).Success)
+            {
+
+            }
+
+            dred.Dispose();
+        }
     }
 
     private static ReadOnlyMemory<byte> CompileBytecode(DxcShaderStage stage, string shaderName, string entryPoint)

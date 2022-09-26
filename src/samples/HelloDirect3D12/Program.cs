@@ -2,10 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using SharpGen.Runtime;
-using SharpGen.Runtime.Diagnostics;
 using Vortice;
-using Vortice.DXCore;
-using static Vortice.DXCore.DXCore;
 
 namespace HelloDirect3D12;
 

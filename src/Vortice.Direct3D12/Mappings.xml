@@ -765,6 +765,31 @@
     <map struct="D3D12_BARRIER_GROUP" name="BarrierGroup" native="true" struct-to-class="true" marshal="true" />
     <remove field="D3D12_BARRIER_GROUP::.*"/>
 
+    <!-- DRED -->
+    <map struct="D3D12_AUTO_BREADCRUMB_NODE" name="AutoBreadcrumbNode" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_AUTO_BREADCRUMB_NODE::.*"/>
+
+    <map struct="D3D12_AUTO_BREADCRUMB_NODE1" name="AutoBreadcrumbNode1" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_AUTO_BREADCRUMB_NODE1::.*"/>
+    
+    <map struct="D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT" name="DredAutoBreadcrumbsOutput" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT::.*"/>
+
+    <map struct="D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1" name="DredAutoBreadcrumbsOutput1" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT1::.*"/>
+
+    <map struct="D3D12_DRED_ALLOCATION_NODE" name="DredAllocationNode" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_DRED_ALLOCATION_NODE::.*"/>
+
+    <map struct="D3D12_DRED_ALLOCATION_NODE1" name="DredAllocationNode1" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_DRED_ALLOCATION_NODE1::.*"/>
+
+    <map struct="D3D12_DRED_PAGE_FAULT_OUTPUT" name="DredPageFaultOutput" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_DRED_PAGE_FAULT_OUTPUT::.*"/>
+
+    <map struct="D3D12_DRED_PAGE_FAULT_OUTPUT1" name="DredPageFaultOutput1" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_DRED_PAGE_FAULT_OUTPUT1::.*"/>
+
     <!-- ID3D12Object methods -->
     <map method="ID3D12Object::GetPrivateData" visibility="public" hresult="true" check="false"/>
     <map param="ID3D12Object::GetPrivateData::pData" type="void" keep-pointers="true"/>
@@ -1082,6 +1107,14 @@
     <!-- ID3D12PipelineLibrary1 methods -->
     <map method="ID3D12PipelineLibrary1::LoadPipeline" visibility="private"/>
     <map param="ID3D12PipelineLibrary1::LoadPipeline::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
+
+    <!-- ID3D12DeviceRemovedExtendedData1 -->
+    <map method="ID3D12DeviceRemovedExtendedData::GetAutoBreadcrumbsOutput" hresult="true" check="false" property="false" />
+    <map method="ID3D12DeviceRemovedExtendedData::GetPageFaultAllocationOutput" hresult="true" check="false" property="false" />
+
+    <!-- ID3D12DeviceRemovedExtendedData1 -->
+    <map method="ID3D12DeviceRemovedExtendedData1::GetAutoBreadcrumbsOutput1" hresult="true" check="false" property="false" />
+    <map method="ID3D12DeviceRemovedExtendedData1::GetPageFaultAllocationOutput1" hresult="true" check="false" property="false" />
 
     <!-- ID3D12VersionedRootSignatureDeserializer methods -->
     <map method="ID3D12VersionedRootSignatureDeserializer::GetRootSignatureDescAtVersion" name="GetRootSignatureDescAtVersion_" visibility="private"/>

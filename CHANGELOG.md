@@ -5,6 +5,7 @@ Current Stable Release:    2.1.32 (September 2022)
 -----------------------------------------------
 Release:     2.2.X (December 2022)
 -----------------------------------------------
+- [ENH] Direct3D12: Improve DRED support
 
 -----------------------------------------------
 Release:     2.1.32 (September 2022)
