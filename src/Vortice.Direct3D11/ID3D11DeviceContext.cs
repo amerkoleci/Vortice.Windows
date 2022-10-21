@@ -18,6 +18,8 @@ public unsafe partial class ID3D11DeviceContext
     /// </summary>
     public const int KeepUnorderedAccessViews = -1;
 
+    public const uint DefaultSampleMask = 0xffffffff;
+
     private static readonly void*[] s_NullBuffers = new void*[CommonShaderConstantBufferSlotCount]
     {
         null, null, null, null, null, null, null,
@@ -51,15 +53,46 @@ public unsafe partial class ID3D11DeviceContext
         ClearRenderTargetView(renderTargetView, new Color4(color));
     }
 
-    public void OMSetBlendState(ID3D11BlendState blendState, in Color blendFactor)
+    public void ClearRenderTargetView(ID3D11RenderTargetView renderTargetView, in Color4 color)
+    {
+        ClearRenderTargetView(renderTargetView, new Color4(color));
+    }
+
+    public void OMSetBlendState(ID3D11BlendState? blendState, float* blendFactor = default, uint sampleMask = DefaultSampleMask)
+    {
+        IntPtr blendStatePtr = blendState?.NativePointer ?? IntPtr.Zero;
+        ((delegate* unmanaged[Stdcall]<IntPtr, void*, float*, uint, void>)this[OMSetBlendState__vtbl_index])(NativePointer, (void*)blendStatePtr, blendFactor, sampleMask);
+    }
+
+    public void OMSetBlendState(ID3D11BlendState? blendState, ReadOnlySpan<float> blendFactor)
+    {
+        IntPtr blendStatePtr = blendState?.NativePointer ?? IntPtr.Zero;
+        fixed (float* blendFactorPtr = blendFactor)
+        {
+            ((delegate* unmanaged[Stdcall]<IntPtr, void*, float*, uint, void>)this[OMSetBlendState__vtbl_index])(NativePointer, (void*)blendStatePtr, blendFactorPtr, DefaultSampleMask);
+        }
+    }
+
+    public void OMSetBlendState(ID3D11BlendState? blendState, in Color blendFactor)
     {
         OMSetBlendState(blendState, new Color4(blendFactor));
     }
 
-    public void OMSetBlendState(ID3D11BlendState blendState, in Color blendFactor, int sampleMask)
+    public void OMSetBlendState(ID3D11BlendState? blendState, Color4 blendFactor)
+    {
+        OMSetBlendState(blendState, (float*)&blendFactor, DefaultSampleMask);
+    }
+
+    public void OMSetBlendState(ID3D11BlendState? blendState, in Color blendFactor, uint sampleMask)
     {
         OMSetBlendState(blendState, new Color4(blendFactor), sampleMask);
     }
+
+    public void OMSetBlendState(ID3D11BlendState? blendState, Color4 blendFactor, uint sampleMask)
+    {
+        OMSetBlendState(blendState, (float*)&blendFactor, sampleMask);
+    }
+
 
     /// <summary>
     /// Unsets the render targets.
@@ -333,21 +366,33 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
+    public void OMGetBlendState(out ID3D11BlendState blendState, float* blendFactor, out uint sampleMask)
+    {
+        IntPtr blendStatePtr = IntPtr.Zero;
+        ((delegate* unmanaged[Stdcall]<IntPtr, void*, float*, out uint, void>)this[OMGetBlendState__vtbl_index])(
+            NativePointer, &blendStatePtr, blendFactor, out sampleMask);
+        blendState = new ID3D11BlendState(blendStatePtr);
+    }
+
     public ID3D11BlendState OMGetBlendState()
     {
-        OMGetBlendState(out ID3D11BlendState blendState, out _, out _);
+        OMGetBlendState(out ID3D11BlendState blendState, default, out _);
         return blendState;
     }
 
     public ID3D11BlendState OMGetBlendState(out Color4 blendFactor)
     {
-        OMGetBlendState(out ID3D11BlendState blendState, out blendFactor, out _);
+        Color4 blendFactorResult = default;
+        OMGetBlendState(out ID3D11BlendState blendState, (float*)&blendFactorResult, out _);
+        blendFactor = blendFactorResult;
         return blendState;
     }
 
-    public ID3D11BlendState OMGetBlendState(out Color4 blendFactor, out int sampleMask)
+    public ID3D11BlendState OMGetBlendState(out Color4 blendFactor, out uint sampleMask)
     {
-        OMGetBlendState(out ID3D11BlendState blendState, out blendFactor, out sampleMask);
+        Color4 blendFactorResult = default;
+        OMGetBlendState(out ID3D11BlendState blendState, (float*)&blendFactorResult, out sampleMask);
+        blendFactor = blendFactorResult;
         return blendState;
     }
 

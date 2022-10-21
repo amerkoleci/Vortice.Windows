@@ -293,6 +293,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         DeviceContext.OMSetRenderTargets(RenderTargetView, DepthStencilView);
         DeviceContext.RSSetViewport(new Viewport(Size.Width, Size.Height));
         DeviceContext.RSSetScissorRect(Size.Width, Size.Height);
+        DeviceContext.OMSetBlendState(null);
 
         DeviceContext.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
         DeviceContext.VSSetShader(_vertexShader);

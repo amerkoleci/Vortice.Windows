@@ -800,9 +800,10 @@
     <map param="ID3D11DeviceContext::RSGetViewports::pViewports" type="void" keep-pointers="true"/>
     <map method="ID3D11DeviceContext::RSSetViewports" visibility="internal" />
     <map param="ID3D11DeviceContext::RSSetViewports::pViewports" type="void" keep-pointers="true"/>
-    <map param="ID3D11DeviceContext::OMGetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" />
-    <map param="ID3D11DeviceContext::OMSetBlendState::BlendFactor" type="VORTICE_COLOR4" override-native-type="true" pointer="*" array="0" default="null"/>
-    <map param="ID3D11DeviceContext::OMSetBlendState::SampleMask" default="-1"/>
+    
+    <map method="ID3D11DeviceContext::OMSetBlendState" custom-vtbl="true" visibility="private"/>
+    <map method="ID3D11DeviceContext::OMGetBlendState" custom-vtbl="true" visibility="private"/>
+    
     <map param="ID3D11DeviceContext::OMSetDepthStencilState::StencilRef" default="0"/>
 
     <map method="ID3D11DeviceContext::OMSetRenderTargets" visibility="private"/>
