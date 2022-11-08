@@ -648,6 +648,12 @@
     <map method="ID3D12InfoQueue::GetRetrievalFilter" visibility="internal"/>
     <map param="ID3D12InfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
 
+    <map method="ID3D12InfoQueue1::RegisterMessageCallback" visibility="private" hresult="true" check="false"/>
+    <map param="ID3D12InfoQueue1::RegisterMessageCallback::CallbackFunc" type="void" keep-pointers="true"/>
+    <map param="ID3D12InfoQueue1::RegisterMessageCallback::pContext" type="void" keep-pointers="true"/>
+    
+    <map method="ID3D12InfoQueue1::UnregisterMessageCallback" hresult="true" check="false"/>
+
     <map enum-item="D3D12_MESSAGE_ID_(.*)" name-tmp="$1" />
     <remove enum-item="D3D12_MESSAGE_ID_D3D12_MESSAGES_END" />
     <map struct="D3D12_MESSAGE" marshal="true" new="false" marshalto="true" />
@@ -879,7 +885,6 @@
     <map param="ID3D12Device::CreateSharedHandle::pHandle" attribute="out" return="true"/>
 
     <map method="ID3D12Device::CreateSampler" visibility="public"/>
-    <map param="ID3D12Device::CreateSampler::pDesc" attribute="in value"/>
     <map method="ID3D12Device::SetStablePowerState" property="false" />
 
     <map method="ID3D12Device::GetCopyableFootprints" visibility="internal"/>
@@ -1133,7 +1138,6 @@
 
     <map field="D3D12_GPU_DESCRIPTOR_HANDLE::ptr" name="Ptr"/>
 
-    <map struct="D3D12_CACHED_PIPELINE_STATE::pCachedBlob" name="CachedBlobPointer"/>
     <map field="D3D12_GLOBAL_ROOT_SIGNATURE::pGlobalRootSignature" name="RootSignature"/>
     <map field="D3D12_LOCAL_ROOT_SIGNATURE::pLocalRootSignature" name="RootSignature"/>
 

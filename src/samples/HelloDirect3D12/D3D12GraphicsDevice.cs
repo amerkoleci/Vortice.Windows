@@ -14,6 +14,7 @@ using Vortice.Mathematics;
 using Vortice.Dxc;
 using Vortice;
 using Vortice.DXGI.Debug;
+using System.Runtime.InteropServices;
 
 namespace HelloDirect3D12;
 
@@ -24,6 +25,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
     public readonly Window Window;
     public readonly IDXGIFactory4 DXGIFactory;
     private readonly ID3D12Device2 Device;
+    private readonly ID3D12InfoQueue1? _infoQueue1;
     private readonly ID3D12DescriptorHeap _rtvDescriptorHeap;
     private readonly int _rtvDescriptorSize;
     private readonly ID3D12Resource[] _renderTargets;
@@ -46,6 +48,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
     private ulong _frameCount;
     private ulong _frameIndex;
     private int _backbufferIndex;
+    private int _callbackCookie;
 
     public bool UseRenderPass { get; set; } = true;
 
@@ -114,9 +117,22 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         }
 
         if (d3d12Device == null)
+        {
             throw new PlatformNotSupportedException("Cannot create ID3D12Device");
+        }
 
         Device = d3d12Device!;
+
+        _infoQueue1 = Device.QueryInterfaceOrNull<ID3D12InfoQueue1>();
+
+        // RenderDoc makes the query fail for whatever reason.
+        if (_infoQueue1 != null)
+        {
+            unsafe
+            {
+                _infoQueue1.RegisterMessageCallback(&DebugCallback, MessageCallbackFlags.None, null, out _callbackCookie);
+            }
+        }
 
         // Create Command queue.
         GraphicsQueue = Device.CreateCommandQueue(CommandListType.Direct);
@@ -305,6 +321,12 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         _frameFence.Dispose();
         GraphicsQueue.Dispose();
 
+        if (_infoQueue1 != null &&
+            _callbackCookie != 0)
+        {
+            _infoQueue1.UnregisterMessageCallback(_callbackCookie).CheckError();
+        }
+
 #if DEBUG
         uint refCount = Device.Release();
         if (refCount > 0)
@@ -478,6 +500,12 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
 
             dred.Dispose();
         }
+    }
+
+    [UnmanagedCallersOnly]
+    private static unsafe void DebugCallback(MessageCategory category, MessageSeverity severity, MessageId id, sbyte* pDescription, void* pContext)
+    {
+        string description = new(pDescription);
     }
 
     private static ReadOnlyMemory<byte> CompileBytecode(DxcShaderStage stage, string shaderName, string entryPoint)
