@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <RootNamespace>Vortice</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>

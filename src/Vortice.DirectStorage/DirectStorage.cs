@@ -3,7 +3,7 @@
 
 namespace Vortice.DirectStorage;
 
-public static unsafe partial class DirectStorage
+public static partial class DirectStorage
 {
 #if NET6_0_OR_GREATER 
     public static event DllImportResolver? ResolveLibrary;
@@ -17,14 +17,7 @@ public static unsafe partial class DirectStorage
                 return IntPtr.Zero;
             }
 
-            string rid = RuntimeInformation.ProcessArchitecture switch
-            {
-                Architecture.X86 => "win-x86",
-                Architecture.X64 => "win-x64",
-                Architecture.Arm => "win-arm",
-                Architecture.Arm64 => "win-arm64",
-                _ => throw new NotSupportedException("Invalid process architecture")
-            };
+            string rid = RuntimeInformation.RuntimeIdentifier;
 
             // Test whether the native libraries are present in the same folder of the executable
             // (which is the case when the program was built with a runtime identifier), or whether
@@ -116,7 +109,7 @@ public static unsafe partial class DirectStorage
             return result;
         }
 
-        factory = null;
+        factory = default;
         return result;
     }
 
@@ -128,6 +121,44 @@ public static unsafe partial class DirectStorage
     public static T DStorageGetFactory<T>() where T : ComObject
     {
         DStorageGetFactory(typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
+    }
+
+    public static Result DStorageCreateCompressionCodec(CompressionFormat format, uint numThreads, out IDStorageCompressionCodec? codec)
+    {
+        Result result = DStorageCreateCompressionCodec(format, numThreads, typeof(IDStorageCompressionCodec).GUID, out IntPtr nativePtr);
+        if (result.Success)
+        {
+            codec = new(nativePtr);
+            return result;
+        }
+
+        codec = default;
+        return result;
+    }
+
+    public static IDStorageCompressionCodec DStorageCreateCompressionCodec(CompressionFormat format, uint numThreads)
+    {
+        DStorageCreateCompressionCodec(format, numThreads, typeof(IDStorageCompressionCodec).GUID, out IntPtr nativePtr).CheckError();
+        return new(nativePtr)!;
+    }
+
+    public static Result DStorageCreateCompressionCodec<T>(CompressionFormat format, uint numThreads, out T? codec) where T : ComObject
+    {
+        Result result = DStorageCreateCompressionCodec(format, numThreads, typeof(T).GUID, out IntPtr nativePtr);
+        if (result.Success)
+        {
+            codec = MarshallingHelpers.FromPointer<T>(nativePtr);
+            return result;
+        }
+
+        codec = default;
+        return result;
+    }
+
+    public static T DStorageCreateCompressionCodec<T>(CompressionFormat format, uint numThreads) where T : ComObject
+    {
+        DStorageCreateCompressionCodec(format, numThreads, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 }

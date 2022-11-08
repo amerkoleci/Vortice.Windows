@@ -18,14 +18,14 @@
   <ItemGroup>
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
 
-    <PackageVersion Include="Vortice.Mathematics" Version="1.4.18" />
+    <PackageVersion Include="Vortice.Mathematics" Version="1.4.19" />
     <PackageVersion Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
 
-    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.2.10-beta" />
+    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.2.104-beta" />
 
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.4.0" />
     <PackageVersion Include="NUnit" Version="3.13.3" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="4.2.1" />
+    <PackageVersion Include="NUnit3TestAdapter" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

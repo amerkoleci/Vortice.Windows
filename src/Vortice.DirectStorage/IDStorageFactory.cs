@@ -35,7 +35,7 @@ public partial class IDStorageFactory
     public T CreateQueue<T>(QueueDesc description) where T : ComObject
     {
         CreateQueue(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateQueue(QueueDesc description, out IDStorageQueue? queue)
@@ -88,7 +88,7 @@ public partial class IDStorageFactory
     public T OpenFile<T>(string path) where T : ComObject
     {
         OpenFile(path, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     /// <summary>
@@ -139,7 +139,7 @@ public partial class IDStorageFactory
     public T CreateStatusArray<T>(uint capacity, string name) where T : ComObject
     {
         CreateStatusArray(capacity, name, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr);
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreateStatusArray(uint capacity, string name, out IDStorageStatusArray? statusArray) 
