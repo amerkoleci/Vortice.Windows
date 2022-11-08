@@ -58,7 +58,19 @@ public unsafe partial class ID3D11DeviceContext
         ClearRenderTargetView(renderTargetView, new Color4(color));
     }
 
-    public void OMSetBlendState(ID3D11BlendState? blendState, float* blendFactor = default, uint sampleMask = DefaultSampleMask)
+    public void OMSetBlendState(ID3D11BlendState? blendState)
+    {
+        IntPtr blendStatePtr = blendState?.NativePointer ?? IntPtr.Zero;
+        ((delegate* unmanaged[Stdcall]<IntPtr, void*, float*, uint, void>)this[OMSetBlendState__vtbl_index])(NativePointer, (void*)blendStatePtr, null, DefaultSampleMask);
+    }
+
+    public void OMSetBlendState(ID3D11BlendState? blendState, float* blendFactor)
+    {
+        IntPtr blendStatePtr = blendState?.NativePointer ?? IntPtr.Zero;
+        ((delegate* unmanaged[Stdcall]<IntPtr, void*, float*, uint, void>)this[OMSetBlendState__vtbl_index])(NativePointer, (void*)blendStatePtr, blendFactor, DefaultSampleMask);
+    }
+
+    public void OMSetBlendState(ID3D11BlendState? blendState, float* blendFactor, uint sampleMask)
     {
         IntPtr blendStatePtr = blendState?.NativePointer ?? IntPtr.Zero;
         ((delegate* unmanaged[Stdcall]<IntPtr, void*, float*, uint, void>)this[OMSetBlendState__vtbl_index])(NativePointer, (void*)blendStatePtr, blendFactor, sampleMask);
@@ -83,12 +95,12 @@ public unsafe partial class ID3D11DeviceContext
         OMSetBlendState(blendState, (float*)&blendFactor, DefaultSampleMask);
     }
 
-    public void OMSetBlendState(ID3D11BlendState? blendState, in Color blendFactor, uint sampleMask)
+    public void OMSetBlendState(ID3D11BlendState? blendState, in Color blendFactor, uint sampleMask = DefaultSampleMask)
     {
         OMSetBlendState(blendState, new Color4(blendFactor), sampleMask);
     }
 
-    public void OMSetBlendState(ID3D11BlendState? blendState, Color4 blendFactor, uint sampleMask)
+    public void OMSetBlendState(ID3D11BlendState? blendState, Color4 blendFactor, uint sampleMask = DefaultSampleMask)
     {
         OMSetBlendState(blendState, (float*)&blendFactor, sampleMask);
     }
