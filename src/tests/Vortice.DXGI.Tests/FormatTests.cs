@@ -11,32 +11,32 @@ public class FormatTests
     [TestCase]
     public void BitsPerPixelTest()
     {
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.R1_UNorm), 1);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.R8_Typeless), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.R8_UNorm), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.R8_UInt), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.R8_SNorm), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.R8_SInt), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.A8_UNorm), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC2_Typeless), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC2_UNorm), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC2_UNorm_SRgb), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC3_Typeless), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC3_UNorm), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC3_UNorm_SRgb), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC5_Typeless), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC5_UNorm), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC5_SNorm), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC6H_Typeless), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC6H_Uf16), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC6H_Sf16), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC7_Typeless), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC7_UNorm), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.BC7_UNorm_SRgb), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.AI44), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.IA44), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(Format.P8), 8);
-        Assert.AreEqual(FormatHelper.BitsPerPixel(FormatHelper.Xbox_R4G4_UNorm), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.R1_UNorm), 1);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.R8_Typeless), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.R8_UNorm), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.R8_UInt), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.R8_SNorm), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.R8_SInt), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.A8_UNorm), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC2_Typeless), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC2_UNorm), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC2_UNorm_SRgb), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC3_Typeless), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC3_UNorm), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC3_UNorm_SRgb), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC5_Typeless), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC5_UNorm), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC5_SNorm), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC6H_Typeless), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC6H_Uf16), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC6H_Sf16), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC7_Typeless), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC7_UNorm), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.BC7_UNorm_SRgb), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.AI44), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.IA44), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(Format.P8), 8);
+        Assert.AreEqual(FormatHelper.GetBitsPerPixel(FormatHelper.Xbox_R4G4_UNorm), 8);
     }
 
     [TestCase]

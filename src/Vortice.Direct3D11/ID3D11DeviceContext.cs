@@ -1946,12 +1946,6 @@ public unsafe partial class ID3D11DeviceContext
     #endregion
 
     #region Map/Unmap
-    public MappedSubresource Map(ID3D11Resource resource, int subresource, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None)
-    {
-        Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
-        return mappedSubresource;
-    }
-
     /// <summary>
     /// Maps the data contained in a subresource to a memory pointer, and denies the GPU access to that subresource.
     /// </summary>
@@ -1961,6 +1955,12 @@ public unsafe partial class ID3D11DeviceContext
     public MappedSubresource Map(ID3D11Buffer resource, MapMode mode, MapFlags flags = MapFlags.None)
     {
         Map(resource, 0, mode, flags, out MappedSubresource mappedSubresource).CheckError();
+        return mappedSubresource;
+    }
+
+    public MappedSubresource Map(ID3D11Resource resource, int subresource, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None)
+    {
+        Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
         return mappedSubresource;
     }
 
@@ -1997,11 +1997,28 @@ public unsafe partial class ID3D11DeviceContext
         return Map(resource, subresource, mode, flags, out mappedSubresource);
     }
 
-    public Span<T> Map<T>(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
+    public Span<T> Map<T>(ID3D11Texture1D resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
+    {
+        Texture1DDescription description = resource.GetDescription();
+        int subresource = D3D11.CalculateSubResourceIndex(mipSlice, arraySlice, description.MipLevels);
+        Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
+        Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mappedSubresource.RowPitch);
+        return MemoryMarshal.Cast<byte, T>(source);
+    }
+
+    public Span<T> Map<T>(ID3D11Texture2D resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
     {
         int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
         Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
         Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mipSize * mappedSubresource.RowPitch);
+        return MemoryMarshal.Cast<byte, T>(source);
+    }
+
+    public Span<T> Map<T>(ID3D11Texture3D resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
+    {
+        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
+        Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
+        Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mipSize * mappedSubresource.DepthPitch);
         return MemoryMarshal.Cast<byte, T>(source);
     }
 
@@ -2074,6 +2091,29 @@ public unsafe partial class ID3D11DeviceContext
         fixed (T* dataPtr = data)
         {
             UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
+        }
+    }
+
+    public void WriteTexture<T>(ID3D11Texture1D resource, int arraySlice, int mipLevel, T[] data) where T : unmanaged
+    {
+        ReadOnlySpan<T> span = data.AsSpan();
+        WriteTexture(resource, arraySlice, mipLevel, span);
+    }
+
+    public void WriteTexture<T>(ID3D11Texture1D resource, int arraySlice, int mipLevel, ReadOnlySpan<T> data) where T : unmanaged
+    {
+        Texture1DDescription description = resource.Description;
+        fixed (T* dataPtr = data)
+        {
+            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            DXGI.FormatHelper.GetSurfaceInfo(
+                description.Format,
+                description.GetWidth(mipLevel),
+                1,
+                out int rowPitch,
+                out int slicePitch);
+
+            UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
         }
     }
 

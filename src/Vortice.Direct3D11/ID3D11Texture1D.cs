@@ -8,7 +8,7 @@ public partial class ID3D11Texture1D
     /// <inheritdoc />
     public override int CalculateSubResourceIndex(int mipSlice, int arraySlice, out int mipSize)
     {
-        var description = GetDescription();
+        Texture1DDescription description = GetDescription();
         mipSize = D3D11.CalculateMipSize(mipSlice, description.Width);
         return D3D11.CalculateSubResourceIndex(mipSlice, arraySlice, description.MipLevels);
     }

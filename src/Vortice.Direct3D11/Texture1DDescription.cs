@@ -49,4 +49,14 @@ public partial struct Texture1DDescription
         CPUAccessFlags = cpuAccessFlags;
         MiscFlags = miscFlags;
     }
+
+    /// <summary>
+    /// Get a mip-level width.
+    /// </summary>
+    /// <param name="mipLevel"></param>
+    /// <returns></returns>
+    public int GetWidth(int mipLevel = 0)
+    {
+        return (mipLevel == 0) || (mipLevel < MipLevels) ? Math.Max(1, Width >> mipLevel) : 0;
+    }
 }
