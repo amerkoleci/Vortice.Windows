@@ -34,7 +34,7 @@ public partial class ID2D1Factory1
         return CreateStrokeStyle(ref properties, dashes, dashes.Length);
     }
 
-    public Guid[] GetRegistereotdEffects()
+    public Guid[] GetRegisteredEffects()
     {
         Guid[] guids = Array.Empty<Guid>();
         GetRegisteredEffects(guids, 0, out _, out var count);
