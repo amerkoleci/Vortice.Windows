@@ -69,7 +69,7 @@
 
   <bindings>
     <bind from="DWRITE_MATRIX" to="System.Numerics.Matrix3x2" />
-    <bind from="WICRect" to="Vortice.Mathematics.RectI"/>
+    <bind from="WICRect" to="System.Drawing.Rectangle"/>
     <bind from="HBITMAP" to="System.IntPtr"/>
     <bind from="HICON" to="System.IntPtr"/>
     <bind from="HPALETTE" to="System.IntPtr"/>

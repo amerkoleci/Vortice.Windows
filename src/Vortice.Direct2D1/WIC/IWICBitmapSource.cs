@@ -1,12 +1,14 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Drawing;
+
 namespace Vortice.WIC;
 
 /// <include file="Documentation.xml" path="/comments/comment[@id='IWICBitmapSource']/*" />
 public unsafe partial class IWICBitmapSource
 {
-    public SizeI Size
+    public Size Size
     {
         get
         {
@@ -15,7 +17,7 @@ public unsafe partial class IWICBitmapSource
         }
     }
 
-    public Size Resolution
+    public SizeF Resolution
     {
         get
         {
@@ -29,7 +31,7 @@ public unsafe partial class IWICBitmapSource
         CopyPixels(null, stride, size, data.ToPointer());
     }
 
-    public void CopyPixels(RectI rectangle, int stride, int size, IntPtr data)
+    public void CopyPixels(Rectangle rectangle, int stride, int size, IntPtr data)
     {
         CopyPixels(&rectangle, stride, size, data.ToPointer());
     }
@@ -42,7 +44,7 @@ public unsafe partial class IWICBitmapSource
         }
     }
 
-    public void CopyPixels(RectI rectangle, int stride, byte[] data)
+    public void CopyPixels(Rectangle rectangle, int stride, byte[] data)
     {
         fixed (byte* dataPtr = &data[0])
         {
@@ -58,7 +60,7 @@ public unsafe partial class IWICBitmapSource
         }
     }
 
-    public void CopyPixels<T>(RectI rectangle, int stride, T[] data) where T : unmanaged
+    public void CopyPixels<T>(Rectangle rectangle, int stride, T[] data) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {
@@ -74,7 +76,7 @@ public unsafe partial class IWICBitmapSource
         }
     }
 
-    public void CopyPixels<T>(RectI rectangle, int stride, Span<T> data) where T : unmanaged
+    public void CopyPixels<T>(Rectangle rectangle, int stride, Span<T> data) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {

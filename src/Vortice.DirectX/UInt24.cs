@@ -35,13 +35,7 @@ public struct UInt24 : IEquatable<UInt24>
     #endregion
 
     /// <inheritdoc/>
-    public override bool Equals(object obj)
-    {
-        if (!(obj is UInt24))
-            return false;
-
-        return Equals((UInt24)obj);
-    }
+    public override bool Equals(object? obj) => obj is UInt24 value && Equals(value);
 
     /// <inheritdoc/>
     public bool Equals(UInt24 other)

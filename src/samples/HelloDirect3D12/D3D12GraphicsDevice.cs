@@ -48,7 +48,6 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
     private ulong _frameCount;
     private ulong _frameIndex;
     private int _backbufferIndex;
-    private int _callbackCookie;
 
     public bool UseRenderPass { get; set; } = true;
 
@@ -128,10 +127,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         // RenderDoc makes the query fail for whatever reason.
         if (_infoQueue1 != null)
         {
-            unsafe
-            {
-                _infoQueue1.RegisterMessageCallback(&DebugCallback, MessageCallbackFlags.None, null, out _callbackCookie);
-            }
+            _infoQueue1.RegisterMessageCallback(DebugCallback, MessageCallbackFlags.None);
         }
 
         // Create Command queue.
@@ -321,10 +317,9 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         _frameFence.Dispose();
         GraphicsQueue.Dispose();
 
-        if (_infoQueue1 != null &&
-            _callbackCookie != 0)
+        if (_infoQueue1 != null)
         {
-            _infoQueue1.UnregisterMessageCallback(_callbackCookie).CheckError();
+            _infoQueue1.Dispose();
         }
 
 #if DEBUG
@@ -377,7 +372,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         CpuDescriptorHandle rtvDescriptor = new(_rtvDescriptorHeap.GetCPUDescriptorHandleForHeapStart(), _backbufferIndex, _rtvDescriptorSize);
         CpuDescriptorHandle? dsvDescriptor = _dsvDescriptorHeap != null ? _dsvDescriptorHeap.GetCPUDescriptorHandleForHeapStart() : null;
 
-        Color4 clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
+        Color4 clearColor = Colors.CornflowerBlue;
 
         if (UseRenderPass)
         {
@@ -502,10 +497,8 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         }
     }
 
-    [UnmanagedCallersOnly]
-    private static unsafe void DebugCallback(MessageCategory category, MessageSeverity severity, MessageId id, sbyte* pDescription, void* pContext)
+    private static void DebugCallback(MessageCategory category, MessageSeverity severity, MessageId id, string descriptionx)
     {
-        string description = new(pDescription);
     }
 
     private static ReadOnlyMemory<byte> CompileBytecode(DxcShaderStage stage, string shaderName, string entryPoint)

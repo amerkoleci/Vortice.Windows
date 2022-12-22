@@ -10,6 +10,7 @@ using static Windows.Win32.UI.WindowsAndMessaging.WINDOW_EX_STYLE;
 using static Windows.Win32.UI.WindowsAndMessaging.SYSTEM_METRICS_INDEX;
 using static Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD;
 using Vortice.Mathematics;
+using System.Drawing;
 
 namespace Vortice;
 
@@ -122,14 +123,14 @@ public sealed partial class Window
         }
     }
 
-    public unsafe RectI Bounds
+    public unsafe Rectangle Bounds
     {
         get
         {
             RECT windowBounds;
             GetWindowRect(hWnd, &windowBounds);
 
-            return RectI.FromLTRB(windowBounds.left, windowBounds.top, windowBounds.right, windowBounds.bottom);
+            return Rectangle.FromLTRB(windowBounds.left, windowBounds.top, windowBounds.right, windowBounds.bottom);
         }
     }
 }

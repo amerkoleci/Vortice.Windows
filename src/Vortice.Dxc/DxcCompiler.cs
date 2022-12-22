@@ -73,6 +73,11 @@ public static partial class DxcCompiler
             arguments.Add("-Zi");
         }
 
+        if (options.EnableDebugInfoSlimFormat)
+        {
+            arguments.Add("-Zs");
+        }
+
         if (options.SkipValidation)
         {
             arguments.Add("-Vd");
@@ -156,7 +161,7 @@ public static partial class DxcCompiler
             }
         }
 
-        // HLSL version, default 2021.
+        // HLSL version, default 2018.
         arguments.Add("-HV");
         arguments.Add($"{options.HLSLVersion}");
 

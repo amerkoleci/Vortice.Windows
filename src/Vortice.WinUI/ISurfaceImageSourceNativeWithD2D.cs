@@ -46,9 +46,8 @@ public unsafe class ISurfaceImageSourceNativeWithD2D : ComObject
 
     public T BeginDraw<T>(RawRect updateRect, out Int2 offset) where T : ComObject
     {
-        Result result = BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out offset);
-        result.CheckError();
-        return MarshallingHelpers.FromPointer<T>(updateObjectPtr);
+        BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out offset).CheckError();
+        return MarshallingHelpers.FromPointer<T>(updateObjectPtr)!;
     }
 
     internal unsafe Result BeginDraw(RawRect updateRect, Guid iid, out IntPtr updateObject, out Int2 offset)

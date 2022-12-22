@@ -3,6 +3,7 @@
 
 using SharpGen.Runtime;
 using System;
+using System.Drawing;
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12;
@@ -97,27 +98,6 @@ public unsafe partial class ID3D12GraphicsCommandList
             descriptorHeapsPtr[i] = (descriptorHeaps[i] == null) ? IntPtr.Zero : descriptorHeaps[i].NativePointer;
         }
         SetDescriptorHeaps(numDescriptorHeaps, descriptorHeapsPtr);
-    }
-
-    public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color color)
-    {
-        ClearRenderTargetView(renderTargetView, new Color4(color), 0, (void*)null);
-    }
-
-    public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color color, RawRect[] rects)
-    {
-        fixed (RawRect* pRects = rects)
-        {
-            ClearRenderTargetView(renderTargetView, new Color4(color), rects.Length, pRects);
-        }
-    }
-
-    public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, in Color color, int rectsCount, RawRect[] rects)
-    {
-        fixed (RawRect* pRects = rects)
-        {
-            ClearRenderTargetView(renderTargetView, new Color4(color), rectsCount, pRects);
-        }
     }
 
     public void ClearRenderTargetView(CpuDescriptorHandle renderTargetView, Color4 color)
@@ -297,11 +277,6 @@ public unsafe partial class ID3D12GraphicsCommandList
         SetGraphicsRoot32BitConstants(rootParameterIndex, sizeof(T) / 4, &srcData, destOffsetIn32BitValues);
     }
 
-    public void OMSetBlendFactor(in Color blendFactor)
-    {
-        OMSetBlendFactor(new Color4(blendFactor));
-    }
-
     public void OMSetBlendFactor(Color4 blendFactor)
     {
         OMSetBlendFactor(&blendFactor);
@@ -446,7 +421,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         RSSetScissorRects(1, &rect);
     }
 
-    public void RSSetScissorRect(RectI rectangle)
+    public void RSSetScissorRect(Rectangle rectangle)
     {
         RawRect rect = rectangle;
         RSSetScissorRects(1, &rect);

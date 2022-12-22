@@ -1,6 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Drawing;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
@@ -95,8 +96,8 @@ public static class Program
 
         //This is the offset where we start our text layout
         private Vector2 offset = new(202.0f, 250.0f);
-        private Rect fullTextBackground;
-        private Rect textRegionRect;
+        private RectangleF fullTextBackground;
+        private RectangleF textRegionRect;
 
         public TestApplication()
             : base(false)

@@ -1,6 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Vortice.Direct3D9;
@@ -17,29 +18,23 @@ internal struct LARGE_INTEGER
     [FieldOffset(0)]
     public long QuadPart;
 
+    [UnscopedRef]
     public ref uint LowPart
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if NET5_0_OR_GREATER
-            return ref MemoryMarshal.GetReference(MemoryMarshal.CreateSpan(ref Anonymous.LowPart, 1));
-#else
-            return ref MemoryMarshal.GetReference(Helpers.CreateSpan(ref Anonymous.LowPart, 1));
-#endif
+            return ref Anonymous.LowPart;
         }
     }
 
+    [UnscopedRef]
     public ref int HighPart
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-#if NET5_0_OR_GREATER
-            return ref MemoryMarshal.GetReference(MemoryMarshal.CreateSpan(ref Anonymous.HighPart, 1));
-#else
-            return ref MemoryMarshal.GetReference(Helpers.CreateSpan(ref Anonymous.HighPart, 1));
-#endif
+            return ref Anonymous.HighPart;
         }
     }
 

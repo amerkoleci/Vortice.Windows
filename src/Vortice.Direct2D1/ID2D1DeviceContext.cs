@@ -2,23 +2,24 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Numerics;
+using System.Drawing;
 using Vortice.DCommon;
 
 namespace Vortice.Direct2D1;
 
 public partial class ID2D1DeviceContext
 {
-    public ID2D1Bitmap1 CreateBitmap(in SizeI size)
+    public ID2D1Bitmap1 CreateBitmap(in Size size)
     {
         return CreateBitmap(size, IntPtr.Zero, 0, new BitmapProperties1(PixelFormat.Unknown));
     }
 
-    public ID2D1Bitmap1 CreateBitmap(in SizeI size, BitmapProperties1 bitmapProperties)
+    public ID2D1Bitmap1 CreateBitmap(in Size size, BitmapProperties1 bitmapProperties)
     {
         return CreateBitmap(size, IntPtr.Zero, 0, bitmapProperties);
     }
 
-    public ID2D1Bitmap1 CreateBitmap(in SizeI size, IntPtr sourceData, int pitch)
+    public ID2D1Bitmap1 CreateBitmap(in Size size, IntPtr sourceData, int pitch)
     {
         return CreateBitmap(size, sourceData, pitch, new BitmapProperties1(PixelFormat.Unknown));
     }
@@ -43,14 +44,14 @@ public partial class ID2D1DeviceContext
         DrawBitmap(bitmap, null, opacity, interpolationMode, sourceRectangle, perspectiveTransform);
     }
 
-    public void DrawBitmap(ID2D1Bitmap bitmap, in Rect destinationRectangle, float opacity, InterpolationMode interpolationMode, in Rect sourceRectangle, in Matrix4x4 perspectiveTransform)
+    public void DrawBitmap(ID2D1Bitmap bitmap, in RectangleF destinationRectangle, float opacity, InterpolationMode interpolationMode, in RectangleF sourceRectangle, in Matrix4x4 perspectiveTransform)
     {
         RawRectF destRect = destinationRectangle;
         RawRectF sourceRect = sourceRectangle;
         DrawBitmap(bitmap, (RawRectF?)destRect, opacity, interpolationMode, (RawRectF?)sourceRect, perspectiveTransform);
     }
 
-    public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, in Rect sourceRectangle, in Matrix4x4 perspectiveTransform)
+    public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode, in RectangleF sourceRectangle, in Matrix4x4 perspectiveTransform)
     {
         RawRectF sourceRect = sourceRectangle;
         DrawBitmap(bitmap, null, opacity, interpolationMode, (RawRectF?)sourceRect, perspectiveTransform);

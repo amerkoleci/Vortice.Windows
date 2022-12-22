@@ -86,6 +86,7 @@ public unsafe partial class ID3D12Device
             FeatureDataD3D12Options13 => Feature.Options13,
             FeatureDataD3D12Options14 => Feature.Options14,
             FeatureDataD3D12Options15 => Feature.Options15,
+            FeatureDataD3D12Options16 => Feature.Options16,
             _ => throw new ArgumentException(nameof(T)),
         };
 
@@ -193,6 +194,10 @@ public unsafe partial class ID3D12Device
     public FeatureDataD3D12Options15 Options15
     {
         get => CheckFeatureSupport<FeatureDataD3D12Options15>(Feature.Options15);
+    }
+    public FeatureDataD3D12Options16 Options16
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options16>(Feature.Options16);
     }
     public FeatureDataArchitecture Architecture
     {

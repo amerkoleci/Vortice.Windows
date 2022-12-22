@@ -197,7 +197,6 @@
     <remove field="DML_ROI_ALIGN_OPERATOR_DESC::.*" />
     <remove field="DML_ROI_ALIGN1_OPERATOR_DESC::.*" />
     <remove field="DML_ROI_POOLING_OPERATOR_DESC::.*" />
-    <remove field="DML_SCATTER_ELEMENTS_OPERATOR_DESC::.*" />
     <remove field="DML_SCATTER_ND_OPERATOR_DESC::.*" />
     <remove field="DML_SCATTER_OPERATOR_DESC::.*" />
     <remove field="DML_SLICE_GRAD_OPERATOR_DESC::.*" />
@@ -238,7 +237,6 @@
     
     <!-- Interfaces -->
     <map method="IDMLCommandRecorder::.*" property="false" hresult="true" check="false" />
-    <map method="IDMLCompiledOperator::.*" property="false" hresult="true" check="false" />
     <map method="IDMLDebugDevice::.*" property="false" hresult="true" check="false" />
     <map method="IDMLDispatchable::.*" property="false" hresult="true" check="false" />
     <map method="IDMLObject::.*" property="false" hresult="true" check="false" />

@@ -7,6 +7,7 @@ public sealed class DxcCompilerOptions
 {
     public DxcShaderModel ShaderModel { get; set; } = DxcShaderModel.Model6_0;
     public bool EnableDebugInfo { get; set; }
+    public bool EnableDebugInfoSlimFormat { get; set; }
     public bool SkipValidation { get; set; }
     public bool SkipOptimizations { get; set; }
     public bool PackMatrixRowMajor { get; set; }
@@ -22,7 +23,7 @@ public sealed class DxcCompilerOptions
     public bool ResourcesMayAlias { get; set; }
     public bool AllResourcesBound { get; set; }
 
-    public int HLSLVersion { get; set; } = 2021;
+    public int HLSLVersion { get; set; } = 2018;
 
     public bool StripReflectionIntoSeparateBlob { get; set; } = true;
 

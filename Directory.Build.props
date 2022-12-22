@@ -4,23 +4,32 @@
     <BinDir>$(MSBuildThisFileDirectory)/bin</BinDir>
     <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
 
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>10.0</LangVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-    
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
 
-    <VersionPrefix>2.1.42</VersionPrefix>
-    <VersionSuffix Condition="'$(VersionSuffix)' == ''">beta</VersionSuffix>
+    <VersionPrefix>2.2.0</VersionPrefix>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''"></VersionSuffix>
 
     <SignAssembly Condition="'$(SignAssembly)' == ''">true</SignAssembly>
     <VorticePublicKey>0024000004800000940000000602000000240000525341310004000001000100758064dc2d7cc685f393036f2d5fd6c3a8d9a811a6633e614a2a224c0aa45ef6e7dd9a45172f3b0055f0af31e7637b152a02263922c9fdfd0ed4408d30dcc26fc080c9d0e4c5e1307527e661037b4927b9f27b5318307698d474bf15506f21b9b2cf8155855624863b46584c11bf75bfde5dbbe8120c00524f713541725167cb</VorticePublicKey>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Vortice.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
 
-    <SharpGenVersion>2.0.0-beta.11</SharpGenVersion>
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <!-- Local builds should embed PDBs so we never lose them when a subsequent build occurs. -->
+    <DebugType Condition=" '$(CI)' != 'true' and '$(TF_BUILD)' != 'true' ">embedded</DebugType>
+    <Features>strict</Features>
+    <AnalysisLevel>preview</AnalysisLevel>
+    <RestoreConfigFile>$(MSBuildThisFileDirectory)NuGet.config</RestoreConfigFile>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -34,6 +43,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>Vortice.Windows Vortice Graphics gamedev Direct3D DirectX Core Standard Game Direct3D11 Direct3D12 XAudio2 XInput Dxc DirectML</PackageTags>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_RUN_ID)' != ''">true</ContinuousIntegrationBuild>
+    <UseSharedCompilation>true</UseSharedCompilation>
   </PropertyGroup>
 
   <!-- https://github.com/dotnet/sourcelink -->
@@ -45,13 +56,9 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
-  <!-- Suppress generated documentation mismatch warnings -->
-  <PropertyGroup>
-    <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);CS1571;CS1572;CS1573</MSBuildWarningsAsMessages>
+  <!-- UAP -->
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
+    <ExtrasUwpMetaPackageVersion>6.2.14</ExtrasUwpMetaPackageVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
-  </ItemGroup>
 
 </Project>

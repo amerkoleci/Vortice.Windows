@@ -1,6 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Drawing;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Diagnostics;
 using Vortice;
@@ -27,7 +28,7 @@ public static class Program
         {
             if (Headless)
             {
-                _graphicsDevice = new D3D11GraphicsDevice(new SizeI(800, 600));
+                _graphicsDevice = new D3D11GraphicsDevice(new Size(800, 600));
                 _screenshot = true;
             }
             else
@@ -225,7 +226,7 @@ public static class Program
                                 }
 
                                 formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                                frame.WriteSource(formatConverter, new RectI(textureDesc.Width, textureDesc.Height));
+                                frame.WriteSource(formatConverter, new Rectangle(0, 0, textureDesc.Width, textureDesc.Height));
                             }
                         }
                     }
@@ -238,7 +239,7 @@ public static class Program
                 else
                 {
                     int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
-                    ReadOnlySpan<Color> colors = context.MapReadOnly<Color>(staging);
+                    ReadOnlySpan<Vortice.Mathematics.Color> colors = context.MapReadOnly<Vortice.Mathematics.Color>(staging);
 
                     if (targetGuid != pfGuid)
                     {
@@ -259,7 +260,7 @@ public static class Program
                                 }
 
                                 formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                                frame.WriteSource(formatConverter, new RectI(textureDesc.Width, textureDesc.Height));
+                                frame.WriteSource(formatConverter, new Rectangle(0, 0, textureDesc.Width, textureDesc.Height));
                             }
                         }
                     }

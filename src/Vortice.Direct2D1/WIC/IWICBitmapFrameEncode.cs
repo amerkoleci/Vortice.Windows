@@ -1,6 +1,8 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Drawing;
+
 namespace Vortice.WIC;
 
 public unsafe partial class IWICBitmapFrameEncode
@@ -16,7 +18,7 @@ public unsafe partial class IWICBitmapFrameEncode
         SetColorContexts(colorContexts != null ? colorContexts.Length : 0, colorContexts);
     }
 
-    public Result SetSize(in SizeI size) => SetSize(size.Width, size.Height);
+    public Result SetSize(in Size size) => SetSize(size.Width, size.Height);
 
     /// <summary>
     /// Requests that the encoder use the specified pixel format.
@@ -34,7 +36,7 @@ public unsafe partial class IWICBitmapFrameEncode
     /// Sets the output image dimensions for the frame.
     /// </summary>
     /// <param name="size">The width and height of the output image.</param>
-    public void SetSize(SizeI size)
+    public void SetSize(Size size)
     {
         SetSize(size.Width, size.Height);
     }
@@ -97,5 +99,5 @@ public unsafe partial class IWICBitmapFrameEncode
     /// </summary>
     /// <param name="bitmapSource">The bitmap source to encode.</param>
     /// <param name="rectangle">The size rectangle of the bitmap source.</param>
-    public Result WriteSource(IWICBitmapSource bitmapSource, RectI rectangle) => WriteSource(bitmapSource, &rectangle);
+    public Result WriteSource(IWICBitmapSource bitmapSource, Rectangle rectangle) => WriteSource(bitmapSource, &rectangle);
 }

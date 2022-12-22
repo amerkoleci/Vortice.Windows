@@ -1,6 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Drawing;
 using SharpGen.Runtime;
 using Vortice.Mathematics;
 
@@ -26,7 +27,7 @@ public unsafe partial class IMFMediaEngine
     public MediaEngineReady ReadyState { get => (MediaEngineReady)GetReadyState(); }
     public MediaEngineNetwork NetworkState { get => (MediaEngineNetwork)GetNetworkState(); }
 
-    public SizeI NativeVideoSize
+    public Size NativeVideoSize
     {
         get
         {
@@ -35,7 +36,7 @@ public unsafe partial class IMFMediaEngine
         }
     }
 
-    public SizeI VideoAspectRatio
+    public Size VideoAspectRatio
     {
         get
         {
@@ -63,13 +64,13 @@ public unsafe partial class IMFMediaEngine
         return OnVideoStreamTick_(out presentationTime).Success;
     }
 
-    public void TransferVideoFrame(IUnknown destinationSurface, in RectI destinationRect)
+    public void TransferVideoFrame(IUnknown destinationSurface, in Rectangle destinationRect)
     {
         RawRect dst = destinationRect;
         TransferVideoFrame(destinationSurface, null, dst, null);
     }
 
-    public void TransferVideoFrame(IUnknown destinationSurface, VideoNormalizedRect sourceRect, in RectI destinationRect)
+    public void TransferVideoFrame(IUnknown destinationSurface, VideoNormalizedRect sourceRect, in Rectangle destinationRect)
     {
         RawRect dst = destinationRect;
         TransferVideoFrame(destinationSurface, sourceRect, dst, null);

@@ -1,6 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Runtime.CompilerServices;
 using Vortice.DXGI;
 using Vortice.Mathematics;
 
@@ -19,8 +20,10 @@ public partial struct ClearValue
     /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
     /// </param>
     /// <param name="color">Specifies a RGBA clear color.</param>
-    public ClearValue(Format format, in Color4 color) : this()
+    public ClearValue(Format format, in Color4 color) 
     {
+        Unsafe.SkipInit(out this);
+
         Format = format;
         Color = color;
     }
@@ -32,23 +35,11 @@ public partial struct ClearValue
     /// The format of the commonly cleared color follows the same validation rules as a view/ descriptor creation. 
     /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
     /// </param>
-    /// <param name="color">Specifies a RGBA clear color.</param>
-    public ClearValue(Format format, in Color color) : this()
-    {
-        Format = format;
-        Color = new Color4(color);
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DepthStencilValue"/> struct.
-    /// </summary>
-    /// <param name="format">
-    /// The format of the commonly cleared color follows the same validation rules as a view/ descriptor creation. 
-    /// In general, the format of the clear color can be any format in the same typeless group that the resource format belongs to.
-    /// </param>
     /// <param name="depthStencil">Specifies depth and stencil clear value.</param>
-    public ClearValue(Format format, in DepthStencilValue depthStencil) : this()
+    public ClearValue(Format format, in DepthStencilValue depthStencil)
     {
+        Unsafe.SkipInit(out this);
+
         Format = format;
         DepthStencil = depthStencil;
     }
@@ -62,8 +53,10 @@ public partial struct ClearValue
     /// </param>
     /// <param name="depth">Specifies the depth value.</param>
     /// <param name="stencil">Specifies the stencil value.</param>
-    public ClearValue(Format format, float depth, byte stencil = 0) : this()
+    public ClearValue(Format format, float depth, byte stencil = 0)
     {
+        Unsafe.SkipInit(out this);
+
         Format = format;
         DepthStencil = new DepthStencilValue(depth, stencil);
     }

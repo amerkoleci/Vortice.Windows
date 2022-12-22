@@ -4,6 +4,7 @@
 using System.Reflection;
 using System.Numerics;
 using Vortice.Mathematics;
+using System.Drawing;
 
 namespace Vortice.Direct2D1;
 
@@ -162,8 +163,8 @@ internal class CustomEffectFactory
                 return new PropertyNative<Vector4>(propertyInfo, PropertyType.Vector4);
             else if (type == typeof(RawRectF))
                 return new PropertyNative<RawRectF>(propertyInfo, PropertyType.Vector4);
-            else if (type == typeof(Rect))
-                return new PropertyNative<Rect>(propertyInfo, PropertyType.Vector4);
+            else if (type == typeof(RectangleF))
+                return new PropertyNative<RectangleF>(propertyInfo, PropertyType.Vector4);
             else if (type == typeof(Color4))
                 return new PropertyNative<Color4>(propertyInfo, PropertyType.Vector4);
             else if (type == typeof(Matrix3x2))

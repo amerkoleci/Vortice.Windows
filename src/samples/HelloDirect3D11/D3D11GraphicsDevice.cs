@@ -1,6 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Drawing;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using SharpGen.Runtime;
@@ -30,7 +31,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     private const int FrameCount = 2;
 
     public readonly Window? Window;
-    public readonly SizeI Size;
+    public readonly Size Size;
     public readonly Format ColorFormat;
     public ColorSpaceType ColorSpace = ColorSpaceType.RgbFullG22NoneP709;
 
@@ -61,12 +62,12 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     {
     }
 
-    public D3D11GraphicsDevice(SizeI size, Format colorFormat = Format.R8G8B8A8_UNorm, Format depthStencilFormat = Format.D32_Float)
+    public D3D11GraphicsDevice(Size size, Format colorFormat = Format.R8G8B8A8_UNorm, Format depthStencilFormat = Format.D32_Float)
         : this(null, size, colorFormat, depthStencilFormat)
     {
     }
 
-    private D3D11GraphicsDevice(Window? window, SizeI size, Format colorFormat = Format.B8G8R8A8_UNorm, Format depthStencilFormat = Format.D32_Float)
+    private D3D11GraphicsDevice(Window? window, Size size, Format colorFormat = Format.B8G8R8A8_UNorm, Format depthStencilFormat = Format.D32_Float)
     {
         Window = window;
         Size = size;
@@ -283,8 +284,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
 
     public unsafe bool DrawFrame(Action<int, int> draw, [CallerMemberName] string? frameName = null)
     {
-        var clearColor = new Color4(0.0f, 0.2f, 0.4f, 1.0f);
-        DeviceContext.ClearRenderTargetView(RenderTargetView, clearColor);
+        DeviceContext.ClearRenderTargetView(RenderTargetView, Colors.CornflowerBlue);
         if (DepthStencilView != null)
         {
             DeviceContext.ClearDepthStencilView(DepthStencilView, DepthStencilClearFlags.Depth, 1.0f, 0);
@@ -398,7 +398,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         // Get the rectangle bounds of the app window.
         if (Window != null)
         {
-            RectI windowBounds = Window.Bounds;
+            Rectangle windowBounds = Window.Bounds;
 
             int ax1 = windowBounds.Left;
             int ay1 = windowBounds.Top;

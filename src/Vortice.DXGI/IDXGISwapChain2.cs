@@ -1,13 +1,13 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
+using System.Drawing;
 
 namespace Vortice.DXGI;
 
 public partial class IDXGISwapChain2
 {
-    public SizeI SourceSize
+    public Size SourceSize
     {
         get
         {

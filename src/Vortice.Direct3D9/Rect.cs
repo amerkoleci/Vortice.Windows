@@ -2,6 +2,7 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Diagnostics;
+using System.Drawing;
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D9;
@@ -48,7 +49,7 @@ public readonly struct Rect
 
     public readonly int Width => Right - Left;
     public readonly int Height => Bottom - Top;
-    public readonly SizeI Size => new(Width, Height);
+    public readonly Size Size => new(Width, Height);
 
     /// <inheritdoc/>
     public override string ToString()
@@ -57,16 +58,16 @@ public readonly struct Rect
     }
 
     /// <summary>
-    /// Performs an implicit conversion from <see cre ="Rect"/> to <see cref="RectI" />.
+    /// Performs an implicit conversion from <see cre ="Rect"/> to <see cref="System.Drawing.Rectangle" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator RectI(Rect value) => RectI.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
+    public static implicit operator System.Drawing.Rectangle(Rect value) => System.Drawing.Rectangle.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
 
     /// <summary>
-    /// Performs an implicit conversion from <see cre ="RectangleI"/> to <see cref="Rect" />.
+    /// Performs an implicit conversion from <see cre ="System.Drawing.Rectangle"/> to <see cref="Rect" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator Rect(RectI value) => new(value.Left, value.Top, value.Right, value.Bottom);
+    public static implicit operator Rect(System.Drawing.Rectangle value) => new(value.Left, value.Top, value.Right, value.Bottom);
 }

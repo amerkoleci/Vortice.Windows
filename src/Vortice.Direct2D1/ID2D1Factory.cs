@@ -1,6 +1,7 @@
 // Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Drawing;
 using System.Numerics;
 using Vortice.DirectWrite;
 
@@ -28,7 +29,7 @@ public unsafe partial class ID2D1Factory
         return CreateGeometryGroup(fillMode, geometries, geometries.Length);
     }
 
-    public ID2D1RectangleGeometry CreateRectangleGeometry(in Rect rectangle)
+    public ID2D1RectangleGeometry CreateRectangleGeometry(in RectangleF rectangle)
     {
         RawRectF rawRect = rectangle;
         return CreateRectangleGeometry(new IntPtr(&rawRect));

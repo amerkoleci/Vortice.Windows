@@ -6,6 +6,10 @@
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <Description>Direct3D9 bindings.</Description>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
+    <Compile Remove="Shims/UnscopedRefAttribute.cs" />
+  </ItemGroup>
   
   <ItemGroup>
     <Using Include="System.Runtime.InteropServices" />

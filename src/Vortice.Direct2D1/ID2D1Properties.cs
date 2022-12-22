@@ -1,6 +1,8 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Drawing;
+
 namespace Vortice.Direct2D1;
 
 public unsafe partial class ID2D1Properties
@@ -80,7 +82,7 @@ public unsafe partial class ID2D1Properties
         SetValue(index, PropertyType.Vector4, &value, sizeof(Vector4));
     }
 
-    public void SetValue(int index, Rect value)
+    public void SetValue(int index, RectangleF value)
     {
         Vector4 vector = new(value.X, value.Y, value.Width, value.Height);
         SetValue(index, PropertyType.Vector4, &vector, sizeof(Vector4));
