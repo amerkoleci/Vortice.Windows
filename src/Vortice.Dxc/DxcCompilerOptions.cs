@@ -22,24 +22,30 @@ public sealed class DxcCompilerOptions
     public bool ResourcesMayAlias { get; set; }
     public bool AllResourcesBound { get; set; }
 
-    public int HLSLVersion { get; set; } = 2018;
+    public int HLSLVersion { get; set; } = 2021;
 
     public bool StripReflectionIntoSeparateBlob { get; set; } = true;
 
-    public int ShiftAllConstantBuffersBindings { get; set; }
-    public int ShiftAllTexturesBindings { get; set; }
-    public int ShiftAllSamplersBindings { get; set; }
-    public int ShiftAllUAVBuffersBindings { get; set; }
+    public int VkBufferShift { get; set; }
+    public int VkBufferShiftSet { get; set; }
+    public int VkTextureShift { get; set; }
+    public int VkTextureShiftSet { get; set; }
+    public int VkSamplerShift { get; set; }
+    public int VkSamplerShiftSet { get; set; }
+    public int VkUAVShift { get; set; }
+    public int VkUAVShiftSet { get; set; }
 
     /// <summary>
     /// Generate SPIR-V code
     /// </summary>
-    public bool GenerateSPIRV { get; set; } = false;
+    public bool GenerateSpirv { get; set; } = false;
 
-    public bool UseOpenGLLayout { get; set; } = false;
-    public bool UseDirectXLayout { get; set; } = false;
-    public bool UseScalarLayout { get; set; } = false;
-
-    public bool SPIRVFlattenResourceArrays { get; set; } = false;
-    public bool SPIRVReflect { get; set; } = false;
+    public bool VkUseGLLayout { get; set; } = false;
+    public bool VkUseDXLayout { get; set; } = true;
+    public bool VkUseScalarLayout { get; set; } = false;
+    public bool VkUseDXPositionW { get; set; } = true;
+    public bool SpvFlattenResourceArrays { get; set; } = false;
+    public bool SpvReflect { get; set; } = false;
+    public int SpvTargetEnvMajor { get; set; } = 1;
+    public int SpirvTargetEnvMinor { get; set; } = 1;
 }

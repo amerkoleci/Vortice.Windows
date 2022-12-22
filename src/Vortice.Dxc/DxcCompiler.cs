@@ -156,61 +156,67 @@ public static partial class DxcCompiler
             }
         }
 
-        if (options.StripReflectionIntoSeparateBlob)
-        {
-            arguments.Add("-Qstrip_reflect");
-        }
-
-        if (options.GenerateSPIRV)
-        {
-            arguments.Add("-spirv");
-        }
-
-        // HLSL version, default 2018.
+        // HLSL version, default 2021.
         arguments.Add("-HV");
         arguments.Add($"{options.HLSLVersion}");
 
-        if (options.ShiftAllConstantBuffersBindings > 0)
+        if (options.GenerateSpirv)
         {
-            arguments.Add("-fvk-b-shift");
-            arguments.Add($"{options.ShiftAllConstantBuffersBindings}");
-            arguments.Add($"all");
+            arguments.Add("-spirv");
+
+            if (options.VkUseGLLayout)
+                arguments.Add("-fvk-use-gl-layout");
+            if (options.VkUseDXLayout)
+                arguments.Add("-fvk-use-dx-layout");
+            if (options.VkUseScalarLayout)
+                arguments.Add("-fvk-use-scalar-layout");
+
+            if (options.VkUseDXPositionW)
+                arguments.Add("-fvk-use-dx-position-w");
+
+            if (options.SpvFlattenResourceArrays)
+                arguments.Add("-fspv-flatten-resource-arrays");
+            if (options.SpvReflect)
+                arguments.Add("-fspv-reflect");
+
+            arguments.Add($"-fspv-target-env=vulkan{options.SpvTargetEnvMajor}.{options.SpirvTargetEnvMinor}");
+
+            if (options.VkBufferShift > 0)
+            {
+                arguments.Add("-fvk-b-shift");
+                arguments.Add($"{options.VkBufferShift}");
+                arguments.Add($"{options.VkBufferShiftSet}");
+            }
+
+            if (options.VkTextureShift > 0)
+            {
+                arguments.Add("-fvk-t-shift");
+                arguments.Add($"{options.VkTextureShift}");
+                arguments.Add($"{options.VkTextureShiftSet}");
+            }
+
+            if (options.VkSamplerShift > 0)
+            {
+                arguments.Add("-fvk-s-shift");
+                arguments.Add($"{options.VkSamplerShift}");
+                arguments.Add($"{options.VkSamplerShiftSet}");
+            }
+
+            if (options.VkUAVShift > 0)
+            {
+                arguments.Add("-fvk-u-shift");
+                arguments.Add($"{options.VkUAVShift}");
+                arguments.Add($"{options.VkUAVShiftSet}");
+            }
+        }
+        else
+        {
+            if (options.StripReflectionIntoSeparateBlob)
+            {
+                arguments.Add("-Qstrip_reflect");
+            }
         }
 
-        if (options.ShiftAllTexturesBindings > 0)
-        {
-            arguments.Add("-fvk-t-shift");
-            arguments.Add($"{options.ShiftAllTexturesBindings}");
-            arguments.Add($"all");
-        }
-
-        if (options.ShiftAllSamplersBindings > 0)
-        {
-            arguments.Add("-fvk-s-shift");
-            arguments.Add($"{options.ShiftAllSamplersBindings}");
-            arguments.Add($"all");
-        }
-
-        if (options.ShiftAllUAVBuffersBindings > 0)
-        {
-            arguments.Add("-fvk-u-shift");
-            arguments.Add($"{options.ShiftAllUAVBuffersBindings}");
-            arguments.Add($"all");
-        }
-
-        if (options.UseOpenGLLayout)
-            arguments.Add("-fvk-use-gl-layout");
-        if (options.UseDirectXLayout)
-            arguments.Add("-fvk-use-dx-layout");
-        if (options.UseScalarLayout)
-            arguments.Add("-fvk-use-scalar-layout");
-
-        if (options.SPIRVFlattenResourceArrays)
-            arguments.Add("-fspv-flatten-resource-arrays");
-        if (options.SPIRVReflect)
-            arguments.Add("-fspv-reflect");
-
-        arguments.Add("-fspv-target-env=vulkan1.1");
 
         if (additionalArguments != null && additionalArguments.Length > 0)
         {
