@@ -18,26 +18,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+public partial struct Capabilities
 {
-    public partial struct Capabilities
-    {
-        /// <summary>
-        /// Gets the type of this device.
-        /// </summary>
-        public DeviceType Type => (DeviceType)(RawType & 0xFF);
+    /// <summary>
+    /// Gets the type of this device.
+    /// </summary>
+    public DeviceType Type => (DeviceType)(RawType & 0xFF);
 
-        /// <summary>
-        /// Gets the subtype of the device.
-        /// </summary>
-        public int Subtype => RawType >> 8;
+    /// <summary>
+    /// Gets the subtype of the device.
+    /// </summary>
+    public int Subtype => RawType >> 8;
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is human interface device.
-        /// </summary>
-        /// <value>
-        /// 	<c>true</c> if this instance is human interface device; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsHumanInterfaceDevice => ((RawType & 0x10000) != 0);
-    }
+    /// <summary>
+    /// Gets a value indicating whether this instance is human interface device.
+    /// </summary>
+    /// <value>
+    /// 	<c>true</c> if this instance is human interface device; otherwise, <c>false</c>.
+    /// </value>
+    public bool IsHumanInterfaceDevice => ((RawType & 0x10000) != 0);
 }

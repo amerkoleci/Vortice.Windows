@@ -24,119 +24,118 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+/// <summary>
+/// Custom data stored in <see cref="EffectParameters"/>.
+/// </summary>
+public class TypeSpecificParameters
 {
+    private int _bufferSize;
+    private byte[]? _buffer;
+
     /// <summary>
-    /// Custom data stored in <see cref="EffectParameters"/>.
+    /// Initializes a new instance of the <see cref="TypeSpecificParameters"/> class.
     /// </summary>
-    public class TypeSpecificParameters
+    protected TypeSpecificParameters()
     {
-        private int _bufferSize;
-        private byte[]? _buffer;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TypeSpecificParameters"/> class.
-        /// </summary>
-        protected TypeSpecificParameters()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TypeSpecificParameters"/> class.
-        /// </summary>
-        /// <param name="bufferSize">Size of the buffer.</param>
-        /// <param name="bufferPointer">The buffer pointer.</param>
-        internal TypeSpecificParameters(int bufferSize, IntPtr bufferPointer)
-        {
-            Init(bufferSize, bufferPointer);
-        }
-
-        /// <summary>
-        /// Initializes this instance from the specified buffer.
-        /// </summary>
-        /// <param name="bufferSize">Size of the buffer.</param>
-        /// <param name="bufferPointer">The buffer pointer.</param>
-        private void Init(int bufferSize, IntPtr bufferPointer)
-        {
-            _bufferSize = bufferSize;
-
-            // By default, copy as-is previous data
-            if (_bufferSize > 0 && bufferPointer != IntPtr.Zero)
-            {
-                _buffer = new byte[bufferSize];
-
-                UnsafeUtilities.Read(bufferPointer, _buffer, _bufferSize);
-            }
-        }
-
-        /// <summary>
-        /// Marshal this class from an unmanaged buffer.
-        /// </summary>
-        /// <param name="bufferSize">The size of the unmanaged buffer.</param>
-        /// <param name="bufferPointer">The pointer to the unmanaged buffer.</param>
-        /// <returns>An instance of TypeSpecificParameters or null</returns>
-        protected virtual TypeSpecificParameters? MarshalFrom(int bufferSize, IntPtr bufferPointer)
-        {
-            Init(bufferSize, bufferPointer);
-            return this;
-        }
-
-        /// <summary>
-        /// Free a previously allocated buffer.
-        /// </summary>
-        /// <param name="bufferPointer">The buffer pointer.</param>
-        internal virtual void MarshalFree(IntPtr bufferPointer)
-        {
-            if (bufferPointer != IntPtr.Zero)
-                Marshal.FreeHGlobal(bufferPointer);
-        }
-
-        /// <summary>
-        /// Marshals this class to its native/unmanaged counterpart.
-        /// </summary>
-        /// <returns>A pointer to an allocated buffer containing the unmanaged structure.</returns>
-        internal virtual IntPtr MarshalTo()
-        {
-            // By default, copy as-is previous data
-            IntPtr copyData = IntPtr.Zero;
-            if (_bufferSize > 0 && _buffer != null)
-            {
-                copyData = Marshal.AllocHGlobal(_bufferSize);
-                UnsafeUtilities.Write(copyData, _buffer, 0, _bufferSize);
-            }
-
-            return copyData;
-        }
-
-        /// <summary>
-        /// Convert this instance to another typed instance: <see cref="ConditionSet"/>, <see cref="ConstantForce"/>, <see cref="CustomForce"/>, <see cref="PeriodicForce"/> <see cref="RampForce"/>.
-        /// </summary>
-        /// <typeparam name="T">A class <see cref="TypeSpecificParameters"/></typeparam>
-        /// <returns>An instance of the T class</returns>
-        public unsafe T? As<T>() where T : TypeSpecificParameters, new()
-        {
-            // If As of same type, than return this
-            if (GetType() == typeof(T))
-            {
-                return (T)this;
-            }
-
-            // If AsOf from base class, than return subclass
-            if (GetType() == typeof(TypeSpecificParameters))
-            {
-                fixed (void* pBuffer = _buffer)
-                {
-                    return (T)new T().MarshalFrom(_bufferSize, (IntPtr)pBuffer);
-                }
-            }
-
-            return default;
-        }
-
-        /// <summary>
-        /// Gets the size of this specific parameter.
-        /// </summary>
-        /// <value>The size.</value>
-        public virtual int Size => _bufferSize;
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TypeSpecificParameters"/> class.
+    /// </summary>
+    /// <param name="bufferSize">Size of the buffer.</param>
+    /// <param name="bufferPointer">The buffer pointer.</param>
+    internal TypeSpecificParameters(int bufferSize, IntPtr bufferPointer)
+    {
+        Init(bufferSize, bufferPointer);
+    }
+
+    /// <summary>
+    /// Initializes this instance from the specified buffer.
+    /// </summary>
+    /// <param name="bufferSize">Size of the buffer.</param>
+    /// <param name="bufferPointer">The buffer pointer.</param>
+    private void Init(int bufferSize, IntPtr bufferPointer)
+    {
+        _bufferSize = bufferSize;
+
+        // By default, copy as-is previous data
+        if (_bufferSize > 0 && bufferPointer != IntPtr.Zero)
+        {
+            _buffer = new byte[bufferSize];
+
+            UnsafeUtilities.Read(bufferPointer, _buffer, _bufferSize);
+        }
+    }
+
+    /// <summary>
+    /// Marshal this class from an unmanaged buffer.
+    /// </summary>
+    /// <param name="bufferSize">The size of the unmanaged buffer.</param>
+    /// <param name="bufferPointer">The pointer to the unmanaged buffer.</param>
+    /// <returns>An instance of TypeSpecificParameters or null</returns>
+    protected virtual TypeSpecificParameters? MarshalFrom(int bufferSize, IntPtr bufferPointer)
+    {
+        Init(bufferSize, bufferPointer);
+        return this;
+    }
+
+    /// <summary>
+    /// Free a previously allocated buffer.
+    /// </summary>
+    /// <param name="bufferPointer">The buffer pointer.</param>
+    internal virtual void MarshalFree(IntPtr bufferPointer)
+    {
+        if (bufferPointer != IntPtr.Zero)
+            Marshal.FreeHGlobal(bufferPointer);
+    }
+
+    /// <summary>
+    /// Marshals this class to its native/unmanaged counterpart.
+    /// </summary>
+    /// <returns>A pointer to an allocated buffer containing the unmanaged structure.</returns>
+    internal virtual IntPtr MarshalTo()
+    {
+        // By default, copy as-is previous data
+        IntPtr copyData = IntPtr.Zero;
+        if (_bufferSize > 0 && _buffer != null)
+        {
+            copyData = Marshal.AllocHGlobal(_bufferSize);
+            UnsafeUtilities.Write(copyData, _buffer, 0, _bufferSize);
+        }
+
+        return copyData;
+    }
+
+    /// <summary>
+    /// Convert this instance to another typed instance: <see cref="ConditionSet"/>, <see cref="ConstantForce"/>, <see cref="CustomForce"/>, <see cref="PeriodicForce"/> <see cref="RampForce"/>.
+    /// </summary>
+    /// <typeparam name="T">A class <see cref="TypeSpecificParameters"/></typeparam>
+    /// <returns>An instance of the T class</returns>
+    public unsafe T? As<T>() where T : TypeSpecificParameters, new()
+    {
+        // If As of same type, than return this
+        if (GetType() == typeof(T))
+        {
+            return (T)this;
+        }
+
+        // If AsOf from base class, than return subclass
+        if (GetType() == typeof(TypeSpecificParameters))
+        {
+            fixed (void* pBuffer = _buffer)
+            {
+                return (T)new T().MarshalFrom(_bufferSize, (IntPtr)pBuffer);
+            }
+        }
+
+        return default;
+    }
+
+    /// <summary>
+    /// Gets the size of this specific parameter.
+    /// </summary>
+    /// <value>The size.</value>
+    public virtual int Size => _bufferSize;
 }

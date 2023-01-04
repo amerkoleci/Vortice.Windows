@@ -18,167 +18,163 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.Runtime.InteropServices;
+namespace Vortice.DirectInput;
 
-namespace Vortice.DirectInput
+/// <summary>
+/// Attributes that describes a device data format specification.
+/// </summary>
+[AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
+public sealed class DataFormatAttribute : Attribute
 {
-    /// <summary>
-    /// Attributes that describes a device data format specification.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Struct | AttributeTargets.Class)]
-    public sealed class DataFormatAttribute : Attribute
+    public DataFormatAttribute(DataFormatFlag flags)
     {
-        public DataFormatAttribute(DataFormatFlag flags)
-        {
-            Flags = flags;
-        }
-
-        /// <summary>
-        /// Gets or sets the data format flags.
-        /// </summary>
-        public DataFormatFlag Flags { get; }
+        Flags = flags;
     }
 
     /// <summary>
-    /// Attribute to describe a custom format for a field.
+    /// Gets or sets the data format flags.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field)]
-    public sealed class DataObjectFormatAttribute : Attribute
+    public DataFormatFlag Flags { get; }
+}
+
+/// <summary>
+/// Attribute to describe a custom format for a field.
+/// </summary>
+[AttributeUsage(AttributeTargets.Field)]
+public sealed class DataObjectFormatAttribute : Attribute
+{
+    public DataObjectFormatAttribute()
     {
-        public DataObjectFormatAttribute()
-        {
-            Flags = ObjectDataFormatFlags.None;
-            InstanceNumber = 0;
-            Guid = "";
-            TypeFlags = DeviceObjectTypeFlags.All;
-        }
-
-        public DataObjectFormatAttribute(string guid, DeviceObjectTypeFlags typeFlags)
-        {
-            Guid = guid;
-            TypeFlags = typeFlags;
-            Flags = ObjectDataFormatFlags.None;
-            InstanceNumber = 0;
-            ArrayCount = 0;
-        }
-
-        public DataObjectFormatAttribute(string guid, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
-        {
-            Guid = guid;
-            TypeFlags = typeFlags;
-            Flags = flags;
-        }
-
-        public DataObjectFormatAttribute(string guid, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags, int instanceNumber)
-        {
-            Guid = guid;
-            TypeFlags = typeFlags;
-            Flags = flags;
-            InstanceNumber = instanceNumber;
-        }
-
-        public DataObjectFormatAttribute(string guid, int arrayCount, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
-        {
-            Guid = guid;
-            ArrayCount = arrayCount;
-            TypeFlags = typeFlags;
-            Flags = flags;
-        }
-
-        public DataObjectFormatAttribute(string guid, int arrayCount, DeviceObjectTypeFlags typeFlags)
-        {
-            Guid = guid;
-            ArrayCount = arrayCount;
-            TypeFlags = typeFlags;
-            Flags = ObjectDataFormatFlags.None;
-        }
-
-        public DataObjectFormatAttribute(DeviceObjectTypeFlags typeFlags)
-        {
-            TypeFlags = typeFlags;
-            Flags = ObjectDataFormatFlags.None;
-            InstanceNumber = 0;
-            ArrayCount = 0;
-        }
-
-        public DataObjectFormatAttribute(DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
-        {
-            TypeFlags = typeFlags;
-            Flags = flags;
-        }
-
-        public DataObjectFormatAttribute(DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags, int instanceNumber)
-        {
-            TypeFlags = typeFlags;
-            Flags = flags;
-            InstanceNumber = instanceNumber;
-        }
-
-        public DataObjectFormatAttribute(int arrayCount, DeviceObjectTypeFlags typeFlags)
-        {
-            ArrayCount = arrayCount;
-            TypeFlags = typeFlags;
-            Flags = ObjectDataFormatFlags.None;
-        }
-
-        public DataObjectFormatAttribute(int arrayCount, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
-        {
-            ArrayCount = arrayCount;
-            TypeFlags = typeFlags;
-            Flags = flags;
-        }
-
-        public DataObjectFormatAttribute(int arrayCount, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags, int instanceNumber)
-        {
-            ArrayCount = arrayCount;
-            TypeFlags = typeFlags;
-            Flags = flags;
-            InstanceNumber = instanceNumber;
-        }
-
-
-        public DataObjectFormatAttribute(int arrayCount, DeviceObjectTypeFlags typeFlags, int instanceNumber)
-        {
-            ArrayCount = arrayCount;
-            TypeFlags = typeFlags;
-            Flags = ObjectDataFormatFlags.None;
-            InstanceNumber = instanceNumber;
-        }
-
-        /// <summary>
-        /// Gets or sets the name of the field. Default is using the field name.
-        /// </summary>
-        public string Name;
-
-        /// <summary>
-        /// Gets or sets Guid for the axis, button, or other input source. When requesting a data format, making this member empty indicates that any type of object is permissible. 
-        /// </summary>
-        /// <value>The GUID.</value>
-        public string Guid;
-
-        /// <summary>
-        /// Gets or sets the array count.
-        /// </summary>
-        /// <value>The array count.</value>
-        public int ArrayCount;
-
-        /// <summary>
-        /// Gets or sets the device type that describes the object. 
-        /// </summary>
-        /// <value>The type.</value>
-        public DeviceObjectTypeFlags TypeFlags;
-
-        /// <summary>
-        /// Gets or sets the extra flags used to describe the data format.
-        /// </summary>
-        /// <value>The flags.</value>
-        public ObjectDataFormatFlags Flags;
-
-        /// <summary>
-        /// Gets or sets the instance number.
-        /// </summary>
-        /// <value>The instance number.</value>
-        public int InstanceNumber;
+        Flags = ObjectDataFormatFlags.None;
+        InstanceNumber = 0;
+        Guid = "";
+        TypeFlags = DeviceObjectTypeFlags.All;
     }
+
+    public DataObjectFormatAttribute(string guid, DeviceObjectTypeFlags typeFlags)
+    {
+        Guid = guid;
+        TypeFlags = typeFlags;
+        Flags = ObjectDataFormatFlags.None;
+        InstanceNumber = 0;
+        ArrayCount = 0;
+    }
+
+    public DataObjectFormatAttribute(string guid, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
+    {
+        Guid = guid;
+        TypeFlags = typeFlags;
+        Flags = flags;
+    }
+
+    public DataObjectFormatAttribute(string guid, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags, int instanceNumber)
+    {
+        Guid = guid;
+        TypeFlags = typeFlags;
+        Flags = flags;
+        InstanceNumber = instanceNumber;
+    }
+
+    public DataObjectFormatAttribute(string guid, int arrayCount, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
+    {
+        Guid = guid;
+        ArrayCount = arrayCount;
+        TypeFlags = typeFlags;
+        Flags = flags;
+    }
+
+    public DataObjectFormatAttribute(string guid, int arrayCount, DeviceObjectTypeFlags typeFlags)
+    {
+        Guid = guid;
+        ArrayCount = arrayCount;
+        TypeFlags = typeFlags;
+        Flags = ObjectDataFormatFlags.None;
+    }
+
+    public DataObjectFormatAttribute(DeviceObjectTypeFlags typeFlags)
+    {
+        TypeFlags = typeFlags;
+        Flags = ObjectDataFormatFlags.None;
+        InstanceNumber = 0;
+        ArrayCount = 0;
+    }
+
+    public DataObjectFormatAttribute(DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
+    {
+        TypeFlags = typeFlags;
+        Flags = flags;
+    }
+
+    public DataObjectFormatAttribute(DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags, int instanceNumber)
+    {
+        TypeFlags = typeFlags;
+        Flags = flags;
+        InstanceNumber = instanceNumber;
+    }
+
+    public DataObjectFormatAttribute(int arrayCount, DeviceObjectTypeFlags typeFlags)
+    {
+        ArrayCount = arrayCount;
+        TypeFlags = typeFlags;
+        Flags = ObjectDataFormatFlags.None;
+    }
+
+    public DataObjectFormatAttribute(int arrayCount, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
+    {
+        ArrayCount = arrayCount;
+        TypeFlags = typeFlags;
+        Flags = flags;
+    }
+
+    public DataObjectFormatAttribute(int arrayCount, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags, int instanceNumber)
+    {
+        ArrayCount = arrayCount;
+        TypeFlags = typeFlags;
+        Flags = flags;
+        InstanceNumber = instanceNumber;
+    }
+
+
+    public DataObjectFormatAttribute(int arrayCount, DeviceObjectTypeFlags typeFlags, int instanceNumber)
+    {
+        ArrayCount = arrayCount;
+        TypeFlags = typeFlags;
+        Flags = ObjectDataFormatFlags.None;
+        InstanceNumber = instanceNumber;
+    }
+
+    /// <summary>
+    /// Gets or sets the name of the field. Default is using the field name.
+    /// </summary>
+    public string? Name;
+
+    /// <summary>
+    /// Gets or sets Guid for the axis, button, or other input source. When requesting a data format, making this member empty indicates that any type of object is permissible. 
+    /// </summary>
+    /// <value>The GUID.</value>
+    public string? Guid;
+
+    /// <summary>
+    /// Gets or sets the array count.
+    /// </summary>
+    /// <value>The array count.</value>
+    public int ArrayCount;
+
+    /// <summary>
+    /// Gets or sets the device type that describes the object. 
+    /// </summary>
+    /// <value>The type.</value>
+    public DeviceObjectTypeFlags TypeFlags;
+
+    /// <summary>
+    /// Gets or sets the extra flags used to describe the data format.
+    /// </summary>
+    /// <value>The flags.</value>
+    public ObjectDataFormatFlags Flags;
+
+    /// <summary>
+    /// Gets or sets the instance number.
+    /// </summary>
+    /// <value>The instance number.</value>
+    public int InstanceNumber;
 }

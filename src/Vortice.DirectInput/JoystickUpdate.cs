@@ -18,43 +18,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct JoystickUpdate : IStateUpdate
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public struct JoystickUpdate : IStateUpdate
+    public int RawOffset
     {
-        public int RawOffset
-        {
-            get;
-            set;
-        }
+        get;
+        set;
+    }
 
-        public int Value
-        {
-            get;
-            set;
-        }
+    public int Value
+    {
+        get;
+        set;
+    }
 
-        public int Timestamp
-        {
-            get;
-            set;
-        }
+    public int Timestamp
+    {
+        get;
+        set;
+    }
 
-        public int Sequence
-        {
-            get;
-            set;
-        }
+    public int Sequence
+    {
+        get;
+        set;
+    }
 
-        public JoystickOffset Offset { get { return (JoystickOffset)RawOffset; } }
+    public JoystickOffset Offset { get { return (JoystickOffset)RawOffset; } }
 
-        public override string ToString()
-        {
-            return $"Offset: {Offset}, Value: {Value} Timestamp: {Timestamp} Sequence: {Sequence}";
-        }
+    public override string ToString()
+    {
+        return $"Offset: {Offset}, Value: {Value} Timestamp: {Timestamp} Sequence: {Sequence}";
     }
 }

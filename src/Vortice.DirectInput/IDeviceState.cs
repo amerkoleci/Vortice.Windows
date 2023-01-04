@@ -18,11 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+public interface IDeviceState<T, in TUpdate> where T : struct where TUpdate : struct, IStateUpdate
 {
-    public interface IDeviceState<T, in TUpdate> where T : struct where TUpdate : struct, IStateUpdate
-    {
-        void Update(TUpdate update);
-        void MarshalFrom(ref T value);
-    }
+    void Update(TUpdate update);
+    void MarshalFrom(ref T value);
 }

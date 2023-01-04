@@ -18,30 +18,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+public struct MouseUpdate : IStateUpdate
 {
-    public struct MouseUpdate : IStateUpdate
+    public int RawOffset { get; set; }
+
+    public int Value { get; set; }
+
+    public int Timestamp { get; set; }
+
+    public int Sequence { get; set; }
+
+    public MouseOffset Offset { get { return (MouseOffset)RawOffset; } }
+
+    public bool IsButton { get { return Offset >= MouseOffset.Buttons0 && Offset <= MouseOffset.Buttons7; } }
+
+    public override string ToString()
     {
-        public int RawOffset { get; set; }
-
-        public int Value { get; set; }
-
-        public int Timestamp { get; set; }
-
-        public int Sequence { get; set; }
-
-        public MouseOffset Offset { get { return (MouseOffset)RawOffset; } }
-
-        public bool IsButton { get { return Offset >= MouseOffset.Buttons0 && Offset <= MouseOffset.Buttons7; } }
-
-        public override string ToString()
-        {
-            object value;
-            if (Offset >= MouseOffset.Buttons0)
-                value = (Value & 0x80) != 0;
-            else
-                value = Value;
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "Offset: {0}, Value: {1} Timestamp: {2} Sequence: {3}", Offset, value, Timestamp, Sequence);
-        }
+        object value;
+        if (Offset >= MouseOffset.Buttons0)
+            value = (Value & 0x80) != 0;
+        else
+            value = Value;
+        return string.Format(System.Globalization.CultureInfo.InvariantCulture, "Offset: {0}, Value: {1} Timestamp: {2} Sequence: {3}", Offset, value, Timestamp, Sequence);
     }
 }

@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+public enum PredefinedDevice
 {
-    public enum PredefinedDevice
-    {
-        SysMouse,
-        SysKeyboard,
-        Joystick,
-        SysMouseEm,
-        SysMouseEm2,
-        SysKeyboardEm,
-        SysKeyboardEm2,
-    }
+    SysMouse,
+    SysKeyboard,
+    Joystick,
+    SysMouseEm,
+    SysMouseEm2,
+    SysKeyboardEm,
+    SysKeyboardEm2,
 }

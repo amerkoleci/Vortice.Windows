@@ -18,55 +18,53 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct KeyboardUpdate : IStateUpdate
 {
-    [StructLayout(LayoutKind.Sequential)]
-    public struct KeyboardUpdate : IStateUpdate
+    public int RawOffset
     {
-        public int RawOffset
+        get;
+        set;
+    }
+
+    public int Value
+    {
+        get;
+        set;
+    }
+
+    public int Timestamp
+    {
+        get;
+        set;
+    }
+
+    public int Sequence
+    {
+        get;
+        set;
+    }
+
+    public Key Key => ConvertRawKey(RawOffset);
+    public bool IsPressed => (Value & 0x80) != 0;
+    public bool IsReleased => !IsPressed;
+
+    private static Key ConvertRawKey(int rawKey)
+    {
+        if (Enum.IsDefined(typeof(Key), rawKey))
         {
-            get;
-            set;
+            return (Key)rawKey;
         }
 
-        public int Value
-        {
-            get;
-            set;
-        }
+        return Key.Unknown;
+    }
 
-        public int Timestamp
-        {
-            get;
-            set;
-        }
-
-        public int Sequence
-        {
-            get;
-            set;
-        }
-
-        public Key Key => ConvertRawKey(RawOffset);
-        public bool IsPressed => (Value & 0x80) != 0;
-        public bool IsReleased => !IsPressed;
-
-        private static Key ConvertRawKey(int rawKey)
-        {
-            if (Enum.IsDefined(typeof(Key), rawKey))
-            {
-                return (Key)rawKey;
-            }
-
-            return Key.Unknown;
-        }
-
-        public override string ToString()
-        {
-            return $"Key: {Key}, IsPressed: {IsPressed} Timestamp: {Timestamp} Sequence: {Sequence}";
-        }
+    public override string ToString()
+    {
+        return $"Key: {Key}, IsPressed: {IsPressed} Timestamp: {Timestamp} Sequence: {Sequence}";
     }
 }

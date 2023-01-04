@@ -20,73 +20,70 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+internal partial class DataFormat
 {
-    internal partial class DataFormat
+    public DataFormat(DataFormatFlag flags)
     {
-        public DataFormat(DataFormatFlag flags)
-        {
-            Flags = flags;
-        }
-
-        public ObjectDataFormat[] ObjectsFormat { get; set; }
-
-        #region Marshal
-        [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        internal partial struct __Native
-        {
-            public int Size;
-            public int ObjectSize;
-            public DataFormatFlag Flags;
-            public int DataSize;
-            public int ObjectArrayCount;
-            public IntPtr ObjectArrayPointer;
-
-            internal void __MarshalFree()
-            {
-                //if (ObjectArrayPointer != IntPtr.Zero)
-                //    GCHandle.FromIntPtr(ObjectArrayPointer).Free();
-            }
-        }
-
-        internal static unsafe __Native __NewNative()
-        {
-            __Native native = default;
-            native.Size = sizeof(__Native);
-            native.ObjectSize = sizeof(ObjectDataFormat.__Native);
-            return native;
-        }
-
-        internal unsafe void __MarshalFree(ref __Native @ref)
-        {
-            @ref.__MarshalFree();
-        }
-
-        internal unsafe void __MarshalTo(ref __Native @ref)
-        {
-            @ref.Flags = Flags;
-            @ref.DataSize = DataSize;
-
-            @ref.ObjectArrayCount = 0;
-            @ref.ObjectArrayPointer = IntPtr.Zero;
-
-            if (ObjectsFormat != null && ObjectsFormat.Length > 0)
-            {
-                @ref.ObjectArrayCount = ObjectsFormat.Length;
-                var nativeDataFormats = new ObjectDataFormat.__Native[ObjectsFormat.Length];
-                for (int i = 0; i < ObjectsFormat.Length; i++)
-                {
-                    ObjectsFormat[i].__MarshalTo(ref nativeDataFormats[i]);
-                }
-
-                var handle = GCHandle.Alloc(nativeDataFormats, GCHandleType.Pinned);
-                @ref.ObjectArrayPointer = handle.AddrOfPinnedObject();
-            }
-        }
-        #endregion Marshal
+        Flags = flags;
     }
+
+    public ObjectDataFormat[]? ObjectsFormat { get; set; }
+
+    #region Marshal
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    internal partial struct __Native
+    {
+        public int Size;
+        public int ObjectSize;
+        public DataFormatFlag Flags;
+        public int DataSize;
+        public int ObjectArrayCount;
+        public IntPtr ObjectArrayPointer;
+
+        internal void __MarshalFree()
+        {
+            //if (ObjectArrayPointer != IntPtr.Zero)
+            //    GCHandle.FromIntPtr(ObjectArrayPointer).Free();
+        }
+    }
+
+    internal static unsafe __Native __NewNative()
+    {
+        __Native native = default;
+        native.Size = sizeof(__Native);
+        native.ObjectSize = sizeof(ObjectDataFormat.__Native);
+        return native;
+    }
+
+    internal unsafe void __MarshalFree(ref __Native @ref)
+    {
+        @ref.__MarshalFree();
+    }
+
+    internal unsafe void __MarshalTo(ref __Native @ref)
+    {
+        @ref.Flags = Flags;
+        @ref.DataSize = DataSize;
+
+        @ref.ObjectArrayCount = 0;
+        @ref.ObjectArrayPointer = IntPtr.Zero;
+
+        if (ObjectsFormat != null && ObjectsFormat.Length > 0)
+        {
+            @ref.ObjectArrayCount = ObjectsFormat.Length;
+            var nativeDataFormats = new ObjectDataFormat.__Native[ObjectsFormat.Length];
+            for (int i = 0; i < ObjectsFormat.Length; i++)
+            {
+                ObjectsFormat[i].__MarshalTo(ref nativeDataFormats[i]);
+            }
+
+            var handle = GCHandle.Alloc(nativeDataFormats, GCHandleType.Pinned);
+            @ref.ObjectArrayPointer = handle.AddrOfPinnedObject();
+        }
+    }
+    #endregion Marshal
 }

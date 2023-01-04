@@ -20,48 +20,44 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+/// <summary>
+/// Enumerator callback for DirectInput EnumDevices.
+/// </summary>
+internal unsafe class EnumDevicesCallback
 {
+    private readonly DirectInputEnumDevicesDelegate _callback;
+
     /// <summary>
-    /// Enumerator callback for DirectInput EnumDevices.
+    /// Initializes a new instance of the <see cref="EnumDevicesCallback"/> class.
     /// </summary>
-    internal unsafe class EnumDevicesCallback
+    public EnumDevicesCallback()
     {
-        private readonly DirectInputEnumDevicesDelegate _callback;
+        _callback = new DirectInputEnumDevicesDelegate(DirectInputEnumDevicesImpl);
+        NativePointer = Marshal.GetFunctionPointerForDelegate(_callback);
+        DeviceInstances = new List<DeviceInstance>();
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumDevicesCallback"/> class.
-        /// </summary>
-        public EnumDevicesCallback()
-        {
-            _callback = new DirectInputEnumDevicesDelegate(DirectInputEnumDevicesImpl);
-            NativePointer = Marshal.GetFunctionPointerForDelegate(_callback);
-            DeviceInstances = new List<DeviceInstance>();
-        }
+    public IntPtr NativePointer { get; }
 
-        public IntPtr NativePointer { get; }
+    /// <summary>
+    /// Gets or sets the device instances.
+    /// </summary>
+    /// <value>The device instances.</value>
+    public List<DeviceInstance> DeviceInstances { get; }
 
-        /// <summary>
-        /// Gets or sets the device instances.
-        /// </summary>
-        /// <value>The device instances.</value>
-        public List<DeviceInstance> DeviceInstances { get; }
-
-        // typedef BOOL (FAR PASCAL * LPDIENUMDEVICESCALLBACKW)(LPCDIDEVICEINSTANCEW, LPVOID);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private unsafe delegate int DirectInputEnumDevicesDelegate(void* deviceInstance, IntPtr data);
-        private unsafe int DirectInputEnumDevicesImpl(void* deviceInstance, IntPtr data)
-        {
-            var newDevice = new DeviceInstance();
-            newDevice.__MarshalFrom(ref *((DeviceInstance.__Native*)deviceInstance));
-            DeviceInstances.Add(newDevice);
-            // Return true to continue iterating
-            return 1;
-        }
+    // typedef BOOL (FAR PASCAL * LPDIENUMDEVICESCALLBACKW)(LPCDIDEVICEINSTANCEW, LPVOID);
+    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+    private unsafe delegate int DirectInputEnumDevicesDelegate(void* deviceInstance, IntPtr data);
+    private unsafe int DirectInputEnumDevicesImpl(void* deviceInstance, IntPtr data)
+    {
+        var newDevice = new DeviceInstance();
+        newDevice.__MarshalFrom(ref *((DeviceInstance.__Native*)deviceInstance));
+        DeviceInstances.Add(newDevice);
+        // Return true to continue iterating
+        return 1;
     }
 }

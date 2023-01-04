@@ -22,42 +22,41 @@
 
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+/// <summary>
+/// Structure that describes a range value between a minimum and a maximum
+/// </summary>
+[StructLayout(LayoutKind.Sequential, Pack = 0)]
+public struct InputRange
 {
-    /// <summary>
-    /// Structure that describes a range value between a minimum and a maximum
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct InputRange
+    public const int NoMinimum = int.MinValue;
+    public const int NoMaximum = int.MaxValue;
+
+    internal InputRange(PropertyRange range)
+        : this(range.Min, range.Max)
     {
-        public const int NoMinimum = int.MinValue;
-        public const int NoMaximum = int.MaxValue;
-
-        internal InputRange(PropertyRange range)
-            : this(range.Min, range.Max)
-        {
-        }
-
-        public InputRange(int minimum, int maximum) : this()
-        {
-            Minimum = minimum;
-            Maximum = maximum;
-        }
-
-        internal void CopyTo(ref PropertyRange range)
-        {
-            range.Min = Minimum;
-            range.Max = Maximum;
-        }
-
-        /// <summary>
-        /// Minimum value of this range
-        /// </summary>
-        public int Minimum;
-
-        /// <summary>
-        /// Maximum value of this range
-        /// </summary>
-        public int Maximum;
     }
+
+    public InputRange(int minimum, int maximum) : this()
+    {
+        Minimum = minimum;
+        Maximum = maximum;
+    }
+
+    internal void CopyTo(ref PropertyRange range)
+    {
+        range.Min = Minimum;
+        range.Max = Maximum;
+    }
+
+    /// <summary>
+    /// Minimum value of this range
+    /// </summary>
+    public int Minimum;
+
+    /// <summary>
+    /// Maximum value of this range
+    /// </summary>
+    public int Maximum;
 }

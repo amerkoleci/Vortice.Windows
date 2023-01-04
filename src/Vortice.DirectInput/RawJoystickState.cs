@@ -20,95 +20,94 @@
 
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+[StructLayout(LayoutKind.Sequential, Pack = 0)]
+[DataFormat(DataFormatFlag.AbsoluteAxis)]
+public unsafe partial struct RawJoystickState
 {
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    [DataFormat(DataFormatFlag.AbsoluteAxis)]
-    public unsafe partial struct RawJoystickState
-    {
-        private const DeviceObjectTypeFlags TypeRelativeAxisOpt = DeviceObjectTypeFlags.RelativeAxis | DeviceObjectTypeFlags.AbsoluteAxis | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional;
-        private const DeviceObjectTypeFlags TypePovOpt = DeviceObjectTypeFlags.PointOfViewController | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional;
-        private const DeviceObjectTypeFlags TypeButtonOpt = DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional;
+    private const DeviceObjectTypeFlags TypeRelativeAxisOpt = DeviceObjectTypeFlags.RelativeAxis | DeviceObjectTypeFlags.AbsoluteAxis | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional;
+    private const DeviceObjectTypeFlags TypePovOpt = DeviceObjectTypeFlags.PointOfViewController | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional;
+    private const DeviceObjectTypeFlags TypeButtonOpt = DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional;
 
-        [DataObjectFormat(ObjectGuid.XAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
-        public int X;
+    [DataObjectFormat(ObjectGuid.XAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
+    public int X;
 
-        [DataObjectFormat(ObjectGuid.YAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
-        public int Y;
+    [DataObjectFormat(ObjectGuid.YAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
+    public int Y;
 
-        [DataObjectFormat(ObjectGuid.ZAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
-        public int Z;
+    [DataObjectFormat(ObjectGuid.ZAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
+    public int Z;
 
-        [DataObjectFormat(ObjectGuid.RxAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
-        public int RotationX;
+    [DataObjectFormat(ObjectGuid.RxAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
+    public int RotationX;
 
-        [DataObjectFormat(ObjectGuid.RyAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
-        public int RotationY;
+    [DataObjectFormat(ObjectGuid.RyAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
+    public int RotationY;
 
-        [DataObjectFormat(ObjectGuid.RzAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
-        public int RotationZ;
+    [DataObjectFormat(ObjectGuid.RzAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
+    public int RotationZ;
 
-        [DataObjectFormat(ObjectGuid.SliderStr, 2, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
-        public fixed int Sliders[2];
+    [DataObjectFormat(ObjectGuid.SliderStr, 2, TypeRelativeAxisOpt, ObjectDataFormatFlags.Position)]
+    public fixed int Sliders[2];
 
-        [DataObjectFormat(ObjectGuid.PovControllerStr, 4, TypePovOpt)]
-        public fixed int PointOfViewControllers[4];
+    [DataObjectFormat(ObjectGuid.PovControllerStr, 4, TypePovOpt)]
+    public fixed int PointOfViewControllers[4];
 
-        [DataObjectFormat(128, TypeButtonOpt)]
-        public fixed byte Buttons[128];
+    [DataObjectFormat(128, TypeButtonOpt)]
+    public fixed byte Buttons[128];
 
-        [DataObjectFormat(ObjectGuid.XAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
-        public int VelocityX;
-        [DataObjectFormat(ObjectGuid.YAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
-        public int VelocityY;
-        [DataObjectFormat(ObjectGuid.ZAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
-        public int VelocityZ;
-        [DataObjectFormat(ObjectGuid.RxAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
-        public int AngularVelocityX;
-        [DataObjectFormat(ObjectGuid.RyAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
-        public int AngularVelocityY;
-        [DataObjectFormat(ObjectGuid.RzAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
-        public int AngularVelocityZ;
+    [DataObjectFormat(ObjectGuid.XAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
+    public int VelocityX;
+    [DataObjectFormat(ObjectGuid.YAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
+    public int VelocityY;
+    [DataObjectFormat(ObjectGuid.ZAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
+    public int VelocityZ;
+    [DataObjectFormat(ObjectGuid.RxAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
+    public int AngularVelocityX;
+    [DataObjectFormat(ObjectGuid.RyAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
+    public int AngularVelocityY;
+    [DataObjectFormat(ObjectGuid.RzAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
+    public int AngularVelocityZ;
 
-        [DataObjectFormat(ObjectGuid.SliderStr, 2, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
-        public fixed int VelocitySliders[2];
+    [DataObjectFormat(ObjectGuid.SliderStr, 2, TypeRelativeAxisOpt, ObjectDataFormatFlags.Velocity)]
+    public fixed int VelocitySliders[2];
 
-        [DataObjectFormat(ObjectGuid.XAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
-        public int AccelerationX;
+    [DataObjectFormat(ObjectGuid.XAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
+    public int AccelerationX;
 
-        [DataObjectFormat(ObjectGuid.YAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
-        public int AccelerationY;
+    [DataObjectFormat(ObjectGuid.YAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
+    public int AccelerationY;
 
-        [DataObjectFormat(ObjectGuid.ZAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
-        public int AccelerationZ;
+    [DataObjectFormat(ObjectGuid.ZAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
+    public int AccelerationZ;
 
-        [DataObjectFormat(ObjectGuid.RxAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
-        public int AngularAccelerationX;
+    [DataObjectFormat(ObjectGuid.RxAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
+    public int AngularAccelerationX;
 
-        [DataObjectFormat(ObjectGuid.RyAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
-        public int AngularAccelerationY;
+    [DataObjectFormat(ObjectGuid.RyAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
+    public int AngularAccelerationY;
 
-        [DataObjectFormat(ObjectGuid.RzAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
-        public int AngularAccelerationZ;
+    [DataObjectFormat(ObjectGuid.RzAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
+    public int AngularAccelerationZ;
 
-        [DataObjectFormat(ObjectGuid.SliderStr, 2, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
-        public fixed int AccelerationSliders[2];
+    [DataObjectFormat(ObjectGuid.SliderStr, 2, TypeRelativeAxisOpt, ObjectDataFormatFlags.Acceleration)]
+    public fixed int AccelerationSliders[2];
 
-        [DataObjectFormat(ObjectGuid.XAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
-        public int ForceX;
-        [DataObjectFormat(ObjectGuid.YAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
-        public int ForceY;
-        [DataObjectFormat(ObjectGuid.ZAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
-        public int ForceZ;
+    [DataObjectFormat(ObjectGuid.XAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
+    public int ForceX;
+    [DataObjectFormat(ObjectGuid.YAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
+    public int ForceY;
+    [DataObjectFormat(ObjectGuid.ZAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
+    public int ForceZ;
 
-        [DataObjectFormat(ObjectGuid.RxAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
-        public int TorqueX;
-        [DataObjectFormat(ObjectGuid.RyAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
-        public int TorqueY;
-        [DataObjectFormat(ObjectGuid.RzAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
-        public int TorqueZ;
+    [DataObjectFormat(ObjectGuid.RxAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
+    public int TorqueX;
+    [DataObjectFormat(ObjectGuid.RyAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
+    public int TorqueY;
+    [DataObjectFormat(ObjectGuid.RzAxisStr, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
+    public int TorqueZ;
 
-        [DataObjectFormat(ObjectGuid.SliderStr, 2, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
-        public fixed int ForceSliders[2];
-    }
+    [DataObjectFormat(ObjectGuid.SliderStr, 2, TypeRelativeAxisOpt, ObjectDataFormatFlags.Force)]
+    public fixed int ForceSliders[2];
 }

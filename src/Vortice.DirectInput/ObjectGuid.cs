@@ -20,54 +20,51 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
+namespace Vortice.DirectInput;
 
-namespace Vortice.DirectInput
+public partial class ObjectGuid
 {
-    public partial class ObjectGuid
-    {
-        /// <summary>Constant XAxis.</summary>
-        /// <unmanaged>GUID_XAxis</unmanaged>
-        public static readonly Guid XAxis = new Guid(XAxisStr);
+    /// <summary>Constant XAxis.</summary>
+    /// <unmanaged>GUID_XAxis</unmanaged>
+    public static readonly Guid XAxis = new Guid(XAxisStr);
 
-        /// <summary>Constant YAxis.</summary>
-        /// <unmanaged>GUID_YAxis</unmanaged>
-        public static readonly Guid YAxis = new Guid(YAxisStr);
+    /// <summary>Constant YAxis.</summary>
+    /// <unmanaged>GUID_YAxis</unmanaged>
+    public static readonly Guid YAxis = new Guid(YAxisStr);
 
-        /// <summary>Constant ZAxis.</summary>
-        /// <unmanaged>GUID_ZAxis</unmanaged>
-        public static readonly Guid ZAxis = new Guid(ZAxisStr);
+    /// <summary>Constant ZAxis.</summary>
+    /// <unmanaged>GUID_ZAxis</unmanaged>
+    public static readonly Guid ZAxis = new Guid(ZAxisStr);
 
-        /// <summary>Constant RxAxis.</summary>
-        /// <unmanaged>GUID_RxAxis</unmanaged>
-        public static readonly Guid RxAxis = new Guid(RxAxisStr);
+    /// <summary>Constant RxAxis.</summary>
+    /// <unmanaged>GUID_RxAxis</unmanaged>
+    public static readonly Guid RxAxis = new Guid(RxAxisStr);
 
-        /// <summary>Constant RyAxis.</summary>
-        /// <unmanaged>GUID_RyAxis</unmanaged>
-        public static readonly Guid RyAxis = new Guid(RyAxisStr);
+    /// <summary>Constant RyAxis.</summary>
+    /// <unmanaged>GUID_RyAxis</unmanaged>
+    public static readonly Guid RyAxis = new Guid(RyAxisStr);
 
-        /// <summary>Constant RzAxis.</summary>
-        /// <unmanaged>GUID_RzAxis</unmanaged>
-        public static readonly Guid RzAxis = new Guid(RzAxisStr);
+    /// <summary>Constant RzAxis.</summary>
+    /// <unmanaged>GUID_RzAxis</unmanaged>
+    public static readonly Guid RzAxis = new Guid(RzAxisStr);
 
-        /// <summary>Constant Button.</summary>
-        /// <unmanaged>GUID_Button</unmanaged>
-        public static readonly Guid Button = new Guid(ButtonStr);
+    /// <summary>Constant Button.</summary>
+    /// <unmanaged>GUID_Button</unmanaged>
+    public static readonly Guid Button = new Guid(ButtonStr);
 
-        /// <summary>Constant Key.</summary>
-        /// <unmanaged>GUID_Key</unmanaged>
-        public static readonly Guid Key = new Guid(KeyStr);
+    /// <summary>Constant Key.</summary>
+    /// <unmanaged>GUID_Key</unmanaged>
+    public static readonly Guid Key = new Guid(KeyStr);
 
-        /// <summary>Constant Slider.</summary>
-        /// <unmanaged>GUID_Slider</unmanaged>
-        public static readonly Guid Slider = new Guid(SliderStr);
+    /// <summary>Constant Slider.</summary>
+    /// <unmanaged>GUID_Slider</unmanaged>
+    public static readonly Guid Slider = new Guid(SliderStr);
 
-        /// <summary>Constant PovController.</summary>
-        /// <unmanaged>GUID_POV</unmanaged>
-        public static readonly Guid PovController = new Guid(PovControllerStr);
+    /// <summary>Constant PovController.</summary>
+    /// <unmanaged>GUID_POV</unmanaged>
+    public static readonly Guid PovController = new Guid(PovControllerStr);
 
-        /// <summary>Constant Unknown.</summary>
-        /// <unmanaged>GUID_Unknown</unmanaged>
-        public static readonly Guid Unknown = new Guid(UnknownStr);
-    }
+    /// <summary>Constant Unknown.</summary>
+    /// <unmanaged>GUID_Unknown</unmanaged>
+    public static readonly Guid Unknown = new Guid(UnknownStr);
 }

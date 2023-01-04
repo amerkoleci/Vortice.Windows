@@ -20,61 +20,58 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+public partial class DeviceImageHeader
 {
-    public partial class DeviceImageHeader
+    public DeviceImage[]? Images { get; private set; }
+
+    #region Marshal
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    internal partial struct __Native
     {
-        public DeviceImage[]? Images { get; private set; }
+        public int Size;
+        public int SizeImageInfo;
+        public int ViewCount;
+        public int ButtonCount;
+        public int AxeCount;
+        public int PovCount;
+        public int BufferSize;
+        public int BufferUsed;
+        public IntPtr ImageInfoArrayPointer;
 
-        #region Marshal
-        [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        internal partial struct __Native
+        internal void __MarshalFree()
         {
-            public int Size;
-            public int SizeImageInfo;
-            public int ViewCount;
-            public int ButtonCount;
-            public int AxeCount;
-            public int PovCount;
-            public int BufferSize;
-            public int BufferUsed;
-            public IntPtr ImageInfoArrayPointer;
-
-            internal void __MarshalFree()
-            {
-            }
         }
-
-        internal static unsafe __Native __NewNative()
-        {
-            __Native native = default;
-            native.Size = sizeof(__Native);
-            native.SizeImageInfo = sizeof(DeviceImage.__Native);
-            return native;
-        }
-
-        internal void __MarshalFree(ref __Native @ref)
-        {
-            @ref.__MarshalFree();
-        }
-
-        internal unsafe void __MarshalTo(ref __Native @ref)
-        {
-            @ref.Size = sizeof(__Native);
-            @ref.SizeImageInfo = sizeof(DeviceImage.__Native);
-            @ref.ViewCount = ViewCount;
-            @ref.ButtonCount = ButtonCount;
-            @ref.AxeCount = AxeCount;
-            @ref.PovCount = PovCount;
-            @ref.BufferSize = BufferSize;
-            @ref.BufferUsed = BufferUsed;
-            @ref.ImageInfoArrayPointer = ImageInfoArrayPointer;
-
-        }
-        #endregion Marshal
     }
+
+    internal static unsafe __Native __NewNative()
+    {
+        __Native native = default;
+        native.Size = sizeof(__Native);
+        native.SizeImageInfo = sizeof(DeviceImage.__Native);
+        return native;
+    }
+
+    internal void __MarshalFree(ref __Native @ref)
+    {
+        @ref.__MarshalFree();
+    }
+
+    internal unsafe void __MarshalTo(ref __Native @ref)
+    {
+        @ref.Size = sizeof(__Native);
+        @ref.SizeImageInfo = sizeof(DeviceImage.__Native);
+        @ref.ViewCount = ViewCount;
+        @ref.ButtonCount = ButtonCount;
+        @ref.AxeCount = AxeCount;
+        @ref.PovCount = PovCount;
+        @ref.BufferSize = BufferSize;
+        @ref.BufferUsed = BufferUsed;
+        @ref.ImageInfoArrayPointer = ImageInfoArrayPointer;
+
+    }
+    #endregion Marshal
 }

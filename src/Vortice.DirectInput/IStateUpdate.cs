@@ -18,13 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+public interface IStateUpdate
 {
-    public interface IStateUpdate
-    {
-        int RawOffset { get; set; }
-        int Value { get; set; }
-        int Timestamp { get; set; }
-        int Sequence { get; set; }
-    }
+    int RawOffset { get; set; }
+    int Value { get; set; }
+    int Timestamp { get; set; }
+    int Sequence { get; set; }
 }

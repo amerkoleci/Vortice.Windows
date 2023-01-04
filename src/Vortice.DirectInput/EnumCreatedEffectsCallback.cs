@@ -20,52 +20,48 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+/// <summary>
+/// Enumerator callback for DirectInput EnumCreatedEffects.
+/// </summary>
+internal class EnumCreatedEffectsCallback
 {
+    private readonly DirectInputEnumCreatedEffectsDelegate _callback;
+
     /// <summary>
-    /// Enumerator callback for DirectInput EnumCreatedEffects.
+    /// Initializes a new instance of the <see cref="EnumCreatedEffectsCallback"/> class.
     /// </summary>
-    internal class EnumCreatedEffectsCallback
+    public EnumCreatedEffectsCallback()
     {
-        private readonly DirectInputEnumCreatedEffectsDelegate _callback;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumCreatedEffectsCallback"/> class.
-        /// </summary>
-        public EnumCreatedEffectsCallback()
+        unsafe
         {
-            unsafe
-            {
-                _callback = new DirectInputEnumCreatedEffectsDelegate(DirectInputEnumCreatedEffectsImpl);
-                NativePointer = Marshal.GetFunctionPointerForDelegate(_callback);
-                Effects = new List<IDirectInputEffect>();
-            }
+            _callback = new DirectInputEnumCreatedEffectsDelegate(DirectInputEnumCreatedEffectsImpl);
+            NativePointer = Marshal.GetFunctionPointerForDelegate(_callback);
+            Effects = new List<IDirectInputEffect>();
         }
+    }
 
-        /// <summary>
-        /// Natives the pointer.
-        /// </summary>
-        public IntPtr NativePointer { get; }
+    /// <summary>
+    /// Natives the pointer.
+    /// </summary>
+    public IntPtr NativePointer { get; }
 
-        /// <summary>
-        /// Gets or sets the effects.
-        /// </summary>
-        public List<IDirectInputEffect> Effects { get; }
+    /// <summary>
+    /// Gets or sets the effects.
+    /// </summary>
+    public List<IDirectInputEffect> Effects { get; }
 
-        // BOOL DIEnumCreatedEffectsCallback(LPCDIEffectInfo pdei,LPVOID pvRef)
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private unsafe delegate int DirectInputEnumCreatedEffectsDelegate(void* deviceInstance, IntPtr data);
-        private unsafe int DirectInputEnumCreatedEffectsImpl(void* deviceInstance, IntPtr data)
-        {
-            var newEffect = new IDirectInputEffect((IntPtr)deviceInstance);
-            Effects.Add(newEffect);
-            // Return true to continue iterating
-            return 1;
-        }
+    // BOOL DIEnumCreatedEffectsCallback(LPCDIEffectInfo pdei,LPVOID pvRef)
+    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+    private unsafe delegate int DirectInputEnumCreatedEffectsDelegate(void* deviceInstance, IntPtr data);
+    private unsafe int DirectInputEnumCreatedEffectsImpl(void* deviceInstance, IntPtr data)
+    {
+        var newEffect = new IDirectInputEffect((IntPtr)deviceInstance);
+        Effects.Add(newEffect);
+        // Return true to continue iterating
+        return 1;
     }
 }

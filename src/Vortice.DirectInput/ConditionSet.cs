@@ -20,65 +20,62 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+/// <summary>
+/// This class describes a set of <see cref="Condition"/> effect.
+/// It is passed in the <see cref="EffectParameters.Parameters"/> of the <see cref="EffectParameters"/> structure.
+/// </summary>
+public class ConditionSet : TypeSpecificParameters
 {
     /// <summary>
-    /// This class describes a set of <see cref="Condition"/> effect.
-    /// It is passed in the <see cref="EffectParameters.Parameters"/> of the <see cref="EffectParameters"/> structure.
+    /// Marshal this class from an unmanaged buffer.
     /// </summary>
-    public class ConditionSet : TypeSpecificParameters
+    /// <param name="bufferSize">The size of the unmanaged buffer.</param>
+    /// <param name="bufferPointer">The pointer to the unmanaged buffer.</param>
+    /// <returns>An instance of TypeSpecificParameters or null</returns>
+    protected override TypeSpecificParameters? MarshalFrom(int bufferSize, IntPtr bufferPointer)
     {
-        /// <summary>
-        /// Marshal this class from an unmanaged buffer.
-        /// </summary>
-        /// <param name="bufferSize">The size of the unmanaged buffer.</param>
-        /// <param name="bufferPointer">The pointer to the unmanaged buffer.</param>
-        /// <returns>An instance of TypeSpecificParameters or null</returns>
-        protected override TypeSpecificParameters? MarshalFrom(int bufferSize, IntPtr bufferPointer)
+        unsafe
         {
-            unsafe
-            {
-                // BufferSize must be a multiple of the size of Condition structure
-                if (bufferSize <= 0 || (bufferSize % sizeof(Condition)) != 0)
-                    return null;
+            // BufferSize must be a multiple of the size of Condition structure
+            if (bufferSize <= 0 || (bufferSize % sizeof(Condition)) != 0)
+                return null;
 
-                // Allocate a set of Condition and marshal from unmanaged memory
-                int numberOfConditions = bufferSize / sizeof(Condition);
-                Conditions = new Condition[numberOfConditions];
-                MemoryHelpers.Read(bufferPointer, Conditions, 0, Conditions.Length);
-                return this;
-            }
+            // Allocate a set of Condition and marshal from unmanaged memory
+            int numberOfConditions = bufferSize / sizeof(Condition);
+            Conditions = new Condition[numberOfConditions];
+            MemoryHelpers.Read(bufferPointer, Conditions, 0, Conditions.Length);
+            return this;
         }
-
-        /// <summary>
-        /// Marshals this class to its native/unmanaged counterpart.
-        /// </summary>
-        /// <returns>A pointer to an allocated buffer containing the unmanaged structure.</returns>
-        internal override IntPtr MarshalTo()
-        {
-            if (Size == 0)
-                return IntPtr.Zero;
-
-            var pData = Marshal.AllocHGlobal(Size);
-            MemoryHelpers.Write(pData, new Span<Condition>(Conditions!), Conditions!.Length);
-            return pData;
-        }
-
-        /// <summary>
-        /// Gets or sets the conditions.
-        /// </summary>
-        /// <value>The conditions.</value>
-        public Condition[]? Conditions { get; set; }
-
-        /// <summary>
-        /// Gets the size of this specific parameter.
-        /// </summary>
-        /// <value>The size.</value>
-        public override unsafe int Size => (Conditions != null) ? Conditions.Length * sizeof(Condition) : 0;
     }
+
+    /// <summary>
+    /// Marshals this class to its native/unmanaged counterpart.
+    /// </summary>
+    /// <returns>A pointer to an allocated buffer containing the unmanaged structure.</returns>
+    internal override IntPtr MarshalTo()
+    {
+        if (Size == 0)
+            return IntPtr.Zero;
+
+        var pData = Marshal.AllocHGlobal(Size);
+        MemoryHelpers.Write(pData, new Span<Condition>(Conditions!), Conditions!.Length);
+        return pData;
+    }
+
+    /// <summary>
+    /// Gets or sets the conditions.
+    /// </summary>
+    /// <value>The conditions.</value>
+    public Condition[]? Conditions { get; set; }
+
+    /// <summary>
+    /// Gets the size of this specific parameter.
+    /// </summary>
+    /// <value>The size.</value>
+    public override unsafe int Size => (Conditions != null) ? Conditions.Length * sizeof(Condition) : 0;
 }

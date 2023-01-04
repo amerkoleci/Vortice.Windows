@@ -20,53 +20,49 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+/// <summary>
+/// Enumerator callback for DirectInput EnumObjects.
+/// </summary>
+internal class EnumObjectsCallback
 {
+    private readonly DirectInputEnumObjectsDelegate _callback;
+
     /// <summary>
-    /// Enumerator callback for DirectInput EnumObjects.
+    /// Initializes a new instance of the <see cref="EnumObjectsCallback"/> class.
     /// </summary>
-    internal class EnumObjectsCallback
+    public EnumObjectsCallback()
     {
-        private readonly DirectInputEnumObjectsDelegate _callback;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumObjectsCallback"/> class.
-        /// </summary>
-        public EnumObjectsCallback()
+        unsafe
         {
-            unsafe
-            {
-                _callback = new DirectInputEnumObjectsDelegate(DirectInputEnumObjectsImpl);
-                NativePointer = Marshal.GetFunctionPointerForDelegate(_callback);
-                Objects = new List<DeviceObjectInstance>();
-            }
+            _callback = new DirectInputEnumObjectsDelegate(DirectInputEnumObjectsImpl);
+            NativePointer = Marshal.GetFunctionPointerForDelegate(_callback);
+            Objects = new List<DeviceObjectInstance>();
         }
+    }
 
-        /// <summary>
-        /// Natives the pointer.
-        /// </summary>
-        public IntPtr NativePointer { get; }
+    /// <summary>
+    /// Natives the pointer.
+    /// </summary>
+    public IntPtr NativePointer { get; }
 
-        /// <summary>
-        /// Gets or sets the device object instances.
-        /// </summary>
-        public List<DeviceObjectInstance> Objects { get; }
+    /// <summary>
+    /// Gets or sets the device object instances.
+    /// </summary>
+    public List<DeviceObjectInstance> Objects { get; }
 
-        // BOOL DIEnumObjectsCallback(LPCDIEffectInfo pdei,LPVOID pvRef)
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private unsafe delegate int DirectInputEnumObjectsDelegate(void* deviceInstance, IntPtr data);
-        private unsafe int DirectInputEnumObjectsImpl(void* deviceInstance, IntPtr data)
-        {
-            var newObject = new DeviceObjectInstance();
-            newObject.__MarshalFrom(ref *((DeviceObjectInstance.__Native*)deviceInstance));
-            Objects.Add(newObject);
-            // Return true to continue iterating
-            return 1;
-        }
+    // BOOL DIEnumObjectsCallback(LPCDIEffectInfo pdei,LPVOID pvRef)
+    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+    private unsafe delegate int DirectInputEnumObjectsDelegate(void* deviceInstance, IntPtr data);
+    private unsafe int DirectInputEnumObjectsImpl(void* deviceInstance, IntPtr data)
+    {
+        var newObject = new DeviceObjectInstance();
+        newObject.__MarshalFrom(ref *((DeviceObjectInstance.__Native*)deviceInstance));
+        Objects.Add(newObject);
+        // Return true to continue iterating
+        return 1;
     }
 }

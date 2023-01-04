@@ -20,41 +20,40 @@
 
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+[StructLayout(LayoutKind.Sequential, Pack = 0)]
+[DataFormat(DataFormatFlag.RelativeAxis)]
+public struct RawMouseState
 {
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    [DataFormat(DataFormatFlag.RelativeAxis)]
-    public struct RawMouseState
-    {
-        [DataObjectFormat(Guid = ObjectGuid.XAxisStr, TypeFlags = DeviceObjectTypeFlags.RelativeAxis | DeviceObjectTypeFlags.AbsoluteAxis | DeviceObjectTypeFlags.AnyInstance)]
-        internal int X;
-        [DataObjectFormat(Guid = ObjectGuid.YAxisStr, TypeFlags = DeviceObjectTypeFlags.RelativeAxis | DeviceObjectTypeFlags.AbsoluteAxis | DeviceObjectTypeFlags.AnyInstance)]
-        internal int Y;
-        [DataObjectFormat(Guid = ObjectGuid.ZAxisStr, TypeFlags = DeviceObjectTypeFlags.RelativeAxis | DeviceObjectTypeFlags.AbsoluteAxis | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
-        internal int Z;
+    [DataObjectFormat(Guid = ObjectGuid.XAxisStr, TypeFlags = DeviceObjectTypeFlags.RelativeAxis | DeviceObjectTypeFlags.AbsoluteAxis | DeviceObjectTypeFlags.AnyInstance)]
+    internal int X;
+    [DataObjectFormat(Guid = ObjectGuid.YAxisStr, TypeFlags = DeviceObjectTypeFlags.RelativeAxis | DeviceObjectTypeFlags.AbsoluteAxis | DeviceObjectTypeFlags.AnyInstance)]
+    internal int Y;
+    [DataObjectFormat(Guid = ObjectGuid.ZAxisStr, TypeFlags = DeviceObjectTypeFlags.RelativeAxis | DeviceObjectTypeFlags.AbsoluteAxis | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
+    internal int Z;
 
-        [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance)]
-        internal byte Buttons0;
+    [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance)]
+    internal byte Buttons0;
 
-        [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance)]
-        internal byte Buttons1;
+    [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance)]
+    internal byte Buttons1;
 
-        [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
-        internal byte Buttons2;
+    [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
+    internal byte Buttons2;
 
-        [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
-        internal byte Buttons3;
+    [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
+    internal byte Buttons3;
 
-        [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
-        internal byte Buttons4;
+    [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
+    internal byte Buttons4;
 
-        [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
-        internal byte Buttons5;
+    [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
+    internal byte Buttons5;
 
-        [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
-        internal byte Buttons6;
+    [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
+    internal byte Buttons6;
 
-        [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
-        internal byte Buttons7;
-    }
+    [DataObjectFormat(DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.AnyInstance | DeviceObjectTypeFlags.Optional)]
+    internal byte Buttons7;
 }

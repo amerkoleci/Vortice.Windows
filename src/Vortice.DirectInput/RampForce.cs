@@ -20,68 +20,66 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+/// <summary>
+/// This class describes a Ramp force effect. 
+/// It is passed in the <see cref="EffectParameters.Parameters"/> of the <see cref="EffectParameters"/> structure.
+/// </summary>
+public class RampForce : TypeSpecificParameters
 {
     /// <summary>
-    /// This class describes a Ramp force effect. 
-    /// It is passed in the <see cref="EffectParameters.Parameters"/> of the <see cref="EffectParameters"/> structure.
+    /// Gets or sets the magnitude at the start of the effect, in the range from - 10,000 through 10,000. 
     /// </summary>
-    public class RampForce : TypeSpecificParameters
+    /// <value>The start.</value>
+    public int Start { get; set; }
+
+    /// <summary>
+    /// Gets or sets the magnitude at the end of the effect, in the range from - 10,000 through 10,000. 
+    /// </summary>
+    /// <value>The end.</value>
+    public int End { get; set; }
+
+    /// <summary>
+    /// Marshal this class from an unmanaged buffer.
+    /// </summary>
+    /// <param name="bufferSize">The size of the unmanaged buffer.</param>
+    /// <param name="bufferPointer">The pointer to the unmanaged buffer.</param>
+    /// <returns>An instance of TypeSpecificParameters or null</returns>
+    protected override TypeSpecificParameters? MarshalFrom(int bufferSize, IntPtr bufferPointer)
     {
-        /// <summary>
-        /// Gets or sets the magnitude at the start of the effect, in the range from - 10,000 through 10,000. 
-        /// </summary>
-        /// <value>The start.</value>
-        public int Start { get; set; }
-
-        /// <summary>
-        /// Gets or sets the magnitude at the end of the effect, in the range from - 10,000 through 10,000. 
-        /// </summary>
-        /// <value>The end.</value>
-        public int End { get; set; }
-
-        /// <summary>
-        /// Marshal this class from an unmanaged buffer.
-        /// </summary>
-        /// <param name="bufferSize">The size of the unmanaged buffer.</param>
-        /// <param name="bufferPointer">The pointer to the unmanaged buffer.</param>
-        /// <returns>An instance of TypeSpecificParameters or null</returns>
-        protected override TypeSpecificParameters? MarshalFrom(int bufferSize, IntPtr bufferPointer)
+        unsafe
         {
-            unsafe
-            {
-                if (bufferSize != sizeof(RawRampForce))
-                    return null;
+            if (bufferSize != sizeof(RawRampForce))
+                return null;
 
-                Start = ((RawRampForce*)bufferPointer)->Start;
-                End = ((RawRampForce*)bufferPointer)->End;
-                return this;
-            }
+            Start = ((RawRampForce*)bufferPointer)->Start;
+            End = ((RawRampForce*)bufferPointer)->End;
+            return this;
         }
-
-        /// <summary>
-        /// Marshals this class to its native/unmanaged counterpart.
-        /// </summary>
-        /// <returns>A pointer to an allocated buffer containing the unmanaged structure.</returns>
-        internal override IntPtr MarshalTo()
-        {
-            unsafe
-            {
-                var pData = Marshal.AllocHGlobal(Size);
-                ((RawRampForce*)pData)->Start = Start;
-                ((RawRampForce*)pData)->End = End;
-                return pData;
-            }
-        }
-
-        /// <summary>
-        /// Gets the size of this specific parameter.
-        /// </summary>
-        /// <value>The size.</value>
-        public override int Size => Unsafe.SizeOf<RawRampForce>();
     }
+
+    /// <summary>
+    /// Marshals this class to its native/unmanaged counterpart.
+    /// </summary>
+    /// <returns>A pointer to an allocated buffer containing the unmanaged structure.</returns>
+    internal override IntPtr MarshalTo()
+    {
+        unsafe
+        {
+            var pData = Marshal.AllocHGlobal(Size);
+            ((RawRampForce*)pData)->Start = Start;
+            ((RawRampForce*)pData)->End = End;
+            return pData;
+        }
+    }
+
+    /// <summary>
+    /// Gets the size of this specific parameter.
+    /// </summary>
+    /// <value>The size.</value>
+    public override int Size => Unsafe.SizeOf<RawRampForce>();
 }

@@ -20,20 +20,19 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-namespace Vortice.DirectInput
-{
-    public interface IDataFormatProvider
-    {
-        /// <summary>
-        /// Gets or sets the data format flags.
-        /// </summary>
-        /// <value>The flags.</value>
-        DataFormatFlag Flags { get; }
+namespace Vortice.DirectInput;
 
-        /// <summary>
-        /// Gets the defined data format objects.
-        /// </summary>
-        /// <value>The objects.</value>
-        ObjectDataFormat[] ObjectsFormat { get; }
-    }
+public interface IDataFormatProvider
+{
+    /// <summary>
+    /// Gets or sets the data format flags.
+    /// </summary>
+    /// <value>The flags.</value>
+    DataFormatFlag Flags { get; }
+
+    /// <summary>
+    /// Gets the defined data format objects.
+    /// </summary>
+    /// <value>The objects.</value>
+    ObjectDataFormat[] ObjectsFormat { get; }
 }

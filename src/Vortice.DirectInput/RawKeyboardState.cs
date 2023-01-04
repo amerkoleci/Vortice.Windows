@@ -20,32 +20,31 @@
 
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+[StructLayout(LayoutKind.Sequential, Pack = 0)]
+public unsafe partial struct RawKeyboardState : IDataFormatProvider
 {
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public unsafe partial struct RawKeyboardState : IDataFormatProvider
+    public fixed byte Keys[256];
+
+    DataFormatFlag IDataFormatProvider.Flags => DataFormatFlag.RelativeAxis;
+
+    ObjectDataFormat[] IDataFormatProvider.ObjectsFormat => _objectsFormat;
+
+    private static ObjectDataFormat[] _objectsFormat;
+
+    static RawKeyboardState()
     {
-        public fixed byte Keys[256];
-
-        DataFormatFlag IDataFormatProvider.Flags => DataFormatFlag.RelativeAxis;
-
-        ObjectDataFormat[] IDataFormatProvider.ObjectsFormat => _objectsFormat;
-
-        private static ObjectDataFormat[] _objectsFormat;
-
-        static RawKeyboardState()
+        _objectsFormat = new ObjectDataFormat[256];
+        for (int i = 0; i < _objectsFormat.Length; i++)
         {
-            _objectsFormat = new ObjectDataFormat[256];
-            for (int i = 0; i < _objectsFormat.Length; i++)
+            _objectsFormat[i] = new ObjectDataFormat(ObjectGuid.Key,
+                i,
+                DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.Optional,
+                ObjectDataFormatFlags.None, i)
             {
-                _objectsFormat[i] = new ObjectDataFormat(ObjectGuid.Key,
-                    i,
-                    DeviceObjectTypeFlags.PushButton | DeviceObjectTypeFlags.ToggleButton | DeviceObjectTypeFlags.Optional,
-                    ObjectDataFormatFlags.None, i)
-                {
-                    Name = "Key" + i
-                };
-            }
+                Name = "Key" + i
+            };
         }
     }
 }

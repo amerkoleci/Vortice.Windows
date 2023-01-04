@@ -20,75 +20,70 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+namespace Vortice.DirectInput;
 
-namespace Vortice.DirectInput
+public class KeyboardState : IDeviceState<RawKeyboardState, KeyboardUpdate>
 {
-    public class KeyboardState : IDeviceState<RawKeyboardState, KeyboardUpdate>
+    private static readonly List<Key> _allKeys = new List<Key>(256);
+
+    static KeyboardState()
     {
-        private static readonly List<Key> _allKeys = new List<Key>(256);
-
-        static KeyboardState()
+        foreach (Key key in Enum.GetValues(typeof(Key)))
         {
-            foreach (Key key in Enum.GetValues(typeof(Key)))
-            {
-                _allKeys.Add(key);
-            }
+            _allKeys.Add(key);
         }
+    }
 
-        public KeyboardState()
+    public KeyboardState()
+    {
+        PressedKeys = new List<Key>(16);
+    }
+
+    public List<Key> AllKeys => _allKeys;
+
+    public List<Key> PressedKeys { get; }
+
+    public bool IsPressed(Key key)
+    {
+        return PressedKeys.Contains(key);
+    }
+
+    public void Update(KeyboardUpdate update)
+    {
+        if (update.Key == Key.Unknown)
+            return;
+
+        bool isPreviousPressed = IsPressed(update.Key);
+        if (update.IsPressed && !isPreviousPressed)
+            PressedKeys.Add(update.Key);
+        else if (update.IsReleased && isPreviousPressed)
+            PressedKeys.Remove(update.Key);
+    }
+
+    public void MarshalFrom(ref RawKeyboardState value)
+    {
+        PressedKeys.Clear();
+
+        unsafe
         {
-            PressedKeys = new List<Key>(16);
+            var update = new KeyboardUpdate();
+
+            fixed (byte* pRawKeys = value.Keys)
+                for (int i = 0; i < 256; i++)
+                {
+                    update.RawOffset = i;
+                    update.Value = pRawKeys[i];
+                    //if (update.Key == Key.Unknown)
+                    //    continue;
+
+                    if (update.IsPressed)
+                        PressedKeys.Add(update.Key);
+                }
         }
+    }
 
-        public List<Key> AllKeys => _allKeys;
-
-        public List<Key> PressedKeys { get; }
-
-        public bool IsPressed(Key key)
-        {
-            return PressedKeys.Contains(key);
-        }
-
-        public void Update(KeyboardUpdate update)
-        {
-            if (update.Key == Key.Unknown)
-                return;
-
-            bool isPreviousPressed = IsPressed(update.Key);
-            if (update.IsPressed && !isPreviousPressed)
-                PressedKeys.Add(update.Key);
-            else if (update.IsReleased && isPreviousPressed)
-                PressedKeys.Remove(update.Key);
-        }
-
-        public void MarshalFrom(ref RawKeyboardState value)
-        {
-            PressedKeys.Clear();
-
-            unsafe
-            {
-                var update = new KeyboardUpdate();
-
-                fixed (byte* pRawKeys = value.Keys)
-                    for (int i = 0; i < 256; i++)
-                    {
-                        update.RawOffset = i;
-                        update.Value = pRawKeys[i];
-                        //if (update.Key == Key.Unknown)
-                        //    continue;
-
-                        if (update.IsPressed)
-                            PressedKeys.Add(update.Key);
-                    }
-            }
-        }
-
-        public override string ToString()
-        {
-            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "PressedKeys: {0}", string.Join(",", PressedKeys));
-        }
+    public override string ToString()
+    {
+        return string.Format(System.Globalization.CultureInfo.InvariantCulture, "PressedKeys: {0}", string.Join(",", PressedKeys));
     }
 }

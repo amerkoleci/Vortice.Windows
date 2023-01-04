@@ -20,52 +20,49 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+/// <summary>
+/// Enumerator callback for DirectInput EnumEffectsInFile.
+/// </summary>
+internal class EnumEffectsInFileCallback
 {
+    private readonly DirectInputEnumEffectsInFileDelegate _callback;
+
     /// <summary>
-    /// Enumerator callback for DirectInput EnumEffectsInFile.
+    /// Initializes a new instance of the <see cref="EnumEffectsInFileCallback"/> class.
     /// </summary>
-    internal class EnumEffectsInFileCallback
+    public EnumEffectsInFileCallback()
     {
-        private readonly DirectInputEnumEffectsInFileDelegate _callback;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumEffectsInFileCallback"/> class.
-        /// </summary>
-        public EnumEffectsInFileCallback()
+        unsafe
         {
-            unsafe
-            {
-                _callback = new DirectInputEnumEffectsInFileDelegate(DirectInputEnumEffectsInFileImpl);
-                NativePointer = Marshal.GetFunctionPointerForDelegate(_callback);
-                EffectsInFile = new List<EffectFile>();
-            }
+            _callback = new DirectInputEnumEffectsInFileDelegate(DirectInputEnumEffectsInFileImpl);
+            NativePointer = Marshal.GetFunctionPointerForDelegate(_callback);
+            EffectsInFile = new List<EffectFile>();
         }
+    }
 
-        /// <summary>
-        /// Natives the pointer.
-        /// </summary>
-        public IntPtr NativePointer { get; }
+    /// <summary>
+    /// Natives the pointer.
+    /// </summary>
+    public IntPtr NativePointer { get; }
 
-        /// <summary>
-        /// Gets or sets the effects in file.
-        /// </summary>
-        public List<EffectFile> EffectsInFile { get; }
+    /// <summary>
+    /// Gets or sets the effects in file.
+    /// </summary>
+    public List<EffectFile> EffectsInFile { get; }
 
-        // BOOL DIEnumEffectsInFileCallback(LPCDIEffectInfo pdei,LPVOID pvRef)
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private unsafe delegate int DirectInputEnumEffectsInFileDelegate(void* deviceInstance, IntPtr data);
-        private unsafe int DirectInputEnumEffectsInFileImpl(void* deviceInstance, IntPtr data)
-        {
-            var newEffect = new EffectFile();
-            newEffect.__MarshalFrom(ref *((EffectFile.__Native*)deviceInstance));
-            EffectsInFile.Add(newEffect);
-            // Return true to continue iterating
-            return 1;
-        }
+    // BOOL DIEnumEffectsInFileCallback(LPCDIEffectInfo pdei,LPVOID pvRef)
+    [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+    private unsafe delegate int DirectInputEnumEffectsInFileDelegate(void* deviceInstance, IntPtr data);
+    private unsafe int DirectInputEnumEffectsInFileImpl(void* deviceInstance, IntPtr data)
+    {
+        var newEffect = new EffectFile();
+        newEffect.__MarshalFrom(ref *((EffectFile.__Native*)deviceInstance));
+        EffectsInFile.Add(newEffect);
+        // Return true to continue iterating
+        return 1;
     }
 }

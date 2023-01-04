@@ -20,105 +20,103 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+public partial class ObjectDataFormat
 {
-    public partial class ObjectDataFormat
+    public ObjectDataFormat()
     {
-        public ObjectDataFormat()
-        {
-        }
-
-        public ObjectDataFormat(Guid guid, int offset, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
-            : this(guid, offset, typeFlags, flags, 0)
-        {
-        }
-
-        public ObjectDataFormat(Guid guid, int offset, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags, int instanceNumber)
-        {
-            Guid = guid;
-            Offset = offset;
-            TypeFlags = typeFlags;
-            InstanceNumber = instanceNumber;
-            Flags = flags;
-        }
-
-        /// <summary>
-        /// Name of this DataObjectFormat. Default is using field name.
-        /// </summary>
-        public string? Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets Guid for the axis, button, or other input source. When requesting a data format, making this member empty indicates that any type of object is permissible. 
-        /// </summary>
-        /// <value>The GUID.</value>
-        public Guid Guid { get; set; }
-
-        /// <summary>
-        /// Gets or sets the field offset. This is used internally.
-        /// </summary>
-        /// <value>The offset.</value>
-        public int Offset { get; set; }
-
-        /// <summary>
-        /// Gets or sets the device type that describes the object. 
-        /// </summary>
-        /// <value>The type.</value>
-        public DeviceObjectTypeFlags TypeFlags { get; set; }
-
-        /// <summary>
-        /// Gets or sets the instance number. Setting -1 is applied to any object instance.
-        /// </summary>
-        /// <value>The instance number.</value>
-        public int InstanceNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the extra flags used to describe the data format.
-        /// </summary>
-        /// <value>The flags.</value>
-        public ObjectDataFormatFlags Flags { get; set; }
-
-        #region Marshal
-        // Internal native struct used for marshalling
-        [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        internal partial struct __Native
-        {
-            public IntPtr GuidPointer;
-            public int Offset;
-            public int Type;
-            public ObjectDataFormatFlags Flags;
-
-            internal unsafe void __MarshalFree()
-            {
-                //if (GuidPointer != IntPtr.Zero)
-                //{
-                //    var handle = GCHandle.FromIntPtr(GuidPointer);
-                //    handle.Free();
-                //}
-            }
-        }
-
-        internal unsafe void __MarshalFree(ref __Native @ref)
-        {
-            @ref.__MarshalFree();
-        }
-
-        internal unsafe void __MarshalTo(ref __Native @ref)
-        {
-            @ref.Offset = Offset;
-            @ref.Type = ((int)TypeFlags) | (((TypeFlags & DeviceObjectTypeFlags.AnyInstance) == DeviceObjectTypeFlags.AnyInstance ? 0 : InstanceNumber) << 8);
-            @ref.Flags = Flags;
-
-            if (Guid == Guid.Empty)
-                @ref.GuidPointer = IntPtr.Zero;
-            else
-            {
-                var handle = GCHandle.Alloc(Guid, GCHandleType.Pinned);
-                @ref.GuidPointer = handle.AddrOfPinnedObject();
-            }
-        }
-        #endregion Marshal
     }
+
+    public ObjectDataFormat(Guid guid, int offset, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags)
+        : this(guid, offset, typeFlags, flags, 0)
+    {
+    }
+
+    public ObjectDataFormat(Guid guid, int offset, DeviceObjectTypeFlags typeFlags, ObjectDataFormatFlags flags, int instanceNumber)
+    {
+        Guid = guid;
+        Offset = offset;
+        TypeFlags = typeFlags;
+        InstanceNumber = instanceNumber;
+        Flags = flags;
+    }
+
+    /// <summary>
+    /// Name of this DataObjectFormat. Default is using field name.
+    /// </summary>
+    public string? Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets Guid for the axis, button, or other input source. When requesting a data format, making this member empty indicates that any type of object is permissible. 
+    /// </summary>
+    /// <value>The GUID.</value>
+    public Guid Guid { get; set; }
+
+    /// <summary>
+    /// Gets or sets the field offset. This is used internally.
+    /// </summary>
+    /// <value>The offset.</value>
+    public int Offset { get; set; }
+
+    /// <summary>
+    /// Gets or sets the device type that describes the object. 
+    /// </summary>
+    /// <value>The type.</value>
+    public DeviceObjectTypeFlags TypeFlags { get; set; }
+
+    /// <summary>
+    /// Gets or sets the instance number. Setting -1 is applied to any object instance.
+    /// </summary>
+    /// <value>The instance number.</value>
+    public int InstanceNumber { get; set; }
+
+    /// <summary>
+    /// Gets or sets the extra flags used to describe the data format.
+    /// </summary>
+    /// <value>The flags.</value>
+    public ObjectDataFormatFlags Flags { get; set; }
+
+    #region Marshal
+    // Internal native struct used for marshalling
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    internal partial struct __Native
+    {
+        public IntPtr GuidPointer;
+        public int Offset;
+        public int Type;
+        public ObjectDataFormatFlags Flags;
+
+        internal unsafe void __MarshalFree()
+        {
+            //if (GuidPointer != IntPtr.Zero)
+            //{
+            //    var handle = GCHandle.FromIntPtr(GuidPointer);
+            //    handle.Free();
+            //}
+        }
+    }
+
+    internal unsafe void __MarshalFree(ref __Native @ref)
+    {
+        @ref.__MarshalFree();
+    }
+
+    internal unsafe void __MarshalTo(ref __Native @ref)
+    {
+        @ref.Offset = Offset;
+        @ref.Type = ((int)TypeFlags) | (((TypeFlags & DeviceObjectTypeFlags.AnyInstance) == DeviceObjectTypeFlags.AnyInstance ? 0 : InstanceNumber) << 8);
+        @ref.Flags = Flags;
+
+        if (Guid == Guid.Empty)
+            @ref.GuidPointer = IntPtr.Zero;
+        else
+        {
+            var handle = GCHandle.Alloc(Guid, GCHandleType.Pinned);
+            @ref.GuidPointer = handle.AddrOfPinnedObject();
+        }
+    }
+    #endregion Marshal
 }

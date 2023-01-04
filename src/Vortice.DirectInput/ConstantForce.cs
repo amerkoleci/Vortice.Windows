@@ -21,62 +21,60 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Vortice.DirectInput
+namespace Vortice.DirectInput;
+
+/// <summary>
+/// This class describes a Constant force effect. 
+/// It is passed in the <see cref="EffectParameters.Parameters"/> of the <see cref="EffectParameters"/> structure.
+/// </summary>
+public class ConstantForce : TypeSpecificParameters
 {
     /// <summary>
-    /// This class describes a Constant force effect. 
-    /// It is passed in the <see cref="EffectParameters.Parameters"/> of the <see cref="EffectParameters"/> structure.
+    /// Gets or sets the magnitude.
+    /// The magnitude of the effect, in the range from - 10,000 through 10,000. If an envelope is applied to this effect, the value represents the magnitude of the sustain. If no envelope is applied, the value represents the amplitude of the entire effect.
     /// </summary>
-    public class ConstantForce : TypeSpecificParameters
+    /// <value>The magnitude.</value>
+    public int Magnitude { get; set; }
+
+
+    /// <summary>
+    /// Marshal this class from an unmanaged buffer.
+    /// </summary>
+    /// <param name="bufferSize">The size of the unmanaged buffer.</param>
+    /// <param name="bufferPointer">The pointer to the unmanaged buffer.</param>
+    /// <returns>An instance of TypeSpecificParameters or null</returns>
+    protected override TypeSpecificParameters? MarshalFrom(int bufferSize, IntPtr bufferPointer)
     {
-        /// <summary>
-        /// Gets or sets the magnitude.
-        /// The magnitude of the effect, in the range from - 10,000 through 10,000. If an envelope is applied to this effect, the value represents the magnitude of the sustain. If no envelope is applied, the value represents the amplitude of the entire effect.
-        /// </summary>
-        /// <value>The magnitude.</value>
-        public int Magnitude { get; set; }
-
-
-        /// <summary>
-        /// Marshal this class from an unmanaged buffer.
-        /// </summary>
-        /// <param name="bufferSize">The size of the unmanaged buffer.</param>
-        /// <param name="bufferPointer">The pointer to the unmanaged buffer.</param>
-        /// <returns>An instance of TypeSpecificParameters or null</returns>
-        protected override TypeSpecificParameters? MarshalFrom(int bufferSize, IntPtr bufferPointer)
+        unsafe
         {
-            unsafe
-            {
-                if (bufferSize != sizeof(RawConstantForce))
-                    return default;
+            if (bufferSize != sizeof(RawConstantForce))
+                return default;
 
-                Magnitude = ((RawConstantForce*)bufferPointer)->Magnitude;
-                return this;
-            }
+            Magnitude = ((RawConstantForce*)bufferPointer)->Magnitude;
+            return this;
         }
-
-        /// <summary>
-        /// Marshals this class to its native/unmanaged counterpart.
-        /// </summary>
-        /// <returns>A pointer to an allocated buffer containing the unmanaged structure.</returns>
-        internal override IntPtr MarshalTo()
-        {
-            unsafe
-            {
-                var pData = Marshal.AllocHGlobal(Size);
-                ((RawConstantForce*)pData)->Magnitude = Magnitude;
-                return pData;
-            }
-        }
-
-        /// <summary>
-        /// Gets the size of this specific parameter.
-        /// </summary>
-        /// <value>The size.</value>
-        public override int Size => Unsafe.SizeOf<RawConstantForce>();
     }
+
+    /// <summary>
+    /// Marshals this class to its native/unmanaged counterpart.
+    /// </summary>
+    /// <returns>A pointer to an allocated buffer containing the unmanaged structure.</returns>
+    internal override IntPtr MarshalTo()
+    {
+        unsafe
+        {
+            var pData = Marshal.AllocHGlobal(Size);
+            ((RawConstantForce*)pData)->Magnitude = Magnitude;
+            return pData;
+        }
+    }
+
+    /// <summary>
+    /// Gets the size of this specific parameter.
+    /// </summary>
+    /// <value>The size.</value>
+    public override int Size => Unsafe.SizeOf<RawConstantForce>();
 }

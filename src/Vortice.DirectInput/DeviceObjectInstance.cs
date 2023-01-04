@@ -20,19 +20,14 @@
 // Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
-using System;
-using System.Runtime.InteropServices;
-using SharpGen.Runtime;
+namespace Vortice.DirectInput;
 
-namespace Vortice.DirectInput
+public partial class DeviceObjectInstance
 {
-    public partial class DeviceObjectInstance
+    internal static unsafe __Native __NewNative()
     {
-        internal static unsafe __Native __NewNative()
-        {
-            __Native native = default;
-            native.Size = sizeof(__Native);
-            return native;
-        }
+        __Native native = default;
+        native.Size = sizeof(__Native);
+        return native;
     }
 }
