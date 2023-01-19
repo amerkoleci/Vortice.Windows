@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-    <SharpGenVersion>2.0.0-beta.11</SharpGenVersion>
+    <SharpGenVersion>2.0.0-beta.13</SharpGenVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +11,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageVersion Include="Vortice.Mathematics" Version="1.4.22" />
+    <PackageVersion Include="Vortice.Mathematics" Version="1.4.25" />
     <PackageVersion Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
 
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.2.164-beta" />
