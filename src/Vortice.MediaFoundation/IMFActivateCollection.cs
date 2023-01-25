@@ -11,12 +11,12 @@ public unsafe class IMFActivateCollection : IEnumerable<IMFActivate>, IDisposabl
     private IntPtr* _ptrs;
     private readonly List<IMFActivate> _list;
 
-    internal IMFActivateCollection(IntPtr ptrs, int count)
+    internal IMFActivateCollection(IntPtr ptrs, uint count)
     {
         _ptrs = (IntPtr*)ptrs;
         _list = new List<IMFActivate>();
 
-        for (int i = 0; i < count; i++)
+        for (uint i = 0; i < count; i++)
         {
             _list.Add(new IMFActivate(*_ptrs));
             _ptrs++;

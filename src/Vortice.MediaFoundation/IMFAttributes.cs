@@ -36,7 +36,7 @@ public unsafe partial class IMFAttributes
             }
 
             RegisterTypeInfo result = default;
-            GetBlob(CaptureDeviceAttributeKeys.MediaType, &result, sizeof(RegisterTypeInfo), IntPtr.Zero);
+            GetBlob(CaptureDeviceAttributeKeys.MediaType, &result, (uint)sizeof(RegisterTypeInfo), IntPtr.Zero);
             return result;
         }
         set
@@ -46,7 +46,7 @@ public unsafe partial class IMFAttributes
                 return;
             }
 
-            SetBlob(CaptureDeviceAttributeKeys.MediaType, (IntPtr)Unsafe.AsPointer(ref value), sizeof(RegisterTypeInfo));
+            SetBlob(CaptureDeviceAttributeKeys.MediaType, (IntPtr)Unsafe.AsPointer(ref value), (uint)sizeof(RegisterTypeInfo));
         }
     }
 
@@ -103,7 +103,7 @@ public unsafe partial class IMFAttributes
                 return false;
             }
 
-            return GetInt(CaptureDeviceAttributeKeys.SourceTypeVidcapHwSource) == 1;
+            return GetUInt32(CaptureDeviceAttributeKeys.SourceTypeVidcapHwSource) == 1;
         }
         set
         {
@@ -180,6 +180,30 @@ public unsafe partial class IMFAttributes
         set => Set(MediaEngineAttributeKeys.VideoOutputFormat, value);
     }
 
+    /// <unmanaged>HRESULT IMFAttributes::GetUINT32([In] const GUID&amp; guidKey, [Out] UINT32* punValue)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetUINT32</unmanaged-short>
+    public uint GetUInt32(Guid guidKey)
+    {
+        GetUInt32(guidKey, out uint value).CheckError();
+        return value;
+    }
+
+    /// <unmanaged>HRESULT IMFAttributes::GetUINT64([In] const GUID&amp; guidKey, [Out] unsigned long long* punValue)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetUINT64</unmanaged-short>
+    public ulong GetUInt64(Guid guidKey)
+    {
+        GetUInt64(guidKey, out ulong value).CheckError();
+        return value;
+    }
+
+    /// <unmanaged>HRESULT IMFAttributes::GetDouble([In] const GUID&amp; guidKey, [Out] double* pfValue)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetDouble</unmanaged-short>
+    public double GetDouble(Guid guidKey)
+    {
+        GetDouble(guidKey, out double value).CheckError();
+        return value;
+    }
+
     /// <summary>	
     /// Gets an item value
     /// </summary>	
@@ -220,7 +244,7 @@ public unsafe partial class IMFAttributes
     /// <remarks>	
     /// <p>To enumerate all of an object's attributes in a thread-safe way, do the following:</p><ol> <li> <p>Call <strong><see cref="LockStore"/></strong> to prevent another thread from adding or deleting attributes.</p> </li> <li> <p>Call <strong><see cref="GetCount"/></strong> to find the number of attributes.</p> </li> <li> <p>Call <strong>GetItemByIndex</strong> to get each attribute by index.</p> </li> <li> <p>Call <strong><see cref="UnlockStore"/></strong> to unlock the attribute store.</p> </li> </ol><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>	
     /// </remarks>	
-    public object GetByIndex(int index, out Guid guidKey)
+    public object GetByIndex(uint index, out Guid guidKey)
     {
         guidKey = GetItemByIndex(index, IntPtr.Zero);
         return Get(guidKey);
@@ -253,27 +277,27 @@ public unsafe partial class IMFAttributes
             typeof(T) == typeof(byte) ||
             typeof(T) == typeof(sbyte))
         {
-            return (T)Convert.ChangeType(GetInt(guidKey), typeof(T));
+            return (T)Convert.ChangeType(GetUInt32(guidKey), typeof(T));
         }
 
         if (typeof(T).IsEnum)
         {
-            return (T)Enum.ToObject(typeof(T), GetInt(guidKey));
+            return (T)Enum.ToObject(typeof(T), GetUInt32(guidKey));
         }
 
         if (typeof(T) == typeof(IntPtr))
         {
-            return (T)(object)new IntPtr((long)GetLong(guidKey));
+            return (T)(object)new IntPtr((long)GetUInt64(guidKey));
         }
 
         if (typeof(T) == typeof(UIntPtr))
         {
-            return (T)(object)new UIntPtr(GetLong(guidKey));
+            return (T)(object)new UIntPtr(GetUInt64(guidKey));
         }
 
         if (typeof(T) == typeof(long) || typeof(T) == typeof(ulong))
         {
-            return (T)Convert.ChangeType(GetLong(guidKey), typeof(T));
+            return (T)Convert.ChangeType(GetUInt64(guidKey), typeof(T));
         }
 
         if (typeof(T) == typeof(Guid))
@@ -283,8 +307,8 @@ public unsafe partial class IMFAttributes
 
         if (typeof(T) == typeof(string))
         {
-            int length = GetStringLength(guidKey);
-            char* wstr = stackalloc char[length + 1];
+            uint length = GetStringLength(guidKey);
+            char* wstr = stackalloc char[(int)length + 1];
             GetString(guidKey, new IntPtr(wstr), length + 1, IntPtr.Zero);
             return (T)(object)Marshal.PtrToStringUni(new IntPtr(wstr));
         }
@@ -296,11 +320,11 @@ public unsafe partial class IMFAttributes
 
         if (typeof(T) == typeof(byte[]))
         {
-            int length = GetBlobSize(guidKey);
+            int length = (int)GetBlobSize(guidKey);
             byte[] buffer = new byte[length];
             fixed (void* pBuffer = buffer)
             {
-                GetBlob(guidKey, pBuffer, buffer.Length, IntPtr.Zero);
+                GetBlob(guidKey, pBuffer, (uint)buffer.Length, IntPtr.Zero);
             }
 
             return (T)(object)buffer;
@@ -308,14 +332,14 @@ public unsafe partial class IMFAttributes
 
         if (typeof(T).IsValueType)
         {
-            int length = GetBlobSize(guidKey);
+            int length = (int)GetBlobSize(guidKey);
             if (length != Unsafe.SizeOf<T>())
             {
                 throw new ArgumentException("Size of the structure doesn't match the size of stored value");
             }
 
             T? value = default;
-            GetBlob(guidKey, Unsafe.AsPointer(ref value), Unsafe.SizeOf<T>(), IntPtr.Zero);
+            GetBlob(guidKey, Unsafe.AsPointer(ref value), (uint)Unsafe.SizeOf<T>(), IntPtr.Zero);
             return value!;
         }
 
@@ -348,8 +372,8 @@ public unsafe partial class IMFAttributes
     }
     public string GetString(Guid guidKey)
     {
-        int length = GetStringLength(guidKey);
-        char* wstr = stackalloc char[length + 1];
+        uint length = GetStringLength(guidKey);
+        char* wstr = stackalloc char[(int)length + 1];
         GetString(guidKey, new IntPtr(wstr), length + 1, IntPtr.Zero);
         return Marshal.PtrToStringUni(new IntPtr(wstr));
     }
@@ -366,12 +390,12 @@ public unsafe partial class IMFAttributes
 
     public void Set(Guid guidKey, bool value)
     {
-        Set_(guidKey, value ? 1 : 0);
+        SetUInt32(guidKey, value ? 1u : 0u);
     }
 
-    public void Set(Guid guidKey, int value)
+    public void Set(Guid guidKey, uint value)
     {
-        Set_(guidKey, value);
+        SetUInt32(guidKey, value);
     }
 
     /// <summary>	
@@ -400,31 +424,37 @@ public unsafe partial class IMFAttributes
         if (typeof(T) == typeof(int) || typeof(T) == typeof(bool) || typeof(T) == typeof(byte) || typeof(T) == typeof(short) || typeof(T) == typeof(ushort) || typeof(T) == typeof(byte) || typeof(T) == typeof(sbyte)
             || typeof(T).IsEnum)
         {
-            Set_(guidKey, Convert.ToInt32(value));
+            SetUInt32(guidKey, Convert.ToUInt32(value));
+            return;
+        }
+
+        if (value is int intValue)
+        {
+            SetUInt32(guidKey, unchecked((uint)intValue));
             return;
         }
 
         if (value is uint uivalue)
         {
-            Set_(guidKey, unchecked((int)uivalue));
+            SetUInt32(guidKey, uivalue);
             return;
         }
 
         if (value is long lvalue)
         {
-            Set_(guidKey, unchecked((ulong)lvalue));
+            SetUInt64(guidKey, unchecked((ulong)lvalue));
             return;
         }
 
         if (value is ulong ulvalue)
         {
-            Set_(guidKey, ulvalue);
+            SetUInt64(guidKey, ulvalue);
             return;
         }
 
-        if (typeof(T) == typeof(IntPtr))
+        if (typeof(T) == typeof(nint))
         {
-            Set_(guidKey, unchecked((ulong)((IntPtr)(object)value).ToInt64()));
+            SetUInt64(guidKey, unchecked((ulong)((IntPtr)(object)value).ToInt64()));
             return;
         }
 
@@ -450,14 +480,17 @@ public unsafe partial class IMFAttributes
         {
             var arrayValue = ((byte[])(object)value);
             fixed (void* pBuffer = arrayValue)
-                SetBlob(guidKey, (IntPtr)pBuffer, arrayValue.Length);
+            {
+                SetBlob(guidKey, (IntPtr)pBuffer, (uint)arrayValue.Length);
+            }
+
             return;
         }
 
 
         if (typeof(T).IsValueType)
         {
-            SetBlob(guidKey, (IntPtr)Unsafe.AsPointer(ref value), Unsafe.SizeOf<T>());
+            SetBlob(guidKey, (IntPtr)Unsafe.AsPointer(ref value), (uint)Unsafe.SizeOf<T>());
             return;
         }
 

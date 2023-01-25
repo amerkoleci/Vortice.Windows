@@ -558,6 +558,7 @@
   </extension>
 
   <bindings>
+    <bind from="UINT32" to="System.UInt32" override="true" />
     <bind from="MEDIA_EVENT_TYPES" to="Vortice.MediaFoundation.MediaEventTypes"/>
     <bind from="MPEG1VIDEOINFO" to="Vortice.MediaFoundation.Mpeg1VideoInformation"/>
     <bind from="MPEG2VIDEOINFO" to="Vortice.MediaFoundation.Mpeg2VideoInformation"/>
@@ -705,17 +706,16 @@
 
     <map param="IMFAttributes::Compare::pbResult" return="true"/>
 
-    <map method="IMFAttributes::GetUINT32" visibility="internal"/>
-    <map method="IMFAttributes::GetUINT32" name="GetInt"/>
-    <map param="IMFAttributes::GetUINT32::punValue" return="true"/>
+    <map method="IMFAttributes::GetUINT32" name="GetUInt32" hresult="true" check="false" />
+    <map param="IMFAttributes::GetUINT32::punValue" attribute="out" return="false"/>
 
-    <map method="IMFAttributes::GetUINT64" visibility="internal"/>
-    <map method="IMFAttributes::GetUINT64" name="GetLong"/>
-    <map param="IMFAttributes::GetUINT64::punValue" return="true"/>
+    <map method="IMFAttributes::GetUINT64" name="GetUInt64" hresult="true" check="false" />
+    <map param="IMFAttributes::GetUINT64::punValue" attribute="out" return="false"/>
 
-    <map method="IMFAttributes::GetDouble" visibility="internal"/>
+    <map method="IMFAttributes::GetDouble" name="GetDouble" hresult="true" check="false" />
+    <map param="IMFAttributes::GetDouble::pfValue" attribute="out" return="false"/>
+    
     <map method="IMFAttributes::GetGUID" visibility="internal"/>
-    <map param="IMFAttributes::GetDouble::pfValue" return="true"/>
     <map param="IMFAttributes::GetGUID::pguidValue" return="true"/>
 
     <map method="IMFAttributes::GetString.*" visibility="internal"/>
@@ -726,14 +726,14 @@
     <map method="IMFAttributes::GetAllocatedBlob" visibility="internal"/>
     <map param="IMFAttributes::GetBlob::pBuf" type="void" keep-pointers="true"/>
     <map param="IMFAttributes::GetBlobSize::pcbBlobSize" return="true"/>
-    <map method="IMFAttributes::SetBlob"    visibility="internal" />
+    <map method="IMFAttributes::SetBlob" visibility="internal" />
     <map param="IMFAttributes::SetBlob::pBuf" type="void" attribute="in"/>
 
     <map method="IMFAttributes::GetUnknown" visibility="internal"/>
 
     <map method="IMFAttributes::SetItem"    name="Set_" visibility="internal" />
-    <map method="IMFAttributes::SetUINT32"  name="Set_" visibility="internal" />
-    <map method="IMFAttributes::SetUINT64"  name="Set_" visibility="internal" />
+    <map method="IMFAttributes::SetUINT32"  name="SetUInt32" hresult="true" check="false" />
+    <map method="IMFAttributes::SetUINT64"  name="SetUInt64" hresult="true" check="false" />
     <map method="IMFAttributes::SetDouble"  name="Set" hresult="true" check="false" />
     <map method="IMFAttributes::SetGUID"    name="Set" hresult="true" check="false" />
     <map method="IMFAttributes::SetString"  name="Set" hresult="true" check="false" />
