@@ -6,32 +6,32 @@ namespace Vortice.Direct3D11;
 /// <summary>
 /// Describes depth-stencil state.
 /// </summary>
-public partial struct DepthStencilDescription
+public partial struct DepthStencilDescription : IEquatable<DepthStencilDescription>
 {
     /// <summary>
     /// A built-in description with settings for not using a depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription None = new(false, DepthWriteMask.Zero);
+    public static DepthStencilDescription None => new(false, DepthWriteMask.Zero);
 
     /// <summary>
     /// A built-in description with default settings for using a depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription Default = new(true, DepthWriteMask.All);
+    public static DepthStencilDescription Default => new(true, DepthWriteMask.All);
 
     /// <summary>
     /// A built-in description with settings for enabling a read-only depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription DepthRead = new(true, DepthWriteMask.Zero);
+    public static DepthStencilDescription DepthRead => new(true, DepthWriteMask.Zero);
 
     /// <summary>
     /// A built-in description with settings for using a reverse depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription DepthReverseZ = new(true, DepthWriteMask.All, ComparisonFunction.GreaterEqual);
+    public static DepthStencilDescription DepthReverseZ => new(true, DepthWriteMask.All, ComparisonFunction.GreaterEqual);
 
     /// <summary>
     /// A built-in description with settings for enabling a read-only reverse depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription DepthReadReverseZ = new(true, DepthWriteMask.Zero, ComparisonFunction.GreaterEqual);
+    public static DepthStencilDescription DepthReadReverseZ => new(true, DepthWriteMask.Zero, ComparisonFunction.GreaterEqual);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DepthStencilDescription"/> struct.
@@ -45,8 +45,8 @@ public partial struct DepthStencilDescription
         DepthWriteMask = depthWriteMask;
         DepthFunc = depthFunc;
         StencilEnable = false;
-        StencilReadMask = DefaultStencilReadMask;
-        StencilWriteMask = DefaultStencilWriteMask;
+        StencilReadMask = ID3D11DepthStencilState.DefaultStencilReadMask;
+        StencilWriteMask = ID3D11DepthStencilState.DefaultStencilWriteMask;
         FrontFace = DepthStencilOperationDescription.Default;
         BackFace = DepthStencilOperationDescription.Default;
     }
@@ -99,4 +99,25 @@ public partial struct DepthStencilDescription
         BackFace.StencilPassOp = backStencilPassOp;
         BackFace.StencilFunc = backStencilFunc;
     }
+
+    public static bool operator ==(in DepthStencilDescription left, in DepthStencilDescription right)
+    {
+        return (left.DepthEnable == right.DepthEnable)
+            && (left.DepthWriteMask == right.DepthWriteMask)
+            && (left.DepthFunc == right.DepthFunc)
+            && (left.StencilEnable == right.StencilEnable)
+            && (left.StencilReadMask == right.StencilReadMask)
+            && (left.StencilWriteMask == right.StencilWriteMask)
+            && (left.FrontFace == right.FrontFace)
+            && (left.BackFace == right.BackFace);
+    }
+
+    public static bool operator !=(in DepthStencilDescription left, in DepthStencilDescription right)
+        => !(left == right);
+
+    public override bool Equals(object? obj) => (obj is DepthStencilDescription other) && Equals(other);
+
+    public bool Equals(DepthStencilDescription other) => this == other;
+
+    public override int GetHashCode() => HashCode.Combine(DepthEnable, DepthWriteMask, DepthFunc, StencilEnable, StencilReadMask, StencilWriteMask, FrontFace, BackFace);
 }

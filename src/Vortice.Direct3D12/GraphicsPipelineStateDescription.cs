@@ -65,7 +65,7 @@ public partial class GraphicsPipelineStateDescription
         public ShaderBytecode.__Native HullShader;
         public ShaderBytecode.__Native GeometryShader;
         public StreamOutputDescription.__Native StreamOutput;
-        public BlendDescription.__Native BlendState;
+        public BlendDescription BlendState;
         public uint SampleMask;
         public RasterizerDescription RasterizerState;
         public DepthStencilDescription DepthStencilState;
@@ -102,7 +102,7 @@ public partial class GraphicsPipelineStateDescription
         if (@ref.GeometryShader.BytecodeLength > 0)
             Free(@ref.GeometryShader.pShaderBytecode);
         StreamOutput?.__MarshalFree(ref @ref.StreamOutput);
-        BlendState.__MarshalFree(ref @ref.BlendState);
+        BlendState = @ref.BlendState;
         InputLayout?.__MarshalFree(ref @ref.InputLayout);
         CachedPSO.__MarshalFree(ref @ref.CachedPSO);
     }
@@ -136,7 +136,7 @@ public partial class GraphicsPipelineStateDescription
             @ref.GeometryShader.BytecodeLength = (nuint)GeometryShader.Length;
         }
         StreamOutput?.__MarshalTo(ref @ref.StreamOutput);
-        BlendState.__MarshalTo(ref @ref.BlendState);
+        @ref.BlendState = BlendState;
         @ref.SampleMask = SampleMask;
         @ref.RasterizerState = RasterizerState;
         @ref.DepthStencilState = DepthStencilState;

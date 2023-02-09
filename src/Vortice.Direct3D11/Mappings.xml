@@ -40,14 +40,14 @@
     <const from-macro="D3D11_1_UAV_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewSlotCount" />
     <const from-macro="D3D11_PS_CS_UAV_REGISTER_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="UnorderedAccessViewRegisterCount" />
 
-    <const from-macro="D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT" class="Vortice.Direct3D11.BlendDescription" type="int" name="SimultaneousRenderTargetCount" />
-    <const from-macro="D3D11_DEFAULT_STENCIL_READ_MASK" class="Vortice.Direct3D11.DepthStencilDescription" type="int" name="DefaultStencilReadMask" />
-    <const from-macro="D3D11_DEFAULT_STENCIL_WRITE_MASK" class="Vortice.Direct3D11.DepthStencilDescription" type="int" name="DefaultStencilWriteMask" />
-    <const from-macro="D3D11_DEFAULT_DEPTH_BIAS" class="Vortice.Direct3D11.RasterizerDescription" type="int" name="DefaultDepthBias" />
-    <const from-macro="D3D11_DEFAULT_DEPTH_BIAS_CLAMP" class="Vortice.Direct3D11.RasterizerDescription" type="float" name="DefaultDepthBiasClamp" />
-    <const from-macro="D3D11_DEFAULT_SLOPE_SCALED_DEPTH_BIAS" class="Vortice.Direct3D11.RasterizerDescription" type="float" name="DefaultSlopeScaledDepthBias" />
+    <const from-macro="D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT" class="Vortice.Direct3D11.ID3D11BlendState" type="int" name="SimultaneousRenderTargetCount" />
+    <const from-macro="D3D11_DEFAULT_STENCIL_READ_MASK" class="Vortice.Direct3D11.ID3D11DepthStencilState" type="int" name="DefaultStencilReadMask" />
+    <const from-macro="D3D11_DEFAULT_STENCIL_WRITE_MASK" class="Vortice.Direct3D11.ID3D11DepthStencilState" type="int" name="DefaultStencilWriteMask" />
+    <const from-macro="D3D11_DEFAULT_DEPTH_BIAS" class="Vortice.Direct3D11.ID3D11RasterizerState" type="int" name="DefaultDepthBias" />
+    <const from-macro="D3D11_DEFAULT_DEPTH_BIAS_CLAMP" class="Vortice.Direct3D11.ID3D11RasterizerState" type="float" name="DefaultDepthBiasClamp" />
+    <const from-macro="D3D11_DEFAULT_SLOPE_SCALED_DEPTH_BIAS" class="Vortice.Direct3D11.ID3D11RasterizerState" type="float" name="DefaultSlopeScaledDepthBias" />
 
-    <const from-macro="D3D11_MAX_MAXANISOTROPY" class="Vortice.Direct3D11.SamplerDescription" type="int" name="MaxMaxAnisotropy" />
+    <const from-macro="D3D11_MAX_MAXANISOTROPY" class="Vortice.Direct3D11.ID3D11SamplerState" type="int" name="MaxMaxAnisotropy" />
 
     <const from-macro="D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="CommonShaderConstantBufferSlotCount" />
     <const from-macro="D3D11_COMMONSHADER_SAMPLER_SLOT_COUNT" class="Vortice.Direct3D11.ID3D11DeviceContext" type="int" name="CommonShaderSamplerSlotCount" />
@@ -597,24 +597,31 @@
     <map field="D3D11_INPUT_ELEMENT_DESC::InputSlotClass" name="Classification" />
 
     <map enum-item="D3D11_BLEND_OP_REV_SUBTRACT" name="ReverseSubtract"/>
-    <map struct="D3D11_BLEND_DESC" marshalto="true"/>
+    
+    <map struct="D3D11_BLEND_DESC" name="BlendDescription" marshal="false" />
+    <remove field="D3D11_BLEND_DESC::.*"/>
 
     <map struct="D3D11_DEPTH_STENCILOP_DESC" name="DepthStencilOperationDescription" />
 
-    <map field="D3D11_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
+    <map struct="D3D11_SAMPLER_DESC" name="SamplerDescription" pack="4" />
     <map field="D3D11_SAMPLER_DESC::BorderColor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
+    
+    <map param="ID3D11SamplerState::GetDesc::pDesc" attribute="out" return="false" />
+    <map param="ID3D11RasterizerState::GetDesc::pDesc" attribute="out" return="false" />
+    <map param="ID3D11DepthStencilState::GetDesc::pDesc" attribute="out" return="false" />
+    <map param="ID3D11BlendState::GetDesc::pDesc" attribute="out" return="false" />
 
     <!-- D3D11_RENDER_TARGET_BLEND_DESC/D3D11_RENDER_TARGET_BLEND_DESC1 struct -->
     <map field="D3D11_RENDER_TARGET_BLEND_DESC::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1::RenderTargetWriteMask" type="D3D11_COLOR_WRITE_ENABLE" />
-    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendEnable" name="IsBlendEnabled" />
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendEnable" name="BlendEnable" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::SrcBlend" name="SourceBlend" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::DestBlend" name="DestinationBlend" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendOp" name="BlendOperation" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::SrcBlendAlpha" name="SourceBlendAlpha" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::DestBlendAlpha" name="DestinationBlendAlpha" />
     <map field="D3D11_RENDER_TARGET_BLEND_DESC1?::BlendOpAlpha" name="BlendOperationAlpha" />
-    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::LogicOpEnable" name="IsLogicOperationEnabled"/>
+    <map field="D3D11_RENDER_TARGET_BLEND_DESC1::LogicOpEnable" name="LogicOpEnable"/>
 
     <map field="D3D11_BUFFER_UAV::Flags" type="D3D11_BUFFER_UAV_FLAG" />
     <map field="D3D11_BUFFEREX_SRV::Flags" type="D3D11_BUFFEREX_SRV_FLAG" />

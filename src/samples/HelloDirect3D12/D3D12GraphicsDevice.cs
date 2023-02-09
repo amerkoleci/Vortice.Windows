@@ -497,7 +497,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         }
     }
 
-    private static void DebugCallback(MessageCategory category, MessageSeverity severity, MessageId id, string descriptionx)
+    private static void DebugCallback(MessageCategory category, MessageSeverity severity, MessageId id, string description)
     {
     }
 

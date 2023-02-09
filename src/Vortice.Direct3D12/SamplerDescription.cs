@@ -13,16 +13,16 @@ public partial struct SamplerDescription
     /// <summary>
     /// A built-in description with default settings.
     /// </summary>
-    public static readonly SamplerDescription Default = new(Filter.MinMagMipLinear, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp);
+    public static SamplerDescription Default => new(Filter.MinMagMipLinear, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp);
 
-    public static readonly SamplerDescription PointWrap = new(Filter.MinMagMipPoint, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureAddressMode.Wrap);
-    public static readonly SamplerDescription PointClamp = new(Filter.MinMagMipPoint, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp);
+    public static SamplerDescription PointWrap => new(Filter.MinMagMipPoint, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureAddressMode.Wrap);
+    public static SamplerDescription PointClamp => new(Filter.MinMagMipPoint, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp);
 
-    public static readonly SamplerDescription LinearWrap = new(Filter.MinMagMipLinear, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureAddressMode.Wrap);
-    public static readonly SamplerDescription LinearClamp = new(Filter.MinMagMipLinear, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp);
+    public static SamplerDescription LinearWrap => new(Filter.MinMagMipLinear, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureAddressMode.Wrap);
+    public static SamplerDescription LinearClamp => new(Filter.MinMagMipLinear, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp);
 
-    public static readonly SamplerDescription AnisotropicWrap = new(Filter.Anisotropic, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureAddressMode.Wrap);
-    public static readonly SamplerDescription AnisotropicClamp = new(Filter.Anisotropic, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp);
+    public static SamplerDescription AnisotropicWrap => new(Filter.Anisotropic, TextureAddressMode.Wrap, TextureAddressMode.Wrap, TextureAddressMode.Wrap);
+    public static SamplerDescription AnisotropicClamp => new(Filter.Anisotropic, TextureAddressMode.Clamp, TextureAddressMode.Clamp, TextureAddressMode.Clamp);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SamplerDescription"/> struct.

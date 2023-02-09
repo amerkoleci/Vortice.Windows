@@ -392,7 +392,7 @@ public readonly struct PipelineStateSubObjectTypeInputLayout : IPipelineStateStr
 public readonly struct PipelineStateSubObjectTypeBlend : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubObjectType<BlendDescription.__Native> _type;
+    internal readonly AlignedSubObjectType<BlendDescription> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -401,8 +401,7 @@ public readonly struct PipelineStateSubObjectTypeBlend : IPipelineStateStreamSub
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.Blend;
-        _type._inner = new BlendDescription.__Native();
-        description.__MarshalTo(ref _type._inner);
+        _type._inner = description;
     }
 
     public static implicit operator PipelineStateSubObjectTypeBlend(in BlendDescription description)

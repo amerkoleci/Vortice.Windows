@@ -187,6 +187,17 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         _inputLayout = Device.CreateInputLayout(inputElementDescs, vertexShaderByteCode.Span);
     }
 
+    public struct RawColor4
+    {
+        public float R;
+
+        public float G;
+
+        public float B;
+
+        public float A;
+    }
+
     public void Dispose()
     {
         _vertexBuffer.Dispose();

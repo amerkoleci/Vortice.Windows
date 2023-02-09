@@ -33,6 +33,15 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>Vortice.MediaFoundation, PublicKey=$(VorticePublicKey)</_Parameter1>
     </AssemblyAttribute>
+
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Vortice.Direct3D11, PublicKey=$(VorticePublicKey)</_Parameter1>
+    </AssemblyAttribute>
+
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Vortice.Direct3D12, PublicKey=$(VorticePublicKey)</_Parameter1>
+    </AssemblyAttribute>
+    
   </ItemGroup>
 
   <ItemGroup Condition="'$(SignAssembly)' != 'true'">
@@ -46,6 +55,14 @@
 
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>Vortice.MediaFoundation</_Parameter1>
+    </AssemblyAttribute>
+
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Vortice.Direct3D11</_Parameter1>
+    </AssemblyAttribute>
+
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>Vortice.Direct3D12</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
 
