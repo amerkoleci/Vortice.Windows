@@ -259,17 +259,16 @@ public unsafe partial class IMFAttributes
     /// <returns>The value associated to this key.</returns>	
     public unsafe T Get<T>(Guid guidKey)
     {
-        // Perform conversions to supported types
-        // int
-        // long
-        // string
-        // byte[]
-        // double
-        // ComObject
-        // Guid
+            // Perform conversions to supported types
+            // int
+            // long
+            // string
+            // byte[]
+            // double
+            // ComObject
+            // Guid
 
-        if (typeof(T) == typeof(int) ||
-            typeof(T) == typeof(bool) ||
+        if (typeof(T) == typeof(bool) ||
             typeof(T) == typeof(byte) ||
             typeof(T) == typeof(uint) ||
             typeof(T) == typeof(short) ||
@@ -280,6 +279,11 @@ public unsafe partial class IMFAttributes
             return (T)Convert.ChangeType(GetUInt32(guidKey), typeof(T));
         }
 
+        if(typeof(T) == typeof(int))
+        {
+            return (T)Convert.ChangeType(unchecked((int)GetUInt32(guidKey)), typeof(T));
+        }
+
         if (typeof(T).IsEnum)
         {
             return (T)Enum.ToObject(typeof(T), GetUInt32(guidKey));
@@ -287,7 +291,7 @@ public unsafe partial class IMFAttributes
 
         if (typeof(T) == typeof(IntPtr))
         {
-            return (T)(object)new IntPtr((long)GetUInt64(guidKey));
+            return (T)(object)new IntPtr(unchecked((long)GetUInt64(guidKey)));
         }
 
         if (typeof(T) == typeof(UIntPtr))
@@ -295,7 +299,12 @@ public unsafe partial class IMFAttributes
             return (T)(object)new UIntPtr(GetUInt64(guidKey));
         }
 
-        if (typeof(T) == typeof(long) || typeof(T) == typeof(ulong))
+        if(typeof(T) == typeof(long))
+        {
+            return (T)Convert.ChangeType(unchecked((long)GetUInt64(guidKey)), typeof(T));
+        }
+
+        if (typeof(T) == typeof(ulong))
         {
             return (T)Convert.ChangeType(GetUInt64(guidKey), typeof(T));
         }
