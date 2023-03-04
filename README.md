@@ -14,7 +14,7 @@ If you are looking for high-performance low level bindings, please visit [Vortic
 Please consider becoming a [SPONSOR](https://github.com/sponsors/amerkoleci) to further help development and to allow faster issue triaging and new features to be implemented.
 **_NOTE:_** **any feature request** would require a [sponsor](https://github.com/sponsors/amerkoleci) in order to allow faster implementation and allow this project to continue.
 
-There is a collection of samples available [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
+There is a collection of samples available [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples) available only for **sponsors**
 
 ## Credits
 
