@@ -29,7 +29,7 @@ jobs:
         dotnet-version: '7.0.x'
 
     - name: Pack
-      run: dotnet pack Vortice.Windows.sln --configuration Release
+      run: msbuild Vortice.Windows.sln -t:restore,build,pack /p:Configuration=Release /p:Packing=true
 
     - name: Publish to NuGet
       if: github.event_name == 'push'
