@@ -1,6 +1,18 @@
 # Changelog
 
-Current Stable Release:    2.1.32 (September 2022)
+Current Stable Release:    2.4.2 (March 2023)
+
+-----------------------------------------------
+Release:     3.0.X (April 2023)
+-----------------------------------------------
+- [ENH] Drop netstandard 2.0 and support net6.0 and net7.0
+
+-----------------------------------------------
+Release:     2.4.2  (March 2023)
+-----------------------------------------------
+- [ENH] General: Support trimming and AOT
+- [ENH] Direct3D12: Improve DRED support
+- [ENH] Direct3D11 and Direct3D12: Improve bindings in state descriptions and FIX marshal of SamplerDescription
 
 -----------------------------------------------
 Release:     2.2.X (December 2022)
