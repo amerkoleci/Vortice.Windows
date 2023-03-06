@@ -591,7 +591,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
             }
         }
 #else
-        _d3d12Device.Dispose();
+        Device.Dispose();
 #endif
 
         if (DXGIGetDebugInterface1(out IDXGIDebug1? dxgiDebug).Success)
