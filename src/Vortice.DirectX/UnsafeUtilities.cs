@@ -75,29 +75,17 @@ public static unsafe class UnsafeUtilities
 
     public static void* Alloc(int byteCount) 
     {
-#if NET6_0_OR_GREATER
         return NativeMemory.Alloc((nuint)byteCount);
-#else
-        return (void*)Marshal.AllocHGlobal(byteCount);
-#endif
     }
 
     public static void* Alloc(int elementCount, int elementSize)
     {
-#if NET6_0_OR_GREATER
         return NativeMemory.Alloc((nuint)elementCount, (nuint)elementSize);
-#else
-        return Alloc(elementCount * elementSize);
-#endif
     }
 
     public static T* Alloc<T>() where T : unmanaged
     {
-#if NET6_0_OR_GREATER
         return (T*)NativeMemory.Alloc((nuint)sizeof(T));
-#else
-        return (T*)Marshal.AllocHGlobal(sizeof(T));
-#endif
     }
 
     public static T* Alloc<T>(int elementCount) where T : unmanaged
@@ -135,20 +123,12 @@ public static unsafe class UnsafeUtilities
 
     public static void Free(void* ptr)
     {
-#if NET6_0_OR_GREATER
         NativeMemory.Free(ptr);
-#else
-        Marshal.FreeHGlobal((IntPtr)ptr);
-#endif
     }
 
     public static void Free(IntPtr ptr)
     {
-#if NET6_0_OR_GREATER
         NativeMemory.Free(ptr.ToPointer());
-#else
-        Marshal.FreeHGlobal(ptr);
-#endif
     }
 
     public static IntPtr AllocToPointer<T>(T[]? values) where T : unmanaged
@@ -172,24 +152,4 @@ public static unsafe class UnsafeUtilities
 
         return ptr;
     }
-
-#if !NET6_0_OR_GREATER
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ref T GetArrayDataReference<T>(T[] array)
-    {
-        return ref global::System.Runtime.InteropServices.MemoryMarshal.GetReference(array.AsSpan());
-    }
-
-    /// <summary>
-    /// Creates a new <see cref="Span{T}"/> from a given reference.
-    /// </summary>
-    /// <typeparam name="T">The type of reference to wrap.</typeparam>
-    /// <param name="value">The target reference.</param>
-    /// <param name="length">The length of the <see cref="Span{T}"/> to create.</param>
-    /// <returns>A new <see cref="Span{T}"/> wrapping <paramref name="value"/>.</returns>
-    public static unsafe Span<T> CreateSpan<T>(ref T value, int length)
-    {
-        return new(Unsafe.AsPointer(ref value), length);
-    }
-#endif
 }

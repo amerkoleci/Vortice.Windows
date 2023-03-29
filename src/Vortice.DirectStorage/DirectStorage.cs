@@ -5,7 +5,6 @@ namespace Vortice.DirectStorage;
 
 public static partial class DirectStorage
 {
-#if NET6_0_OR_GREATER 
     public static event DllImportResolver? ResolveLibrary;
 
     static DirectStorage()
@@ -92,7 +91,6 @@ public static partial class DirectStorage
         nativeLibrary = IntPtr.Zero;
         return false;
     }
-#endif
 
     /// <summary>
     /// Returns the static DStorage factory object used to create DStorage queues,

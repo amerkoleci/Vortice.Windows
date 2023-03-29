@@ -23,11 +23,4 @@ internal static class Helpers
 
         return (int)value;
     }
-
-#if !NET6_0_OR_GREATER
-    public static unsafe Span<T> CreateSpan<T>(ref T value, int length)
-    {
-        return new(Unsafe.AsPointer(ref value), length);
-    }
-#endif
 }

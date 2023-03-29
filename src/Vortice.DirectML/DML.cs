@@ -8,7 +8,6 @@ namespace Vortice.DirectML;
 public static partial class DML
 {
 
-#if NET6_0_OR_GREATER
     public static event DllImportResolver? ResolveLibrary;
 
     static DML()
@@ -109,7 +108,6 @@ public static partial class DML
         nativeLibrary = IntPtr.Zero;
         return false;
     }
-#endif
 
     public static IDMLDevice DMLCreateDevice(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags)
     {

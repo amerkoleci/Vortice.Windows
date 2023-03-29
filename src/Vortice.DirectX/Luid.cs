@@ -10,9 +10,7 @@ namespace Vortice;
 /// A locally unique identifier for a graphics device.
 /// </summary>
 public readonly struct Luid : IEquatable<Luid>
-#if NET6_0_OR_GREATER
     , ISpanFormattable
-#endif
 {
     /// <summary>
     /// The low bits of the luid.
@@ -74,7 +72,6 @@ public readonly struct Luid : IEquatable<Luid>
         return (((long)HighPart) << 32 | LowPart).ToString();
     }
 
-#if NET6_0_OR_GREATER
     /// <inheritdoc/>
     [Pure]
     public string ToString(string? format, IFormatProvider? formatProvider)
@@ -87,7 +84,6 @@ public readonly struct Luid : IEquatable<Luid>
     {
         return (((long)HighPart) << 32 | LowPart).TryFormat(destination, out charsWritten, format, provider);
     }
-#endif
 
     /// <summary>
     /// Check whether two <see cref="Luid"/> values are equal.

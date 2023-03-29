@@ -146,11 +146,7 @@ public partial struct BlendDescription// : IEquatable<BlendDescription>
         [UnscopedRef]
         public Span<RenderTargetBlendDescription> AsSpan()
         {
-#if NET6_0_OR_GREATER
             return MemoryMarshal.CreateSpan(ref e0, 8);
-#else
-            return UnsafeUtilities.CreateSpan(ref e0, 8);
-#endif
         }
     }
 }

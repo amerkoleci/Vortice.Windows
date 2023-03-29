@@ -14,9 +14,7 @@ public static partial class D3D11
     /// <typeparam name="T">Type of IDirect3DDevice.</typeparam>
     /// <param name="dxgiDevice"></param>
     /// <returns></returns>
-#if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows")]
-#endif
     public static T CreateDirect3D11DeviceFromDXGIDevice<T>(IDXGIDevice dxgiDevice)
     {
         CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice, out IntPtr graphicsDevicePtr).CheckError();
@@ -25,9 +23,7 @@ public static partial class D3D11
         return graphicsDevice;
     }
 
-#if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows")]
-#endif
     public static Result CreateDirect3D11DeviceFromDXGIDevice<T>(IDXGIDevice dxgiDevice, out T? graphicsDevice)
     {
         Result result = CreateDirect3D11DeviceFromDXGIDevice(dxgiDevice, out IntPtr graphicsDevicePtr);
@@ -48,9 +44,7 @@ public static partial class D3D11
     /// <typeparam name="T">Type of IDirect3DSurface class.</typeparam>
     /// <param name="dgxiSurface"></param>
     /// <returns></returns>
-#if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows")]
-#endif
     public static T CreateDirect3D11SurfaceFromDXGISurface<T>(IDXGISurface dgxiSurface)
     {
         CreateDirect3D11SurfaceFromDXGISurface(dgxiSurface, out IntPtr graphicsSurfacePtr).CheckError();
@@ -59,9 +53,7 @@ public static partial class D3D11
         return graphicsSurface;
     }
 
-#if NET6_0_OR_GREATER
     [SupportedOSPlatform("windows")]
-#endif
     public static Result CreateDirect3D11SurfaceFromDXGISurface<T>(IDXGISurface dgxiSurface, out T? graphicsSurface)
     {
         Result result = CreateDirect3D11SurfaceFromDXGISurface(dgxiSurface, out IntPtr graphicsSurfacePtr);

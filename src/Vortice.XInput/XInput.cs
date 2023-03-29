@@ -6,7 +6,6 @@ namespace Vortice.XInput;
 public static unsafe class XInput
 {
     private static readonly nint s_xinputLibrary;
-#if NET6_0_OR_GREATER
     private static readonly delegate* unmanaged<int, out State, int> s_XInputGetState;
     private static readonly delegate* unmanaged<int, Vibration*, int> s_XInputSetState;
     private static readonly delegate* unmanaged<int, DeviceQueryType, out Capabilities, int> s_XInputGetCapabilities;
@@ -15,16 +14,6 @@ public static unsafe class XInput
     private static readonly delegate* unmanaged<int, BatteryDeviceType, out BatteryInformation, int> s_XInputGetBatteryInformation;
     private static readonly delegate* unmanaged<int, uint, out Keystroke, int> s_XInputGetKeystroke;
     private static readonly delegate* unmanaged<int, IntPtr, IntPtr, IntPtr, IntPtr, uint> s_XInputGetAudioDeviceIds;
-#else
-    private static readonly delegate* unmanaged[Stdcall]<int, out State, int> s_XInputGetState;
-    private static readonly delegate* unmanaged[Stdcall]<int, Vibration*, int> s_XInputSetState;
-    private static readonly delegate* unmanaged[Stdcall]<int, DeviceQueryType, out Capabilities, int> s_XInputGetCapabilities;
-
-    private static readonly delegate* unmanaged[Stdcall]<int, void> s_XInputEnable;
-    private static readonly delegate* unmanaged[Stdcall]<int, BatteryDeviceType, out BatteryInformation, int> s_XInputGetBatteryInformation;
-    private static readonly delegate* unmanaged[Stdcall]<int, uint, out Keystroke, int> s_XInputGetKeystroke;
-    private static readonly delegate* unmanaged[Stdcall]<int, IntPtr, IntPtr, IntPtr, IntPtr, uint> s_XInputGetAudioDeviceIds;
-#endif
 
     public static readonly XInputVersion Version = XInputVersion.Invalid;
 
@@ -45,49 +34,26 @@ public static unsafe class XInput
 
         if (AllowUnofficialAPI)
         {
-#if NET6_0_OR_GREATER
             s_XInputGetState = (delegate* unmanaged<int, out State, int>)GetExport("#100");
-#else
-            s_XInputGetState = (delegate* unmanaged[Stdcall]<int, out State, int>)GetExport("#100");
-#endif
         }
         else
         {
-#if NET6_0_OR_GREATER
             s_XInputGetState = (delegate* unmanaged<int, out State, int>)GetExport("XInputGetState");
-#else
-            s_XInputGetState = (delegate* unmanaged[Stdcall]<int, out State, int>)GetExport("XInputGetState");
-#endif
         }
 
-#if NET6_0_OR_GREATER
         s_XInputSetState = (delegate* unmanaged<int, Vibration*, int>)GetExport("XInputSetState");
         s_XInputGetCapabilities = (delegate* unmanaged<int, DeviceQueryType, out Capabilities, int>)GetExport("XInputGetCapabilities");
-#else
-        s_XInputSetState = (delegate* unmanaged[Stdcall]<int, Vibration*, int>)GetExport("XInputSetState");
-        s_XInputGetCapabilities = (delegate* unmanaged[Stdcall]<int, DeviceQueryType, out Capabilities, int>)GetExport("XInputGetCapabilities");
-#endif
 
         if (Version != XInputVersion.Version910)
         {
-#if NET6_0_OR_GREATER
             s_XInputEnable = (delegate* unmanaged<int, void>)GetExport("XInputEnable");
             s_XInputGetBatteryInformation = (delegate* unmanaged<int, BatteryDeviceType, out BatteryInformation, int>)GetExport("XInputGetBatteryInformation");
             s_XInputGetKeystroke = (delegate* unmanaged<int, uint, out Keystroke, int>)GetExport("XInputGetKeystroke");
-#else
-            s_XInputEnable = (delegate* unmanaged[Stdcall]<int, void>)GetExport("XInputEnable");
-            s_XInputGetBatteryInformation = (delegate* unmanaged[Stdcall]<int, BatteryDeviceType, out BatteryInformation, int>)GetExport("XInputGetBatteryInformation");
-            s_XInputGetKeystroke = (delegate* unmanaged[Stdcall]<int, uint, out Keystroke, int>)GetExport("XInputGetKeystroke");
-#endif
         }
 
         if (Version == XInputVersion.Version14)
         {
-#if NET6_0_OR_GREATER
             s_XInputGetAudioDeviceIds = (delegate* unmanaged<int, IntPtr, IntPtr, IntPtr, IntPtr, uint>)GetExport("XInputGetAudioDeviceIds");
-#else
-            s_XInputGetAudioDeviceIds = (delegate* unmanaged[Stdcall]<int, IntPtr, IntPtr, IntPtr, IntPtr, uint>)GetExport("XInputGetAudioDeviceIds");
-#endif
         }
     }
 
@@ -225,7 +191,6 @@ public static unsafe class XInput
         throw new NotSupportedException($"{name} is not supported on XInput9.1.0");
     }
 
-#if NET6_0_OR_GREATER
     private static nint LoadXInputLibrary(out XInputVersion version)
     {
         if (NativeLibrary.TryLoad("xinput1_4.dll", out IntPtr libraryHandle))
@@ -249,44 +214,4 @@ public static unsafe class XInput
     }
 
     private static nint GetExport(string name) => NativeLibrary.GetExport(s_xinputLibrary, name);
-
-#else
-    private static nint LoadXInputLibrary(out XInputVersion version)
-    {
-        nint libraryHandle = LoadLibrary("xinput1_4.dll");
-        if (libraryHandle != 0)
-        {
-            version = XInputVersion.Version14;
-            return libraryHandle;
-        }
-
-        libraryHandle = LoadLibrary("xinput1_3.dll");
-        if (libraryHandle != 0)
-        {
-            version = XInputVersion.Version13;
-            return libraryHandle;
-        }
-
-        libraryHandle = LoadLibrary("xinput9_1_0.dll");
-        if (libraryHandle != 0)
-        {
-            version = XInputVersion.Version910;
-            return libraryHandle;
-        }
-
-        version = XInputVersion.Invalid;
-        return libraryHandle;
-    }
-
-    private static nint GetExport(string name) => GetProcAddress(s_xinputLibrary, name);
-
-    [DllImport("kernel32")]
-    private static extern nint LoadLibrary(string fileName);
-
-    [DllImport("kernel32")]
-    private static extern nint GetProcAddress(nint module, string procName);
-
-    [DllImport("kernel32")]
-    private static extern int FreeLibrary(nint module);
-#endif
 }

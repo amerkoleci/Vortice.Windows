@@ -77,6 +77,7 @@
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
     <bind from="LOGFONTW" to="Vortice.Gdi.LogFont"/>
     <bind from="FONTSIGNATURE" to="Vortice.Gdi.FontSignature" />
+    <bind from="D3DCOLORVALUE" to="Vortice.Mathematics.Color4" override="true" />
   </bindings>
 
   <naming>
@@ -483,6 +484,19 @@
     <map param="ID2D1Properties::GetValue::data" type="void" keep-pointers="true"/>
     <map param="ID2D1Properties::SetValue::data" type="void" keep-pointers="true"/>
 
+    <!-- ID2D1SvgElement -->
+    <map method="ID2D1SvgElement::GetDocument" persist="true"/>
+
+    <map method="ID2D1SvgElement::GetTagNameLength" visibility="private" property="false" />
+    <map method="ID2D1SvgElement::GetTagName" visibility="private" hresult="true" check="false" />
+    <map param="ID2D1SvgElement::GetTagName::name" type="void" keep-pointers="true"/>
+
+    <map method="ID2D1SvgElement::GetTextValueLength" visibility="private" property="false" />
+    <map method="ID2D1SvgElement::GetTextValue" visibility="private" hresult="true" check="false" />
+    <map param="ID2D1SvgElement::GetTextValue::name" type="void" keep-pointers="true"/>
+
+    <map method="ID2D1SvgElement::SetAttributeValue" hresult="true" check="false" />
+    
     <!--IWICStream-->
     <map method="IWICStream::InitializeFrom.*" visibility="internal" hresult="true" check="false" />
     <map param="IWICStream::InitializeFromMemory::pbBuffer" type="void" keep-pointers="true"/>

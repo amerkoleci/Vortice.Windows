@@ -28,7 +28,6 @@ internal static unsafe class XAudio2Native
 
     private static IntPtr LoadXAudioLibrary()
     {
-#if NET6_0_OR_GREATER
         IntPtr libraryHandle;
         if(NativeLibrary.TryLoad("xaudio2_9.dll", out libraryHandle))
         {
@@ -44,107 +43,6 @@ internal static unsafe class XAudio2Native
         }
 
         return IntPtr.Zero;
-#else
-        string libraryPath = GetLibraryPath("xaudio2_9.dll");
-
-        IntPtr handle = Win32.LoadLibrary(libraryPath);
-        if (handle == IntPtr.Zero)
-        {
-            libraryPath = GetLibraryPath("xaudio2_8.dll");
-            handle = Win32.LoadLibrary(libraryPath);
-            if (handle == IntPtr.Zero)
-            {
-                libraryPath = GetLibraryPath("xaudio2_9redist.dll");
-                handle = Win32.LoadLibrary(libraryPath);
-                if (handle == IntPtr.Zero)
-                {
-                    throw new DllNotFoundException("Unable to load xaudio2_9.dll or xaudio2_9redist.dll library.");
-                }
-            }
-        }
-
-        return handle;
-
-        static string GetLibraryPath(string libraryName)
-        {
-            bool isArm = RuntimeInformation.ProcessArchitecture == Architecture.Arm || RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
-
-            var arch = Environment.Is64BitProcess
-                ? isArm ? "arm64" : "x64"
-                : isArm ? "arm" : "x86";
-
-            // 1. try alongside managed assembly
-            var path = typeof(XAudio2Native).Assembly.Location;
-            if (!string.IsNullOrEmpty(path))
-            {
-                path = Path.GetDirectoryName(path);
-                // 1.1 in platform sub dir
-                var lib = Path.Combine(path, arch, libraryName);
-                if (File.Exists(lib))
-                    return lib;
-                // 1.2 in root
-                lib = Path.Combine(path, libraryName);
-                if (File.Exists(lib))
-                    return lib;
-            }
-
-            // 2. try current directory
-            path = Directory.GetCurrentDirectory();
-            if (!string.IsNullOrEmpty(path))
-            {
-                // 2.1 in platform sub dir
-                var lib = Path.Combine(path, arch, libraryName);
-                if (File.Exists(lib))
-                    return lib;
-                // 2.2 in root
-                lib = Path.Combine(lib, libraryName);
-                if (File.Exists(lib))
-                    return lib;
-            }
-
-            // 3. try app domain
-            try
-            {
-                if (AppDomain.CurrentDomain is AppDomain domain)
-                {
-                    // 3.1 RelativeSearchPath
-                    path = domain.RelativeSearchPath;
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        // 3.1.1 in platform sub dir
-                        var lib = Path.Combine(path, arch, libraryName);
-                        if (File.Exists(lib))
-                            return lib;
-                        // 3.1.2 in root
-                        lib = Path.Combine(lib, libraryName);
-                        if (File.Exists(lib))
-                            return lib;
-                    }
-
-                    // 3.2 BaseDirectory
-                    path = domain.BaseDirectory;
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        // 3.2.1 in platform sub dir
-                        string? lib = Path.Combine(path, arch, libraryName);
-                        if (File.Exists(lib))
-                            return lib;
-                        // 3.2.2 in root
-                        lib = Path.Combine(lib, libraryName);
-                        if (File.Exists(lib))
-                            return lib;
-                    }
-                }
-            }
-            catch
-            {
-                // no-op as there may not be any domain or path
-            }
-
-            // 4. use PATH or default loading mechanism
-            return libraryName;
-        }
-#endif
     }
 
     public static Result XAudio2Create(ProcessorSpecifier processorSpecifier, out IntPtr nativePtr)
@@ -176,20 +74,12 @@ internal static unsafe class XAudio2Native
 
     public static IntPtr GetExport(string name)
     {
-#if NET5_0_OR_GREATER
         return NativeLibrary.GetExport(s_xaudioLibrary, name);
-#else
-        return Win32.GetProcAddress(s_xaudioLibrary, name);
-#endif
     }
 
     private static T LoadFunction<T>(string name)
     {
-#if NET5_0_OR_GREATER
         IntPtr functionPtr = NativeLibrary.GetExport(s_xaudioLibrary, name);
-#else
-        IntPtr functionPtr = Win32.GetProcAddress(s_xaudioLibrary, name);
-#endif
         if (functionPtr == IntPtr.Zero)
         {
             throw new InvalidOperationException($"No function was found with the name {name}.");
@@ -197,22 +87,4 @@ internal static unsafe class XAudio2Native
 
         return Marshal.GetDelegateForFunctionPointer<T>(functionPtr);
     }
-
-#pragma warning disable IDE1006 // Naming Styles
-#if !NET5_0_OR_GREATER
-    private static class Win32
-    {
-        private const string SystemLibrary = "Kernel32.dll";
-
-        [DllImport(SystemLibrary, SetLastError = true, CharSet = CharSet.Ansi)]
-        public static extern IntPtr LoadLibrary(string lpFileName);
-
-        [DllImport(SystemLibrary, SetLastError = true, CharSet = CharSet.Ansi)]
-        public static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
-
-        [DllImport(SystemLibrary, SetLastError = true, CharSet = CharSet.Ansi)]
-        public static extern void FreeLibrary(IntPtr hModule);
-    }
-#endif
-#pragma warning restore IDE1006 // Naming Styles
 }
