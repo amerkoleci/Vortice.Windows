@@ -36,7 +36,7 @@ Also, you need to install **Visual Studio 2022** with the following components:
 
 ## Projects using Vortice.Windows
 
-- [Vortice](https://github.com/amerkoleci/vortice)
+- [Alimer](https://github.com/amerkoleci/alimer)
 - [Evergine](https://evergine.com/)
 - [Veldrid](https://github.com/mellinoe/veldrid)
 - [MiniEngine](https://github.com/roy-t/MiniEngine3) 
