@@ -213,6 +213,17 @@ public unsafe partial class ID3D11Device
         }
     }
 
+    public ID3D11Buffer CreateBuffer<T>(ReadOnlySpan<T> data, BufferDescription description) where T : unmanaged
+    {
+        if (description.ByteWidth == 0)
+            description.ByteWidth = sizeof(T) * data.Length;
+
+        fixed (T* dataPtr = data)
+        {
+            return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
+        }
+    }
+
     /// <summary>
     /// Creates a new instance of the <see cref="ID3D11Buffer"/> class.
     /// </summary>
@@ -317,6 +328,42 @@ public unsafe partial class ID3D11Device
         }
     }
 
+    /// <summary>
+    /// Creates a new instance of the <see cref="ID3D11Buffer"/> class.
+    /// </summary>
+    /// <typeparam name="T">Type of the data to upload</typeparam>
+    /// <param name="bindFlags">Flags specifying how the buffer will be bound to the pipeline.</param>
+    /// <param name="data">Initial data used to initialize the buffer.</param>
+    /// <param name="sizeInBytes">The size, in bytes, of the buffer. If 0 is specified, sizeof(T) * data.Length is used.</param>
+    /// <param name="usage">The usage pattern for the buffer.</param>
+    /// <param name="accessFlags">Flags specifying how the buffer will be accessible from the CPU.</param>
+    /// <param name="miscFlags">Miscellaneous resource options.</param>
+    /// <param name="structureByteStride">The size (in bytes) of the structure element for structured buffers.</param>
+    /// <returns>An initialized buffer</returns>
+    public ID3D11Buffer CreateBuffer<T>(ReadOnlySpan<T> data,
+        BindFlags bindFlags,
+        ResourceUsage usage = ResourceUsage.Default,
+        CpuAccessFlags accessFlags = CpuAccessFlags.None,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        int sizeInBytes = 0,
+        int structureByteStride = 0) where T : unmanaged
+    {
+        BufferDescription description = new()
+        {
+            ByteWidth = sizeInBytes == 0 ? sizeof(T) * data.Length : sizeInBytes,
+            BindFlags = bindFlags,
+            CPUAccessFlags = accessFlags,
+            MiscFlags = miscFlags,
+            Usage = usage,
+            StructureByteStride = structureByteStride == 0 ? sizeof(T) : structureByteStride,
+        };
+
+        fixed (T* dataPtr = data)
+        {
+            return CreateBuffer(description, new SubresourceData((IntPtr)dataPtr));
+        }
+    }
+
     public ID3D11Buffer CreateConstantBuffer<T>() where T : unmanaged
     {
         int sizeInBytes = sizeof(T);
@@ -332,6 +379,14 @@ public unsafe partial class ID3D11Device
     }
 
     public ID3D11VertexShader CreateVertexShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateVertexShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
+    public ID3D11VertexShader CreateVertexShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -360,6 +415,14 @@ public unsafe partial class ID3D11Device
         }
     }
 
+    public ID3D11PixelShader CreatePixelShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreatePixelShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
     public ID3D11PixelShader CreatePixelShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
@@ -374,6 +437,14 @@ public unsafe partial class ID3D11Device
     }
 
     public ID3D11GeometryShader CreateGeometryShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateGeometryShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
+    public ID3D11GeometryShader CreateGeometryShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -402,6 +473,14 @@ public unsafe partial class ID3D11Device
         }
     }
 
+    public ID3D11HullShader CreateHullShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateHullShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
     public ID3D11HullShader CreateHullShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
@@ -416,6 +495,14 @@ public unsafe partial class ID3D11Device
     }
 
     public ID3D11DomainShader CreateDomainShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateDomainShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
+    public ID3D11DomainShader CreateDomainShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -444,6 +531,14 @@ public unsafe partial class ID3D11Device
         }
     }
 
+    public ID3D11ComputeShader CreateComputeShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateComputeShader(pBuffer, shaderBytecode.Length, classLinkage);
+        }
+    }
+
     public ID3D11ComputeShader CreateComputeShader(byte[] shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
@@ -464,6 +559,20 @@ public unsafe partial class ID3D11Device
     /// <param name="shaderBytecode">A pointer to the compiled shader. The compiled shader code contains a input signature which is validated against the array of elements.</param>
     /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
     public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, Span<byte> shaderBytecode)
+    {
+        fixed (byte* pBuffer = shaderBytecode)
+        {
+            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, shaderBytecode.Length);
+        }
+    }
+
+    /// <summary>
+    /// Create an input-layout object to describe the input-buffer data for the input-assembler stage.
+    /// </summary>
+    /// <param name="inputElements">An array of the input-assembler stage input data types; each type is described by an element description</param>
+    /// <param name="shaderBytecode">A pointer to the compiled shader. The compiled shader code contains a input signature which is validated against the array of elements.</param>
+    /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
+    public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, ReadOnlySpan<byte> shaderBytecode)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
