@@ -202,7 +202,7 @@ public unsafe partial class ID3D11Device
         }
     }
 
-    public ID3D11Buffer CreateBuffer<T>(ReadOnlySpan<T> data, BufferDescription description) where T : unmanaged
+    public ID3D11Buffer CreateBuffer<T>(Span<T> data, BufferDescription description) where T : unmanaged
     {
         if (description.ByteWidth == 0)
             description.ByteWidth = sizeof(T) * data.Length;
@@ -293,7 +293,7 @@ public unsafe partial class ID3D11Device
     /// <param name="miscFlags">Miscellaneous resource options.</param>
     /// <param name="structureByteStride">The size (in bytes) of the structure element for structured buffers.</param>
     /// <returns>An initialized buffer</returns>
-    public ID3D11Buffer CreateBuffer<T>(ReadOnlySpan<T> data,
+    public ID3D11Buffer CreateBuffer<T>(Span<T> data,
         BindFlags bindFlags,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags accessFlags = CpuAccessFlags.None,
@@ -331,7 +331,7 @@ public unsafe partial class ID3D11Device
         return CreateBuffer(description, (SubresourceData?)null);
     }
 
-    public ID3D11VertexShader CreateVertexShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11VertexShader CreateVertexShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -352,7 +352,7 @@ public unsafe partial class ID3D11Device
         return CreateVertexShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public ID3D11PixelShader CreatePixelShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11PixelShader CreatePixelShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -373,7 +373,7 @@ public unsafe partial class ID3D11Device
         return CreatePixelShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public ID3D11GeometryShader CreateGeometryShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11GeometryShader CreateGeometryShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -394,7 +394,7 @@ public unsafe partial class ID3D11Device
         return CreateGeometryShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public ID3D11HullShader CreateHullShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11HullShader CreateHullShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -415,7 +415,7 @@ public unsafe partial class ID3D11Device
         return CreateHullShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public ID3D11DomainShader CreateDomainShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11DomainShader CreateDomainShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -436,7 +436,7 @@ public unsafe partial class ID3D11Device
         return CreateDomainShader(shaderBytecode.BufferPointer.ToPointer(), shaderBytecode.BufferSize, classLinkage);
     }
 
-    public ID3D11ComputeShader CreateComputeShader(ReadOnlySpan<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
+    public ID3D11ComputeShader CreateComputeShader(Span<byte> shaderBytecode, ID3D11ClassLinkage? classLinkage = default)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -463,7 +463,7 @@ public unsafe partial class ID3D11Device
     /// <param name="inputElements">An array of the input-assembler stage input data types; each type is described by an element description</param>
     /// <param name="shaderBytecode">A pointer to the compiled shader. The compiled shader code contains a input signature which is validated against the array of elements.</param>
     /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
-    public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, ReadOnlySpan<byte> shaderBytecode)
+    public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, Span<byte> shaderBytecode)
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
@@ -511,7 +511,43 @@ public unsafe partial class ID3D11Device
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
     {
-        return CreateTexture1D(new Texture1DDescription(format, width, arraySize, mipLevels, bindFlags, usage, cpuAccessFlags, miscFlags), initialData);
+        Texture1DDescription description = new Texture1DDescription(format, width, arraySize, mipLevels, bindFlags, usage, cpuAccessFlags, miscFlags);
+        return CreateTexture1D(in description, initialData);
+    }
+
+    public ID3D11Texture1D CreateTexture1D<T>(Format format, int width, T[] initialData,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        ResourceUsage usage = ResourceUsage.Default,
+        CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
+        where T : unmanaged
+    {
+        Texture1DDescription description = new(format, width, 1, 1, bindFlags,
+            usage: usage,
+            cpuAccessFlags: cpuAccessFlags,
+            miscFlags: miscFlags
+            );
+        fixed (T* initialDataPtr = initialData)
+        {
+            FormatHelper.GetSurfaceInfo(format, width, 1, out int rowPitch, out int slicePitch);
+            SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
+            return CreateTexture1D(description, &initData);
+        }
+    }
+
+    public ID3D11Texture1D CreateTexture1D(in Texture1DDescription description, SubresourceData[]? initialData = null)
+    {
+        if (initialData != null)
+        {
+            fixed (SubresourceData* initialDataPtr = initialData)
+            {
+                return CreateTexture1D(description, initialDataPtr);
+            }
+        }
+        else
+        {
+            return CreateTexture1D(description, (void*)null);
+        }
     }
 
     public ID3D11Texture2D CreateTexture2D(Format format,
@@ -560,7 +596,7 @@ public unsafe partial class ID3D11Device
         }
     }
 
-    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, ReadOnlySpan<T> initialData,
+    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, Span<T> initialData,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
@@ -600,9 +636,11 @@ public unsafe partial class ID3D11Device
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
         if (sampleCount < 1)
+        {
             throw new ArgumentException(nameof(sampleCount));
+        }
 
-        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0,  miscFlags), (void*)null);
+        return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0, miscFlags), (void*)null);
     }
 
     public ID3D11Texture3D CreateTexture3D(Format format, int width, int height, int depth, int mipLevels = 0,
@@ -617,6 +655,21 @@ public unsafe partial class ID3D11Device
             cpuAccessFlags: cpuAccessFlags,
             miscFlags: miscFlags),
             initialData);
+    }
+
+    public ID3D11Texture3D CreateTexture3D(Texture3DDescription description, SubresourceData[]? initialData = null)
+    {
+        if (initialData != null)
+        {
+            fixed (SubresourceData* initialDataPtr = initialData)
+            {
+                return CreateTexture3D(description, initialDataPtr);
+            }
+        }
+        else
+        {
+            return CreateTexture3D(description, (void*)null);
+        }
     }
 
     public ID3D11Texture2D CreateTextureCube(Format format, int size, int mipLevels = 0,
