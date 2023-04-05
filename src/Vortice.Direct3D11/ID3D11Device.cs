@@ -610,6 +610,47 @@ public unsafe partial class ID3D11Device
         return CreateQuery(new QueryDescription(queryType, miscFlags));
     }
 
+    #region CreateTexture1D
+    public ID3D11Texture1D CreateTexture1D(in Texture1DDescription description)
+    {
+        return CreateTexture1D(description, (void*)null);
+    }
+
+    public ID3D11Texture1D CreateTexture1D(in Texture1DDescription description, SubresourceData initialData)
+    {
+        return CreateTexture1D(description, &initialData);
+    }
+
+    public ID3D11Texture1D CreateTexture1D(in Texture1DDescription description, SubresourceData[]? initialData = null)
+    {
+        if (initialData != null && initialData.Length > 0)
+        {
+            fixed (SubresourceData* initialDataPtr = initialData)
+            {
+                return CreateTexture1D(description, initialDataPtr);
+            }
+        }
+        else
+        {
+            return CreateTexture1D(description, (void*)null);
+        }
+    }
+
+    public ID3D11Texture1D CreateTexture1D(in Texture1DDescription description, Span<SubresourceData> initialData)
+    {
+        if (initialData.Length > 0)
+        {
+            fixed (SubresourceData* initialDataPtr = initialData)
+            {
+                return CreateTexture1D(description, initialDataPtr);
+            }
+        }
+        else
+        {
+            return CreateTexture1D(description, (void*)null);
+        }
+    }
+
     public ID3D11Texture1D CreateTexture1D(Format format,
         int width,
         int arraySize = 1,
@@ -624,14 +665,19 @@ public unsafe partial class ID3D11Device
         return CreateTexture1D(in description, initialData);
     }
 
-    public ID3D11Texture1D CreateTexture1D<T>(Format format, int width, T[] initialData,
+    public ID3D11Texture1D CreateTexture1D<T>(
+        T[] initialData,
+        Format format,
+        int width,
+        int arraySize = 1,
+        int mipLevels = 0,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
         where T : unmanaged
     {
-        Texture1DDescription description = new(format, width, 1, 1, bindFlags,
+        Texture1DDescription description = new(format, width, arraySize, mipLevels, bindFlags,
             usage: usage,
             cpuAccessFlags: cpuAccessFlags,
             miscFlags: miscFlags
@@ -644,19 +690,108 @@ public unsafe partial class ID3D11Device
         }
     }
 
-    public ID3D11Texture1D CreateTexture1D(in Texture1DDescription description, SubresourceData[]? initialData = null)
+    public ID3D11Texture1D CreateTexture1D<T>(
+        Span<T> initialData,
+        Format format,
+        int width,
+        int arraySize = 1,
+        int mipLevels = 0,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        ResourceUsage usage = ResourceUsage.Default,
+        CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
+        where T : unmanaged
     {
-        if (initialData != null)
+        Texture1DDescription description = new(format, width, arraySize, mipLevels, bindFlags,
+            usage: usage,
+            cpuAccessFlags: cpuAccessFlags,
+            miscFlags: miscFlags
+            );
+        fixed (T* initialDataPtr = initialData)
+        {
+            FormatHelper.GetSurfaceInfo(format, width, 1, out int rowPitch, out int slicePitch);
+            SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
+            return CreateTexture1D(description, &initData);
+        }
+    }
+
+    public ID3D11Texture1D CreateTexture1D<T>(
+        ReadOnlySpan<T> initialData,
+        Format format,
+        int width,
+        int arraySize = 1,
+        int mipLevels = 0,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        ResourceUsage usage = ResourceUsage.Default,
+        CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
+        where T : unmanaged
+    {
+        Texture1DDescription description = new(format, width, arraySize, mipLevels, bindFlags,
+            usage: usage,
+            cpuAccessFlags: cpuAccessFlags,
+            miscFlags: miscFlags
+            );
+        fixed (T* initialDataPtr = initialData)
+        {
+            FormatHelper.GetSurfaceInfo(format, width, 1, out int rowPitch, out int slicePitch);
+            SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
+            return CreateTexture1D(description, &initData);
+        }
+    }
+    #endregion
+
+    #region CreateTexture2D
+    public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description)
+    {
+        return CreateTexture2D(description, (void*)null);
+    }
+
+    public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, SubresourceData initialData)
+    {
+        return CreateTexture2D(description, &initialData);
+    }
+
+    public ID3D11Texture2D CreateTexture2D(Texture2DDescription description, SubresourceData[]? initialData = null)
+    {
+        if (initialData != null && initialData.Length > 0)
         {
             fixed (SubresourceData* initialDataPtr = initialData)
             {
-                return CreateTexture1D(description, initialDataPtr);
+                return CreateTexture2D(description, initialDataPtr);
             }
         }
         else
         {
-            return CreateTexture1D(description, (void*)null);
+            return CreateTexture2D(description, (void*)null);
         }
+    }
+
+    public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, Span<SubresourceData> initialData)
+    {
+        if (initialData.Length > 0)
+        {
+            fixed (SubresourceData* initialDataPtr = initialData)
+            {
+                return CreateTexture2D(description, initialDataPtr);
+            }
+        }
+        else
+        {
+            return CreateTexture2D(description, (void*)null);
+        }
+    }
+
+    public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, DataRectangle[] data)
+    {
+        SubresourceData[] subResourceDatas = new SubresourceData[data.Length];
+        for (int i = 0; i < subResourceDatas.Length; i++)
+        {
+            subResourceDatas[i].DataPointer = data[i].DataPointer;
+            subResourceDatas[i].RowPitch = data[i].Pitch;
+        }
+
+        return CreateTexture2D(description, subResourceDatas);
     }
 
     public ID3D11Texture2D CreateTexture2D(Format format,
@@ -673,26 +808,19 @@ public unsafe partial class ID3D11Device
         return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, mipLevels, bindFlags, usage, cpuAccessFlags, 1, 0, miscFlags), initialData);
     }
 
-    public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, DataRectangle[] data)
-    {
-        SubresourceData[] subResourceDatas = new SubresourceData[data.Length];
-        for (int i = 0; i < subResourceDatas.Length; i++)
-        {
-            subResourceDatas[i].DataPointer = data[i].DataPointer;
-            subResourceDatas[i].RowPitch = data[i].Pitch;
-        }
-
-        return CreateTexture2D(description, subResourceDatas);
-    }
-
-    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, T[] initialData,
+    public ID3D11Texture2D CreateTexture2D<T>(T[] initialData,
+        Format format,
+        int width,
+        int height,
+        int arraySize = 1,
+        int mipLevels = 0,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
         where T : unmanaged
     {
-        Texture2DDescription description = new(format, width, height, 1, 1, bindFlags,
+        Texture2DDescription description = new(format, width, height, arraySize, mipLevels, bindFlags,
             usage: usage,
             cpuAccessFlags: cpuAccessFlags,
             miscFlags: miscFlags
@@ -705,14 +833,19 @@ public unsafe partial class ID3D11Device
         }
     }
 
-    public ID3D11Texture2D CreateTexture2D<T>(Format format, int width, int height, Span<T> initialData,
+    public ID3D11Texture2D CreateTexture2D<T>(Span<T> initialData,
+        Format format,
+        int width,
+        int height,
+        int arraySize = 1,
+        int mipLevels = 0,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
         where T : unmanaged
     {
-        Texture2DDescription description = new(format, width, height, 1, 1, bindFlags,
+        Texture2DDescription description = new(format, width, height, arraySize, mipLevels, bindFlags,
              usage: usage,
              cpuAccessFlags: cpuAccessFlags,
              miscFlags: miscFlags
@@ -725,22 +858,36 @@ public unsafe partial class ID3D11Device
         }
     }
 
-    public ID3D11Texture2D CreateTexture2D(Texture2DDescription description, SubresourceData[]? initialData = null)
+    public ID3D11Texture2D CreateTexture2D<T>(ReadOnlySpan<T> initialData,
+        Format format,
+        int width,
+        int height,
+        int arraySize = 1,
+        int mipLevels = 0,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        ResourceUsage usage = ResourceUsage.Default,
+        CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
+        where T : unmanaged
     {
-        if (initialData != null)
+        Texture2DDescription description = new(format, width, height, arraySize, mipLevels, bindFlags,
+             usage: usage,
+             cpuAccessFlags: cpuAccessFlags,
+             miscFlags: miscFlags
+             );
+        fixed (T* initialDataPtr = initialData)
         {
-            fixed (SubresourceData* initialDataPtr = initialData)
-            {
-                return CreateTexture2D(description, initialDataPtr);
-            }
-        }
-        else
-        {
-            return CreateTexture2D(description, (void*)null);
+            FormatHelper.GetSurfaceInfo(format, width, height, out int rowPitch, out int slicePitch);
+            SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
+            return CreateTexture2D(description, &initData);
         }
     }
 
-    public ID3D11Texture2D CreateTexture2DMultisample(Format format, int width, int height, int sampleCount, int arraySize = 1,
+    public ID3D11Texture2D CreateTexture2DMultisample(Format format,
+        int width,
+        int height,
+        int sampleCount,
+        int arraySize = 1,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
@@ -752,7 +899,51 @@ public unsafe partial class ID3D11Device
         return CreateTexture2D(new Texture2DDescription(format, width, height, arraySize, 1, bindFlags, ResourceUsage.Default, CpuAccessFlags.None, sampleCount, 0, miscFlags), (void*)null);
     }
 
-    public ID3D11Texture3D CreateTexture3D(Format format, int width, int height, int depth, int mipLevels = 0,
+    public ID3D11Texture2D CreateTextureCube(Format format,
+        int size,
+        int mipLevels = 0,
+        SubresourceData[]? initialData = null,
+        BindFlags bindFlags = BindFlags.ShaderResource,
+        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
+        ResourceUsage usage = ResourceUsage.Default,
+        CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
+    {
+        Texture2DDescription description = new(format, size, size, 6, mipLevels, bindFlags, usage, cpuAccessFlags, 1, 0, miscFlags | ResourceOptionFlags.TextureCube);
+        return CreateTexture2D(description, initialData);
+    }
+    #endregion
+
+    #region CreateTexture3D
+    public ID3D11Texture3D CreateTexture3D(in Texture3DDescription description)
+    {
+        return CreateTexture3D(description, (void*)null);
+    }
+
+    public ID3D11Texture3D CreateTexture3D(in Texture3DDescription description, SubresourceData initialData)
+    {
+        return CreateTexture3D(description, &initialData);
+    }
+
+    public ID3D11Texture3D CreateTexture3D(Texture3DDescription description, SubresourceData[]? initialData = null)
+    {
+        if (initialData != null && initialData.Length > 0)
+        {
+            fixed (SubresourceData* initialDataPtr = initialData)
+            {
+                return CreateTexture3D(description, initialDataPtr);
+            }
+        }
+        else
+        {
+            return CreateTexture3D(description, (void*)null);
+        }
+    }
+
+    public ID3D11Texture3D CreateTexture3D(Format format,
+        int width,
+        int height,
+        int depth,
+        int mipLevels = 0,
         SubresourceData[]? initialData = null,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
@@ -766,9 +957,9 @@ public unsafe partial class ID3D11Device
             initialData);
     }
 
-    public ID3D11Texture3D CreateTexture3D(Texture3DDescription description, SubresourceData[]? initialData = null)
+    public ID3D11Texture3D CreateTexture3D(in Texture3DDescription description, Span<SubresourceData> initialData)
     {
-        if (initialData != null)
+        if (initialData.Length > 0)
         {
             fixed (SubresourceData* initialDataPtr = initialData)
             {
@@ -780,18 +971,7 @@ public unsafe partial class ID3D11Device
             return CreateTexture3D(description, (void*)null);
         }
     }
-
-    public ID3D11Texture2D CreateTextureCube(Format format, int size, int mipLevels = 0,
-        SubresourceData[]? initialData = null,
-        BindFlags bindFlags = BindFlags.ShaderResource,
-        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
-        ResourceUsage usage = ResourceUsage.Default,
-        CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
-    {
-        var description = new Texture2DDescription(format, size, size, 6, mipLevels, bindFlags, usage, cpuAccessFlags, 1, 0, miscFlags | ResourceOptionFlags.TextureCube);
-
-        return CreateTexture2D(description, initialData);
-    }
+    #endregion
 
     /// <summary>
     /// Give a device access to a shared resource created on a different device.

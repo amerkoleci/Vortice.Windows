@@ -72,6 +72,15 @@ public unsafe partial class ID3D11DeviceContext
         ((delegate* unmanaged[Stdcall]<IntPtr, void*, float*, uint, void>)this[OMSetBlendState__vtbl_index])(NativePointer, (void*)blendStatePtr, blendFactor, sampleMask);
     }
 
+    public void OMSetBlendState(ID3D11BlendState? blendState, Span<float> blendFactor)
+    {
+        IntPtr blendStatePtr = blendState?.NativePointer ?? IntPtr.Zero;
+        fixed (float* blendFactorPtr = blendFactor)
+        {
+            ((delegate* unmanaged[Stdcall]<IntPtr, void*, float*, uint, void>)this[OMSetBlendState__vtbl_index])(NativePointer, (void*)blendStatePtr, blendFactorPtr, DefaultSampleMask);
+        }
+    }
+
     public void OMSetBlendState(ID3D11BlendState? blendState, ReadOnlySpan<float> blendFactor)
     {
         IntPtr blendStatePtr = blendState?.NativePointer ?? IntPtr.Zero;
@@ -118,6 +127,17 @@ public unsafe partial class ID3D11DeviceContext
     }
 
     public void OMSetRenderTargets(ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
+    {
+        IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
+        for (int i = 0; i < renderTargetViews.Length; i++)
+        {
+            renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
+        }
+
+        OMSetRenderTargets(renderTargetViews.Length, renderTargetViewsPtr, depthStencilView);
+    }
+
+    public void OMSetRenderTargets(Span<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
     {
         IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
         for (int i = 0; i < renderTargetViews.Length; i++)
@@ -2072,6 +2092,24 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="depthPitch">The depth pitch.</param>
     /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
+    public void UpdateSubresource<T>(Span<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    {
+        fixed (T* dataPtr = data)
+        {
+            UpdateSubresource(resource, subresource, region, (IntPtr)dataPtr, rowPitch, depthPitch);
+        }
+    }
+
+    /// <summary>
+    /// Copies data from the CPU to to a non-mappable subresource region.
+    /// </summary>
+    /// <typeparam name="T">Type of the data to upload</typeparam>
+    /// <param name="data">A reference to the data to upload.</param>
+    /// <param name="resource">The destination resource.</param>
+    /// <param name="subresource">The destination subresource.</param>
+    /// <param name="rowPitch">The row pitch.</param>
+    /// <param name="depthPitch">The depth pitch.</param>
+    /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
     public void UpdateSubresource<T>(ReadOnlySpan<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
     {
         fixed (T* dataPtr = data)
@@ -2084,6 +2122,23 @@ public unsafe partial class ID3D11DeviceContext
     {
         ReadOnlySpan<T> span = data.AsSpan();
         WriteTexture(resource, arraySlice, mipLevel, span);
+    }
+
+    public void WriteTexture<T>(ID3D11Texture1D resource, int arraySlice, int mipLevel, Span<T> data) where T : unmanaged
+    {
+        Texture1DDescription description = resource.Description;
+        fixed (T* dataPtr = data)
+        {
+            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            DXGI.FormatHelper.GetSurfaceInfo(
+                description.Format,
+                description.GetWidth(mipLevel),
+                1,
+                out int rowPitch,
+                out int slicePitch);
+
+            UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
+        }
     }
 
     public void WriteTexture<T>(ID3D11Texture1D resource, int arraySlice, int mipLevel, ReadOnlySpan<T> data) where T : unmanaged
@@ -2107,6 +2162,23 @@ public unsafe partial class ID3D11DeviceContext
     {
         ReadOnlySpan<T> span = data.AsSpan();
         WriteTexture(resource, arraySlice, mipLevel, span);
+    }
+
+    public void WriteTexture<T>(ID3D11Texture2D resource, int arraySlice, int mipLevel, Span<T> data) where T : unmanaged
+    {
+        Texture2DDescription description = resource.Description;
+        fixed (T* dataPtr = data)
+        {
+            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            DXGI.FormatHelper.GetSurfaceInfo(
+                description.Format,
+                description.GetWidth(mipLevel),
+                description.GetHeight(mipLevel),
+                out int rowPitch,
+                out int slicePitch);
+
+            UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
+        }
     }
 
     public void WriteTexture<T>(ID3D11Texture2D resource, int arraySlice, int mipLevel, ReadOnlySpan<T> data) where T : unmanaged

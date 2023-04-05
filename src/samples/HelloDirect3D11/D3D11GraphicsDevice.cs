@@ -143,13 +143,19 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         else
         {
             // Create offscreen texture
-            OffscreenTexture = Device.CreateTexture2D(colorFormat, Size.Width, Size.Height, 1, 1, null, BindFlags.ShaderResource | BindFlags.RenderTarget);
+            OffscreenTexture = Device.CreateTexture2D(colorFormat, Size.Width, Size.Height,
+                mipLevels: 1,
+                bindFlags: BindFlags.ShaderResource | BindFlags.RenderTarget
+                );
             RenderTargetView = Device.CreateRenderTargetView(OffscreenTexture);
         }
 
         if (depthStencilFormat != Format.Unknown)
         {
-            DepthStencilTexture = Device.CreateTexture2D(depthStencilFormat, Size.Width, Size.Height, 1, 1, null, BindFlags.DepthStencil);
+            DepthStencilTexture = Device.CreateTexture2D(depthStencilFormat, Size.Width, Size.Height,
+                mipLevels: 1,
+                bindFlags: BindFlags.DepthStencil
+                );
             DepthStencilView = Device.CreateDepthStencilView(DepthStencilTexture!, new DepthStencilViewDescription(DepthStencilTexture, DepthStencilViewDimension.Texture2D));
         }
 
