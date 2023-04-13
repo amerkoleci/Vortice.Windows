@@ -3,7 +3,7 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net7.0-windows10.0.19041</TargetFrameworks>
     <Description>A .NET bindings for WinUI</Description>
   </PropertyGroup>
 
@@ -14,4 +14,9 @@
     <SharpGenMapping Include="Mappings.xml" />
     <ProjectReference Include="..\Vortice.DXGI\Vortice.DXGI.csproj" />
   </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework.Contains('-windows10'))">
+    <PackageReference Include="Microsoft.WindowsAppSDK" />
+  </ItemGroup>
+  
 </Project>

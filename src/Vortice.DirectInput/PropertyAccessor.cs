@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 
 namespace Vortice.DirectInput;
 
-public abstract class PropertyAccessor
+public abstract unsafe class PropertyAccessor
 {
     /// <summary>
     /// Gets or sets the device.
@@ -70,7 +70,7 @@ public abstract class PropertyAccessor
         PropertyType = PropertyHowType.Byoffset;
     }
 
-    protected unsafe object GetObject(IntPtr guid)
+    protected object? GetObject(IntPtr guid)
     {
         // NOT WORKING with APPDATA
         var prop = new PropertyPointer();
@@ -79,8 +79,10 @@ public abstract class PropertyAccessor
         prop.Data = new UIntPtr(&value);
         Device.GetProperty(guid, new IntPtr(&prop));
 
-        if ((long)prop.Data.ToUInt64() == (long) -1)
-            return null;
+        if ((long)prop.Data.ToUInt64() == (long)-1)
+        {
+            return default;
+        }
 
         IntPtr ptr = unchecked((IntPtr)(long)(ulong)prop.Data);
 
@@ -91,12 +93,12 @@ public abstract class PropertyAccessor
         return handle.Target;
     }
 
-    protected unsafe void SetObject(IntPtr guid, object value)
+    protected void SetObject(IntPtr guid, object value)
     {
         // NOT WORKING with APPDATA
-        var prop = new PropertyPointer();
+        PropertyPointer prop = new();
         InitHeader<PropertyPointer>(ref prop.Header);
-        var dataValue = IntPtr.Zero;
+        IntPtr dataValue = IntPtr.Zero;
         prop.Data = new UIntPtr(&dataValue);
 
         // Free previous application data if any
@@ -114,7 +116,7 @@ public abstract class PropertyAccessor
 
         // Set new object value
         handle = GCHandle.Alloc(value, GCHandleType.Pinned);
-        prop.Data =  unchecked((UIntPtr)(ulong)(long)handle.AddrOfPinnedObject()) ;
+        prop.Data = unchecked((UIntPtr)(ulong)(long)handle.AddrOfPinnedObject());
         Device.SetProperty(guid, new IntPtr(&prop));
     }
 
@@ -123,7 +125,12 @@ public abstract class PropertyAccessor
         return GetInt(guid, ObjectCode);
     }
 
-    protected unsafe int GetInt(IntPtr guid, int objCode)
+    protected bool GetBool(IntPtr guid)
+    {
+        return GetInt(guid, ObjectCode) != 0;
+    }
+
+    protected int GetInt(IntPtr guid, int objCode)
     {
         var prop = new PropertyInt();
         InitHeader<PropertyInt>(ref prop.Header);
@@ -132,7 +139,7 @@ public abstract class PropertyAccessor
         return prop.Data;
     }
 
-    protected unsafe void Set(IntPtr guid, int value)
+    protected void Set(IntPtr guid, int value)
     {
         var prop = new PropertyInt();
         InitHeader<PropertyInt>(ref prop.Header);
@@ -140,7 +147,15 @@ public abstract class PropertyAccessor
         Device.SetProperty(guid, new IntPtr(&prop));
     }
 
-    protected unsafe Guid GetGuid(IntPtr guid)
+    protected void Set(IntPtr guid, bool value)
+    {
+        PropertyInt prop = new();
+        InitHeader<PropertyInt>(ref prop.Header);
+        prop.Data = value ? 1 : 0;
+        Device.SetProperty(guid, new IntPtr(&prop));
+    }
+
+    protected Guid GetGuid(IntPtr guid)
     {
         var propNative = new PropertyGuidAndPath.__Native();
         InitHeader<PropertyGuidAndPath.__Native>(ref propNative.Header);
@@ -148,14 +163,14 @@ public abstract class PropertyAccessor
         return propNative.GuidClass;
     }
 
-    protected unsafe string GetPath(IntPtr guid)
+    protected string GetPath(IntPtr guid)
     {
         var prop = new PropertyGuidAndPath();
         var propNative = new PropertyGuidAndPath.__Native();
         InitHeader<PropertyGuidAndPath.__Native>(ref propNative.Header);
         Device.GetProperty(guid, new IntPtr(&propNative));
         prop.__MarshalFrom(ref propNative);
-        return prop.Path;
+        return prop.Path ?? string.Empty;
     }
 
     protected string GetString(IntPtr guid)
@@ -163,7 +178,7 @@ public abstract class PropertyAccessor
         return GetString(guid, ObjectCode);
     }
 
-    protected unsafe string GetString(IntPtr guid, int objectCode)
+    protected string GetString(IntPtr guid, int objectCode)
     {
         var prop = new PropertyString();
         var propNative = new PropertyString.__Native();
@@ -171,10 +186,10 @@ public abstract class PropertyAccessor
         propNative.Header.Obj = objectCode;
         Device.GetProperty(guid, new IntPtr(&propNative));
         prop.__MarshalFrom(ref propNative);
-        return prop.Text;
+        return prop.Text ?? string.Empty;
     }
 
-    protected unsafe void Set(IntPtr guid, string value)
+    protected void Set(IntPtr guid, string value)
     {
         var prop = new PropertyString { Text = value };
         var propNative = new PropertyString.__Native();
@@ -183,7 +198,7 @@ public abstract class PropertyAccessor
         Device.SetProperty(guid, new IntPtr(&propNative));
     }
 
-    protected unsafe InputRange GetRange(IntPtr guid)
+    protected InputRange GetRange(IntPtr guid)
     {
         var prop = new PropertyRange();
         InitHeader<PropertyRange>(ref prop.Header);
@@ -199,7 +214,7 @@ public abstract class PropertyAccessor
         Device.SetProperty(guid, new IntPtr(&prop));
     }
 
-    internal unsafe void InitHeader<T>(ref PropertyHeader header) where T : struct
+    internal void InitHeader<T>(ref PropertyHeader header) where T : struct
     {
         header.Size = Marshal.SizeOf<T>();
         header.HeaderSize = sizeof(PropertyHeader);

@@ -4,6 +4,11 @@
 using Vortice.Mathematics;
 using Vortice.DXGI;
 
+#if WINDOWS
+using WinRT;
+using Microsoft.UI.Xaml.Media.Imaging;
+#endif
+
 namespace Vortice.WinUI;
 
 
@@ -19,6 +24,15 @@ public unsafe class ISurfaceImageSourceNative : ComObject
     {
         return (nativePtr == IntPtr.Zero) ? null : new ISurfaceImageSourceNative(nativePtr);
     }
+
+#if WINDOWS
+    public ISurfaceImageSourceNative(SurfaceImageSource owner)
+        : base(((IWinRTObject)owner).NativeObject.GetRef())
+    {
+    }
+
+    public static explicit operator ISurfaceImageSourceNative(SurfaceImageSource owner) => new(owner);
+#endif
 
     public IDXGIDevice Device
     {

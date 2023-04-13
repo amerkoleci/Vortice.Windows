@@ -27,7 +27,8 @@ namespace Vortice.DirectInput;
 /// </summary>
 public class ObjectProperties : PropertyAccessor
 {
-    internal ObjectProperties(IDirectInputDevice8 device, int code, PropertyHowType howType) : base(device, code, howType)
+    internal ObjectProperties(IDirectInputDevice8 device, int code, PropertyHowType howType)
+        : base(device, code, howType)
     {
     }
 
@@ -49,37 +50,27 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The dead zone.</value>
     public int DeadZone
     {
-        get { return GetInt(PropertyGuids.Deadzone); }
-
-        set { Set(PropertyGuids.Deadzone, value); }
+        get => GetInt(PropertyGuids.DeadZone);
+        set => Set(PropertyGuids.DeadZone, value);
     }
 
     /// <summary>
     /// Gets the input granularity. Granularity represents the smallest distance over which the object reports movement. Most axis objects have a granularity of one; that is, all values are possible. Some axes have a larger granularity. For example, the wheel axis on a mouse can have a granularity of 20; that is, all reported changes in position are multiples of 20. In other words, when the user turns the wheel slowly, the device reports a position of 0, then 20, then 40, and so on. This is a read-only property.
     /// </summary>
     /// <value>The granularity.</value>
-    public int Granularity
-    {
-        get { return GetInt(PropertyGuids.Granularity); }
-    }
+    public int Granularity => GetInt(PropertyGuids.Granularity);
 
     /// <summary>
     /// Gets the range of the raw data returned for axes on a human interface device. Devices can return negative values.
     /// </summary>
     /// <value>The logical range.</value>
-    public InputRange LogicalRange
-    {
-        get { return GetRange(PropertyGuids.Logicalrange); }
-    }
+    public InputRange LogicalRange => GetRange(PropertyGuids.LogicalRange);
 
     /// <summary>
     /// Gets Retrieves the range of data for axes as suggested by the manufacturer of a human interface device. Values can be negative. Normally DirectInput returns values from 0 through 0xFFFF, but the range can be made to conform to the manufacturer's suggested range by using <see cref="Range"/>.
     /// </summary>
     /// <value>The physical range.</value>
-    public InputRange PhysicalRange
-    {
-        get { return GetRange(PropertyGuids.Physicalrange); }
-    }
+    public InputRange PhysicalRange => GetRange(PropertyGuids.PhysicalRange);
 
     /// <summary>
     /// Gets the range of values an object can possibly report. For some devices, this is a read-only property.
@@ -87,9 +78,8 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The range.</value>
     public InputRange Range
     {
-        get { return GetRange(PropertyGuids.Range); }
-
-        set { Set(PropertyGuids.Range, value); }
+        get => GetRange(PropertyGuids.Range);
+        set => Set(PropertyGuids.Range, value);
     }
 
     /// <summary>
@@ -98,8 +88,8 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The saturation.</value>
     public int Saturation
     {
-        get { return GetInt(PropertyGuids.Saturation); }
-        set { Set(PropertyGuids.Saturation, value); }
+        get => GetInt(PropertyGuids.Saturation);
+        set => Set(PropertyGuids.Saturation, value);
     }
 
     /// <summary>
@@ -108,9 +98,8 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The size of the buffer.</value>
     public int BufferSize
     {
-        get { return GetInt(PropertyGuids.Buffersize); }
-
-        set { Set(PropertyGuids.Buffersize, value); }
+        get => GetInt(PropertyGuids.BufferSize);
+        set => Set(PropertyGuids.BufferSize, value);
     }
 
     /// <summary>
@@ -119,9 +108,8 @@ public class ObjectProperties : PropertyAccessor
     /// <value><c>true</c> if device objects are self centering; otherwise, <c>false</c>.</value>
     public bool AutoCenter
     {
-        get { return GetInt(PropertyGuids.Autocenter) != 0; }
-
-        set { Set(PropertyGuids.Autocenter, value ? 1 : 0); }
+        get => GetBool(PropertyGuids.AutoCenter);
+        set => Set(PropertyGuids.AutoCenter, value);
     }
 
     /// <summary>
@@ -130,9 +118,8 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The axis mode.</value>
     public DeviceAxisMode AxisMode
     {
-        get { return (DeviceAxisMode)GetInt(PropertyGuids.Axismode); }
-
-        set { Set(PropertyGuids.Axismode, (int)value); }
+        get { return (DeviceAxisMode)GetInt(PropertyGuids.AxisMode); }
+        set { Set(PropertyGuids.AxisMode, (int)value); }
     }
 
     /// <summary>
@@ -141,7 +128,7 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The class GUID.</value>
     public Guid ClassGuid
     {
-        get { return GetGuid(PropertyGuids.Guidandpath); }
+        get => GetGuid(PropertyGuids.GuidAndPath);
     }
 
     /// <summary>
@@ -154,9 +141,8 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The force feedback gain.</value>
     public int ForceFeedbackGain
     {
-        get { return GetInt(PropertyGuids.Ffgain); }
-
-        set { Set(PropertyGuids.Ffgain, value); }
+        get => GetInt(PropertyGuids.FFGain);
+        set => Set(PropertyGuids.FFGain, value);
     }
 
     /// <summary>
@@ -166,8 +152,8 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The name of the instance.</value>
     public string InstanceName
     {
-        get { return GetString(PropertyGuids.Instancename); }
-        set { Set(PropertyGuids.Instancename, value); }
+        get => GetString(PropertyGuids.InstanceName);
+        set => Set(PropertyGuids.InstanceName, value);
     }
 
     /// <summary>
@@ -176,7 +162,7 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The interface path.</value>
     public string InterfacePath
     {
-        get { return GetPath(PropertyGuids.Guidandpath); }
+        get => GetPath(PropertyGuids.GuidAndPath);
     }
 
     /// <summary>
@@ -185,7 +171,7 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The joystick id.</value>
     public int JoystickId
     {
-        get { return GetInt(PropertyGuids.Joystickid); }
+        get => GetInt(PropertyGuids.Joystickid);
     }
 
     /// <summary>
@@ -194,7 +180,7 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The memory load.</value>
     public int MemoryLoad
     {
-        get { return GetInt(PropertyGuids.Ffload); }
+        get => GetInt(PropertyGuids.FFLoad);
     }
 
     /// <summary>
@@ -203,7 +189,7 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The  human-readable display name of the port to which this device is connected.</value>
     public string PortDisplayName
     {
-        get { return GetPath(PropertyGuids.Getportdisplayname); }
+        get => GetPath(PropertyGuids.GetPortDisplayName);
     }
 
     /// <summary>
@@ -212,7 +198,7 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The product id.</value>
     public int ProductId
     {
-        get { return (GetInt(PropertyGuids.Vidpid) >> 16) & 0xFFFF; }
+        get => (GetInt(PropertyGuids.VidPid) >> 16) & 0xFFFF;
     }
 
     /// <summary>
@@ -224,8 +210,8 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The name of the product.</value>
     public string ProductName
     {
-        get { return GetString(PropertyGuids.Productname); }
-        set { Set(PropertyGuids.Productname, value); }
+        get => GetString(PropertyGuids.ProductName);
+        set => Set(PropertyGuids.ProductName, value);
     }
 
     /// <summary>
@@ -234,16 +220,16 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The name of the type.</value>
     public string TypeName
     {
-        get { return GetPath(PropertyGuids.Typename); }
+        get => GetPath(PropertyGuids.TypeName);
     }
 
     /// <summary>
-    /// Gets the user name for a user currently assigned to a device. User names are set by calling <see cref="Device.SetActionMap"/>. If no user name is set, the method throws an exception.
+    /// Gets the user name for a user currently assigned to a device. User names are set by calling <see cref="IDirectInputDevice8.SetActionMap"/>. If no user name is set, the method throws an exception.
     /// </summary>
     /// <value>The name of the user.</value>
     public string UserName
     {
-        get { return GetPath(PropertyGuids.Username); }
+        get => GetPath(PropertyGuids.UserName);
     }
 
     /// <summary>
@@ -252,7 +238,7 @@ public class ObjectProperties : PropertyAccessor
     /// <value>The product id.</value>
     public int VendorId
     {
-        get { return GetInt(PropertyGuids.Vidpid) & 0xFFFF; }
+        get => GetInt(PropertyGuids.VidPid) & 0xFFFF;
     }
 }
 

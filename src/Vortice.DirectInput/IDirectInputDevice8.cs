@@ -27,23 +27,20 @@ using SharpGen.Runtime;
 
 namespace Vortice.DirectInput;
 
-public partial class IDirectInputDevice8
+public unsafe partial class IDirectInputDevice8
 {
     private DataFormat? _dataFormat;
     private readonly Dictionary<string, ObjectDataFormat> _mapNameToObjectFormat = new Dictionary<string, ObjectDataFormat>();
-    private ObjectProperties _properties;
+    private ObjectProperties? _properties;
 
     public Capabilities Capabilities
     {
         get
         {
-            unsafe
-            {
-                Capabilities capabilities = default;
-                capabilities.Size = sizeof(Capabilities);
-                GetCapabilities(&capabilities).CheckError();
-                return capabilities;
-            };
+            Capabilities capabilities = default;
+            capabilities.Size = sizeof(Capabilities);
+            GetCapabilities(&capabilities).CheckError();
+            return capabilities;
         }
     }
 
@@ -51,15 +48,12 @@ public partial class IDirectInputDevice8
     {
         get
         {
-            unsafe
-            {
-                DeviceInstance.__Native deviceInfoNative = DeviceInstance.__NewNative();
-                GetDeviceInfo(&deviceInfoNative).CheckError();
+            DeviceInstance.__Native deviceInfoNative = DeviceInstance.__NewNative();
+            GetDeviceInfo(&deviceInfoNative).CheckError();
 
-                var deviceInfo = new DeviceInstance();
-                deviceInfo.__MarshalFrom(ref deviceInfoNative);
-                return deviceInfo;
-            };
+            var deviceInfo = new DeviceInstance();
+            deviceInfo.__MarshalFrom(ref deviceInfoNative);
+            return deviceInfo;
         }
     }
 
@@ -67,9 +61,8 @@ public partial class IDirectInputDevice8
     {
         get
         {
-            if (_properties == null)
-                _properties = new ObjectProperties(this, 0, PropertyHowType.Device);
-            return _properties;
+            _properties ??= new ObjectProperties(this, 0, PropertyHowType.Device);
+            return _properties!;
         }
     }
 
@@ -81,7 +74,7 @@ public partial class IDirectInputDevice8
     {
         get
         {
-            var enumCreatedEffectsCallback = new EnumCreatedEffectsCallback();
+            EnumCreatedEffectsCallback enumCreatedEffectsCallback = new();
             EnumCreatedEffectObjects(enumCreatedEffectsCallback.NativePointer, IntPtr.Zero, 0);
             return enumCreatedEffectsCallback.Effects;
         }
@@ -113,15 +106,12 @@ public partial class IDirectInputDevice8
         where TRaw : unmanaged
         where TUpdate : unmanaged, IStateUpdate
     {
-        unsafe
-        {
-            int size = sizeof(TRaw);
-            byte* pTemp = stackalloc byte[size * 2];
-            TRaw temp = default;
-            GetDeviceState(size, (IntPtr)pTemp);
-            MemoryHelpers.Read((IntPtr)pTemp, ref temp);
-            data.MarshalFrom(ref temp);
-        }
+        int size = sizeof(TRaw);
+        byte* pTemp = stackalloc byte[size * 2];
+        TRaw temp = default;
+        GetDeviceState(size, (IntPtr)pTemp);
+        MemoryHelpers.Read((IntPtr)pTemp, ref temp);
+        data.MarshalFrom(ref temp);
     }
 
     /// <summary>
@@ -131,34 +121,31 @@ public partial class IDirectInputDevice8
     public TUpdate[] GetBufferedData<TUpdate>() where TUpdate : unmanaged, IStateUpdate
     {
         TUpdate[] updates = Array.Empty<TUpdate>();
-        unsafe
+        int sizeOfObjectData = Unsafe.SizeOf<ObjectData>();
+        int size = -1;
+        // 1 for peek
+        GetDeviceData(sizeOfObjectData, IntPtr.Zero, ref size, 1);
+
+        if (size == 0)
+            return updates;
+
+        var pData = stackalloc ObjectData[size];
+        GetDeviceData(sizeOfObjectData, (IntPtr)pData, ref size, 0);
+
+        if (size == 0)
+            return updates;
+
+        updates = new TUpdate[size];
+        for (int i = 0; i < size; i++)
         {
-            var sizeOfObjectData = Unsafe.SizeOf<ObjectData>();
-            int size = -1;
-            // 1 for peek
-            GetDeviceData(sizeOfObjectData, IntPtr.Zero, ref size, 1);
-
-            if (size == 0)
-                return updates;
-
-            var pData = stackalloc ObjectData[size];
-            GetDeviceData(sizeOfObjectData, (IntPtr)pData, ref size, 0);
-
-            if (size == 0)
-                return updates;
-
-            updates = new TUpdate[size];
-            for (int i = 0; i < size; i++)
+            var update = new TUpdate
             {
-                var update = new TUpdate
-                {
-                    RawOffset = pData[i].Offset,
-                    Value = pData[i].Data,
-                    Timestamp = pData[i].TimeStamp,
-                    Sequence = pData[i].Sequence
-                };
-                updates[i] = update;
-            }
+                RawOffset = pData[i].Offset,
+                Value = pData[i].Data,
+                Timestamp = pData[i].TimeStamp,
+                Sequence = pData[i].Sequence
+            };
+            updates[i] = update;
         }
 
         return updates;
@@ -181,19 +168,18 @@ public partial class IDirectInputDevice8
 
     private ObjectDataFormat GetFromName(string name)
     {
-        ObjectDataFormat objectFormat;
-        if (!_mapNameToObjectFormat.TryGetValue(name, out objectFormat))
+        if (!_mapNameToObjectFormat.TryGetValue(name, out ObjectDataFormat? objectFormat))
         {
             throw new ArgumentException(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Invalid name [{0}]. Must be in [{1}]", name, string.Join(";", _mapNameToObjectFormat.Keys)));
         }
 
-        return objectFormat;
+        return objectFormat!;
     }
 
 
     public KeyboardState GetCurrentKeyboardState()
     {
-        var value = new KeyboardState();
+        KeyboardState value = new();
         GetCurrentKeyboardState(ref value);
         return value;
     }
@@ -204,7 +190,7 @@ public partial class IDirectInputDevice8
 
     public MouseState GetCurrentMouseState()
     {
-        var value = new MouseState();
+        MouseState value = new();
         GetCurrentMouseState(ref value);
         return value;
     }
@@ -234,9 +220,9 @@ public partial class IDirectInputDevice8
     /// <remarks>
     /// Because each driver implements different escapes, it is the application's responsibility to ensure that it is sending the escape to the correct driver by comparing the value of the guidFFDriver member of the <see cref="DeviceInstance"/> structure against the value the application is expecting.
     /// </remarks>
-    public unsafe int Escape(int command, byte[] inData, byte[] outData)
+    public int Escape(int command, byte[] inData, byte[] outData)
     {
-        var effectEscape = new EffectEscape();
+        EffectEscape effectEscape = new();
         fixed (void* pInData = &inData[0])
         fixed (void* pOutData = &outData[0])
         {
@@ -262,12 +248,9 @@ public partial class IDirectInputDevice8
 
         if (imageHeader.BufferUsed > 0)
         {
-            unsafe
-            {
-                imageHeader.BufferSize = imageHeader.BufferUsed;
-                var pImages = stackalloc DeviceImage.__Native[imageHeader.BufferSize / sizeof(DeviceImage.__Native)];
-                imageHeader.ImageInfoArrayPointer = (IntPtr)pImages;
-            }
+            imageHeader.BufferSize = imageHeader.BufferUsed;
+            DeviceImage.__Native* pImages = stackalloc DeviceImage.__Native[imageHeader.BufferSize / sizeof(DeviceImage.__Native)];
+            imageHeader.ImageInfoArrayPointer = (IntPtr)pImages;
             GetImageInfo(imageHeader);
         }
         return imageHeader;
@@ -347,7 +330,6 @@ public partial class IDirectInputDevice8
         return new ObjectProperties(this, (int)objectId, PropertyHowType.Byid);
     }
 
-#if TODO
     /// <summary>
     /// Gets the properties about a device object, such as a button or axis.
     /// </summary>
@@ -357,7 +339,6 @@ public partial class IDirectInputDevice8
     {
         return new ObjectProperties(this, usageCode, PropertyHowType.Byusage);
     }
-#endif
 
     /// <summary>
     /// Retrieves a collection of objects on the device.
