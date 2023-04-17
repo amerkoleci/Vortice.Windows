@@ -16,7 +16,7 @@
 #include <d3d12.h>
 #include <dstorageerr.h>
 
-#define DSTORAGE_SDK_VERSION 100
+#define DSTORAGE_SDK_VERSION 101
 
 interface ID3D12Resource;
 interface ID3D12Fence;
