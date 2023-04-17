@@ -8,16 +8,13 @@
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/WinUI</include-dir>
 
   <include file="microsoft.ui.xaml.window.h" namespace="Vortice.WinUI" attach="true" />
-  <include file="microsoft.ui.xaml.hosting.desktopwindowxamlsource.h" namespace="Vortice.WinUI" attach="true" />
   <include file="microsoft.ui.xaml.media.dxinterop.h" namespace="Vortice.WinUI" attach="true" />
+  <!--<include file="Microsoft.UI.Input.InputCursor.Interop.h" namespace="Vortice.WinUI.Input" attach="true" />-->
 
   <extension>
 
     <create class="WinUI" visibility="public static" />
   </extension>
-
-  <bindings>
-  </bindings>
 
   <naming>
     <short name="(R(\d).*)$">$1</short>
@@ -44,8 +41,6 @@
 
   <mapping>
     <map param="IWindowNative::get_WindowHandle::hWnd" attribute="out" return="true" />
-    <map param="IDesktopWindowXamlSourceNative::get_WindowHandle::hWnd" attribute="out" />
-    <map param="IDesktopWindowXamlSourceNative::PreTranslateMessage::result" attribute="out" />
 
     <map param="IXamlRootNative::get_HostWindow::hWnd" attribute="out" />
   </mapping>

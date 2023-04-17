@@ -99,13 +99,11 @@ extern "C"{
 /* interface __MIDL_itf_microsoft2Eui2Examl2Ehosting2Ereferencetracker_0000_0000 */
 /* [local] */ 
 
-#pragma external_header(push)
 #pragma warning(push)
 #pragma warning(disable:4668) 
 #pragma warning(disable:4001) 
 #pragma once
 #pragma warning(pop)
-#pragma external_header(pop)
 #if (NTDDI_VERSION >= NTDDI_WIN8)
 
 

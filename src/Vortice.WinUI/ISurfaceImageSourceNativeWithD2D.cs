@@ -1,7 +1,7 @@
 ﻿// Copyright © Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
+using System.Drawing;
 
 namespace Vortice.WinUI;
 
@@ -31,9 +31,10 @@ public unsafe class ISurfaceImageSourceNativeWithD2D : ComObject
         return result;
     }
 
-    public Result BeginDraw<T>(RawRect updateRect, out T? updateObject, out Int2 offset) where T : ComObject
+    public Result BeginDraw<T>(in Rectangle updateRect, out T? updateObject, out Point offset) where T : ComObject
     {
-        Result result = BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out offset);
+        RawRect updateRectRaw = updateRect;
+        Result result = BeginDraw(updateRectRaw, typeof(T).GUID, out IntPtr updateObjectPtr, out offset);
         if (result.Failure)
         {
             updateObject = default;
@@ -44,40 +45,40 @@ public unsafe class ISurfaceImageSourceNativeWithD2D : ComObject
         return result;
     }
 
-    public T BeginDraw<T>(RawRect updateRect, out Int2 offset) where T : ComObject
+    public T BeginDraw<T>(in Rectangle updateRect, out Point offset) where T : ComObject
     {
-        BeginDraw(updateRect, typeof(T).GUID, out IntPtr updateObjectPtr, out offset).CheckError();
+        RawRect updateRectRaw = updateRect;
+        BeginDraw(updateRectRaw, typeof(T).GUID, out IntPtr updateObjectPtr, out offset).CheckError();
         return MarshallingHelpers.FromPointer<T>(updateObjectPtr)!;
     }
 
-    internal unsafe Result BeginDraw(RawRect updateRect, Guid iid, out IntPtr updateObject, out Int2 offset)
+    internal Result BeginDraw(RawRect updateRect, Guid iid, out IntPtr updateObject, out Point offset)
     {
         offset = default;
-        Result result;
+
         fixed (void* offset_ = &offset)
         fixed (void* updateObject_ = &updateObject)
         {
-            result = ((delegate* unmanaged[Stdcall]<IntPtr, void*, void*, void*, void*, int>)this[4])(NativePointer, &updateRect, &iid, updateObject_, offset_);
+            Result result = ((delegate* unmanaged<IntPtr, void*, void*, void*, void*, int>)this[4])(NativePointer, &updateRect, &iid, updateObject_, offset_);
+            return result;
         }
+    }
 
+    public Result EndDraw()
+    {
+        Result result = ((delegate* unmanaged<IntPtr, int>)this[5])(NativePointer);
         return result;
     }
 
-    public unsafe Result EndDraw()
+    public Result SuspendDraw()
     {
-        Result result = ((delegate* unmanaged[Stdcall]<IntPtr, int>)this[5])(NativePointer);
+        Result result = ((delegate* unmanaged<IntPtr, int>)this[6])(NativePointer);
         return result;
     }
 
-    public unsafe Result SuspendDraw()
+    public Result ResumeDraw()
     {
-        Result result = ((delegate* unmanaged[Stdcall]<System.IntPtr, int>)this[6])(NativePointer);
-        return result;
-    }
-
-    public unsafe Result ResumeDraw()
-    {
-        Result result = ((delegate* unmanaged[Stdcall]<IntPtr, int>)this[7])(NativePointer);
+        Result result = ((delegate* unmanaged<IntPtr, int>)this[7])(NativePointer);
         return result;
     }
 }

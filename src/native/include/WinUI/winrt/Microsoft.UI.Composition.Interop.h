@@ -94,15 +94,6 @@ private:
         ) PURE;
 };
 
-
-#undef INTERFACE
-#define INTERFACE ISwapChainInterop
-DECLARE_INTERFACE_IID_(ISwapChainInterop, ::IUnknown, "D9F603D7-58F3-4D02-97CE-92A062AD487F")
-{
-    IFACEMETHOD(SetSwapChain)(
-        _In_ ::IUnknown * swapChain) PURE;
-};
-
 #pragma region Desktop Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
 

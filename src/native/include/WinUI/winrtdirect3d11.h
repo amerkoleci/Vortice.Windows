@@ -60,20 +60,20 @@
 
 // /ns_prefix optional state
 #if defined(MIDL_NS_PREFIX)
-#if defined(__cplusplus)
+#if defined(__cplusplus) && !defined(CINTERFACE)
 #define ABI_PARAMETER(x) ABI::x
 #define ABI_NAMESPACE_BEGIN namespace ABI {
 #define ABI_NAMESPACE_END }
-#else // !defined(__cplusplus)
+#else // !defined(__cplusplus) || defined(CINTERFACE)
 #define C_ABI_PARAMETER(x) ABI_CONCAT(__x_ABI_C, x)
 #endif // !defined(__cplusplus)
 #define C_IID(x) ABI_CONCAT(IID___x_ABI_C, x)
 #else
-#if defined(__cplusplus)
+#if defined(__cplusplus) && !defined(CINTERFACE)
 #define ABI_PARAMETER(x) x
 #define ABI_NAMESPACE_BEGIN 
 #define ABI_NAMESPACE_END 
-#else // !defined(__cplusplus)
+#else // !defined(__cplusplus) || defined(CINTERFACE)
 #define C_ABI_PARAMETER(x) ABI_CONCAT(__x_, x)
 #endif // !defined(__cplusplus)
 #define C_IID(x) ABI_CONCAT(IID___x_, x)
@@ -87,7 +87,7 @@
 //  API Contract Inclusion Definitions
 #if !defined(SPECIFIC_API_CONTRACT_DEFINITIONS)
 #if !defined(WINDOWS_APPLICATIONMODEL_CALLS_CALLSPHONECONTRACT_VERSION)
-#define WINDOWS_APPLICATIONMODEL_CALLS_CALLSPHONECONTRACT_VERSION 0x60000
+#define WINDOWS_APPLICATIONMODEL_CALLS_CALLSPHONECONTRACT_VERSION 0x70000
 #endif // defined(WINDOWS_APPLICATIONMODEL_CALLS_CALLSPHONECONTRACT_VERSION)
 
 #if !defined(WINDOWS_FOUNDATION_FOUNDATIONCONTRACT_VERSION)
@@ -332,7 +332,7 @@ namespace Windows {
                     
                 };
 
-                MIDL_CONST_ID IID & IID_IDirect3DDevice=_uuidof(IDirect3DDevice);
+                MIDL_CONST_ID IID & IID_IDirect3DDevice=__uuidof(IDirect3DDevice);
                 
             } /* Direct3D11 */
         } /* DirectX */
@@ -377,7 +377,7 @@ namespace Windows {
                     
                 };
 
-                MIDL_CONST_ID IID & IID_IDirect3DSurface=_uuidof(IDirect3DSurface);
+                MIDL_CONST_ID IID & IID_IDirect3DSurface=__uuidof(IDirect3DSurface);
                 
             } /* Direct3D11 */
         } /* DirectX */

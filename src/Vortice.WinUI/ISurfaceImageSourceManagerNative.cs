@@ -15,7 +15,7 @@ public partial class ISurfaceImageSourceManagerNative : ComObject
     public unsafe Result FlushAllSurfacesWithDevice(IUnknown device)
     {
         IntPtr device_ = MarshallingHelpers.ToCallbackPtr<IUnknown>(device);
-        Result result = ((delegate* unmanaged[Stdcall]<IntPtr, void*, int>)this[3])(NativePointer, (void*)device_);
+        Result result = ((delegate* unmanaged<IntPtr, void*, int>)this[3])(NativePointer, (void*)device_);
         GC.KeepAlive(device);
         return result;
     }

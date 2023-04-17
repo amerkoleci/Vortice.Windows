@@ -12,13 +12,8 @@
 
 #pragma once
 
-#ifndef DWRITE_NO_WINDOWS_H
-
 #include <specstrings.h>
 #include <unknwn.h>
-
-#endif // DWRITE_NO_WINDOWS_H
-
 #include <dcommon.h>
 
 #ifndef DWRITE_DECLARE_INTERFACE

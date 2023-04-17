@@ -3,6 +3,7 @@
 
 using Vortice.Mathematics;
 using Vortice.DXGI;
+using System.Drawing;
 
 #if WINDOWS
 using WinRT;
@@ -48,15 +49,16 @@ public unsafe class ISurfaceImageSourceNative : ComObject
         return result;
     }
 
-    public Result BeginDraw(in RawRect updateRect, out IDXGISurface? surface, out Int2 offset)
+    public Result BeginDraw(in Rectangle updateRect, out IDXGISurface? surface, out Point offset)
     {
+        RawRect updateRectRaw = updateRect;
         IntPtr surfacePtr = IntPtr.Zero;
         offset = default;
 
         Result result;
-        fixed (Int2* offsetPtr = &offset)
+        fixed (Point* offsetPtr = &offset)
         {
-            result = ((delegate* unmanaged[Stdcall]<IntPtr, RawRect, void*, Int2*, int>)this[4])(NativePointer, updateRect, &surfacePtr, offsetPtr);
+            result = ((delegate* unmanaged<IntPtr, RawRect, void*, Point*, int>)this[4])(NativePointer, updateRectRaw, &surfacePtr, offsetPtr);
         }
 
         surface = surfacePtr != IntPtr.Zero ? new IDXGISurface(surfacePtr) : null;
@@ -65,7 +67,7 @@ public unsafe class ISurfaceImageSourceNative : ComObject
 
     public Result EndDraw()
     {
-        Result result = ((delegate* unmanaged[Stdcall]<IntPtr, int>)this[5])(NativePointer);
+        Result result = ((delegate* unmanaged<IntPtr, int>)this[5])(NativePointer);
         return result;
     }
 }

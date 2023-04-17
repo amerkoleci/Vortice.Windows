@@ -39,11 +39,11 @@
 
 /* Forward Declarations */ 
 
-#ifndef __IDesktopWindowXamlSourceNative_FWD_DEFINED__
-#define __IDesktopWindowXamlSourceNative_FWD_DEFINED__
-typedef interface IDesktopWindowXamlSourceNative IDesktopWindowXamlSourceNative;
+#ifndef __IDesktopWindowXamlSourceNative_Deprecated_FWD_DEFINED__
+#define __IDesktopWindowXamlSourceNative_Deprecated_FWD_DEFINED__
+typedef interface IDesktopWindowXamlSourceNative_Deprecated IDesktopWindowXamlSourceNative_Deprecated;
 
-#endif 	/* __IDesktopWindowXamlSourceNative_FWD_DEFINED__ */
+#endif 	/* __IDesktopWindowXamlSourceNative_Deprecated_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -54,19 +54,19 @@ extern "C"{
 #endif 
 
 
-#ifndef __IDesktopWindowXamlSourceNative_INTERFACE_DEFINED__
-#define __IDesktopWindowXamlSourceNative_INTERFACE_DEFINED__
+#ifndef __IDesktopWindowXamlSourceNative_Deprecated_INTERFACE_DEFINED__
+#define __IDesktopWindowXamlSourceNative_Deprecated_INTERFACE_DEFINED__
 
-/* interface IDesktopWindowXamlSourceNative */
+/* interface IDesktopWindowXamlSourceNative_Deprecated */
 /* [unique][local][uuid][object] */ 
 
 
-EXTERN_C const IID IID_IDesktopWindowXamlSourceNative;
+EXTERN_C const IID IID_IDesktopWindowXamlSourceNative_Deprecated;
 
 #if defined(__cplusplus) && !defined(CINTERFACE)
     
     MIDL_INTERFACE("0aea2f26-facf-4588-8cf4-34555124db32")
-    IDesktopWindowXamlSourceNative : public IUnknown
+    IDesktopWindowXamlSourceNative_Deprecated : public IUnknown
     {
     public:
         virtual HRESULT STDMETHODCALLTYPE AttachToWindow( 
@@ -86,43 +86,43 @@ EXTERN_C const IID IID_IDesktopWindowXamlSourceNative;
     
 #else 	/* C style interface */
 
-    typedef struct IDesktopWindowXamlSourceNativeVtbl
+    typedef struct IDesktopWindowXamlSourceNative_DeprecatedVtbl
     {
         BEGIN_INTERFACE
         
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
-            IDesktopWindowXamlSourceNative * This,
+            IDesktopWindowXamlSourceNative_Deprecated * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
-            IDesktopWindowXamlSourceNative * This);
+            IDesktopWindowXamlSourceNative_Deprecated * This);
         
         ULONG ( STDMETHODCALLTYPE *Release )( 
-            IDesktopWindowXamlSourceNative * This);
+            IDesktopWindowXamlSourceNative_Deprecated * This);
         
         HRESULT ( STDMETHODCALLTYPE *AttachToWindow )( 
-            IDesktopWindowXamlSourceNative * This,
+            IDesktopWindowXamlSourceNative_Deprecated * This,
             /* [annotation][in] */ 
             _In_  HWND parentWnd);
         
         /* [propget] */ HRESULT ( STDMETHODCALLTYPE *get_WindowHandle )( 
-            IDesktopWindowXamlSourceNative * This,
+            IDesktopWindowXamlSourceNative_Deprecated * This,
             /* [retval][out] */ HWND *hWnd);
         
         HRESULT ( STDMETHODCALLTYPE *PreTranslateMessage )( 
-            IDesktopWindowXamlSourceNative * This,
+            IDesktopWindowXamlSourceNative_Deprecated * This,
             /* [annotation][in] */ 
             _In_  const MSG *message,
             /* [retval][out] */ BOOL *result);
         
         END_INTERFACE
-    } IDesktopWindowXamlSourceNativeVtbl;
+    } IDesktopWindowXamlSourceNative_DeprecatedVtbl;
 
-    interface IDesktopWindowXamlSourceNative
+    interface IDesktopWindowXamlSourceNative_Deprecated
     {
-        CONST_VTBL struct IDesktopWindowXamlSourceNativeVtbl *lpVtbl;
+        CONST_VTBL struct IDesktopWindowXamlSourceNative_DeprecatedVtbl *lpVtbl;
     };
 
     
@@ -130,23 +130,23 @@ EXTERN_C const IID IID_IDesktopWindowXamlSourceNative;
 #ifdef COBJMACROS
 
 
-#define IDesktopWindowXamlSourceNative_QueryInterface(This,riid,ppvObject)	\
+#define IDesktopWindowXamlSourceNative_Deprecated_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define IDesktopWindowXamlSourceNative_AddRef(This)	\
+#define IDesktopWindowXamlSourceNative_Deprecated_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define IDesktopWindowXamlSourceNative_Release(This)	\
+#define IDesktopWindowXamlSourceNative_Deprecated_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define IDesktopWindowXamlSourceNative_AttachToWindow(This,parentWnd)	\
+#define IDesktopWindowXamlSourceNative_Deprecated_AttachToWindow(This,parentWnd)	\
     ( (This)->lpVtbl -> AttachToWindow(This,parentWnd) ) 
 
-#define IDesktopWindowXamlSourceNative_get_WindowHandle(This,hWnd)	\
+#define IDesktopWindowXamlSourceNative_Deprecated_get_WindowHandle(This,hWnd)	\
     ( (This)->lpVtbl -> get_WindowHandle(This,hWnd) ) 
 
-#define IDesktopWindowXamlSourceNative_PreTranslateMessage(This,message,result)	\
+#define IDesktopWindowXamlSourceNative_Deprecated_PreTranslateMessage(This,message,result)	\
     ( (This)->lpVtbl -> PreTranslateMessage(This,message,result) ) 
 
 #endif /* COBJMACROS */
@@ -157,7 +157,7 @@ EXTERN_C const IID IID_IDesktopWindowXamlSourceNative;
 
 
 
-#endif 	/* __IDesktopWindowXamlSourceNative_INTERFACE_DEFINED__ */
+#endif 	/* __IDesktopWindowXamlSourceNative_Deprecated_INTERFACE_DEFINED__ */
 
 
 /* Additional Prototypes for ALL interfaces */

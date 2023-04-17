@@ -66,13 +66,11 @@ extern "C"{
 
 #pragma region Application Family
 #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
-#pragma external_header(push)
 #pragma warning(push)
 #pragma warning(disable:4668) 
 #pragma warning(disable:4001) 
 #pragma once
 #pragma warning(pop)
-#pragma external_header(pop)
 // Win32 API definitions
 #define E_NOTFOUND HRESULT_FROM_WIN32(ERROR_NOT_FOUND)
 #define E_UNKNOWNTYPE MAKE_HRESULT(SEVERITY_ERROR, FACILITY_XAML, 40L)

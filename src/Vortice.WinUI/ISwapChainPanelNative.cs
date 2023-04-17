@@ -36,7 +36,7 @@ public unsafe partial class ISwapChainPanelNative : ComObject
     public Result SetSwapChain(IDXGISwapChain swapChain)
     {
         IntPtr swapChain_ = MarshallingHelpers.ToCallbackPtr<IDXGISwapChain>(swapChain);
-        Result result = ((delegate* unmanaged[Stdcall]<IntPtr, void*, int>)this[3])(NativePointer, (void*)swapChain_);
+        Result result = ((delegate* unmanaged<IntPtr, void*, int>)this[3])(NativePointer, (void*)swapChain_);
         GC.KeepAlive(swapChain);
         return result;
     }
