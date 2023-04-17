@@ -11,27 +11,27 @@ public partial struct DepthStencilDescription
     /// <summary>
     /// A built-in description with settings for not using a depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription None = new(false, DepthWriteMask.Zero, ComparisonFunction.LessEqual);
+    public static DepthStencilDescription None => new(false, DepthWriteMask.Zero, ComparisonFunction.LessEqual);
 
     /// <summary>
     /// A built-in description with default settings for using a depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription Default = new(true, DepthWriteMask.All, ComparisonFunction.LessEqual);
+    public static DepthStencilDescription Default => new(true, DepthWriteMask.All, ComparisonFunction.LessEqual);
 
     /// <summary>
     /// A built-in description with settings for enabling a read-only depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription Read = new(true, DepthWriteMask.Zero, ComparisonFunction.LessEqual);
+    public static DepthStencilDescription Read => new(true, DepthWriteMask.Zero, ComparisonFunction.LessEqual);
 
     /// <summary>
     /// A built-in description with default settings for using a reverse depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription ReverseZ = new(true, DepthWriteMask.All, ComparisonFunction.GreaterEqual);
+    public static DepthStencilDescription ReverseZ => new(true, DepthWriteMask.All, ComparisonFunction.GreaterEqual);
 
     /// <summary>
     /// A built-in description with default settings for using a reverse read-only depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription ReadReverseZ = new(true, DepthWriteMask.Zero, ComparisonFunction.GreaterEqual);
+    public static DepthStencilDescription ReadReverseZ => new(true, DepthWriteMask.Zero, ComparisonFunction.GreaterEqual);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DepthStencilDescription"/> struct.

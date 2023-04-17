@@ -557,6 +557,30 @@ public readonly struct PipelineStateSubObjectTypeRasterizer1 : IPipelineStateStr
 }
 
 [StructLayout(LayoutKind.Explicit)]
+public readonly struct PipelineStateSubObjectTypeRasterizer2 : IPipelineStateStreamSubObject
+{
+    [FieldOffset(0)]
+    internal readonly AlignedSubObjectType<RasterizerDescription2> _type;
+
+    [FieldOffset(0)]
+    internal readonly PointerSize _pad;
+
+    public PipelineStateSubObjectTypeRasterizer2(in RasterizerDescription2 description)
+    {
+        _pad = default;
+        _type._type = PipelineStateSubObjectType.Rasterizer2;
+        _type._inner = description;
+    }
+
+    public static implicit operator PipelineStateSubObjectTypeRasterizer2(in RasterizerDescription2 description)
+    {
+        return new(description);
+    }
+
+    PipelineStateSubObjectType IPipelineStateStreamSubObject.Type => PipelineStateSubObjectType.Rasterizer2;
+}
+
+[StructLayout(LayoutKind.Explicit)]
 public readonly struct PipelineStateSubObjectTypeRenderTargetFormats : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]

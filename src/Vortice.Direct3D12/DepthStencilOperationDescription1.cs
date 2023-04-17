@@ -8,7 +8,7 @@ public partial struct DepthStencilOperationDescription1
     /// <summary>
     /// A built-in description with default values.
     /// </summary>
-    public static readonly DepthStencilOperationDescription1 Default = new(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Keep, ComparisonFunction.Always);
+    public static DepthStencilOperationDescription1 Default => new(StencilOperation.Keep, StencilOperation.Keep, StencilOperation.Keep, ComparisonFunction.Always);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DepthStencilOperationDescription"/> struct.

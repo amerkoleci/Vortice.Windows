@@ -124,6 +124,7 @@ public static class FormatHelper
             case Format.B5G5R5A1_UNorm:
             case Format.A8P8:
             case Format.B4G4R4A4_UNorm:
+            case Format.A4B4G4R4_UNorm:
             case Format.P208:
             case Format.V208:
                 return 16;

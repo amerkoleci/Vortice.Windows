@@ -87,6 +87,9 @@ public unsafe partial class ID3D12Device
             FeatureDataD3D12Options14 => Feature.Options14,
             FeatureDataD3D12Options15 => Feature.Options15,
             FeatureDataD3D12Options16 => Feature.Options16,
+            FeatureDataD3D12Options17 => Feature.Options17,
+            FeatureDataD3D12Options18 => Feature.Options18,
+            FeatureDataD3D12Options19 => Feature.Options18,
             _ => throw new ArgumentException(nameof(T)),
         };
 
@@ -198,6 +201,18 @@ public unsafe partial class ID3D12Device
     public FeatureDataD3D12Options16 Options16
     {
         get => CheckFeatureSupport<FeatureDataD3D12Options16>(Feature.Options16);
+    }
+    public FeatureDataD3D12Options17 Options17
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options17>(Feature.Options17);
+    }
+    public FeatureDataD3D12Options18 Options18
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options18>(Feature.Options18);
+    }
+    public FeatureDataD3D12Options19 Options19
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options19>(Feature.Options19);
     }
     public FeatureDataArchitecture Architecture
     {
@@ -754,7 +769,7 @@ public unsafe partial class ID3D12Device
         return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, out rootSignature);
     }
 
-    public unsafe Result CreateRootSignature<T>(int nodeMask, byte[] blobWithRootSignature, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature<T>(int nodeMask, byte[] blobWithRootSignature, out T? rootSignature) where T : ID3D12RootSignature
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {

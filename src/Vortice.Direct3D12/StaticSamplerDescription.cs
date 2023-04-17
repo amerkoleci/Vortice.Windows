@@ -37,6 +37,38 @@ public partial struct StaticSamplerDescription
     /// <summary>
     /// Initializes a new instance of the <see cref="StaticSamplerDescription"/> struct.
     /// </summary>
+    public StaticSamplerDescription(Filter filter,
+        TextureAddressMode addressU,
+        TextureAddressMode addressV,
+        TextureAddressMode addressW,
+        float mipLODBias,
+        int maxAnisotropy,
+        ComparisonFunction comparisonFunction,
+        StaticBorderColor borderColor,
+        float minLOD,
+        float maxLOD,
+        int shaderRegister,
+        int registerSpace,
+        ShaderVisibility shaderVisibility = ShaderVisibility.All)
+    {
+        Filter = filter;
+        AddressU = addressU;
+        AddressV = addressV;
+        AddressW = addressW;
+        MipLODBias = mipLODBias;
+        MaxAnisotropy = maxAnisotropy;
+        ComparisonFunction = comparisonFunction;
+        BorderColor = borderColor;
+        MinLOD = minLOD;
+        MaxLOD = maxLOD;
+        ShaderRegister = shaderRegister;
+        RegisterSpace = registerSpace;
+        ShaderVisibility = shaderVisibility;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StaticSamplerDescription"/> struct.
+    /// </summary>
     /// <param name="samplerDescription">Sampler description</param>
     /// <param name="shaderVisibility">The shader visibility.</param>
     /// <param name="shaderRegister">The shader register.</param>

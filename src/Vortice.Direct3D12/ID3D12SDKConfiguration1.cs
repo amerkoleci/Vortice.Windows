@@ -11,7 +11,7 @@ public partial class ID3D12SDKConfiguration1
         return new(nativePtr);
     }
 
-    public Result CreateDeviceFactory<T>(int sdkVersion, string sdkPath, out ID3D12DeviceFactory? factory)
+    public Result CreateDeviceFactory(int sdkVersion, string sdkPath, out ID3D12DeviceFactory? factory)
     {
         Result result = CreateDeviceFactory(sdkVersion, sdkPath, typeof(ID3D12DeviceFactory).GUID, out IntPtr nativePtr);
 

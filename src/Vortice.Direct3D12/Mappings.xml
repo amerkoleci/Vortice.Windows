@@ -568,6 +568,9 @@
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS14" name="Options14"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS15" name="Options15"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS16" name="Options16"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS17" name="Options17"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS18" name="Options18"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS19" name="Options19"/>
 
     <map enum="D3D12_BLEND_OP" name="BlendOperation" />
     <map enum="D3D12_COMPARISON_FUNC" name="ComparisonFunction" />
@@ -676,6 +679,9 @@
     <map struct="D3D12_ROOT_SIGNATURE_DESC1" struct-to-class="true" marshal="true" />
     <remove field="D3D12_ROOT_SIGNATURE_DESC1::.*"/>
 
+    <map struct="D3D12_ROOT_SIGNATURE_DESC2" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_ROOT_SIGNATURE_DESC2::.*"/>
+
     <map struct="D3D12_VERSIONED_ROOT_SIGNATURE_DESC" struct-to-class="true" marshal="true" />
     <remove field="D3D12_VERSIONED_ROOT_SIGNATURE_DESC::.*"/>
 
@@ -748,6 +754,7 @@
     <map field="D3D12_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
     <map field="D3D12_SAMPLER_DESC::BorderColor" type="VORTICE_COLOR4" override-native-type="true" array="0" />
     <map field="D3D12_STATIC_SAMPLER_DESC::ComparisonFunc" name="ComparisonFunction" />
+    <map field="D3D12_STATIC_SAMPLER_DESC1::ComparisonFunc" name="ComparisonFunction" />
 
     <!-- Inner argument description structs have no name, so we specify it manually -->
     <map struct="D3D12_INDIRECT_ARGUMENT_DESC_INNER_0_INNER_0" name="VertexBufferArgument"/>
@@ -985,6 +992,9 @@
 
     <!-- ID3D12SDKConfiguration1 methods -->
     <map method="ID3D12SDKConfiguration1::CreateDeviceFactory" visibility="private" hresult="true" check="false"/>
+
+    <!-- ID3D12DSRDeviceFactory methods -->
+    <map method="ID3D12DSRDeviceFactory::CreateDSRDevice" visibility="private" hresult="true" check="false"/>
 
     <!-- ID3D12Debug1 -->
     <map method="ID3D12Debug1::SetEnableGPUBasedValidation" property="false" />

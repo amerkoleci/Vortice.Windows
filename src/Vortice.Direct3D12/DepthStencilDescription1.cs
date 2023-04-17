@@ -11,27 +11,27 @@ public partial struct DepthStencilDescription1
     /// <summary>
     /// A built-in description with settings for not using a depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription1 None = new(false, DepthWriteMask.Zero, ComparisonFunction.LessEqual);
+    public static DepthStencilDescription1 None => new(false, DepthWriteMask.Zero, ComparisonFunction.LessEqual);
 
     /// <summary>
     /// A built-in description with default settings for using a depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription1 Default = new(true, DepthWriteMask.All, ComparisonFunction.LessEqual);
+    public static DepthStencilDescription1 Default => new(true, DepthWriteMask.All, ComparisonFunction.LessEqual);
 
     /// <summary>
     /// A built-in description with settings for enabling a read-only depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription1 Read = new(true, DepthWriteMask.Zero, ComparisonFunction.LessEqual);
+    public static DepthStencilDescription1 Read => new(true, DepthWriteMask.Zero, ComparisonFunction.LessEqual);
 
     /// <summary>
     /// A built-in description with default settings for using a reverse depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription1 ReverseZ = new(true, DepthWriteMask.All, ComparisonFunction.GreaterEqual);
+    public static DepthStencilDescription1 ReverseZ => new(true, DepthWriteMask.All, ComparisonFunction.GreaterEqual);
 
     /// <summary>
     /// A built-in description with default settings for using a reverse read-only depth stencil buffer.
     /// </summary>
-    public static readonly DepthStencilDescription1 ReadReverseZ = new(true, DepthWriteMask.Zero, ComparisonFunction.GreaterEqual);
+    public static DepthStencilDescription1 ReadReverseZ => new(true, DepthWriteMask.Zero, ComparisonFunction.GreaterEqual);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DepthStencilDescription1"/> struct.
@@ -102,5 +102,27 @@ public partial struct DepthStencilDescription1
         BackFace.StencilPassOp = backStencilPassOp;
         BackFace.StencilFunc = backStencilFunc;
         DepthBoundsTestEnable = depthBoundsTestEnable;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DepthStencilDescription1"/> struct.
+    /// </summary>
+    public DepthStencilDescription1(in DepthStencilDescription other)
+    {
+        DepthEnable = other.DepthEnable;
+        DepthWriteMask = other.DepthWriteMask;
+        DepthFunc = other.DepthFunc;
+        StencilEnable = other.StencilEnable;
+        StencilReadMask = other.StencilReadMask;
+        StencilWriteMask = other.StencilWriteMask;
+        FrontFace.StencilFailOp = other.FrontFace.StencilFailOp;
+        FrontFace.StencilDepthFailOp = other.FrontFace.StencilDepthFailOp;
+        FrontFace.StencilPassOp = other.FrontFace.StencilPassOp;
+        FrontFace.StencilFunc = other.FrontFace.StencilFunc;
+        BackFace.StencilFailOp = other.BackFace.StencilFailOp;
+        BackFace.StencilDepthFailOp = other.BackFace.StencilDepthFailOp;
+        BackFace.StencilPassOp = other.BackFace.StencilPassOp;
+        BackFace.StencilFunc = other.BackFace.StencilFunc;
+        DepthBoundsTestEnable = false;
     }
 }

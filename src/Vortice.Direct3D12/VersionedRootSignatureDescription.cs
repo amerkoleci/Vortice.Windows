@@ -12,6 +12,7 @@ public partial class VersionedRootSignatureDescription
 
     public RootSignatureDescription? Description_1_0 { get; private set; }
     public RootSignatureDescription1? Description_1_1 { get; private set; }
+    public RootSignatureDescription2? Description_1_2 { get; private set; }
 
     internal VersionedRootSignatureDescription()
     {
@@ -30,6 +31,12 @@ public partial class VersionedRootSignatureDescription
         Description_1_1 = description;
     }
 
+    public VersionedRootSignatureDescription(RootSignatureDescription2 description)
+    {
+        Version = RootSignatureVersion.Version12;
+        Description_1_2 = description;
+    }
+
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal struct __Native
@@ -46,6 +53,9 @@ public partial class VersionedRootSignatureDescription
 
         [FieldOffset(0)]
         public RootSignatureDescription1.__Native Desc_1_1;
+
+        [FieldOffset(0)]
+        public RootSignatureDescription2.__Native Desc_1_2;
     }
 
     internal unsafe void __MarshalFree(ref __Native @ref)
@@ -59,6 +69,12 @@ public partial class VersionedRootSignatureDescription
             Version = RootSignatureVersion.Version11;
             Description_1_1 = new RootSignatureDescription1();
             Description_1_1.__MarshalFrom(ref @ref.Union.Desc_1_1);
+        }
+        else if (@ref.Version == RootSignatureVersion.Version12)
+        {
+            Version = RootSignatureVersion.Version12;
+            Description_1_2 = new RootSignatureDescription2();
+            Description_1_2.__MarshalFrom(ref @ref.Union.Desc_1_2);
         }
         else
         {
@@ -74,6 +90,10 @@ public partial class VersionedRootSignatureDescription
         if (Version == RootSignatureVersion.Version11)
         {
             Description_1_1!.__MarshalTo(ref @ref.Union.Desc_1_1);
+        }
+        else if (Version == RootSignatureVersion.Version12)
+        {
+            Description_1_2!.__MarshalTo(ref @ref.Union.Desc_1_2);
         }
         else
         {
