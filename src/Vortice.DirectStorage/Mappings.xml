@@ -15,6 +15,7 @@
 
     <const from-macro="E_DSTORAGE_(.*)" cpp-type="int" name="$1" class="Vortice.DirectStorage.ResultCode" result="true" />
 
+    <const from-macro="DSTORAGE_SDK_VERSION" class="Vortice.DirectStorage.DirectStorage" type="int" name="SdkVersion" />
     <const from-macro="DSTORAGE_MIN_QUEUE_CAPACITY" class="Vortice.DirectStorage.DirectStorage" type="int" name="MinQueueCapacity" />
     <const from-macro="DSTORAGE_MAX_QUEUE_CAPACITY" class="Vortice.DirectStorage.DirectStorage" type="int" name="MaxQueueCapacity" />
 
@@ -29,11 +30,17 @@
   </bindings>
 
   <naming>
+    <short name="FILEBUFFERING">FileBuffering</short>
+    <short name="BYPASSIO">BypassIO</short>
   </naming>
 
   <mapping>
     <map enum="DSTORAGE(.+)" name-tmp="$1" />
     <map struct="DSTORAGE(.+)" name-tmp="$1" />
+
+    <map enum="DSTORAGE_DEBUG" flags="true" none="false" />
+    <map enum="DSTORAGE_GET_REQUEST_FLAGS" flags="true" none="false" />
+    <map enum="DSTORAGE_COMPRESSION_SUPPORT" flags="true" none="false" />
 
     <!-- DSTORAGE_COMPRESSION_FORMAT -->
     <map enum-item="DSTORAGE_COMPRESSION_FORMAT_NONE" name="None"/>
@@ -53,8 +60,11 @@
     <map param="IDStorageQueue::EnqueueRequest::request" attribute="in value" />
 
     <map function="DStorageSetConfiguration" dll='"dstorage.dll"' group="Vortice.DirectStorage.DirectStorage" hresult="true" check="false"/>
+    <map function="DStorageSetConfiguration1" dll='"dstorage.dll"' group="Vortice.DirectStorage.DirectStorage" hresult="true" check="false"/>
+    
     <map function="DStorageGetFactory" dll='"dstorage.dll"' group="Vortice.DirectStorage.DirectStorage" visibility="private" hresult="true" check="false"/>
     <map function="DStorageCreateCompressionCodec" dll='"dstorage.dll"' group="Vortice.DirectStorage.DirectStorage" visibility="private" hresult="true" check="false"/>
+
     
     <map param="DStorageGetFactory::ppv" attribute="out" return="false" />
     <map param="DStorageCreateCompressionCodec::ppv" attribute="out" return="false" />

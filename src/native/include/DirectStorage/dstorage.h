@@ -1,10 +1,9 @@
-/************************************************************************
-*                                                                       *
-*   dstorage.h -- This module defines the DirectStorage for Windows API *
-*                                                                       *
-*   Copyright (c) Microsoft Corp. All rights reserved.                  *
-*                                                                       *
-************************************************************************/
+/*-------------------------------------------------------------------------------------
+ *
+ * Copyright (c) Microsoft Corporation
+ * Licensed under the MIT license
+ *
+ *-------------------------------------------------------------------------------------*/
 
 #if !defined(__cplusplus)
     #error C++11 required
@@ -16,7 +15,7 @@
 #include <d3d12.h>
 #include <dstorageerr.h>
 
-#define DSTORAGE_SDK_VERSION 101
+#define DSTORAGE_SDK_VERSION 200
 
 interface ID3D12Resource;
 interface ID3D12Fence;
@@ -194,6 +193,11 @@ struct DSTORAGE_REQUEST_OPTIONS {
     DSTORAGE_COMPRESSION_FORMAT CompressionFormat : 8;
 
     /// <summary>
+    /// Reserved fields. Must be 0.
+    /// </summary>
+    UINT8 Reserved1[7];
+
+    /// <summary>
     /// DSTORAGE_REQUEST_SOURCE_TYPE enum value indicating whether the
     /// source of the request is a file or a block of memory.
     /// </summary>
@@ -235,7 +239,7 @@ enum DSTORAGE_DEBUG {
     /// </summary>
     DSTORAGE_DEBUG_RECORD_OBJECT_NAMES  = 0x04
 };
-DEFINE_ENUM_FLAG_OPERATORS(DSTORAGE_DEBUG)
+DEFINE_ENUM_FLAG_OPERATORS(DSTORAGE_DEBUG);
 
 /// <summary>
 /// Represents a file to be accessed by DirectStorage.
@@ -616,7 +620,7 @@ enum DSTORAGE_GET_REQUEST_FLAGS : UINT32
     /// </summary>
     DSTORAGE_GET_REQUEST_FLAG_SELECT_ALL = (DSTORAGE_GET_REQUEST_FLAG_SELECT_CUSTOM | DSTORAGE_GET_REQUEST_FLAG_SELECT_BUILTIN)
 };
-DEFINE_ENUM_FLAG_OPERATORS(DSTORAGE_GET_REQUEST_FLAGS)
+DEFINE_ENUM_FLAG_OPERATORS(DSTORAGE_GET_REQUEST_FLAGS);
 
 /// <summary>
 /// Specifies information about a custom decompression request.
@@ -634,7 +638,7 @@ enum DSTORAGE_CUSTOM_DECOMPRESSION_FLAGS : UINT32
     /// </summary>
     DSTORAGE_CUSTOM_DECOMPRESSION_FLAG_DEST_IN_UPLOAD_HEAP = 0x01,
 };
-DEFINE_ENUM_FLAG_OPERATORS(DSTORAGE_CUSTOM_DECOMPRESSION_FLAGS)
+DEFINE_ENUM_FLAG_OPERATORS(DSTORAGE_CUSTOM_DECOMPRESSION_FLAGS);
 
 /// <summary>
 /// A custom decompression request. Use IDStorageCustomDecompressionQueue to
@@ -971,7 +975,7 @@ DECLARE_INTERFACE_IID_(IDStorageQueue, IUnknown, "cfdbd83f-9e06-4fda-8ea5-690421
     virtual void STDMETHODCALLTYPE Query(_Out_ DSTORAGE_QUEUE_INFO *info) = 0;
 };
 
-// <summary>
+/// <summary>
 /// Represents a DirectStorage queue to perform read operations.
 /// </summary>
 DECLARE_INTERFACE_IID_(IDStorageQueue1, IDStorageQueue, "dd2f482c-5eff-41e8-9c9e-d2374b278128")
@@ -984,6 +988,66 @@ DECLARE_INTERFACE_IID_(IDStorageQueue1, IDStorageQueue, "dd2f482c-5eff-41e8-9c9e
     /// </summary>
     /// <param name="handle">A handle to an event object.</param>
     virtual void STDMETHODCALLTYPE EnqueueSetEvent(HANDLE handle) = 0;
+};
+
+/// <summary>
+/// Flags returned with GetCompressionSupport that describe the features
+/// used by the runtime to decompress content.
+/// </summary>
+enum DSTORAGE_COMPRESSION_SUPPORT : UINT32
+{
+    /// <summary>
+    /// None
+    /// </summary>
+    DSTORAGE_COMPRESSION_SUPPORT_NONE = 0x0,
+
+    /// <summary>
+    /// Optimized driver support for GPU decompression will be used.
+    /// </summary>
+    DSTORAGE_COMPRESSION_SUPPORT_GPU_OPTIMIZED = 0x01,
+
+    /// <summary>
+    /// Built-in GPU decompression fallback shader will be used.  This can occur if
+    /// optimized driver support is not available and the D3D12 device used for this
+    /// DirectStorage queue supports the required capabilities.
+    /// </summary>
+    DSTORAGE_COMPRESSION_SUPPORT_GPU_FALLBACK = 0x02,
+
+    /// <summary>
+    /// CPU fallback implementation will be used.
+    /// This can occur if:
+    /// * Optimized driver support and built-in GPU decompression is not available.
+    /// * GPU decompression support has been explicitly disabled using
+    ///   DSTORAGE_CONFIGURATION.
+    /// * DirectStorage runtime encounters a failure during initialization of its
+    ///   GPU decompression system.
+    /// </summary>
+    DSTORAGE_COMPRESSION_SUPPORT_CPU_FALLBACK = 0x04,
+
+    /// <summary>
+    /// Executes work on a compute queue.
+    /// </summary>
+    DSTORAGE_COMPRESSION_SUPPORT_USES_COMPUTE_QUEUE = 0x08,
+
+    /// <summary>
+    /// Executes work on a copy queue.
+    /// </summary>
+    DSTORAGE_COMPRESSION_SUPPORT_USES_COPY_QUEUE = 0x010,
+};
+DEFINE_ENUM_FLAG_OPERATORS(DSTORAGE_COMPRESSION_SUPPORT);
+
+/// <summary>
+/// Represents a DirectStorage queue to perform read operations.
+/// </summary>
+DECLARE_INTERFACE_IID_(IDStorageQueue2, IDStorageQueue1, "b1c9d643-3a49-44a2-b46f-653649470d18")
+{
+    /// <summary>
+    /// Obtains support information about the queue for a specified compression format.
+    /// It includes the chosen path that the DirectStorage runtime will use for decompression.
+    /// </summary>
+    /// <param name="format">Specifies the compression format to retrieve information
+    /// about.</param>
+    virtual DSTORAGE_COMPRESSION_SUPPORT STDMETHODCALLTYPE GetCompressionSupport(DSTORAGE_COMPRESSION_FORMAT format) = 0;
 };
 
 /// <summary>
@@ -1032,7 +1096,8 @@ struct DSTORAGE_CONFIGURATION {
     /// <summary>
     /// Disables the use of the bypass IO optimization, even if it is available.
     /// This might be useful during development, but should be set to FALSE
-    /// for release. Default == FALSE.
+    /// for release unless ForceFileBuffering is set to TRUE.
+    /// Default == FALSE.
     /// </summary>
     BOOL DisableBypassIO;
 
@@ -1057,6 +1122,89 @@ struct DSTORAGE_CONFIGURATION {
     /// This will force the runtime to use the CPU. Default=FALSE.
     /// </summary>
     BOOL DisableGpuDecompression;
+};
+
+/// <summary>
+/// DirectStorage Configuration. Zero initializing this will result in the default values.
+/// </summary>
+struct DSTORAGE_CONFIGURATION1
+{
+    /// <summary>
+    /// Sets the number of threads to use for submitting IO operations.
+    /// Specifying 0 means use the system's best guess at a good value.
+    /// Default == 0.
+    /// </summary>
+    UINT32 NumSubmitThreads;
+
+    /// <summary>
+    /// Sets the number of threads to be used by the DirectStorage runtime to
+    /// decompress data using the CPU for built-in compressed formats
+    /// that cannot be decompressed using the GPU.
+    ///
+    /// Specifying 0 means to use the system's best guess at a good value.
+    ///
+    /// Specifying DSTORAGE_DISABLE_BUILTIN_CPU_DECOMPRESSION means no decompression
+    /// threads will be created and the title is fully responsible for checking
+    /// the custom decompression queue and pulling off ALL entries to decompress.
+    ///
+    /// Default == 0.
+    /// </summary>
+    INT32 NumBuiltInCpuDecompressionThreads;
+
+    /// <summary>
+    /// Forces the use of the IO mapping layer, even when running on an
+    /// operation system that doesn't require it.  This may be useful during
+    /// development, but should be set to the FALSE for release. Default=FALSE.
+    /// </summary>
+    BOOL ForceMappingLayer;
+
+    /// <summary>
+    /// Disables the use of the bypass IO optimization, even if it is available.
+    /// This might be useful during development, but should be set to FALSE
+    /// for release unless ForceFileBuffering is set to TRUE.
+    /// Default == FALSE.
+    /// </summary>
+    BOOL DisableBypassIO;
+
+    /// <summary>
+    /// Disables the reporting of telemetry data when set to TRUE.
+    /// Telemetry data is enabled by default in the DirectStorage runtime.
+    /// Default == FALSE.
+    /// </summary>
+    BOOL DisableTelemetry;
+
+    /// <summary>
+    /// Disables the use of a decompression metacommand, even if one
+    /// is available. This will force the runtime to use the built-in GPU decompression
+    /// fallback shader.
+    /// This may be useful during development, but should be set to the FALSE
+    /// for release. Default == FALSE.
+    /// </summary>
+    BOOL DisableGpuDecompressionMetacommand;
+
+    /// <summary>
+    /// Disables the use of GPU based decompression, even if it is available.
+    /// This will force the runtime to use the CPU. Default=FALSE.
+    /// </summary>
+    BOOL DisableGpuDecompression;
+
+    /// <summary>
+    /// Forces the use of the built-in file caching behaviors supported
+    /// within the Windows operating system by not setting
+    /// FILE_FLAG_NO_BUFFERING when opening files.
+    ///
+    /// DisableBypassIO must be set to TRUE when using this option or
+    /// E_DSTORAGE_FILEBUFFERING_REQUIRES_DISABLED_BYPASSIO will be returned.
+    ///
+    /// It is the title's responsibility to know when to use this setting.
+    /// This feature should ONLY be enabled for slower HDD drives that will
+    /// benefit from the OS file buffering features.
+    ///
+    /// WARNING: Enabling file buffering on high speed drives may reduce
+    /// overall performance when reading from that drive because BypassIO
+    /// is also disabled. Default=FALSE.
+    /// </summary>
+    BOOL ForceFileBuffering;
 };
 
 /// <summary>
@@ -1148,6 +1296,16 @@ extern "C" {
 HRESULT WINAPI DStorageSetConfiguration(DSTORAGE_CONFIGURATION const* configuration);
 
 /// <summary>
+/// Configures DirectStorage. This must be called before the first call to
+/// DStorageGetFactory. If this is not called, then default values are used.
+/// </summary>
+/// <param name="configuration">Specifies the configuration.</param>
+/// <returns>Standard HRESULT error code.  The configuration can only be changed
+/// when no queue is created and no files are open,
+/// E_DSTORAGE_STAGING_BUFFER_LOCKED is returned if this is not the case.</returns>
+HRESULT WINAPI DStorageSetConfiguration1(DSTORAGE_CONFIGURATION1 const* configuration);
+
+/// <summary>
 /// Returns the static DirectStorage factory object used to create DirectStorage queues,
 /// open files for DirectStorage access, and other global operations.
 /// </summary>
@@ -1155,7 +1313,7 @@ HRESULT WINAPI DStorageSetConfiguration(DSTORAGE_CONFIGURATION const* configurat
 /// __uuidof(IDStorageFactory)</param>
 /// <param name="ppv">Receives the DirectStorage factory object.</param>
 /// <returns>Standard HRESULT error code.</returns>
-HRESULT WINAPI DStorageGetFactory(REFIID riid, void** ppv);
+HRESULT WINAPI DStorageGetFactory(REFIID riid, _COM_Outptr_ void** ppv);
 
 /// <summary>
 /// Returns an object used to compress/decompress content.
@@ -1170,6 +1328,6 @@ HRESULT WINAPI DStorageGetFactory(REFIID riid, void** ppv);
 /// __uuidof(IDStorageCompressionCodec)</param>
 /// <param name="ppv">Receives the DirectStorage object.</param>
 /// <returns>Standard HRESULT error code.</returns>
-HRESULT WINAPI DStorageCreateCompressionCodec(DSTORAGE_COMPRESSION_FORMAT format, UINT32 numThreads, REFIID riid, void** ppv);
+HRESULT WINAPI DStorageCreateCompressionCodec(DSTORAGE_COMPRESSION_FORMAT format, UINT32 numThreads, REFIID riid, _COM_Outptr_ void** ppv);
 
 }

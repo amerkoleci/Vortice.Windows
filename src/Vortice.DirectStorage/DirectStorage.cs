@@ -92,6 +92,9 @@ public static partial class DirectStorage
         return false;
     }
 
+    public static Result DStorageSetConfiguration(Configuration configuration) => DStorageSetConfiguration(ref configuration);
+    public static Result DStorageSetConfiguration1(Configuration1 configuration) => DStorageSetConfiguration1(ref configuration);
+
     /// <summary>
     /// Returns the static DStorage factory object used to create DStorage queues,
     /// open files for DStorage access, and other global operations.

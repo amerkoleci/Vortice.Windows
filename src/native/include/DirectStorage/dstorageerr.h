@@ -1,11 +1,9 @@
-/************************************************************************
- *                                                                       *
- *   dstorageerr.h -- This module defines the error codes for Windows    *
- *                    DirectStorage APIs                                 *
- *                                                                       *
- *   Copyright (c) Microsoft Corp. All rights reserved.                  *
- *                                                                       *
- ************************************************************************/
+/*-------------------------------------------------------------------------------------
+ *
+ * Copyright (c) Microsoft Corporation
+ * Licensed under the MIT license
+ *
+ *-------------------------------------------------------------------------------------*/
 #pragma once
 
 /*++
@@ -483,3 +481,12 @@
 // unknown.
 //
 #define E_DSTORAGE_INVALID_DESTINATION_TYPE ((HRESULT)0x89240040L)
+
+//
+// MessageId: E_DSTORAGE_FILEBUFFERING_REQUIRES_DISABLED_BYPASSIO
+//
+// MessageText:
+//
+// ForceFileBuffering was enabled without disabling BypassIO.
+//
+#define E_DSTORAGE_FILEBUFFERING_REQUIRES_DISABLED_BYPASSIO ((HRESULT)0x89240041L)
