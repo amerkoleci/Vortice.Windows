@@ -43,7 +43,7 @@ Also, you need to install **Visual Studio 2022** with the following components:
 - [SharpAudio](https://github.com/feliwir/SharpAudio)
 
 ## Samples
-- Collection of samples [Vortice.Windows.Samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
+- [Collection of samples](https://github.com/amerkoleci/Vortice.Windows/tree/HEAD/src/samples)
 - Direct3D12 DXR samples by [CAMongrel](https://github.com/CAMongrel) [D3D12SampleRaytracerSharp](https://github.com/CAMongrel/D3D12SampleRaytracerSharp).
 - Direct3D12 DXR raytracing samples ported from NVIDIA samples by [Jorgemagic](https://github.com/Jorgemagic/CSharpDirectXRaytracing)
 - ImGUI example using Vortice.Windows [VorticeImGui](https://github.com/YaakovDavis/VorticeImGui)
