@@ -15,9 +15,12 @@
 
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
+  </PropertyGroup>
 
-    <VersionPrefix>3.2.0</VersionPrefix>
-    <VersionSuffix Condition="'$(VersionSuffix)' == ''"></VersionSuffix>
+  <!-- Version -->
+  <PropertyGroup>
+    <VersionPrefix>3.2.1</VersionPrefix>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''">beta</VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup>
