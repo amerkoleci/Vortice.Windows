@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+    <Description>A .NET bindings for DirectSound</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SharpGenMapping Include="Mappings.xml" />
+    <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
+  </ItemGroup>
+
+</Project>

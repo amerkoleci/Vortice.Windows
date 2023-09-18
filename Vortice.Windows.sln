@@ -100,6 +100,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XAudio2", "XAudio2", "{EE9A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloXAudio2", "src\samples\HelloXAudio2\HelloXAudio2.csproj", "{A08D15FF-01C6-49BF-A3BA-BC2EA32435BD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectSound", "src\Vortice.DirectSound\Vortice.DirectSound.csproj", "{A08C219F-A10D-4A87-820C-E7594F3D1D1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -234,6 +236,10 @@ Global
 		{A08D15FF-01C6-49BF-A3BA-BC2EA32435BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A08D15FF-01C6-49BF-A3BA-BC2EA32435BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A08D15FF-01C6-49BF-A3BA-BC2EA32435BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A08C219F-A10D-4A87-820C-E7594F3D1D1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A08C219F-A10D-4A87-820C-E7594F3D1D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A08C219F-A10D-4A87-820C-E7594F3D1D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A08C219F-A10D-4A87-820C-E7594F3D1D1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
