@@ -4,7 +4,7 @@
 using Vortice.MediaFoundation;
 using static Vortice.MediaFoundation.MediaFactory;
 
-namespace EnumerateDevices;
+namespace AudioPlay;
 
 public static unsafe class Program
 {

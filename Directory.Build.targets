@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <!-- Settings that are only set for executables -->
-  <PropertyGroup Condition="'$(OutputType)' != 'Library' AND '$(UseWindowsForms)' != 'true'">
+  <PropertyGroup Condition=" '$(OutputType)' != 'Library' AND '$(UseWindowsForms)' != 'true' AND '$(UseWPF)' != 'true'  AND '$(UseWinUI)' != 'true'">
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <!-- Settings that are only set for libraries -->
   <PropertyGroup Condition="'$(OutputType)' == 'Library'">
-    <EnableTrimAnalyzer>false</EnableTrimAnalyzer>
-    <IsTrimmable>false</IsTrimmable>
+    <IsTrimmable>true</IsTrimmable>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
   </PropertyGroup>
 
 </Project>

@@ -3,7 +3,7 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0;net7.0-windows10.0.19041</TargetFrameworks>
+    <TargetFrameworks>net7.0;net8.0;net8.0-windows10.0.19041</TargetFrameworks>
     <RootNamespace>Vortice</RootNamespace>
     <Description>Core DirectX library.</Description>
   </PropertyGroup>
@@ -15,10 +15,6 @@
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="Vortice.Mathematics" />
     <PackageReference Include="SharpGen.Runtime.COM" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-    <Compile Remove="Shims/UnscopedRefAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(SignAssembly)' == 'true'">

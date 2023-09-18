@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
-    <RootNamespace>EnumerateDevices</RootNamespace>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>AudioPlay</RootNamespace>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
