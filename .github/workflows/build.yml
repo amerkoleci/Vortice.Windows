@@ -20,17 +20,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.3
-
-    - name: ISetup .NET 8 SDK
+    - name: Setup .NET 8 SDK
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.0.x'
         dotnet-quality: 'preview'
 
     - name: Pack
-      run: msbuild Vortice.Windows.sln -t:restore,build,pack /p:Configuration=Release /p:Packing=true
+      run: dotnet pack Vortice.Windows.sln --configuration Release -p:Packing=true
 
     - name: Publish to NuGet
       if: github.event_name == 'push'
