@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright Â© Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Dxc;
@@ -29,7 +29,7 @@ public partial class IDxcContainerReflection
         return result;
     }
 
-    public T? GetPartReflection<T>(int index) where T : ComObject
+    public T? GetPartReflection<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index) where T : ComObject
     {
         Result result = GetPartReflection(index, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -40,7 +40,7 @@ public partial class IDxcContainerReflection
         return MarshallingHelpers.FromPointer<T>(nativePtr);
     }
 
-    public Result GetPartReflection<T>(int index, out T? @object) where T : ComObject
+    public Result GetPartReflection<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index, out T? @object) where T : ComObject
     {
         Result result = GetPartReflection(index, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

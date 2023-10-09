@@ -9,9 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
-    
+
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="Vortice.Mathematics" />
     <PackageReference Include="SharpGen.Runtime.COM" />
@@ -41,7 +42,7 @@
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>Vortice.Direct3D12, PublicKey=$(VorticePublicKey)</_Parameter1>
     </AssemblyAttribute>
-    
+
   </ItemGroup>
 
   <ItemGroup Condition="'$(SignAssembly)' != 'true'">

@@ -60,7 +60,7 @@ public partial class ID3D11VideoDevice
         return CreateVideoProcessorEnumerator(ref description, out enumerator);
     }
 
-    public T CreateVideoProcessorEnumerator<T>(VideoProcessorContentDescription description) where T : ID3D11VideoProcessorEnumerator
+    public T CreateVideoProcessorEnumerator<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoProcessorContentDescription description) where T : ID3D11VideoProcessorEnumerator
     {
         using ID3D11VideoProcessorEnumerator enumerator = CreateVideoProcessorEnumerator(description);
         return enumerator.QueryInterface<T>();

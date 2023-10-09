@@ -7,7 +7,7 @@ namespace Vortice.Direct3D9on12;
 
 public partial class IDirect3DDevice9On12
 {
-    public Result GetD3D12Device<T>(out T? device) where T : ComObject
+    public Result GetD3D12Device<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? device) where T : ComObject
     {
         Result result = GetD3D12Device(typeof(T).GUID, out IntPtr devicePtr);
         if (result.Failure)
@@ -20,19 +20,19 @@ public partial class IDirect3DDevice9On12
         return result;
     }
 
-    public T GetD3D12Device<T>() where T : ComObject
+    public T GetD3D12Device<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ComObject
     {
         GetD3D12Device(typeof(T).GUID, out IntPtr devicePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(devicePtr)!;
     }
 
-    public T UnwrapUnderlyingResource<T>(IDirect3DResource9 resource, ComObject commandQueue) where T : ComObject
+    public T UnwrapUnderlyingResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IDirect3DResource9 resource, ComObject commandQueue) where T : ComObject
     {
         UnwrapUnderlyingResource(resource, commandQueue, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result UnwrapUnderlyingResource<T>(IDirect3DResource9 resource, ComObject commandQueue, out T? resource12) where T : ComObject
+    public Result UnwrapUnderlyingResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IDirect3DResource9 resource, ComObject commandQueue, out T? resource12) where T : ComObject
     {
         Result result = UnwrapUnderlyingResource(resource, commandQueue, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Success)

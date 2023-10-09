@@ -5,13 +5,13 @@ namespace Vortice.Direct3D11;
 
 public partial class IDirect3DDxgiInterfaceAccess
 {
-    public T GetInterface<T>() where T : ComObject
+    public T GetInterface<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ComObject
     {
         GetInterface(typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result GetInterface<T>(out T? @interface) where T: ComObject
+    public Result GetInterface<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? @interface) where T: ComObject
     {
         Result result = GetInterface(typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

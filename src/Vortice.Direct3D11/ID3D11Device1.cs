@@ -26,13 +26,13 @@ public partial class ID3D11Device1
     /// <typeparam name="T">A handle to the resource to open.</typeparam>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public T OpenSharedResource1<T>(IntPtr handle) where T : ID3D11Resource
+    public T OpenSharedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IntPtr handle) where T : ID3D11Resource
     {
         OpenSharedResource1(handle, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result OpenSharedResource1<T>(IntPtr handle, out T? resource) where T : ID3D11Resource
+    public Result OpenSharedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IntPtr handle, out T? resource) where T : ID3D11Resource
     {
         Result result = OpenSharedResource1(handle, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Success)
@@ -45,13 +45,13 @@ public partial class ID3D11Device1
         return result;
     }
 
-    public T OpenSharedResourceByName<T>(string name, SharedResourceFlags access) where T : ID3D11Resource
+    public T OpenSharedResourceByName<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string name, SharedResourceFlags access) where T : ID3D11Resource
     {
         OpenSharedResourceByName(name, (int)access, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result OpenSharedResourceByName<T>(string name, SharedResourceFlags access, out T? resource) where T : ID3D11Resource
+    public Result OpenSharedResourceByName<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string name, SharedResourceFlags access, out T? resource) where T : ID3D11Resource
     {
         Result result = OpenSharedResourceByName(name, (int)access, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Success)

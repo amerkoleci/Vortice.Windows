@@ -6,24 +6,24 @@ namespace Vortice.Direct3D12;
 public partial class ID3D12Device4
 {
     #region CreateCommandList1
-    public T CreateCommandList1<T>(CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12CommandList
+    public T CreateCommandList1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12CommandList
     {
         CreateCommandList1(0, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateCommandList1<T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12CommandList
+    public T CreateCommandList1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12CommandList
     {
         CreateCommandList1(nodeMask, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateCommandList1<T>(CommandListType type, CommandListFlags commandListFlags, out T? commandList) where T : ID3D12CommandList
+    public Result CreateCommandList1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, CommandListFlags commandListFlags, out T? commandList) where T : ID3D12CommandList
     {
         return CreateCommandList1<T>(0, type, commandListFlags, out commandList);
     }
 
-    public Result CreateCommandList1<T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags, out T? commandList) where T : ID3D12CommandList
+    public Result CreateCommandList1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags, out T? commandList) where T : ID3D12CommandList
     {
         Result result = CreateCommandList1(nodeMask, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -38,7 +38,7 @@ public partial class ID3D12Device4
     #endregion
 
     #region CreateCommittedResource1
-    public T CreateCommittedResource1<T>(
+    public T CreateCommittedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         HeapProperties heapProperties,
         HeapFlags heapFlags,
         ResourceDescription description,
@@ -55,7 +55,7 @@ public partial class ID3D12Device4
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateCommittedResource1<T>(
+    public Result CreateCommittedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         HeapProperties heapProperties,
         HeapFlags heapFlags,
         ResourceDescription description,
@@ -79,7 +79,7 @@ public partial class ID3D12Device4
         return result;
     }
 
-    public Result CreateCommittedResource1<T>(
+    public Result CreateCommittedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         HeapProperties heapProperties,
         HeapFlags heapFlags,
         ResourceDescription description,
@@ -106,13 +106,13 @@ public partial class ID3D12Device4
     #endregion
 
     #region CreateHeap1
-    public T CreateHeap1<T>(HeapDescription description, ID3D12ProtectedResourceSession protectedSession) where T : ID3D12Heap
+    public T CreateHeap1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(HeapDescription description, ID3D12ProtectedResourceSession protectedSession) where T : ID3D12Heap
     {
         CreateHeap1(ref description, protectedSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateHeap1<T>(HeapDescription description, ID3D12ProtectedResourceSession protectedSession, out T? heap) where T : ID3D12Heap
+    public Result CreateHeap1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(HeapDescription description, ID3D12ProtectedResourceSession protectedSession, out T? heap) where T : ID3D12Heap
     {
         Result result = CreateHeap1(ref description, protectedSession, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -127,13 +127,13 @@ public partial class ID3D12Device4
     #endregion
 
     #region CreateProtectedResourceSession
-    public T CreateProtectedResourceSession<T>(ProtectedResourceSessionDescription description) where T : ID3D12ProtectedResourceSession
+    public T CreateProtectedResourceSession<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ProtectedResourceSessionDescription description) where T : ID3D12ProtectedResourceSession
     {
         CreateProtectedResourceSession(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateProtectedResourceSession<T>(ProtectedResourceSessionDescription description, out T? resource) where T : ID3D12ProtectedResourceSession
+    public Result CreateProtectedResourceSession<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ProtectedResourceSessionDescription description, out T? resource) where T : ID3D12ProtectedResourceSession
     {
         Result result = CreateProtectedResourceSession(description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -148,13 +148,13 @@ public partial class ID3D12Device4
     #endregion
 
     #region CreateReservedResource1
-    public T CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ClearValue clearValue, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource
+    public T CreateReservedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ResourceDescription description, ResourceStates initialState, ClearValue clearValue, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource
     {
         CreateReservedResource1(ref description, initialState, clearValue, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ClearValue clearValue, ID3D12ProtectedResourceSession protectedResourceSession, out T? resource) where T : ID3D12Resource
+    public Result CreateReservedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ResourceDescription description, ResourceStates initialState, ClearValue clearValue, ID3D12ProtectedResourceSession protectedResourceSession, out T? resource) where T : ID3D12Resource
     {
         Result result = CreateReservedResource1(ref description, initialState, clearValue, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -167,13 +167,13 @@ public partial class ID3D12Device4
         return result;
     }
 
-    public T CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource
+    public T CreateReservedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ResourceDescription description, ResourceStates initialState, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12Resource
     {
         CreateReservedResource1(ref description, initialState, null, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateReservedResource1<T>(ResourceDescription description, ResourceStates initialState, ID3D12ProtectedResourceSession protectedResourceSession, out T? resource) where T : ID3D12Resource
+    public Result CreateReservedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ResourceDescription description, ResourceStates initialState, ID3D12ProtectedResourceSession protectedResourceSession, out T? resource) where T : ID3D12Resource
     {
         Result result = CreateReservedResource1(ref description, initialState, null, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

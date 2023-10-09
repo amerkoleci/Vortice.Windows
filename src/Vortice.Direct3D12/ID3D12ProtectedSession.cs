@@ -17,7 +17,7 @@ public partial class ID3D12ProtectedSession
     /// <typeparam name="T">Instance type of <see cref="ID3D12Fence"/>.</typeparam>
     /// <param name="fence">An instance to the fence for the given protected session.</param>
     /// <returns>The operation result.</returns>
-    public Result GetStatusFence<T>(out T? fence) where T : ID3D12Fence
+    public Result GetStatusFence<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? fence) where T : ID3D12Fence
     {
         Result result = GetStatusFence(typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -30,7 +30,7 @@ public partial class ID3D12ProtectedSession
         return result;
     }
 
-    public T GetStatusFence<T>() where T : ID3D12Fence
+    public T GetStatusFence<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ID3D12Fence
     {
         GetStatusFence(typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;

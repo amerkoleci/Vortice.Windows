@@ -6,14 +6,15 @@
     <TargetFrameworks>net7.0;net8.0;net8.0-windows10.0.19041</TargetFrameworks>
     <Description>A .NET bindings for DXGI</Description>
   </PropertyGroup>
-  
+
   <ItemGroup>
+    <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
-    
+
     <SharpGenMapping Include="Mappings.xml" />
     <SharpGenExternalDocs Include="Documentation.xml" />
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
   </ItemGroup>
-  
+
 </Project>

@@ -204,12 +204,12 @@ public unsafe partial class IMFAttributes
         return value;
     }
 
-    /// <summary>	
+    /// <summary>
     /// Gets an item value
-    /// </summary>	
-    /// <param name="guidKey">GUID of the key.</param>	
-    /// <returns>The value associated to this key.</returns>	
-    /// <unmanaged-short>IMFAttributes::GetItem</unmanaged-short>	
+    /// </summary>
+    /// <param name="guidKey">GUID of the key.</param>
+    /// <returns>The value associated to this key.</returns>
+    /// <unmanaged-short>IMFAttributes::GetItem</unmanaged-short>
     public object Get(Guid guidKey)
     {
         AttributeType itemType = GetItemType(guidKey);
@@ -235,15 +235,15 @@ public unsafe partial class IMFAttributes
         throw new ArgumentException("The type of the value is not supported");
     }
 
-    /// <summary>	
-    /// <p><strong>Applies to: </strong>desktop apps | Metro style apps</p><p> </p><p>Retrieves an attribute at the specified index.</p>	
-    /// </summary>	
-    /// <param name="index"><dd> <p>Index of the attribute to retrieve. To get the number of attributes, call <strong><see cref="GetCount"/></strong>.</p> </dd></param>	
-    /// <param name="guidKey"><dd> <p>Receives the <see cref="Guid"/> that identifies this attribute.</p> </dd></param>	
-    /// <returns>The value associated to this index</returns>	
-    /// <remarks>	
-    /// <p>To enumerate all of an object's attributes in a thread-safe way, do the following:</p><ol> <li> <p>Call <strong><see cref="LockStore"/></strong> to prevent another thread from adding or deleting attributes.</p> </li> <li> <p>Call <strong><see cref="GetCount"/></strong> to find the number of attributes.</p> </li> <li> <p>Call <strong>GetItemByIndex</strong> to get each attribute by index.</p> </li> <li> <p>Call <strong><see cref="UnlockStore"/></strong> to unlock the attribute store.</p> </li> </ol><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>	
-    /// </remarks>	
+    /// <summary>
+    /// <p><strong>Applies to: </strong>desktop apps | Metro style apps</p><p> </p><p>Retrieves an attribute at the specified index.</p>
+    /// </summary>
+    /// <param name="index"><dd> <p>Index of the attribute to retrieve. To get the number of attributes, call <strong><see cref="GetCount"/></strong>.</p> </dd></param>
+    /// <param name="guidKey"><dd> <p>Receives the <see cref="Guid"/> that identifies this attribute.</p> </dd></param>
+    /// <returns>The value associated to this index</returns>
+    /// <remarks>
+    /// <p>To enumerate all of an object's attributes in a thread-safe way, do the following:</p><ol> <li> <p>Call <strong><see cref="LockStore"/></strong> to prevent another thread from adding or deleting attributes.</p> </li> <li> <p>Call <strong><see cref="GetCount"/></strong> to find the number of attributes.</p> </li> <li> <p>Call <strong>GetItemByIndex</strong> to get each attribute by index.</p> </li> <li> <p>Call <strong><see cref="UnlockStore"/></strong> to unlock the attribute store.</p> </li> </ol><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>
+    /// </remarks>
     public object GetByIndex(uint index, out Guid guidKey)
     {
         guidKey = GetItemByIndex(index, IntPtr.Zero);
@@ -252,12 +252,12 @@ public unsafe partial class IMFAttributes
 
     // TODO: Get/Set add typed methods like Get
 
-    /// <summary>	
+    /// <summary>
     /// Gets an item value
-    /// </summary>	
-    /// <param name="guidKey">GUID of the key.</param>	
-    /// <returns>The value associated to this key.</returns>	
-    public unsafe T Get<T>(Guid guidKey)
+    /// </summary>
+    /// <param name="guidKey">GUID of the key.</param>
+    /// <returns>The value associated to this key.</returns>
+    public unsafe T Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid guidKey)
     {
             // Perform conversions to supported types
             // int
@@ -367,15 +367,15 @@ public unsafe partial class IMFAttributes
         throw new ArgumentException("The type of the value is not supported");
     }
 
-    /// <summary>	
+    /// <summary>
     /// Gets an item value
-    /// </summary>	
-    /// <param name="guidKey">GUID of the key.</param>	
-    /// <returns>The value associated to this key.</returns>	
-    /// <msdn-id>ms704598</msdn-id>	
-    /// <unmanaged>HRESULT IMFAttributes::GetItem([In] const GUID&amp; guidKey,[In] void* pValue)</unmanaged>	
-    /// <unmanaged-short>IMFAttributes::GetItem</unmanaged-short>	
-    public T Get<T>(MediaAttributeKey<T> guidKey)
+    /// </summary>
+    /// <param name="guidKey">GUID of the key.</param>
+    /// <returns>The value associated to this key.</returns>
+    /// <msdn-id>ms704598</msdn-id>
+    /// <unmanaged>HRESULT IMFAttributes::GetItem([In] const GUID&amp; guidKey,[In] void* pValue)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetItem</unmanaged-short>
+    public T Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(MediaAttributeKey<T> guidKey)
     {
         return Get<T>(guidKey.Guid);
     }
@@ -407,18 +407,18 @@ public unsafe partial class IMFAttributes
         SetUInt32(guidKey, value);
     }
 
-    /// <summary>	
-    /// <p><strong>Applies to: </strong>desktop apps | Metro style apps</p><p> Adds an attribute value with a specified key. </p>	
-    /// </summary>	
-    /// <param name="guidKey"><dd> <p> A <see cref="System.Guid"/> that identifies the value to set. If this key already exists, the method overwrites the old value. </p> </dd></param>	
-    /// <param name="value"><dd> <p> A <strong><see cref="Variant"/></strong> that contains the attribute value. The method copies the value. The <strong><see cref="Variant"/></strong> type must be one of the types listed in the <strong><see cref="AttributeType"/></strong> enumeration. </p> </dd></param>	
-    /// <returns><p> The method returns an <strong><see cref="Result"/></strong>. Possible values include, but are not limited to, those in the following table. </p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><see cref="Result.Ok"/></strong></dt> </dl> </td><td> <p> The method succeeded. </p> </td></tr> <tr><td> <dl> <dt><strong>E_OUTOFMEMORY</strong></dt> </dl> </td><td> <p> Insufficient memory. </p> </td></tr> <tr><td> <dl> <dt><strong>MF_E_INVALIDTYPE</strong></dt> </dl> </td><td> <p> Invalid attribute type. </p> </td></tr> </table><p>?</p></returns>	
-    /// <remarks>	
-    /// <p> This method checks whether the <strong><see cref="Variant"/></strong> type is one of the attribute types defined in <strong><see cref="AttributeType"/></strong>, and fails if an unsupported type is used. However, this method does not check whether the <strong><see cref="Variant"/></strong> is the correct type for the specified attribute <see cref="System.Guid"/>. (There is no programmatic way to associate attribute GUIDs with property types.) For a list of Media Foundation attributes and their data types, see Media Foundation Attributes. </p><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>	
-    /// </remarks>	
-    /// <msdn-id>bb970346</msdn-id>	
-    /// <unmanaged>HRESULT IMFAttributes::SetItem([In] const GUID&amp; guidKey,[In] const PROPVARIANT&amp; Value)</unmanaged>	
-    /// <unmanaged-short>IMFAttributes::SetItem</unmanaged-short>	
+    /// <summary>
+    /// <p><strong>Applies to: </strong>desktop apps | Metro style apps</p><p> Adds an attribute value with a specified key. </p>
+    /// </summary>
+    /// <param name="guidKey"><dd> <p> A <see cref="System.Guid"/> that identifies the value to set. If this key already exists, the method overwrites the old value. </p> </dd></param>
+    /// <param name="value"><dd> <p> A <strong><see cref="Variant"/></strong> that contains the attribute value. The method copies the value. The <strong><see cref="Variant"/></strong> type must be one of the types listed in the <strong><see cref="AttributeType"/></strong> enumeration. </p> </dd></param>
+    /// <returns><p> The method returns an <strong><see cref="Result"/></strong>. Possible values include, but are not limited to, those in the following table. </p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><see cref="Result.Ok"/></strong></dt> </dl> </td><td> <p> The method succeeded. </p> </td></tr> <tr><td> <dl> <dt><strong>E_OUTOFMEMORY</strong></dt> </dl> </td><td> <p> Insufficient memory. </p> </td></tr> <tr><td> <dl> <dt><strong>MF_E_INVALIDTYPE</strong></dt> </dl> </td><td> <p> Invalid attribute type. </p> </td></tr> </table><p>?</p></returns>
+    /// <remarks>
+    /// <p> This method checks whether the <strong><see cref="Variant"/></strong> type is one of the attribute types defined in <strong><see cref="AttributeType"/></strong>, and fails if an unsupported type is used. However, this method does not check whether the <strong><see cref="Variant"/></strong> is the correct type for the specified attribute <see cref="System.Guid"/>. (There is no programmatic way to associate attribute GUIDs with property types.) For a list of Media Foundation attributes and their data types, see Media Foundation Attributes. </p><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>
+    /// </remarks>
+    /// <msdn-id>bb970346</msdn-id>
+    /// <unmanaged>HRESULT IMFAttributes::SetItem([In] const GUID&amp; guidKey,[In] const PROPVARIANT&amp; Value)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::SetItem</unmanaged-short>
     public void Set<T>(Guid guidKey, T value)
     {
         // Perform conversions to supported types
@@ -512,18 +512,18 @@ public unsafe partial class IMFAttributes
         throw new ArgumentException("The type of the value is not supported");
     }
 
-    /// <summary>	
-    /// <p><strong>Applies to: </strong>desktop apps | Metro style apps</p><p> Adds an attribute value with a specified key. </p>	
-    /// </summary>	
-    /// <param name="guidKey"><dd> <p> A <see cref="System.Guid"/> that identifies the value to set. If this key already exists, the method overwrites the old value. </p> </dd></param>	
-    /// <param name="value"><dd> <p> A <strong><see cref="Variant"/></strong> that contains the attribute value. The method copies the value. The <strong><see cref="Variant"/></strong> type must be one of the types listed in the <strong><see cref="AttributeType"/></strong> enumeration. </p> </dd></param>	
-    /// <returns><p> The method returns an <strong><see cref="Result"/></strong>. Possible values include, but are not limited to, those in the following table. </p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><see cref="Result.Ok"/></strong></dt> </dl> </td><td> <p> The method succeeded. </p> </td></tr> <tr><td> <dl> <dt><strong>E_OUTOFMEMORY</strong></dt> </dl> </td><td> <p> Insufficient memory. </p> </td></tr> <tr><td> <dl> <dt><strong>MF_E_INVALIDTYPE</strong></dt> </dl> </td><td> <p> Invalid attribute type. </p> </td></tr> </table><p>?</p></returns>	
-    /// <remarks>	
-    /// <p> This method checks whether the <strong><see cref="Variant"/></strong> type is one of the attribute types defined in <strong><see cref="AttributeType"/></strong>, and fails if an unsupported type is used. However, this method does not check whether the <strong><see cref="Variant"/></strong> is the correct type for the specified attribute <see cref="System.Guid"/>. (There is no programmatic way to associate attribute GUIDs with property types.) For a list of Media Foundation attributes and their data types, see Media Foundation Attributes. </p><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>	
-    /// </remarks>	
-    /// <msdn-id>bb970346</msdn-id>	
-    /// <unmanaged>HRESULT IMFAttributes::SetItem([In] const GUID&amp; guidKey,[In] const PROPVARIANT&amp; Value)</unmanaged>	
-    /// <unmanaged-short>IMFAttributes::SetItem</unmanaged-short>	
+    /// <summary>
+    /// <p><strong>Applies to: </strong>desktop apps | Metro style apps</p><p> Adds an attribute value with a specified key. </p>
+    /// </summary>
+    /// <param name="guidKey"><dd> <p> A <see cref="System.Guid"/> that identifies the value to set. If this key already exists, the method overwrites the old value. </p> </dd></param>
+    /// <param name="value"><dd> <p> A <strong><see cref="Variant"/></strong> that contains the attribute value. The method copies the value. The <strong><see cref="Variant"/></strong> type must be one of the types listed in the <strong><see cref="AttributeType"/></strong> enumeration. </p> </dd></param>
+    /// <returns><p> The method returns an <strong><see cref="Result"/></strong>. Possible values include, but are not limited to, those in the following table. </p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><see cref="Result.Ok"/></strong></dt> </dl> </td><td> <p> The method succeeded. </p> </td></tr> <tr><td> <dl> <dt><strong>E_OUTOFMEMORY</strong></dt> </dl> </td><td> <p> Insufficient memory. </p> </td></tr> <tr><td> <dl> <dt><strong>MF_E_INVALIDTYPE</strong></dt> </dl> </td><td> <p> Invalid attribute type. </p> </td></tr> </table><p>?</p></returns>
+    /// <remarks>
+    /// <p> This method checks whether the <strong><see cref="Variant"/></strong> type is one of the attribute types defined in <strong><see cref="AttributeType"/></strong>, and fails if an unsupported type is used. However, this method does not check whether the <strong><see cref="Variant"/></strong> is the correct type for the specified attribute <see cref="System.Guid"/>. (There is no programmatic way to associate attribute GUIDs with property types.) For a list of Media Foundation attributes and their data types, see Media Foundation Attributes. </p><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>
+    /// </remarks>
+    /// <msdn-id>bb970346</msdn-id>
+    /// <unmanaged>HRESULT IMFAttributes::SetItem([In] const GUID&amp; guidKey,[In] const PROPVARIANT&amp; Value)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::SetItem</unmanaged-short>
     public void Set<T>(MediaAttributeKey<T> guidKey, T value)
     {
         Set(guidKey.Guid, value);

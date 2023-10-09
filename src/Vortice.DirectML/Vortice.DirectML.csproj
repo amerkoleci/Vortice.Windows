@@ -6,11 +6,11 @@
     <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <Description>DirectML bindings.</Description>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <Authors>Aaron Sun, Amer Koleci</Authors>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Content Include="build\Vortice.DirectML.props" PackagePath="build\Vortice.DirectML.props" />
     <Content Include="runtimes\win-arm\native\DirectML.Debug.dll" PackagePath="runtimes\win-arm\DirectML.Debug.dll" CopyToOutputDirectory="PreserveNewest" />
@@ -23,11 +23,12 @@
     <Content Include="runtimes\win-x86\native\DirectML.dll" PackagePath="runtimes\win-x86\DirectML.dll" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="runtimes\LICENSE.txt" PackagePath="runtimes\LICENSE.txt" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <SharpGenMapping Include="Mappings.xml" />
     <SharpGenExternalDocs Include="Documentation.xml" />
-    
+
+    <Using Include="System.Diagnostics.CodeAnalysis"/>
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />

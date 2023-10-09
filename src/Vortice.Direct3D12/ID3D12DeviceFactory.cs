@@ -7,13 +7,13 @@ namespace Vortice.Direct3D12;
 
 public partial class ID3D12DeviceFactory
 {
-    public T GetConfigurationInterface<T>(Guid classId) where T : ComObject
+    public T GetConfigurationInterface<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid classId) where T : ComObject
     {
         GetConfigurationInterface(classId, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result GetConfigurationInterface<T>(Guid classId, out T? @interface) where T : ComObject
+    public Result GetConfigurationInterface<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid classId, out T? @interface) where T : ComObject
     {
         Result result = GetConfigurationInterface(classId, typeof(T).GUID, out IntPtr nativePtr);
 
@@ -27,13 +27,13 @@ public partial class ID3D12DeviceFactory
         return result;
     }
 
-    public T CreateDevice<T>(ComObject? adapter, FeatureLevel featureLevel) where T : ID3D12Device
+    public T CreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ComObject? adapter, FeatureLevel featureLevel) where T : ID3D12Device
     {
         CreateDevice(adapter != null ? adapter.NativePointer : IntPtr.Zero, featureLevel, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateDevice<T>(ComObject? adapter, FeatureLevel featureLevel, out T? device) where T : ID3D12Device
+    public Result CreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ComObject? adapter, FeatureLevel featureLevel, out T? device) where T : ID3D12Device
     {
         Result result = CreateDevice(
             adapter != null ? adapter.NativePointer : IntPtr.Zero,
@@ -50,13 +50,13 @@ public partial class ID3D12DeviceFactory
         return result;
     }
 
-    public T CreateDevice<T>(IntPtr adapterPtr, FeatureLevel featureLevel) where T : ID3D12Device
+    public T CreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IntPtr adapterPtr, FeatureLevel featureLevel) where T : ID3D12Device
     {
         CreateDevice(adapterPtr, featureLevel, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateDevice<T>(IntPtr adapterPtr, FeatureLevel featureLevel, out T? device) where T : ID3D12Device
+    public Result CreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IntPtr adapterPtr, FeatureLevel featureLevel, out T? device) where T : ID3D12Device
     {
         Result result = CreateDevice(
             adapterPtr,

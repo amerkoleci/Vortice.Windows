@@ -30,7 +30,7 @@ public partial class DXGI
     /// </summary>
     /// <param name="factory">The <see cref="IDXGIFactory1"/> being created.</param>
     /// <returns>Return the <see cref="Result"/>.</returns>
-    public static Result CreateDXGIFactory1<T>(out T? factory) where T : IDXGIFactory1
+    public static Result CreateDXGIFactory1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? factory) where T : IDXGIFactory1
     {
         Result result = CreateDXGIFactory1(typeof(T).GUID, out IntPtr nativePtr);
         if (result.Success)
@@ -47,7 +47,7 @@ public partial class DXGI
     /// Try to create new instance of <see cref="IDXGIFactory1"/>.
     /// </summary>
     /// <returns>Return an instance of <see cref="IDXGIFactory1"/> or null if failed.</returns>
-    public static T CreateDXGIFactory1<T>() where T : IDXGIFactory1
+    public static T CreateDXGIFactory1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : IDXGIFactory1
     {
         CreateDXGIFactory1(typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -59,7 +59,7 @@ public partial class DXGI
     /// <param name="debug">Whether to enable debug callback.</param>
     /// <param name="factory">The <see cref="IDXGIFactory2"/> being created.</param>
     /// <returns>Return the <see cref="Result"/>.</returns>
-    public static Result CreateDXGIFactory2<T>(bool debug, out T? factory) where T : IDXGIFactory2
+    public static Result CreateDXGIFactory2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(bool debug, out T? factory) where T : IDXGIFactory2
     {
         int flags = debug ? CreateFactoryDebug : 0x00;
         Result result = CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr);
@@ -78,7 +78,7 @@ public partial class DXGI
     /// </summary>
     /// <param name="debug">Whether to enable debug callback.</param>
     /// <returns>Return an instance of <see cref="IDXGIFactory2"/> or null if failed.</returns>
-    public static T CreateDXGIFactory2<T>(bool debug) where T : IDXGIFactory2
+    public static T CreateDXGIFactory2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(bool debug) where T : IDXGIFactory2
     {
         int flags = debug ? CreateFactoryDebug : 0x00;
         CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
@@ -91,7 +91,7 @@ public partial class DXGI
     /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
     /// <param name="debugInterface">Instance of T.</param>
     /// <returns>The result code.</returns>
-    public static Result DXGIGetDebugInterface1<T>(out T? debugInterface) where T : ComObject
+    public static Result DXGIGetDebugInterface1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? debugInterface) where T : ComObject
     {
         try
         {
@@ -117,7 +117,7 @@ public partial class DXGI
     /// </summary>
     /// <typeparam name="T">The <see cref="ComObject"/> to get.</typeparam>
     /// <returns>The <see cref="ComObject"/> to get.</returns>
-    public static T DXGIGetDebugInterface1<T>() where T : ComObject
+    public static T DXGIGetDebugInterface1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ComObject
     {
         DXGIGetDebugInterface1(0, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;

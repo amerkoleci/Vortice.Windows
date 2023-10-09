@@ -409,13 +409,13 @@ public unsafe partial class IDirectInputDevice8
         WriteEffectToFile(fileName, effects.Length, effects, (int)(includeNonstandardEffects ? EffectFileFlags.IncludeNonStandard : 0));
     }
 
-    public Result SetDataFormat<TRaw>() where TRaw : unmanaged
+    public Result SetDataFormat<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields)] TRaw>() where TRaw : unmanaged
     {
         var dataFormat = GetDataFormat<TRaw>();
         return SetDataFormat(dataFormat);
     }
 
-    private unsafe DataFormat GetDataFormat<TRaw>() where TRaw : unmanaged
+    private unsafe DataFormat GetDataFormat<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields)] TRaw>() where TRaw : unmanaged
     {
         if (_dataFormat == null)
         {

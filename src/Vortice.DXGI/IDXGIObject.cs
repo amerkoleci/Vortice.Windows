@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright Â© Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DXGI;
@@ -36,7 +36,7 @@ public unsafe partial class IDXGIObject
         }
     }
 
-    public Result GetParent<T>(out T? @object) where T : ComObject
+    public Result GetParent<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? @object) where T : ComObject
     {
         Result result = GetParent(typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -49,7 +49,7 @@ public unsafe partial class IDXGIObject
         return result;
     }
 
-    public T GetParent<T>() where T : ComObject
+    public T GetParent<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ComObject
     {
         GetParent(typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;

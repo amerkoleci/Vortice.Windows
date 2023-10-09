@@ -22,9 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
-    
+
     <SharpGenMapping Include="Mappings.xml" />
     <ProjectReference Include="..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
   </ItemGroup>

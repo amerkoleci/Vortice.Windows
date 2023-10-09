@@ -10,11 +10,12 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
     <Compile Remove="Shims/UnscopedRefAttribute.cs" />
   </ItemGroup>
-  
+
   <ItemGroup>
+    <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
-    
+
     <SharpGenMapping Include="Mappings.xml" />
     <SharpGenExternalDocs Include="Documentation.xml" />
     <PackageReference Include="SharpGen.Runtime.COM" />

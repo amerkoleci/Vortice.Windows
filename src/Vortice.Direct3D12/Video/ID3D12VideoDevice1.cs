@@ -15,13 +15,13 @@ public partial class ID3D12VideoDevice1
         return new ID3D12VideoMotionEstimator(nativePtr);
     }
 
-    public T CreateVideoMotionEstimator<T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionEstimator
+    public T CreateVideoMotionEstimator<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionEstimator
     {
         CreateVideoMotionEstimator(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateVideoMotionEstimator<T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoMotionEstimator) where T : ID3D12VideoMotionEstimator
+    public Result CreateVideoMotionEstimator<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoMotionEstimatorDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoMotionEstimator) where T : ID3D12VideoMotionEstimator
     {
         Result result = CreateVideoMotionEstimator(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -40,13 +40,13 @@ public partial class ID3D12VideoDevice1
         return new ID3D12VideoMotionVectorHeap(nativePtr);
     }
 
-    public T CreateVideoMotionVectorHeap<T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionVectorHeap
+    public T CreateVideoMotionVectorHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoMotionVectorHeap
     {
         CreateVideoMotionVectorHeap(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateVideoMotionVectorHeap<T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoMotionEstimator) where T : ID3D12VideoMotionVectorHeap
+    public Result CreateVideoMotionVectorHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoMotionVectorHeapDescription description, ID3D12ProtectedResourceSession protectedResourceSession, out T? videoMotionEstimator) where T : ID3D12VideoMotionVectorHeap
     {
         Result result = CreateVideoMotionVectorHeap(ref description, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

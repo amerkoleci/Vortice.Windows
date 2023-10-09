@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright Â© Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Dxc;
@@ -11,7 +11,7 @@ public partial class IDxcUtils
         return handler;
     }
 
-    public Result CreateReflection<T>(IDxcBlob blob, out T? reflection) where T : ComObject
+    public Result CreateReflection<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IDxcBlob blob, out T? reflection) where T : ComObject
     {
         DxcBuffer reflectionData = new DxcBuffer
         {
@@ -31,7 +31,7 @@ public partial class IDxcUtils
         return result;
     }
 
-    public T CreateReflection<T>(IDxcBlob blob) where T : ComObject
+    public T CreateReflection<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IDxcBlob blob) where T : ComObject
     {
         DxcBuffer reflectionData = new DxcBuffer
         {

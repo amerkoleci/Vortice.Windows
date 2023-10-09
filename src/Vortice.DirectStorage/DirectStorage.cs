@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright Â© Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectStorage;
@@ -101,7 +101,7 @@ public static partial class DirectStorage
     /// </summary>
     /// <param name="factory">Specifies the DStorage factory interface, such as <see cref="IDStorageFactory"/>.</param>
     /// <returns>Return the <see cref="Result"/>.</returns>
-    public static Result DStorageGetFactory<T>(out T? factory) where T : ComObject
+    public static Result DStorageGetFactory<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? factory) where T : ComObject
     {
         Result result = DStorageGetFactory(typeof(T).GUID, out IntPtr nativePtr);
         if (result.Success)
@@ -119,7 +119,7 @@ public static partial class DirectStorage
     /// open files for DStorage access, and other global operations.
     /// </summary>
     /// <returns>Return the DStorage factory interface, such as <see cref="IDStorageFactory"/>..</returns>
-    public static T DStorageGetFactory<T>() where T : ComObject
+    public static T DStorageGetFactory<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ComObject
     {
         DStorageGetFactory(typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -144,7 +144,7 @@ public static partial class DirectStorage
         return new(nativePtr)!;
     }
 
-    public static Result DStorageCreateCompressionCodec<T>(CompressionFormat format, uint numThreads, out T? codec) where T : ComObject
+    public static Result DStorageCreateCompressionCodec<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CompressionFormat format, uint numThreads, out T? codec) where T : ComObject
     {
         Result result = DStorageCreateCompressionCodec(format, numThreads, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Success)
@@ -157,7 +157,7 @@ public static partial class DirectStorage
         return result;
     }
 
-    public static T DStorageCreateCompressionCodec<T>(CompressionFormat format, uint numThreads) where T : ComObject
+    public static T DStorageCreateCompressionCodec<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CompressionFormat format, uint numThreads) where T : ComObject
     {
         DStorageCreateCompressionCodec(format, numThreads, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
