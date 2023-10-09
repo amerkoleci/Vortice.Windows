@@ -45,12 +45,12 @@ public partial class ShaderBytecode
         {
             if (pShaderBytecode != null)
             {
-                Marshal.FreeHGlobal((IntPtr)pShaderBytecode);
+                NativeMemory.Free(pShaderBytecode);
             }
         }
     }
 
-    internal unsafe void __MarshalFree(ref __Native @ref)
+    internal void __MarshalFree(ref __Native @ref)
     {
         @ref.__MarshalFree();
     }

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-    <SharpGenVersion>2.1.1-beta</SharpGenVersion>
+    <SharpGenVersion>2.1.2-beta</SharpGenVersion>
   </PropertyGroup>
 
   <ItemGroup>

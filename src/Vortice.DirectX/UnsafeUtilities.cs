@@ -104,7 +104,7 @@ public static unsafe class UnsafeUtilities
 
     public static T* AllocWithData<T>(T[] source) where T : unmanaged
     {
-        ReadOnlySpan<T> span = source.AsSpan();
+        ReadOnlySpan<T> span = source;
 
         return AllocWithData(span);
     }
