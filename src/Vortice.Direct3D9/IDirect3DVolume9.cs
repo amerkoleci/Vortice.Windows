@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright Â© Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Mathematics;
@@ -7,7 +7,7 @@ namespace Vortice.Direct3D9;
 
 public unsafe partial class IDirect3DVolume9
 {
-    public T GetContainer<T>(Guid guid) where T : ComObject
+    public T GetContainer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid guid) where T : ComObject
     {
         IntPtr containerPtr = GetContainer(guid);
         return MarshallingHelpers.FromPointer<T>(containerPtr)!;

@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright Â© Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Direct2D1;
@@ -14,7 +14,7 @@ public static partial class DComp
     /// <typeparam name="T">A generic type of <see cref="IDCompositionDevice"/>.</typeparam>
     /// <param name="dxgiDevice">The DXGI device <see cref="IDXGIDevice"/> to use to create DirectComposition surface objects.</param>
     /// <returns>An instance of <see cref="IDCompositionDevice"/> interface .</returns>
-    public static T DCompositionCreateDevice<T>(IDXGIDevice dxgiDevice) where T : IDCompositionDevice
+    public static T DCompositionCreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IDXGIDevice dxgiDevice) where T : IDCompositionDevice
     {
         DCompositionCreateDevice(dxgiDevice, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -27,7 +27,7 @@ public static partial class DComp
     /// <param name="dxgiDevice">The DXGI device <see cref="IDXGIDevice"/> to use to create DirectComposition surface objects.</param>
     /// <param name="compositionDevice">An instance of <see cref="IDCompositionDevice"/> interface or null if failure</param>
     /// <returns>The <see cref="Result"/> code.</returns>
-    public static Result DCompositionCreateDevice<T>(IDXGIDevice dxgiDevice, out T? compositionDevice) where T : IDCompositionDevice
+    public static Result DCompositionCreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IDXGIDevice dxgiDevice, out T? compositionDevice) where T : IDCompositionDevice
     {
         Result result = DCompositionCreateDevice(dxgiDevice, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -46,7 +46,7 @@ public static partial class DComp
     /// <typeparam name="T">A generic type of <see cref="IDCompositionDevice"/>.</typeparam>
     /// <param name="renderingDevice">An optional instance to a DirectX device to be used to create DirectComposition surface objects. Must be a instance of an object implementing the <see cref="IDXGIDevice"/> or <see cref="ID2D1Device"/> interfaces.</param>
     /// <returns>An instance of <see cref="IDCompositionDevice"/> interface.</returns>
-    public static T DCompositionCreateDevice2<T>(IUnknown renderingDevice) where T : IDCompositionDevice
+    public static T DCompositionCreateDevice2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IUnknown renderingDevice) where T : IDCompositionDevice
     {
         DCompositionCreateDevice2(renderingDevice, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -59,7 +59,7 @@ public static partial class DComp
     /// <param name="renderingDevice">An optional instance to a DirectX device to be used to create DirectComposition surface objects. Must be a instance of an object implementing the <see cref="IDXGIDevice"/> or <see cref="ID2D1Device"/> interfaces.</param>
     /// <param name="compositionDevice">An instance of <see cref="IDCompositionDevice"/> interface or null if failure</param>
     /// <returns>The <see cref="Result"/> code.</returns>
-    public static Result DCompositionCreateDevice2<T>(IUnknown renderingDevice, out T? compositionDevice) where T : IDCompositionDevice
+    public static Result DCompositionCreateDevice2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IUnknown renderingDevice, out T? compositionDevice) where T : IDCompositionDevice
     {
         Result result = DCompositionCreateDevice2(renderingDevice, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -78,7 +78,7 @@ public static partial class DComp
     /// <typeparam name="T">A generic type of <see cref="IDCompositionDevice"/>.</typeparam>
     /// <param name="renderingDevice">An optional instance to a DirectX device to be used to create DirectComposition surface objects. Must be a instance of an object implementing the <see cref="IDXGIDevice"/> or <see cref="ID2D1Device"/> interfaces.</param>
     /// <returns>An instance of <see cref="IDCompositionDevice"/> interface.</returns>
-    public static T DCompositionCreateDevice3<T>(IUnknown renderingDevice) where T : IDCompositionDevice
+    public static T DCompositionCreateDevice3<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IUnknown renderingDevice) where T : IDCompositionDevice
     {
         DCompositionCreateDevice3(renderingDevice, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -91,7 +91,7 @@ public static partial class DComp
     /// <param name="renderingDevice">An optional instance to a DirectX device to be used to create DirectComposition surface objects. Must be a instance of an object implementing the <see cref="IDXGIDevice"/> or <see cref="ID2D1Device"/> interfaces.</param>
     /// <param name="compositionDevice">An instance of <see cref="IDCompositionDevice"/> interface or null if failure</param>
     /// <returns>The <see cref="Result"/> code.</returns>
-    public static Result DCompositionCreateDevice3<T>(IUnknown renderingDevice, out T? compositionDevice) where T : IDCompositionDevice
+    public static Result DCompositionCreateDevice3<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IUnknown renderingDevice, out T? compositionDevice) where T : IDCompositionDevice
     {
         Result result = DCompositionCreateDevice3(renderingDevice, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

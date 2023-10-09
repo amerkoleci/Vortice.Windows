@@ -26,7 +26,7 @@ public partial class IDXGISwapChain1
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    public T GetCoreWindow<T>() where T : ComObject
+    public T GetCoreWindow<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ComObject
     {
         GetCoreWindow(typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -38,7 +38,7 @@ public partial class IDXGISwapChain1
     /// <typeparam name="T"></typeparam>
     /// <param name="coreWindow"></param>
     /// <returns></returns>
-    public Result GetCoreWindow<T>(out T? coreWindow) where T : ComObject
+    public Result GetCoreWindow<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? coreWindow) where T : ComObject
     {
         Result result = GetCoreWindow(typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

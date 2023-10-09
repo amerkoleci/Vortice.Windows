@@ -115,14 +115,14 @@ public static partial class DML
         return new(nativePtr);
     }
 
-    public static T DMLCreateDevice<T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags)
+    public static T DMLCreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags)
         where T : IDMLDevice
     {
         DMLCreateDevice(d3d12Device, createDeviceFlags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr) ?? throw new NullReferenceException();
     }
 
-    public static Result DMLCreateDevice<T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags, out T? device)
+    public static Result DMLCreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags, out T? device)
         where T : IDMLDevice
     {
         Result result = DMLCreateDevice(
@@ -141,7 +141,7 @@ public static partial class DML
         return result;
     }
 
-    public static T DMLCreateDevice<T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags, FeatureLevel minimumFeatureLevel)
+    public static T DMLCreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags, FeatureLevel minimumFeatureLevel)
         where T : IDMLDevice
     {
         DMLCreateDevice1(
@@ -154,7 +154,7 @@ public static partial class DML
         return MarshallingHelpers.FromPointer<T>(nativePtr) ?? throw new NullReferenceException();
     }
 
-    public static Result DMLCreateDevice<T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags, FeatureLevel minimumFeatureLevel, out T? device)
+    public static Result DMLCreateDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ID3D12Device d3d12Device, CreateDeviceFlags createDeviceFlags, FeatureLevel minimumFeatureLevel, out T? device)
         where T : IDMLDevice
     {
         Result result = DMLCreateDevice1(

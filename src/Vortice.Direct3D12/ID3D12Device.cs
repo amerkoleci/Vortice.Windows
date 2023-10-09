@@ -454,7 +454,7 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public T CreateCommittedResource<T>(HeapProperties heapProperties,
+    public T CreateCommittedResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(HeapProperties heapProperties,
         HeapFlags heapFlags,
         ResourceDescription description,
         ResourceStates initialResourceState,
@@ -472,7 +472,7 @@ public unsafe partial class ID3D12Device
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateCommittedResource<T>(HeapProperties heapProperties, HeapFlags heapFlags, ResourceDescription description, ResourceStates initialResourceState, out T? resource) where T : ID3D12Resource
+    public Result CreateCommittedResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(HeapProperties heapProperties, HeapFlags heapFlags, ResourceDescription description, ResourceStates initialResourceState, out T? resource) where T : ID3D12Resource
     {
         Result result = CreateCommittedResource(
             ref heapProperties,
@@ -493,7 +493,7 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public Result CreateCommittedResource<T>(HeapProperties heapProperties,
+    public Result CreateCommittedResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(HeapProperties heapProperties,
         HeapFlags heapFlags,
         ResourceDescription description,
         ResourceStates initialResourceState,
@@ -521,7 +521,7 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateCommandQueue
-    public Result CreateCommandQueue<T>(in CommandQueueDescription description, out T? commandQueue) where T : ID3D12CommandQueue
+    public Result CreateCommandQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in CommandQueueDescription description, out T? commandQueue) where T : ID3D12CommandQueue
     {
         Result result = CreateCommandQueue(description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -534,18 +534,18 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public T CreateCommandQueue<T>(in CommandQueueDescription description) where T : ID3D12CommandQueue
+    public T CreateCommandQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in CommandQueueDescription description) where T : ID3D12CommandQueue
     {
         CreateCommandQueue(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateCommandQueue<T>(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
+    public T CreateCommandQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
     {
         return CreateCommandQueue<T>(new CommandQueueDescription(type, priority, flags, nodeMask));
     }
 
-    public T CreateCommandQueue<T>(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
+    public T CreateCommandQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
     {
         return CreateCommandQueue<T>(new CommandQueueDescription(type, priority, flags, nodeMask));
     }
@@ -601,13 +601,13 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public T CreateDescriptorHeap<T>(in DescriptorHeapDescription description) where T : ID3D12DescriptorHeap
+    public T CreateDescriptorHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in DescriptorHeapDescription description) where T : ID3D12DescriptorHeap
     {
         CreateDescriptorHeap(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateDescriptorHeap<T>(in DescriptorHeapDescription description, out T? descriptorHeap) where T : ID3D12DescriptorHeap
+    public Result CreateDescriptorHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in DescriptorHeapDescription description, out T? descriptorHeap) where T : ID3D12DescriptorHeap
     {
         Result result = CreateDescriptorHeap(description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -641,13 +641,13 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public T CreateCommandAllocator<T>(CommandListType type) where T : ID3D12CommandAllocator
+    public T CreateCommandAllocator<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type) where T : ID3D12CommandAllocator
     {
         CreateCommandAllocator(type, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateCommandAllocator<T>(CommandListType type, out T? commandAllocator) where T : ID3D12CommandAllocator
+    public Result CreateCommandAllocator<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, out T? commandAllocator) where T : ID3D12CommandAllocator
     {
         Result result = CreateCommandAllocator(type, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -662,19 +662,19 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateCommandList
-    public T CreateCommandList<T>(CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState? initialState = default) where T : ID3D12CommandList
+    public T CreateCommandList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState? initialState = default) where T : ID3D12CommandList
     {
         CreateCommandList(0, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState? initialState = default) where T : ID3D12CommandList
+    public T CreateCommandList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState? initialState = default) where T : ID3D12CommandList
     {
         CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateCommandList<T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState, out T? commandList) where T : ID3D12CommandList
+    public Result CreateCommandList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState, out T? commandList) where T : ID3D12CommandList
     {
         Result result = CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -709,13 +709,13 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public T CreateFence<T>(ulong initialValue = 0, FenceFlags flags = FenceFlags.None) where T : ID3D12Fence
+    public T CreateFence<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ulong initialValue = 0, FenceFlags flags = FenceFlags.None) where T : ID3D12Fence
     {
         CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateFence<T>(ulong initialValue, FenceFlags flags, out T? fence) where T : ID3D12Fence
+    public Result CreateFence<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ulong initialValue, FenceFlags flags, out T? fence) where T : ID3D12Fence
     {
         Result result = CreateFence(initialValue, flags, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -730,13 +730,13 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateHeap
-    public T CreateHeap<T>(in HeapDescription description) where T : ID3D12Heap
+    public T CreateHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in HeapDescription description) where T : ID3D12Heap
     {
         CreateHeap(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateHeap<T>(in HeapDescription description, out T? heap) where T : ID3D12Heap
+    public Result CreateHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in HeapDescription description, out T? heap) where T : ID3D12Heap
     {
         Result result = CreateHeap(description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -751,7 +751,7 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateRootSignature
-    public Result CreateRootSignature<T>(int nodeMask, IntPtr blobWithRootSignature, PointerSize blobLengthInBytes, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, IntPtr blobWithRootSignature, PointerSize blobLengthInBytes, out T? rootSignature) where T : ID3D12RootSignature
     {
         Result result = CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -764,12 +764,12 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public Result CreateRootSignature<T>(int nodeMask, Blob blob, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, Blob blob, out T? rootSignature) where T : ID3D12RootSignature
     {
         return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, out rootSignature);
     }
 
-    public Result CreateRootSignature<T>(int nodeMask, byte[] blobWithRootSignature, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, byte[] blobWithRootSignature, out T? rootSignature) where T : ID3D12RootSignature
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {
@@ -777,18 +777,18 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public T CreateRootSignature<T>(int nodeMask, IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
     {
         CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateRootSignature<T>(int nodeMask, Blob blob) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, Blob blob) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(nodeMask, blob.BufferPointer, blob.BufferSize);
     }
 
-    public unsafe T CreateRootSignature<T>(int nodeMask, byte[] blobWithRootSignature) where T : ID3D12RootSignature
+    public unsafe T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, byte[] blobWithRootSignature) where T : ID3D12RootSignature
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {
@@ -796,18 +796,18 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public T CreateRootSignature<T>(IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
     {
         CreateRootSignature(0, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateRootSignature<T>(Blob blob) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Blob blob) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(0, blob.BufferPointer, blob.BufferSize);
     }
 
-    public unsafe T CreateRootSignature<T>(byte[] blobWithRootSignature) where T : ID3D12RootSignature
+    public unsafe T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(byte[] blobWithRootSignature) where T : ID3D12RootSignature
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {
@@ -815,12 +815,12 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public T CreateRootSignature<T>(in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(0, description, version);
     }
 
-    public T CreateRootSignature<T>(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
     {
         Result result = D3D12.D3D12SerializeRootSignature(description, version, out Blob blob, out Blob errorBlob);
         if (result.Failure)
@@ -845,7 +845,7 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public Result CreateRootSignature<T>(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version, out T? rootSignature) where T : ID3D12RootSignature
     {
         Result result = D3D12.D3D12SerializeRootSignature(description, version, out Blob blob, out Blob errorBlob);
         if (result.Failure)
@@ -874,39 +874,39 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public T CreateRootSignature<T>(in RootSignatureDescription1 description) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in RootSignatureDescription1 description) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(0, new VersionedRootSignatureDescription(description));
     }
 
 
-    public T CreateRootSignature<T>(int nodeMask, in RootSignatureDescription1 description) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in RootSignatureDescription1 description) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(nodeMask, new VersionedRootSignatureDescription(description));
     }
 
-    public T CreateRootSignature<T>(in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]T>(in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(0, description);
     }
 
-    public T CreateRootSignature<T>(int nodeMask, in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
     {
         CreateRootSignature(nodeMask, description, out T? rootSignature).CheckError();
         return rootSignature!;
     }
 
-    public Result CreateRootSignature<T>(in RootSignatureDescription1 description, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in RootSignatureDescription1 description, out T? rootSignature) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(0, new VersionedRootSignatureDescription(description), out rootSignature);
     }
 
-    public Result CreateRootSignature<T>(int nodeMask, in RootSignatureDescription1 description, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in RootSignatureDescription1 description, out T? rootSignature) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(0, new VersionedRootSignatureDescription(description), out rootSignature);
     }
 
-    public Result CreateRootSignature<T>(in VersionedRootSignatureDescription description, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in VersionedRootSignatureDescription description, out T? rootSignature) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(0, description, out rootSignature);
     }
@@ -922,7 +922,7 @@ public unsafe partial class ID3D12Device
         return rootSignature!;
     }
 
-    public Result CreateRootSignature<T>(int nodeMask, in VersionedRootSignatureDescription description, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in VersionedRootSignatureDescription description, out T? rootSignature) where T : ID3D12RootSignature
     {
         Result result = Result.Ok;
         Blob? signature = null;
@@ -1020,13 +1020,13 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateCommandSignature
-    public T CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature) where T : ID3D12CommandSignature
+    public T CreateCommandSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature) where T : ID3D12CommandSignature
     {
         CreateCommandSignature(description, rootSignature, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateCommandSignature<T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature, out T? commandSignature) where T : ID3D12CommandSignature
+    public Result CreateCommandSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature, out T? commandSignature) where T : ID3D12CommandSignature
     {
         Result result = CreateCommandSignature(description, rootSignature, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -1041,13 +1041,13 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateComputePipelineState
-    public T CreateComputePipelineState<T>(ComputePipelineStateDescription description) where T : ID3D12PipelineState
+    public T CreateComputePipelineState<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ComputePipelineStateDescription description) where T : ID3D12PipelineState
     {
         CreateComputePipelineState(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateComputePipelineState<T>(ComputePipelineStateDescription description, out T? pipelineState) where T : ID3D12PipelineState
+    public Result CreateComputePipelineState<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ComputePipelineStateDescription description, out T? pipelineState) where T : ID3D12PipelineState
     {
         Result result = CreateComputePipelineState(description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -1081,13 +1081,13 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateGraphicsPipelineState
-    public T CreateGraphicsPipelineState<T>(GraphicsPipelineStateDescription description) where T : ID3D12PipelineState
+    public T CreateGraphicsPipelineState<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(GraphicsPipelineStateDescription description) where T : ID3D12PipelineState
     {
         CreateGraphicsPipelineState(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateGraphicsPipelineState<T>(GraphicsPipelineStateDescription description, out T? pipelineState) where T : ID3D12PipelineState
+    public Result CreateGraphicsPipelineState<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(GraphicsPipelineStateDescription description, out T? pipelineState) where T : ID3D12PipelineState
     {
         Result result = CreateGraphicsPipelineState(description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -1121,13 +1121,13 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateQueryHeap
-    public T CreateQueryHeap<T>(QueryHeapDescription description) where T : ID3D12QueryHeap
+    public T CreateQueryHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(QueryHeapDescription description) where T : ID3D12QueryHeap
     {
         CreateQueryHeap(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateQueryHeap<T>(in QueryHeapDescription description, out T? queryHeap) where T : ID3D12QueryHeap
+    public Result CreateQueryHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in QueryHeapDescription description, out T? queryHeap) where T : ID3D12QueryHeap
     {
         Result result = CreateQueryHeap(description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -1142,7 +1142,7 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreatePlacedResource
-    public T CreatePlacedResource<T>(
+    public T CreatePlacedResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         ID3D12Heap heap,
         ulong heapOffset,
         ResourceDescription resourceDescription,
@@ -1153,7 +1153,7 @@ public unsafe partial class ID3D12Device
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreatePlacedResource<T>(
+    public Result CreatePlacedResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         ID3D12Heap heap,
         ulong heapOffset,
         ResourceDescription resourceDescription,
@@ -1171,7 +1171,7 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public Result CreatePlacedResource<T>(
+    public Result CreatePlacedResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         ID3D12Heap heap,
         ulong heapOffset,
         ResourceDescription resourceDescription,
@@ -1192,13 +1192,13 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateReservedResource
-    public T CreateReservedResource<T>(ResourceDescription resourceDescription, ResourceStates initialState, ClearValue? clearValue = null) where T : ID3D12Resource
+    public T CreateReservedResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ResourceDescription resourceDescription, ResourceStates initialState, ClearValue? clearValue = null) where T : ID3D12Resource
     {
         CreateReservedResource(ref resourceDescription, initialState, clearValue, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateReservedResource<T>(ResourceDescription resourceDescription, ResourceStates initialState, out T? resource) where T : ID3D12Resource
+    public Result CreateReservedResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ResourceDescription resourceDescription, ResourceStates initialState, out T? resource) where T : ID3D12Resource
     {
         Result result = CreateReservedResource(ref resourceDescription, initialState, null, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -1211,7 +1211,7 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public Result CreateReservedResource<T>(ResourceDescription resourceDescription, ResourceStates initialState, in ClearValue clearValue, out T? resource) where T : ID3D12Resource
+    public Result CreateReservedResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ResourceDescription resourceDescription, ResourceStates initialState, in ClearValue clearValue, out T? resource) where T : ID3D12Resource
     {
         Result result = CreateReservedResource(ref resourceDescription, initialState, clearValue, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -1325,7 +1325,7 @@ public unsafe partial class ID3D12Device
     /// <typeparam name="T">The handle that was output by the call to <see cref="CreateSharedHandle(ID3D12DeviceChild, SecurityAttributes?, string)"/> </typeparam>
     /// <param name="handle"></param>
     /// <returns>Instance of <see cref="ID3D12Heap"/>, <see cref="ID3D12Resource"/> or <see cref="ID3D12Fence"/>.</returns>
-    public T OpenSharedHandle<T>(IntPtr handle) where T : ComObject
+    public T OpenSharedHandle<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IntPtr handle) where T : ComObject
     {
         OpenSharedHandle(handle, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -1338,7 +1338,7 @@ public unsafe partial class ID3D12Device
     /// <param name="handle"></param>
     /// <param name="sharedHandle">The shared handle instance.</param>
     /// <returns>The <see cref="Result"/> of the operation.</returns>
-    public Result OpenSharedHandle<T>(IntPtr handle, out T? sharedHandle) where T : ComObject
+    public Result OpenSharedHandle<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IntPtr handle, out T? sharedHandle) where T : ComObject
     {
         Result result = OpenSharedHandle(handle, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

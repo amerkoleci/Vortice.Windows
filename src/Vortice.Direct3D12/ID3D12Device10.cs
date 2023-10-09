@@ -7,7 +7,7 @@ namespace Vortice.Direct3D12;
 
 public unsafe partial class ID3D12Device10
 {
-    public T CreateCommittedResource3<T>(
+    public T CreateCommittedResource3<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         HeapProperties heapProperties,
         HeapFlags heapFlags,
         ResourceDescription1 description,
@@ -51,7 +51,7 @@ public unsafe partial class ID3D12Device10
         }
     }
 
-    public T CreatePlacedResource2<T>(
+    public T CreatePlacedResource2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         ID3D12Heap heap,
         ulong heapOffset,
         ResourceDescription1 description,
@@ -88,7 +88,7 @@ public unsafe partial class ID3D12Device10
         }
     }
 
-    public T CreateReservedResource2<T>(
+    public T CreateReservedResource2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         ResourceDescription description,
         BarrierLayout initialLayout,
         ClearValue? optimizedClearValue,

@@ -10,7 +10,7 @@ public partial class IDMLDevice
     /// <summary>
     /// Gets the highest supported feature level.
     /// </summary>
-    public FeatureLevel HighestFeatureLevel => CheckFeatureLevelsSupport((FeatureLevel[])Enum.GetValues(typeof(FeatureLevel)));
+    public FeatureLevel HighestFeatureLevel => CheckFeatureLevelsSupport(Enum.GetValues<FeatureLevel>());
 
     /// <summary>
     /// Query for the feature levels supported by the device

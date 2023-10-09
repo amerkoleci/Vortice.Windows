@@ -30,7 +30,7 @@ public partial class ID3D12VideoDevice
         return new ID3D12VideoDecoder(nativePtr);
     }
 
-    public Result CreateVideoDecoder(VideoDecoderDescription description, out ID3D12VideoDecoder? videoDecoder) 
+    public Result CreateVideoDecoder(VideoDecoderDescription description, out ID3D12VideoDecoder? videoDecoder)
     {
         Result result = CreateVideoDecoder(ref description, typeof(ID3D12VideoDecoder).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -43,13 +43,13 @@ public partial class ID3D12VideoDevice
         return result;
     }
 
-    public T CreateVideoDecoder<T>(VideoDecoderDescription description) where T : ID3D12VideoDecoder
+    public T CreateVideoDecoder<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoDecoderDescription description) where T : ID3D12VideoDecoder
     {
         CreateVideoDecoder(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateVideoDecoder<T>(VideoDecoderDescription description, out T? videoDecoder) where T : ID3D12VideoDecoder
+    public Result CreateVideoDecoder<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoDecoderDescription description, out T? videoDecoder) where T : ID3D12VideoDecoder
     {
         Result result = CreateVideoDecoder(ref description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -70,7 +70,7 @@ public partial class ID3D12VideoDevice
         return new ID3D12VideoDecoderHeap(nativePtr);
     }
 
-    public Result CreateVideoDecoderHeap(VideoDecoderHeapDescription description, out ID3D12VideoDecoderHeap? videoDecoder) 
+    public Result CreateVideoDecoderHeap(VideoDecoderHeapDescription description, out ID3D12VideoDecoderHeap? videoDecoder)
     {
         Result result = CreateVideoDecoderHeap(ref description, typeof(ID3D12VideoDecoderHeap).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -83,13 +83,13 @@ public partial class ID3D12VideoDevice
         return result;
     }
 
-    public T CreateVideoDecoderHeap<T>(VideoDecoderHeapDescription description) where T : ID3D12VideoDecoderHeap
+    public T CreateVideoDecoderHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoDecoderHeapDescription description) where T : ID3D12VideoDecoderHeap
     {
         CreateVideoDecoderHeap(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateVideoDecoderHeap<T>(VideoDecoderHeapDescription description, out T? videoDecoder) where T : ID3D12VideoDecoderHeap
+    public Result CreateVideoDecoderHeap<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoDecoderHeapDescription description, out T? videoDecoder) where T : ID3D12VideoDecoderHeap
     {
         Result result = CreateVideoDecoderHeap(ref description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -116,7 +116,7 @@ public partial class ID3D12VideoDevice
         return new ID3D12VideoProcessor(nativePtr);
     }
 
-    public T CreateVideoProcessor<T>(
+    public T CreateVideoProcessor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         int nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
         VideoProcessInputStreamDescription[] inputStreamDescriptions) where T : ID3D12VideoProcessor
@@ -125,7 +125,7 @@ public partial class ID3D12VideoDevice
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateVideoProcessor<T>(
+    public T CreateVideoProcessor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         int nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
         int inputStreamDescriptionsCount,
@@ -135,7 +135,7 @@ public partial class ID3D12VideoDevice
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateVideoProcessor<T>(
+    public Result CreateVideoProcessor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         int nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
         VideoProcessInputStreamDescription[] inputStreamDescriptions,
@@ -152,7 +152,7 @@ public partial class ID3D12VideoDevice
         return result;
     }
 
-    public Result CreateVideoProcessor<T>(
+    public Result CreateVideoProcessor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         int nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
         int inputStreamDescriptionsCount,

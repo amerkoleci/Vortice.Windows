@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright Â© Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D9;
@@ -11,13 +11,13 @@ public unsafe partial class IDirect3DSurface9
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns>The parent container texture.</returns>
-    public T GetContainer<T>() where T : ComObject
+    public T GetContainer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ComObject
     {
         GetContainer(typeof(T).GUID, out IntPtr containerPtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(containerPtr)!;
     }
 
-    public Result GetContainer<T>(out T? container) where T : ComObject
+    public Result GetContainer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? container) where T : ComObject
     {
         Result result = GetContainer(typeof(T).GUID, out IntPtr containerPtr);
         if (result.Failure)

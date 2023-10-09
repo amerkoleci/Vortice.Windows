@@ -12,7 +12,7 @@ public partial class ICompositionGraphicsDeviceInterop : ComObject
 
     public static explicit operator ICompositionGraphicsDeviceInterop?(IntPtr nativePtr) => nativePtr == IntPtr.Zero ? null : new(nativePtr);
 
-    public unsafe Result GetRenderingDevice<T>(out T? device) where T : ComObject
+    public unsafe Result GetRenderingDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? device) where T : ComObject
     {
         IntPtr devicePtr = default;
         Result result = (Result)((delegate* unmanaged<IntPtr, void*, int>)this[3])(NativePointer, &devicePtr);
@@ -27,7 +27,7 @@ public partial class ICompositionGraphicsDeviceInterop : ComObject
         return result;
     }
 
-    public unsafe Result SetRenderingDevice(IUnknown device) 
+    public unsafe Result SetRenderingDevice(IUnknown device)
     {
         IntPtr devicePtr = MarshallingHelpers.ToCallbackPtr<IUnknown>(device);
         return (Result)((delegate* unmanaged<IntPtr, IntPtr, int>)this[4])(NativePointer, devicePtr);

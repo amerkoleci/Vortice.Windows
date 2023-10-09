@@ -6,8 +6,9 @@
     <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <Description>Direct2D1 bindings.</Description>
   </PropertyGroup>
-  
+
   <ItemGroup>
+    <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Numerics" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />

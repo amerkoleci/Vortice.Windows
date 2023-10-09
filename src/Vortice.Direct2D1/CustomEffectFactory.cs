@@ -126,7 +126,7 @@ internal class CustomEffectFactory
         }
     }
 
-    private class PropertyNative<U> : PropertyNativeBase where U : unmanaged
+    private class PropertyNative<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] U> : PropertyNativeBase where U : unmanaged
     {
         private PropertyNative(PropertyInfo propertyInfo, PropertyType propertyType) : base(propertyInfo, propertyType)
         {

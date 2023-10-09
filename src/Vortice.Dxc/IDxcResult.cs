@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright Â© Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Dxc;
@@ -60,19 +60,19 @@ public partial class IDxcResult
     }
 
 
-    public T GetOutput<T>(DxcOutKind kind) where T : ComObject
+    public T GetOutput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(DxcOutKind kind) where T : ComObject
     {
         GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, out _).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public unsafe T GetOutput<T>(DxcOutKind kind, out IDxcBlobWide? outputName) where T : ComObject
+    public unsafe T GetOutput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(DxcOutKind kind, out IDxcBlobWide? outputName) where T : ComObject
     {
         GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, out outputName).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result GetOutput<T>(DxcOutKind kind, out T? @object) where T : ComObject
+    public Result GetOutput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(DxcOutKind kind, out T? @object) where T : ComObject
     {
         Result result = GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, out _);
         if (result.Failure)
@@ -85,7 +85,7 @@ public partial class IDxcResult
         return result;
     }
 
-    public unsafe Result GetOutput<T>(DxcOutKind kind, out T? @object, out IDxcBlobWide? outputName) where T : ComObject
+    public unsafe Result GetOutput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(DxcOutKind kind, out T? @object, out IDxcBlobWide? outputName) where T : ComObject
     {
         Result result = GetOutput(kind, typeof(T).GUID, out IntPtr nativePtr, out outputName);
         if (result.Failure)

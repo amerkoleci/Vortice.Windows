@@ -18,7 +18,7 @@ public unsafe partial class ID3D12Device2
         return new ID3D12PipelineState(nativePtr);
     }
 
-    public T CreatePipelineState<T, TData>(TData data)
+    public T CreatePipelineState<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T, TData>(TData data)
         where T : ID3D12PipelineState
         where TData : unmanaged
     {
@@ -31,13 +31,13 @@ public unsafe partial class ID3D12Device2
         return CreatePipelineState<T>(description);
     }
 
-    public T CreatePipelineState<T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
+    public T CreatePipelineState<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
     {
         CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreatePipelineState<T>(PipelineStateStreamDescription description, out T? pipelineState) where T : ID3D12PipelineState
+    public Result CreatePipelineState<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(PipelineStateStreamDescription description, out T? pipelineState) where T : ID3D12PipelineState
     {
         Result result = CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

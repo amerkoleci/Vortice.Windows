@@ -14,7 +14,7 @@ public unsafe partial class ICompositionDrawingSurfaceInterop : ComObject
 
     public static explicit operator ICompositionDrawingSurfaceInterop?(IntPtr nativePtr) => nativePtr == IntPtr.Zero ? null : new(nativePtr);
 
-    public Result BeginDraw<T>(in Rectangle updateRect, out T? updateObject, out Point offset) where T : ComObject
+    public Result BeginDraw<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in Rectangle updateRect, out T? updateObject, out Point offset) where T : ComObject
     {
         RawRect updateRectRaw = updateRect;
         IntPtr updateObjectPtr = IntPtr.Zero;
@@ -29,7 +29,7 @@ public unsafe partial class ICompositionDrawingSurfaceInterop : ComObject
         }
     }
 
-    public T BeginDraw<T>(in Rectangle updateRect, out Point offset) where T : ComObject
+    public T BeginDraw<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in Rectangle updateRect, out Point offset) where T : ComObject
     {
         RawRect updateRectRaw = updateRect;
         IntPtr updateObjectPtr = IntPtr.Zero;

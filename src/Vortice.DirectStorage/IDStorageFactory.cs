@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright Â© Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectStorage;
@@ -12,7 +12,7 @@ public partial class IDStorageFactory
     /// <param name="description">Descriptor to specify the properties of the queue.</param>
     /// <param name="queue">Receives the new queue created.</param>
     /// <returns>The result of operation.</returns>
-    public Result CreateQueue<T>(QueueDesc description, out T? queue) where T : ComObject
+    public Result CreateQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(QueueDesc description, out T? queue) where T : ComObject
     {
         Result result = CreateQueue(ref description, typeof(T).GUID, out IntPtr nativePtr);
 
@@ -32,7 +32,7 @@ public partial class IDStorageFactory
     /// <typeparam name="T">Type to create, such as <see cref="IDStorageQueue"/>.</typeparam>
     /// <param name="description">Descriptor to specify the properties of the queue.</param>
     /// <returns>The new queue created.</returns>
-    public T CreateQueue<T>(QueueDesc description) where T : ComObject
+    public T CreateQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(QueueDesc description) where T : ComObject
     {
         CreateQueue(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -65,7 +65,7 @@ public partial class IDStorageFactory
     /// <param name="path">Path of the file to be opened.</param>
     /// <param name="file">Receives the new file opened.</param>
     /// <returns>The result of operation.</returns>
-    public Result OpenFile<T>(string path, out T? file) where T : ComObject
+    public Result OpenFile<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string path, out T? file) where T : ComObject
     {
         Result result = OpenFile(path, typeof(T).GUID, out IntPtr nativePtr);
 
@@ -85,7 +85,7 @@ public partial class IDStorageFactory
     /// <typeparam name="T">Type of storage file, such as <see cref="IDStorageFile"/>.</typeparam>
     /// <param name="path">Path of the file to be opened.</param>
     /// <returns>The new file opened.</returns>
-    public T OpenFile<T>(string path) where T : ComObject
+    public T OpenFile<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string path) where T : ComObject
     {
         OpenFile(path, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -122,7 +122,7 @@ public partial class IDStorageFactory
         return new IDStorageFile(nativePtr);
     }
 
-    public Result CreateStatusArray<T>(uint capacity, string name, out T? statusArray) where T : ComObject
+    public Result CreateStatusArray<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint capacity, string name, out T? statusArray) where T : ComObject
     {
         Result result = CreateStatusArray(capacity, name, typeof(T).GUID, out IntPtr nativePtr);
 
@@ -136,13 +136,13 @@ public partial class IDStorageFactory
         return result;
     }
 
-    public T CreateStatusArray<T>(uint capacity, string name) where T : ComObject
+    public T CreateStatusArray<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint capacity, string name) where T : ComObject
     {
         CreateStatusArray(capacity, name, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateStatusArray(uint capacity, string name, out IDStorageStatusArray? statusArray) 
+    public Result CreateStatusArray(uint capacity, string name, out IDStorageStatusArray? statusArray)
     {
         Result result = CreateStatusArray(capacity, name, typeof(IDStorageStatusArray).GUID, out IntPtr nativePtr);
 

@@ -7,7 +7,7 @@ namespace Vortice.Direct3D12;
 
 public partial class ID3D12Device8
 {
-    public T CreateCommittedResource2<T>(
+    public T CreateCommittedResource2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         HeapProperties heapProperties,
         HeapFlags heapFlags,
         ResourceDescription1 description,
@@ -26,7 +26,7 @@ public partial class ID3D12Device8
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateCommittedResource2<T>(
+    public T CreateCommittedResource2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         HeapProperties heapProperties,
         HeapFlags heapFlags,
         ResourceDescription1 description,
@@ -47,7 +47,7 @@ public partial class ID3D12Device8
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T? CreatePlacedResource1<T>(ID3D12Heap heap, ulong heapOffset, ResourceDescription1 description, ResourceStates initialState, ClearValue? optimizedClearValue = null) where T : ID3D12Resource
+    public T? CreatePlacedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ID3D12Heap heap, ulong heapOffset, ResourceDescription1 description, ResourceStates initialState, ClearValue? optimizedClearValue = null) where T : ID3D12Resource
     {
         Result result = CreatePlacedResource1(
             heap,
@@ -65,7 +65,7 @@ public partial class ID3D12Device8
         return default;
     }
 
-    public Result CreatePlacedResource1<T>(
+    public Result CreatePlacedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         ID3D12Heap heap,
         ulong heapOffset,
         ResourceDescription1 description,
@@ -90,7 +90,7 @@ public partial class ID3D12Device8
         return result;
     }
 
-    public Result CreatePlacedResource1<T>(
+    public Result CreatePlacedResource1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         ID3D12Heap heap,
         ulong heapOffset,
         ResourceDescription1 description,

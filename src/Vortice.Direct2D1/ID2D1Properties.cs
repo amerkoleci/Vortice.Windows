@@ -204,7 +204,7 @@ public unsafe partial class ID2D1Properties
         return value;
     }
 
-    public unsafe T? GetIUnknownValue<T>(int index) where T : ComObject
+    public unsafe T? GetIUnknownValue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index) where T : ComObject
     {
         IntPtr value = default;
         GetValue(index, PropertyType.IUnknown, &value, sizeof(IntPtr));

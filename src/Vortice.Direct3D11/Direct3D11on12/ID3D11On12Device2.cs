@@ -7,13 +7,13 @@ namespace Vortice.Direct3D11on12;
 
 public partial class ID3D11On12Device2
 {
-    public T UnwrapUnderlyingResource<T>(ID3D11Resource resource, ComObject commandQueue) where T : ComObject
+    public T UnwrapUnderlyingResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ID3D11Resource resource, ComObject commandQueue) where T : ComObject
     {
         UnwrapUnderlyingResource(resource, commandQueue, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result UnwrapUnderlyingResource<T>(ID3D11Resource resource, ComObject commandQueue, out T? resource12) where T : ComObject
+    public Result UnwrapUnderlyingResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ID3D11Resource resource, ComObject commandQueue, out T? resource12) where T : ComObject
     {
         Result result = UnwrapUnderlyingResource(resource, commandQueue, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Success)

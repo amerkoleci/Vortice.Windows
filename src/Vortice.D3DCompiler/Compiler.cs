@@ -723,7 +723,7 @@ public unsafe static partial class Compiler
         return blob;
     }
 
-    public static T Reflect<T>(ReadOnlySpan<byte> shaderBytecode) where T : ComObject
+    public static T Reflect<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ReadOnlySpan<byte> shaderBytecode) where T : ComObject
     {
         fixed (byte* shaderBytecodePtr = shaderBytecode)
         {
@@ -732,7 +732,7 @@ public unsafe static partial class Compiler
         }
     }
 
-    public static Result Reflect<T>(ReadOnlySpan<byte> shaderBytecode, out T? reflection) where T : ComObject
+    public static Result Reflect<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(ReadOnlySpan<byte> shaderBytecode, out T? reflection) where T : ComObject
     {
         fixed (byte* shaderBytecodePtr = shaderBytecode)
         {
@@ -748,13 +748,13 @@ public unsafe static partial class Compiler
         }
     }
 
-    public static T Reflect<T>(byte[] shaderBytecode) where T : ComObject
+    public static T Reflect<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(byte[] shaderBytecode) where T : ComObject
     {
         ReadOnlySpan<byte> span = shaderBytecode.AsSpan();
         return Reflect<T>(span);
     }
 
-    public static Result Reflect<T>(byte[] shaderBytecode, out T? reflection) where T : ComObject
+    public static Result Reflect<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(byte[] shaderBytecode, out T? reflection) where T : ComObject
     {
         ReadOnlySpan<byte> span = shaderBytecode.AsSpan();
         return Reflect(span, out reflection);

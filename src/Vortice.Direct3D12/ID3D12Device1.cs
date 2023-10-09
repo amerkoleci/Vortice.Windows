@@ -51,13 +51,13 @@ public unsafe partial class ID3D12Device1
         return result;
     }
 
-    public T CreatePipelineLibrary<T>(Blob blob) where T : ID3D12PipelineLibrary
+    public T CreatePipelineLibrary<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Blob blob) where T : ID3D12PipelineLibrary
     {
         CreatePipelineLibrary(blob.BufferPointer.ToPointer(), blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreatePipelineLibrary<T>(Blob blob, out T? pipelineLibrary) where T : ID3D12PipelineLibrary
+    public Result CreatePipelineLibrary<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Blob blob, out T? pipelineLibrary) where T : ID3D12PipelineLibrary
     {
         Result result = CreatePipelineLibrary(blob.BufferPointer.ToPointer(), blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

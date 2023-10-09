@@ -31,7 +31,7 @@ public unsafe class ISurfaceImageSourceNativeWithD2D : ComObject
         return result;
     }
 
-    public Result BeginDraw<T>(in Rectangle updateRect, out T? updateObject, out Point offset) where T : ComObject
+    public Result BeginDraw<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in Rectangle updateRect, out T? updateObject, out Point offset) where T : ComObject
     {
         RawRect updateRectRaw = updateRect;
         Result result = BeginDraw(updateRectRaw, typeof(T).GUID, out IntPtr updateObjectPtr, out offset);
@@ -45,7 +45,7 @@ public unsafe class ISurfaceImageSourceNativeWithD2D : ComObject
         return result;
     }
 
-    public T BeginDraw<T>(in Rectangle updateRect, out Point offset) where T : ComObject
+    public T BeginDraw<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in Rectangle updateRect, out Point offset) where T : ComObject
     {
         RawRect updateRectRaw = updateRect;
         BeginDraw(updateRectRaw, typeof(T).GUID, out IntPtr updateObjectPtr, out offset).CheckError();

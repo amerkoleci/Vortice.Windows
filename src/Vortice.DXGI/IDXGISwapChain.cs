@@ -20,7 +20,7 @@ public partial class IDXGISwapChain
         return output;
     }
 
-    public Result GetContainingOutput<T>(out T? output) where T : IDXGIOutput
+    public Result GetContainingOutput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? output) where T : IDXGIOutput
     {
         Result result = GetContainingOutput(out IDXGIOutput outputTemp);
         if (result.Failure)
@@ -34,13 +34,13 @@ public partial class IDXGISwapChain
         return result;
     }
 
-    public T GetBuffer<T>(int index) where T : ComObject
+    public T GetBuffer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index) where T : ComObject
     {
         GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result GetBuffer<T>(int index, out T? surface) where T : ComObject
+    public Result GetBuffer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index, out T? surface) where T : ComObject
     {
         Result result = GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

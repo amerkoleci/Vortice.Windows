@@ -5,7 +5,7 @@ namespace Vortice.Direct3D11on12;
 
 public partial class ID3D11On12Device1
 {
-    public Result GetD3D12Device<T>(out T? device) where T : ComObject
+    public Result GetD3D12Device<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? device) where T : ComObject
     {
         Result result = GetD3D12Device(typeof(T).GUID, out IntPtr devicePtr);
         if (result.Failure)
@@ -18,7 +18,7 @@ public partial class ID3D11On12Device1
         return result;
     }
 
-    public T GetD3D12Device<T>() where T : ComObject
+    public T GetD3D12Device<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ComObject
     {
         GetD3D12Device(typeof(T).GUID, out IntPtr devicePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(devicePtr)!;

@@ -6,11 +6,12 @@
     <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
     <Description>D3DCompiler bindings.</Description>
   </PropertyGroup>
-  
+
   <ItemGroup>
+    <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
-    
+
     <SharpGenMapping Include="Mappings.xml" />
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />
   </ItemGroup>
