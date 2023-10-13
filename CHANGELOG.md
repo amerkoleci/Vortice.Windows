@@ -1,9 +1,9 @@
 # Changelog
 
-Current Stable Release:    2.4.2 (March 2023)
+Current Stable Release:    3.3.4 (October 2023)
 
 -----------------------------------------------
-Release:     3.3.X (September 2023)
+Release:     3.3.4 (October 2023)
 
 - [ENH] DirectSound support.
 - [ENH] Drop net6.0 and support net7.0 and net8.0
