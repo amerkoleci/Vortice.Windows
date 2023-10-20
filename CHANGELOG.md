@@ -3,6 +3,11 @@
 Current Stable Release:    3.3.4 (October 2023)
 
 -----------------------------------------------
+Release:     3.4.X (March 2024)
+
+- [ENH] 
+
+-----------------------------------------------
 Release:     3.3.4 (October 2023)
 
 - [ENH] DirectSound support.
