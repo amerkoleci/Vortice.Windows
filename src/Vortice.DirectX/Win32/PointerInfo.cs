@@ -8,7 +8,6 @@ namespace Vortice.Win32;
 /// <summary>
 /// Contains basic pointer information common to all pointer types.
 /// </summary>
-/// <un
 public partial struct PointerInfo
 {
     public PointerInputType pointerType;

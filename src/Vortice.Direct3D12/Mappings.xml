@@ -653,7 +653,6 @@
     <map param="ID3D12InfoQueue::GetRetrievalFilter::pFilter" type="void" attribute="in"/>
 
     <map method="ID3D12InfoQueue1::RegisterMessageCallback" visibility="private"/>
-    <map param="ID3D12InfoQueue1::RegisterMessageCallback::pContext" type="void" keep-pointers="true"/>
     <map param="ID3D12InfoQueue1::RegisterMessageCallback::pCallbackCookie" attribute="out" return="false" />
     
     <map method="ID3D12InfoQueue1::UnregisterMessageCallback" visibility="private" />
@@ -984,17 +983,11 @@
     <map method="ID3D12Device10::CreateReservedResource2" visibility="private" hresult="true" check="false" />
     <map param="ID3D12Device10::CreateReservedResource2::pCastableFormats" type="void" keep-pointers="true"/>
 
-    <!-- ID3D12Device11 -->
-    <map param="ID3D12Device11::CreateSampler::pDesc" attribute="in value"/>
-
     <!-- ID3D12SDKConfiguration methods -->
     <map method="ID3D12SDKConfiguration::SetSDKVersion" hresult="true" check="false"/>
 
     <!-- ID3D12SDKConfiguration1 methods -->
     <map method="ID3D12SDKConfiguration1::CreateDeviceFactory" visibility="private" hresult="true" check="false"/>
-
-    <!-- ID3D12DSRDeviceFactory methods -->
-    <map method="ID3D12DSRDeviceFactory::CreateDSRDevice" visibility="private" hresult="true" check="false"/>
 
     <!-- ID3D12Debug1 -->
     <map method="ID3D12Debug1::SetEnableGPUBasedValidation" property="false" />
@@ -1250,6 +1243,15 @@
     <map struct="D3D12_VIDEO_PROCESS_OUTPUT_STREAM_ARGUMENTS" name="VideoProcessOutputStreamArguments" native="true" marshal="true" />
     <map struct="D3D12_VIDEO_DECODE_OUTPUT_STREAM_ARGUMENTS1" name="VideoDecodeOutputStreamArguments1" struct-to-class="true" marshal="true" />
     <map struct="D3D12_VIDEO_ENCODER_PROFILE_DESC" name="VideoEncoderProfileDescription" native="true" marshal="true" />
+
+    <map struct="D3D12_VIDEO_ENCODER_AV1_SEGMENT_DATA" name="VideoEncoderAv1SegmentData" marshal="false" />
+    <remove field="D3D12_VIDEO_ENCODER_AV1_SEGMENT_DATA::.*"/>
+
+    <map struct="D3D12_VIDEO_ENCODER_AV1_REFERENCE_PICTURE_WARPED_MOTION_INFO" name="VideoEncoderAv1ReferencePictureWarpedMotionInfo" marshal="false" />
+    <remove field="D3D12_VIDEO_ENCODER_AV1_REFERENCE_PICTURE_WARPED_MOTION_INFO::.*"/>
+    
+    <map struct="D3D12_VIDEO_ENCODER_AV1_CODEC_CONFIGURATION_SUPPORT" name="VideoEncoderAV1CodecConfigurationSupport" native="true" struct-to-class="true" marshal="true" />
+    <remove field="D3D12_VIDEO_ENCODER_AV1_CODEC_CONFIGURATION_SUPPORT::.*"/>
 
     <map param="ID3D12VideoDecodeCommandList::ResourceBarrier::pBarriers" type="void" keep-pointers="true"/>
     <map method="ID3D12VideoDecodeCommandList::ResourceBarrier" visibility="private"/>

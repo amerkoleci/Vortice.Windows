@@ -6,7 +6,6 @@ namespace Vortice.Win32;
 /// <summary>
 /// Identifies a change in the state of a button associated with a pointer.
 /// </summary>
-/// <un
 public enum PointerButtonChangeType
 {
     None,

@@ -1,4 +1,4 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Drawing;
@@ -176,7 +176,7 @@ public unsafe partial class ID2D1Properties
         return value;
     }
 
-    public unsafe Vector2 GetVector2Value(int index)
+    public Vector2 GetVector2Value(int index)
     {
         Vector2 value = default;
         GetValue(index, PropertyType.Vector2, &value, sizeof(Vector2));

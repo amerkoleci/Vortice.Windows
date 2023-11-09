@@ -164,16 +164,12 @@ public readonly struct FourCC : IEquatable<FourCC>, IFormattable
     /// <exception cref="FormatException">In case of
     /// <paramref name="format"/> is not "G", "I" or a valid number
     /// format.</exception>
-    public string ToString(string? format, IFormatProvider formatProvider)
+    public string ToString(string? format, IFormatProvider? formatProvider)
     {
         if (string.IsNullOrEmpty(format))
-        {
             format = "G";
-        }
-        if (formatProvider == null)
-        {
-            formatProvider = CultureInfo.CurrentCulture;
-        }
+
+        formatProvider ??= CultureInfo.CurrentCulture;
 
         return format!.ToUpperInvariant() switch
         {

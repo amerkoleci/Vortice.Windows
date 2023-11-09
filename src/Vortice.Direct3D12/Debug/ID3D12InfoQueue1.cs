@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12.Debug;
@@ -29,7 +29,8 @@ public partial class ID3D12InfoQueue1
         {
             if (_callbackCookie == 0)
             {
-                RegisterMessageCallback(callback != null ? new(_nativeMessageCallback) : null, callbackFilterFlags, null, out _callbackCookie);
+                nint context = 0;
+                RegisterMessageCallback(callback != null ? new(_nativeMessageCallback) : null, callbackFilterFlags, ref context, out _callbackCookie);
             }
         }
     }

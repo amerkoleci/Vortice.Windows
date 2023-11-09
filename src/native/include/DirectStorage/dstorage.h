@@ -15,7 +15,7 @@
 #include <d3d12.h>
 #include <dstorageerr.h>
 
-#define DSTORAGE_SDK_VERSION 200
+#define DSTORAGE_SDK_VERSION 201
 
 interface ID3D12Resource;
 interface ID3D12Fence;
@@ -1052,7 +1052,7 @@ DECLARE_INTERFACE_IID_(IDStorageQueue2, IDStorageQueue1, "b1c9d643-3a49-44a2-b46
 
 /// <summary>
 /// Disables built-in decompression.
-/// 
+///
 /// Set NumBuiltInCpuDecompressionThreads in DSTORAGE_CONFIGURATION to
 /// this value to disable built-in decompression. No decompression threads
 /// will be created and the title is fully responsible for checking

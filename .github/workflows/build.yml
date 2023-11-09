@@ -23,8 +23,7 @@ jobs:
     - name: Setup .NET 8 SDK
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '8.0.x'
-        dotnet-quality: 'preview'
+        global-json-file: ./global.json
 
     - name: Pack
       run: dotnet pack Vortice.Windows.sln --configuration Release -p:Packing=true

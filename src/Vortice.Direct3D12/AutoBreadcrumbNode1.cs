@@ -1,6 +1,7 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+#pragma warning disable CS0649
 namespace Vortice.Direct3D12;
 
 public partial class AutoBreadcrumbNode1
