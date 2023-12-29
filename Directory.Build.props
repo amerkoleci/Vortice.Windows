@@ -10,20 +10,18 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <BinDir>$(MSBuildThisFileDirectory)/bin</BinDir>
-    <BaseOutputPath Condition=" '$(BaseOutputPath)' == '' ">$(BinDir)\$(MSBuildProjectName)\</BaseOutputPath>
-
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>CS1591;CS1701</NoWarn>
   </PropertyGroup>
 
   <!-- Version -->
   <PropertyGroup>
-    <VersionPrefix>3.4.1</VersionPrefix>
+    <VersionPrefix>3.4.2</VersionPrefix>
     <VersionSuffix Condition="'$(VersionSuffix)' == ''">beta</VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -33,33 +31,21 @@
     <Features>strict</Features>
     <AnalysisLevel>preview</AnalysisLevel>
     <RestoreConfigFile>$(MSBuildThisFileDirectory)NuGet.config</RestoreConfigFile>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
 
   <PropertyGroup>
     <Authors>Amer Koleci</Authors>
     <Owners>Amer Koleci</Owners>
     <Company>Amer Koleci</Company>
-    <Copyright>Copyright © Amer Koleci and Contributors</Copyright>
+    <Copyright>Copyright (c) Amer Koleci and Contributors</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>Vortice.Windows Vortice Graphics gamedev Direct3D DirectX Core Standard Game Direct3D11 Direct3D12 XAudio2 XInput Dxc DirectML</PackageTags>
     <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts/</PackageOutputPath>
     <ContinuousIntegrationBuild Condition="'$(GITHUB_RUN_ID)' != ''">true</ContinuousIntegrationBuild>
     <UseSharedCompilation>true</UseSharedCompilation>
-  </PropertyGroup>
-
-  <!-- https://github.com/dotnet/sourcelink -->
-  <PropertyGroup>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>false</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -1,7 +1,6 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Vortice;
@@ -41,7 +40,6 @@ internal struct LARGE_INTEGER
     public partial struct _Anonymous_e__Struct
     {
         public uint LowPart;
-
         public int HighPart;
     }
 

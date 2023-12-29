@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Numerics;
@@ -21,14 +21,14 @@ namespace HelloDirect3D12Raytracing;
 
 public sealed class D3D12GraphicsDevice : IGraphicsDevice
 {
-    private static readonly FeatureLevel[] s_featureLevels = new[]
-    {
+    private static readonly FeatureLevel[] s_featureLevels =
+    [
         FeatureLevel.Level_12_2,
         FeatureLevel.Level_12_1,
         FeatureLevel.Level_12_0,
         FeatureLevel.Level_11_1,
         FeatureLevel.Level_11_0,
-    };
+    ];
 
     private const int RenderLatency = 2;
 

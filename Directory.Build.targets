@@ -7,10 +7,9 @@
 
   <!-- Settings that are only set for libraries -->
   <PropertyGroup Condition="'$(OutputType)' == 'Library'">
-    <IsTrimmable>true</IsTrimmable>
-    <EnableAotAnalyzer>true</EnableAotAnalyzer>
-    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+    <IsAotCompatible>true</IsAotCompatible>
     <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 
 </Project>

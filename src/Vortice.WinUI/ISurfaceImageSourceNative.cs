@@ -1,9 +1,8 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Mathematics;
 using Vortice.DXGI;
-using System.Drawing;
 
 #if WINDOWS
 using WinRT;
@@ -49,16 +48,16 @@ public unsafe class ISurfaceImageSourceNative : ComObject
         return result;
     }
 
-    public Result BeginDraw(in Rectangle updateRect, out IDXGISurface? surface, out Point offset)
+    public Result BeginDraw(in RectI updateRect, out IDXGISurface? surface, out Int2 offset)
     {
         RawRect updateRectRaw = updateRect;
         IntPtr surfacePtr = IntPtr.Zero;
         offset = default;
 
         Result result;
-        fixed (Point* offsetPtr = &offset)
+        fixed (Int2* offsetPtr = &offset)
         {
-            result = ((delegate* unmanaged<IntPtr, RawRect, void*, Point*, int>)this[4])(NativePointer, updateRectRaw, &surfacePtr, offsetPtr);
+            result = ((delegate* unmanaged<IntPtr, RawRect, void*, Int2*, int>)this[4])(NativePointer, updateRectRaw, &surfacePtr, offsetPtr);
         }
 
         surface = surfacePtr != IntPtr.Zero ? new IDXGISurface(surfacePtr) : null;

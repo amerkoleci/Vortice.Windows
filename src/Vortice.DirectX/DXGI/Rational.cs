@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DXGI;
@@ -16,5 +16,5 @@ public partial struct Rational
         Denominator = denominator;
     }
 
-    public override string ToString() => $"Numerator: {Numerator}, Denominator: {Denominator}";
+    public override readonly string ToString() => $"Numerator: {Numerator}, Denominator: {Denominator}";
 }

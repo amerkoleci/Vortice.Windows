@@ -10,14 +10,14 @@
 
   <ItemGroup>
     <Content Include="build\net461\Vortice.DirectStorage.props" PackagePath="build\net461\Vortice.DirectStorage.props" />
-    <Content Include="runtimes\win10-arm\native\dstoragecore.dll" PackagePath="runtimes\win10-arm\native\dstoragecore.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\win10-arm\native\dstorage.dll" PackagePath="runtimes\win10-arm\native\dstorage.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\win10-arm64\native\dstoragecore.dll" PackagePath="runtimes\win10-arm64\native\dstoragecore.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\win10-arm64\native\dstorage.dll" PackagePath="runtimes\win10-arm64\native\dstorage.dll" CopyToOutputDirectory="PreserveNewest"/>
-    <Content Include="runtimes\win10-x64\native\dstorage.dll" PackagePath="runtimes\win10-x64\native\dstorage.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\win10-x86\native\dstorage.dll" PackagePath="runtimes\win10-x86\native\dstorage.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\win10-x64\native\dstoragecore.dll" PackagePath="runtimes\win10-x64\native\dstoragecore.dll" CopyToOutputDirectory="PreserveNewest" />
-    <Content Include="runtimes\win10-x86\native\dstoragecore.dll" PackagePath="runtimes\win10-x86\native\dstoragecore.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-arm\native\dstoragecore.dll" PackagePath="runtimes\win-arm\native\dstoragecore.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-arm\native\dstorage.dll" PackagePath="runtimes\win-arm\native\dstorage.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-arm64\native\dstoragecore.dll" PackagePath="runtimes\win-arm64\native\dstoragecore.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-arm64\native\dstorage.dll" PackagePath="runtimes\win-arm64\native\dstorage.dll" CopyToOutputDirectory="PreserveNewest"/>
+    <Content Include="runtimes\win-x64\native\dstorage.dll" PackagePath="runtimes\win-x64\native\dstorage.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-x86\native\dstorage.dll" PackagePath="runtimes\win-x86\native\dstorage.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-x64\native\dstoragecore.dll" PackagePath="runtimes\win-x64\native\dstoragecore.dll" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="runtimes\win-x86\native\dstoragecore.dll" PackagePath="runtimes\win-x86\native\dstoragecore.dll" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="LICENSE.txt" PackagePath="LICENSE.txt" />
   </ItemGroup>
 

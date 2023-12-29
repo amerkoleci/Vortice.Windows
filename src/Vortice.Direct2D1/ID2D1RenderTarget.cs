@@ -1,7 +1,6 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
 using Vortice.DCommon;
 using Vortice.DirectWrite;
 using Vortice.DXGI;
@@ -11,7 +10,7 @@ namespace Vortice.Direct2D1;
 
 public partial class ID2D1RenderTarget
 {
-    public SizeF Dpi
+    public Size Dpi
     {
         get
         {
@@ -24,17 +23,17 @@ public partial class ID2D1RenderTarget
         }
     }
 
-    public ID2D1Bitmap CreateBitmap(Size size)
+    public ID2D1Bitmap CreateBitmap(SizeI size)
     {
         return CreateBitmap(size, IntPtr.Zero, 0, new BitmapProperties(DCommon.PixelFormat.Unknown));
     }
 
-    public ID2D1Bitmap CreateBitmap(Size size, BitmapProperties bitmapProperties)
+    public ID2D1Bitmap CreateBitmap(SizeI size, BitmapProperties bitmapProperties)
     {
         return CreateBitmap(size, IntPtr.Zero, 0, bitmapProperties);
     }
 
-    public ID2D1Bitmap CreateBitmap(Size size, IntPtr sourceData, int pitch)
+    public ID2D1Bitmap CreateBitmap(SizeI size, IntPtr sourceData, int pitch)
     {
         return CreateBitmap(size, sourceData, pitch, new BitmapProperties(DCommon.PixelFormat.Unknown));
     }
@@ -114,7 +113,7 @@ public partial class ID2D1RenderTarget
     /// </summary>
     /// <param name="desiredSize">The desired size of the new render target in device-independent pixels. The pixel size is computed from the desired size using the parent target DPI. If the desiredSize maps to a integer-pixel size, the DPI of the compatible render target is the same as the DPI of the parent target. If desiredSize maps to a fractional-pixel size, the pixel size is rounded up to the nearest integer and the DPI for the compatible render target is slightly higher than the DPI of the parent render target. In all cases, the coordinate (desiredSize.width, desiredSize.height) maps to the lower-right corner of the compatible render target.</param>
     /// <returns></returns>
-    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(Size desiredSize)
+    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(SizeI desiredSize)
     {
         return CreateCompatibleRenderTarget(desiredSize, null, null, CompatibleRenderTargetOptions.None);
     }
@@ -125,7 +124,7 @@ public partial class ID2D1RenderTarget
     /// <param name="desiredSize">The desired size of the new render target (in device-independent pixels), if it should be different from the original render target. For more info, see the Remarks section.</param>
     /// <param name="desiredPixelSize">The desired size of the new render target in pixels if it should be different from the original render target. For more information, see the Remarks section.</param>
     /// <returns></returns>
-    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(Size desiredSize, Size desiredPixelSize)
+    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(SizeI desiredSize, SizeI desiredPixelSize)
     {
         return CreateCompatibleRenderTarget(desiredSize, desiredPixelSize, null, CompatibleRenderTargetOptions.None);
     }
@@ -141,7 +140,7 @@ public partial class ID2D1RenderTarget
     /// If the alpha mode is <see cref="DCommon.AlphaMode.Unknown"/>, the alpha mode of the new render target defaults to <see cref="DCommon.AlphaMode.Premultiplied"/>.
     /// </param>
     /// <returns></returns>
-    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(Size desiredSize, Size desiredPixelSize, DCommon.PixelFormat desiredFormat)
+    public ID2D1BitmapRenderTarget CreateCompatibleRenderTarget(SizeI desiredSize, SizeI desiredPixelSize, DCommon.PixelFormat desiredFormat)
     {
         return CreateCompatibleRenderTarget(desiredSize, desiredPixelSize, desiredFormat, CompatibleRenderTargetOptions.None);
     }
@@ -173,7 +172,7 @@ public partial class ID2D1RenderTarget
     /// <param name="opacity">A value between 0.0f and 1.0f, inclusive, that specifies an opacity value to apply to the bitmap; this value is multiplied against the alpha values of the bitmap's contents.  The default value is 1.0f. </param>
     /// <param name="interpolationMode">The interpolation mode to use if the bitmap is scaled or rotated by the drawing operation. The default value is <see cref="F:Vortice.Direct2D1.BitmapInterpolationMode.Linear" />.  </param>
     /// <param name="sourceRectangle">The size and position, in device-independent pixels in the bitmap's coordinate space, of the area within the bitmap to be drawn; NULL to draw the entire bitmap.  </param>
-    public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, BitmapInterpolationMode interpolationMode, RectangleF sourceRectangle)
+    public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, BitmapInterpolationMode interpolationMode, Rect sourceRectangle)
     {
         RawRectF rawRect = sourceRectangle;
         DrawBitmap(bitmap, null, opacity, interpolationMode, rawRect);
@@ -187,7 +186,7 @@ public partial class ID2D1RenderTarget
     /// <param name="opacity">A value between 0.0f and 1.0f, inclusive, that specifies an opacity value to apply to the bitmap; this value is multiplied against the alpha values of the bitmap's contents.  The default value is 1.0f. </param>
     /// <param name="interpolationMode">The interpolation mode to use if the bitmap is scaled or rotated by the drawing operation. The default value is <see cref="F:Vortice.Direct2D1.BitmapInterpolationMode.Linear" />.  </param>
     /// <param name="sourceRectangle">The size and position, in device-independent pixels in the bitmap's coordinate space, of the area within the bitmap to be drawn; NULL to draw the entire bitmap.  </param>
-    public void DrawBitmap(ID2D1Bitmap bitmap, RectangleF destinationRectangle, float opacity, BitmapInterpolationMode interpolationMode, RectangleF sourceRectangle)
+    public void DrawBitmap(ID2D1Bitmap bitmap, Rect destinationRectangle, float opacity, BitmapInterpolationMode interpolationMode, Rect sourceRectangle)
     {
         RawRectF rawDestinationRectangle = destinationRectangle;
         RawRectF rawSourceRectangle = sourceRectangle;
@@ -275,7 +274,7 @@ public partial class ID2D1RenderTarget
     /// <param name="rectangle">The dimensions of the rectangle to draw, in device-independent pixels.</param>
     /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke.</param>
     /// <param name="strokeWidth">A value greater than or equal to 0.0f that specifies the width of the rectangle's stroke. The stroke is centered on the rectangle's outline.</param>
-    public void DrawRectangle(in RectangleF rectangle, ID2D1Brush brush, float strokeWidth)
+    public void DrawRectangle(in Rect rectangle, ID2D1Brush brush, float strokeWidth)
     {
         RawRectF rect = rectangle;
         DrawRectangle(rect, brush, strokeWidth, null);
@@ -286,7 +285,7 @@ public partial class ID2D1RenderTarget
     /// </summary>
     /// <param name="rectangle">The dimensions of the rectangle to draw, in device-independent pixels. </param>
     /// <param name="brush">The <see cref="ID2D1Brush"/> used to paint the rectangle's stroke. </param>
-    public void DrawRectangle(in RectangleF rectangle, ID2D1Brush brush)
+    public void DrawRectangle(in Rect rectangle, ID2D1Brush brush)
     {
         RawRectF rect = rectangle;
         DrawRectangle(rect, brush, 1.0f, null);
@@ -303,7 +302,7 @@ public partial class ID2D1RenderTarget
         DrawRectangle(rect, brush, strokeWidth, null);
     }
 
-    public void FillRectangle(in RectangleF rectangle, ID2D1Brush brush)
+    public void FillRectangle(in Rect rectangle, ID2D1Brush brush)
     {
         RawRectF rect = rectangle;
         FillRectangle(rect, brush);
@@ -362,7 +361,7 @@ public partial class ID2D1RenderTarget
     /// <param name="textFormat">An object that describes formatting details of the text to draw, such as the font, the font size, and flow direction.</param>
     /// <param name="layoutRect">The size and position of the area in which the text is drawn.  </param>
     /// <param name="defaultForegroundBrush">The brush used to paint the text. </param>
-    public void DrawText(string text, IDWriteTextFormat textFormat, RectangleF layoutRect, ID2D1Brush defaultForegroundBrush)
+    public void DrawText(string text, IDWriteTextFormat textFormat, Rect layoutRect, ID2D1Brush defaultForegroundBrush)
     {
         RawRectF rawLayoutRect = layoutRect;
         DrawText(text, text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, DrawTextOptions.None, MeasuringMode.Natural);
@@ -379,7 +378,7 @@ public partial class ID2D1RenderTarget
     /// <param name="layoutRect">The size and position of the area in which the text is drawn.  </param>
     /// <param name="defaultForegroundBrush">The brush used to paint the text. </param>
     /// <param name="options">A value that indicates whether the text should be snapped to pixel boundaries and whether the text should be clipped to the layout rectangle. The default value is <see cref="F:Vortice.Direct2D1.DrawTextOptions.None" />, which indicates that text should be snapped to pixel boundaries and it should not be clipped to the layout rectangle. </param>
-    public void DrawText(string text, IDWriteTextFormat textFormat, RectangleF layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options)
+    public void DrawText(string text, IDWriteTextFormat textFormat, Rect layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options)
     {
         RawRectF rawLayoutRect = layoutRect;
         DrawText(text, text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, options, MeasuringMode.Natural);
@@ -397,7 +396,7 @@ public partial class ID2D1RenderTarget
     /// <param name="defaultForegroundBrush">The brush used to paint the text. </param>
     /// <param name="options">A value that indicates whether the text should be snapped to pixel boundaries and whether the text should be clipped to the layout rectangle. The default value is <see cref="F:Vortice.Direct2D1.DrawTextOptions.None" />, which indicates that text should be snapped to pixel boundaries and it should not be clipped to the layout rectangle. </param>
     /// <param name="measuringMode">A value that indicates how glyph metrics are used to measure text when it is formatted.  The default value is DWRITE_MEASURING_MODE_NATURAL.  </param>
-    public void DrawText(string text, IDWriteTextFormat textFormat, RectangleF layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options, MeasuringMode measuringMode)
+    public void DrawText(string text, IDWriteTextFormat textFormat, Rect layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options, MeasuringMode measuringMode)
     {
         RawRectF rawLayoutRect = layoutRect;
         DrawText(text, text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, options, measuringMode);

@@ -1,7 +1,7 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice.WinUI.Composition;
 
@@ -14,30 +14,30 @@ public unsafe partial class ICompositionDrawingSurfaceInterop : ComObject
 
     public static explicit operator ICompositionDrawingSurfaceInterop?(IntPtr nativePtr) => nativePtr == IntPtr.Zero ? null : new(nativePtr);
 
-    public Result BeginDraw<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in Rectangle updateRect, out T? updateObject, out Point offset) where T : ComObject
+    public Result BeginDraw<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in RectI updateRect, out T? updateObject, out Int2 offset) where T : ComObject
     {
         RawRect updateRectRaw = updateRect;
         IntPtr updateObjectPtr = IntPtr.Zero;
         offset = default;
 
-        fixed (Point* offsetPtr = &offset)
+        fixed (Int2* offsetPtr = &offset)
         {
             Guid iid = typeof(T).GUID;
-            Result result = ((delegate* unmanaged<IntPtr, RawRect, void*, void*, Point*, int>)this[3])(NativePointer, updateRectRaw, &iid, &updateObjectPtr, offsetPtr);
+            Result result = ((delegate* unmanaged<IntPtr, RawRect, void*, void*, Int2*, int>)this[3])(NativePointer, updateRectRaw, &iid, &updateObjectPtr, offsetPtr);
             updateObject = updateObjectPtr != IntPtr.Zero ? MarshallingHelpers.FromPointer<T>(updateObjectPtr)! : null;
             return result;
         }
     }
 
-    public T BeginDraw<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in Rectangle updateRect, out Point offset) where T : ComObject
+    public T BeginDraw<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in RectI updateRect, out Int2 offset) where T : ComObject
     {
         RawRect updateRectRaw = updateRect;
         IntPtr updateObjectPtr = IntPtr.Zero;
 
-        fixed (Point* offsetPtr = &offset)
+        fixed (Int2* offsetPtr = &offset)
         {
             Guid iid = typeof(T).GUID;
-            Result result = ((delegate* unmanaged<IntPtr, RawRect, void*, void*, Point*, int>)this[3])(NativePointer, updateRectRaw, &iid, &updateObjectPtr, offsetPtr);
+            Result result = ((delegate* unmanaged<IntPtr, RawRect, void*, void*, Int2*, int>)this[3])(NativePointer, updateRectRaw, &iid, &updateObjectPtr, offsetPtr);
             result.CheckError();
             return MarshallingHelpers.FromPointer<T>(updateObjectPtr)!;
         }
@@ -59,13 +59,13 @@ public unsafe partial class ICompositionDrawingSurfaceInterop : ComObject
         return ((delegate* unmanaged<IntPtr, RawRect*, RawRect*, int, int, int>)this[6])(NativePointer, null, null, offsetX, offsetY);
     }
 
-    public Result Scroll(Rectangle clipRect, int offsetX, int offsetY)
+    public Result Scroll(RectI clipRect, int offsetX, int offsetY)
     {
         RawRect clipRectRaw = clipRect;
         return ((delegate* unmanaged<IntPtr, RawRect*, RawRect*, int, int, int>)this[6])(NativePointer, null, &clipRectRaw, offsetX, offsetY);
     }
 
-    public Result Scroll(Rectangle scrollRect, Rectangle clipRect, int offsetX, int offsetY)
+    public Result Scroll(RectI scrollRect, RectI clipRect, int offsetX, int offsetY)
     {
         RawRect scrollRectRaw = scrollRect;
         RawRect clipRectRaw = clipRect;

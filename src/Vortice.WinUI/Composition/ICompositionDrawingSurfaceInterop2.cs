@@ -1,7 +1,7 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice.WinUI.Composition;
 
@@ -20,7 +20,7 @@ public unsafe partial class ICompositionDrawingSurfaceInterop2 : ComObject
         return CopySurface(destinationResourcePtr, destinationOffsetX, destinationOffsetY, null);
     }
 
-    public Result CopySurface(IUnknown destinationResource, int destinationOffsetX, int destinationOffsetY, in Rectangle sourceRectangle)
+    public Result CopySurface(IUnknown destinationResource, int destinationOffsetX, int destinationOffsetY, in RectI sourceRectangle)
     {
         IntPtr destinationResourcePtr = MarshallingHelpers.ToCallbackPtr<IUnknown>(destinationResource);
         RawRect sourceRectangleRaw = sourceRectangle;

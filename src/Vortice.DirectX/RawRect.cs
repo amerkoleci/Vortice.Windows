@@ -1,25 +1,6 @@
-// Copyright (c) 2010-2013 SharpDX - Alexandre Mutel
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+// Copyright (c) Amer Koleci and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Diagnostics;
-using System.Drawing;
 using Vortice.Mathematics;
 
 namespace Vortice;
@@ -28,8 +9,7 @@ namespace Vortice;
 /// Defines an integer rectangle (Left, Top, Right, Bottom)
 /// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 4)]
-[DebuggerDisplay("Left: {Left}, Top: {Top}, Right: {Right}, Bottom: {Bottom}")]
-public readonly struct RawRect
+public readonly record struct RawRect
 {
     public RawRect(int left, int top, int right, int bottom)
     {
@@ -59,23 +39,31 @@ public readonly struct RawRect
     /// </summary>
     public readonly int Bottom;
 
-    /// <inheritdoc/>
-    public override string ToString()
-    {
-        return $"{nameof(Left)}: {Left}, {nameof(Top)}: {Top}, {nameof(Right)}: {Right}, {nameof(Bottom)}: {Bottom}";
-    }
-
     /// <summary>
-    /// Performs an implicit conversion from <see cre ="RawRect"/> to <see cref="Rectangle" />.
+    /// Performs an implicit conversion from <see cre ="RawRect"/> to <see cref="RectI" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator Rectangle(RawRect value) => Rectangle.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
+    public static implicit operator RectI(in RawRect value) => RectI.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
 
     /// <summary>
-    /// Performs an implicit conversion from <see cre ="Rectangle"/> to <see cref="RawRect" />.
+    /// Performs an implicit conversion from <see cre ="RectI"/> to <see cref="RawRect" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator RawRect(Rectangle value) => new(value.Left, value.Top, value.Right, value.Bottom);
+    public static implicit operator RawRect(in RectI value) => new(value.Left, value.Top, value.Right, value.Bottom);
+
+    /// <summary>
+    /// Performs an implicit conversion from <see cre ="RawRect"/> to <see cref="System.Drawing.Rectangle" />.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>The result of the conversion.</returns>
+    public static implicit operator System.Drawing.Rectangle(in RawRect value) => System.Drawing.Rectangle.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
+
+    /// <summary>
+    /// Performs an implicit conversion from <see cre ="System.Drawing.Rectangle"/> to <see cref="RawRect" />.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>The result of the conversion.</returns>
+    public static implicit operator RawRect(in System.Drawing.Rectangle value) => new(value.Left, value.Top, value.Right, value.Bottom);
 }

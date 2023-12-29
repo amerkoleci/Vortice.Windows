@@ -1,7 +1,7 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
+using Vortice.Mathematics;
 
 namespace Vortice.Win32;
 
@@ -22,13 +22,13 @@ public partial struct PointerInfo
 
     public nint HwndTarget;
 
-    public Point PixelLocation;
+    public Int2 PixelLocation;
 
-    public Point HimetricLocation;
+    public Int2 HimetricLocation;
 
-    public Point PixelLocationRaw;
+    public Int2 PixelLocationRaw;
 
-    public Point HimetricLocationRaw;
+    public Int2 HimetricLocationRaw;
 
     public uint Time;
 

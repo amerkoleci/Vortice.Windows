@@ -157,7 +157,7 @@ csharp_space_between_square_brackets = false
 csharp_style_namespace_declarations=file_scoped:error
 
 # License header
-file_header_template = Copyright © Amer Koleci and Contributors.\nLicensed under the MIT License (MIT). See LICENSE in the repository root for more information.
+file_header_template = Copyright (c) Amer Koleci and Contributors.\nLicensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 # C++ Files
 [*.{cpp,h,in}]

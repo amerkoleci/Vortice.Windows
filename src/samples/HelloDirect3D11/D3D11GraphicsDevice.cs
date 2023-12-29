@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Drawing;
@@ -31,7 +31,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     private const int FrameCount = 2;
 
     public readonly Window? Window;
-    public readonly Size Size;
+    public readonly SizeI Size;
     public readonly Format ColorFormat;
     public ColorSpaceType ColorSpace = ColorSpaceType.RgbFullG22NoneP709;
 
@@ -62,12 +62,12 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
     {
     }
 
-    public D3D11GraphicsDevice(Size size, Format colorFormat = Format.R8G8B8A8_UNorm, Format depthStencilFormat = Format.D32_Float)
+    public D3D11GraphicsDevice(SizeI size, Format colorFormat = Format.R8G8B8A8_UNorm, Format depthStencilFormat = Format.D32_Float)
         : this(null, size, colorFormat, depthStencilFormat)
     {
     }
 
-    private D3D11GraphicsDevice(Window? window, Size size, Format colorFormat = Format.B8G8R8A8_UNorm, Format depthStencilFormat = Format.D32_Float)
+    private D3D11GraphicsDevice(Window? window, SizeI size, Format colorFormat = Format.B8G8R8A8_UNorm, Format depthStencilFormat = Format.D32_Float)
     {
         Window = window;
         Size = size;
@@ -415,7 +415,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         // Get the rectangle bounds of the app window.
         if (Window != null)
         {
-            Rectangle windowBounds = Window.Bounds;
+            RectI windowBounds = Window.Bounds;
 
             int ax1 = windowBounds.Left;
             int ay1 = windowBounds.Top;

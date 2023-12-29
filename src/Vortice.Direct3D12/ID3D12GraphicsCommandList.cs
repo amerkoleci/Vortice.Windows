@@ -2,8 +2,6 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using SharpGen.Runtime;
-using System;
-using System.Drawing;
 using Vortice.Mathematics;
 
 namespace Vortice.Direct3D12;
@@ -421,7 +419,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         RSSetScissorRects(1, &rect);
     }
 
-    public void RSSetScissorRect(Rectangle rectangle)
+    public void RSSetScissorRect(in RectI rectangle)
     {
         RawRect rect = rectangle;
         RSSetScissorRects(1, &rect);

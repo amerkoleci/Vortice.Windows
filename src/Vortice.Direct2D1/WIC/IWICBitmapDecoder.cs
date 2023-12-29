@@ -1,25 +1,25 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.WIC;
 
-    public partial class IWICBitmapDecoder
+public partial class IWICBitmapDecoder
+{
+    internal IWICStream? _wicStream;
+
+    protected override void DisposeCore(IntPtr nativePointer, bool disposing)
     {
-        internal IWICStream? _wicStream;
+        base.DisposeCore(nativePointer, disposing);
 
-        protected override void DisposeCore(IntPtr nativePointer, bool disposing)
+        DisposeWICStreamProxy();
+    }
+
+    private void DisposeWICStreamProxy()
+    {
+        if (_wicStream != null)
         {
-            base.DisposeCore(nativePointer, disposing);
-
-            DisposeWICStreamProxy();
+            _wicStream.Dispose();
+            _wicStream = null;
         }
-
-        private void DisposeWICStreamProxy()
-        {
-            if (_wicStream != null)
-            {
-                _wicStream.Dispose();
-                _wicStream = null;
-            }
     }
 }

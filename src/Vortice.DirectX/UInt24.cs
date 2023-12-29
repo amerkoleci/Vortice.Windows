@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice;
@@ -11,9 +11,9 @@ public struct UInt24 : IEquatable<UInt24>
 {
     #region Constants
 
-    public static readonly UInt24 MinValue = new UInt24(0);
+    public static readonly UInt24 MinValue = new(0);
 
-    public static readonly UInt24 MaxValue = new UInt24(0xFFFFFF);
+    public static readonly UInt24 MaxValue = new(0xFFFFFF);
 
     #endregion
 
@@ -35,10 +35,10 @@ public struct UInt24 : IEquatable<UInt24>
     #endregion
 
     /// <inheritdoc/>
-    public override bool Equals(object? obj) => obj is UInt24 value && Equals(value);
+    public override bool Equals([NotNullWhen(true)] object? obj) => obj is UInt24 value && Equals(value);
 
     /// <inheritdoc/>
-    public bool Equals(UInt24 other)
+    public readonly bool Equals(UInt24 other)
     {
         return mValue0 == other.mValue0 && mValue1 == other.mValue1;
     }

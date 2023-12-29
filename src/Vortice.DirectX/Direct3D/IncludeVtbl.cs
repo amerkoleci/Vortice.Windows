@@ -1,4 +1,4 @@
-﻿// Copyright � Amer Koleci and Contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Diagnostics;
@@ -23,7 +23,7 @@ internal static unsafe partial class IncludeVtbl
             IntPtr parentData = (IntPtr)_parentData;
             ref IntPtr data = ref Unsafe.AsRef<IntPtr>(_data);
             ref int bytes = ref Unsafe.AsRef<int>(_bytes);
-            string fileName = Marshal.PtrToStringAnsi((IntPtr)_fileName);
+            string fileName = Marshal.PtrToStringAnsi((IntPtr)_fileName)!;
 
             Stream? stream = null;
             Stream? parentStream = null;

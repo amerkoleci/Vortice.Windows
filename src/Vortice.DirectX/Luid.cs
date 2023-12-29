@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Diagnostics.Contracts;
@@ -32,7 +32,7 @@ public readonly struct Luid : IEquatable<Luid>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Luid FromInt64(long int64)
     {
-        LARGE_INTEGER val = new LARGE_INTEGER
+        LARGE_INTEGER val = new()
         {
             QuadPart = int64
         };

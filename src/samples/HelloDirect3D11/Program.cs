@@ -1,9 +1,7 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using System.Drawing;
 using SharpGen.Runtime;
-using SharpGen.Runtime.Diagnostics;
 using Vortice;
 using Vortice.Direct3D11;
 using Vortice.DXGI;
@@ -28,7 +26,7 @@ public static class Program
         {
             if (Headless)
             {
-                _graphicsDevice = new D3D11GraphicsDevice(new Size(800, 600));
+                _graphicsDevice = new D3D11GraphicsDevice(new SizeI(800, 600));
                 _screenshot = true;
             }
             else
@@ -226,7 +224,7 @@ public static class Program
                                 }
 
                                 formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                                frame.WriteSource(formatConverter, new Rectangle(0, 0, textureDesc.Width, textureDesc.Height));
+                                frame.WriteSource(formatConverter, new RectI(0, 0, textureDesc.Width, textureDesc.Height));
                             }
                         }
                     }
@@ -260,7 +258,7 @@ public static class Program
                                 }
 
                                 formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                                frame.WriteSource(formatConverter, new Rectangle(0, 0, textureDesc.Width, textureDesc.Height));
+                                frame.WriteSource(formatConverter, new RectI(0, 0, textureDesc.Width, textureDesc.Height));
                             }
                         }
                     }

@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Dxc;
@@ -73,7 +73,7 @@ public partial class IDxcCompiler2
         {
             if (argumentsPtr != null)
             {
-                Interop.Free(argumentsPtr);
+                NativeMemory.Free(argumentsPtr);
             }
         }
     }
@@ -152,7 +152,7 @@ public partial class IDxcCompiler2
         {
             if (argumentsPtr != null)
             {
-                Interop.Free(argumentsPtr);
+                NativeMemory.Free(argumentsPtr);
             }
         }
     }
