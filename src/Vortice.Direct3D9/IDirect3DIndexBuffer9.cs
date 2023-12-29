@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D9;
@@ -19,7 +19,7 @@ public partial class IDirect3DIndexBuffer9
         if (sizeToLock == 0)
             sizeToLock = Description.SizeInBytes;
 
-        var pOut = Lock(offsetToLock, sizeToLock, lockFlags);
+        nint pOut = Lock(offsetToLock, sizeToLock, lockFlags);
         return new ReadOnlySpan<T>(pOut.ToPointer(), sizeToLock);
     }
 

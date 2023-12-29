@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
@@ -10,10 +10,7 @@ public partial class IDirect3DQuery9
     /// <summary>
     /// Gets the type.
     /// </summary>
-    public QueryType Type
-    {
-        get { return GetQueryType(); }
-    }
+    public QueryType Type => GetQueryType();
 
     /// <summary>	
     /// <p>Polls a queried resource to get the query state or a query result. For more information about queries, see Queries (Direct3D 9).</p>	

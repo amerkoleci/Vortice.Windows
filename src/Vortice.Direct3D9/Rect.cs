@@ -44,21 +44,21 @@ public readonly record struct Rect
 
     public readonly int Width => Right - Left;
     public readonly int Height => Bottom - Top;
-    public readonly Size Size => new(Width, Height);
+    public readonly Vortice.Mathematics.SizeI Size => new(Width, Height);
 
     /// <summary>
-    /// Performs an implicit conversion from <see cre ="Rect"/> to <see cref="System.Drawing.Rectangle" />.
+    /// Performs an implicit conversion from <see cre ="Rect"/> to <see cref="Vortice.Mathematics.RectI" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator Vortice.Mathematics.RectI(Rect value) => System.Drawing.Rectangle.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
+    public static implicit operator Vortice.Mathematics.RectI(Rect value) => Vortice.Mathematics.RectI.FromLTRB(value.Left, value.Top, value.Right, value.Bottom);
 
     /// <summary>
     /// Performs an implicit conversion from <see cre ="System.Drawing.Rectangle"/> to <see cref="Rect" />.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
-    public static implicit operator Rect(System.Drawing.Rectangle value) => new(value.Left, value.Top, value.Right, value.Bottom);
+    public static implicit operator Rect(in Vortice.Mathematics.RectI value) => new(value.Left, value.Top, value.Right, value.Bottom);
 
     /// <summary>
     /// Performs an implicit conversion from <see cre ="Rect"/> to <see cref="System.Drawing.Rectangle" />.

@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using NUnit.Framework;
@@ -19,13 +19,13 @@ public class CompileTests
 
         using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
 
-        Assert.True(results.GetStatus().Success);
+        Assert.That(results.GetStatus().Success, Is.True);
 
         var shaderCode = results.GetObjectBytecodeArray();
 
-        Assert.True(shaderCode.Length > 0);
+        Assert.That(shaderCode.Length > 0, Is.True);
 
-        Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
+        Assert.That(ShaderCodeHelper.IsCodeSigned(shaderCode), Is.True, ShaderCodeNotSignedMessage);
     }
 
     [TestCase]
@@ -35,11 +35,11 @@ public class CompileTests
 
         using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain");
 
-        Assert.True(results.GetStatus().Failure);
+        Assert.That(results.GetStatus().Failure, Is.True);
 
         var errorTest = results.GetErrors();
 
-        Assert.True(errorTest!.Contains("error: no member named 'ThisIsAnError' in 'PSInput'"));
+        Assert.That(errorTest!.Contains("error: no member named 'ThisIsAnError' in 'PSInput'"), Is.True);
     }
 
     [TestCase]
@@ -51,13 +51,13 @@ public class CompileTests
         {
             using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", includeHandler: includeHandler);
 
-            Assert.True(results.GetStatus().Success);
+            Assert.That(results.GetStatus().Success, Is.True);
 
             var shaderCode = results.GetObjectBytecodeArray();
 
-            Assert.True(shaderCode.Length > 0);
+            Assert.That(shaderCode.Length > 0, Is.True);
 
-            Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
+            Assert.That(ShaderCodeHelper.IsCodeSigned(shaderCode), Is.True, ShaderCodeNotSignedMessage);
         }
     }
 
@@ -70,12 +70,12 @@ public class CompileTests
 
         using IDxcResult results = DxcCompiler.Compile(DxcShaderStage.Vertex, shaderSource, "VSMain", defines: defines);
 
-        Assert.True(results.GetStatus().Success);
+        Assert.That(results.GetStatus().Success, Is.True);
 
         var shaderCode = results.GetObjectBytecodeArray();
 
-        Assert.True(shaderCode.Length > 0);
+        Assert.That(shaderCode.Length > 0, Is.True);
 
-        Assert.True(ShaderCodeHelper.IsCodeSigned(shaderCode), ShaderCodeNotSignedMessage);
+        Assert.That(ShaderCodeHelper.IsCodeSigned(shaderCode), Is.True, ShaderCodeNotSignedMessage);
     }
 }

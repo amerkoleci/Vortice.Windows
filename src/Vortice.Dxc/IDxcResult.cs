@@ -31,26 +31,20 @@ public partial class IDxcResult
 
     public ReadOnlySpan<byte> GetObjectBytecode(out IDxcBlobWide? outputName)
     {
-        using (IDxcBlob? blob = GetOutput<IDxcBlob>(DxcOutKind.Object, out outputName))
-        {
-            return blob!.AsSpan();
-        }
+        using IDxcBlob? blob = GetOutput<IDxcBlob>(DxcOutKind.Object, out outputName);
+        return blob!.AsSpan();
     }
 
     public byte[] GetObjectBytecodeArray()
     {
-        using (IDxcBlob? blob = GetOutput(DxcOutKind.Object))
-        {
-            return blob!.AsBytes();
-        }
+        using IDxcBlob? blob = GetOutput(DxcOutKind.Object);
+        return blob!.AsBytes();
     }
 
     public byte[] GetObjectBytecodeArray(out IDxcBlobWide? outputName)
     {
-        using (IDxcBlob? blob = GetOutput<IDxcBlob>(DxcOutKind.Object, out outputName))
-        {
-            return blob!.AsBytes();
-        }
+        using IDxcBlob? blob = GetOutput<IDxcBlob>(DxcOutKind.Object, out outputName);
+        return blob!.AsBytes();
     }
 
     public IDxcBlob GetOutput(DxcOutKind kind)
