@@ -15,9 +15,9 @@ public sealed class Vignette : ID2D1Effect
     {
     }
 
-    public Vector3 Color
+    public Vector4 Color
     {
-        get => GetVector3Value((int)VignetteProperties.Color);
+        get => GetVector4Value((int)VignetteProperties.Color);
         set => SetValue((int)VignetteProperties.Color, value);
     }
 
