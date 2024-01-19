@@ -44,16 +44,23 @@ public static unsafe class UnsafeUtilities
         }
     }
 
-    public static IntPtr Write<T>(IntPtr destination, ref T value) where T : unmanaged
+    public static void Write<T>(nint destination, ref T value) where T : unmanaged
     {
         fixed (void* valuePtr = &value)
         {
             Unsafe.CopyBlockUnaligned((void*)destination, valuePtr, (uint)(sizeof(T)));
-            return destination + sizeof(T);
         }
     }
 
-    public static IntPtr Write<T>(IntPtr destination, T[] data) where T : unmanaged
+    public static void Write<T>(void* destination, ref T value) where T : unmanaged
+    {
+        fixed (void* valuePtr = &value)
+        {
+            Unsafe.CopyBlockUnaligned(destination, valuePtr, (uint)(sizeof(T)));
+        }
+    }
+
+    public static nint Write<T>(nint destination, T[] data) where T : unmanaged
     {
         int byteCount = data.Length * sizeof(T);
         fixed (void* dataPtr = data)
@@ -63,13 +70,31 @@ public static unsafe class UnsafeUtilities
         }
     }
 
-    public static IntPtr Write<T>(IntPtr destination, T[] data, int offset, int count) where T : unmanaged
+    public static nint Write<T>(nint destination, T[] data, int offset, int count) where T : unmanaged
     {
         int byteCount = count * sizeof(T);
         fixed (void* dataPtr = &data[offset])
         {
             Unsafe.CopyBlockUnaligned((void*)destination, dataPtr, (uint)byteCount);
             return destination + byteCount;
+        }
+    }
+
+    public static void Write<T>(void* destination, Span<T> data) where T : unmanaged
+    {
+        int byteCount = data.Length * sizeof(T);
+        fixed (void* dataPtr = data)
+        {
+            Unsafe.CopyBlockUnaligned(destination, dataPtr, (uint)byteCount);
+        }
+    }
+
+    public static void Write<T>(void* destination, Span<T> data, int offset, int count) where T : unmanaged
+    {
+        int byteCount = count * sizeof(T);
+        fixed (void* dataPtr = &data[offset])
+        {
+            Unsafe.CopyBlockUnaligned(destination, dataPtr, (uint)byteCount);
         }
     }
 

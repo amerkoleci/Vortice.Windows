@@ -124,20 +124,19 @@ public partial class IDirectSoundBuffer
     /// <value>
     /// The wave format.
     /// </value>
-    /// <include file="Documentation\CodeComments.xml" path="/comments/comment[@id='IDirectSoundBuffer::SetFormat']/*"/>
     /// <unmanaged>HRESULT IDirectSoundBuffer::SetFormat([In] const WAVEFORMATEX* pcfxFormat)</unmanaged>
-    public WaveFormat Format
+    public unsafe WaveFormat Format
     {
         set
         {
-            IntPtr ptr = WaveFormat.MarshalToPtr(value);
+            void* ptr = WaveFormat.MarshalToPtr(value);
             try
             {
                 SetFormat(ptr);
             }
             finally
             {
-                Marshal.FreeHGlobal(ptr);
+                NativeMemory.Free(ptr);
             }
         }
     }

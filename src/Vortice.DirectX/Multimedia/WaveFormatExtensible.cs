@@ -50,9 +50,9 @@ public class WaveFormatExtensible : WaveFormat
         GuidSubFormat = bits == 32 ? new Guid("00000003-0000-0010-8000-00aa00389b71") : new Guid("00000001-0000-0010-8000-00aa00389b71");
     }
 
-    protected unsafe override IntPtr MarshalToPtr()
+    protected unsafe override void* MarshalToPtr()
     {
-        var result = Marshal.AllocHGlobal(Unsafe.SizeOf<__Native>());
+        void* result = UnsafeUtilities.Alloc(Unsafe.SizeOf<__Native>());
         __MarshalTo(ref *(__Native*)result);
         return result;
     }

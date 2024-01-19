@@ -83,9 +83,10 @@ public class WaveFormatAdpcm : WaveFormat
     public short[]? Coefficients2 { get; set; }
 
     #region Marshal
-    protected unsafe override IntPtr MarshalToPtr()
+    protected unsafe override void* MarshalToPtr()
     {
-        var result = Marshal.AllocHGlobal(Unsafe.SizeOf<__Native>() + sizeof(int) + sizeof(int) * Coefficients1.Length);
+        int Coefficients1Length = Coefficients1 != null ? Coefficients1.Length : 0;
+        void* result = UnsafeUtilities.Alloc(Unsafe.SizeOf<__Native>() + sizeof(int) + sizeof(int) * Coefficients1Length);
         __MarshalTo(ref *(__Native*)result);
         return result;
     }
@@ -130,7 +131,10 @@ public class WaveFormatAdpcm : WaveFormat
 
     private unsafe void __MarshalTo(ref __Native @ref)
     {
-        if (Coefficients1.Length > 7)
+        if(Coefficients1 == null)
+            throw new ArgumentNullException(nameof(Coefficients1));
+
+        if ( Coefficients1.Length > 7)
             throw new InvalidOperationException("Unable to encode Adpcm format. Too may coefficients (max 7)");
 
         extraSize = (short)(sizeof(int) + sizeof(int) * Coefficients1.Length);

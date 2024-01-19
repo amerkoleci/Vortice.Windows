@@ -124,7 +124,7 @@ public partial class IXAudio2
         bool enableCallbackEvents = false,
         EffectDescriptor[]? effectDescriptors = null)
     {
-        IntPtr waveformatPtr = WaveFormat.MarshalToPtr(sourceFormat);
+        void* waveformatPtr = WaveFormat.MarshalToPtr(sourceFormat);
         IXAudio2SourceVoice.VoiceCallbackImpl? callback = enableCallbackEvents ? new IXAudio2SourceVoice.VoiceCallbackImpl() : default;
 
         try
@@ -164,7 +164,7 @@ public partial class IXAudio2
         }
         finally
         {
-            Marshal.FreeHGlobal(waveformatPtr);
+            NativeMemory.Free(waveformatPtr);
         }
     }
 

@@ -65,9 +65,9 @@ public unsafe static partial class Compiler
 
     public static ReadOnlyMemory<byte> Compile(
         string shaderSource,
+        ShaderMacro[] macros,
         string entryPoint,
         string sourceName,
-        ShaderMacro[] macros,
         string profile,
         ShaderFlags shaderFlags = ShaderFlags.None,
         EffectFlags effectFlags = EffectFlags.None)
@@ -86,6 +86,61 @@ public unsafe static partial class Compiler
                 sourceName,
                 macros,
                 null,
+                entryPoint,
+                profile,
+                shaderFlags,
+                effectFlags,
+                out Blob blob,
+                out Blob? errorBlob);
+
+            if (result.Failure)
+            {
+                if (errorBlob != null)
+                {
+                    throw new SharpGenException(result, errorBlob.AsString());
+                }
+                else
+                {
+                    throw new SharpGenException(result);
+                }
+            }
+
+            errorBlob?.Dispose();
+            ReadOnlyMemory<byte> bytecode = blob.AsMemory();
+            blob.Dispose();
+            return bytecode;
+        }
+        finally
+        {
+            if (shaderSourcePtr != IntPtr.Zero)
+                Marshal.FreeHGlobal(shaderSourcePtr);
+        }
+    }
+
+    public static ReadOnlyMemory<byte> Compile(
+        string shaderSource,
+        ShaderMacro[] macros,
+        Include include,
+        string entryPoint,
+        string sourceName,
+        string profile,
+        ShaderFlags shaderFlags = ShaderFlags.None,
+        EffectFlags effectFlags = EffectFlags.None)
+    {
+        if (string.IsNullOrEmpty(shaderSource))
+        {
+            throw new ArgumentNullException(nameof(shaderSource));
+        }
+
+        IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
+        try
+        {
+            Result result = Compile(
+                shaderSourcePtr.ToPointer(),
+                shaderSource.Length,
+                sourceName,
+                macros,
+                include,
                 entryPoint,
                 profile,
                 shaderFlags,

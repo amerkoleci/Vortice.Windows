@@ -253,7 +253,7 @@
     <map param="IDirectSoundBuffer::Lock::ppvAudioPtr2" name="audioPtr2" />
     <map method="IDirectSoundBuffer::Unlock" visibility="internal" />
     <map method="IDirectSoundBuffer::SetFormat" property="false" visibility="internal"/>
-    <map param="IDirectSoundBuffer::SetFormat::pcfxFormat" type="void"/>
+    <map param="IDirectSoundBuffer::SetFormat::pcfxFormat" type="void" keep-pointers="true" />
     
     <!-- Functions -->
     <remove function="DirectSoundEnumerateA" />

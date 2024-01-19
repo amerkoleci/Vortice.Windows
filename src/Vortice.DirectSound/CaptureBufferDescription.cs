@@ -62,20 +62,20 @@ public partial class CaptureBufferDescription
 
     // Internal native struct used for marshalling
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal partial struct __Native
+    internal unsafe partial struct __Native
     {
         public int Size;
         public CaptureBufferCapabilitiesFlags Flags;
         public int BufferBytes;
         public int Reserved;
-        public IntPtr FormatPointer;
+        public void* FormatPointer;
         public int EffectCount;
         public IntPtr EffectDescriptionPointer;
         // Method to free native struct
-        internal unsafe void __MarshalFree()
+        internal void __MarshalFree()
         {
-            if (FormatPointer != IntPtr.Zero)
-                Marshal.FreeHGlobal(FormatPointer);
+            if (FormatPointer != null)
+                NativeMemory.Free(FormatPointer);
             if (EffectCount > 0 && EffectDescriptionPointer != IntPtr.Zero)
                 Marshal.FreeHGlobal(EffectDescriptionPointer);
         }

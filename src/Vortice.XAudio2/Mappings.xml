@@ -213,7 +213,7 @@
     <!-- IXAudio2 -->
     <map method="IXAudio2::Create.*" visibility="internal" />
     <map param="IXAudio2::CreateSourceVoice::Flags" type="XAUDIO2_VOICE_FLAGS" />
-    <map param="IXAudio2::CreateSourceVoice::pSourceFormat" type="void" />
+    <map param="IXAudio2::CreateSourceVoice::pSourceFormat" type="void" keep-pointers="true" />
     <map method="IXAudio2::SetDebugConfiguration" visibility="internal" />
 
     <map method="IXAudio2::(Unr|R)egisterForCallbacks" visibility="internal" />

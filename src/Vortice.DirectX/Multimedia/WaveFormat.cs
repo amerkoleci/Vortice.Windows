@@ -304,9 +304,9 @@ public partial class WaveFormat
         throw new InvalidOperationException(string.Format("Unsupported WaveFormat [{0}]", encoding));
     }
 
-    protected unsafe virtual IntPtr MarshalToPtr()
+    protected unsafe virtual void* MarshalToPtr()
     {
-        IntPtr result = Marshal.AllocHGlobal(Unsafe.SizeOf<__Native>());
+        void* result = UnsafeUtilities.Alloc(Unsafe.SizeOf<__Native>());
         __MarshalTo(ref *(__Native*)result);
         return result;
     }
@@ -316,10 +316,11 @@ public partial class WaveFormat
     /// </summary>
     /// <param name="format">WaveFormat</param>
     /// <returns>IntPtr to WaveFormat structure (needs to be freed by callee)</returns>
-    public static IntPtr MarshalToPtr(WaveFormat? format)
+    public unsafe static void* MarshalToPtr(WaveFormat? format)
     {
         if (format == null)
-            return IntPtr.Zero;
+            return null;
+
         return format.MarshalToPtr();
     }
 

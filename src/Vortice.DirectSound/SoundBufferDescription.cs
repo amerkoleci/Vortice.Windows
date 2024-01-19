@@ -45,14 +45,14 @@ public unsafe partial class SoundBufferDescription
         public BufferFlags Flags;
         public int BufferBytes;
         public int Reserved;
-        public IntPtr pFormat;
+        public void* pFormat;
         public Guid AlgorithmFor3D;
 
         // Method to free native struct
         internal void __MarshalFree()
         {
-            if (pFormat != IntPtr.Zero)
-                Marshal.FreeHGlobal(pFormat);
+            if (pFormat != null)
+                NativeMemory.Free(pFormat);
         }
     }
 

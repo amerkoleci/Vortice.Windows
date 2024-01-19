@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Distributed under the MIT license. See the LICENSE file in the project root for more information.
 
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Vortice.DirectInput;
@@ -68,7 +69,7 @@ public partial class EffectParameters
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal partial struct __Native
+    internal unsafe partial struct __Native
     {
         public int Size;
         public EffectFlags Flags;
@@ -80,19 +81,19 @@ public partial class EffectParameters
         public int AxeCount;
         public IntPtr AxePointer;
         public IntPtr DirectionPointer;
-        public IntPtr EnvelopePointer;
+        public void* EnvelopePointer;
         public int TypeSpecificParamCount;
         public IntPtr TypeSpecificParamPointer;
         public int StartDelay;
 
-        internal unsafe void __MarshalFree()
+        internal void __MarshalFree()
         {
             if (AxePointer != IntPtr.Zero)
                 Marshal.FreeHGlobal(AxePointer);
             if (DirectionPointer != IntPtr.Zero)
                 Marshal.FreeHGlobal(DirectionPointer);
-            if (EnvelopePointer != IntPtr.Zero)
-                Marshal.FreeHGlobal(EnvelopePointer);
+            if (EnvelopePointer != null)
+                NativeMemory.Free(EnvelopePointer);
         }
     }
 
@@ -141,10 +142,10 @@ public partial class EffectParameters
         }
 
         // Marshal Envelope
-        @ref.EnvelopePointer = IntPtr.Zero;
+        @ref.EnvelopePointer = null;
         if (Envelope != null)
         {
-            @ref.EnvelopePointer = Marshal.AllocHGlobal(sizeof(Envelope.__Native));
+            @ref.EnvelopePointer = UnsafeUtilities.Alloc(sizeof(Envelope.__Native));
             var envelopeNative = Envelope.__NewNative();
             Envelope.__MarshalTo(ref envelopeNative);
             UnsafeUtilities.Write(@ref.EnvelopePointer, ref envelopeNative);
@@ -188,7 +189,7 @@ public partial class EffectParameters
         }
 
         // Marshal Envelope
-        if (@ref.EnvelopePointer != IntPtr.Zero)
+        if (@ref.EnvelopePointer != null)
         {
             var envelopeNative = *((Envelope.__Native*)@ref.EnvelopePointer);
             Envelope = new Envelope();
