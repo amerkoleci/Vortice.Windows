@@ -26,7 +26,7 @@ public unsafe partial class IMFMediaEngine
     public MediaEngineReady ReadyState { get => (MediaEngineReady)GetReadyState(); }
     public MediaEngineNetwork NetworkState { get => (MediaEngineNetwork)GetNetworkState(); }
 
-    public Size NativeVideoSize
+    public SizeI NativeVideoSize
     {
         get
         {
@@ -35,7 +35,7 @@ public unsafe partial class IMFMediaEngine
         }
     }
 
-    public Size VideoAspectRatio
+    public SizeI VideoAspectRatio
     {
         get
         {
