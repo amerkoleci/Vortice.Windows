@@ -8,7 +8,11 @@ namespace Vortice.Direct3D11;
 
 public static unsafe partial class D3D11
 {
-    public static Result D3D11CreateDevice(IDXGIAdapter? adapter, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
+    public static Result D3D11CreateDevice(
+        IDXGIAdapter? adapter,
+        DriverType driverType,
+        DeviceCreationFlags flags,
+        FeatureLevel[]? featureLevels,
         out ID3D11Device? device)
     {
         return RawD3D11CreateDeviceNoContext(
@@ -18,6 +22,22 @@ public static unsafe partial class D3D11
             featureLevels,
             out device,
             out _);
+    }
+
+    public static Result D3D11CreateDevice(
+        IDXGIAdapter? adapter,
+        DriverType driverType,
+        DeviceCreationFlags flags,
+        FeatureLevel[]? featureLevels,
+        out ID3D11Device? device, out FeatureLevel featureLevel)
+    {
+        return RawD3D11CreateDeviceNoContext(
+            adapter != null ? adapter.NativePointer : IntPtr.Zero,
+            driverType,
+            flags,
+            featureLevels,
+            out device,
+            out featureLevel);
     }
 
     public static Result D3D11CreateDevice(IDXGIAdapter? adapter, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
@@ -49,7 +69,11 @@ public static unsafe partial class D3D11
         return result;
     }
 
-    public static Result D3D11CreateDevice(IntPtr adapterPtr, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
+    public static Result D3D11CreateDevice(
+        nint adapterPtr,
+        DriverType driverType,
+        DeviceCreationFlags flags,
+        FeatureLevel[]? featureLevels,
         out ID3D11Device? device)
     {
         return RawD3D11CreateDeviceNoContext(
@@ -292,7 +316,7 @@ public static unsafe partial class D3D11
     /// </returns>
     public static int CalculateMipSize(int mipLevel, int baseSize)
     {
-        baseSize = baseSize >> mipLevel;
+        baseSize >>= mipLevel;
         return baseSize > 0 ? baseSize : 1;
     }
 
@@ -301,12 +325,12 @@ public static unsafe partial class D3D11
         IntPtr adapterPtr,
         DriverType driverType,
         DeviceCreationFlags flags,
-        FeatureLevel[] featureLevels,
+        FeatureLevel[]? featureLevels,
         out ID3D11Device? device,
         out FeatureLevel featureLevel)
     {
         device = default;
-        fixed (void* featureLevelsPtr = &featureLevels[0])
+        fixed (FeatureLevel* featureLevelsPtr = featureLevels)
         fixed (void* featureLevelPtr = &featureLevel)
         {
             IntPtr devicePtr = IntPtr.Zero;
@@ -315,8 +339,8 @@ public static unsafe partial class D3D11
                 (int)driverType,
                 null,
                 (int)flags,
-                featureLevels != null && featureLevels.Length > 0 ? featureLevelsPtr : null,
-                featureLevels?.Length ?? 0,
+                featureLevelsPtr,
+                (featureLevels != null) ? featureLevels.Length : 0,
                 SdkVersion,
                 &devicePtr,
                 featureLevelPtr,
