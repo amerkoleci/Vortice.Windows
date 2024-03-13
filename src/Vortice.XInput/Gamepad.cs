@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.XInput;
@@ -6,7 +6,7 @@ namespace Vortice.XInput;
 /// <summary>
 /// Describes the current state of the Xbox 360 Controller.
 /// </summary>
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential)]
 public struct Gamepad
 {
     public const short LeftThumbDeadZone = 7849;
@@ -56,8 +56,5 @@ public struct Gamepad
     /// </summary>
     public short RightThumbY;
 
-    public override string ToString()
-    {
-        return $"Buttons: {Buttons}, LeftTrigger: {LeftTrigger}, RightTrigger: {RightTrigger}, LeftThumbX: {LeftThumbX}, LeftThumbY: {LeftThumbY}, RightThumbX: {RightThumbX}, RightThumbY: {RightThumbY}";
-    }
+    public override readonly string ToString() => $"Buttons: {Buttons}, LeftTrigger: {LeftTrigger}, RightTrigger: {RightTrigger}, LeftThumbX: {LeftThumbX}, LeftThumbY: {LeftThumbY}, RightThumbX: {RightThumbX}, RightThumbY: {RightThumbY}";
 }

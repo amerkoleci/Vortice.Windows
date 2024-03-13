@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0-windows;net8.0-windows</TargetFrameworks>
+    <RootNamespace>Vortice.Wpf</RootNamespace>
+    <Description>Wpf integration.</Description>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />
+    <ProjectReference Include="..\Vortice.Direct3D9\Vortice.Direct3D9.csproj" />
+  </ItemGroup>
+
+</Project>

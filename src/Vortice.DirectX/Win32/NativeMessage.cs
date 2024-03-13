@@ -6,12 +6,15 @@ using Vortice.Mathematics;
 namespace Vortice.Win32;
 
 [StructLayout(LayoutKind.Sequential)]
-public readonly struct NativeMessage
+public partial struct NativeMessage
 {
-    public readonly IntPtr hwnd;
-    public readonly uint msg;
-    public readonly nuint wParam;
-    public readonly nint lParam;
-    public readonly uint time;
-    public readonly Int2 pt;
+    //[NativeTypeName("HWND")]
+    public nint hwnd;
+    public uint msg;
+    //[NativeTypeName("WPARAM")]
+    public nuint wParam;
+    //[NativeTypeName("LPARAM")]
+    public nint lParam;
+    public uint time;
+    public Int2 pt;
 }

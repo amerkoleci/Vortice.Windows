@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.XInput;
@@ -9,7 +9,7 @@ namespace Vortice.XInput;
 /// <remarks>
 /// The <see cref="PacketNumber"/> member is incremented only if the status of the controller has changed since the controller was last polled.
 /// </remarks>
-[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+[StructLayout(LayoutKind.Sequential)]
 public struct State
 {
     /// <summary>

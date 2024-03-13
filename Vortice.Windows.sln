@@ -103,6 +103,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloXAudio2", "src\samples
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectSound", "src\Vortice.DirectSound\Vortice.DirectSound.csproj", "{A08C219F-A10D-4A87-820C-E7594F3D1D1E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.WinForms", "src\Vortice.WinForms\Vortice.WinForms.csproj", "{D4AAF7CF-1D3E-4A44-8665-CB46A3B04118}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Wpf", "src\Vortice.Wpf\Vortice.Wpf.csproj", "{035B0D5E-B7A9-4313-8814-A7F19D2C7757}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -241,6 +245,14 @@ Global
 		{A08C219F-A10D-4A87-820C-E7594F3D1D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A08C219F-A10D-4A87-820C-E7594F3D1D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A08C219F-A10D-4A87-820C-E7594F3D1D1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4AAF7CF-1D3E-4A44-8665-CB46A3B04118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4AAF7CF-1D3E-4A44-8665-CB46A3B04118}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4AAF7CF-1D3E-4A44-8665-CB46A3B04118}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4AAF7CF-1D3E-4A44-8665-CB46A3B04118}.Release|Any CPU.Build.0 = Release|Any CPU
+		{035B0D5E-B7A9-4313-8814-A7F19D2C7757}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{035B0D5E-B7A9-4313-8814-A7F19D2C7757}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{035B0D5E-B7A9-4313-8814-A7F19D2C7757}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{035B0D5E-B7A9-4313-8814-A7F19D2C7757}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

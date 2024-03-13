@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net7.0-windows;net8.0-windows</TargetFrameworks>
+    <RootNamespace>Vortice.WinForms</RootNamespace>
+    <Description>WinForms integration.</Description>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="System.Runtime.InteropServices" />
+  </ItemGroup>
+
+</Project>

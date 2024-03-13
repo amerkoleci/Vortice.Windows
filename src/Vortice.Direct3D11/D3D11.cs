@@ -8,6 +8,18 @@ namespace Vortice.Direct3D11;
 
 public static unsafe partial class D3D11
 {
+    public static ID3D11Device D3D11CreateDevice(DriverType driverType, DeviceCreationFlags flags, params FeatureLevel[] featureLevels)
+    {
+        RawD3D11CreateDeviceNoContext(
+             IntPtr.Zero,
+            driverType,
+            flags,
+            featureLevels,
+            out ID3D11Device? device,
+            out _).CheckError();
+        return device!;
+    }
+
     public static Result D3D11CreateDevice(
         IDXGIAdapter? adapter,
         DriverType driverType,
@@ -123,7 +135,7 @@ public static unsafe partial class D3D11
             IntPtr.Zero,
             DriverType.Hardware,
             flags,
-            new[] { featureLevel },
+            [featureLevel],
             out FeatureLevel outputLevel);
         return result.Success && outputLevel == featureLevel;
     }
@@ -147,7 +159,7 @@ public static unsafe partial class D3D11
             adapter.NativePointer,
             DriverType.Unknown,
             flags,
-            new[] { featureLevel },
+            [featureLevel],
             out FeatureLevel outputLevel);
         return result.Success && outputLevel == featureLevel;
     }
@@ -171,7 +183,7 @@ public static unsafe partial class D3D11
             adapterPtr,
             DriverType.Unknown,
             flags,
-            new[] { featureLevel },
+            [featureLevel],
             out FeatureLevel outputLevel);
         return result.Success && outputLevel == featureLevel;
     }
