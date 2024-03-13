@@ -5,11 +5,11 @@ Current Stable Release:    3.3.4 (October 2023)
 -----------------------------------------------
 Release:     3.4.X (March 2024)
 
-- [ENH] Add Vortice.Wpf for WPF integration.
-- [ENH] Add Vortice.WinForms for WindowsForms integration.
+- [ENH] Update DX Compiler release for March 2024
+- [ENH] Add Vortice.Wpf for WPF integration
+- [ENH] Add Vortice.WinForms for WindowsForms integration
 - [ENH] Update DirectX Headers to 1.611.1
 - [ENH] Update DirectStorage to 1.2.1
-
 
 -----------------------------------------------
 Release:     3.3.4 (October 2023)
