@@ -353,10 +353,6 @@
     <map enum-item="D3D_TESSELLATOR_PARTITIONING_POW2" name="PowerOfTwo" />
     <map enum="D3D_REGISTER_COMPONENT_TYPE" name="RegisterComponentType" />
     <map enum-item="D3D_REGISTER_COMPONENT_(.*)" name-tmp="$1" />
-    <map enum="D3D_CBF_USERPACKED" name="UserPacked" />
-    <map enum="D3D_PF_NONE" name="None" />
-    <map enum="D3D_PF_IN" name="In" />
-    <map enum="D3D_PF_OUT" name="Out" />
     <remove enum-item=".*_FORCE_DWORD" />
     <remove enum-item=".*_FORCE_UINT" />
 
@@ -414,7 +410,6 @@
     <map enum="D2D1(.*)" name-tmp="$1" />
     <map enum="DWRITE(.+)" name-tmp="$1" />
     <map struct="D2D1(.*)" name-tmp="$1" />
-    <map struct="DWRITE(.+)" name-tmp="$1" />
 
     <!-- Multimedia -->
     <!-- audiosessiontypes.h -->
@@ -426,12 +421,6 @@
     <map enum-item="AudioCategory_(.*)" name="$1"/>
 
     <map enum="SPEAKER_FLAGS" name="Speakers" flags="true" none="true" namespace="Vortice.Multimedia"/>
-    <map enum-item="SPEAKER_2POINT1" name="TwoPointOne" />
-    <map enum-item="SPEAKER_4POINT1" name="FourPointOne" />
-    <map enum-item="SPEAKER_5POINT1" name="FivePointOne" />
-    <map enum-item="SPEAKER_7POINT1" name="SevenPointOne" />
-    <map enum-item="SPEAKER_5POINT1_SURROUND" name="FivePointOneSurround" />
-    <map enum-item="SPEAKER_7POINT1_SURROUND" name="SevenPointOneSurround" />
 
     <!-- class Vortice.Multimedia.UsagePage -->
     <map enum="HID_USAGE_PAGE" name="UsagePage" type="short" namespace="Vortice.Multimedia"/>
@@ -441,14 +430,13 @@
     <map enum="HID_USAGE_ID" name="UsageId" type="short" namespace="Vortice.Multimedia"/>
     <map enum-item="HID_USAGE_([^P].*)" name-tmp="$1" naming="noexpand"/>
 
-    <!-- class Vortice.Multimedia.WaveFormatEncoding-->
-    <!--<map enum="WAVE_FORMAT_ENCODING" name="WaveFormatEncoding" type="short"/>-->
-    <map enum-item="WAVE_FORMAT_(.*)" name-tmp="$1" naming="noexpand" />
-    <map enum-item="WAVE_FORMAT_([0-9].*)" name-tmp="Tag$1" />
-    <map enum-item="WAVE_FORMAT_GSM610" name-tmp="DefaultGsm610" />
-
     <!-- d3d12 -->
     <map enum="D3D12_RESOURCE_STATES" flags="true" type="uint" />
     <map enum-item="D3D12_RESOURCE_STATE(.*)" name-tmp="$1" />
+
+    <!-- dxcore -->
+    <map enum="DXCoreRuntimeFilterFlags" flags="true" none="false" />
+    <map enum="DXCoreHardwareTypeFilterFlags" flags="true" none="false" />
+    
   </mapping>
 </config>

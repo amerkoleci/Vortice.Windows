@@ -78,6 +78,9 @@ public unsafe partial class ID3D12Device
             FeatureDataD3D12Options7 => Feature.Options7,
             FeatureDataProtectedResourceSessionTypeCount => Feature.ProtectedResourceSessionTypeCount,
             FeatureDataProtectedResourceSessionTypes => Feature.ProtectedResourceSessionTypes,
+            FeatureDataPredication => Feature.Predication,
+            FeatureDataPlacedResourceSupportInfo => Feature.PlacedResourceSupportInfo,
+            FeatureDataHardwareCopy => Feature.HardwareCopy,
             FeatureDataD3D12Options8 => Feature.Options8,
             FeatureDataD3D12Options9 => Feature.Options9,
             FeatureDataD3D12Options10 => Feature.Options10,
@@ -89,7 +92,9 @@ public unsafe partial class ID3D12Device
             FeatureDataD3D12Options16 => Feature.Options16,
             FeatureDataD3D12Options17 => Feature.Options17,
             FeatureDataD3D12Options18 => Feature.Options18,
-            FeatureDataD3D12Options19 => Feature.Options18,
+            FeatureDataD3D12Options19 => Feature.Options19,
+            FeatureDataD3D12Options20 => Feature.Options20,
+            FeatureDataD3D12Options21 => Feature.Options21,
             _ => throw new ArgumentException(nameof(T)),
         };
 
@@ -214,6 +219,14 @@ public unsafe partial class ID3D12Device
     {
         get => CheckFeatureSupport<FeatureDataD3D12Options19>(Feature.Options19);
     }
+    public FeatureDataD3D12Options20 Options20
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options20>(Feature.Options20);
+    }
+    public FeatureDataD3D12Options21 Options21
+    {
+        get => CheckFeatureSupport<FeatureDataD3D12Options21>(Feature.Options21);
+    }
     public FeatureDataArchitecture Architecture
     {
         get => CheckFeatureSupport<FeatureDataArchitecture>(Feature.Architecture);
@@ -223,7 +236,6 @@ public unsafe partial class ID3D12Device
     {
         get => CheckFeatureSupport<FeatureDataGpuVirtualAddressSupport>(Feature.GpuVirtualAddressSupport);
     }
-
 
     public FeatureDataProtectedResourceSessionSupport ProtectedResourceSessionSupport
     {

@@ -1,10 +1,11 @@
 # Changelog
 
-Current Stable Release:    3.3.4 (October 2023)
+Current Stable Release:    3.5.0 (March 2024)
 
 -----------------------------------------------
-Release:     3.4.X (March 2024)
+Release:     3.5.X (March 2024)
 
+- [ENH] Update DirectX Headers to 1.613.0
 - [ENH] Update DX Compiler release for March 2024
 - [ENH] Add Vortice.Wpf for WPF integration
 - [ENH] Add Vortice.WinForms for WindowsForms integration

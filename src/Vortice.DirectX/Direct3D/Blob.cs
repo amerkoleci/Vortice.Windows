@@ -9,7 +9,7 @@ public unsafe partial class Blob
 {
     public string AsString()
     {
-        return Marshal.PtrToStringAnsi(BufferPointer);
+        return Marshal.PtrToStringAnsi(BufferPointer)!;
     }
 
     public byte[] AsBytes()

@@ -493,7 +493,9 @@
     <map enum-item="D3D12_VIDEO_DECODE_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D12_MESH_SHADER_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D12_SAMPLER_FEEDBACK_TIER_(.*)" name="Tier$1"/>
-
+    <map enum-item="D3D12_WORK_GRAPHS_TIER_(.*)" name="Tier$1"/>
+    <map enum-item="D3D12_EXECUTE_INDIRECT_TIER_(.*)" name="Tier$1"/>
+    
     <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_UNDEFINED_SWIZZLE" name="UndefinedSwizzle64kb"/>
     <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_STANDARD_SWIZZLE" name="StandardSwizzle64kb"/>
 
@@ -536,6 +538,7 @@
     <map enum-item="D3D_SHADER_MODEL_6_6" name="Model6_6" />
     <map enum-item="D3D_SHADER_MODEL_6_7" name="Model6_7" />
     <map enum-item="D3D_SHADER_MODEL_6_8" name="Model6_8" />
+    <map enum-item="D3D_SHADER_MODEL_6_9" name="Model6_9" />
 
     <map enum-item="D3D12_WAVE_MMA_TIER_1_0" name="Tier1_0"/>
 
@@ -571,6 +574,8 @@
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS17" name="Options17"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS18" name="Options18"/>
     <map enum-item="D3D12_FEATURE_D3D12_OPTIONS19" name="Options19"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS20" name="Options20"/>
+    <map enum-item="D3D12_FEATURE_D3D12_OPTIONS21" name="Options21"/>
 
     <map enum="D3D12_BLEND_OP" name="BlendOperation" />
     <map enum="D3D12_COMPARISON_FUNC" name="ComparisonFunction" />
@@ -640,7 +645,9 @@
     <map field="D3D12_RESOURCE_UAV_BARRIER::pResource" name="ResourcePointer" type="void" />
 
     <map field="D3D12_NODE_MASK::NodeMask" name="Mask" />
+    <map field="D3D12_SAMPLE_MASK::SampleMask" name="Mask" />
     <map field="D3D12_DESCRIPTOR_HEAP_DESC::NumDescriptors" name="DescriptorCount"/>
+    <map field="D3D12_DEPTH_STENCIL_FORMAT::DepthStencilFormat" name="Format"/>
 
     <map struct="D3D12_INFO_QUEUE_FILTER" name="InfoQueueFilter" native="true" struct-to-class="true" marshal="true" />
 
@@ -1160,6 +1167,11 @@
     <!-- D3D12_RENDER_TARGET_BLEND_DESC struct -->
     <map field="D3D12_DEVICE_CONFIGURATION_DESC::GpuBasedValidationFlags" type="D3D12_GPU_BASED_VALIDATION_FLAGS" />
 
+    <map struct="D3D12_SHADER_NODE" name="ShaderNode" native="true" marshal="true" />
+    <remove field="D3D12_SHADER_NODE::.*"/>
+    <map struct="D3D12_DISPATCH_GRAPH_DESC" name="DispatchGraphDescription" native="true"  />
+    <remove field="D3D12_DISPATCH_GRAPH_DESC::.*"/>
+    
     <!-- d3d12shader -->
     <map enum-item="D3D12_SHVER_(.*)" name-tmp="$1"/>
 
