@@ -473,6 +473,8 @@
     <short name="IGNOREDFLAG">IgnoredFlag</short>
     <short name="FINDVALUE">FindValue</short>
     <short name="NOTFOUND">NotFound</short>
+    <short name="DIRECTSR">DirectSR</short>
+    <short name="SUPERRES">SuperRes</short>
   </naming>
 
   <mapping>

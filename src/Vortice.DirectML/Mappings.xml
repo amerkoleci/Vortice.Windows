@@ -7,7 +7,7 @@
 
   <sdk name="WindowsSdk" version="10.0.22621.0" />
   <sdk name="StdLib" />
-  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/DirectML</include-dir>
+  <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 
   <include file="windows.h" />
   <include file="DirectML.h" namespace="Vortice.DirectML" attach="true">
