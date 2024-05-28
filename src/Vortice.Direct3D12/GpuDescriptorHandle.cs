@@ -11,45 +11,28 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
 
     public GpuDescriptorHandle(in GpuDescriptorHandle other, int offsetScaledByIncrementSize)
     {
-        InitOffsetted(out this, other, offsetScaledByIncrementSize);
+        InitOffsetted(in other, offsetScaledByIncrementSize);
     }
 
     public GpuDescriptorHandle(in GpuDescriptorHandle other, int offsetInDescriptors, int descriptorIncrementSize)
     {
-        InitOffsetted(out this, other, offsetInDescriptors, descriptorIncrementSize);
+        InitOffsetted(in other, offsetInDescriptors, descriptorIncrementSize);
     }
 
-    public GpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
-    {
-        Ptr = (ulong)((long)Ptr + (offsetInDescriptors * descriptorIncrementSize));
-        return this;
-    }
+    public static bool operator ==(GpuDescriptorHandle left, GpuDescriptorHandle right)
+        => left.Ptr == right.Ptr;
 
-    public GpuDescriptorHandle Offset(int offsetScaledByIncrementSize)
-    {
-        Ptr = (ulong)((long)Ptr + (long)offsetScaledByIncrementSize);
-        return this;
-    }
+    public static bool operator !=(GpuDescriptorHandle left, GpuDescriptorHandle right)
+        => left.Ptr != right.Ptr;
 
-    public void InitOffsetted(in GpuDescriptorHandle @base, int offsetScaledByIncrementSize)
-    {
-        InitOffsetted(out this, @base, offsetScaledByIncrementSize);
-    }
+    /// <inheritdoc/>
+    public override bool Equals([NotNullWhen(true)] object? obj) => (obj is GpuDescriptorHandle other) && Equals(other);
 
-    public void InitOffsetted(in GpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
-    {
-        InitOffsetted(out this, @base, offsetInDescriptors, descriptorIncrementSize);
-    }
+    /// <inheritdoc/>
+    public readonly bool Equals(GpuDescriptorHandle other) => this.Ptr == other.Ptr;
 
-    public static void InitOffsetted(out GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetScaledByIncrementSize)
-    {
-        handle.Ptr = (ulong)((long)@base.Ptr + (long)offsetScaledByIncrementSize);
-    }
-
-    public static void InitOffsetted(out GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
-    {
-        handle.Ptr = (ulong)((long)@base.Ptr + (offsetInDescriptors * descriptorIncrementSize));
-    }
+    /// <inheritdoc/>
+    public override readonly int GetHashCode() => Ptr.GetHashCode();
 
     /// <summary>
     /// Adds an offset to a descriptor handle.
@@ -57,43 +40,39 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
     /// <param name = "left">Initial descriptor handle</param>
     /// <param name = "offsetScaledByIncrementSize">Offset to apply, use <see cref="ID3D12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType)"/> with the relevant heap type.</param>
     /// <returns>Offsetted descriptor handle</returns>
-    public static GpuDescriptorHandle operator +(GpuDescriptorHandle left, int offsetScaledByIncrementSize)
+    public static GpuDescriptorHandle operator +(GpuDescriptorHandle left, int offsetScaledByIncrementSize) => new(left, offsetScaledByIncrementSize);
+
+    public void InitOffsetted(in GpuDescriptorHandle @base, int offsetScaledByIncrementSize)
     {
-        return new(left, offsetScaledByIncrementSize);
+        InitOffsetted(ref this, @base, offsetScaledByIncrementSize);
     }
 
-    /// <summary>
-    /// Compares two <see cref="GpuDescriptorHandle"/> objects for equality.
-    /// </summary>
-    /// <param name="left">The <see cref="GpuDescriptorHandle"/> on the left hand of the operand.</param>
-    /// <param name="right">The <see cref="GpuDescriptorHandle"/> on the right hand of the operand.</param>
-    /// <returns>
-    /// True if the current left is equal to the <paramref name="right"/> parameter; otherwise, false.
-    /// </returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator ==(GpuDescriptorHandle left, GpuDescriptorHandle right) => (left.Ptr == right.Ptr);
+    public void InitOffsetted(in GpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
+    {
+        InitOffsetted(ref this, @base, offsetInDescriptors, descriptorIncrementSize);
+    }
 
-    /// <summary>
-    /// Compares two <see cref="GpuDescriptorHandle"/> objects for inequality.
-    /// </summary>
-    /// <param name="left">The <see cref="GpuDescriptorHandle"/> on the left hand of the operand.</param>
-    /// <param name="right">The <see cref="GpuDescriptorHandle"/> on the right hand of the operand.</param>
-    /// <returns>
-    /// True if the current left is unequal to the <paramref name="right"/> parameter; otherwise, false.
-    /// </returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator !=(GpuDescriptorHandle left, GpuDescriptorHandle right) => (left.Ptr != right.Ptr);
+    public static void InitOffsetted(ref GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetScaledByIncrementSize)
+    {
+        handle.Ptr = unchecked((ulong)((long)(@base.Ptr) + (long)(offsetScaledByIncrementSize)));
+    }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator ulong(GpuDescriptorHandle left) => left.Ptr;
+    public static void InitOffsetted(ref GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
+    {
+        handle.Ptr = unchecked((ulong)((long)(@base.Ptr) + (long)(offsetInDescriptors) * (long)(descriptorIncrementSize)));
+    }
 
-    /// <inheritdoc/>
-    public override int GetHashCode() => Ptr.GetHashCode();
+    [UnscopedRef]
+    public ref GpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
+    {
+        Ptr = unchecked((ulong)((long)(Ptr) + (long)(offsetInDescriptors) * (long)(descriptorIncrementSize)));
+        return ref this;
+    }
 
-    /// <inheritdoc/>
-    public override bool Equals(object? obj) => obj is GpuDescriptorHandle handle && Equals(handle);
-
-    /// <inheritdoc/>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Equals(GpuDescriptorHandle other) => Ptr == other.Ptr;
+    [UnscopedRef]
+    public ref GpuDescriptorHandle Offset(int offsetScaledByIncrementSize)
+    {
+        Ptr = unchecked((ulong)((long)(Ptr) + (long)(offsetScaledByIncrementSize)));
+        return ref this;
+    }
 }

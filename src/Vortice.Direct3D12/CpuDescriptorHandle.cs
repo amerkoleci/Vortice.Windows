@@ -15,55 +15,12 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
 
     public CpuDescriptorHandle(in CpuDescriptorHandle other, int offsetScaledByIncrementSize)
     {
-        InitOffsetted(out this, other, offsetScaledByIncrementSize);
+        InitOffsetted(in other, offsetScaledByIncrementSize);
     }
 
     public CpuDescriptorHandle(in CpuDescriptorHandle other, int offsetInDescriptors, int descriptorIncrementSize)
     {
-        InitOffsetted(out this, other, offsetInDescriptors, descriptorIncrementSize);
-    }
-
-    public CpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
-    {
-        Ptr = unchecked((nuint)((long)Ptr + (offsetInDescriptors * (long)descriptorIncrementSize)));
-        return this;
-    }
-
-    public CpuDescriptorHandle Offset(int offsetScaledByIncrementSize)
-    {
-        Ptr = unchecked((nuint)((long)Ptr + offsetScaledByIncrementSize));
-        return this;
-    }
-
-    public void InitOffsetted(in CpuDescriptorHandle @base, int offsetScaledByIncrementSize)
-    {
-        InitOffsetted(out this, @base, offsetScaledByIncrementSize);
-    }
-
-    public void InitOffsetted(in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
-    {
-        InitOffsetted(out this, @base, offsetInDescriptors, descriptorIncrementSize);
-    }
-
-    public static void InitOffsetted(out CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetScaledByIncrementSize)
-    {
-        handle.Ptr = (nuint)((long)@base.Ptr + offsetScaledByIncrementSize);
-    }
-
-    public static void InitOffsetted(out CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
-    {
-        handle.Ptr = (nuint)((long)@base.Ptr + offsetInDescriptors * descriptorIncrementSize);
-    }
-
-    /// <summary>
-    /// Adds an offset to a descriptor handle
-    /// </summary>
-    /// <param name = "left">Initial descriptor handle</param>
-    /// <param name = "offsetScaledByIncrementSize">Offset to apply, use <see cref="ID3D12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType)"/> with the relevant heap type.</param>
-    /// <returns>Offsetted descriptor handle</returns>
-    public static CpuDescriptorHandle operator +(CpuDescriptorHandle left, int offsetScaledByIncrementSize)
-    {
-        return new CpuDescriptorHandle(left, offsetScaledByIncrementSize);
+        InitOffsetted(in other, offsetInDescriptors, descriptorIncrementSize);
     }
 
     /// <summary>
@@ -75,7 +32,7 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
     /// True if the current left is equal to the <paramref name="right"/> parameter; otherwise, false.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator ==(CpuDescriptorHandle left, CpuDescriptorHandle right) => (left.Ptr == right.Ptr);
+    public static bool operator ==(CpuDescriptorHandle left, CpuDescriptorHandle right) => left.Ptr == right.Ptr;
 
     /// <summary>
     /// Compares two <see cref="CpuDescriptorHandle"/> objects for inequality.
@@ -86,18 +43,57 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
     /// True if the current left is unequal to the <paramref name="right"/> parameter; otherwise, false.
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool operator !=(CpuDescriptorHandle left, CpuDescriptorHandle right) => (left.Ptr != right.Ptr);
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static implicit operator nuint(CpuDescriptorHandle left) => left.Ptr;
+    public static bool operator !=(CpuDescriptorHandle left, CpuDescriptorHandle right) => left.Ptr != right.Ptr;
 
     /// <inheritdoc/>
-    public override int GetHashCode() => Ptr.GetHashCode();
+    public override readonly int GetHashCode() => Ptr.GetHashCode();
 
     /// <inheritdoc/>
-    public override bool Equals(object? obj) => obj is CpuDescriptorHandle handle && Equals(handle);
+    public override readonly bool Equals([NotNullWhen(true)] object? obj) => (obj is CpuDescriptorHandle other) && Equals(other);
 
     /// <inheritdoc/>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public bool Equals(CpuDescriptorHandle other) => Ptr == other.Ptr;
+    public readonly bool Equals(CpuDescriptorHandle other) => Ptr == other.Ptr;
+
+    /// <summary>
+    /// Adds an offset to a descriptor handle
+    /// </summary>
+    /// <param name = "left">Initial descriptor handle</param>
+    /// <param name = "offsetScaledByIncrementSize">Offset to apply, use <see cref="ID3D12Device.GetDescriptorHandleIncrementSize(DescriptorHeapType)"/> with the relevant heap type.</param>
+    /// <returns>Offsetted descriptor handle</returns>
+    public static CpuDescriptorHandle operator +(CpuDescriptorHandle left, int offsetScaledByIncrementSize) => new(left, offsetScaledByIncrementSize);
+
+    public void InitOffsetted(in CpuDescriptorHandle @base, int offsetScaledByIncrementSize)
+    {
+        InitOffsetted(ref this, @base, offsetScaledByIncrementSize);
+    }
+
+    public void InitOffsetted(in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
+    {
+        InitOffsetted(ref this, @base, offsetInDescriptors, descriptorIncrementSize);
+    }
+
+    public static void InitOffsetted(ref CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetScaledByIncrementSize)
+    {
+        handle.Ptr = unchecked((nuint)((long)(@base.Ptr) + (long)(offsetScaledByIncrementSize)));
+    }
+
+    public static void InitOffsetted(ref CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
+    {
+        handle.Ptr = unchecked((nuint)((long)(@base.Ptr) + (long)(offsetInDescriptors) * (long)(descriptorIncrementSize)));
+    }
+
+    [UnscopedRef]
+    public ref CpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
+    {
+        Ptr = unchecked((nuint)((long)(Ptr) + (long)(offsetInDescriptors) * descriptorIncrementSize));
+        return ref this;
+    }
+
+    [UnscopedRef]
+    public ref CpuDescriptorHandle Offset(int offsetScaledByIncrementSize)
+    {
+        Ptr = unchecked((nuint)((long)(Ptr) + offsetScaledByIncrementSize));
+        return ref this;
+    }
 }
