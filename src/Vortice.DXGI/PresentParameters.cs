@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Mathematics;
@@ -29,8 +29,8 @@ public partial struct PresentParameters
     internal struct __Native
     {
         public int DirtyRectsCount;
-        public IntPtr PDirtyRects;
-        public IntPtr PScrollRect;
-        public IntPtr PScrollOffset;
+        public nint PDirtyRects;
+        public nint PScrollRect;
+        public nint PScrollOffset;
     }
 }

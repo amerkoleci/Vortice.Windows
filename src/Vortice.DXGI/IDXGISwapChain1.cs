@@ -1,4 +1,4 @@
-// Copyright © Amer Koleci and Contributors.
+// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Mathematics;
@@ -69,5 +69,11 @@ public partial class IDXGISwapChain1
 
             return Present1(syncInterval, presentFlags, &native);
         }
+    }
+
+
+    public Result Present1(int syncInterval, PresentFlags presentFlags, PresentParameters presentParameters)
+    {
+        return Present(syncInterval, presentFlags, presentParameters);
     }
 }
