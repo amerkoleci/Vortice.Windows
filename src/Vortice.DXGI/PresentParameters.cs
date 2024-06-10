@@ -24,13 +24,14 @@ public partial struct PresentParameters
     /// <unmanaged>POINT* pScrollOffset</unmanaged>	
     public Int2? ScrollOffset;
 
-    // Internal native struct used for marshalling
+    #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal struct __Native
+    internal unsafe struct __Native
     {
         public int DirtyRectsCount;
-        public nint PDirtyRects;
-        public nint PScrollRect;
-        public nint PScrollOffset;
+        public RawRect* pDirtyRects;
+        public RawRect* pScrollRect;
+        public Int2* pScrollOffset;
     }
+    #endregion
 }

@@ -4,6 +4,7 @@ Current Stable Release:    3.5.0 (March 2024)
 
 -----------------------------------------------
 Release:     3.6.X (August 2024)
+- [ENH] IDXGISwapChain1.Present overload renamed to Present1 to keep consistency with native code.
 - [ENH] Update DX Compiler release for May 2024 https://github.com/microsoft/DirectXShaderCompiler/releases/tag/v1.8.2405
 - [ENH] Update DirectML 1.13.1
 - [ENH] Update DirectX Headers to 1.614.0

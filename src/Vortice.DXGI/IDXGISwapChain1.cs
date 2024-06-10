@@ -11,11 +11,11 @@ public partial class IDXGISwapChain1
     /// Retrieves the underlying HWND for this swap-chain object.
     /// </summary>
     /// <returns>Native HWND handle</returns>
-    public IntPtr GetHwnd()
+    public nint GetHwnd()
     {
-        if (GetHwnd(out IntPtr hwnd).Failure)
+        if (GetHwnd(out nint hwnd).Failure)
         {
-            return IntPtr.Zero;
+            return 0;
         }
 
         return hwnd;
@@ -51,29 +51,51 @@ public partial class IDXGISwapChain1
         return result;
     }
 
-    public unsafe Result Present(int syncInterval, PresentFlags presentFlags, PresentParameters presentParameters)
+    /// <include file="Documentation.xml" path="/comments/comment[@id='IDXGISwapChain1::Present1']/*" />
+    /// <unmanaged>HRESULT IDXGISwapChain1::Present1([In] UINT SyncInterval, [In] UINT PresentFlags, [In] const DXGI_PRESENT_PARAMETERS* pPresentParameters)</unmanaged>
+    /// <unmanaged-short>IDXGISwapChain1::Present1</unmanaged-short>
+    public unsafe Result Present1(int syncInterval, PresentFlags presentFlags, PresentParameters presentParameters)
     {
         bool hasScrollRectangle = presentParameters.ScrollRectangle.HasValue;
         bool hasScrollOffset = presentParameters.ScrollOffset.HasValue;
 
-        RawRect scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle!.Value : new RawRect();
+        RawRect scrollRectangle = hasScrollRectangle ? presentParameters.ScrollRectangle!.Value : default;
         Int2 scrollOffset = hasScrollOffset ? presentParameters.ScrollOffset!.Value : default;
 
-        fixed (void* pDirtyRects = presentParameters.DirtyRectangles)
+        fixed (RawRect* pDirtyRects = presentParameters.DirtyRectangles)
         {
-            var native = default(PresentParameters.__Native);
+            PresentParameters.__Native native = default;
             native.DirtyRectsCount = presentParameters.DirtyRectangles != null ? presentParameters.DirtyRectangles.Length : 0;
-            native.PDirtyRects = (IntPtr)pDirtyRects;
-            native.PScrollRect = hasScrollRectangle ? new IntPtr(&scrollRectangle) : IntPtr.Zero;
-            native.PScrollOffset = hasScrollOffset ? new IntPtr(&scrollOffset) : IntPtr.Zero;
+            native.pDirtyRects = pDirtyRects;
+            native.pScrollRect = hasScrollRectangle ? &scrollRectangle : null;
+            native.pScrollOffset = hasScrollOffset ? &scrollOffset : null;
 
             return Present1(syncInterval, presentFlags, &native);
         }
     }
 
-
-    public Result Present1(int syncInterval, PresentFlags presentFlags, PresentParameters presentParameters)
+    public unsafe Result Present1(
+        int syncInterval,
+        PresentFlags presentFlags,
+        ReadOnlySpan<RawRect> dirtyRectangles,
+        RawRect? scrollRectangle = default,
+        Int2? scrollOffset = default)
     {
-        return Present(syncInterval, presentFlags, presentParameters);
+        bool hasScrollRectangle = scrollRectangle.HasValue;
+        bool hasScrollOffset = scrollOffset.HasValue;
+
+        RawRect scrollRectangleCall = hasScrollRectangle ? scrollRectangle!.Value : default;
+        Int2 scrollOffsetCall = hasScrollOffset ? scrollOffset!.Value : default;
+
+        fixed (RawRect* pDirtyRects = dirtyRectangles)
+        {
+            PresentParameters.__Native native = default;
+            native.DirtyRectsCount = dirtyRectangles.Length > 0 ? dirtyRectangles.Length : 0;
+            native.pDirtyRects = pDirtyRects;
+            native.pScrollRect = hasScrollRectangle ? &scrollRectangleCall : null;
+            native.pScrollOffset = hasScrollOffset ? &scrollOffsetCall : null;
+
+            return Present1(syncInterval, presentFlags, &native);
+        }
     }
 }
