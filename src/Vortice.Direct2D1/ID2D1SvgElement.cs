@@ -65,22 +65,74 @@ public unsafe partial class ID2D1SvgElement : IEnumerable<ID2D1SvgElement>
         }
     }
 
+    public IEnumerable<string?> AttributeNames
+    {
+        get
+        {
+            int count = GetSpecifiedAttributeCount();
+            for (int i = 0; i < count; i++)
+            {
+                yield return GetSpecifiedAttributeName(i);
+            }
+        }
+    }
+
+    public unsafe string? GetSpecifiedAttributeName(int index)
+    {
+        GetSpecifiedAttributeNameLength(index, out int nameLength, out _);
+        char* namePtr = (char*)NativeMemory.Alloc((nuint)nameLength, (nuint)sizeof(char));
+        try
+        {
+            Result result = GetSpecifiedAttributeName(index, namePtr, nameLength, out _);
+            if (result.Failure)
+                return default;
+
+            return new string(namePtr, 0, nameLength);
+        }
+        finally
+        {
+            NativeMemory.Free(namePtr);
+        }
+    }
+
+    public unsafe string? GetSpecifiedAttributeName(int index, out bool inherited)
+    {
+        GetSpecifiedAttributeNameLength(index, out int nameLength, out RawBool inheritedResult);
+        char* namePtr = (char*)NativeMemory.Alloc((nuint)nameLength, (nuint)sizeof(char));
+        try
+        {
+            Result result = GetSpecifiedAttributeName(index, namePtr, nameLength, out inheritedResult);
+            if (result.Failure)
+            {
+                inherited = inheritedResult;
+                return default;
+            }
+
+            inherited = inheritedResult;
+            return new string(namePtr, 0, nameLength);
+        }
+        finally
+        {
+            NativeMemory.Free(namePtr);
+        }
+    }
+
     public Result SetAttributeValue(string name, float value)
     {
         return SetAttributeValue(name, SvgAttributePodType.Float, &value, sizeof(float));
     }
 
-    public Result SetAttributeValue(string name, Color4 value) 
+    public Result SetAttributeValue(string name, Color4 value)
     {
         return SetAttributeValue(name, SvgAttributePodType.Color, (float*)&value, sizeof(Color4));
     }
 
-    public Result SetAttributeValue(string name, FillMode value) 
+    public Result SetAttributeValue(string name, FillMode value)
     {
         return SetAttributeValue(name, SvgAttributePodType.FillMode, &value, sizeof(FillMode));
     }
 
-    public Result SetAttributeValue(string name, SvgDisplay value) 
+    public Result SetAttributeValue(string name, SvgDisplay value)
     {
         return SetAttributeValue(name, SvgAttributePodType.Display, &value, sizeof(SvgDisplay));
     }
