@@ -24,15 +24,10 @@ public unsafe partial class ISwapChainPanelNative : ComObject
     public static explicit operator ISwapChainPanelNative(Microsoft.UI.Xaml.Controls.SwapChainPanel panel) => new(panel);
 #endif
 
-    public IDXGISwapChain SwapChain
+    public Result SetSwapChain(IDXGISwapChain? swapChain)
     {
-        set => SetSwapChain(value).CheckError();
-    }
-
-    public Result SetSwapChain(IDXGISwapChain swapChain)
-    {
-        IntPtr swapChain_ = MarshallingHelpers.ToCallbackPtr<IDXGISwapChain>(swapChain);
-        Result result = ((delegate* unmanaged<IntPtr, void*, int>)this[3])(NativePointer, (void*)swapChain_);
+        void* swapChainHandle = swapChain != null ? swapChain.NativePointer.ToPointer() : default;
+        Result result = ((delegate* unmanaged<IntPtr, void*, int>)this[3])(NativePointer, swapChainHandle);
         GC.KeepAlive(swapChain);
         return result;
     }

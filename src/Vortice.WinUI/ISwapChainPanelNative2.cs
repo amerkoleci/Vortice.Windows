@@ -22,11 +22,6 @@ public unsafe partial class ISwapChainPanelNative2 : ISwapChainPanelNative
     public static explicit operator ISwapChainPanelNative2(Microsoft.UI.Xaml.Controls.SwapChainPanel panel) => new(panel);
 #endif
 
-    public IntPtr SwapChainHandle
-    {
-        set => SetSwapChainHandle(value).CheckError();
-    }
-
     public Result SetSwapChainHandle(nint swapChainHandle)
     {
         Result result = ((delegate* unmanaged[Stdcall]<IntPtr, void*, int>)this[4])(NativePointer, (void*)swapChainHandle);
