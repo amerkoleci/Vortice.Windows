@@ -1,37 +1,28 @@
 ﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
 using Vortice.DXGI;
-
-#if WINDOWS
-using WinRT;
-using Microsoft.UI.Xaml.Media.Imaging;
-#endif
+using Vortice.Mathematics;
 
 namespace Vortice.WinUI;
-
 
 [Guid("e4cecd6c-f14b-4f46-83c3-8bbda27c6504")]
 public unsafe class ISurfaceImageSourceNative : ComObject
 {
-    public ISurfaceImageSourceNative(IntPtr nativePtr)
+    public ISurfaceImageSourceNative(nint nativePtr)
         : base(nativePtr)
     {
     }
 
-    public static explicit operator ISurfaceImageSourceNative?(IntPtr nativePtr)
-    {
-        return (nativePtr == IntPtr.Zero) ? null : new ISurfaceImageSourceNative(nativePtr);
-    }
+    public static explicit operator ISurfaceImageSourceNative?(nint nativePtr) => (nativePtr == 0) ? default : new ISurfaceImageSourceNative(nativePtr);
 
 #if WINDOWS
-    public ISurfaceImageSourceNative(SurfaceImageSource owner)
-        : base(((IWinRTObject)owner).NativeObject.GetRef())
+    public ISurfaceImageSourceNative(Microsoft.UI.Xaml.Media.Imaging.SurfaceImageSource imageSource)
+        : base(WinUIHelpers.GetNativeObject(typeof(ISurfaceImageSourceNative).GUID, imageSource))
     {
     }
 
-    public static explicit operator ISurfaceImageSourceNative(SurfaceImageSource owner) => new(owner);
+    public static explicit operator ISurfaceImageSourceNative(Microsoft.UI.Xaml.Media.Imaging.SurfaceImageSource imageSource) => new(imageSource);
 #endif
 
     public IDXGIDevice Device
@@ -63,6 +54,20 @@ public unsafe class ISurfaceImageSourceNative : ComObject
         surface = surfacePtr != IntPtr.Zero ? new IDXGISurface(surfacePtr) : null;
         return result;
     }
+
+#if WINDOWS
+    public Result BeginDraw(in Windows.Foundation.Rect updateRect, out IDXGISurface? surface, out Windows.Foundation.Point offset)
+    {
+        RawRect updateRectRaw = updateRect;
+        nint surfacePtr = IntPtr.Zero;
+        Int2 offsetCall;
+        Result result = ((delegate* unmanaged<IntPtr, RawRect, void*, Int2*, int>)this[4])(NativePointer, updateRectRaw, &surfacePtr, &offsetCall);
+
+        surface = surfacePtr != IntPtr.Zero ? new IDXGISurface(surfacePtr) : null;
+        offset = new Windows.Foundation.Point(offsetCall.X, offsetCall.Y);
+        return result;
+    }
+#endif
 
     public Result EndDraw()
     {

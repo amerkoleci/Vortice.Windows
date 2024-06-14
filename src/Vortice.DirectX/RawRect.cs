@@ -66,4 +66,23 @@ public readonly record struct RawRect
     /// <param name="value">The value to convert.</param>
     /// <returns>The result of the conversion.</returns>
     public static implicit operator RawRect(in System.Drawing.Rectangle value) => new(value.Left, value.Top, value.Right, value.Bottom);
+
+#if WINDOWS
+    public static implicit operator RawRect(in Windows.Foundation.Rect value)
+    {
+        if (value.Left > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(value.Left));
+
+        if (value.Top > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(value.Top));
+
+        if (value.Right > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(value.Right));
+
+        if (value.Bottom > int.MaxValue)
+            throw new ArgumentOutOfRangeException(nameof(value.Bottom));
+
+        return new((int)value.Left, (int)value.Top, (int)value.Right, (int)value.Bottom);
+    }
+#endif
 }

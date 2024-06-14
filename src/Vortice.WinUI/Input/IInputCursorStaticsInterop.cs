@@ -2,22 +2,16 @@
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 #if WINDOWS
-using System;
-using Microsoft.UI.Composition;
 using Microsoft.UI.Input;
 
 namespace Vortice.WinUI.Input;
 
 [Guid("FAB19398-6D19-4D8A-B752-8F096C396069")]
-public partial class IInputCursorStaticsInterop : WinRTObject
+public unsafe partial class IInputCursorStaticsInterop(nint nativePtr) : WinRTObject(nativePtr)
 {
-    public IInputCursorStaticsInterop(IntPtr nativePtr) : base(nativePtr)
-    {
-    }
+    public static explicit operator IInputCursorStaticsInterop?(nint nativePtr) => nativePtr == 0 ? default : new IInputCursorStaticsInterop(nativePtr);
 
-    public static explicit operator IInputCursorStaticsInterop?(IntPtr nativePtr) => nativePtr == IntPtr.Zero ? null : new IInputCursorStaticsInterop(nativePtr);
-
-    public unsafe Result CreateFromHCursor(nint cursor, out InputCursor? resultCursor)
+    public Result CreateFromHCursor(nint cursor, out InputCursor? resultCursor)
     {
         IntPtr outDevice = default;
         Result result = ((delegate* unmanaged[Stdcall]<IntPtr, nint, IntPtr*, int>)this[6])(NativePointer, cursor, &outDevice);
@@ -31,5 +25,4 @@ public partial class IInputCursorStaticsInterop : WinRTObject
         return result;
     }
 }
-
 #endif

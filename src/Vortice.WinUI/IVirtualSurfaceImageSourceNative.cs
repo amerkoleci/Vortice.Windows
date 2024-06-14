@@ -6,12 +6,21 @@ namespace Vortice.WinUI;
 [Guid("9e43c18e-7816-474c-840f-5c9c8b0e2207")]
 public partial class IVirtualSurfaceImageSourceNative : ISurfaceImageSourceNative
 {
-    public IVirtualSurfaceImageSourceNative(IntPtr nativePtr)
+    public IVirtualSurfaceImageSourceNative(nint nativePtr)
         : base(nativePtr)
     {
     }
 
-    public static explicit operator IVirtualSurfaceImageSourceNative?(IntPtr nativePtr) => nativePtr == IntPtr.Zero ? null : new IVirtualSurfaceImageSourceNative(nativePtr);
+    public static explicit operator IVirtualSurfaceImageSourceNative?(nint nativePtr) => nativePtr == 0 ? default : new IVirtualSurfaceImageSourceNative(nativePtr);
+
+#if WINDOWS
+    public IVirtualSurfaceImageSourceNative(Microsoft.UI.Xaml.Media.Imaging.VirtualSurfaceImageSource imageSource)
+        : base(WinUIHelpers.GetNativeObject(typeof(IVirtualSurfaceImageSourceNative).GUID, imageSource))
+    {
+    }
+
+    public static explicit operator IVirtualSurfaceImageSourceNative(Microsoft.UI.Xaml.Media.Imaging.VirtualSurfaceImageSource imageSource) => new(imageSource);
+#endif
 
     public RawRect VisibleBounds { get => GetVisibleBounds(); }
 
