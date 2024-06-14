@@ -43,6 +43,7 @@ Also, you need to install **Visual Studio 2022** with the following components:
 
 ## Samples
 - [Collection of samples](https://github.com/amerkoleci/Vortice.Windows/tree/HEAD/src/samples)
+- [WinUI3 Tutorials](https://juhakeranen.com/winui3/) Learn Windows App Development with WinUI 3.0 Tutorial
 - Direct3D12 DXR samples by [CAMongrel](https://github.com/CAMongrel) [D3D12SampleRaytracerSharp](https://github.com/CAMongrel/D3D12SampleRaytracerSharp).
 - Direct3D12 DXR raytracing samples ported from NVIDIA samples by [Jorgemagic](https://github.com/Jorgemagic/CSharpDirectXRaytracing)
 - ImGUI example using Vortice.Windows [VorticeImGui](https://github.com/YaakovDavis/VorticeImGui)
