@@ -8,14 +8,14 @@ namespace Vortice.WinUI;
 [Guid("cb833102-d5d1-448b-a31a-52a9509f24e6")]
 public unsafe class ISurfaceImageSourceNativeWithD2D : ComObject
 {
-    public ISurfaceImageSourceNativeWithD2D(IntPtr nativePtr)
+    public ISurfaceImageSourceNativeWithD2D(nint nativePtr)
         : base(nativePtr)
     {
     }
 
-    public static explicit operator ISurfaceImageSourceNativeWithD2D?(IntPtr nativePtr)
+    public static explicit operator ISurfaceImageSourceNativeWithD2D?(nint nativePtr)
     {
-        return (nativePtr == IntPtr.Zero) ? null : new ISurfaceImageSourceNativeWithD2D(nativePtr);
+        return (nativePtr == 0) ? null : new ISurfaceImageSourceNativeWithD2D(nativePtr);
     }
 
     public IUnknown Device

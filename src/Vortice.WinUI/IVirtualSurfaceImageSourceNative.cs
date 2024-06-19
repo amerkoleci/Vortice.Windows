@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Runtime.CompilerServices;
+
 namespace Vortice.WinUI;
 
 [Guid("9e43c18e-7816-474c-840f-5c9c8b0e2207")]
@@ -21,6 +23,24 @@ public partial class IVirtualSurfaceImageSourceNative : ISurfaceImageSourceNativ
 
     public static explicit operator IVirtualSurfaceImageSourceNative(Microsoft.UI.Xaml.Media.Imaging.VirtualSurfaceImageSource imageSource) => new(imageSource);
 #endif
+
+    /// <summary>
+    /// Gets the set of regions that must be updated on the shared surface.
+    /// </summary>
+    public RawRect[] UpdateRectangles
+    {
+        get
+        {
+            if (GetUpdateRectCount(out int count).Failure)
+            {
+                return [];
+            }
+
+            RawRect[] regionToUpdate = new RawRect[count];
+            GetUpdateRects(regionToUpdate, count);
+            return regionToUpdate;
+        }
+    }
 
     public RawRect VisibleBounds { get => GetVisibleBounds(); }
 
@@ -53,7 +73,18 @@ public partial class IVirtualSurfaceImageSourceNative : ISurfaceImageSourceNativ
         return result;
     }
 
-    internal unsafe RawRect GetVisibleBounds()
+    public unsafe Result GetVisibleBounds(out RawRect bounds)
+    {
+        Unsafe.SkipInit(out bounds);
+
+        fixed (RawRect* boundsPtr = &bounds)
+        {
+            Result result = ((delegate* unmanaged[Stdcall]<nint, void*, int>)this[9])(NativePointer, boundsPtr);
+            return result;
+        }
+    }
+
+    public unsafe RawRect GetVisibleBounds()
     {
         RawRect bounds;
         Result result = ((delegate* unmanaged[Stdcall]<IntPtr, void*, int>)this[9])(NativePointer, &bounds);
