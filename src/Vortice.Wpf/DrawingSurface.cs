@@ -5,9 +5,10 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Vortice.DXGI;
 using Vortice.Direct3D;
 using Vortice.Direct3D11;
+using Vortice.Direct3D11.Debug;
+using Vortice.DXGI;
 using static Vortice.Direct3D11.D3D11;
 
 namespace Vortice.Wpf;
@@ -29,8 +30,9 @@ public class DrawingSurface : Image
     /// </summary>
     public event EventHandler<DrawingSurfaceEventArgs>? UnloadContent;
 
-    private ID3D11Device? _device;
-    private D3D11ImageSource? _d3DSurface;
+    private ID3D11Device1? _device;
+    private ID3D11DeviceContext1? _deviceContext;
+    private D3D11ImageSource? _d3dSurface;
 
     private bool _isRendering;
     private bool _contentNeedsRefresh;
@@ -84,45 +86,99 @@ public class DrawingSurface : Image
 
     private void StartD3D()
     {
-        _device = D3D11CreateDevice(DriverType.Hardware, DeviceCreationFlags.BgraSupport, FeatureLevel.Level_11_0);
+        {
+            DeviceCreationFlags creationFlags = DeviceCreationFlags.BgraSupport;
+#if DEBUG
+            if (SdkLayersAvailable())
+            {
+                creationFlags |= DeviceCreationFlags.Debug;
+            }
+#endif
+            D3D11CreateDevice(IntPtr.Zero,
+                DriverType.Hardware,
+                creationFlags,
+                FeatureLevel.Level_11_0,
+                out ID3D11Device? tempDevice, out ID3D11DeviceContext? tempContext).CheckError();
 
-        _d3DSurface = new D3D11ImageSource(Window.GetWindow(this));
-        _d3DSurface.IsFrontBufferAvailableChanged += OnIsFrontBufferAvailableChanged;
+            _device = tempDevice!.QueryInterface<ID3D11Device1>();
+            _deviceContext = tempContext!.QueryInterface<ID3D11DeviceContext1>();
+            tempContext.Dispose();
+            tempDevice.Dispose();
+        }
+
+        Window window = Window.GetWindow(this);
+
+        window.Closed -= Window_Closed;
+        window.Closed += Window_Closed;
+        _d3dSurface = new D3D11ImageSource(window);
+        _d3dSurface.IsFrontBufferAvailableChanged += OnIsFrontBufferAvailableChanged;
 
         CreateAndBindTargets();
 
-        Source = _d3DSurface;
+        Source = _d3dSurface;
 
-        RaiseLoadContent(new DrawingSurfaceEventArgs(_device));
+        RaiseLoadContent(new DrawingSurfaceEventArgs(_device, _deviceContext));
 
         _contentNeedsRefresh = true;
         _isRendering = true;
+    }
+
+    private void Window_Closed(object? sender, EventArgs e)
+    {
+        Window window = (Window)sender!;
+        window.Closed -= Window_Closed;
+
+        if (IsInDesignMode)
+            return;
+
+        StopRendering();
+        EndD3D();
     }
 
     private void EndD3D()
     {
         _isRendering = false;
 
-        RaiseUnloadContent(new DrawingSurfaceEventArgs(_device!));
+        RaiseUnloadContent(new DrawingSurfaceEventArgs(_device!, _deviceContext!));
 
-        if (_d3DSurface != null)
+        if (_d3dSurface != null)
         {
-            _d3DSurface.IsFrontBufferAvailableChanged -= OnIsFrontBufferAvailableChanged;
+            _d3dSurface.IsFrontBufferAvailableChanged -= OnIsFrontBufferAvailableChanged;
         }
 
         Source = null;
 
-        if (_d3DSurface != null)
+        if (_d3dSurface != null)
         {
-            _d3DSurface.Dispose();
-            _d3DSurface = default;
+            _d3dSurface.Dispose();
+            _d3dSurface = default;
         }
 
         DisposeTextures();
 
+        _deviceContext!.ClearState();
+        _deviceContext!.Flush();
+        _deviceContext!.Dispose();
+
         if (_device != null)
         {
+#if DEBUG
+            uint refCount = _device.Release();
+            if (refCount > 0)
+            {
+                System.Diagnostics.Debug.WriteLine($"Direct3D11: There are {refCount} unreleased references left on the device");
+
+                ID3D11Debug? d3d11Debug = _device.QueryInterfaceOrNull<ID3D11Debug>();
+                if (d3d11Debug != null)
+                {
+                    d3d11Debug.ReportLiveDeviceObjects(ReportLiveDeviceObjectFlags.Detail | ReportLiveDeviceObjectFlags.IgnoreInternal);
+                    d3d11Debug.Dispose();
+                }
+            }
+#else
             _device.Dispose();
+#endif
+
             _device = default;
         }
     }
@@ -132,7 +188,7 @@ public class DrawingSurface : Image
         if (_device == null)
             return;
 
-        _d3DSurface!.SetRenderTargetDX10(null);
+        _d3dSurface!.SetRenderTargetDX10(null);
         DisposeTextures();
 
         TextureWidth = Math.Max((int)ActualWidth, 100);
@@ -151,14 +207,15 @@ public class DrawingSurface : Image
             CPUAccessFlags = CpuAccessFlags.None,
             ArraySize = 1
         });
+        ColorTextureView = _device.CreateRenderTargetView(ColorTexture);
 
-        if(DepthStencilFormat != Format.Unknown)
+        if (DepthStencilFormat != Format.Unknown)
         {
             DepthStencilTexture = _device.CreateTexture2D(DepthStencilFormat, TextureWidth, TextureHeight, 1, 1, null, BindFlags.DepthStencil);
             DepthStencilView = _device.CreateDepthStencilView(DepthStencilTexture!, new DepthStencilViewDescription(DepthStencilTexture, DepthStencilViewDimension.Texture2D));
         }
 
-        _d3DSurface.SetRenderTargetDX10(ColorTexture);
+        _d3dSurface.SetRenderTargetDX10(ColorTexture);
     }
 
     private void DisposeTextures()
@@ -206,20 +263,20 @@ public class DrawingSurface : Image
         if (_contentNeedsRefresh || AlwaysRefresh)
         {
             Render();
-            _d3DSurface.InvalidateD3DImage();
+            _d3dSurface!.InvalidateD3DImage();
         }
     }
 
     private void Render()
     {
-        if (_device == null || ColorTexture == null)
+        if (_device == null || _deviceContext == null || ColorTexture == null)
             return;
 
-        _device.ImmediateContext.OMSetRenderTargets(ColorTextureView, DepthStencilView);
-        _device.ImmediateContext.RSSetViewport(0, 0, TextureWidth, TextureHeight);
-        _device.ImmediateContext.RSSetScissorRect(0, 0, TextureWidth, TextureHeight);
+        _deviceContext.OMSetRenderTargets(ColorTextureView!, DepthStencilView);
+        _deviceContext.RSSetViewport(0, 0, TextureWidth, TextureHeight);
+        _deviceContext.RSSetScissorRect(0, 0, TextureWidth, TextureHeight);
 
-        RaiseDraw(new DrawEventArgs(this, _device));
+        RaiseDraw(new DrawEventArgs(this, _device!, _deviceContext!));
 
         _device.ImmediateContext.Flush();
     }
@@ -251,7 +308,7 @@ public class DrawingSurface : Image
     {
         // this fires when the screensaver kicks in, the machine goes into sleep or hibernate
         // and any other catastrophic losses of the d3d device from WPF's point of view
-        if (_d3DSurface.IsFrontBufferAvailable)
+        if (_d3dSurface.IsFrontBufferAvailable)
         {
             CreateAndBindTargets();
             _contentNeedsRefresh = true;

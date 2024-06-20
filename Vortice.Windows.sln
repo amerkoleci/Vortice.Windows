@@ -107,6 +107,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.WinForms", "src\Vor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Wpf", "src\Vortice.Wpf\Vortice.Wpf.csproj", "{035B0D5E-B7A9-4313-8814-A7F19D2C7757}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D11.Wpf", "src\samples\HelloDirect3D11.Wpf\HelloDirect3D11.Wpf.csproj", "{B05B3F48-FCAD-4150-8685-9F3FA3E8767D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -253,6 +255,10 @@ Global
 		{035B0D5E-B7A9-4313-8814-A7F19D2C7757}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{035B0D5E-B7A9-4313-8814-A7F19D2C7757}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{035B0D5E-B7A9-4313-8814-A7F19D2C7757}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B05B3F48-FCAD-4150-8685-9F3FA3E8767D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05B3F48-FCAD-4150-8685-9F3FA3E8767D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05B3F48-FCAD-4150-8685-9F3FA3E8767D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05B3F48-FCAD-4150-8685-9F3FA3E8767D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -282,6 +288,7 @@ Global
 		{FD18B683-7DC0-46AA-ABF6-0DFAD35A0DB6} = {EA470460-0EBD-4845-B589-E0D6E6916A90}
 		{EE9A8210-CCAF-425A-9ABA-6B73BCF8AC91} = {5676F50D-CC54-4DC6-980D-6B68FFF64065}
 		{A08D15FF-01C6-49BF-A3BA-BC2EA32435BD} = {EE9A8210-CCAF-425A-9ABA-6B73BCF8AC91}
+		{B05B3F48-FCAD-4150-8685-9F3FA3E8767D} = {427B8D27-74DB-4BAA-A2EA-8671266FC8EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0734700-42E1-4F87-8DD2-0084849DA44A}

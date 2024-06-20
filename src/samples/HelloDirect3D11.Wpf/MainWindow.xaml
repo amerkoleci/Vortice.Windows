@@ -1,0 +1,20 @@
+﻿<Window x:Class="HelloDirect3D11.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HelloDirect3D11.Wpf"
+        xmlns:wpf="http://schemas.vortice.windows.io"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <Button Content="Change Color" Width="240" Click="Button_Click" />
+        </StackPanel>
+        <wpf:DrawingSurface Grid.Row="1" LoadContent="DrawingSurface_LoadContent" UnloadContent="DrawingSurface_UnloadContent"  Draw="DrawingSurface_Draw" />
+    </Grid>
+</Window>

@@ -11,7 +11,7 @@ public static unsafe partial class D3D11
     public static ID3D11Device D3D11CreateDevice(DriverType driverType, DeviceCreationFlags flags, params FeatureLevel[] featureLevels)
     {
         RawD3D11CreateDeviceNoContext(
-             IntPtr.Zero,
+            IntPtr.Zero,
             driverType,
             flags,
             featureLevels,
@@ -97,7 +97,39 @@ public static unsafe partial class D3D11
             out _);
     }
 
-    public static Result D3D11CreateDevice(IntPtr adapterPtr, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
+    public static Result D3D11CreateDevice(nint adapterPtr,
+        DriverType driverType,
+        DeviceCreationFlags flags,
+        FeatureLevel featureLevel,
+        out ID3D11Device? device, out ID3D11DeviceContext? immediateContext)
+    {
+        IntPtr devicePtr = IntPtr.Zero;
+        IntPtr immediateContextPtr = IntPtr.Zero;
+        Result result = D3D11CreateDevice_(
+            (void*)adapterPtr,
+            (int)driverType,
+            null,
+            (int)flags,
+            &featureLevel,
+            1,
+            SdkVersion,
+            &devicePtr,
+            null,
+            &immediateContextPtr);
+
+        if (result.Success)
+        {
+            device = new ID3D11Device(devicePtr);
+            immediateContext = new ID3D11DeviceContext(immediateContextPtr);
+            return result;
+        }
+
+        device = default;
+        immediateContext = default;
+        return result;
+    }
+
+    public static Result D3D11CreateDevice(nint adapterPtr, DriverType driverType, DeviceCreationFlags flags, FeatureLevel[] featureLevels,
         out ID3D11Device device, out ID3D11DeviceContext immediateContext)
     {
         return D3D11CreateDevice(adapterPtr, driverType, flags, featureLevels, out device, out _, out immediateContext);

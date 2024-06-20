@@ -13,16 +13,24 @@ public class DrawingSurfaceEventArgs : EventArgs
     /// <summary>
     /// Initializes a new DrawingSurfaceEventArgs.
     /// </summary>
-    /// <param name="device">The <see cref="ID3D11Device"/> associated with the event.</param>
-    public DrawingSurfaceEventArgs(ID3D11Device device)
+    /// <param name="device">The <see cref="ID3D11Device1"/> associated with the event.</param>
+    /// <param name="context">The <see cref="ID3D11DeviceContext1"/> associated with the event.</param>
+    public DrawingSurfaceEventArgs(ID3D11Device1 device, ID3D11DeviceContext1 context)
     {
         ArgumentNullException.ThrowIfNull(nameof(device));
+        ArgumentNullException.ThrowIfNull(nameof(context));
 
         Device = device;
+        Context = context;
     }
 
     /// <summary>
-    /// Gets the <see cref="ID3D11Device"/>>.
+    /// Gets the <see cref="ID3D11Device1"/>>.
     /// </summary>
-    public ID3D11Device Device { get; }
+    public ID3D11Device1 Device { get; }
+
+    /// <summary>
+    /// Gets the <see cref="ID3D11DeviceContext1"/>>.
+    /// </summary>
+    public ID3D11DeviceContext1 Context { get; }
 }

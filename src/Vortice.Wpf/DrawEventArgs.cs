@@ -10,8 +10,8 @@ namespace Vortice.Wpf;
 /// </summary>
 public class DrawEventArgs : DrawingSurfaceEventArgs
 {
-    public DrawEventArgs(DrawingSurface surface, ID3D11Device device)
-        : base(device)
+    public DrawEventArgs(DrawingSurface surface, ID3D11Device1 device, ID3D11DeviceContext1 context)
+        : base(device, context)
     {
         ArgumentNullException.ThrowIfNull(nameof(surface));
 

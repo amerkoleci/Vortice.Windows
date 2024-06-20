@@ -159,12 +159,12 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             DepthStencilView = Device.CreateDepthStencilView(DepthStencilTexture!, new DepthStencilViewDescription(DepthStencilTexture, DepthStencilViewDimension.Texture2D));
         }
 
-        ReadOnlySpan<VertexPositionColor> triangleVertices = stackalloc VertexPositionColor[]
-        {
+        ReadOnlySpan<VertexPositionColor> triangleVertices =
+        [
             new VertexPositionColor(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
             new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
             new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
-        };
+        ];
 
         bool dynamic = false;
         if (dynamic)
@@ -179,11 +179,11 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             _vertexBuffer = Device.CreateBuffer(triangleVertices, BindFlags.VertexBuffer);
         }
 
-        InputElementDescription[] inputElementDescs = new[]
-        {
+        InputElementDescription[] inputElementDescs =
+        [
             new InputElementDescription("POSITION", 0, Format.R32G32B32_Float, 0, 0),
             new InputElementDescription("COLOR", 0, Format.R32G32B32A32_Float, 12, 0)
-        };
+        ];
 
         ReadOnlyMemory<byte> vertexShaderByteCode = CompileBytecode("Triangle.hlsl", "VSMain", "vs_4_0");
         ReadOnlyMemory<byte> pixelShaderByteCode = CompileBytecode("Triangle.hlsl", "PSMain", "ps_4_0");
@@ -191,17 +191,6 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         _vertexShader = Device.CreateVertexShader(vertexShaderByteCode.Span);
         _pixelShader = Device.CreatePixelShader(pixelShaderByteCode.Span);
         _inputLayout = Device.CreateInputLayout(inputElementDescs, vertexShaderByteCode.Span);
-    }
-
-    public struct RawColor4
-    {
-        public float R;
-
-        public float G;
-
-        public float B;
-
-        public float A;
     }
 
     public void Dispose()
