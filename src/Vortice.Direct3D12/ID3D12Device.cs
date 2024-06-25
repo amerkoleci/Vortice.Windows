@@ -897,7 +897,7 @@ public unsafe partial class ID3D12Device
         return CreateRootSignature<T>(nodeMask, new VersionedRootSignatureDescription(description));
     }
 
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]T>(in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
+    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
     {
         return CreateRootSignature<T>(0, description);
     }
@@ -1038,7 +1038,7 @@ public unsafe partial class ID3D12Device
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateCommandSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature, out T? commandSignature) where T : ID3D12CommandSignature
+    public Result CreateCommandSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandSignatureDescription description, ID3D12RootSignature? rootSignature, out T? commandSignature) where T : ID3D12CommandSignature
     {
         Result result = CreateCommandSignature(description, rootSignature, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -1278,6 +1278,12 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region GetCopyableFootprints
+    public ulong GetRequiredIntermediateSize(ID3D12Resource resource, int firstSubresource, int numSubresources)
+    {
+        ResourceDescription desc = resource.GetDescription();
+        GetCopyableFootprints(desc, firstSubresource, numSubresources, 0, out ulong requiredSize);
+        return requiredSize;
+    }
 
     public void GetCopyableFootprints(
         ResourceDescription resourceDesc,

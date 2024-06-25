@@ -743,18 +743,18 @@ public unsafe partial class ID3D12GraphicsCommandList
 
     public ulong UpdateSubresources(ID3D12Resource destinationResource, ID3D12Resource intermediate,
         int firstSubresource, int numSubresources,
-        ulong RequiredSize,
-        ReadOnlySpan<PlacedSubresourceFootPrint> layouts,
-        ReadOnlySpan<int> numRows,
-        ReadOnlySpan<ulong> rowSizesInBytes,
-        SubresourceInfo* pSrcData)
+        ulong requiredSize,
+        PlacedSubresourceFootPrint* pLayouts,
+        int* pNumRows,
+        ulong* pRowSizesInBytes,
+        SubresourceData* pSrcData)
     {
         ResourceDescription IntermediateDesc = intermediate.Description;
         ResourceDescription DestinationDesc = destinationResource.Description;
 
         if (IntermediateDesc.Dimension != ResourceDimension.Buffer ||
-            IntermediateDesc.Width < RequiredSize + layouts[0].Offset ||
-            RequiredSize > unchecked((nuint)(-1)) ||
+            IntermediateDesc.Width < requiredSize + pLayouts[0].Offset ||
+            requiredSize > unchecked((nuint)(-1)) ||
             (DestinationDesc.Dimension == ResourceDimension.Buffer && (firstSubresource != 0 || numSubresources != 1)))
         {
             return 0;
@@ -769,37 +769,57 @@ public unsafe partial class ID3D12GraphicsCommandList
 
         for (int i = 0; i < numSubresources; ++i)
         {
-            if (rowSizesInBytes[i] > unchecked((nuint)(-1)))
+            if (pRowSizesInBytes[i] > unchecked((nuint)(-1)))
             {
                 return 0;
             }
 
             MemCpyDest DestData = new()
             {
-                pData = pData + layouts[i].Offset,
-                RowPitch = (nuint)layouts[i].Footprint.RowPitch,
-                SlicePitch = (nuint)(layouts[i].Footprint.RowPitch * numRows[i])
+                pData = pData + pLayouts[i].Offset,
+                RowPitch = (nuint)pLayouts[i].Footprint.RowPitch,
+                SlicePitch = unchecked((nuint)(pLayouts[i].Footprint.RowPitch) * (nuint)(pNumRows[i])),
             };
 
-            MemcpySubresource(&DestData, &pSrcData[i], &pSrcData[i], (nuint)rowSizesInBytes[i], (uint)numRows[i], (uint)layouts[i].Footprint.Depth);
+            MemcpySubresource(&DestData, &pSrcData[i], unchecked((nuint)(pRowSizesInBytes[i])), (uint)pNumRows[i], (uint)pLayouts[i].Footprint.Depth);
         }
         intermediate.Unmap(0, null);
 
         if (DestinationDesc.Dimension == ResourceDimension.Buffer)
         {
-            CopyBufferRegion(destinationResource, 0, intermediate, layouts[0].Offset, (ulong)layouts[0].Footprint.Width);
+            CopyBufferRegion(destinationResource, 0, intermediate, pLayouts[0].Offset, (ulong)pLayouts[0].Footprint.Width);
         }
         else
         {
             for (int i = 0; i < numSubresources; ++i)
             {
                 TextureCopyLocation dst = new(destinationResource, i + firstSubresource);
-                TextureCopyLocation src = new(intermediate, layouts[i]);
+                TextureCopyLocation src = new(intermediate, pLayouts[i]);
                 CopyTextureRegion(dst, 0, 0, 0, src, (Box?)null);
             }
         }
 
-        return RequiredSize;
+        return requiredSize;
+    }
+
+    public ulong UpdateSubresources(ID3D12Resource destinationResource, ID3D12Resource intermediate,
+        int firstSubresource, int numSubresources,
+        ulong requiredSize,
+        ReadOnlySpan<PlacedSubresourceFootPrint> layouts,
+        ReadOnlySpan<int> numRows,
+        ReadOnlySpan<ulong> rowSizesInBytes,
+        SubresourceData* pSrcData)
+    {
+        fixed (PlacedSubresourceFootPrint* pLayouts = layouts)
+        fixed (int* pNumRows = numRows)
+        fixed (ulong* pRowSizesInBytes = rowSizesInBytes)
+        {
+            return UpdateSubresources(
+                destinationResource, intermediate,
+                firstSubresource, numSubresources,
+                requiredSize,
+                pLayouts, pNumRows, pRowSizesInBytes, pSrcData);
+        }
     }
 
     public ulong UpdateSubresources(ID3D12Resource destinationResource, ID3D12Resource intermediate,
@@ -870,7 +890,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         ulong intermediateOffset,
         int firstSubresource,
         int numSubresources,
-        SubresourceInfo* pSrcData)
+        SubresourceData* pSrcData)
     {
         Span<PlacedSubresourceFootPrint> layouts = stackalloc PlacedSubresourceFootPrint[numSubresources];
         Span<int> numRows = stackalloc int[numSubresources];
