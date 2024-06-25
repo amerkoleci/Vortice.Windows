@@ -64,7 +64,8 @@
     <map method="IDxcCompilerArgs::AddArgumentsUTF8" visibility="private" hresult="true" check="false"/>
     <map method="IDxcCompilerArgs::AddDefines" hresult="true" check="false"/>
     <map param="IDxcCompilerArgs::AddDefines::defineCount" relation="length(pDefines)" />
-
+    <remove method="IDxcCompilerArgs::GetArguments" />
+    
     <map method="IDxcContainerBuilder::(.*)" hresult="true" check="false"/>
 
     <map method="IDxcContainerReflection::(.*)" hresult="true" check="false"/>

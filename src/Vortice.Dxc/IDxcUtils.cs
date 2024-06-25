@@ -3,7 +3,7 @@
 
 namespace Vortice.Dxc;
 
-public partial class IDxcUtils
+public unsafe partial class IDxcUtils
 {
     public IDxcIncludeHandler CreateDefaultIncludeHandler()
     {
@@ -57,22 +57,22 @@ public partial class IDxcUtils
         return args!;
     }
 
-    public unsafe Result BuildArguments(string sourceName, string entryPoint, string targetProfile,
+    public Result BuildArguments(string sourceName, string entryPoint, string targetProfile,
         string[] arguments, DxcDefine[] defines, out IDxcCompilerArgs? args)
     {
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray argsPtr = default;
 
         try
         {
             if (arguments?.Length > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, arguments.Length);
+                argsPtr = new(arguments, arguments.Length);
             }
 
             Result hr = BuildArguments(sourceName,
                 entryPoint,
                 targetProfile,
-                (IntPtr)argumentsPtr, (arguments?.Length) ?? 0,
+                argsPtr.Handle, argsPtr.Length,
                 defines, (defines?.Length) ?? 0,
                 out args);
 
@@ -86,28 +86,27 @@ public partial class IDxcUtils
         }
         finally
         {
-            if (argumentsPtr != null)
-                NativeMemory.Free(argumentsPtr);
+            argsPtr.Release();
         }
     }
 
-    public unsafe Result BuildArguments(string sourceName, string entryPoint, string targetProfile,
+    public Result BuildArguments(string sourceName, string entryPoint, string targetProfile,
         string[] arguments, int argumentsCount,
         DxcDefine[] defines, int defineCount, out IDxcCompilerArgs? args)
     {
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray argumentsPtr = default;
 
         try
         {
             if (arguments != null && argumentsCount > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
+                argumentsPtr = new(arguments, argumentsCount);
             }
 
             Result hr = BuildArguments(sourceName,
                 entryPoint,
                 targetProfile,
-                (IntPtr)argumentsPtr, argumentsCount,
+                argumentsPtr.Handle, argumentsCount,
                 defines, defineCount,
                 out args);
 
@@ -121,8 +120,7 @@ public partial class IDxcUtils
         }
         finally
         {
-            if (argumentsPtr != null)
-                NativeMemory.Free(argumentsPtr);
+            argumentsPtr.Release();
         }
     }
 

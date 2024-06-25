@@ -3,7 +3,7 @@
 
 namespace Vortice.Dxc;
 
-public partial class IDxcCompiler2
+public unsafe partial class IDxcCompiler2
 {
     public IDxcOperationResult CompileWithDebug(IDxcBlob source,
         string sourceName,
@@ -26,7 +26,7 @@ public partial class IDxcCompiler2
             out debugBlobName, out debugBlob);
     }
 
-    public unsafe IDxcOperationResult CompileWithDebug(IDxcBlob source,
+    public IDxcOperationResult CompileWithDebug(IDxcBlob source,
         string sourceName,
         string entryPoint,
         string targetProfile,
@@ -36,8 +36,7 @@ public partial class IDxcCompiler2
         IDxcIncludeHandler includeHandler,
         out string? debugBlobName, out IDxcBlob? debugBlob)
     {
-
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray argumentsPtr = default;
 
         try
         {
@@ -45,13 +44,13 @@ public partial class IDxcCompiler2
 
             if (arguments != null && argumentsCount > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
+                argumentsPtr = new(arguments, argumentsCount);
             }
 
             CompileWithDebug(source,
                 sourceName,
                 entryPoint, targetProfile,
-                (IntPtr)argumentsPtr, argumentsCount,
+                argumentsPtr!.Handle, argumentsCount,
                 defines,
                 includeHandler,
                 out IDxcOperationResult? result,
@@ -71,10 +70,7 @@ public partial class IDxcCompiler2
         }
         finally
         {
-            if (argumentsPtr != null)
-            {
-                NativeMemory.Free(argumentsPtr);
-            }
+            argumentsPtr.Release();
         }
     }
 
@@ -99,19 +95,19 @@ public partial class IDxcCompiler2
             out result, out debugBlobName, out debugBlob);
     }
 
-    public unsafe Result CompileWithDebug(IDxcBlob source,
-                                          string sourceName,
-                                          string entryPoint,
-                                          string targetProfile,
-                                          string[] arguments,
-                                          int argumentsCount,
-                                          DxcDefine[] defines,
-                                          IDxcIncludeHandler includeHandler,
-                                          out IDxcOperationResult? result,
-                                          out string? debugBlobName, out IDxcBlob? debugBlob)
+    public Result CompileWithDebug(IDxcBlob source,
+                                   string sourceName,
+                                   string entryPoint,
+                                   string targetProfile,
+                                   string[] arguments,
+                                   int argumentsCount,
+                                   DxcDefine[] defines,
+                                   IDxcIncludeHandler includeHandler,
+                                   out IDxcOperationResult? result,
+                                   out string? debugBlobName, out IDxcBlob? debugBlob)
     {
 
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray argumentsPtr = default;
 
         try
         {
@@ -119,12 +115,12 @@ public partial class IDxcCompiler2
 
             if (arguments != null && argumentsCount > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
+                argumentsPtr = new(arguments, argumentsCount);
             }
 
             Result hr = CompileWithDebug(source, sourceName,
                 entryPoint, targetProfile,
-                (IntPtr)argumentsPtr, argumentsCount,
+                argumentsPtr.Handle, argumentsCount,
                 defines,
                 includeHandler,
                 out result,
@@ -150,10 +146,7 @@ public partial class IDxcCompiler2
         }
         finally
         {
-            if (argumentsPtr != null)
-            {
-                NativeMemory.Free(argumentsPtr);
-            }
+            argumentsPtr.Release();
         }
     }
 }

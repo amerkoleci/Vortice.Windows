@@ -35,10 +35,7 @@ public static partial class DxcCompiler
         IDxcIncludeHandler? includeHandler = null,
         string[]? additionalArguments = null)
     {
-        if (options == null)
-        {
-            options = new DxcCompilerOptions();
-        }
+        options ??= new DxcCompilerOptions();
 
         string profile = GetShaderProfile(shaderStage, options.ShaderModel);
 
@@ -228,7 +225,7 @@ public static partial class DxcCompiler
             arguments.AddRange(additionalArguments);
         }
 
-        return Compile(source, arguments.ToArray(), includeHandler);
+        return Compile(source, [.. arguments], includeHandler);
     }
 
     public static string GetShaderProfile(DxcShaderStage shaderStage, DxcShaderModel shaderModel)

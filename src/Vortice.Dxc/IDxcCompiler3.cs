@@ -14,7 +14,7 @@ public partial class IDxcCompiler3
     public unsafe Result Compile<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string source, string[] arguments, IDxcIncludeHandler includeHandler, out T? result) where T : ComObject
     {
         IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(source);
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray argsPtr = default;
 
         DxcBuffer buffer = new()
         {
@@ -29,10 +29,10 @@ public partial class IDxcCompiler3
             if (arguments != null && arguments.Length > 0)
             {
                 argumentsCount = arguments.Length;
-                argumentsPtr = Interop.AllocToPointers(arguments);
+                argsPtr = new Utf16PinnedStringArray(arguments, argumentsCount);
             }
 
-            Result hr = Compile(ref buffer, (IntPtr)argumentsPtr, argumentsCount, includeHandler, typeof(T).GUID, out IntPtr nativePtr);
+            Result hr = Compile(ref buffer, argsPtr.Handle, argsPtr.Length, includeHandler, typeof(T).GUID, out IntPtr nativePtr);
             if (hr.Failure)
             {
                 result = default;
@@ -49,10 +49,7 @@ public partial class IDxcCompiler3
                 Marshal.FreeHGlobal(shaderSourcePtr);
             }
 
-            if (argumentsPtr != null)
-            {
-                NativeMemory.Free(argumentsPtr);
-            }
+            argsPtr.Release();
         }
     }
 

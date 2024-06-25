@@ -130,7 +130,7 @@ public static partial class Dxc
                     // directory nor the "process directory", which is "C:\Program Files\dotnet", actually contain the
                     // native library we need, hence the runtime crash. Manually loading the library this way solves this.
                     if (NativeLibrary.TryLoad("dxil", assembly, searchPath, out _) &&
-                    NativeLibrary.TryLoad("dxcompiler", assembly, searchPath, out IntPtr handle))
+                        NativeLibrary.TryLoad("dxcompiler", assembly, searchPath, out nint handle))
                 {
                     return handle;
                 }

@@ -3,7 +3,7 @@
 
 namespace Vortice.Dxc;
 
-public partial class IDxcLinker
+public unsafe partial class IDxcLinker
 {
     public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, string[] arguments)
     {
@@ -17,27 +17,27 @@ public partial class IDxcLinker
         return result!;
     }
 
-    public unsafe Result Link(string entryName, string targetProfile, string[] libNames, string[] arguments, out IDxcOperationResult? result)
+    public Result Link(string entryName, string targetProfile, string[] libNames, string[] arguments, out IDxcOperationResult? result)
     {
-        IntPtr* libNamesPtr = (IntPtr*)0;
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray libNamesPtr =  default;
+        Utf16PinnedStringArray argumentsPtr = default;
 
         try
         {
             if (libNames?.Length > 0)
             {
-                libNamesPtr = Interop.AllocToPointers(libNames, libNames.Length);
+                libNamesPtr = new(libNames, libNames.Length);
             }
 
             if (arguments?.Length > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, arguments.Length);
+                argumentsPtr = new(arguments, arguments.Length);
             }
 
             Result hr = Link(entryName,
                 targetProfile,
-                (IntPtr)libNamesPtr, (libNames?.Length) ?? 0,
-                (IntPtr)argumentsPtr, (arguments?.Length) ?? 0,
+                libNamesPtr.Handle, libNamesPtr.Length,
+                argumentsPtr.Handle, argumentsPtr.Length,
                 out result);
 
             if (hr.Failure)
@@ -50,35 +50,32 @@ public partial class IDxcLinker
         }
         finally
         {
-            if (libNamesPtr != null)
-                NativeMemory.Free(libNamesPtr);
-
-            if (argumentsPtr != null)
-                NativeMemory.Free(argumentsPtr);
+            libNamesPtr.Release();
+            argumentsPtr.Release();
         }
     }
 
-    public unsafe Result Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount, out IDxcOperationResult? result)
+    public Result Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount, out IDxcOperationResult? result)
     {
-        IntPtr* libNamesPtr = (IntPtr*)0;
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray libNamesPtr = default;
+        Utf16PinnedStringArray argumentsPtr = default;
 
         try
         {
             if (libNames != null && libCount > 0)
             {
-                libNamesPtr = Interop.AllocToPointers(libNames, libCount);
+                libNamesPtr = new(libNames, libCount);
             }
 
             if (arguments != null && argumentsCount > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
+                argumentsPtr = new(arguments, argumentsCount);
             }
 
             Result hr = Link(entryName,
                 targetProfile,
-                (IntPtr)libNamesPtr, libCount,
-                (IntPtr)argumentsPtr, argumentsCount,
+                libNamesPtr.Handle, libCount,
+                argumentsPtr.Handle, argumentsCount,
                 out result);
 
             if (hr.Failure)
@@ -91,11 +88,8 @@ public partial class IDxcLinker
         }
         finally
         {
-            if (libNamesPtr != null)
-                NativeMemory.Free(libNamesPtr);
-
-            if (argumentsPtr != null)
-                NativeMemory.Free(argumentsPtr);
+            libNamesPtr.Release();
+            argumentsPtr.Release();
         }
     }
 }

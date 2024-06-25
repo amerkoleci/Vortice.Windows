@@ -3,7 +3,7 @@
 
 namespace Vortice.Dxc;
 
-public partial class IDxcCompiler
+public unsafe partial class IDxcCompiler
 {
     public IDxcBlobEncoding Disassemble(IDxcBlob source)
     {
@@ -40,18 +40,18 @@ public partial class IDxcCompiler
         DxcDefine[] defines,
         IDxcIncludeHandler includeHandler)
     {
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray _argsPtr = default;
 
         try
         {
             if (arguments != null && argumentsCount > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
+                _argsPtr = new(arguments, argumentsCount);
             }
 
             Compile(source, sourceName,
                 entryPoint, targetProfile,
-                (IntPtr)argumentsPtr, argumentsCount,
+                _argsPtr.Handle, _argsPtr.Length,
                 defines,
                 includeHandler,
                 out IDxcOperationResult? result).CheckError();
@@ -59,10 +59,7 @@ public partial class IDxcCompiler
         }
         finally
         {
-            if (argumentsPtr != null)
-            {
-                NativeMemory.Free(argumentsPtr);
-            }
+            _argsPtr.Release();
         }
     }
 
@@ -86,7 +83,7 @@ public partial class IDxcCompiler
             out result);
     }
 
-    public unsafe Result Compile(IDxcBlob source,
+    public Result Compile(IDxcBlob source,
                                  string sourceName,
                                  string entryPoint,
                                  string targetProfile,
@@ -97,18 +94,18 @@ public partial class IDxcCompiler
                                  out IDxcOperationResult? result)
     {
 
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray argumentsPtr = default;
 
         try
         {
             if (arguments != null && argumentsCount > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
+                argumentsPtr = new(arguments, argumentsCount);
             }
 
             Result hr = Compile(source, sourceName,
                 entryPoint, targetProfile,
-                (IntPtr)argumentsPtr, argumentsCount,
+                argumentsPtr!.Handle, argumentsCount,
                 defines,
                 includeHandler,
                 out result);
@@ -123,10 +120,7 @@ public partial class IDxcCompiler
         }
         finally
         {
-            if (argumentsPtr != null)
-            {
-                NativeMemory.Free(argumentsPtr);
-            }
+            argumentsPtr.Release();
         }
     }
     #endregion Compile
@@ -154,17 +148,17 @@ public partial class IDxcCompiler
         DxcDefine[] defines,
         IDxcIncludeHandler includeHandler)
     {
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray argumentsPtr = default;
 
         try
         {
             if (arguments != null && argumentsCount > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
+                argumentsPtr = new(arguments, argumentsCount);
             }
 
             Preprocess(source, sourceName,
-                (IntPtr)argumentsPtr, argumentsCount,
+                argumentsPtr!.Handle, argumentsCount,
                 defines,
                 includeHandler,
                 out IDxcOperationResult? result).CheckError();
@@ -173,10 +167,7 @@ public partial class IDxcCompiler
         }
         finally
         {
-            if (argumentsPtr != null)
-            {
-                NativeMemory.Free(argumentsPtr);
-            }
+            argumentsPtr.Release();
         }
     }
 
@@ -205,17 +196,17 @@ public partial class IDxcCompiler
         IDxcIncludeHandler includeHandler,
         out IDxcOperationResult? result)
     {
-        IntPtr* argumentsPtr = (IntPtr*)0;
+        Utf16PinnedStringArray argumentsPtr = default;
 
         try
         {
             if (arguments != null && argumentsCount > 0)
             {
-                argumentsPtr = Interop.AllocToPointers(arguments, argumentsCount);
+                argumentsPtr = new(arguments, argumentsCount);
             }
 
             Result hr = Preprocess(source, sourceName,
-                (IntPtr)argumentsPtr, argumentsCount,
+                argumentsPtr!.Handle, argumentsCount,
                 defines,
                 includeHandler,
                 out result);
@@ -230,10 +221,7 @@ public partial class IDxcCompiler
         }
         finally
         {
-            if (argumentsPtr != null)
-            {
-                NativeMemory.Free(argumentsPtr);
-            }
+            argumentsPtr.Release();
         }
     }
     #endregion
