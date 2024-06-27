@@ -7,7 +7,7 @@ namespace Vortice.Dxc;
 
 public unsafe readonly ref struct Utf16PinnedStringArray 
 {
-    private readonly void** _handle;
+    private readonly char** _handle;
 
     public nint Handle => (nint)_handle;
 
@@ -17,19 +17,20 @@ public unsafe readonly ref struct Utf16PinnedStringArray
     {
         Length = length == 0 ? strings.Length : length;
 
-        uint charSize = sizeof(char);
-
-        _handle = (void**)NativeMemory.Alloc((nuint)(Length * sizeof(void*)));
+        _handle = (char**)NativeMemory.Alloc((nuint)(Length * sizeof(char*)));
 
         for (int i = 0; i < Length; i++)
         {
             char[] chars = strings[i].ToCharArray();
 
-            uint size = (uint)(chars.Length + 1) * charSize;
-            _handle[i] = NativeMemory.Alloc(size);
+            uint size = (uint)(chars.Length + 1) * sizeof(char);
+            _handle[i] = (char*)NativeMemory.Alloc(size);
 
-            fixed (char* pChars = chars)
-                Unsafe.CopyBlock(_handle[i], pChars, size);
+            if (!string.IsNullOrEmpty(strings[i]))
+            {
+                fixed (char* pChars = chars)
+                    Unsafe.CopyBlock(_handle[i], pChars, size);
+            }
         }
     }
 
@@ -41,6 +42,5 @@ public unsafe readonly ref struct Utf16PinnedStringArray
         NativeMemory.Free(_handle);
     }
 
-    public static implicit operator char**(Utf16PinnedStringArray pStringArray)
-        => (char**)pStringArray.Handle;
+    public static implicit operator char**(Utf16PinnedStringArray pStringArray) => pStringArray._handle;
 }

@@ -1,4 +1,4 @@
-﻿// Copyright © Amer Koleci and Contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using SharpGen.Runtime.Win32;
@@ -1290,6 +1290,20 @@ public unsafe partial class ID3D12Device
         int firstSubresource,
         int numSubresources,
         ulong baseOffset,
+        PlacedSubresourceFootPrint* pLayouts,
+        int* pNumRows,
+        ulong* pRowSizeInBytes,
+        out ulong totalBytes)
+    {
+        GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset,
+            (void*)pLayouts, (void*)pNumRows, (void*)pRowSizeInBytes, out totalBytes);
+    }
+
+    public void GetCopyableFootprints(
+        ResourceDescription resourceDesc,
+        int firstSubresource,
+        int numSubresources,
+        ulong baseOffset,
         out ulong totalBytes)
     {
         GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, (void*)null, (void*)null, (void*)null, out totalBytes);
@@ -1329,7 +1343,6 @@ public unsafe partial class ID3D12Device
             GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, pLayouts, pNumRows, pRowSizeInBytes, out totalBytes);
         }
     }
-
     #endregion
 
     public IntPtr CreateSharedHandle(ID3D12DeviceChild deviceChild, SecurityAttributes? attributes, string name)

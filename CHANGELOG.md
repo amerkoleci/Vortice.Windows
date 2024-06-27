@@ -4,6 +4,7 @@ Current Stable Release:    3.5.0 (March 2024)
 
 -----------------------------------------------
 Release:     3.6.X (August 2024)
+- [ENH] General: Drop .net7 support
 - [ENH] Vortice.Dxc: Handle correctly IDxcCompilerArgs bindings and improve interop
 - [ENH] Vortice.WinUI interop improvements.
 - [ENH] IDXGISwapChain1.Present overload renamed to Present1 to keep consistency with native code.

@@ -3,6 +3,7 @@
 
 namespace Vortice.Dxc;
 
+[Flags]
 public enum DxcValidatorFlags : int
 {
     Default = 0,

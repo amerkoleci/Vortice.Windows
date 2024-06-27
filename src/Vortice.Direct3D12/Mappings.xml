@@ -1065,6 +1065,9 @@
     <map param="ID3D12GraphicsCommandList::RSSetScissorRects::pRects" type="void" keep-pointers="true"/>
     <map method="ID3D12GraphicsCommandList::IASetVertexBuffers" visibility="private" />
     <map param="ID3D12GraphicsCommandList::IASetVertexBuffers::pViews" type="void" keep-pointers="true"/>
+    
+    <map method="ID3D12GraphicsCommandList::IASetIndexBuffer" visibility="private" />
+    <map param="ID3D12GraphicsCommandList::IASetIndexBuffer::pView" type="void" keep-pointers="true"/>
 
     <map method="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat" visibility="private" />
     <map param="ID3D12GraphicsCommandList::ClearUnorderedAccessViewFloat::Values" type="void" keep-pointers="true"/>

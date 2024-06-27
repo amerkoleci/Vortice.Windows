@@ -3,11 +3,14 @@
 
 namespace Vortice.Dxc;
 
-public partial class IDxcVersionInfo
+public partial class IDxcVersionInfo2
 {
-    public int GetFlags()
+    public unsafe Result GetCommitInfo(out int commitCount, out string? commitHash)
     {
-        GetFlags(out int result).CheckError();
+        Result result = GetCommitInfo(out commitCount, out nint commitHashPtr);
+        commitHash = Marshal.PtrToStringUTF8(commitHashPtr);
+        Marshal.FreeCoTaskMem(commitHashPtr);
         return result;
     }
+
 }
