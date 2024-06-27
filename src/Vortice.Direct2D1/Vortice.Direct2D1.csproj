@@ -3,7 +3,7 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <Description>Direct2D1 bindings.</Description>
   </PropertyGroup>
 
