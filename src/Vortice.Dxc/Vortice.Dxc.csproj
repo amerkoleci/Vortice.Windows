@@ -15,10 +15,7 @@
 
     <SharpGenMapping Include="Mappings.xml" />
     <PackageReference Include="SharpGen.Runtime.COM" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="runtimes\**" PackagePath="runtimes" Pack="true" CopyToOutputDirectory="PreserveNewest" />
+    <PackageReference Include="Vortice.Dxc.Native" />
   </ItemGroup>
 
 </Project>

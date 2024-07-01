@@ -13,30 +13,30 @@ public static unsafe class UnsafeUtilities
     public static void Read<T>(void* source, T[] values) where T : unmanaged
     {
         int count = values.Length;
-        fixed (void* dstPtr = values)
+        fixed (void* destination = values)
         {
-            Unsafe.CopyBlockUnaligned(dstPtr, source, (uint)(count * sizeof(T)));
+            NativeMemory.Copy(source, destination, (nuint)(count * sizeof(T)));
         }
     }
 
     public static void Read<T>(void* source, T[] values, int count) where T : unmanaged
     {
-        fixed (void* dstPtr = values)
+        fixed (void* destination = values)
         {
-            Unsafe.CopyBlockUnaligned(dstPtr, source, (uint)(count * sizeof(T)));
+            NativeMemory.Copy(source, destination, (nuint)(count * sizeof(T)));
         }
     }
 
-    public static void Read<T>(IntPtr source, T[] values) where T : unmanaged
+    public static void Read<T>(nint source, T[] values) where T : unmanaged
     {
         int count = values.Length;
-        fixed (void* dstPtr = values)
+        fixed (void* destination = values)
         {
-            Unsafe.CopyBlockUnaligned(dstPtr, (void*)source, (uint)(count * sizeof(T)));
+            NativeMemory.Copy(source.ToPointer(), destination, (nuint)(count * sizeof(T)));
         }
     }
 
-    public static void Read<T>(IntPtr source, T[] values, int count) where T : unmanaged
+    public static void Read<T>(nint source, T[] values, int count) where T : unmanaged
     {
         fixed (void* dstPtr = values)
         {

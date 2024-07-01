@@ -37,19 +37,21 @@ public partial struct StaticSamplerDescription
     /// <summary>
     /// Initializes a new instance of the <see cref="StaticSamplerDescription"/> struct.
     /// </summary>
-    public StaticSamplerDescription(Filter filter,
-        TextureAddressMode addressU,
-        TextureAddressMode addressV,
-        TextureAddressMode addressW,
-        float mipLODBias,
-        int maxAnisotropy,
-        ComparisonFunction comparisonFunction,
-        StaticBorderColor borderColor,
-        float minLOD,
-        float maxLOD,
+    public StaticSamplerDescription(
         int shaderRegister,
-        int registerSpace,
-        ShaderVisibility shaderVisibility = ShaderVisibility.All)
+        Filter filter = Filter.Anisotropic,
+        TextureAddressMode addressU = TextureAddressMode.Wrap,
+        TextureAddressMode addressV = TextureAddressMode.Wrap,
+        TextureAddressMode addressW = TextureAddressMode.Wrap,
+        float mipLODBias = 0.0f,
+        int maxAnisotropy = 16,
+        ComparisonFunction comparisonFunction = ComparisonFunction.LessEqual,
+        StaticBorderColor borderColor = StaticBorderColor.OpaqueWhite,
+        float minLOD = 0.0f,
+        float maxLOD = float.MaxValue,
+        ShaderVisibility shaderVisibility = ShaderVisibility.All,
+        int registerSpace = 0
+        )
     {
         Filter = filter;
         AddressU = addressU;

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Amer Koleci and contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-using Vortice.Mathematics;
-
 namespace Vortice.Direct3D12;
 
 /// <summary>
@@ -27,7 +25,7 @@ public partial struct StaticSamplerDescription1
         MaxAnisotropy = 1;
         ComparisonFunction = ComparisonFunction.Never;
         BorderColor = StaticBorderColor.TransparentBlack;
-        MinLOD = float.MinValue;
+        MinLOD = 0.0f;
         MaxLOD = float.MaxValue;
 
         ShaderRegister = shaderRegister;
@@ -39,19 +37,20 @@ public partial struct StaticSamplerDescription1
     /// <summary>
     /// Initializes a new instance of the <see cref="StaticSamplerDescription1"/> struct.
     /// </summary>
-    public StaticSamplerDescription1(Filter filter,
-        TextureAddressMode addressU,
-        TextureAddressMode addressV,
-        TextureAddressMode addressW,
-        float mipLODBias,
-        int maxAnisotropy,
-        ComparisonFunction comparisonFunction,
-        StaticBorderColor borderColor,
-        float minLOD,
-        float maxLOD,
+    public StaticSamplerDescription1(
         int shaderRegister,
-        int registerSpace,
+        Filter filter = Filter.Anisotropic,
+        TextureAddressMode addressU = TextureAddressMode.Wrap,
+        TextureAddressMode addressV = TextureAddressMode.Wrap,
+        TextureAddressMode addressW = TextureAddressMode.Wrap,
+        float mipLODBias = 0.0f,
+        int maxAnisotropy = 16,
+        ComparisonFunction comparisonFunction = ComparisonFunction.LessEqual,
+        StaticBorderColor borderColor = StaticBorderColor.OpaqueWhite,
+        float minLOD = 0.0f,
+        float maxLOD = float.MaxValue,
         ShaderVisibility shaderVisibility = ShaderVisibility.All,
+        int registerSpace = 0,
         SamplerFlags flags = SamplerFlags.None)
     {
         Filter = filter;
