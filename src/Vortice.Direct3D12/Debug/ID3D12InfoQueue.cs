@@ -3,11 +3,11 @@
 
 namespace Vortice.Direct3D12.Debug;
 
-public partial class ID3D12InfoQueue
+public unsafe partial class ID3D12InfoQueue
 {
-    public unsafe Message GetMessage(ulong messageIndex)
+    public Message GetMessage(ulong messageIndex)
     {
-        PointerSize messageSize = 0;
+        PointerUSize messageSize = 0;
         GetMessage(messageIndex, IntPtr.Zero, ref messageSize);
 
         if (messageSize == 0)
@@ -15,7 +15,7 @@ public partial class ID3D12InfoQueue
             return new Message();
         }
 
-        byte* messagePtr = stackalloc byte[(int)messageSize];
+        byte* messagePtr = stackalloc byte[(int)((uint)messageSize)];
         GetMessage(messageIndex, new IntPtr(messagePtr), ref messageSize);
 
         Message message = new Message();
@@ -23,9 +23,9 @@ public partial class ID3D12InfoQueue
         return message;
     }
 
-    public unsafe InfoQueueFilter? GetStorageFilter()
+    public InfoQueueFilter? GetStorageFilter()
     {
-        PointerSize sizeFilter = PointerSize.Zero;
+        PointerUSize sizeFilter = PointerUSize.Zero;
         GetStorageFilter(IntPtr.Zero, ref sizeFilter);
 
         if (sizeFilter == 0)
@@ -33,7 +33,7 @@ public partial class ID3D12InfoQueue
             return null;
         }
 
-        byte* filter = stackalloc byte[(int)sizeFilter];
+        byte* filter = stackalloc byte[(int)((uint)sizeFilter)];
         GetStorageFilter((IntPtr)filter, ref sizeFilter);
 
         InfoQueueFilter queueNative = new InfoQueueFilter();
@@ -41,9 +41,9 @@ public partial class ID3D12InfoQueue
         return queueNative;
     }
 
-    public unsafe InfoQueueFilter? GetRetrievalFilter()
+    public InfoQueueFilter? GetRetrievalFilter()
     {
-        PointerSize sizeFilter = PointerSize.Zero;
+        PointerUSize sizeFilter = PointerUSize.Zero;
         GetRetrievalFilter(IntPtr.Zero, ref sizeFilter);
 
         if (sizeFilter == 0)
@@ -51,7 +51,7 @@ public partial class ID3D12InfoQueue
             return null;
         }
 
-        byte* filter = stackalloc byte[(int)sizeFilter];
+        byte* filter = stackalloc byte[(int)((uint)sizeFilter)];
         GetRetrievalFilter((IntPtr)filter, ref sizeFilter);
 
         InfoQueueFilter queueNative = new InfoQueueFilter();

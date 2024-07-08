@@ -49,9 +49,9 @@ public unsafe partial class IDXCoreAdapter
         return result;
     }
 
-    public PointerSize GetPropertySize(AdapterProperty property)
+    public nuint GetPropertySize(AdapterProperty property)
     {
-        GetPropertySize(property, out PointerSize propertySize).CheckError();
+        GetPropertySize(property, out PointerUSize propertySize).CheckError();
         return propertySize;
     }
 
@@ -64,16 +64,16 @@ public unsafe partial class IDXCoreAdapter
 
     public string GetStringProperty(AdapterProperty property)
     {
-        GetPropertySize(property, out PointerSize propertySize).CheckError();
-        byte* strBytes = stackalloc byte[propertySize];
+        GetPropertySize(property, out PointerUSize propertySize).CheckError();
+        byte* strBytes = stackalloc byte[(int)((uint)propertySize)];
         GetProperty(property, propertySize, strBytes).CheckError();
-        return System.Text.Encoding.UTF8.GetString(strBytes, propertySize - 1);
+        return System.Text.Encoding.UTF8.GetString(strBytes, (int)((uint)propertySize - 1));
     }
 
     public unsafe T GetProperty<T>(AdapterProperty property) where T : unmanaged
     {
         T result = default;
-        GetProperty(property, sizeof(T), &result).CheckError();
+        GetProperty(property, unchecked((uint)sizeof(T)), &result).CheckError();
         return result;
     }
 
@@ -81,7 +81,7 @@ public unsafe partial class IDXCoreAdapter
     {
         fixed (void* pPropertyData = &propertyData)
         {
-            Result result = GetProperty(property, sizeof(T), pPropertyData);
+            Result result = GetProperty(property, unchecked((uint)sizeof(T)), pPropertyData);
             return result;
         }
     }
@@ -91,8 +91,8 @@ public unsafe partial class IDXCoreAdapter
         where T2 : unmanaged
     {
         return SetState(state,
-            sizeof(T1), &inputStateDetails,
-            sizeof(T2), &inputData);
+            unchecked((uint)sizeof(T1)), &inputStateDetails,
+            unchecked((uint)sizeof(T2)), &inputData);
     }
 
     public unsafe Result QueryState<T1, T2>(AdapterState state, T1 inputStateDetails, out T2 outputData)
@@ -102,8 +102,8 @@ public unsafe partial class IDXCoreAdapter
         fixed (void* outputBuffer = &outputData)
         {
             return QueryState(state,
-                sizeof(T1), &inputStateDetails,
-                sizeof(T2), outputBuffer
+                unchecked((uint)sizeof(T1)), &inputStateDetails,
+                unchecked((uint)sizeof(T2)), outputBuffer
                 );
         }
     }

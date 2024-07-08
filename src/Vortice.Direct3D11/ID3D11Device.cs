@@ -382,7 +382,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateVertexShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateVertexShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -390,7 +390,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateVertexShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateVertexShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -398,7 +398,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateVertexShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateVertexShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -411,7 +411,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreatePixelShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreatePixelShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -419,7 +419,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreatePixelShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreatePixelShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -427,7 +427,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreatePixelShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreatePixelShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -440,7 +440,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateGeometryShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateGeometryShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -448,7 +448,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateGeometryShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateGeometryShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -456,7 +456,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateGeometryShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateGeometryShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -469,7 +469,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateHullShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateHullShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -477,7 +477,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateHullShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateHullShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -485,7 +485,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateHullShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateHullShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -498,7 +498,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateDomainShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateDomainShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -506,7 +506,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateDomainShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateDomainShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -514,7 +514,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateDomainShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateDomainShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -527,7 +527,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateComputeShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateComputeShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -535,7 +535,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateComputeShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateComputeShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -543,7 +543,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateComputeShader(pBuffer, shaderBytecode.Length, classLinkage);
+            return CreateComputeShader(pBuffer, (nuint)shaderBytecode.Length, classLinkage);
         }
     }
 
@@ -562,7 +562,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, shaderBytecode.Length);
+            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, (nuint)shaderBytecode.Length);
         }
     }
 
@@ -576,7 +576,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, shaderBytecode.Length);
+            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, (nuint)shaderBytecode.Length);
         }
     }
 
@@ -590,7 +590,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, shaderBytecode.Length);
+            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, (nuint)shaderBytecode.Length);
         }
     }
 

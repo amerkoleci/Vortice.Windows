@@ -16,7 +16,7 @@ public partial struct Range : IEquatable<Range>
     /// <remarks>
     /// End is one-past-the-end. When Begin equals End, the range is empty. The size of the range is (End - Begin).
     /// </remarks>
-    public Range(PointerSize begin, PointerSize end)
+    public Range(nuint begin, nuint end)
     {
         Begin = begin;
         End = end;

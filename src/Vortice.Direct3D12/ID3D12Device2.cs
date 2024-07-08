@@ -10,11 +10,11 @@ public unsafe partial class ID3D12Device2
 
         PipelineStateStreamDescription description = new()
         {
-            SizeInBytes = sizeof(TData),
+            SizeInBytes = (nuint)sizeof(TData),
             SubObjectStream = new IntPtr(&data)
         };
 
-        CreatePipelineState(ref description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr).CheckError();
+        CreatePipelineState(description, typeof(ID3D12PipelineState).GUID, out IntPtr nativePtr).CheckError();
         return new ID3D12PipelineState(nativePtr);
     }
 
@@ -24,7 +24,7 @@ public unsafe partial class ID3D12Device2
     {
         PipelineStateStreamDescription description = new()
         {
-            SizeInBytes = sizeof(TData),
+            SizeInBytes = (nuint)sizeof(TData),
             SubObjectStream = new IntPtr(&data)
         };
 
@@ -33,13 +33,13 @@ public unsafe partial class ID3D12Device2
 
     public T CreatePipelineState<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(PipelineStateStreamDescription description) where T : ID3D12PipelineState
     {
-        CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+        CreatePipelineState(description, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public Result CreatePipelineState<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(PipelineStateStreamDescription description, out T? pipelineState) where T : ID3D12PipelineState
     {
-        Result result = CreatePipelineState(ref description, typeof(T).GUID, out IntPtr nativePtr);
+        Result result = CreatePipelineState(description, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
         {
             pipelineState = default;

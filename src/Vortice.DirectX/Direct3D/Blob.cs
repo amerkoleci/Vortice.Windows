@@ -25,11 +25,13 @@ public unsafe partial class Blob
 
     public ReadOnlySpan<byte> AsSpan()
     {
-        return new ReadOnlySpan<byte>(GetBufferPointer().ToPointer(), (int)GetBufferSize());
+        nuint bufferSize = GetBufferSize();
+        return new ReadOnlySpan<byte>(GetBufferPointer().ToPointer(), (int)bufferSize);
     }
 
     public ReadOnlyMemory<byte> AsMemory()
     {
-        return new ReadOnlySpan<byte>(GetBufferPointer().ToPointer(), (int)GetBufferSize()).ToArray();
+        nuint bufferSize = GetBufferSize();
+        return new ReadOnlySpan<byte>(GetBufferPointer().ToPointer(), (int)bufferSize).ToArray();
     }
 }

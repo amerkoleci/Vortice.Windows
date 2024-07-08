@@ -3,11 +3,11 @@
 
 namespace Vortice.DXGI.Debug;
 
-public partial class IDXGIInfoQueue
+public unsafe partial class IDXGIInfoQueue
 {
-    public unsafe InfoQueueMessage GetMessage(Guid producer, ulong messageIndex)
+    public InfoQueueMessage GetMessage(Guid producer, ulong messageIndex)
     {
-        PointerSize messageSize = 0;
+        PointerUSize messageSize = 0;
         GetMessage(producer, messageIndex, IntPtr.Zero, ref messageSize);
 
         if (messageSize == 0)
@@ -15,7 +15,7 @@ public partial class IDXGIInfoQueue
             return new InfoQueueMessage();
         }
 
-        var messagePtr = stackalloc byte[messageSize];
+        byte* messagePtr = stackalloc byte[(int)((uint)messageSize)];
         GetMessage(producer, messageIndex, new IntPtr(messagePtr), ref messageSize);
 
         var message = new InfoQueueMessage();
@@ -23,10 +23,9 @@ public partial class IDXGIInfoQueue
         return message;
     }
 
-
-    public unsafe InfoQueueFilter? GetStorageFilter(Guid producer)
+    public InfoQueueFilter? GetStorageFilter(Guid producer)
     {
-        PointerSize sizeFilter = PointerSize.Zero;
+        PointerUSize sizeFilter = PointerUSize.Zero;
         GetStorageFilter(producer, IntPtr.Zero, ref sizeFilter);
 
         if (sizeFilter == 0)
@@ -34,7 +33,7 @@ public partial class IDXGIInfoQueue
             return null;
         }
 
-        byte* filter = stackalloc byte[(int)sizeFilter];
+        byte* filter = stackalloc byte[(int)((uint)sizeFilter)];
         GetStorageFilter(producer, (IntPtr)filter, ref sizeFilter);
 
         var queueNative = new InfoQueueFilter();
@@ -43,16 +42,17 @@ public partial class IDXGIInfoQueue
         return queueNative;
     }
 
-    public unsafe InfoQueueFilter? GetRetrievalFilter(Guid producer)
+    public InfoQueueFilter? GetRetrievalFilter(Guid producer)
     {
-        var sizeFilter = PointerSize.Zero;
+        PointerUSize sizeFilter = PointerUSize.Zero;
         GetRetrievalFilter(producer, IntPtr.Zero, ref sizeFilter);
 
         if (sizeFilter == 0)
         {
             return null;
         }
-        var filter = stackalloc byte[(int)sizeFilter];
+
+        byte* filter = stackalloc byte[(int)((uint)sizeFilter)];
         GetRetrievalFilter(producer, (IntPtr)filter, ref sizeFilter);
 
         var queueNative = new InfoQueueFilter();

@@ -763,79 +763,95 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateRootSignature
-    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, IntPtr blobWithRootSignature, PointerSize blobLengthInBytes, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature(int nodeMask, nint blobWithRootSignature, nuint blobLengthInBytes, out ID3D12RootSignature? rootSignature)
     {
-        Result result = CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr);
+        Result result = CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(ID3D12RootSignature).GUID, out IntPtr nativePtr);
         if (result.Failure)
         {
             rootSignature = default;
             return default;
         }
 
-        rootSignature = MarshallingHelpers.FromPointer<T>(nativePtr);
+        rootSignature = new(nativePtr);
         return result;
     }
 
-    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, Blob blob, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature(int nodeMask, Blob blob, out ID3D12RootSignature? rootSignature) 
     {
         return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, out rootSignature);
     }
 
-    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, byte[] blobWithRootSignature, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature(int nodeMask, byte[] blobWithRootSignature, out ID3D12RootSignature? rootSignature)
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {
-            return CreateRootSignature(nodeMask, (IntPtr)pBuffer, blobWithRootSignature.Length, out rootSignature);
+            return CreateRootSignature(nodeMask, (nint)pBuffer, (nuint)blobWithRootSignature.Length, out rootSignature);
         }
     }
 
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
+    public ID3D12RootSignature CreateRootSignature(int nodeMask, nint blobWithRootSignature, nuint blobLengthInBytes) 
     {
-        CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
+        CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(ID3D12RootSignature).GUID, out IntPtr nativePtr).CheckError();
+        return new(nativePtr)!;
     }
 
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, Blob blob) where T : ID3D12RootSignature
+    public ID3D12RootSignature CreateRootSignature(int nodeMask, Blob blob)
     {
-        return CreateRootSignature<T>(nodeMask, blob.BufferPointer, blob.BufferSize);
+        return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize);
     }
 
-    public unsafe T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, byte[] blobWithRootSignature) where T : ID3D12RootSignature
+    public ID3D12RootSignature CreateRootSignature(int nodeMask, byte[] blobWithRootSignature) 
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {
-            return CreateRootSignature<T>(nodeMask, (IntPtr)pBuffer, blobWithRootSignature.Length);
+            return CreateRootSignature(nodeMask, (nint)pBuffer, (nuint)blobWithRootSignature.Length);
         }
     }
 
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(IntPtr blobWithRootSignature, PointerSize blobLengthInBytes) where T : ID3D12RootSignature
+    public ID3D12RootSignature CreateRootSignature(int nodeMask, Span<byte> blobWithRootSignature)
+    {
+        fixed (void* pBuffer = blobWithRootSignature)
+        {
+            return CreateRootSignature(nodeMask, (nint)pBuffer, (nuint)blobWithRootSignature.Length);
+        }
+    }
+
+    public ID3D12RootSignature CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(nint blobWithRootSignature, nuint blobLengthInBytes) where T : ID3D12RootSignature
     {
         CreateRootSignature(0, blobWithRootSignature, blobLengthInBytes, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Blob blob) where T : ID3D12RootSignature
+    public ID3D12RootSignature CreateRootSignature(Blob blob)
     {
-        return CreateRootSignature<T>(0, blob.BufferPointer, blob.BufferSize);
+        return CreateRootSignature(0, blob.BufferPointer, blob.BufferSize);
     }
 
-    public unsafe T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(byte[] blobWithRootSignature) where T : ID3D12RootSignature
+    public ID3D12RootSignature CreateRootSignature(byte[] blobWithRootSignature)
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {
-            return CreateRootSignature<T>(0, (IntPtr)pBuffer, blobWithRootSignature.Length);
+            return CreateRootSignature(0, (IntPtr)pBuffer, (nuint)blobWithRootSignature.Length);
         }
     }
 
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
+    public ID3D12RootSignature CreateRootSignature(Span<byte> blobWithRootSignature)
     {
-        return CreateRootSignature<T>(0, description, version);
+        fixed (void* pBuffer = blobWithRootSignature)
+        {
+            return CreateRootSignature(0, (nint)pBuffer, (nuint)blobWithRootSignature.Length);
+        }
     }
 
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version) where T : ID3D12RootSignature
+    public ID3D12RootSignature CreateRootSignature(in RootSignatureDescription description, RootSignatureVersion version)
+    {
+        return CreateRootSignature(0, description, version);
+    }
+
+    public ID3D12RootSignature CreateRootSignature(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version)
     {
         Result result = D3D12.D3D12SerializeRootSignature(description, version, out Blob blob, out Blob errorBlob);
-        if (result.Failure)
+        if (result.Failure || blob is null)
         {
             if (errorBlob != null)
             {
@@ -847,8 +863,8 @@ public unsafe partial class ID3D12Device
 
         try
         {
-            CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr).CheckError();
-            return MarshallingHelpers.FromPointer<T>(nativePtr)!;
+            CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID, out IntPtr nativePtr).CheckError();
+            return new(nativePtr)!;
         }
         finally
         {
@@ -857,11 +873,16 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version, out ID3D12RootSignature? rootSignature)
     {
         Result result = D3D12.D3D12SerializeRootSignature(description, version, out Blob blob, out Blob errorBlob);
-        if (result.Failure)
+        if (result.Failure || blob is null)
         {
+            if (errorBlob != null)
+            {
+                throw new SharpGenException(result, errorBlob.AsString());
+            }
+
             errorBlob?.Dispose();
             rootSignature = default;
             return result;
@@ -869,14 +890,14 @@ public unsafe partial class ID3D12Device
 
         try
         {
-            result = CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(T).GUID, out IntPtr nativePtr);
+            result = CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, typeof(ID3D12RootSignature).GUID, out IntPtr nativePtr);
             if (result.Failure)
             {
                 rootSignature = default;
                 return default;
             }
 
-            rootSignature = MarshallingHelpers.FromPointer<T>(nativePtr);
+            rootSignature = MarshallingHelpers.FromPointer<ID3D12RootSignature>(nativePtr);
             return result;
         }
         finally
@@ -886,46 +907,20 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in RootSignatureDescription1 description) where T : ID3D12RootSignature
-    {
-        return CreateRootSignature<T>(0, new VersionedRootSignatureDescription(description));
-    }
-
-
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in RootSignatureDescription1 description) where T : ID3D12RootSignature
-    {
-        return CreateRootSignature<T>(nodeMask, new VersionedRootSignatureDescription(description));
-    }
-
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
-    {
-        return CreateRootSignature<T>(0, description);
-    }
-
-    public T CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in VersionedRootSignatureDescription description) where T : ID3D12RootSignature
-    {
-        CreateRootSignature(nodeMask, description, out T? rootSignature).CheckError();
-        return rootSignature!;
-    }
-
-    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in RootSignatureDescription1 description, out T? rootSignature) where T : ID3D12RootSignature
-    {
-        return CreateRootSignature<T>(0, new VersionedRootSignatureDescription(description), out rootSignature);
-    }
-
-    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in RootSignatureDescription1 description, out T? rootSignature) where T : ID3D12RootSignature
-    {
-        return CreateRootSignature<T>(0, new VersionedRootSignatureDescription(description), out rootSignature);
-    }
-
-    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(in VersionedRootSignatureDescription description, out T? rootSignature) where T : ID3D12RootSignature
-    {
-        return CreateRootSignature<T>(0, description, out rootSignature);
-    }
-
-    public ID3D12RootSignature CreateRootSignature(in RootSignatureDescription1 description)
+    public ID3D12RootSignature CreateRootSignature(in RootSignatureDescription1 description) 
     {
         return CreateRootSignature(0, new VersionedRootSignatureDescription(description));
+    }
+
+
+    public ID3D12RootSignature CreateRootSignature(int nodeMask, in RootSignatureDescription1 description) 
+    {
+        return CreateRootSignature(nodeMask, new VersionedRootSignatureDescription(description));
+    }
+
+    public ID3D12RootSignature CreateRootSignature(in VersionedRootSignatureDescription description) 
+    {
+        return CreateRootSignature(0, description);
     }
 
     public ID3D12RootSignature CreateRootSignature(int nodeMask, in VersionedRootSignatureDescription description)
@@ -934,11 +929,63 @@ public unsafe partial class ID3D12Device
         return rootSignature!;
     }
 
-    public Result CreateRootSignature<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, in VersionedRootSignatureDescription description, out T? rootSignature) where T : ID3D12RootSignature
+    public Result CreateRootSignature(in RootSignatureDescription1 description, out ID3D12RootSignature? rootSignature)
+    {
+        return CreateRootSignature(0, new VersionedRootSignatureDescription(description), out rootSignature);
+    }
+
+    public Result CreateRootSignature(int nodeMask, in RootSignatureDescription1 description, out ID3D12RootSignature? rootSignature)
+    {
+        return CreateRootSignature(0, new VersionedRootSignatureDescription(description), out rootSignature);
+    }
+
+    public Result CreateRootSignature(in VersionedRootSignatureDescription description, out ID3D12RootSignature? rootSignature)
+    {
+        return CreateRootSignature(0, description, out rootSignature);
+    }
+
+    public Result CreateRootSignature(int nodeMask, in VersionedRootSignatureDescription description, out ID3D12RootSignature? rootSignature)
+    {
+        Result result = SerializeRootSignature(in description, out Blob? signature, out Blob? errorBlob);
+
+        if (result.Failure || signature is null)
+        {
+            if (errorBlob is not null)
+            {
+                throw new SharpGenException(result, errorBlob.AsString());
+            }
+
+            errorBlob?.Dispose();
+            rootSignature = default;
+            return result;
+        }
+
+        try
+        {
+            result = CreateRootSignature(nodeMask, signature!.BufferPointer, signature.BufferSize, typeof(ID3D12RootSignature).GUID, out IntPtr nativePtr);
+            if (result.Failure)
+            {
+                rootSignature = default;
+                return default;
+            }
+
+            rootSignature = new(nativePtr);
+            return result;
+        }
+        finally
+        {
+            errorBlob?.Dispose();
+            signature.Dispose();
+        }
+    }
+
+    public Result SerializeRootSignature(
+        in VersionedRootSignatureDescription description,
+        out Blob? signature, out Blob? errorBlob)
     {
         Result result = Result.Ok;
-        Blob? signature = null;
-        Blob? errorBlob = null;
+        signature = default;
+        errorBlob = default;
 
         // D3DX12SerializeVersionedRootSignature
         switch (HighestRootSignatureVersion)
@@ -1003,31 +1050,7 @@ public unsafe partial class ID3D12Device
                 break;
         }
 
-        if (result.Failure || signature == null)
-        {
-            errorBlob?.Dispose();
-
-            rootSignature = default;
-            return result;
-        }
-
-        try
-        {
-            result = CreateRootSignature(nodeMask, signature.BufferPointer, signature.BufferSize, typeof(T).GUID, out IntPtr nativePtr);
-            if (result.Failure)
-            {
-                rootSignature = default;
-                return default;
-            }
-
-            rootSignature = MarshallingHelpers.FromPointer<T>(nativePtr);
-            return result;
-        }
-        finally
-        {
-            errorBlob?.Dispose();
-            signature.Dispose();
-        }
+        return result;
     }
     #endregion
 

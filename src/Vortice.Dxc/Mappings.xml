@@ -37,6 +37,7 @@
     <map method="IDxcUtils::BuildArguments" visibility="private" />
     <map param="IDxcUtils::BuildArguments::pArguments" type="void" />
 
+    <map method="IDxcBlob::GetBufferSize" visibility="internal" property="false" hresult="true" check="false"/>
     <map method="IDxcResult::GetOutput" visibility="private" hresult="true" check="false"/>
     <!--<map param="IDxcResult::GetOutput::ppOutputName" type="void" keep-pointers="true"/>-->
 

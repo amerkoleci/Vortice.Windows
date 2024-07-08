@@ -164,10 +164,10 @@ public unsafe partial class IDxcUtils
     {
         IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
 
-        DxcBuffer buffer = new DxcBuffer
+        DxcBuffer buffer = new()
         {
             Ptr = shaderSourcePtr,
-            Size = shaderSource.Length,
+            Size = (nuint)shaderSource.Length,
             Encoding = Dxc.DXC_CP_ACP
         };
 

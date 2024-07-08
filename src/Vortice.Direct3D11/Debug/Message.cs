@@ -19,7 +19,7 @@ public partial struct Message
         public MessageSeverity Severity;
         public MessageId Id;
         public unsafe sbyte* pDescription;
-        public PointerSize DescriptionByteLength;
+        public nuint DescriptionByteLength;
     }
 
     internal unsafe void __MarshalFrom(ref __Native @ref)

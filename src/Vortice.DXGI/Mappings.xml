@@ -2,7 +2,7 @@
 <config id="vortice-dxgi" xmlns="urn:SharpGen.Config">
   <namespace>Vortice.DXGI</namespace>
   <depends>Vortice.DirectX</depends>
-
+  
   <sdk name="WindowsSdk" version="10.0.22621.0" />
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
@@ -104,11 +104,6 @@
     <map field="DXGI_ADAPTER_DESC[123]?::AdapterLuid" name="Luid" />
     <map field="DXGI_ADAPTER_DESC[123]?::SubSysId" name="SubsystemId" />
     <map field="DXGI_ADAPTER_DESC[12]::Flags" type="DXGI_ADAPTER_FLAG" />
-
-    <map struct="DXGI_ADAPTER_DESC" pack="4"/>
-    <map struct="DXGI_ADAPTER_DESC1" pack="4"/>
-    <map struct="DXGI_ADAPTER_DESC2" pack="4"/>
-    <map struct="DXGI_ADAPTER_DESC3" pack="4"/>
 
     <!-- DXGI_SWAP_CHAIN_DESC -->
     <map field="DXGI_SWAP_CHAIN_DESC[12]?::BufferUsage" type="DXGI_USAGE_ENUM"/>

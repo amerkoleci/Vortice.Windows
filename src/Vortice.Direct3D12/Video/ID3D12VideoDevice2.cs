@@ -64,13 +64,13 @@ public partial class ID3D12VideoDevice2
     #endregion
 
     #region CreateVideoExtensionCommand
-    public ID3D12VideoExtensionCommand CreateVideoExtensionCommand(VideoExtensionCommandDescription description, IntPtr creationParameters, PointerSize creationParametersDataSizeInBytes, ID3D12ProtectedResourceSession protectedResourceSession)
+    public ID3D12VideoExtensionCommand CreateVideoExtensionCommand(VideoExtensionCommandDescription description, IntPtr creationParameters, nuint creationParametersDataSizeInBytes, ID3D12ProtectedResourceSession protectedResourceSession)
     {
         CreateVideoExtensionCommand(ref description, creationParameters, creationParametersDataSizeInBytes, protectedResourceSession, typeof(ID3D12VideoExtensionCommand).GUID, out IntPtr nativePtr).CheckError();
         return new ID3D12VideoExtensionCommand(nativePtr);
     }
 
-    public T CreateVideoExtensionCommand<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoExtensionCommandDescription description, IntPtr creationParameters, PointerSize creationParametersDataSizeInBytes, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoExtensionCommand
+    public T CreateVideoExtensionCommand<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(VideoExtensionCommandDescription description, IntPtr creationParameters, nuint creationParametersDataSizeInBytes, ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoExtensionCommand
     {
         CreateVideoExtensionCommand(ref description, creationParameters, creationParametersDataSizeInBytes, protectedResourceSession, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -78,8 +78,8 @@ public partial class ID3D12VideoDevice2
 
     public Result CreateVideoExtensionCommand<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
         VideoExtensionCommandDescription description,
-        IntPtr creationParameters,
-        PointerSize creationParametersDataSizeInBytes,
+        nint creationParameters,
+        nuint creationParametersDataSizeInBytes,
         ID3D12ProtectedResourceSession protectedResourceSession,
         out T? videoExtensionCommand) where T : ID3D12VideoExtensionCommand
     {

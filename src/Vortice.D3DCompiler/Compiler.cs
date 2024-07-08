@@ -26,7 +26,7 @@ public unsafe static partial class Compiler
         {
             Result result = Compile(
                 shaderSourcePtr.ToPointer(),
-                shaderSource.Length,
+                (nuint)shaderSource.Length,
                 sourceName,
                 null,
                 null,
@@ -82,7 +82,7 @@ public unsafe static partial class Compiler
         {
             Result result = Compile(
                 shaderSourcePtr.ToPointer(),
-                shaderSource.Length,
+                (nuint)shaderSource.Length,
                 sourceName,
                 macros,
                 null,
@@ -137,7 +137,7 @@ public unsafe static partial class Compiler
         {
             Result result = Compile(
                 shaderSourcePtr.ToPointer(),
-                shaderSource.Length,
+                (nuint)shaderSource.Length,
                 sourceName,
                 macros,
                 include,
@@ -192,7 +192,7 @@ public unsafe static partial class Compiler
         {
             Result result = Compile(
                 shaderSourcePtr.ToPointer(),
-                shaderSource.Length,
+                (nuint)shaderSource.Length,
                 sourceName,
                 macros,
                 include,
@@ -243,7 +243,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 shaderSourcePtr.ToPointer(),
-                shaderSource.Length,
+                (nuint)shaderSource.Length,
                 sourceName,
                 null,
                 null,
@@ -280,7 +280,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 shaderSourcePtr.ToPointer(),
-                shaderSource.Length,
+                (nuint)shaderSource.Length,
                 sourceName,
                 defines,
                 null,
@@ -318,7 +318,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 shaderSourcePtr.ToPointer(),
-                shaderSource.Length,
+                (nuint)shaderSource.Length,
                 sourceName,
                 defines,
                 include,
@@ -357,7 +357,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 shaderSourcePtr.ToPointer(),
-                shaderSource.Length,
+                (nuint)shaderSource.Length,
                 sourceName,
                 defines,
                 include,
@@ -397,7 +397,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 shaderSourcePtr.ToPointer(),
-                shaderSource.Length,
+                (nuint)shaderSource.Length,
                 sourceName,
                 defines,
                 include,
@@ -432,7 +432,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 sourcePtr,
-                source.Length,
+                (nuint)source.Length,
                 sourceName,
                 null,
                 null,
@@ -463,7 +463,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 sourcePtr,
-                source.Length,
+                (nuint)source.Length,
                 sourceName,
                 defines,
                 null,
@@ -495,7 +495,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 sourcePtr,
-                source.Length,
+                (nuint)source.Length,
                 sourceName,
                 defines,
                 include,
@@ -528,7 +528,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 sourcePtr,
-                source.Length,
+                (nuint)source.Length,
                 sourceName,
                 defines,
                 include,
@@ -562,7 +562,7 @@ public unsafe static partial class Compiler
         {
             return Compile(
                 sourcePtr,
-                source.Length,
+                (nuint)source.Length,
                 sourceName,
                 defines,
                 include,
@@ -771,7 +771,7 @@ public unsafe static partial class Compiler
     }
     #endregion
 
-    public static Blob CreateBlob(PointerSize size)
+    public static Blob CreateBlob(nuint size)
     {
         CreateBlob(size, out Blob blob).CheckError();
         return blob;
@@ -781,7 +781,7 @@ public unsafe static partial class Compiler
     {
         fixed (byte* shaderBytecodePtr = shaderBytecode)
         {
-            Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+            Reflect(shaderBytecodePtr, (nuint)shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr).CheckError();
             return MarshallingHelpers.FromPointer<T>(nativePtr)!;
         }
     }
@@ -790,7 +790,7 @@ public unsafe static partial class Compiler
     {
         fixed (byte* shaderBytecodePtr = shaderBytecode)
         {
-            Result result = Reflect(shaderBytecodePtr, shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr);
+            Result result = Reflect(shaderBytecodePtr, (nuint)shaderBytecode.Length, typeof(T).GUID, out IntPtr nativePtr);
             if (result.Success)
             {
                 reflection = MarshallingHelpers.FromPointer<T>(nativePtr);
@@ -829,7 +829,7 @@ public unsafe static partial class Compiler
     {
         fixed (byte* pSrcData = srcData)
         {
-            GetInputSignatureBlob((IntPtr)pSrcData, srcData.Length, out Blob signatureBlob).CheckError();
+            GetInputSignatureBlob((IntPtr)pSrcData, (nuint)srcData.Length, out Blob signatureBlob).CheckError();
             return signatureBlob;
         }
     }
@@ -849,7 +849,7 @@ public unsafe static partial class Compiler
     {
         fixed (byte* pSrcData = srcData)
         {
-            GetOutputSignatureBlob((IntPtr)pSrcData, srcData.Length, out Blob signatureBlob).CheckError();
+            GetOutputSignatureBlob((IntPtr)pSrcData, (nuint)srcData.Length, out Blob signatureBlob).CheckError();
             return signatureBlob;
         }
     }

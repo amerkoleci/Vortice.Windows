@@ -22,7 +22,7 @@ public partial class ComputePipelineStateDescription
         public IntPtr RootSignature;
         public ShaderBytecode.__Native CS;
         public uint NodeMask;
-        public CachedPipelineState.__Native CachedPSO;
+        public CachedPipelineState CachedPSO;
         public PipelineStateFlags Flags;
     }
 
@@ -30,7 +30,7 @@ public partial class ComputePipelineStateDescription
     {
         GC.KeepAlive(RootSignature);
         Free(@ref.CS.pShaderBytecode);
-        CachedPSO.__MarshalFree(ref @ref.CachedPSO);
+        @ref.CachedPSO = CachedPSO;
     }
 
     internal unsafe void __MarshalTo(ref __Native @ref)
@@ -39,7 +39,7 @@ public partial class ComputePipelineStateDescription
         @ref.CS.pShaderBytecode = AllocWithData(ComputeShader.Span);
         @ref.CS.BytecodeLength = (nuint)ComputeShader.Length;
         @ref.NodeMask = NodeMask;
-        CachedPSO.__MarshalTo(ref @ref.CachedPSO);
+        @ref.CachedPSO = CachedPSO;
         @ref.Flags = Flags;
     }
     #endregion

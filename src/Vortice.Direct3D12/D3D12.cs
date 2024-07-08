@@ -252,7 +252,11 @@ public static unsafe partial class D3D12
         D3D12EnableExperimentalFeatures(features.Length, features, IntPtr.Zero, null);
     }
 
-    private static Result D3D12CreateVersionedRootSignatureDeserializer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(void* signatureData, PointerSize signatureDataLength, out T? rootSignatureDeserializer) where T : ID3D12VersionedRootSignatureDeserializer
+    private static Result D3D12CreateVersionedRootSignatureDeserializer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
+        void* signatureData,
+        nuint signatureDataLength,
+        out T? rootSignatureDeserializer)
+        where T : ID3D12VersionedRootSignatureDeserializer
     {
         Result result = D3D12CreateVersionedRootSignatureDeserializer(signatureData, signatureDataLength,
             typeof(T).GUID,
@@ -268,7 +272,7 @@ public static unsafe partial class D3D12
         return result;
     }
 
-    private static T D3D12CreateVersionedRootSignatureDeserializer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(void* signatureData, PointerSize signatureDataLength) where T : ID3D12VersionedRootSignatureDeserializer
+    private static T D3D12CreateVersionedRootSignatureDeserializer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(void* signatureData, nuint signatureDataLength) where T : ID3D12VersionedRootSignatureDeserializer
     {
         D3D12CreateVersionedRootSignatureDeserializer(signatureData, signatureDataLength, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -278,7 +282,7 @@ public static unsafe partial class D3D12
     {
         fixed (byte* dataPtr = signatureData)
         {
-            return D3D12CreateVersionedRootSignatureDeserializer(dataPtr, signatureData.Length, out rootSignatureDeserializer);
+            return D3D12CreateVersionedRootSignatureDeserializer(dataPtr, (nuint)signatureData.Length, out rootSignatureDeserializer);
         }
     }
 
@@ -291,7 +295,7 @@ public static unsafe partial class D3D12
     {
         fixed (byte* dataPtr = signatureData)
         {
-            return D3D12CreateVersionedRootSignatureDeserializer<T>(dataPtr, signatureData.Length);
+            return D3D12CreateVersionedRootSignatureDeserializer<T>(dataPtr, (nuint)signatureData.Length);
         }
     }
 

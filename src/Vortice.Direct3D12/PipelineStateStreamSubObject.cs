@@ -703,7 +703,7 @@ public struct PipelineStateStreamFlags : IPipelineStateStreamSubObject
 public readonly struct PipelineStateSubObjectTypeCachedPipelineState : IPipelineStateStreamSubObject
 {
     [FieldOffset(0)]
-    internal readonly AlignedSubObjectType<CachedPipelineState.__Native> _type;
+    internal readonly AlignedSubObjectType<CachedPipelineState> _type;
 
     [FieldOffset(0)]
     internal readonly PointerSize _pad;
@@ -712,8 +712,7 @@ public readonly struct PipelineStateSubObjectTypeCachedPipelineState : IPipeline
     {
         _pad = default;
         _type._type = PipelineStateSubObjectType.CachedPipelineStateObject;
-        _type._inner = new CachedPipelineState.__Native();
-        description.__MarshalTo(ref _type._inner);
+        _type._inner = description;
     }
 
     public static implicit operator PipelineStateSubObjectTypeCachedPipelineState(in CachedPipelineState description)

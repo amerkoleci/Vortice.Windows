@@ -84,7 +84,7 @@ public partial class GraphicsPipelineStateDescription
         public Format DepthStencilFormat;
         public SampleDescription SampleDescription;
         public int NodeMask;
-        public CachedPipelineState.__Native CachedPSO;
+        public CachedPipelineState CachedPSO;
         public PipelineStateFlags Flags;
     }
 
@@ -104,7 +104,7 @@ public partial class GraphicsPipelineStateDescription
         StreamOutput?.__MarshalFree(ref @ref.StreamOutput);
         BlendState = @ref.BlendState;
         InputLayout?.__MarshalFree(ref @ref.InputLayout);
-        CachedPSO.__MarshalFree(ref @ref.CachedPSO);
+        @ref.CachedPSO = CachedPSO;
     }
 
     internal unsafe void __MarshalTo(ref __Native @ref)
@@ -162,7 +162,7 @@ public partial class GraphicsPipelineStateDescription
         @ref.DepthStencilFormat = DepthStencilFormat;
         @ref.SampleDescription = SampleDescription;
         @ref.NodeMask = NodeMask;
-        CachedPSO.__MarshalTo(ref @ref.CachedPSO);
+        @ref.CachedPSO = CachedPSO;
         @ref.Flags = Flags;
     }
     #endregion

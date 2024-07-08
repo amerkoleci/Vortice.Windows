@@ -114,7 +114,7 @@ public unsafe partial class ID3D12GraphicsCommandList4
 
     public void InitializeMetaCommand(ID3D12MetaCommand metaCommand)
     {
-        InitializeMetaCommand(metaCommand, IntPtr.Zero, PointerSize.Zero);
+        InitializeMetaCommand(metaCommand, nint.Zero, nuint.Zero);
     }
 
     public void InitializeMetaCommand(ID3D12MetaCommand metaCommand, Blob initializationParametersData)
@@ -124,7 +124,7 @@ public unsafe partial class ID3D12GraphicsCommandList4
 
     public void ExecuteMetaCommand(ID3D12MetaCommand metaCommand)
     {
-        ExecuteMetaCommand(metaCommand, IntPtr.Zero, PointerSize.Zero);
+        ExecuteMetaCommand(metaCommand, nint.Zero, nuint.Zero);
     }
 
     public void ExecuteMetaCommand(ID3D12MetaCommand metaCommand, Blob executionParametersData)

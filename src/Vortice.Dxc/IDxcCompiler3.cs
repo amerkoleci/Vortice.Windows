@@ -19,7 +19,7 @@ public partial class IDxcCompiler3
         DxcBuffer buffer = new()
         {
             Ptr = shaderSourcePtr,
-            Size = source.Length,
+            Size = (nuint)source.Length,
             Encoding = Dxc.DXC_CP_ACP
         };
 
@@ -85,7 +85,7 @@ public partial class IDxcCompiler3
         DxcBuffer buffer = new()
         {
             Ptr = shaderSourcePtr,
-            Size = source.Length,
+            Size = (nuint)source.Length,
             Encoding = Dxc.DXC_CP_ACP
         };
 

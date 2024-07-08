@@ -7,20 +7,20 @@ namespace Vortice.Direct3D12;
 
 public unsafe partial class ID3D12Device1
 {
-    public ID3D12PipelineLibrary CreatePipelineLibrary(byte[] blob)
+    public ID3D12PipelineLibrary CreatePipelineLibrary(Span<byte> blob)
     {
         fixed (byte* pBlob = blob)
         {
-            CreatePipelineLibrary(pBlob, blob.Length, typeof(ID3D12PipelineLibrary).GUID, out IntPtr nativePtr).CheckError();
+            CreatePipelineLibrary(pBlob, (nuint)blob.Length, typeof(ID3D12PipelineLibrary).GUID, out IntPtr nativePtr).CheckError();
             return new ID3D12PipelineLibrary(nativePtr);
         }
     }
 
-    public Result CreatePipelineLibrary(byte[] blob, out ID3D12PipelineLibrary? pipelineLibrary)
+    public Result CreatePipelineLibrary(Span<byte> blob, out ID3D12PipelineLibrary? pipelineLibrary)
     {
         fixed (byte* pBlob = blob)
         {
-            Result result = CreatePipelineLibrary(pBlob, blob.Length, typeof(ID3D12PipelineLibrary).GUID, out IntPtr nativePtr);
+            Result result = CreatePipelineLibrary(pBlob, (nuint)blob.Length, typeof(ID3D12PipelineLibrary).GUID, out IntPtr nativePtr);
             if (result.Failure)
             {
                 pipelineLibrary = default;
