@@ -32,7 +32,8 @@
   <include file="dxgitype.h" namespace="Vortice.DXGI" attach="true" />
 
   <include file="dcommon.h" namespace="Vortice.DCommon" attach="true" />
-
+  <include file="Devpropdef.h" namespace="Vortice.Win32" attach="true" />
+  
   <!-- Multimedia -->
 
   <include file="hidusage.h" namespace="Vortice.Multimedia"  attach="true">
@@ -138,6 +139,9 @@
     <create-cpp enum="HID_USAGE_PAGE" macro="HID_USAGE_PAGE_.*" />
     <create-cpp enum="HID_USAGE_ID" macro="HID_USAGE_[^P].*" />
     <!--<create-cpp enum="WAVE_FORMAT_ENCODING" macro="WAVE_FORMAT_(.*)" />-->
+
+    <!-- Devpropdef.h -->
+    <create-cpp enum="DEVPROP_TYPE" macro="DEVPROP_TYPE_.*" />
   </extension>
 
   <bindings>
@@ -288,6 +292,9 @@
     <short name="AUTOCONVERTPCM">AutoConvertPCM</short>
     <short name="EXPIREWHENUNOWNED">ExpireWhenUnowned</short>
     <short name="HIDEWHENEXPIRED">HideWhenExpired</short>
+    <short name="DEVPROPKEY">DevPropertyKey</short>
+    <short name="DEVPROPTYPE">DevPropertyType</short>
+    <short name="NTSTATUS">NtStatus</short>
   </naming>
 
   <mapping>
@@ -437,6 +444,15 @@
     <!-- dxcore -->
     <map enum="DXCoreRuntimeFilterFlags" flags="true" none="false" />
     <map enum="DXCoreHardwareTypeFilterFlags" flags="true" none="false" />
-    
+
+    <!-- Devpropdef.h -->
+    <map enum="DEVPROP_TYPE" name="DevPropertyType" flags="false" namespace="Vortice.Win32"/>
+    <map enum="DEVPROPSTORE" name="DevPropertyStore" />
+    <map struct="DEVPROPCOMPKEY" name="DevPropertyCompoundKey" />
+    <map struct="DEVPROPERTY" name="DevProperty" />
+    <map field="DEVPROPERTY::Type" type="DEVPROP_TYPE" />
+    <map struct="DEVPROPKEY" name="DevPropertyKey" />
+    <map field="DEVPROPKEY::fmtid" name="FormatId" />
+    <map field="DEVPROPKEY::pid" name="PropertyId" />
   </mapping>
 </config>

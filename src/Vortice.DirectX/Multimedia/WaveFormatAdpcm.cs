@@ -131,10 +131,10 @@ public class WaveFormatAdpcm : WaveFormat
 
     private unsafe void __MarshalTo(ref __Native @ref)
     {
-        if(Coefficients1 == null)
+        if (Coefficients1 == null)
             throw new ArgumentNullException(nameof(Coefficients1));
 
-        if ( Coefficients1.Length > 7)
+        if (Coefficients1.Length > 7)
             throw new InvalidOperationException("Unable to encode Adpcm format. Too may coefficients (max 7)");
 
         extraSize = (short)(sizeof(int) + sizeof(int) * Coefficients1.Length);
@@ -149,6 +149,6 @@ public class WaveFormatAdpcm : WaveFormat
                 pCoefs[i * 2 + 1] = Coefficients2[i];
             }
         }
-    } 
+    }
     #endregion
 }

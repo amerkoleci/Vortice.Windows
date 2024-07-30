@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
 using Vortice.Multimedia;
@@ -239,5 +240,60 @@ public unsafe partial class MediaFactory
     public static Result MFSetAttributeSize(IMFAttributes attributes, Guid guidKey, uint width, uint height)
     {
         return MFSetAttribute2UInt32asUInt64(attributes, guidKey, width, height);
+    }
+
+    public static IMFVirtualCamera MFCreateVirtualCamera(
+        VirtualCameraType type,
+        VirtualCameraLifetime lifetime,
+        VirtualCameraAccess access,
+        string friendlyName,
+        string sourceId,
+        Guid[]? categories = default)
+    {
+        nint virtualCameraPtr = default;
+        Result result;
+
+        fixed (char* sourceId_ = sourceId)
+        fixed (char* friendlyName_ = friendlyName)
+        {
+            if (categories?.Length > 0)
+            {
+                fixed (Guid* categories_ = categories)
+                    result = (Result)MFCreateVirtualCamera_(
+                        (int)type,
+                        (int)lifetime,
+                        (int)access,
+                        friendlyName_,
+                        sourceId_,
+                        categories_,
+                        (uint)categories.Length,
+                        &virtualCameraPtr
+                    );
+            }
+            else
+            {
+                result = (Result)MFCreateVirtualCamera_(
+                    (int)type,
+                    (int)lifetime,
+                    (int)access,
+                    friendlyName_,
+                    sourceId_,
+                    null,
+                    0,
+                    &virtualCameraPtr);
+            }
+        }
+
+        result.CheckError();
+
+        return new IMFVirtualCamera(virtualCameraPtr);
+    }
+
+    public static bool MFIsVirtualCameraTypeSupported(VirtualCameraType type)
+    {
+        RawBool supported;
+        Result result = MFIsVirtualCameraTypeSupported_(unchecked((int)type), &supported);
+        result.CheckError();
+        return supported;
     }
 }

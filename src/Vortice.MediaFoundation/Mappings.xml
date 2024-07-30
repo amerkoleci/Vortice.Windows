@@ -31,6 +31,7 @@
   </include>
   <include file="mfmediaengine.h" attach="true"/>
   <include file="mfcaptureengine.h" attach="true"/>
+  <include file="mfvirtualcamera.h" attach="true"/>
   
   <extension>
     <context id="mediafoundation-all"/>
@@ -973,6 +974,19 @@
     <map function="MFCreateSourceReaderFromByteStream" dll='"Mfreadwrite.dll"'/>
     <map function="MFCreateSourceReaderFromMediaSource" dll='"Mfreadwrite.dll"'/>
     <map function="MFCreateSourceReaderFromURL" dll='"Mfreadwrite.dll"'/>
+
+    <!-- mfvirtualcamera.h -->
+    <map method="IMFCameraSyncObject::WaitOnSignal" hresult="true" check="false" />
+    
+    <map method="IMFVirtualCamera::(.*)" hresult="true" check="false"/>
+    <map method="IMFVirtualCamera::AddProperty" property="false" visibility="private"/>
+    <map param="IMFVirtualCamera::AddProperty::pbData" type="void" keep-pointers="true"/>
+
+    <map method="IMFVirtualCamera::AddRegistryEntry" property="false" visibility="private"/>
+    <map param="IMFVirtualCamera::AddRegistryEntry::pbData" type="void" keep-pointers="true"/>
+    
+    <map function="MFCreateVirtualCamera" dll='"mfsensorgroup.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFIsVirtualCameraTypeSupported" dll='"mfsensorgroup.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
 
     <!-- WASAPI -->
     <remove function="ActivateAudioInterfaceAsync"/>
