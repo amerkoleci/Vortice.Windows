@@ -32,7 +32,7 @@
   <include file="mfmediaengine.h" attach="true"/>
   <include file="mfcaptureengine.h" attach="true"/>
   <include file="mfvirtualcamera.h" attach="true"/>
-  
+
   <extension>
     <context id="mediafoundation-all"/>
 
@@ -538,8 +538,8 @@
     <const from-macro="MF_VERSION" class="Vortice.MediaFoundation.MediaFactory" type="int" name="Version" />
 
     <const from-guid="CLSID_MFMediaEngineClassFactory" visibility="internal" class="Vortice.MediaFoundation.IMFMediaEngineClassFactory" type="System.Guid" name="CLSID_MFMediaEngineClassFactory">new System.Guid("$1")</const>
-    <const from-guid="CLSID_MFCaptureEngineClassFactory" visibility="internal" class="Vortice.MediaFoundation.CaptureEngineClassFactory" type="System.Guid" name="CLSID_MFCaptureEngineClassFactory">new System.Guid("$1")</const>
-    <const from-guid="CLSID_MFCaptureEngine" visibility="internal" class="Vortice.MediaFoundation.CaptureEngine" type="System.Guid" name="CLSID_MFCaptureEngine">new System.Guid("$1")</const>
+    <const from-guid="CLSID_MFCaptureEngineClassFactory" visibility="internal" class="Vortice.MediaFoundation.IMFCaptureEngineClassFactory" type="System.Guid" name="CLSID_MFCaptureEngineClassFactory">new System.Guid("$1")</const>
+    <const from-guid="CLSID_MFCaptureEngine" visibility="internal" class="Vortice.MediaFoundation.IMFCaptureEngine" type="System.Guid" name="CLSID_MFCaptureEngine">new System.Guid("$1")</const>
 
     <const from-guid="MFSampleExtension_DescrambleData" class="Vortice.MediaFoundation.SampleAttributeKeys" ttype="System.Guid" name="DescrambleData">new MediaAttributeKey&lt;long&gt;("$1", "DescrambleData")</const>
     <const from-guid="MFSampleExtension_SampleKeyID" class="Vortice.MediaFoundation.SampleAttributeKeys" type="System.Guid" name="SampleKeyID">new MediaAttributeKey&lt;int&gt;("$1", "SampleKeyID")</const>
@@ -606,9 +606,18 @@
     <short name="STREAMRENDERINGERROR">StreamRenderingError</short>
     <short name="SUPPORTEDRATES">SupportedRates</short>
     <short name="AUDIOENDPOINTCHANGE">AudioendPointChange</short>
+    <short name="IUNKNOWN">IUnknown</short>
+    <short name="ENDOFSTREAM">EndOfStream</short>
+    <short name="NEWSTREAM">NewStream</short>
+    <short name="NATIVEMEDIATYPECHANGED">NativeMediaTypeChanged</short>
+    <short name="CURRENTMEDIATYPECHANGED">CurrentMediaTypeChanged</short>
+    <short name="STREAMTICK">StreamTick</short>
+    <short name="ALLEFFECTSREMOVED">AllEffectsRemoved</short>
+    <short name="MEDIASINK">MediaSink</short>
+    <short name="NORESOLUTION">NoResolution</short>
+    <short name="UPSTREAM">UpStream</short>
+    <short name="DOWNSTREAM">DownStream</short>
   </naming>
-
-
 
   <mapping>
     <context id="mediafoundation-all"/>
@@ -656,7 +665,16 @@
     <map enum-item="MEWMDRM(.*)" name-tmp="WindowsMediaDRM$1"/>
     <remove enum="MEReservedMax"/>
 
-    <!-- WASAIP -->
+    
+    <map enum="#MF_SOURCE_READER_INVALID_STREAM_INDEX" name="SourceReaderIndex"/>
+    <map enum-item="MF_SOURCE_READER_(.*)" name-tmp="$1"/>
+
+    <map enum-item="MF_SOURCE_READERF_(.*)" name-tmp="$1"/>
+
+    <map enum="#MF_SINK_WRITER_INVALID_STREAM_INDEX" name="SinkWriterIndex"/>
+    <map enum-item="MF_SINK_WRITER_(.*)" name-tmp="$1"/>
+
+    <!-- WASAPI -->
     <map enum="EDataFlow" name="DataFlow"/>
     <map enum="ERole" name="Role"/>
 
@@ -678,6 +696,8 @@
     <map param="IMFByteStream::*.*::pb" type="void" attribute="in"/>
     <map param="IMFByteStream::Begin[RW].*::punkState" type="void"/>
 
+    <map method="IMFGetService::(.*)" hresult="true" check="false"/>
+
     <!-- IMFAsyncResult -->
     <map method="IMFAsyncResult::.*" property="false" visibility="internal"/>
     <map param="IMFAsyncResult::GetState::ppunkState" type="void" return="false"/>
@@ -689,15 +709,37 @@
     <map interface="IMFAsyncCallback" callback="true" callback-dual="true" callback-visibility="public" callback-name="MFAsyncCallback" />
     <map method="IMFAsyncCallback::.*" property="false" hresult="true" check="false"/>
     <map param="IMFAsyncCallback::GetParameters::pdwFlags" type="MFASYNC_CALLBACK_FLAGS"/>
-    
+
     <!-- IMFAsyncCallback -->
     <map interface="IMFAsyncCallbackLogging" callback="true" callback-dual="true" callback-visibility="public" callback-name="MFAsyncCallbackLogging" />
 
     <!-- IMFMediaEngineNotify -->
     <map interface="IMFMediaEngineNotify" callback="true" visibility="internal"/>
 
+    <!-- IMFCaptureEngine/IMFCaptureEngineOnEventCallback -->
+    <map method="IMFCaptureEngine::Initialize" visibility="internal" />
+    <map interface="IMFCaptureEngineOnEventCallback" callback="true" visibility="internal" />
+
+    <!-- IMFMediaEngineNotify -->
+    <!--<map interface="IMFClockStateSink" callback="true"/>
+    <map interface="IMFSampleGrabberSinkCallback" callback="true"/>
+    <map interface="IMFSampleGrabberSinkCallback2" callback="true"/>-->
+
+    <!-- IMFVideoPresenter -->
+    <!--<map interface="IMFVideoPresenter" callback="true"/>-->
+
+    <!-- IMFCaptureEngineOnSampleCallback -->
+    <map interface="IMFCaptureEngineOnSampleCallback" callback="true"/>
+    <map interface="IMFCaptureEngineOnSampleCallback2" callback="true"/>
+
+    <!-- IMFSourceReaderCallback -->
+    <map interface="IMFSourceReaderCallback" callback="true" />
+    <map interface="IMFSourceReaderCallback2" callback="true" />
+
     <!-- IMFAttributes -->
     <map interface="IMFAttributes" name="IMFAttributes"/>
+    <map method="IMFAttributes::(.*)" hresult="true" check="false"/>
+    
     <map method="IMFAttributes::GetItem" visibility="internal"/>
     <map param="IMFAttributes::GetItem::pValue" attribute="in" type="void"/>
     <map param="IMFAttributes::GetItemType::pType" return="true"/>
@@ -715,37 +757,39 @@
 
     <map method="IMFAttributes::GetDouble" name="GetDouble" hresult="true" check="false" />
     <map param="IMFAttributes::GetDouble::pfValue" attribute="out" return="false"/>
-    
-    <map method="IMFAttributes::GetGUID" visibility="internal"/>
-    <map param="IMFAttributes::GetGUID::pguidValue" return="true"/>
 
-    <map method="IMFAttributes::GetString.*" visibility="internal"/>
+    <map method="IMFAttributes::GetAllocatedBlob" visibility="internal"/>
     <map method="IMFAttributes::GetAllocatedString" visibility="internal"/>
+    <map param="IMFAttributes::GetAllocatedString::ppwszValue" type="void" keep-pointers="true"/>
+    
+    <map method="IMFAttributes::GetString.*" visibility="internal"/>
+
+    <map param="IMFAttributes::GetString::pwszValue" type="void" keep-pointers="true"/>
     <map param="IMFAttributes::GetStringLength::pcchLength" return="true"/>
 
-    <map method="IMFAttributes::GetBlob.*" visibility="internal"/>
-    <map method="IMFAttributes::GetAllocatedBlob" visibility="internal"/>
+    <map method="IMFAttributes::GetBlob" visibility="internal"/>
     <map param="IMFAttributes::GetBlob::pBuf" type="void" keep-pointers="true"/>
-    <map param="IMFAttributes::GetBlobSize::pcbBlobSize" return="true"/>
+
     <map method="IMFAttributes::SetBlob" visibility="internal" />
-    <map param="IMFAttributes::SetBlob::pBuf" type="void" attribute="in"/>
+    <map param="IMFAttributes::SetBlob::pBuf" type="void" keep-pointers="true"/>
 
-    <map method="IMFAttributes::GetUnknown" visibility="internal"/>
+    <map method="IMFAttributes::GetUnknown" visibility="internal" hresult="true" check="false" />
 
-    <map method="IMFAttributes::SetItem"    name="Set_" visibility="internal" />
-    <map method="IMFAttributes::SetUINT32"  name="SetUInt32" hresult="true" check="false" />
-    <map method="IMFAttributes::SetUINT64"  name="SetUInt64" hresult="true" check="false" />
+    <map method="IMFAttributes::SetItem"    name="SetItem" visibility="public" />
+    <map method="IMFAttributes::SetUINT32"  name="Set" hresult="true" check="false" />
+    <map method="IMFAttributes::SetUINT64"  name="Set" hresult="true" check="false" />
     <map method="IMFAttributes::SetDouble"  name="Set" hresult="true" check="false" />
     <map method="IMFAttributes::SetGUID"    name="Set" hresult="true" check="false" />
     <map method="IMFAttributes::SetString"  name="Set" hresult="true" check="false" />
     <map method="IMFAttributes::SetUnknown" name="Set" hresult="true" check="false" />
 
     <map method="IMFAttributes::GetItemByIndex" visibility="internal"/>
+    <map param="IMFAttributes::GetItemByIndex::pValue" type="void" keep-pointers="true"/>
 
     <!-- IMFActivate -->
     <map method="IMFActivate::(.*)" hresult="true" check="false"/>
     <map method="IMFActivate::ActivateObject" visibility="internal"/>
-    
+
     <!-- IMFMediaSession -->
     <map method="IMFMediaSession::(.*)" hresult="true" check="false"/>
     <map param="IMFMediaSession::GetFullTopology::dwGetFullTopologyFlags" type="MFSESSION_SETTOPOLOGY_FLAGS"/>
@@ -759,9 +803,21 @@
     <map param="IMFSourceResolver::CreateObjectFromByteStream::ppObject" attribute="out" type="void"/>
 
     <!-- IMFSourceReader -->
+    <map param="IMFSourceReader::.*::pp.*" return="true"/>
+
+    <map param="IMFSourceReader::ReadSample::dwControlFlags" type="MF_SOURCE_READER_CONTROL_FLAG"/>
+    <map param="IMFSourceReader::ReadSample::pdwStreamFlags" type="MF_SOURCE_READER_FLAG"/>
+
+    <map param="IMFSourceReader::GetPresentationAttribute::pvarAttribute" return="true"/>
+
+    <map method="IMFSourceReader::SetCurrentPosition" visibility="internal"/>
     <map param="IMFSourceReader::SetCurrentMediaType::pdwReserved" type="void" relation="const(System.IntPtr.Zero)"/>
-    
+
+    <!-- IMFSourceReaderEx -->
+    <map method="IMFSourceReaderEx::(.*)" hresult="true" check="false"/>
+
     <!-- IMFMediaEvent -->
+    <map method="IMFMediaEvent::GetType" name="GetEventType" />
     <map param="IMFMediaEvent::GetType::pmet" type="MEDIA_EVENT_TYPES"/>
 
     <!-- IMMDeviceEnumerator -->
@@ -784,7 +840,7 @@
     <map method="IMFDXGIDeviceManager::UnlockDevice" visibility="internal" />
 
     <map interface="IMMNotificationClient" callback="true" callback-dual="true" callback-visibility="public" />
-    
+
     <!-- IMFTransform -->
     <map param="IMFTransform::ProcessOutput::dwFlags" type="_MFT_PROCESS_OUTPUT_FLAGS"/>
     <map param="IMFTransform::ProcessOutput::pdwStatus" type="_MFT_PROCESS_OUTPUT_STATUS" attribute="out"/>
@@ -803,7 +859,7 @@
     <map method="IMFMediaEngine::Play" hresult="true" check="false" />
     <map method="IMFMediaEngine::Pause" hresult="true" check="false" />
     <map method="IMFMediaEngine::Shutdown" hresult="true" check="false" />
-    
+
     <!-- Functions -->
     <remove function="IMF.*"/>
     <map function="MF.*" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" />
@@ -968,7 +1024,7 @@
     <map function="MFCreateVideoSampleFromSurface" dll='"EVR.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
 
     <map function="MFCreateDXGIDeviceManager" visibility="internal" hresult="true" check="false" />
-    
+
     <map function="MFCreateSinkWriterFromMediaSink" dll='"Mfreadwrite.dll"'/>
     <map function="MFCreateSinkWriterFromURL" dll='"Mfreadwrite.dll"'/>
     <map function="MFCreateSourceReaderFromByteStream" dll='"Mfreadwrite.dll"'/>
@@ -977,14 +1033,14 @@
 
     <!-- mfvirtualcamera.h -->
     <map method="IMFCameraSyncObject::WaitOnSignal" hresult="true" check="false" />
-    
+
     <map method="IMFVirtualCamera::(.*)" hresult="true" check="false"/>
     <map method="IMFVirtualCamera::AddProperty" property="false" visibility="private"/>
     <map param="IMFVirtualCamera::AddProperty::pbData" type="void" keep-pointers="true"/>
 
     <map method="IMFVirtualCamera::AddRegistryEntry" property="false" visibility="private"/>
     <map param="IMFVirtualCamera::AddRegistryEntry::pbData" type="void" keep-pointers="true"/>
-    
+
     <map function="MFCreateVirtualCamera" dll='"mfsensorgroup.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFIsVirtualCameraTypeSupported" dll='"mfsensorgroup.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
 

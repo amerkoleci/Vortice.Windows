@@ -27,7 +27,7 @@ public partial class IMFMediaEngineClassFactory
 
         try
         {
-            attributes.Set(MediaEngineAttributeKeys.Callback, mediaEngineNotifyImpl);
+            attributes.Set(MediaEngineAttributeKeys.Callback.Guid, mediaEngineNotifyImpl);
             CreateInstance(createFlags, attributes, out IMFMediaEngine engine).CheckError();
 
             mediaEngineNotifyImpl.MediaEngine = engine;

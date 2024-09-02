@@ -4,6 +4,7 @@
 using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
+using static Vortice.MediaFoundation.MediaFactory;
 
 namespace Vortice.MediaFoundation;
 
@@ -11,6 +12,7 @@ public unsafe partial class MFByteStream
 {
     private Stream? _sourceStream;
     private readonly bool _disposeStream;
+    private ComStream? _comStream;
     private ComStreamProxy? _streamProxy;
 
     /// <summary>
@@ -24,12 +26,12 @@ public unsafe partial class MFByteStream
         if (PlatformDetection.IsAppContainerProcess)
         {
             //var randomAccessStream = sourceStream.AsRandomAccessStream();
-            //MediaFactory.MFCreateMFByteStreamOnStreamEx(new ComObject(Marshal.GetIUnknownForObject(randomAccessStream)), this);
+            //MFCreateMFByteStreamOnStreamEx(new ComObject(Marshal.GetIUnknownForObject(randomAccessStream)), this);
         }
         else
         {
             _streamProxy = new ComStreamProxy(sourceStream);
-            MediaFactory.MFCreateMFByteStreamOnStream(_streamProxy, this);
+            MFCreateMFByteStreamOnStream(_streamProxy, this);
         }
     }
 
@@ -49,6 +51,18 @@ public unsafe partial class MFByteStream
     {
     }
 
+    /// <summary>
+    /// Instantiates a new instance <see cref="MFByteStream"/> from a <see cref="ComStream"/>.
+    /// </summary>
+    /// <msdn-id>hh162754</msdn-id>	
+    /// <unmanaged>HRESULT MFCreateMFByteStreamOnStreamEx([In] IUnknown* punkStream,[Out] IMFByteStream** ppByteStream)</unmanaged>	
+    /// <unmanaged-short>MFCreateMFByteStreamOnStreamEx</unmanaged-short>	
+    public MFByteStream(ComStream sourceStream)
+    {
+        _comStream = sourceStream;
+        MFCreateMFByteStreamOnStream(sourceStream, this);
+    }
+
     protected override unsafe void DisposeCore(IntPtr nativePointer, bool disposing)
     {
         base.DisposeCore(nativePointer, disposing);
@@ -66,11 +80,27 @@ public unsafe partial class MFByteStream
         }
     }
 
+    public uint Read(Span<byte> bRef, int offset, uint count)
+    {
+        fixed (void* ptr = &bRef[offset])
+        {
+            return Read((IntPtr)ptr, count);
+        }
+    }
+
     public uint Read(byte[] bRef, int offset, uint count)
     {
         fixed (void* ptr = &bRef[offset])
         {
             return Read((IntPtr)ptr, count);
+        }
+    }
+
+    public void BeginRead(Span<byte> bRef, int offset, uint count, IMFAsyncCallback callback, object? context = default)
+    {
+        fixed (void* ptr = &bRef[offset])
+        {
+            BeginRead((IntPtr)ptr, count, callback, context != null ? Marshal.GetIUnknownForObject(context) : IntPtr.Zero);
         }
     }
 
@@ -82,11 +112,27 @@ public unsafe partial class MFByteStream
         }
     }
 
+    public uint Write(Span<byte> bRef, int offset, uint count)
+    {
+        fixed (void* ptr = &bRef[offset])
+        {
+            return Write((IntPtr)ptr, count);
+        }
+    }
+
     public uint Write(byte[] bRef, int offset, uint count)
     {
         fixed (void* ptr = &bRef[offset])
         {
             return Write((IntPtr)ptr, count);
+        }
+    }
+
+    public void BeginWrite(Span<byte> bRef, int offset, uint count, IMFAsyncCallback callback, object? context = default)
+    {
+        fixed (void* ptr = &bRef[offset])
+        {
+            BeginWrite((IntPtr)ptr, count, callback, context != null ? Marshal.GetIUnknownForObject(context) : IntPtr.Zero);
         }
     }
 

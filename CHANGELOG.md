@@ -4,6 +4,7 @@ Current Stable Release:    3.5.0 (March 2024)
 
 -----------------------------------------------
 Release:     3.6.X (August 2024)
+- [ENH] MediaFoundation: More bindings improvements, add callback supports
 - [ENH] MediaFoundation: Add VirtualCamera support (mfvirtualcamera.h)
 - [ENH] General: Drop .net7 support
 - [ENH] Vortice.Dxc: Handle correctly IDxcCompilerArgs bindings and improve interop

@@ -46,7 +46,7 @@ public unsafe partial class IMFAttributes
                 return;
             }
 
-            SetBlob(CaptureDeviceAttributeKeys.MediaType, (IntPtr)Unsafe.AsPointer(ref value), (uint)sizeof(RegisterTypeInfo));
+            SetBlob(CaptureDeviceAttributeKeys.MediaType, ref value);
         }
     }
 
@@ -140,44 +140,100 @@ public unsafe partial class IMFAttributes
 
     public AudioStreamCategory AudioCategory
     {
-        get => Get(MediaEngineAttributeKeys.AudioCategory);
-        set => Set(MediaEngineAttributeKeys.AudioCategory, value);
+        get => GetEnumValue(MediaEngineAttributeKeys.AudioCategory);
+        set => SetEnumValue(MediaEngineAttributeKeys.AudioCategory, value);
     }
 
     public AudioEndpointRole AudioEndpointRole
     {
-        get => Get(MediaEngineAttributeKeys.AudioEndpointRole);
-        set => Set(MediaEngineAttributeKeys.AudioEndpointRole, value);
+        get => GetEnumValue(MediaEngineAttributeKeys.AudioEndpointRole);
+        set => SetEnumValue(MediaEngineAttributeKeys.AudioEndpointRole, value);
     }
 
     public MediaEngineProtectionFlags ContentProtectionFlags
     {
-        get => Get(MediaEngineAttributeKeys.ContentProtectionFlags);
-        set => Set(MediaEngineAttributeKeys.ContentProtectionFlags, value);
+        get => GetEnumValue(MediaEngineAttributeKeys.ContentProtectionFlags);
+        set => SetEnumValue(MediaEngineAttributeKeys.ContentProtectionFlags, value);
     }
 
-    public IUnknown ContentProtectionManager
+    public ComObject? ContentProtectionManager
     {
-        get => Get(MediaEngineAttributeKeys.ContentProtectionManager);
-        set => Set(MediaEngineAttributeKeys.ContentProtectionManager, value);
+        get => GetUnknown(MediaEngineAttributeKeys.ContentProtectionManager.Guid);
+        set => Set(MediaEngineAttributeKeys.ContentProtectionManager.Guid, value);
     }
 
-    public IMFDXGIDeviceManager DxgiManager
+    public IMFDXGIDeviceManager? DxgiManager
     {
-        get => Get(MediaEngineAttributeKeys.DxgiManager);
-        set => Set(MediaEngineAttributeKeys.DxgiManager, value);
+        get => GetUnknown<IMFDXGIDeviceManager>(MediaEngineAttributeKeys.DxgiManager.Guid);
+        set => Set(MediaEngineAttributeKeys.DxgiManager.Guid, value);
     }
 
-    public IMFMediaEngineExtension Extension
+    public IMFMediaEngineExtension? Extension
     {
-        get => Get(MediaEngineAttributeKeys.Extension);
-        set => Set(MediaEngineAttributeKeys.Extension, value);
+        get => GetUnknown<IMFMediaEngineExtension>(MediaEngineAttributeKeys.Extension.Guid);
+        set => Set(MediaEngineAttributeKeys.Extension.Guid, value);
+    }
+
+    public IMFSourceReaderCallback? AsyncCallback
+    {
+        get => GetICallbackable<IMFSourceReaderCallback>(SourceReaderAttributeKeys.AsyncCallback);
+        set => Set(SourceReaderAttributeKeys.AsyncCallback, value);
     }
 
     public Format VideoOutputFormat
     {
-        get => Get(MediaEngineAttributeKeys.VideoOutputFormat);
-        set => Set(MediaEngineAttributeKeys.VideoOutputFormat, value);
+        get => GetEnumValue(MediaEngineAttributeKeys.VideoOutputFormat);
+        set => SetEnumValue(MediaEngineAttributeKeys.VideoOutputFormat, value);
+    }
+
+    /// <unmanaged>HRESULT IMFAttributes::GetAllocatedBlob([In] const GUID&amp; guidKey, [Out, Buffer, Optional] unsigned char** ppBuf, [Out] UINT32* pcbSize)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetAllocatedBlob</unmanaged-short>
+    public Span<byte> GetAllocatedBlob(Guid guidKey)
+    {
+        GetAllocatedBlob(guidKey, out nint buff, out uint pcbSize).CheckError();
+        return new Span<byte>(buff.ToPointer(), (int)pcbSize);
+    }
+
+    /// <unmanaged>HRESULT IMFAttributes::GetAllocatedString([In] const GUID&amp; guidKey, [Out, Buffer, Optional] wchar_t** ppwszValue, [Out] UINT32* pcchLength)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetAllocatedString</unmanaged-short>
+    public string? GetAllocatedString(Guid guidKey)
+    {
+        char* pwszValue = default;
+        GetAllocatedString(guidKey, &pwszValue, out uint pcchLength).CheckError();
+        if (pcchLength > 0 && pwszValue != null)
+            return new string(pwszValue, 0, (int)pcchLength);
+
+        return default;
+    }
+
+    /// <unmanaged>HRESULT IMFAttributes::GetBlobSize([In] const GUID&amp; guidKey, [Out] UINT32* pcbBlobSize)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetBlobSize</unmanaged-short>
+    public Result GetBlob(Guid guidKey, byte[] buffer)
+    {
+        fixed (void* pBuffer = buffer)
+            return GetBlob(guidKey, pBuffer, (uint)buffer.Length, IntPtr.Zero);
+    }
+
+    /// <unmanaged>HRESULT IMFAttributes::GetBlobSize([In] const GUID&amp; guidKey, [Out] UINT32* pcbBlobSize)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetBlobSize</unmanaged-short>
+    public byte[] GetBlob(Guid guidKey)
+    {
+        int length = (int)GetBlobSize(guidKey);
+        byte[] buffer = new byte[length];
+        fixed (void* pBuffer = buffer)
+        {
+            GetBlob(guidKey, pBuffer, (uint)buffer.Length, IntPtr.Zero).CheckError();
+        }
+
+        return buffer;
+    }
+
+    /// <unmanaged>HRESULT IMFAttributes::GetBlobSize([In] const GUID&amp; guidKey, [Out] UINT32* pcbBlobSize)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetBlobSize</unmanaged-short>
+    public Result GetBlob(Guid guidKey, Span<byte> buffer)
+    {
+        fixed (void* pBuffer = buffer)
+            return GetBlob(guidKey, pBuffer, (uint)buffer.Length, IntPtr.Zero);
     }
 
     /// <unmanaged>HRESULT IMFAttributes::GetUINT32([In] const GUID&amp; guidKey, [Out] UINT32* punValue)</unmanaged>
@@ -186,6 +242,24 @@ public unsafe partial class IMFAttributes
     {
         GetUInt32(guidKey, out uint value).CheckError();
         return value;
+    }
+
+    /// <unmanaged>HRESULT IMFAttributes::GetUINT32([In] const GUID&amp; guidKey, [Out] UINT32* punValue)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetUINT32</unmanaged-short>
+    public T GetEnumValue<T>(Guid guidKey)
+        where T : unmanaged, Enum
+    {
+        GetUInt32(guidKey, out uint value).CheckError();
+        return (T)(object)value;
+    }
+
+    /// <unmanaged>HRESULT IMFAttributes::GetUINT32([In] const GUID&amp; guidKey, [Out] UINT32* punValue)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetUINT32</unmanaged-short>
+    public T GetEnumValue<T>(MediaAttributeKey<T> key)
+        where T : unmanaged, Enum
+    {
+        GetUInt32(key.Guid, out uint value).CheckError();
+        return (T)(object)value;
     }
 
     /// <unmanaged>HRESULT IMFAttributes::GetUINT64([In] const GUID&amp; guidKey, [Out] unsigned long long* punValue)</unmanaged>
@@ -204,35 +278,79 @@ public unsafe partial class IMFAttributes
         return value;
     }
 
-    /// <summary>
-    /// Gets an item value
-    /// </summary>
-    /// <param name="guidKey">GUID of the key.</param>
-    /// <returns>The value associated to this key.</returns>
-    /// <unmanaged-short>IMFAttributes::GetItem</unmanaged-short>
-    public object Get(Guid guidKey)
+    /// <unmanaged>HRESULT IMFAttributes::GetGUID([In] const GUID&amp; guidKey, [Out] GUID* pguidValue)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetGUID</unmanaged-short>
+    public Guid GetGUID(Guid guidKey)
     {
-        AttributeType itemType = GetItemType(guidKey);
-        switch (itemType)
+        GetGUID(guidKey, out Guid value).CheckError();
+        return value;
+    }
+
+    public string GetString(Guid guidKey)
+    {
+        uint length = GetStringLength(guidKey);
+        char* wstr = stackalloc char[(int)length + 1];
+        GetString(guidKey, wstr, length + 1, IntPtr.Zero);
+        return Marshal.PtrToStringUni(new IntPtr(wstr)) ?? string.Empty;
+    }
+
+    public string GetString(MediaAttributeKey guidKey) => GetString(guidKey.Guid);
+
+    /// <unmanaged>HRESULT IMFAttributes::GetBlobSize([In] const GUID&amp; guidKey, [Out] UINT32* pcbBlobSize)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::GetBlobSize</unmanaged-short>
+    public uint GetBlobSize(Guid guidKey)
+    {
+        GetBlobSize(guidKey, out uint blobSize).CheckError();
+        return blobSize;
+    }
+
+    public ComObject? GetUnknown(Guid guidKey)
+    {
+        Result result = GetUnknown(guidKey, typeof(IUnknown).GUID, out nint nativePtr);
+        if (result.Success)
         {
-            case AttributeType.Uint32:
-                return Get<int>(guidKey);
-            case AttributeType.Uint64:
-                return Get<long>(guidKey);
-            case AttributeType.Double:
-                return Get<double>(guidKey);
-            case AttributeType.Guid:
-                return Get<Guid>(guidKey);
-            case AttributeType.Blob:
-                return Get<byte[]>(guidKey);
-            case AttributeType.String:
-                return Get<string>(guidKey);
-            case AttributeType.Iunknown:
-                return Get<ComObject>(guidKey);
-            default:
-                break;
+            return new ComObject(nativePtr);
         }
-        throw new ArgumentException("The type of the value is not supported");
+
+        return default;
+    }
+
+    public T? GetUnknown<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid guidKey)
+        where T : ComObject
+    {
+        Result result = GetUnknown(guidKey, typeof(T).GUID, out nint nativePtr);
+        if (result.Success)
+        {
+            return MarshallingHelpers.FromPointer<T>(nativePtr)!;
+        }
+
+        return default;
+    }
+
+    public Result GetUnknown<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid guidKey, out T? unknown)
+        where T : ComObject
+    {
+        Result result = GetUnknown(guidKey, typeof(T).GUID, out nint nativePtr);
+        if (result.Success)
+        {
+            unknown = MarshallingHelpers.FromPointer<T>(nativePtr)!;
+            return result;
+        }
+
+        unknown = default;
+        return result;
+    }
+
+    public T? GetICallbackable<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid guidKey)
+        where T : ICallbackable
+    {
+        Result result = GetUnknown(guidKey, typeof(T).GUID, out nint nativePtr);
+        if (result.Success)
+        {
+            return CppObjectShadow.ToCallback<T>(nativePtr);
+        }
+
+        return default;
     }
 
     /// <summary>
@@ -244,288 +362,51 @@ public unsafe partial class IMFAttributes
     /// <remarks>
     /// <p>To enumerate all of an object's attributes in a thread-safe way, do the following:</p><ol> <li> <p>Call <strong><see cref="LockStore"/></strong> to prevent another thread from adding or deleting attributes.</p> </li> <li> <p>Call <strong><see cref="GetCount"/></strong> to find the number of attributes.</p> </li> <li> <p>Call <strong>GetItemByIndex</strong> to get each attribute by index.</p> </li> <li> <p>Call <strong><see cref="UnlockStore"/></strong> to unlock the attribute store.</p> </li> </ol><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>
     /// </remarks>
-    public object GetByIndex(uint index, out Guid guidKey)
+    public Variant GetItemByIndex(uint index, out Guid guidKey)
     {
-        guidKey = GetItemByIndex(index, IntPtr.Zero);
-        return Get(guidKey);
+        Variant result = default;
+        GetItemByIndex(index, out guidKey, &result).CheckError();
+        return result;
     }
 
-    // TODO: Get/Set add typed methods like Get
+    public Result Set(Guid guidKey, bool value) => Set(guidKey, value ? 1u : 0u);
+    public Result Set(Guid guidKey, float value) => Set(guidKey, (double)value);
 
-    /// <summary>
-    /// Gets an item value
-    /// </summary>
-    /// <param name="guidKey">GUID of the key.</param>
-    /// <returns>The value associated to this key.</returns>
-    public unsafe T Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid guidKey)
+    /// <unmanaged>HRESULT IMFAttributes::SetUINT32([In] const GUID&amp; guidKey, [In] UINT32 unValue)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::SetUINT32</unmanaged-short>
+    public Result SetEnumValue<T>(Guid guidKey, T value)
+        where T : unmanaged, Enum
     {
-            // Perform conversions to supported types
-            // int
-            // long
-            // string
-            // byte[]
-            // double
-            // ComObject
-            // Guid
-
-        if (typeof(T) == typeof(bool) ||
-            typeof(T) == typeof(byte) ||
-            typeof(T) == typeof(uint) ||
-            typeof(T) == typeof(short) ||
-            typeof(T) == typeof(ushort) ||
-            typeof(T) == typeof(byte) ||
-            typeof(T) == typeof(sbyte))
-        {
-            return (T)Convert.ChangeType(GetUInt32(guidKey), typeof(T));
-        }
-
-        if(typeof(T) == typeof(int))
-        {
-            return (T)Convert.ChangeType(unchecked((int)GetUInt32(guidKey)), typeof(T));
-        }
-
-        if (typeof(T).IsEnum)
-        {
-            return (T)Enum.ToObject(typeof(T), GetUInt32(guidKey));
-        }
-
-        if (typeof(T) == typeof(IntPtr))
-        {
-            return (T)(object)new IntPtr(unchecked((long)GetUInt64(guidKey)));
-        }
-
-        if (typeof(T) == typeof(UIntPtr))
-        {
-            return (T)(object)new UIntPtr(GetUInt64(guidKey));
-        }
-
-        if(typeof(T) == typeof(long))
-        {
-            return (T)Convert.ChangeType(unchecked((long)GetUInt64(guidKey)), typeof(T));
-        }
-
-        if (typeof(T) == typeof(ulong))
-        {
-            return (T)Convert.ChangeType(GetUInt64(guidKey), typeof(T));
-        }
-
-        if (typeof(T) == typeof(Guid))
-        {
-            return (T)(object)GetGUID(guidKey);
-        }
-
-        if (typeof(T) == typeof(string))
-        {
-            uint length = GetStringLength(guidKey);
-            char* wstr = stackalloc char[(int)length + 1];
-            GetString(guidKey, new IntPtr(wstr), length + 1, IntPtr.Zero);
-            return (T)(object)Marshal.PtrToStringUni(new IntPtr(wstr));
-        }
-
-        if (typeof(T) == typeof(double) || typeof(T) == typeof(float))
-        {
-            return (T)Convert.ChangeType(GetDouble(guidKey), typeof(T));
-        }
-
-        if (typeof(T) == typeof(byte[]))
-        {
-            int length = (int)GetBlobSize(guidKey);
-            byte[] buffer = new byte[length];
-            fixed (void* pBuffer = buffer)
-            {
-                GetBlob(guidKey, pBuffer, (uint)buffer.Length, IntPtr.Zero);
-            }
-
-            return (T)(object)buffer;
-        }
-
-        if (typeof(T).IsValueType)
-        {
-            int length = (int)GetBlobSize(guidKey);
-            if (length != Unsafe.SizeOf<T>())
-            {
-                throw new ArgumentException("Size of the structure doesn't match the size of stored value");
-            }
-
-            T? value = default;
-            GetBlob(guidKey, Unsafe.AsPointer(ref value), (uint)Unsafe.SizeOf<T>(), IntPtr.Zero);
-            return value!;
-        }
-
-        if (typeof(T) == typeof(ComObject))
-        {
-            IntPtr ptr = GetUnknown(guidKey, typeof(IUnknown).GUID);
-            return (T)(object)new ComObject(ptr);
-        }
-
-        if (typeof(T).IsSubclassOf(typeof(ComObject)))
-        {
-            IntPtr ptr = GetUnknown(guidKey, typeof(T).GUID);
-            return (T)Activator.CreateInstance(typeof(T), ptr);
-        }
-
-        throw new ArgumentException("The type of the value is not supported");
+        return Set(guidKey, Convert.ToUInt32(value));
     }
 
-    /// <summary>
-    /// Gets an item value
-    /// </summary>
-    /// <param name="guidKey">GUID of the key.</param>
-    /// <returns>The value associated to this key.</returns>
-    /// <msdn-id>ms704598</msdn-id>
-    /// <unmanaged>HRESULT IMFAttributes::GetItem([In] const GUID&amp; guidKey,[In] void* pValue)</unmanaged>
-    /// <unmanaged-short>IMFAttributes::GetItem</unmanaged-short>
-    public T Get<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(MediaAttributeKey<T> guidKey)
+    /// <unmanaged>HRESULT IMFAttributes::SetUINT32([In] const GUID&amp; guidKey, [In] UINT32 unValue)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::SetUINT32</unmanaged-short>
+    public Result SetEnumValue<T>(MediaAttributeKey<T> key, T value)
+        where T : unmanaged, Enum
     {
-        return Get<T>(guidKey.Guid);
-    }
-    public string GetString(Guid guidKey)
-    {
-        uint length = GetStringLength(guidKey);
-        char* wstr = stackalloc char[(int)length + 1];
-        GetString(guidKey, new IntPtr(wstr), length + 1, IntPtr.Zero);
-        return Marshal.PtrToStringUni(new IntPtr(wstr));
+        return Set(key.Guid, Convert.ToUInt32(value));
     }
 
-    public string GetString(MediaAttributeKey guidKey)
+    /// <unmanaged>HRESULT IMFAttributes::SetBlob([In] const GUID&amp; guidKey, [In] const unsigned char* pBuf, [In] UINT32 cbBufSize)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::SetBlob</unmanaged-short>
+    public Result SetBlob(Guid guidKey, byte[] buffer)
     {
-        return GetString(guidKey.Guid);
+        fixed (void* pBuffer = buffer)
+            return SetBlob(guidKey, pBuffer, (uint)buffer.Length);
     }
 
-    public void Set(Guid guidKey, float value)
+    /// <unmanaged>HRESULT IMFAttributes::SetBlob([In] const GUID&amp; guidKey, [In] const unsigned char* pBuf, [In] UINT32 cbBufSize)</unmanaged>
+    /// <unmanaged-short>IMFAttributes::SetBlob</unmanaged-short>
+    public Result SetBlob(Guid guidKey, Span<byte> buffer)
     {
-        Set(guidKey, (double)value);
+        fixed (void* pBuffer = buffer)
+            return SetBlob(guidKey, pBuffer, (uint)buffer.Length);
     }
 
-    public void Set(Guid guidKey, bool value)
+    public Result SetBlob<T>(Guid guidKey, ref T value)
+        where T : unmanaged
     {
-        SetUInt32(guidKey, value ? 1u : 0u);
-    }
-
-    public void Set(Guid guidKey, uint value)
-    {
-        SetUInt32(guidKey, value);
-    }
-
-    /// <summary>
-    /// <p><strong>Applies to: </strong>desktop apps | Metro style apps</p><p> Adds an attribute value with a specified key. </p>
-    /// </summary>
-    /// <param name="guidKey"><dd> <p> A <see cref="System.Guid"/> that identifies the value to set. If this key already exists, the method overwrites the old value. </p> </dd></param>
-    /// <param name="value"><dd> <p> A <strong><see cref="Variant"/></strong> that contains the attribute value. The method copies the value. The <strong><see cref="Variant"/></strong> type must be one of the types listed in the <strong><see cref="AttributeType"/></strong> enumeration. </p> </dd></param>
-    /// <returns><p> The method returns an <strong><see cref="Result"/></strong>. Possible values include, but are not limited to, those in the following table. </p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><see cref="Result.Ok"/></strong></dt> </dl> </td><td> <p> The method succeeded. </p> </td></tr> <tr><td> <dl> <dt><strong>E_OUTOFMEMORY</strong></dt> </dl> </td><td> <p> Insufficient memory. </p> </td></tr> <tr><td> <dl> <dt><strong>MF_E_INVALIDTYPE</strong></dt> </dl> </td><td> <p> Invalid attribute type. </p> </td></tr> </table><p>?</p></returns>
-    /// <remarks>
-    /// <p> This method checks whether the <strong><see cref="Variant"/></strong> type is one of the attribute types defined in <strong><see cref="AttributeType"/></strong>, and fails if an unsupported type is used. However, this method does not check whether the <strong><see cref="Variant"/></strong> is the correct type for the specified attribute <see cref="System.Guid"/>. (There is no programmatic way to associate attribute GUIDs with property types.) For a list of Media Foundation attributes and their data types, see Media Foundation Attributes. </p><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>
-    /// </remarks>
-    /// <msdn-id>bb970346</msdn-id>
-    /// <unmanaged>HRESULT IMFAttributes::SetItem([In] const GUID&amp; guidKey,[In] const PROPVARIANT&amp; Value)</unmanaged>
-    /// <unmanaged-short>IMFAttributes::SetItem</unmanaged-short>
-    public void Set<T>(Guid guidKey, T value)
-    {
-        // Perform conversions to supported types
-        // int
-        // long
-        // string
-        // byte[]
-        // double
-        // ComObject
-        // Guid
-
-        if (typeof(T) == typeof(int) || typeof(T) == typeof(bool) || typeof(T) == typeof(byte) || typeof(T) == typeof(short) || typeof(T) == typeof(ushort) || typeof(T) == typeof(byte) || typeof(T) == typeof(sbyte)
-            || typeof(T).IsEnum)
-        {
-            SetUInt32(guidKey, Convert.ToUInt32(value));
-            return;
-        }
-
-        if (value is int intValue)
-        {
-            SetUInt32(guidKey, unchecked((uint)intValue));
-            return;
-        }
-
-        if (value is uint uivalue)
-        {
-            SetUInt32(guidKey, uivalue);
-            return;
-        }
-
-        if (value is long lvalue)
-        {
-            SetUInt64(guidKey, unchecked((ulong)lvalue));
-            return;
-        }
-
-        if (value is ulong ulvalue)
-        {
-            SetUInt64(guidKey, ulvalue);
-            return;
-        }
-
-        if (typeof(T) == typeof(nint))
-        {
-            SetUInt64(guidKey, unchecked((ulong)((IntPtr)(object)value).ToInt64()));
-            return;
-        }
-
-        if (typeof(T) == typeof(Guid))
-        {
-            Set(guidKey, (Guid)(object)value);
-            return;
-        }
-
-        if (typeof(T) == typeof(string))
-        {
-            Set(guidKey, value.ToString());
-            return;
-        }
-
-        if (typeof(T) == typeof(double) || typeof(T) == typeof(float))
-        {
-            Set(guidKey, Convert.ToDouble(value));
-            return;
-        }
-
-        if (typeof(T) == typeof(byte[]))
-        {
-            var arrayValue = ((byte[])(object)value);
-            fixed (void* pBuffer = arrayValue)
-            {
-                SetBlob(guidKey, (IntPtr)pBuffer, (uint)arrayValue.Length);
-            }
-
-            return;
-        }
-
-
-        if (typeof(T).IsValueType)
-        {
-            SetBlob(guidKey, (IntPtr)Unsafe.AsPointer(ref value), (uint)Unsafe.SizeOf<T>());
-            return;
-        }
-
-        if (typeof(T) == typeof(ComObject) || typeof(IUnknown).IsAssignableFrom(typeof(T)))
-        {
-            Set(guidKey, (IUnknown)value!);
-            return;
-        }
-
-        throw new ArgumentException("The type of the value is not supported");
-    }
-
-    /// <summary>
-    /// <p><strong>Applies to: </strong>desktop apps | Metro style apps</p><p> Adds an attribute value with a specified key. </p>
-    /// </summary>
-    /// <param name="guidKey"><dd> <p> A <see cref="System.Guid"/> that identifies the value to set. If this key already exists, the method overwrites the old value. </p> </dd></param>
-    /// <param name="value"><dd> <p> A <strong><see cref="Variant"/></strong> that contains the attribute value. The method copies the value. The <strong><see cref="Variant"/></strong> type must be one of the types listed in the <strong><see cref="AttributeType"/></strong> enumeration. </p> </dd></param>
-    /// <returns><p> The method returns an <strong><see cref="Result"/></strong>. Possible values include, but are not limited to, those in the following table. </p><table> <tr><th>Return code</th><th>Description</th></tr> <tr><td> <dl> <dt><strong><see cref="Result.Ok"/></strong></dt> </dl> </td><td> <p> The method succeeded. </p> </td></tr> <tr><td> <dl> <dt><strong>E_OUTOFMEMORY</strong></dt> </dl> </td><td> <p> Insufficient memory. </p> </td></tr> <tr><td> <dl> <dt><strong>MF_E_INVALIDTYPE</strong></dt> </dl> </td><td> <p> Invalid attribute type. </p> </td></tr> </table><p>?</p></returns>
-    /// <remarks>
-    /// <p> This method checks whether the <strong><see cref="Variant"/></strong> type is one of the attribute types defined in <strong><see cref="AttributeType"/></strong>, and fails if an unsupported type is used. However, this method does not check whether the <strong><see cref="Variant"/></strong> is the correct type for the specified attribute <see cref="System.Guid"/>. (There is no programmatic way to associate attribute GUIDs with property types.) For a list of Media Foundation attributes and their data types, see Media Foundation Attributes. </p><p>This interface is available on the following platforms if the Windows Media Format 11 SDK redistributable components are installed:</p><ul> <li>Windows?XP with Service Pack?2 (SP2) and later.</li> <li>Windows?XP Media Center Edition?2005 with KB900325 (Windows?XP Media Center Edition?2005) and KB925766 (October 2006 Update Rollup for Windows?XP Media Center Edition) installed.</li> </ul>
-    /// </remarks>
-    /// <msdn-id>bb970346</msdn-id>
-    /// <unmanaged>HRESULT IMFAttributes::SetItem([In] const GUID&amp; guidKey,[In] const PROPVARIANT&amp; Value)</unmanaged>
-    /// <unmanaged-short>IMFAttributes::SetItem</unmanaged-short>
-    public void Set<T>(MediaAttributeKey<T> guidKey, T value)
-    {
-        Set(guidKey.Guid, value);
+        return SetBlob(guidKey, Unsafe.AsPointer(ref value), (uint)sizeof(T));
     }
 }

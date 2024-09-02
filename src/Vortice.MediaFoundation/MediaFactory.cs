@@ -219,7 +219,7 @@ public unsafe partial class MediaFactory
 
     public static Result MFSetAttribute2UInt32asUInt64(IMFAttributes attributes, Guid guidKey, uint unHigh32, uint unLow32)
     {
-        return attributes.SetUInt64(guidKey, Pack2UInt32AsUInt64(unHigh32, unLow32));
+        return attributes.Set(guidKey, Pack2UInt32AsUInt64(unHigh32, unLow32));
     }
 
     public static Result MFGetAttributeRatio(IMFAttributes attributes, Guid guidKey, out uint numerator, out uint denominator)
@@ -241,6 +241,32 @@ public unsafe partial class MediaFactory
     {
         return MFSetAttribute2UInt32asUInt64(attributes, guidKey, width, height);
     }
+
+    #region IMFSourceReader
+    public static unsafe IMFSourceReader MFCreateSourceReaderFromByteStream(byte[] buffer, IMFAttributes? attributes = null)
+    {
+        var byteStream = new MFByteStream(new MemoryStream(buffer));
+        IMFSourceReader reader = MFCreateSourceReaderFromByteStream(byteStream, attributes);
+        reader._byteStream = byteStream;
+        return reader;
+    }
+
+    public static unsafe IMFSourceReader MFCreateSourceReaderFromByteStream(Stream buffer, IMFAttributes? attributes = null)
+    {
+        var byteStream = new MFByteStream(buffer);
+        IMFSourceReader reader = MFCreateSourceReaderFromByteStream(byteStream, attributes);
+        reader._byteStream = byteStream;
+        return reader;
+    }
+
+    public static unsafe IMFSourceReader MFCreateSourceReaderFromByteStream(ComStream comStream, IMFAttributes attributes = null)
+    {
+        var byteStream = new MFByteStream(comStream);
+        IMFSourceReader reader = MFCreateSourceReaderFromByteStream(byteStream, attributes);
+        reader._byteStream = byteStream;
+        return reader;
+    }
+    #endregion
 
     public static IMFVirtualCamera MFCreateVirtualCamera(
         VirtualCameraType type,
