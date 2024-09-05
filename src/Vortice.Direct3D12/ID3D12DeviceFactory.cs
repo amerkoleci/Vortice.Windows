@@ -5,7 +5,7 @@ using Vortice.Direct3D;
 
 namespace Vortice.Direct3D12;
 
-public partial class ID3D12DeviceFactory
+public unsafe partial class ID3D12DeviceFactory
 {
     public T GetConfigurationInterface<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid classId) where T : ComObject
     {
@@ -71,5 +71,35 @@ public partial class ID3D12DeviceFactory
 
         device = MarshallingHelpers.FromPointer<T>(nativePtr);
         return result;
+    }
+
+    public Result EnableExperimentalFeatures(int numFeatures, Span<Guid> features)
+    {
+        fixed (Guid* pIIDs = features)
+            return EnableExperimentalFeatures(numFeatures, pIIDs, null, null);
+    }
+
+    public Result EnableExperimentalFeatures(Span<Guid> features)
+    {
+        fixed (Guid* pIIDs = features)
+            return (Result)EnableExperimentalFeatures(features.Length, pIIDs, null, null);
+    }
+
+    public Result EnableExperimentalFeatures<T>(Span<Guid> features, Span<T> configurationStructs)
+        where T : unmanaged
+    {
+        if (features.Length != configurationStructs.Length)
+            throw new InvalidOperationException($"{nameof(features)}.Length must be equal to {nameof(configurationStructs)}.Length");
+
+        Span<int> configurationStructSizes = stackalloc int[configurationStructs.Length];
+        for (int i = 0; i < configurationStructs.Length; i++)
+        {
+            configurationStructSizes[i] = sizeof(T);
+        }
+
+        fixed (Guid* pIIDs = features)
+        fixed (void* pConfigurationStructs = configurationStructs)
+        fixed (int* pConfigurationStructSizes = configurationStructSizes)
+            return (Result)EnableExperimentalFeatures(features.Length, pIIDs, pConfigurationStructs, pConfigurationStructSizes);
     }
 }

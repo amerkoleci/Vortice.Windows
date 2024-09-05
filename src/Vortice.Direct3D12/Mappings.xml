@@ -31,7 +31,9 @@
     <const from-guid="CLSID_D3D12DeviceRemovedExtendedData" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DeviceRemovedExtendedDataClsId">new System.Guid("$1")</const>
     <const from-guid="CLSID_D3D12SDKConfiguration" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12SDKConfigurationClsId">new System.Guid("$1")</const>
     <const from-guid="CLSID_D3D12DeviceFactory" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DeviceFactoryClsId">new System.Guid("$1")</const>
-    
+
+    <const from-guid="D3D12ExperimentalShaderModels" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12ExperimentalShaderModels">new System.Guid("$1")</const>
+    <const from-guid="D3D12TiledResourceTier4" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12TiledResourceTier4">new System.Guid("$1")</const>
   </extension>
 
   <bindings>
@@ -1123,6 +1125,10 @@
     <map method="ID3D12DeviceFactory::GetConfigurationInterface" visibility="private" hresult="true" check="false"/>
     <map method="ID3D12DeviceFactory::CreateDevice" visibility="private" hresult="true" check="false"/>
     <map param="ID3D12DeviceFactory::CreateDevice::adapter" type="void" attribute="in"/>
+    <map method="ID3D12DeviceFactory::EnableExperimentalFeatures" visibility="private" hresult="true" check="false"/>
+    <map param="ID3D12DeviceFactory::EnableExperimentalFeatures::pIIDs" type="void" keep-pointers="true"/>
+    <map param="ID3D12DeviceFactory::EnableExperimentalFeatures::pConfigurationStructs" type="void" keep-pointers="true"/>
+    <map param="ID3D12DeviceFactory::EnableExperimentalFeatures::pConfigurationStructSizes" type="void" keep-pointers="true"/>
     
     <!-- ID3D12DescriptorHeap -->
     <map method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" property="false" />
@@ -1150,12 +1156,11 @@
     <!-- ID3D12VersionedRootSignatureDeserializer methods -->
     <map method="ID3D12VersionedRootSignatureDeserializer::GetRootSignatureDescAtVersion" name="GetRootSignatureDescAtVersion_" visibility="private"/>
 
-    <map function="D3D12.*" dll='"d3d12.dll"' group="Vortice.Direct3D12.D3D12" visibility="internal" />
-    <map function="D3D12CreateDevice" check="false"/>
+    <map function="D3D12.*" dll='"d3d12.dll"' group="Vortice.Direct3D12.D3D12" visibility="internal" hresult="true" check="false"/>
+    <map param="D3D12EnableExperimentalFeatures::pIIDs" type="void" keep-pointers="true"/>
+    <map param="D3D12EnableExperimentalFeatures::pConfigurationStructSizes" type="void" keep-pointers="true"/>
+    
     <map param="D3D12CreateDevice::pAdapter" type="void" attribute="in"/>
-    <map function="D3D12GetDebugInterface" hresult="true" check="false"/>
-    <map function="D3D12SerializeRootSignature" hresult="true" check="false"/>
-    <map function="D3D12SerializeVersionedRootSignature" hresult="true" check="false"/>
 
     <map function="D3D12CreateVersionedRootSignatureDeserializer" hresult="true" check="false"/>
     <map param="D3D12CreateVersionedRootSignatureDeserializer::pSrcData" type="void" keep-pointers="true"/>

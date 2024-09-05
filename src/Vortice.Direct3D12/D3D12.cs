@@ -235,6 +235,26 @@ public static unsafe partial class D3D12
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
+    public static Result D3D12GetInterface<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid classId, out T? debugInterface) where T : ComObject
+    {
+        Result result = D3D12GetInterface(classId, typeof(T).GUID, out IntPtr nativePtr);
+
+        if (result.Failure)
+        {
+            debugInterface = null;
+            return result;
+        }
+
+        debugInterface = MarshallingHelpers.FromPointer<T>(nativePtr);
+        return result;
+    }
+
+    public static T D3D12GetInterface<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid classId) where T : ComObject
+    {
+        D3D12GetInterface(classId, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
+    }
+
     public static string D3D12SerializeVersionedRootSignature(VersionedRootSignatureDescription description, out Blob blob)
     {
         string errorString = string.Empty;
@@ -247,9 +267,34 @@ public static unsafe partial class D3D12
         return errorString;
     }
 
-    public static void D3D12EnableExperimentalFeatures(params Guid[] features)
+    public static Result D3D12EnableExperimentalFeatures(int numFeatures, Span<Guid> features)
     {
-        D3D12EnableExperimentalFeatures(features.Length, features, IntPtr.Zero, null);
+        fixed (Guid* pIIDs = features)
+            return (Result)D3D12EnableExperimentalFeatures_(numFeatures, pIIDs, null, null);
+    }
+
+    public static Result D3D12EnableExperimentalFeatures(Span<Guid> features)
+    {
+        fixed (Guid* pIIDs = features)
+            return (Result)D3D12EnableExperimentalFeatures_(features.Length, pIIDs, null, null);
+    }
+
+    public static Result D3D12EnableExperimentalFeatures<T>(Span<Guid> features, Span<T> configurationStructs)
+        where T : unmanaged
+    {
+        if (features.Length != configurationStructs.Length)
+            throw new InvalidOperationException($"{nameof(features)}.Length must be equal to {nameof(configurationStructs)}.Length");
+
+        Span<int> configurationStructSizes = stackalloc int[configurationStructs.Length];
+        for (int i = 0; i < configurationStructs.Length; i++)
+        {
+            configurationStructSizes[i] = sizeof(T);
+        }
+
+        fixed (Guid* pIIDs = features)
+        fixed (void* pConfigurationStructs = configurationStructs)
+        fixed (int* pConfigurationStructSizes = configurationStructSizes)
+            return (Result)D3D12EnableExperimentalFeatures_(features.Length, pIIDs, pConfigurationStructs, pConfigurationStructSizes);
     }
 
     private static Result D3D12CreateVersionedRootSignatureDeserializer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
