@@ -4,6 +4,7 @@ Current Stable Release:    3.5.0 (March 2024)
 
 -----------------------------------------------
 Release:     3.6.X (August 2024)
+- [ENH] DirectML : Update to 1.15.2.
 - [ENH] Direct3D12: Add D3D12GetInterface support and relative class Guids.
 - [ENH] MediaFoundation: More bindings improvements, add callback supports
 - [ENH] MediaFoundation: Add VirtualCamera support (mfvirtualcamera.h)

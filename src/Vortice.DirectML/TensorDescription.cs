@@ -13,7 +13,7 @@ public partial struct TensorDescription
         Description = description;
     }
 
-    public override string ToString() => $"{Description} as {nameof(TensorDescription)}";
+    public override readonly string ToString() => $"{Description} as {nameof(TensorDescription)}";
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]

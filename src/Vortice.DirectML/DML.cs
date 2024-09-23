@@ -7,7 +7,6 @@ namespace Vortice.DirectML;
 
 public static partial class DML
 {
-
     public static event DllImportResolver? ResolveLibrary;
 
     static DML()
@@ -39,8 +38,8 @@ public static partial class DML
                 string directMLPath = Path.Combine(AppContext.BaseDirectory, $@"runtimes\{rid}\native\DirectML.dll");
                 string directMLDebugPath = Path.Combine(AppContext.BaseDirectory, $@"runtimes\{rid}\native\DirectML.Debug.dll");
 
-                    // Load DXIL first so that DXC doesn't fail to load it, and then DXIL, both from the NuGet path
-                    if (NativeLibrary.TryLoad(directMLDebugPath, out _) &&
+                // Load DXIL first so that DXC doesn't fail to load it, and then DXIL, both from the NuGet path
+                if (NativeLibrary.TryLoad(directMLDebugPath, out _) &&
                     NativeLibrary.TryLoad(directMLPath, out IntPtr handle))
                 {
                     return handle;
@@ -48,15 +47,14 @@ public static partial class DML
             }
             else
             {
-                    // Even when the two libraries are correctly copied next to the executable in use, we load them
-                    // manually to ensure the operation is successful. This is to avoid failures in cases such as when
-                    // doing "dotnet bin\MyApp.dll", ie. when the host is in another path than the executable in use.
-                    // This is probably because DXIL is a native dependency for DXC, but the way Windows loads these
-                    // libraries doesn't take into account the .NET concepts of "app directory": neither the current "bin"
-                    // directory nor the "process directory", which is "C:\Program Files\dotnet", actually contain the
-                    // native library we need, hence the runtime crash. Manually loading the library this way solves this.
-                    if (NativeLibrary.TryLoad("DirectML.Debug", assembly, searchPath, out _) &&
-                    NativeLibrary.TryLoad("DirectML", assembly, searchPath, out IntPtr handle))
+                // Even when the two libraries are correctly copied next to the executable in use, we load them
+                // manually to ensure the operation is successful. This is to avoid failures in cases such as when
+                // doing "dotnet bin\MyApp.dll", ie. when the host is in another path than the executable in use.
+                // This is probably because DXIL is a native dependency for DXC, but the way Windows loads these
+                // libraries doesn't take into account the .NET concepts of "app directory": neither the current "bin"
+                // directory nor the "process directory", which is "C:\Program Files\dotnet", actually contain the
+                // native library we need, hence the runtime crash. Manually loading the library this way solves this.
+                if (NativeLibrary.TryLoad("DirectML.Debug", assembly, searchPath, out _) && NativeLibrary.TryLoad("DirectML", assembly, searchPath, out IntPtr handle))
                 {
                     return handle;
                 }

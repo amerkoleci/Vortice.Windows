@@ -8,7 +8,7 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     /// <summary>
     /// Gets the type of tensor description.
     /// </summary>
-    public TensorType TensorType => TensorType.Buffer;
+    public readonly TensorType TensorType => TensorType.Buffer;
 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::DataType']/*" />
     public TensorDataType DataType { get; set; }
@@ -33,7 +33,7 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     /// strides for this <see cref="BufferTensorDescription"/>.
     /// </summary>
     /// <returns></returns>
-    public long CalculateMinimumImpliedSize() => CalculateMinimumImpliedSize(DataType, Sizes, Strides);
+    public readonly long CalculateMinimumImpliedSize() => CalculateMinimumImpliedSize(DataType, Sizes, Strides);
 
     /// <summary>
     /// Calculates the minimum implied tensor size in bytes given the data type, sizes, and
@@ -65,10 +65,7 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     /// Based on the DirectMLX.h DMLCalcBufferTensorSize function. See
     /// <see href="https://github.com/microsoft/DirectML/blob/master/Libraries/DirectMLX.h"/>.
     /// </remarks>
-    public static long CalculateMinimumImpliedSize(
-    TensorDataType dataType,
-    int[] sizes,
-    int[]? strides = null)
+    public static long CalculateMinimumImpliedSize(TensorDataType dataType, int[] sizes, int[]? strides = null)
     {
         var elementSizeInBytes = dataType switch
         {

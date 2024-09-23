@@ -19,6 +19,8 @@
   <extension>
     <create class="Vortice.DirectML.DML" visibility="public static"/>
     <define struct="Vortice.DirectML.ScalarUnion" sizeof="64" />
+
+    <const from-macro="DML_TARGET_VERSION" type="int" cpp-type="int" name="TargetVersion" class="Vortice.DirectML.DML" visibility="public const"></const>
   </extension>
 
   <bindings>
