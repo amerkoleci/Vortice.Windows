@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12.Video;
@@ -12,25 +12,25 @@ public partial struct VideoEncoderProfileDescription
 
     #region Marshal
     [StructLayout(LayoutKind.Explicit, Pack = 0)]
-    internal partial struct __Native
+    internal unsafe struct __Native
     {
         [FieldOffset(0)]
         public uint DataSize;
         [FieldOffset(4)]
-        public IntPtr pH264Profile;
+        public void* pH264Profile;
         [FieldOffset(4)]
-        public IntPtr pHEVCProfile;
+        public void* pHEVCProfile;
     }
 
     internal unsafe void __MarshalFree(ref __Native @ref)
     {
-        if (@ref.pH264Profile != IntPtr.Zero)
+        if (@ref.pH264Profile != null)
         {
-            Marshal.FreeHGlobal(@ref.pH264Profile);
+            NativeMemory.Free(@ref.pH264Profile);
         }
     }
 
-    internal void __MarshalTo(ref __Native @ref)
+    internal unsafe void __MarshalTo(ref __Native @ref)
     {
         @ref.DataSize = DataSize;
         if (H264Profile != null)
@@ -44,12 +44,12 @@ public partial struct VideoEncoderProfileDescription
         }
     }
 
-    internal void __MarshalFrom(ref __Native @ref)
+    internal unsafe void __MarshalFrom(ref __Native @ref)
     {
         DataSize = @ref.DataSize;
 
         // TODO:
-        if (@ref.pH264Profile != IntPtr.Zero)
+        if (@ref.pH264Profile != null)
         {
         }
     }

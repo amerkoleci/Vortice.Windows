@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12.Video;
@@ -97,9 +97,9 @@ public partial class ID3D12VideoDevice2
 
     #region CreateVideoProcessor1
     public ID3D12VideoProcessor CreateVideoProcessor1(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
-        int inputStreamDescriptionsCount,
+        uint inputStreamDescriptionsCount,
         VideoProcessInputStreamDescription[] inputStreamDescriptions,
         ID3D12ProtectedResourceSession protectedResourceSession)
     {
@@ -116,7 +116,7 @@ public partial class ID3D12VideoDevice2
     }
 
     public ID3D12VideoProcessor CreateVideoProcessor1(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
         VideoProcessInputStreamDescription[] inputStreamDescriptions,
         ID3D12ProtectedResourceSession protectedResourceSession)
@@ -124,7 +124,7 @@ public partial class ID3D12VideoDevice2
         CreateVideoProcessor1(
             nodeMask,
             ref outputStreamDescription,
-            inputStreamDescriptions.Length,
+            (uint)inputStreamDescriptions.Length,
             inputStreamDescriptions,
             protectedResourceSession,
             typeof(ID3D12VideoProcessor).GUID,
@@ -133,7 +133,7 @@ public partial class ID3D12VideoDevice2
     }
 
     public T CreateVideoProcessor1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
         VideoProcessInputStreamDescription[] inputStreamDescriptions,
         ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoProcessor
@@ -141,7 +141,7 @@ public partial class ID3D12VideoDevice2
         CreateVideoProcessor1(
             nodeMask,
             ref outputStreamDescription,
-            inputStreamDescriptions.Length,
+            (uint)inputStreamDescriptions.Length,
             inputStreamDescriptions,
             protectedResourceSession,
             typeof(T).GUID,
@@ -151,9 +151,9 @@ public partial class ID3D12VideoDevice2
     }
 
     public T CreateVideoProcessor1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
-        int inputStreamDescriptionsCount,
+        uint inputStreamDescriptionsCount,
         VideoProcessInputStreamDescription[] inputStreamDescriptions,
         ID3D12ProtectedResourceSession protectedResourceSession) where T : ID3D12VideoProcessor
     {
@@ -169,7 +169,7 @@ public partial class ID3D12VideoDevice2
     }
 
     public Result CreateVideoProcessor1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
         VideoProcessInputStreamDescription[] inputStreamDescriptions,
         ID3D12ProtectedResourceSession protectedResourceSession,
@@ -178,7 +178,7 @@ public partial class ID3D12VideoDevice2
         Result result = CreateVideoProcessor1(
             nodeMask,
             ref outputStreamDescription,
-            inputStreamDescriptions.Length,
+            (uint)inputStreamDescriptions.Length,
             inputStreamDescriptions,
             protectedResourceSession,
             typeof(T).GUID, out IntPtr nativePtr);
@@ -193,9 +193,9 @@ public partial class ID3D12VideoDevice2
     }
 
     public Result CreateVideoProcessor1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
-        int inputStreamDescriptionsCount,
+        uint inputStreamDescriptionsCount,
         VideoProcessInputStreamDescription[] inputStreamDescriptions,
         ID3D12ProtectedResourceSession protectedResourceSession,
         out T? videoDecoder) where T : ID3D12VideoProcessor1

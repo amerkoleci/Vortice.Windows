@@ -17,12 +17,12 @@ public unsafe partial class ID3D12GraphicsCommandList7
 
     public void ResourceBarrier(BarrierGroup[] barrierGroups)
     {
-        ResourceBarrier(barrierGroups.Length, barrierGroups);
+        ResourceBarrier((uint)barrierGroups.Length, barrierGroups);
     }
 
-    public unsafe void ResourceBarrier(int numBarrierGroups, BarrierGroup[] barrierGroups)
+    public unsafe void ResourceBarrier(uint numBarrierGroups, BarrierGroup[] barrierGroups)
     {
-        Span<BarrierGroup.__Native> barrierGroupsNative = (uint)numBarrierGroups * (uint)Unsafe.SizeOf<BarrierGroup.__Native>() < 1024U ? stackalloc BarrierGroup.__Native[numBarrierGroups] : new BarrierGroup.__Native[numBarrierGroups];
+        Span<BarrierGroup.__Native> barrierGroupsNative = (uint)numBarrierGroups * (uint)sizeof(BarrierGroup.__Native) < 1024U ? stackalloc BarrierGroup.__Native[(int)numBarrierGroups] : new BarrierGroup.__Native[numBarrierGroups];
 
         for (int i = 0; i < numBarrierGroups; ++i)
         {
@@ -42,12 +42,12 @@ public unsafe partial class ID3D12GraphicsCommandList7
 
     public void ResourceBarrier(Span<BarrierGroup> barrierGroups)
     {
-        ResourceBarrier(barrierGroups.Length, barrierGroups);
+        ResourceBarrier((uint)barrierGroups.Length, barrierGroups);
     }
 
-    public unsafe void ResourceBarrier(int numBarrierGroups, Span<BarrierGroup> barrierGroups)
+    public unsafe void ResourceBarrier(uint numBarrierGroups, Span<BarrierGroup> barrierGroups)
     {
-        Span<BarrierGroup.__Native> barrierGroupsNative = (uint)numBarrierGroups * (uint)Unsafe.SizeOf<BarrierGroup.__Native>() < 1024U ? stackalloc BarrierGroup.__Native[numBarrierGroups] : new BarrierGroup.__Native[numBarrierGroups];
+        Span<BarrierGroup.__Native> barrierGroupsNative = (uint)numBarrierGroups * (uint)sizeof(BarrierGroup.__Native) < 1024U ? stackalloc BarrierGroup.__Native[(int)numBarrierGroups] : new BarrierGroup.__Native[numBarrierGroups];
 
         for (int i = 0; i < numBarrierGroups; ++i)
         {

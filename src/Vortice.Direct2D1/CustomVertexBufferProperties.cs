@@ -37,18 +37,18 @@ public partial class CustomVertexBufferProperties
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     internal unsafe struct __Native
     {
-        public IntPtr shaderBufferWithInputSignature;
-        public int shaderBufferSize;
+        public byte* shaderBufferWithInputSignature;
+        public uint shaderBufferSize;
         public InputElementDescription.__Native* inputElements;
-        public int elementCount;
-        public int stride;
+        public uint elementCount;
+        public uint stride;
     }
 
     internal unsafe void __MarshalFree(ref __Native @ref)
     {
         if (@ref.shaderBufferSize > 0)
         {
-            Marshal.FreeHGlobal(@ref.shaderBufferWithInputSignature);
+            NativeMemory.Free(@ref.shaderBufferWithInputSignature);
         }
 
         if (@ref.inputElements != null)
@@ -58,22 +58,22 @@ public partial class CustomVertexBufferProperties
                 Elements[i].__MarshalFree(ref @ref.inputElements[i]);
             }
 
-            Marshal.FreeHGlobal((IntPtr)@ref.inputElements);
+            NativeMemory.Free(@ref.inputElements);
         }
     }
 
     internal unsafe void __MarshalTo(ref __Native @ref)
     {
-        @ref.shaderBufferSize = ShaderBufferWithInputSignature?.Length ?? 0;
+        @ref.shaderBufferSize = (uint)(ShaderBufferWithInputSignature?.Length ?? 0);
         if (@ref.shaderBufferSize > 0)
         {
             @ref.shaderBufferWithInputSignature = UnsafeUtilities.AllocToPointer(ShaderBufferWithInputSignature!);
         }
 
-        @ref.elementCount = Elements?.Length ?? 0;
+        @ref.elementCount = (uint)(Elements?.Length ?? 0);
         if (@ref.elementCount > 0)
         {
-            var nativeElements = (InputElementDescription.__Native*)Marshal.AllocHGlobal(sizeof(InputElementDescription.__Native) * @ref.elementCount);
+            var nativeElements = (InputElementDescription.__Native*)NativeMemory.Alloc(@ref.elementCount, (nuint)sizeof(InputElementDescription.__Native));
             for (int i = 0; i < @ref.elementCount; i++)
             {
                 Elements![i].__MarshalTo(ref nativeElements[i]);
@@ -82,7 +82,7 @@ public partial class CustomVertexBufferProperties
             @ref.inputElements = nativeElements;
         }
 
-        @ref.stride = Stride;
+        @ref.stride = (uint)Stride;
     }
     #endregion
 }

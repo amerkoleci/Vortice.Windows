@@ -10,7 +10,7 @@ public partial class ID3D12Device3
     /// </summary>
     public Result EnqueueMakeResident(ResidencyFlags flags, ID3D12Pageable[] objects, ID3D12Fence fenceToSignal, ulong fenceValueToSignal)
     {
-        return EnqueueMakeResident(flags, objects?.Length ?? 0, objects, fenceToSignal, fenceValueToSignal);
+        return EnqueueMakeResident(flags, (uint)(objects?.Length ?? 0), objects, fenceToSignal, fenceValueToSignal);
     }
 
     /// <summary>

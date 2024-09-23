@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
@@ -18,7 +18,7 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
         InitOffsetted(in other, offsetScaledByIncrementSize);
     }
 
-    public CpuDescriptorHandle(in CpuDescriptorHandle other, int offsetInDescriptors, int descriptorIncrementSize)
+    public CpuDescriptorHandle(in CpuDescriptorHandle other, int offsetInDescriptors, uint descriptorIncrementSize)
     {
         InitOffsetted(in other, offsetInDescriptors, descriptorIncrementSize);
     }
@@ -68,7 +68,7 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
         InitOffsetted(ref this, @base, offsetScaledByIncrementSize);
     }
 
-    public void InitOffsetted(in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
+    public void InitOffsetted(in CpuDescriptorHandle @base, int offsetInDescriptors, uint descriptorIncrementSize)
     {
         InitOffsetted(ref this, @base, offsetInDescriptors, descriptorIncrementSize);
     }
@@ -78,22 +78,22 @@ public partial struct CpuDescriptorHandle : IEquatable<CpuDescriptorHandle>
         handle.Ptr = unchecked((nuint)((long)(@base.Ptr) + (long)(offsetScaledByIncrementSize)));
     }
 
-    public static void InitOffsetted(ref CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
+    public static void InitOffsetted(ref CpuDescriptorHandle handle, in CpuDescriptorHandle @base, int offsetInDescriptors, uint descriptorIncrementSize)
     {
         handle.Ptr = unchecked((nuint)((long)(@base.Ptr) + (long)(offsetInDescriptors) * (long)(descriptorIncrementSize)));
     }
 
     [UnscopedRef]
-    public ref CpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
+    public ref CpuDescriptorHandle Offset(int offsetInDescriptors, uint descriptorIncrementSize)
     {
-        Ptr = unchecked((nuint)((long)(Ptr) + (long)(offsetInDescriptors) * descriptorIncrementSize));
+        Ptr = unchecked((nuint)((long)(Ptr) + (long)(offsetInDescriptors) * (long)(descriptorIncrementSize)));
         return ref this;
     }
 
     [UnscopedRef]
     public ref CpuDescriptorHandle Offset(int offsetScaledByIncrementSize)
     {
-        Ptr = unchecked((nuint)((long)(Ptr) + offsetScaledByIncrementSize));
+        Ptr = unchecked((nuint)((long)(Ptr) + (long)(offsetScaledByIncrementSize)));
         return ref this;
     }
 }

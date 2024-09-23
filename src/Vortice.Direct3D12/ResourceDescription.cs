@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.DXGI;
@@ -25,12 +25,12 @@ public partial struct ResourceDescription
         ResourceDimension dimension,
         ulong alignment,
         ulong width,
-        int height,
+        uint height,
         ushort depthOrArraySize,
         ushort mipLevels,
         Format format,
-        int sampleCount,
-        int sampleQuality,
+        uint sampleCount,
+        uint sampleQuality,
         TextureLayout layout,
         ResourceFlags flags)
     {
@@ -41,7 +41,7 @@ public partial struct ResourceDescription
         DepthOrArraySize = depthOrArraySize;
         MipLevels = mipLevels;
         Format = format;
-        SampleDescription = new SampleDescription(sampleCount, sampleQuality);
+        SampleDescription = new SampleDescription((int)sampleCount, (int)sampleQuality);
         Layout = layout;
         Flags = flags;
     }
@@ -63,14 +63,6 @@ public partial struct ResourceDescription
         return new ResourceDescription(ResourceDimension.Buffer, alignment, sizeInBytes, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
     }
 
-    public static ResourceDescription Buffer(
-        int sizeInBytes,
-        ResourceFlags flags = ResourceFlags.None,
-        ulong alignment = 0)
-    {
-        return new ResourceDescription(ResourceDimension.Buffer, alignment, (ulong)sizeInBytes, 1, 1, 1, Format.Unknown, 1, 0, TextureLayout.RowMajor, flags);
-    }
-
     public static ResourceDescription Texture1D(Format format,
         uint width,
         ushort arraySize = 1,
@@ -87,8 +79,8 @@ public partial struct ResourceDescription
         uint height,
         ushort arraySize = 1,
         ushort mipLevels = 0,
-        int sampleCount = 1,
-        int sampleQuality = 0,
+        uint sampleCount = 1,
+        uint sampleQuality = 0,
         ResourceFlags flags = ResourceFlags.None,
         TextureLayout layout = TextureLayout.Unknown,
         ulong alignment = 0)
@@ -96,7 +88,7 @@ public partial struct ResourceDescription
         return new ResourceDescription(ResourceDimension.Texture2D,
             alignment,
             width,
-            checked((int)height),
+            height,
             arraySize,
             mipLevels,
             format,
@@ -109,7 +101,7 @@ public partial struct ResourceDescription
     public static ResourceDescription Texture3D(Format format,
         uint width,
         uint height,
-        uint depth,
+        ushort depth,
         ushort mipLevels = 0,
         ResourceFlags flags = ResourceFlags.None,
         TextureLayout layout = TextureLayout.Unknown,
@@ -119,8 +111,8 @@ public partial struct ResourceDescription
             ResourceDimension.Texture3D,
             alignment,
             width,
-            checked((int)height),
-            (ushort)depth,
+            height,
+            depth,
             mipLevels,
             format,
             1,
@@ -129,20 +121,20 @@ public partial struct ResourceDescription
             flags);
     }
 
-    public int Depth => Dimension == ResourceDimension.Texture3D ? DepthOrArraySize : 1;
-    public int ArraySize => Dimension != ResourceDimension.Texture3D ? DepthOrArraySize : 1;
+    public readonly ushort Depth => Dimension == ResourceDimension.Texture3D ? DepthOrArraySize : (ushort)1;
+    public readonly ushort ArraySize => Dimension != ResourceDimension.Texture3D ? DepthOrArraySize : (ushort)1;
 
     public byte GetPlaneCount(ID3D12Device device)
     {
         return device.GetFormatPlaneCount(Format);
     }
 
-    public int Subresources(ID3D12Device pDevice)
+    public uint Subresources(ID3D12Device pDevice)
     {
-        return MipLevels * ArraySize * GetPlaneCount(pDevice);
+        return (uint)MipLevels * ArraySize * GetPlaneCount(pDevice);
     }
 
-    public int CalculateSubResourceIndex(int mipSlice, int arraySlice, int planeSlice)
+    public uint CalculateSubResourceIndex(uint mipSlice, uint arraySlice, uint planeSlice)
     {
         return ID3D12Resource.CalculateSubResourceIndex(mipSlice, arraySlice, planeSlice, MipLevels, ArraySize);
     }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12.Video;
@@ -11,7 +11,7 @@ public partial class ID3D12VideoDevice
     public unsafe T CheckFeatureSupport<T>(FeatureVideo feature) where T : unmanaged
     {
         T featureSupport = default;
-        CheckFeatureSupport(feature, &featureSupport, sizeof(T));
+        CheckFeatureSupport(feature, &featureSupport, (uint)sizeof(T));
         return featureSupport;
     }
 
@@ -19,7 +19,7 @@ public partial class ID3D12VideoDevice
     {
         fixed (T* featureSupportPtr = &featureSupport)
         {
-            return CheckFeatureSupport(feature, featureSupportPtr, sizeof(T)).Success;
+            return CheckFeatureSupport(feature, featureSupportPtr, (uint)sizeof(T)).Success;
         }
     }
 
@@ -104,31 +104,31 @@ public partial class ID3D12VideoDevice
     #endregion
 
     #region CreateVideoProcessor
-    public ID3D12VideoProcessor CreateVideoProcessor(int nodeMask, VideoProcessOutputStreamDescription outputStreamDescription, int inputStreamDescriptionsCount, VideoProcessInputStreamDescription[] inputStreamDescriptions)
+    public ID3D12VideoProcessor CreateVideoProcessor(uint nodeMask, VideoProcessOutputStreamDescription outputStreamDescription, uint inputStreamDescriptionsCount, VideoProcessInputStreamDescription[] inputStreamDescriptions)
     {
         CreateVideoProcessor(nodeMask, ref outputStreamDescription, inputStreamDescriptionsCount, inputStreamDescriptions, typeof(ID3D12VideoProcessor).GUID, out IntPtr nativePtr).CheckError();
         return new ID3D12VideoProcessor(nativePtr);
     }
 
-    public ID3D12VideoProcessor CreateVideoProcessor(int nodeMask, VideoProcessOutputStreamDescription outputStreamDescription, VideoProcessInputStreamDescription[] inputStreamDescriptions)
+    public ID3D12VideoProcessor CreateVideoProcessor(uint nodeMask, VideoProcessOutputStreamDescription outputStreamDescription, VideoProcessInputStreamDescription[] inputStreamDescriptions)
     {
-        CreateVideoProcessor(nodeMask, ref outputStreamDescription, inputStreamDescriptions.Length, inputStreamDescriptions, typeof(ID3D12VideoProcessor).GUID, out IntPtr nativePtr).CheckError();
+        CreateVideoProcessor(nodeMask, ref outputStreamDescription, (uint)inputStreamDescriptions.Length, inputStreamDescriptions, typeof(ID3D12VideoProcessor).GUID, out IntPtr nativePtr).CheckError();
         return new ID3D12VideoProcessor(nativePtr);
     }
 
     public T CreateVideoProcessor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
         VideoProcessInputStreamDescription[] inputStreamDescriptions) where T : ID3D12VideoProcessor
     {
-        CreateVideoProcessor(nodeMask, ref outputStreamDescription, inputStreamDescriptions.Length, inputStreamDescriptions, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+        CreateVideoProcessor(nodeMask, ref outputStreamDescription, (uint)inputStreamDescriptions.Length, inputStreamDescriptions, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
     public T CreateVideoProcessor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
-        int inputStreamDescriptionsCount,
+        uint inputStreamDescriptionsCount,
         VideoProcessInputStreamDescription[] inputStreamDescriptions) where T : ID3D12VideoProcessor
     {
         CreateVideoProcessor(nodeMask, ref outputStreamDescription, inputStreamDescriptionsCount, inputStreamDescriptions, typeof(T).GUID, out IntPtr nativePtr).CheckError();
@@ -136,12 +136,12 @@ public partial class ID3D12VideoDevice
     }
 
     public Result CreateVideoProcessor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
         VideoProcessInputStreamDescription[] inputStreamDescriptions,
         out T? videoDecoder) where T : ID3D12VideoProcessor
     {
-        Result result = CreateVideoProcessor(nodeMask, ref outputStreamDescription, inputStreamDescriptions.Length, inputStreamDescriptions, typeof(T).GUID, out IntPtr nativePtr);
+        Result result = CreateVideoProcessor(nodeMask, ref outputStreamDescription, (uint)inputStreamDescriptions.Length, inputStreamDescriptions, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
         {
             videoDecoder = default;
@@ -153,9 +153,9 @@ public partial class ID3D12VideoDevice
     }
 
     public Result CreateVideoProcessor<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
-        int nodeMask,
+        uint nodeMask,
         VideoProcessOutputStreamDescription outputStreamDescription,
-        int inputStreamDescriptionsCount,
+        uint inputStreamDescriptionsCount,
         VideoProcessInputStreamDescription[] inputStreamDescriptions,
         out T? videoDecoder) where T : ID3D12VideoProcessor
     {

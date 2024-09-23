@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
@@ -16,7 +16,7 @@ public partial struct NodeMask : IStateSubObjectDescription, IStateSubObjectDesc
     /// Initializes a new instance of the <see cref="NodeMask"/> struct.
     /// </summary>
     /// <param name="mask">The node mask.</param>
-    public NodeMask(int mask)
+    public NodeMask(uint mask)
     {
         Mask = mask;
     }

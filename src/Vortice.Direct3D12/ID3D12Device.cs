@@ -33,7 +33,7 @@ public unsafe partial class ID3D12Device
                     HighestVersion = RootSignatureVersion.Version11
                 };
 
-                if (CheckFeatureSupport(Feature.RootSignature, &featureData, sizeof(FeatureDataRootSignature)).Failure)
+                if (CheckFeatureSupport(Feature.RootSignature, &featureData, (uint)sizeof(FeatureDataRootSignature)).Failure)
                 {
                     _highestRootSignatureVersion = RootSignatureVersion.Version11;
                 }
@@ -104,7 +104,7 @@ public unsafe partial class ID3D12Device
     public T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
     {
         T featureSupport = default;
-        CheckFeatureSupport(feature, &featureSupport, sizeof(T));
+        CheckFeatureSupport(feature, &featureSupport, (uint)sizeof(T));
         return featureSupport;
     }
 
@@ -112,7 +112,7 @@ public unsafe partial class ID3D12Device
     {
         fixed (T* featureSupportPtr = &featureSupport)
         {
-            return CheckFeatureSupport(feature, featureSupportPtr, sizeof(T)).Success;
+            return CheckFeatureSupport(feature, featureSupportPtr, (uint)sizeof(T)).Success;
         }
     }
 
@@ -124,12 +124,12 @@ public unsafe partial class ID3D12Device
         {
             var featureData = new FeatureDataFeatureLevels
             {
-                NumFeatureLevels = featureLevels.Length,
+                NumFeatureLevels = (uint)featureLevels.Length,
                 FeatureLevelsRequested = new IntPtr(levelsPtr),
                 MaxSupportedFeatureLevel = FeatureLevel.Level_11_0
             };
 
-            if (CheckFeatureSupport(Feature.FeatureLevels, &featureData, sizeof(FeatureDataFeatureLevels)).Success)
+            if (CheckFeatureSupport(Feature.FeatureLevels, &featureData, (uint)sizeof(FeatureDataFeatureLevels)).Success)
             {
                 return featureData.MaxSupportedFeatureLevel;
             }
@@ -274,7 +274,7 @@ public unsafe partial class ID3D12Device
             HighestShaderModel = highestShaderModel
         };
 
-        if (CheckFeatureSupport(Feature.ShaderModel, &featureData, sizeof(FeatureDataShaderModel)).Success)
+        if (CheckFeatureSupport(Feature.ShaderModel, &featureData, (uint)sizeof(FeatureDataShaderModel)).Success)
         {
             return featureData.HighestShaderModel;
         }
@@ -289,7 +289,7 @@ public unsafe partial class ID3D12Device
             HighestVersion = highestVersion
         };
 
-        if (CheckFeatureSupport(Feature.RootSignature, &featureData, sizeof(FeatureDataRootSignature)).Success)
+        if (CheckFeatureSupport(Feature.RootSignature, &featureData, (uint)sizeof(FeatureDataRootSignature)).Success)
         {
             return featureData.HighestVersion;
         }
@@ -304,7 +304,7 @@ public unsafe partial class ID3D12Device
             Format = format
         };
 
-        if (CheckFeatureSupport(Feature.FormatSupport, &featureData, sizeof(FeatureDataFormatSupport)).Failure)
+        if (CheckFeatureSupport(Feature.FormatSupport, &featureData, (uint)sizeof(FeatureDataFormatSupport)).Failure)
         {
             formatSupport1 = FormatSupport1.None;
             formatSupport2 = FormatSupport2.None;
@@ -316,7 +316,7 @@ public unsafe partial class ID3D12Device
         return true;
     }
 
-    public int CheckMultisampleQualityLevels(Format format, int sampleCount, MultisampleQualityLevelFlags flags = MultisampleQualityLevelFlags.None)
+    public uint CheckMultisampleQualityLevels(Format format, uint sampleCount, MultisampleQualityLevelFlags flags = MultisampleQualityLevelFlags.None)
     {
         FeatureDataMultisampleQualityLevels featureData = new()
         {
@@ -325,7 +325,7 @@ public unsafe partial class ID3D12Device
             Flags = flags
         };
 
-        if (CheckFeatureSupport(Feature.MultisampleQualityLevels, &featureData, sizeof(FeatureDataMultisampleQualityLevels)).Failure)
+        if (CheckFeatureSupport(Feature.MultisampleQualityLevels, &featureData, (uint)sizeof(FeatureDataMultisampleQualityLevels)).Failure)
         {
             return 0;
         }
@@ -340,7 +340,7 @@ public unsafe partial class ID3D12Device
             Format = format
         };
 
-        if (CheckFeatureSupport(Feature.FormatInfo, &featureData, sizeof(FeatureDataFormatInfo)).Failure)
+        if (CheckFeatureSupport(Feature.FormatInfo, &featureData, (uint)sizeof(FeatureDataFormatInfo)).Failure)
         {
             return 0;
         }
@@ -355,7 +355,7 @@ public unsafe partial class ID3D12Device
             CommandListType = commandListType,
         };
 
-        if (CheckFeatureSupport(Feature.CommandQueuePriority, &featureData, sizeof(FeatureDataFormatInfo)).Failure)
+        if (CheckFeatureSupport(Feature.CommandQueuePriority, &featureData, (uint)sizeof(FeatureDataFormatInfo)).Failure)
         {
             return default;
         }
@@ -552,12 +552,12 @@ public unsafe partial class ID3D12Device
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateCommandQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
+    public T CreateCommandQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, uint nodeMask = 0) where T : ID3D12CommandQueue
     {
         return CreateCommandQueue<T>(new CommandQueueDescription(type, priority, flags, nodeMask));
     }
 
-    public T CreateCommandQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0) where T : ID3D12CommandQueue
+    public T CreateCommandQueue<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, uint nodeMask = 0) where T : ID3D12CommandQueue
     {
         return CreateCommandQueue<T>(new CommandQueueDescription(type, priority, flags, nodeMask));
     }
@@ -581,12 +581,12 @@ public unsafe partial class ID3D12Device
         return new ID3D12CommandQueue(nativePtr);
     }
 
-    public ID3D12CommandQueue CreateCommandQueue(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
+    public ID3D12CommandQueue CreateCommandQueue(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, uint nodeMask = 0)
     {
         return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask));
     }
 
-    public ID3D12CommandQueue CreateCommandQueue(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
+    public ID3D12CommandQueue CreateCommandQueue(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, uint nodeMask = 0)
     {
         return CreateCommandQueue(new CommandQueueDescription(type, priority, flags, nodeMask));
     }
@@ -680,13 +680,13 @@ public unsafe partial class ID3D12Device
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateCommandList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState? initialState = default) where T : ID3D12CommandList
+    public T CreateCommandList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState? initialState = default) where T : ID3D12CommandList
     {
         CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result CreateCommandList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState, out T? commandList) where T : ID3D12CommandList
+    public Result CreateCommandList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint nodeMask, CommandListType type, ID3D12CommandAllocator commandAllocator, ID3D12PipelineState initialState, out T? commandList) where T : ID3D12CommandList
     {
         Result result = CreateCommandList(nodeMask, type, commandAllocator, initialState, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -763,7 +763,7 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region CreateRootSignature
-    public Result CreateRootSignature(int nodeMask, nint blobWithRootSignature, nuint blobLengthInBytes, out ID3D12RootSignature? rootSignature)
+    public Result CreateRootSignature(uint nodeMask, nint blobWithRootSignature, nuint blobLengthInBytes, out ID3D12RootSignature? rootSignature)
     {
         Result result = CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(ID3D12RootSignature).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -776,12 +776,12 @@ public unsafe partial class ID3D12Device
         return result;
     }
 
-    public Result CreateRootSignature(int nodeMask, Blob blob, out ID3D12RootSignature? rootSignature) 
+    public Result CreateRootSignature(uint nodeMask, Blob blob, out ID3D12RootSignature? rootSignature) 
     {
         return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize, out rootSignature);
     }
 
-    public Result CreateRootSignature(int nodeMask, byte[] blobWithRootSignature, out ID3D12RootSignature? rootSignature)
+    public Result CreateRootSignature(uint nodeMask, byte[] blobWithRootSignature, out ID3D12RootSignature? rootSignature)
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {
@@ -789,18 +789,18 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public ID3D12RootSignature CreateRootSignature(int nodeMask, nint blobWithRootSignature, nuint blobLengthInBytes) 
+    public ID3D12RootSignature CreateRootSignature(uint nodeMask, nint blobWithRootSignature, nuint blobLengthInBytes) 
     {
         CreateRootSignature(nodeMask, blobWithRootSignature, blobLengthInBytes, typeof(ID3D12RootSignature).GUID, out IntPtr nativePtr).CheckError();
         return new(nativePtr)!;
     }
 
-    public ID3D12RootSignature CreateRootSignature(int nodeMask, Blob blob)
+    public ID3D12RootSignature CreateRootSignature(uint nodeMask, Blob blob)
     {
         return CreateRootSignature(nodeMask, blob.BufferPointer, blob.BufferSize);
     }
 
-    public ID3D12RootSignature CreateRootSignature(int nodeMask, byte[] blobWithRootSignature) 
+    public ID3D12RootSignature CreateRootSignature(uint nodeMask, byte[] blobWithRootSignature) 
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {
@@ -808,7 +808,7 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public ID3D12RootSignature CreateRootSignature(int nodeMask, Span<byte> blobWithRootSignature)
+    public ID3D12RootSignature CreateRootSignature(uint nodeMask, Span<byte> blobWithRootSignature)
     {
         fixed (void* pBuffer = blobWithRootSignature)
         {
@@ -848,7 +848,7 @@ public unsafe partial class ID3D12Device
         return CreateRootSignature(0, description, version);
     }
 
-    public ID3D12RootSignature CreateRootSignature(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version)
+    public ID3D12RootSignature CreateRootSignature(uint nodeMask, in RootSignatureDescription description, RootSignatureVersion version)
     {
         Result result = D3D12.D3D12SerializeRootSignature(description, version, out Blob blob, out Blob errorBlob);
         if (result.Failure || blob is null)
@@ -873,7 +873,7 @@ public unsafe partial class ID3D12Device
         }
     }
 
-    public Result CreateRootSignature(int nodeMask, in RootSignatureDescription description, RootSignatureVersion version, out ID3D12RootSignature? rootSignature)
+    public Result CreateRootSignature(uint nodeMask, in RootSignatureDescription description, RootSignatureVersion version, out ID3D12RootSignature? rootSignature)
     {
         Result result = D3D12.D3D12SerializeRootSignature(description, version, out Blob blob, out Blob errorBlob);
         if (result.Failure || blob is null)
@@ -913,7 +913,7 @@ public unsafe partial class ID3D12Device
     }
 
 
-    public ID3D12RootSignature CreateRootSignature(int nodeMask, in RootSignatureDescription1 description) 
+    public ID3D12RootSignature CreateRootSignature(uint nodeMask, in RootSignatureDescription1 description) 
     {
         return CreateRootSignature(nodeMask, new VersionedRootSignatureDescription(description));
     }
@@ -923,7 +923,7 @@ public unsafe partial class ID3D12Device
         return CreateRootSignature(0, description);
     }
 
-    public ID3D12RootSignature CreateRootSignature(int nodeMask, in VersionedRootSignatureDescription description)
+    public ID3D12RootSignature CreateRootSignature(uint nodeMask, in VersionedRootSignatureDescription description)
     {
         CreateRootSignature(nodeMask, description, out ID3D12RootSignature? rootSignature).CheckError();
         return rootSignature!;
@@ -934,7 +934,7 @@ public unsafe partial class ID3D12Device
         return CreateRootSignature(0, new VersionedRootSignatureDescription(description), out rootSignature);
     }
 
-    public Result CreateRootSignature(int nodeMask, in RootSignatureDescription1 description, out ID3D12RootSignature? rootSignature)
+    public Result CreateRootSignature(uint nodeMask, in RootSignatureDescription1 description, out ID3D12RootSignature? rootSignature)
     {
         return CreateRootSignature(0, new VersionedRootSignatureDescription(description), out rootSignature);
     }
@@ -944,7 +944,7 @@ public unsafe partial class ID3D12Device
         return CreateRootSignature(0, description, out rootSignature);
     }
 
-    public Result CreateRootSignature(int nodeMask, in VersionedRootSignatureDescription description, out ID3D12RootSignature? rootSignature)
+    public Result CreateRootSignature(uint nodeMask, in VersionedRootSignatureDescription description, out ID3D12RootSignature? rootSignature)
     {
         Result result = SerializeRootSignature(in description, out Blob? signature, out Blob? errorBlob);
 
@@ -1263,36 +1263,36 @@ public unsafe partial class ID3D12Device
     #region CopyDescriptors
 
     public unsafe void CopyDescriptors(
-        int numDestDescriptorRanges,
+        uint numDestDescriptorRanges,
         CpuDescriptorHandle[] destDescriptorRangeStarts,
-        int[] destDescriptorRangeSizes,
-        int numSrcDescriptorRanges,
+        uint[] destDescriptorRangeSizes,
+        uint numSrcDescriptorRanges,
         CpuDescriptorHandle[] srcDescriptorRangeStarts,
-        int[] srcDescriptorRangeSizes,
+        uint[] srcDescriptorRangeSizes,
         DescriptorHeapType descriptorHeapsType)
     {
         fixed (CpuDescriptorHandle* pDestDescriptorRangeStarts = destDescriptorRangeStarts)
-        fixed (int* pDestDescriptorRangeSizes = destDescriptorRangeSizes)
+        fixed (uint* pDestDescriptorRangeSizes = destDescriptorRangeSizes)
         fixed (CpuDescriptorHandle* pSrcDescriptorRangeStarts = srcDescriptorRangeStarts)
-        fixed (int* pSrcDescriptorRangeSizes = srcDescriptorRangeSizes)
+        fixed (uint* pSrcDescriptorRangeSizes = srcDescriptorRangeSizes)
             CopyDescriptors(numDestDescriptorRanges, pDestDescriptorRangeStarts, pDestDescriptorRangeSizes,
                 numSrcDescriptorRanges, pSrcDescriptorRangeStarts, pSrcDescriptorRangeSizes,
                 descriptorHeapsType);
     }
 
     public unsafe void CopyDescriptors(
-        int numDestDescriptorRanges,
+        uint numDestDescriptorRanges,
         ReadOnlySpan<CpuDescriptorHandle> destDescriptorRangeStarts,
-        ReadOnlySpan<int> destDescriptorRangeSizes,
-        int numSrcDescriptorRanges,
+        ReadOnlySpan<uint> destDescriptorRangeSizes,
+        uint numSrcDescriptorRanges,
         ReadOnlySpan<CpuDescriptorHandle> srcDescriptorRangeStarts,
-        ReadOnlySpan<int> srcDescriptorRangeSizes,
+        ReadOnlySpan<uint> srcDescriptorRangeSizes,
         DescriptorHeapType descriptorHeapsType)
     {
         fixed (CpuDescriptorHandle* pDestDescriptorRangeStarts = destDescriptorRangeStarts)
-        fixed (int* pDestDescriptorRangeSizes = destDescriptorRangeSizes)
+        fixed (uint* pDestDescriptorRangeSizes = destDescriptorRangeSizes)
         fixed (CpuDescriptorHandle* pSrcDescriptorRangeStarts = srcDescriptorRangeStarts)
-        fixed (int* pSrcDescriptorRangeSizes = srcDescriptorRangeSizes)
+        fixed (uint* pSrcDescriptorRangeSizes = srcDescriptorRangeSizes)
             CopyDescriptors(numDestDescriptorRanges, pDestDescriptorRangeStarts, pDestDescriptorRangeSizes,
                 numSrcDescriptorRanges, pSrcDescriptorRangeStarts, pSrcDescriptorRangeSizes,
                 descriptorHeapsType);
@@ -1301,7 +1301,7 @@ public unsafe partial class ID3D12Device
     #endregion
 
     #region GetCopyableFootprints
-    public ulong GetRequiredIntermediateSize(ID3D12Resource resource, int firstSubresource, int numSubresources)
+    public ulong GetRequiredIntermediateSize(ID3D12Resource resource, uint firstSubresource, uint numSubresources)
     {
         ResourceDescription desc = resource.GetDescription();
         GetCopyableFootprints(desc, firstSubresource, numSubresources, 0, out ulong requiredSize);
@@ -1310,11 +1310,11 @@ public unsafe partial class ID3D12Device
 
     public void GetCopyableFootprints(
         ResourceDescription resourceDesc,
-        int firstSubresource,
-        int numSubresources,
+        uint firstSubresource,
+        uint numSubresources,
         ulong baseOffset,
         PlacedSubresourceFootPrint* pLayouts,
-        int* pNumRows,
+        uint* pNumRows,
         ulong* pRowSizeInBytes,
         out ulong totalBytes)
     {
@@ -1324,8 +1324,8 @@ public unsafe partial class ID3D12Device
 
     public void GetCopyableFootprints(
         ResourceDescription resourceDesc,
-        int firstSubresource,
-        int numSubresources,
+        uint firstSubresource,
+        uint numSubresources,
         ulong baseOffset,
         out ulong totalBytes)
     {
@@ -1333,16 +1333,16 @@ public unsafe partial class ID3D12Device
     }
 
     public void GetCopyableFootprints(ResourceDescription resourceDesc,
-        int firstSubresource,
-        int numSubresources,
+        uint firstSubresource,
+        uint numSubresources,
         ulong baseOffset,
         PlacedSubresourceFootPrint[] layouts,
-        int[] numRows,
+        uint[] numRows,
         ulong[] rowSizeInBytes,
         out ulong totalBytes)
     {
         fixed (PlacedSubresourceFootPrint* pLayouts = layouts)
-        fixed (int* pNumRows = numRows)
+        fixed (uint* pNumRows = numRows)
         fixed (ulong* pRowSizeInBytes = rowSizeInBytes)
         {
             GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, pLayouts, pNumRows, pRowSizeInBytes, out totalBytes);
@@ -1351,16 +1351,16 @@ public unsafe partial class ID3D12Device
 
     public void GetCopyableFootprints(
         ResourceDescription resourceDesc,
-        int firstSubresource,
-        int numSubresources,
+        uint firstSubresource,
+        uint numSubresources,
         ulong baseOffset,
         Span<PlacedSubresourceFootPrint> layouts,
-        Span<int> numRows,
+        Span<uint> numRows,
         Span<ulong> rowSizeInBytes,
         out ulong totalBytes)
     {
         fixed (PlacedSubresourceFootPrint* pLayouts = layouts)
-        fixed (int* pNumRows = numRows)
+        fixed (uint* pNumRows = numRows)
         fixed (ulong* pRowSizeInBytes = rowSizeInBytes)
         {
             GetCopyableFootprints(resourceDesc, firstSubresource, numSubresources, baseOffset, pLayouts, pNumRows, pRowSizeInBytes, out totalBytes);
@@ -1432,7 +1432,7 @@ public unsafe partial class ID3D12Device
     /// <param name="objects"></param>
     public void Evict(params ID3D12Pageable[] objects)
     {
-        Evict(objects.Length, objects);
+        Evict((uint)objects.Length, objects);
     }
 
     /// <summary>
@@ -1441,16 +1441,16 @@ public unsafe partial class ID3D12Device
     /// <param name="objects"></param>
     public void MakeResident(params ID3D12Pageable[] objects)
     {
-        MakeResident(objects.Length, objects);
+        MakeResident((uint)objects.Length, objects);
     }
 
-    public ResourceAllocationInfo GetResourceAllocationInfo(int visibleMask, params ResourceDescription[] resourceDescriptions)
+    public ResourceAllocationInfo GetResourceAllocationInfo(uint visibleMask, params ResourceDescription[] resourceDescriptions)
     {
-        return GetResourceAllocationInfo(visibleMask, resourceDescriptions.Length, resourceDescriptions);
+        return GetResourceAllocationInfo(visibleMask, (uint)resourceDescriptions.Length, resourceDescriptions);
     }
 
     public ResourceAllocationInfo GetResourceAllocationInfo(params ResourceDescription[] resourceDescriptions)
     {
-        return GetResourceAllocationInfo(0, resourceDescriptions.Length, resourceDescriptions);
+        return GetResourceAllocationInfo(0, (uint)resourceDescriptions.Length, resourceDescriptions);
     }
 }

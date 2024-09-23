@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Direct3D;
@@ -267,7 +267,7 @@ public static unsafe partial class D3D12
         return errorString;
     }
 
-    public static Result D3D12EnableExperimentalFeatures(int numFeatures, Span<Guid> features)
+    public static Result D3D12EnableExperimentalFeatures(uint numFeatures, Span<Guid> features)
     {
         fixed (Guid* pIIDs = features)
             return (Result)D3D12EnableExperimentalFeatures_(numFeatures, pIIDs, null, null);
@@ -276,7 +276,7 @@ public static unsafe partial class D3D12
     public static Result D3D12EnableExperimentalFeatures(Span<Guid> features)
     {
         fixed (Guid* pIIDs = features)
-            return (Result)D3D12EnableExperimentalFeatures_(features.Length, pIIDs, null, null);
+            return (Result)D3D12EnableExperimentalFeatures_((uint)features.Length, pIIDs, null, null);
     }
 
     public static Result D3D12EnableExperimentalFeatures<T>(Span<Guid> features, Span<T> configurationStructs)
@@ -294,7 +294,7 @@ public static unsafe partial class D3D12
         fixed (Guid* pIIDs = features)
         fixed (void* pConfigurationStructs = configurationStructs)
         fixed (int* pConfigurationStructSizes = configurationStructSizes)
-            return (Result)D3D12EnableExperimentalFeatures_(features.Length, pIIDs, pConfigurationStructs, pConfigurationStructSizes);
+            return (Result)D3D12EnableExperimentalFeatures_((uint)features.Length, pIIDs, pConfigurationStructs, pConfigurationStructSizes);
     }
 
     private static Result D3D12CreateVersionedRootSignatureDeserializer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(

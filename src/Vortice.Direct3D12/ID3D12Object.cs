@@ -16,7 +16,7 @@ public partial class ID3D12Object
         get
         {
             byte* pname = stackalloc byte[1024];
-            int size = 1024 - 1;
+            uint size = 1024 - 1;
             if (GetPrivateData(CommonGuid.DebugObjectNameW, ref size, pname).Failure)
             {
                 return string.Empty;

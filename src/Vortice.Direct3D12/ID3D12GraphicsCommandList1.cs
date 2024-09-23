@@ -20,10 +20,10 @@ public partial class ID3D12GraphicsCommandList1
     /// <param name="resolveMode">Specifies the operation used to resolve the source samples.</param>
     public void ResolveSubresourceRegion(
         ID3D12Resource dstResource,
-        int dstSubresource,
-        int dstX, int dstY,
+        uint dstSubresource,
+        uint dstX, uint dstY,
         ID3D12Resource srcResource,
-        int srcSubresource,
+        uint srcSubresource,
         Format format,
         ResolveMode resolveMode = ResolveMode.Decompress)
     {
@@ -47,10 +47,10 @@ public partial class ID3D12GraphicsCommandList1
     /// <param name="resolveMode">Specifies the operation used to resolve the source samples.</param>
     public void ResolveSubresourceRegion(
         ID3D12Resource dstResource,
-        int dstSubresource,
-        int dstX, int dstY,
+        uint dstSubresource,
+        uint dstX, uint dstY,
         ID3D12Resource srcResource,
-        int srcSubresource,
+        uint srcSubresource,
         RawRect srcRect,
         Format format,
         ResolveMode resolveMode = ResolveMode.Decompress)

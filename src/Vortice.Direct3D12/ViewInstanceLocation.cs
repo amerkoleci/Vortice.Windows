@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -18,7 +18,7 @@ public partial struct ViewInstanceLocation
     /// </summary>
     /// <param name="viewportArrayIndex">The index of the viewport in the viewports array to be used by the view instance associated with this location.</param>
     /// <param name="renderTargetArrayIndex">The index of the render target in the render targets array to be used by the view instance associated with this location.</param>
-    public ViewInstanceLocation(int viewportArrayIndex, int renderTargetArrayIndex)
+    public ViewInstanceLocation(uint viewportArrayIndex, uint renderTargetArrayIndex)
     {
         ViewportArrayIndex = viewportArrayIndex;
         RenderTargetArrayIndex = renderTargetArrayIndex;

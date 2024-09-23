@@ -15,10 +15,10 @@ public partial struct DescriptorRange1
     /// <param name="offsetInDescriptorsFromTableStart">The offset in descriptors from the start of the root signature. This value can be <see cref="D3D12.DescriptorRangeOffsetAppend"/>, which indicates this range should immediately follow the preceding range.</param>
     /// <param name="flags">Specifies the <see cref="DescriptorRangeFlags"/> that determine descriptor and data volatility.</param>
     public DescriptorRange1(DescriptorRangeType rangeType,
-        int numDescriptors,
-        int baseShaderRegister,
-        int registerSpace = 0,
-        int offsetInDescriptorsFromTableStart = D3D12.DescriptorRangeOffsetAppend,
+        uint numDescriptors,
+        uint baseShaderRegister,
+        uint registerSpace = 0,
+        uint offsetInDescriptorsFromTableStart = D3D12.DescriptorRangeOffsetAppend,
         DescriptorRangeFlags flags = DescriptorRangeFlags.None)
     {
         RangeType = rangeType;

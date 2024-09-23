@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -20,17 +20,17 @@ public partial class RootDescriptorTable1
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal struct __Native
+    internal unsafe struct __Native
     {
         public int NumDescriptorRanges;
-        public IntPtr PDescriptorRanges;
+        public void* PDescriptorRanges;
     }
 
     internal unsafe void __MarshalFree(ref __Native @ref)
     {
-        if (@ref.PDescriptorRanges != IntPtr.Zero)
+        if (@ref.PDescriptorRanges != null)
         {
-            Marshal.FreeHGlobal(@ref.PDescriptorRanges);
+            NativeMemory.Free(@ref.PDescriptorRanges);
         }
     }
 

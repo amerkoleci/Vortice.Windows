@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -17,10 +17,10 @@ public partial struct RenderPassEndingAccessResolveSubresourceParameters
     /// <param name="dstY">The y coordinate within the destination subresource.</param>
     /// <param name="srcRect">The <see cref="RawRect"/> within the source subresource.</param>
     public RenderPassEndingAccessResolveSubresourceParameters(
-        int srcSubresource,
-        int dstSubresource,
-        int dstX,
-        int dstY,
+        uint srcSubresource,
+        uint dstSubresource,
+        uint dstX,
+        uint dstY,
         RawRect srcRect)
     {
         SrcSubresource = srcSubresource;

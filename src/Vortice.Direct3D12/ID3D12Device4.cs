@@ -12,7 +12,7 @@ public partial class ID3D12Device4
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public T CreateCommandList1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12CommandList
+    public T CreateCommandList1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint nodeMask, CommandListType type, CommandListFlags commandListFlags = CommandListFlags.None) where T : ID3D12CommandList
     {
         CreateCommandList1(nodeMask, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -23,7 +23,7 @@ public partial class ID3D12Device4
         return CreateCommandList1<T>(0, type, commandListFlags, out commandList);
     }
 
-    public Result CreateCommandList1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int nodeMask, CommandListType type, CommandListFlags commandListFlags, out T? commandList) where T : ID3D12CommandList
+    public Result CreateCommandList1<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint nodeMask, CommandListType type, CommandListFlags commandListFlags, out T? commandList) where T : ID3D12CommandList
     {
         Result result = CreateCommandList1(nodeMask, type, commandListFlags, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

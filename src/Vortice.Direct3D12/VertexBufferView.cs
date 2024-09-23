@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -14,7 +14,7 @@ public partial struct VertexBufferView
     /// <param name="bufferLocation">Specifies a gpu virtual address that identifies the address of the buffer.</param>
     /// <param name="sizeInBytes">Specifies the size in bytes of the buffer.</param>
     /// <param name="strideInBytes">Specifies the size in bytes of each vertex entry.</param>
-    public VertexBufferView(ulong bufferLocation, int sizeInBytes, int strideInBytes)
+    public VertexBufferView(ulong bufferLocation, uint sizeInBytes, uint strideInBytes)
     {
         BufferLocation = bufferLocation;
         SizeInBytes = sizeInBytes;

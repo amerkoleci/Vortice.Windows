@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -20,7 +20,7 @@ public partial struct TextureCopyLocation
         set => _union.PlacedFootprint = value;
     }
 
-    public int SubresourceIndex
+    public uint SubresourceIndex
     {
         get => _union.SubResourceIndex;
         set => _union.SubResourceIndex = value;
@@ -31,7 +31,7 @@ public partial struct TextureCopyLocation
     /// </summary>
     /// <param name="resource">Instance of <see cref="ID3D12Resource"/></param>
     /// <param name="subresourceIndex">Sub resource index.</param>
-    public TextureCopyLocation(ID3D12Resource resource, int subresourceIndex = 0)
+    public TextureCopyLocation(ID3D12Resource resource, uint subresourceIndex = 0)
         : this()
     {
         _type = TextureCopyType.SubresourceIndex;
@@ -64,7 +64,7 @@ public partial struct TextureCopyLocation
         public PlacedSubresourceFootPrint PlacedFootprint;
 
         [FieldOffset(0)]
-        public int SubResourceIndex;
+        public uint SubResourceIndex;
     }
     #endregion
 }

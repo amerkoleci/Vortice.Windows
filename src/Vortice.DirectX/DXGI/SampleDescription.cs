@@ -21,5 +21,5 @@ public partial struct SampleDescription
         Quality = quality;
     }
 
-    public override string ToString() => $"Count: {Count}, Quality: {Quality}";
+    public override readonly string ToString() => $"Count: {Count}, Quality: {Quality}";
 }

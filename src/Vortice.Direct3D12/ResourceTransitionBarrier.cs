@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -13,7 +13,7 @@ public partial struct ResourceTransitionBarrier
     /// <param name="stateAfter">The state after.</param>
     /// <param name="subresource">The subresource.</param>
     /// <exception cref="System.ArgumentNullException">resource</exception>
-    public ResourceTransitionBarrier(ID3D12Resource resource, ResourceStates stateBefore, ResourceStates stateAfter, int subresource = D3D12.ResourceBarrierAllSubResources)
+    public ResourceTransitionBarrier(ID3D12Resource resource, ResourceStates stateBefore, ResourceStates stateAfter, uint subresource = D3D12.ResourceBarrierAllSubResources)
     {
         ResourcePointer = resource.NativePointer;
         Subresource = subresource;

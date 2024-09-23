@@ -19,7 +19,7 @@ public partial class IDMLBindingTable
     /// </param>
     public void BindInputs(params BindingDescription[]? descriptions)
     {
-        BindInputs(descriptions?.Length ?? 0, descriptions);
+        BindInputs((uint)(descriptions?.Length ?? 0), descriptions);
     }
 
     /// <summary>
@@ -36,6 +36,6 @@ public partial class IDMLBindingTable
     /// </param>
     public void BindOutputs(params BindingDescription[]? descriptions)
     {
-        BindOutputs(descriptions?.Length ?? 0, descriptions);
+        BindOutputs((uint)(descriptions?.Length ?? 0), descriptions);
     }
 }

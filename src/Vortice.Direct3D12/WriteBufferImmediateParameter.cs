@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -13,7 +13,7 @@ public partial struct WriteBufferImmediateParameter
     /// </summary>
     /// <param name="destination">The GPU virtual address at which to write the value. The address must be aligned to a 32-bit (4-byte) boundary.</param>
     /// <param name="value">The 32-bit value to write.</param>
-    public WriteBufferImmediateParameter(ulong destination, int value)
+    public WriteBufferImmediateParameter(ulong destination, uint value)
     {
         Dest = destination;
         Value = value;

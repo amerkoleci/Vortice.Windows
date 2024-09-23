@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -14,7 +14,7 @@ public partial struct RootConstants
     /// <param name="shaderRegister">The shader register.</param>
     /// <param name="registerSpace">The register space.</param>
     /// <param name="num32BitValues">The number of constants that occupy a single shader slot (these constants appear like a single constant buffer). All constants occupy a single root signature bind slot.</param>
-    public RootConstants(int shaderRegister, int registerSpace, int num32BitValues)
+    public RootConstants(uint shaderRegister, uint registerSpace, uint num32BitValues)
     {
         ShaderRegister = shaderRegister;
         RegisterSpace = registerSpace;

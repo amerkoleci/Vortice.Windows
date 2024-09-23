@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -12,7 +12,7 @@ public partial struct TileRegionSize
     /// Initializes a new instance of the <see cref="TileRegionSize"/> struct.
     /// </summary>
     /// <param name="numTiles">The number of tiles in the tiled region.</param>
-    public TileRegionSize(int numTiles)
+    public TileRegionSize(uint numTiles)
     {
         NumTiles = numTiles;
         UseBox = false;
@@ -25,7 +25,7 @@ public partial struct TileRegionSize
     /// <param name="width"></param>
     /// <param name="height"></param>
     /// <param name="depth"></param>
-    public TileRegionSize(int width, ushort height, ushort depth)
+    public TileRegionSize(uint width, ushort height, ushort depth)
     {
         Width = width >= 1 ? width : 1;
         Height = height >= 1 ? height : (ushort)1;

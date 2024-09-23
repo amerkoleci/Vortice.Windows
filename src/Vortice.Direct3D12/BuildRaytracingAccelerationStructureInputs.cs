@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
@@ -15,7 +15,7 @@ public partial class BuildRaytracingAccelerationStructureInputs
 
     public RaytracingAccelerationStructureBuildFlags Flags { get; set; }
 
-    public int DescriptorsCount { get; set; }
+    public uint DescriptorsCount { get; set; }
 
     public ElementsLayout Layout { get; set; }
 
@@ -25,20 +25,19 @@ public partial class BuildRaytracingAccelerationStructureInputs
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal struct __Native
+    internal unsafe struct __Native
     {
         public RaytracingAccelerationStructureType Type;
         public RaytracingAccelerationStructureBuildFlags Flags;
-        public int NumDescs;
+        public uint NumDescs;
         public ElementsLayout DescsLayout;
         public Union Union;
 
         internal void __MarshalFree()
         {
-            if (Type == RaytracingAccelerationStructureType.BottomLevel
-                && Union.pGeometryDescs != IntPtr.Zero)
+            if (Type == RaytracingAccelerationStructureType.BottomLevel && Union.pGeometryDescs != null)
             {
-                Marshal.FreeHGlobal(Union.pGeometryDescs);
+                NativeMemory.Free(Union.pGeometryDescs);
             }
         }
     }
@@ -50,7 +49,7 @@ public partial class BuildRaytracingAccelerationStructureInputs
         public ulong InstanceDescs;
 
         [FieldOffset(0)]
-        public IntPtr pGeometryDescs;
+        public void* pGeometryDescs;
     }
 
     internal void __MarshalFree(ref __Native @ref)
@@ -69,7 +68,7 @@ public partial class BuildRaytracingAccelerationStructureInputs
         {
             if (@ref.Type == RaytracingAccelerationStructureType.TopLevel)
             {
-                InstanceDescriptions = Unsafe.Read<ulong>(@ref.Union.pGeometryDescs.ToPointer());
+                InstanceDescriptions = Unsafe.Read<ulong>(@ref.Union.pGeometryDescs);
             }
             else
             {
@@ -79,7 +78,7 @@ public partial class BuildRaytracingAccelerationStructureInputs
         }
     }
 
-    internal void __MarshalTo(ref __Native @ref)
+    internal unsafe void __MarshalTo(ref __Native @ref)
     {
         @ref.Type = Type;
         @ref.Flags = Flags;

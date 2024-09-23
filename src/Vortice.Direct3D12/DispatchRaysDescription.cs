@@ -42,9 +42,9 @@ public partial struct DispatchRaysDescription
         GpuVirtualAddressRangeAndStride missShaderTable,
         GpuVirtualAddressRangeAndStride hitGroupTable,
         GpuVirtualAddressRangeAndStride callableShaderTable,
-        int width,
-        int height,
-        int depth
+        uint width,
+        uint height,
+        uint depth
         )
     {
         RayGenerationShaderRecord = rayGenerationShaderRecord;

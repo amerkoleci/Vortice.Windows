@@ -15,7 +15,7 @@ public partial struct DrawArguments
     /// <param name="instanceCount">Specifies the number of instances.</param>
     /// <param name="startVertexLocation">Specifies an index to the first vertex to start drawing from.</param>
     /// <param name="startInstanceLocation">Specifies an index to the first instance to start drawing from.</param>
-    public DrawArguments(int vertexCountPerInstance, int instanceCount, int startVertexLocation, int startInstanceLocation)
+    public DrawArguments(uint vertexCountPerInstance, uint instanceCount, uint startVertexLocation, uint startInstanceLocation)
     {
         VertexCountPerInstance = vertexCountPerInstance;
         InstanceCount = instanceCount;

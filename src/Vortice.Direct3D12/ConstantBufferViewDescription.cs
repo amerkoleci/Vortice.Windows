@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -13,7 +13,7 @@ public partial struct ConstantBufferViewDescription
     /// </summary>
     /// <param name="bufferLocation">The gpu virtual address of the constant buffer.</param>
     /// <param name="sizeInBytes">The size in bytes of the constant buffer.</param>
-    public ConstantBufferViewDescription(ulong bufferLocation, int sizeInBytes)
+    public ConstantBufferViewDescription(ulong bufferLocation, uint sizeInBytes)
     {
         BufferLocation = bufferLocation;
         SizeInBytes = sizeInBytes;
@@ -24,9 +24,9 @@ public partial struct ConstantBufferViewDescription
     /// </summary>
     /// <param name="resource">The <see cref="ID3D12Resource"/> to get gpu virtual address.</param>
     /// <param name="sizeInBytes">The size in bytes of the constant buffer.</param>
-    public ConstantBufferViewDescription(ID3D12Resource resource, int sizeInBytes = 0)
+    public ConstantBufferViewDescription(ID3D12Resource resource, uint sizeInBytes = 0)
     {
         BufferLocation = resource.GPUVirtualAddress;
-        SizeInBytes = sizeInBytes == 0 ? (int)resource.Description.Width : sizeInBytes;
+        SizeInBytes = sizeInBytes == 0 ? (uint)resource.Description.Width : sizeInBytes;
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.DXGI;
@@ -18,7 +18,7 @@ public partial struct SubresourceFootPrint
     /// <param name="height">The height of the subresource.</param>
     /// <param name="depth">The depth of the subresource.</param>
     /// <param name="rowPitch">The row pitch, or width, or physical size, in bytes, of the subresource data. This must be a multiple of <see cref="D3D12.TextureDataPitchAlignment"/> (256), and must be greater than or equal to the size of the data within a row.</param>
-    public SubresourceFootPrint(Format format, int width, int height, int depth, int rowPitch)
+    public SubresourceFootPrint(Format format, uint width, uint height, uint depth, uint rowPitch)
     {
         Format = format;
         Width = width;
@@ -32,12 +32,12 @@ public partial struct SubresourceFootPrint
     /// </summary>
     /// <param name="description">A <see cref="ResourceDescription"/> describing the resource.</param>
     /// <param name="rowPitch">The row pitch, or width, or physical size, in bytes, of the subresource data. This must be a multiple of <see cref="D3D12.TextureDataPitchAlignment"/> (256), and must be greater than or equal to the size of the data within a row.</param>
-    public SubresourceFootPrint(ResourceDescription description, int rowPitch)
+    public SubresourceFootPrint(ResourceDescription description, uint rowPitch)
     {
         Format = description.Format;
-        Width = (int)description.Width;
+        Width = (uint)description.Width;
         Height = description.Height;
-        Depth = (description.Dimension == ResourceDimension.Texture3D ? description.DepthOrArraySize : 1);
+        Depth = (description.Dimension == ResourceDimension.Texture3D ? description.DepthOrArraySize : 1u);
         RowPitch = rowPitch;
     }
 }

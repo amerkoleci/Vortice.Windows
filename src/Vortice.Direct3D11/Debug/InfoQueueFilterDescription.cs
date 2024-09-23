@@ -24,23 +24,23 @@ public partial class InfoQueueFilterDescription
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal struct __Native
+    internal unsafe struct __Native
     {
-        public int NumCategories;
-        public IntPtr PCategoryList;
-        public int NumSeverities;
-        public IntPtr PSeverityList;
-        public int NumIDs;
-        public IntPtr PIDList;
+        public uint NumCategories;
+        public MessageCategory* PCategoryList;
+        public uint NumSeverities;
+        public MessageSeverity* PSeverityList;
+        public uint NumIDs;
+        public MessageId* PIDList;
 
         internal void __MarshalFree()
         {
-            if (PCategoryList != IntPtr.Zero)
-                Marshal.FreeHGlobal(PCategoryList);
-            if (PSeverityList != IntPtr.Zero)
-                Marshal.FreeHGlobal(PSeverityList);
-            if (PIDList != IntPtr.Zero)
-                Marshal.FreeHGlobal(PIDList);
+            if (PCategoryList != null)
+                NativeMemory.Free(PCategoryList);
+            if (PSeverityList != null)
+                NativeMemory.Free(PSeverityList);
+            if (PIDList != null)
+                NativeMemory.Free(PIDList);
         }
     }
 
@@ -74,35 +74,35 @@ public partial class InfoQueueFilterDescription
     {
         if (Categories != null && Categories.Length > 0)
         {
-            @ref.NumCategories = Categories.Length;
+            @ref.NumCategories = (uint)Categories.Length;
             @ref.PCategoryList = UnsafeUtilities.AllocToPointer(Categories);
         }
         else
         {
             @ref.NumCategories = 0;
-            @ref.PCategoryList = IntPtr.Zero;
+            @ref.PCategoryList = null;
         }
 
         if (Severities != null && Severities.Length > 0)
         {
-            @ref.NumSeverities = Severities.Length;
+            @ref.NumSeverities = (uint)Severities.Length;
             @ref.PSeverityList = UnsafeUtilities.AllocToPointer(Severities);
         }
         else
         {
             @ref.NumSeverities = 0;
-            @ref.PSeverityList = IntPtr.Zero;
+            @ref.PSeverityList = null;
         }
 
         if (Ids != null && Ids.Length > 0)
         {
-            @ref.NumIDs = Ids.Length;
+            @ref.NumIDs = (uint)Ids.Length;
             @ref.PIDList = UnsafeUtilities.AllocToPointer(Ids);
         }
         else
         {
             @ref.NumIDs = 0;
-            @ref.PIDList = IntPtr.Zero;
+            @ref.PIDList = null;
         }
     }
     #endregion

@@ -27,7 +27,7 @@ public unsafe partial class ID3D12Device10
                     initialLayout,
                     optimizedClearValue,
                     protectedSession,
-                    castableFormats.Length,
+                    (uint)castableFormats.Length,
                     pCastableFormats,
                     typeof(T).GUID, out IntPtr nativePtr).CheckError();
 
@@ -68,7 +68,8 @@ public unsafe partial class ID3D12Device10
                     ref description,
                     initialLayout,
                     optimizedClearValue,
-                    castableFormats.Length, pCastableFormats,
+                    (uint)castableFormats.Length,
+                    pCastableFormats,
                     typeof(T).GUID, out IntPtr nativePtr).CheckError();
 
                 return MarshallingHelpers.FromPointer<T>(nativePtr)!;
@@ -104,7 +105,7 @@ public unsafe partial class ID3D12Device10
                     initialLayout,
                     optimizedClearValue,
                     protectedSession,
-                    castableFormats.Length,
+                    (uint)castableFormats.Length,
                     pCastableFormats,
                     typeof(T).GUID, out IntPtr nativePtr).CheckError();
 

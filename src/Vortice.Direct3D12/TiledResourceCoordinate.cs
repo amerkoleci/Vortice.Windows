@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -15,7 +15,7 @@ public partial struct TiledResourceCoordinate
     /// <param name="y">The y-coordinate of the tiled resource.</param>
     /// <param name="z">The z-coordinate of the tiled resource.</param>
     /// <param name="subresource">The index of the subresource for the tiled resource.</param>
-    public TiledResourceCoordinate(int x, int y, int z, int subresource = 0)
+    public TiledResourceCoordinate(uint x, uint y, uint z, uint subresource = 0)
     {
         X = x;
         Y = y;

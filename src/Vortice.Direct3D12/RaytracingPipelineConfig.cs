@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
@@ -20,7 +20,7 @@ public partial struct RaytracingPipelineConfig : IStateSubObjectDescription, ISt
     /// Below the maximum recursion depth, shader invocations such as closest hit or miss shaders can call <b>TraceRay</b> any number of times. 
     /// At the maximum recursion depth, <b>TraceRay</b> calls result in the device going into removed state.
     /// </param>
-    public RaytracingPipelineConfig(int maxTraceRecursionDepth)
+    public RaytracingPipelineConfig(uint maxTraceRecursionDepth)
     {
         MaxTraceRecursionDepth = maxTraceRecursionDepth;
     }

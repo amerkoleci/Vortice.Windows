@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -15,7 +15,7 @@ public partial struct StaticSamplerDescription1
     /// <param name="shaderRegister">The shader register.</param>
     /// <param name="registerSpace">The register space.</param>
     /// <param name="flags">The <see cref="SamplerFlags"/>.</param>
-    public StaticSamplerDescription1(ShaderVisibility shaderVisibility, int shaderRegister, int registerSpace, SamplerFlags flags)
+    public StaticSamplerDescription1(ShaderVisibility shaderVisibility, uint shaderRegister, uint registerSpace, SamplerFlags flags)
     {
         Filter = Filter.MinMagMipLinear;
         AddressU = TextureAddressMode.Clamp;
@@ -38,19 +38,19 @@ public partial struct StaticSamplerDescription1
     /// Initializes a new instance of the <see cref="StaticSamplerDescription1"/> struct.
     /// </summary>
     public StaticSamplerDescription1(
-        int shaderRegister,
+        uint shaderRegister,
         Filter filter = Filter.Anisotropic,
         TextureAddressMode addressU = TextureAddressMode.Wrap,
         TextureAddressMode addressV = TextureAddressMode.Wrap,
         TextureAddressMode addressW = TextureAddressMode.Wrap,
         float mipLODBias = 0.0f,
-        int maxAnisotropy = 16,
+        uint maxAnisotropy = 16,
         ComparisonFunction comparisonFunction = ComparisonFunction.LessEqual,
         StaticBorderColor borderColor = StaticBorderColor.OpaqueWhite,
         float minLOD = 0.0f,
         float maxLOD = float.MaxValue,
         ShaderVisibility shaderVisibility = ShaderVisibility.All,
-        int registerSpace = 0,
+        uint registerSpace = 0,
         SamplerFlags flags = SamplerFlags.None)
     {
         Filter = filter;

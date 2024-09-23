@@ -18,7 +18,7 @@ using System.Runtime.InteropServices;
 
 namespace HelloDirect3D12;
 
-public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
+public sealed unsafe partial class D3D12GraphicsDevice : IGraphicsDevice
 {
     private const int RenderLatency = 2;
 
@@ -27,7 +27,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
     private readonly ID3D12Device2 Device;
     private readonly ID3D12InfoQueue1? _infoQueue1;
     private readonly ID3D12DescriptorHeap _rtvDescriptorHeap;
-    private readonly int _rtvDescriptorSize;
+    private readonly uint _rtvDescriptorSize;
     private readonly ID3D12Resource[] _renderTargets;
 
     private readonly Format _depthStencilFormat;
@@ -194,7 +194,7 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
             {
                 _renderTargets[i] = SwapChain.GetBuffer<ID3D12Resource>(i);
                 Device.CreateRenderTargetView(_renderTargets[i], null, rtvHandle);
-                rtvHandle += _rtvDescriptorSize;
+                rtvHandle += (int)_rtvDescriptorSize;
             }
         }
 
@@ -268,19 +268,19 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         _commandList = Device.CreateCommandList<ID3D12GraphicsCommandList4>(CommandListType.Direct, _commandAllocators[0], _pipelineState);
         _commandList.Close();
 
-        int vertexBufferSize = 3 * Unsafe.SizeOf<VertexPositionColor>();
+        ulong vertexBufferSize = 3 * (ulong)sizeof(VertexPositionColor);
 
         _vertexBuffer = Device.CreateCommittedResource(
             HeapType.Upload,
             ResourceDescription.Buffer(vertexBufferSize),
             ResourceStates.GenericRead);
 
-        ReadOnlySpan<VertexPositionColor> triangleVertices = new VertexPositionColor[]
-        {
+        ReadOnlySpan<VertexPositionColor> triangleVertices =
+        [
             new VertexPositionColor(new Vector3(0f, 0.5f, 0.0f), new Color4(1.0f, 0.0f, 0.0f, 1.0f)),
             new VertexPositionColor(new Vector3(0.5f, -0.5f, 0.0f), new Color4(0.0f, 1.0f, 0.0f, 1.0f)),
             new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0.0f), new Color4(0.0f, 0.0f, 1.0f, 1.0f))
-        };
+        ];
 
         _vertexBuffer.SetData(triangleVertices);
 
@@ -411,8 +411,8 @@ public sealed partial class D3D12GraphicsDevice : IGraphicsDevice
         draw(Window.ClientSize.Width, Window.ClientSize.Height);
 
         _commandList.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
-        int stride = Unsafe.SizeOf<VertexPositionColor>();
-        int vertexBufferSize = 3 * stride;
+        uint stride = (uint)sizeof(VertexPositionColor);
+        uint vertexBufferSize = 3 * stride;
         _commandList.IASetVertexBuffers(0, new VertexBufferView(_vertexBuffer.GPUVirtualAddress, vertexBufferSize, stride));
         _commandList.DrawInstanced(3, 1, 0, 0);
 

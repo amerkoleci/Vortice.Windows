@@ -14,7 +14,7 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
         InitOffsetted(in other, offsetScaledByIncrementSize);
     }
 
-    public GpuDescriptorHandle(in GpuDescriptorHandle other, int offsetInDescriptors, int descriptorIncrementSize)
+    public GpuDescriptorHandle(in GpuDescriptorHandle other, int offsetInDescriptors, uint descriptorIncrementSize)
     {
         InitOffsetted(in other, offsetInDescriptors, descriptorIncrementSize);
     }
@@ -47,7 +47,7 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
         InitOffsetted(ref this, @base, offsetScaledByIncrementSize);
     }
 
-    public void InitOffsetted(in GpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
+    public void InitOffsetted(in GpuDescriptorHandle @base, int offsetInDescriptors, uint descriptorIncrementSize)
     {
         InitOffsetted(ref this, @base, offsetInDescriptors, descriptorIncrementSize);
     }
@@ -57,13 +57,13 @@ public partial struct GpuDescriptorHandle : IEquatable<GpuDescriptorHandle>
         handle.Ptr = unchecked((ulong)((long)(@base.Ptr) + (long)(offsetScaledByIncrementSize)));
     }
 
-    public static void InitOffsetted(ref GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetInDescriptors, int descriptorIncrementSize)
+    public static void InitOffsetted(ref GpuDescriptorHandle handle, in GpuDescriptorHandle @base, int offsetInDescriptors, uint descriptorIncrementSize)
     {
         handle.Ptr = unchecked((ulong)((long)(@base.Ptr) + (long)(offsetInDescriptors) * (long)(descriptorIncrementSize)));
     }
 
     [UnscopedRef]
-    public ref GpuDescriptorHandle Offset(int offsetInDescriptors, int descriptorIncrementSize)
+    public ref GpuDescriptorHandle Offset(int offsetInDescriptors, uint descriptorIncrementSize)
     {
         Ptr = unchecked((ulong)((long)(Ptr) + (long)(offsetInDescriptors) * (long)(descriptorIncrementSize)));
         return ref this;

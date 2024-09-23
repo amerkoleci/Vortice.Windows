@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -12,29 +12,23 @@ public partial struct RootParameter
     private readonly Union _union;
     private readonly ShaderVisibility _shaderVisibility;
 
-    public RootParameterType ParameterType => _parameterType;
+    public readonly RootParameterType ParameterType => _parameterType;
 
     public RootDescriptorTable DescriptorTable
     {
         get
         {
-            var result = new RootDescriptorTable();
+            RootDescriptorTable result = new();
             result.__MarshalFrom(_union.DescriptorTable);
             return result;
         }
     }
 
-    public RootConstants Constants
-    {
-        get => _union.Constants;
-    }
+    public RootConstants Constants => _union.Constants;
 
-    public RootDescriptor Descriptor
-    {
-        get => _union.Descriptor;
-    }
+    public RootDescriptor Descriptor => _union.Descriptor;
 
-    public ShaderVisibility ShaderVisibility => _shaderVisibility;
+    public readonly ShaderVisibility ShaderVisibility => _shaderVisibility;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RootParameter"/> struct.

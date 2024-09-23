@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
@@ -26,16 +26,16 @@ public unsafe partial class ID3D12Resource
         }
     }
 
-    public Result Map(int subresource, void* data) => Map(subresource, default, data);
+    public Result Map(uint subresource, void* data) => Map(subresource, default, data);
 
-    public Span<T> Map<T>(int subresource, int length) where T : unmanaged
+    public Span<T> Map<T>(uint subresource, int length) where T : unmanaged
     {
         void* data;
         Map(subresource, null, &data).CheckError();
         return new Span<T>(data, length);
     }
 
-    public T* Map<T>(int subresource) where T : unmanaged
+    public T* Map<T>(uint subresource) where T : unmanaged
     {
         T* data;
         Map(subresource, null, &data).CheckError();
@@ -101,7 +101,7 @@ public unsafe partial class ID3D12Resource
         Unmap(0);
     }
 
-    public ulong GetRequiredIntermediateSize(int firstSubresource, int numSubresources)
+    public ulong GetRequiredIntermediateSize(uint firstSubresource, uint numSubresources)
     {
         ResourceDescription desc = GetDescription();
 
@@ -123,18 +123,18 @@ public unsafe partial class ID3D12Resource
     /// <returns>
     /// The index which equals mipSlice + arraySlice * mipLevels + planeSlice * mipLevels * arraySize.
     /// </returns>
-    public static int CalculateSubResourceIndex(int mipSlice, int arraySlice, int planeSlice, int mipLevels, int arraySize)
+    public static uint CalculateSubResourceIndex(uint mipSlice, uint arraySlice, uint planeSlice, uint mipLevels, uint arraySize)
     {
         return mipSlice + arraySlice * mipLevels + planeSlice * mipLevels * arraySize;
     }
 
     public static void DecomposeSubresource(
-        int subresource,
-        int mipLevels,
-        int arraySize,
-        out int mipSlice,
-        out int arraySlice,
-        out int planeSlice)
+        uint subresource,
+        uint mipLevels,
+        uint arraySize,
+        out uint mipSlice,
+        out uint arraySlice,
+        out uint planeSlice)
     {
         mipSlice = subresource % mipLevels;
         arraySlice = (subresource / mipLevels) % arraySize;
@@ -142,8 +142,8 @@ public unsafe partial class ID3D12Resource
     }
 
     public unsafe Result WriteToSubresource<T>(
-        int destinationSubresource,
-        Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
+        uint destinationSubresource,
+        Span<T> sourceData, uint sourceRowPitch, uint srcDepthPitch) where T : unmanaged
     {
         fixed (void* dataPtr = sourceData)
         {
@@ -152,8 +152,8 @@ public unsafe partial class ID3D12Resource
     }
 
     public unsafe Result WriteToSubresource<T>(
-        int destinationSubresource, in Int3 destinationOffset, in Size3 destinationExtent,
-        Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
+        uint destinationSubresource, in Int3 destinationOffset, in Size3 destinationExtent,
+        Span<T> sourceData, uint sourceRowPitch, uint srcDepthPitch) where T : unmanaged
     {
         fixed (void* dataPtr = sourceData)
         {
@@ -164,8 +164,8 @@ public unsafe partial class ID3D12Resource
     }
 
     public unsafe Result WriteToSubresource<T>(
-        int destinationSubresource,
-        T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
+        uint destinationSubresource,
+        T[] sourceData, uint sourceRowPitch, uint srcDepthPitch) where T : unmanaged
     {
         fixed (void* sourceDataPtr = &sourceData[0])
         {
@@ -174,8 +174,8 @@ public unsafe partial class ID3D12Resource
     }
 
     public unsafe Result WriteToSubresource<T>(
-        int destinationSubresource, Box destinationBox,
-        T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
+        uint destinationSubresource, Box destinationBox,
+        T[] sourceData, uint sourceRowPitch, uint srcDepthPitch) where T : unmanaged
     {
         fixed (void* sourceDataPtr = &sourceData[0])
         {
@@ -184,8 +184,8 @@ public unsafe partial class ID3D12Resource
     }
 
     public unsafe Result ReadFromSubresource<T>(
-        T[] destination, int destinationRowPitch, int destinationDepthPitch,
-        int sourceSubresource, Box? sourceBox = null) where T : unmanaged
+        T[] destination, uint destinationRowPitch, uint destinationDepthPitch,
+        uint sourceSubresource, Box? sourceBox = null) where T : unmanaged
     {
         fixed (void* destinationPtr = &destination[0])
         {

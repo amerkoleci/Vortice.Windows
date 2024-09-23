@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Mathematics;
@@ -43,7 +43,7 @@ public partial struct SamplerDescription
         TextureAddressMode addressV,
         TextureAddressMode addressW,
         float mipLODBias,
-        int maxAnisotropy,
+        uint maxAnisotropy,
         ComparisonFunction comparisonFunction,
         in Color4 borderColor,
         float minLOD,
@@ -79,7 +79,7 @@ public partial struct SamplerDescription
         TextureAddressMode addressV,
         TextureAddressMode addressW,
         float mipLODBias = 0.0f,
-        int maxAnisotropy = 1,
+        uint maxAnisotropy = 1,
         ComparisonFunction comparisonFunction = ComparisonFunction.Never,
         float minLOD = float.MinValue,
         float maxLOD = float.MaxValue)

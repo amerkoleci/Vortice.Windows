@@ -16,7 +16,7 @@ public partial struct DrawIndexedArguments
     /// <param name="startIndexLocation">The location of the first index read by the GPU from the index buffer.</param>
     /// <param name="baseVertexLocation">A value added to each index before reading a vertex from the vertex buffer.</param>
     /// <param name="startInstanceLocation">A value added to each index before reading per-instance data from a vertex buffer.</param>
-    public DrawIndexedArguments(int indexCountPerInstance, int instanceCount, int startIndexLocation, int baseVertexLocation, int startInstanceLocation)
+    public DrawIndexedArguments(uint indexCountPerInstance, uint instanceCount, uint startIndexLocation, int baseVertexLocation, uint startInstanceLocation)
     {
         IndexCountPerInstance = indexCountPerInstance;
         InstanceCount = instanceCount;

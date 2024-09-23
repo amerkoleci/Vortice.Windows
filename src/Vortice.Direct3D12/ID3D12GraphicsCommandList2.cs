@@ -12,6 +12,6 @@ public partial class ID3D12GraphicsCommandList2
             throw new ArgumentException($"If {nameof(modes)} is not null, it must have the same length as {nameof(@params)}", nameof(modes));
         }
 
-        WriteBufferImmediate_(@params.Length, @params, modes);
+        WriteBufferImmediate_((uint)@params.Length, @params, modes);
     }
 }

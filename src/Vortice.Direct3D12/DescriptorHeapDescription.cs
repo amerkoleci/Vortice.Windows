@@ -12,7 +12,7 @@ public partial struct DescriptorHeapDescription
     /// <param name="descriptorCount">The descriptor count.</param>
     /// <param name="flags">The optional heap flags.</param>
     /// <param name="nodeMask">Multi GPU node mask.</param>
-    public DescriptorHeapDescription(DescriptorHeapType type, int descriptorCount, DescriptorHeapFlags flags = DescriptorHeapFlags.None, int nodeMask = 0)
+    public DescriptorHeapDescription(DescriptorHeapType type, uint descriptorCount, DescriptorHeapFlags flags = DescriptorHeapFlags.None, uint nodeMask = 0)
     {
         Type = type;
         DescriptorCount = descriptorCount;

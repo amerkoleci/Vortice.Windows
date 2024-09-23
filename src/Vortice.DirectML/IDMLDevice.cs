@@ -23,12 +23,12 @@ public partial class IDMLDevice
         {
             var query = new FeatureQueryFeatureLevels()
             {
-                RequestedFeatureLevelCount = requestedFeatureLevels.Length,
+                RequestedFeatureLevelCount = (uint)requestedFeatureLevels.Length,
                 RequestedFeatureLevels = new(featureLevels),
             };
             var data = new FeatureDataFeatureLevels();
 
-            CheckFeatureSupport(Feature.FeatureLevels, sizeof(FeatureQueryFeatureLevels), new(&query), sizeof(FeatureDataFeatureLevels), new(&data)).CheckError();
+            CheckFeatureSupport(Feature.FeatureLevels, (uint)sizeof(FeatureQueryFeatureLevels), new(&query), (uint)sizeof(FeatureDataFeatureLevels), new(&data)).CheckError();
 
             return data.MaxSupportedFeatureLevel;
         }
@@ -41,10 +41,13 @@ public partial class IDMLDevice
     /// <returns>TRUE if the tensor data type is supported within tensors by the DirectML device. Otherwise, FALSE.</returns>
     public unsafe bool CheckTensorDataTypeSupport(TensorDataType dataType)
     {
-        var query = new FeatureQueryTensorDataTypeSupport() { DataType = dataType };
-        var data = new FeatureDataTensorDataTypeSupport();
+        FeatureQueryTensorDataTypeSupport query = new()
+        {
+            DataType = dataType
+        };
+        FeatureDataTensorDataTypeSupport data = new();
 
-        CheckFeatureSupport(Feature.TensorDataTypeSupport, sizeof(FeatureQueryTensorDataTypeSupport), new(&query), sizeof(FeatureDataTensorDataTypeSupport), new(&data));
+        CheckFeatureSupport(Feature.TensorDataTypeSupport, (uint)sizeof(FeatureQueryTensorDataTypeSupport), new(&query), (uint)sizeof(FeatureDataTensorDataTypeSupport), new(&data));
 
         return data.IsSupported;
     }
@@ -155,7 +158,7 @@ public partial class IDMLDevice
     /// <returns></returns>
     public unsafe IDMLOperatorInitializer CreateOperatorInitializer(params IDMLCompiledOperator[]? operators)
     {
-        CreateOperatorInitializer(operators?.Length ?? 0, operators, typeof(IDMLOperatorInitializer).GUID, out IntPtr nativePtr).CheckError();
+        CreateOperatorInitializer((uint)(operators?.Length ?? 0), operators, typeof(IDMLOperatorInitializer).GUID, out IntPtr nativePtr).CheckError();
 
         return new IDMLOperatorInitializer(nativePtr);
     }
@@ -173,12 +176,12 @@ public partial class IDMLDevice
     /// <param name="objects">The pageable objects to evict from GPU memory.</param>
     public unsafe void Evict(params IDMLPageable[] objects)
     {
-        var pObjects = stackalloc IntPtr[objects.Length];
+        IntPtr* pObjects = stackalloc IntPtr[objects.Length];
         for (int i = 0; i < objects.Length; i++)
         {
             pObjects[i] = objects[i].NativePointer;
         }
-        Evict(objects.Length, new IntPtr(pObjects));
+        Evict((uint)objects.Length, new IntPtr(pObjects));
     }
 
     /// <summary>
@@ -194,12 +197,12 @@ public partial class IDMLDevice
     /// <param name="objects">The pageable objects to make resident in GPU memory.</param>
     public unsafe void MakeResident(params IDMLPageable[] objects)
     {
-        var pObjects = stackalloc IntPtr[objects.Length];
+        IntPtr* pObjects = stackalloc IntPtr[objects.Length];
         for (int i = 0; i < objects.Length; i++)
         {
             pObjects[i] = objects[i].NativePointer;
         }
-        MakeResident(objects.Length, new IntPtr(pObjects));
+        MakeResident((uint)objects.Length, new IntPtr(pObjects));
     }
 
     /// <summary>

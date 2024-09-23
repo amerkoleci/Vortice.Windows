@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12.Debug;
@@ -22,23 +22,23 @@ public partial class InfoQueueFilterDescription
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal struct __Native
+    internal unsafe struct __Native
     {
-        public int NumCategories;
-        public IntPtr PCategoryList;
-        public int NumSeverities;
-        public IntPtr PSeverityList;
-        public int NumIDs;
-        public IntPtr PIDList;
+        public uint NumCategories;
+        public MessageCategory* pCategoryList;
+        public uint NumSeverities;
+        public MessageSeverity* pSeverityList;
+        public uint NumIDs;
+        public MessageId* pIDList;
 
         internal void __MarshalFree()
         {
-            if (PCategoryList != IntPtr.Zero)
-                Marshal.FreeHGlobal(PCategoryList);
-            if (PSeverityList != IntPtr.Zero)
-                Marshal.FreeHGlobal(PSeverityList);
-            if (PIDList != IntPtr.Zero)
-                Marshal.FreeHGlobal(PIDList);
+            if (pCategoryList != null)
+                NativeMemory.Free(pCategoryList);
+            if (pSeverityList != null)
+                NativeMemory.Free(pSeverityList);
+            if (pIDList != null)
+                NativeMemory.Free(pIDList);
         }
     }
 
@@ -52,30 +52,30 @@ public partial class InfoQueueFilterDescription
         Categories = new MessageCategory[@ref.NumCategories];
         if (@ref.NumCategories > 0)
         {
-            UnsafeUtilities.Read(@ref.PCategoryList, Categories);
+            UnsafeUtilities.Read(@ref.pCategoryList, Categories);
         }
 
         Severities = new MessageSeverity[@ref.NumSeverities];
         if (@ref.NumSeverities > 0)
         {
-            UnsafeUtilities.Read(@ref.PSeverityList, Severities);
+            UnsafeUtilities.Read(@ref.pSeverityList, Severities);
         }
 
         Ids = new MessageId[@ref.NumIDs];
         if (@ref.NumIDs > 0)
         {
-            UnsafeUtilities.Read(@ref.PIDList, Ids);
+            UnsafeUtilities.Read(@ref.pIDList, Ids);
         }
     }
 
     internal unsafe void __MarshalTo(ref __Native @ref)
     {
-        @ref.NumCategories = Categories?.Length ?? 0;
-        @ref.PCategoryList = UnsafeUtilities.AllocToPointer(Categories);
-        @ref.NumSeverities = Severities?.Length ?? 0;
-        @ref.PSeverityList = UnsafeUtilities.AllocToPointer(Severities);
-        @ref.NumIDs = Ids?.Length ?? 0;
-        @ref.PIDList = UnsafeUtilities.AllocToPointer(Ids);
+        @ref.NumCategories = (uint)(Categories?.Length ?? 0);
+        @ref.pCategoryList = (MessageCategory*)UnsafeUtilities.AllocToPointer(Categories);
+        @ref.NumSeverities = (uint)(Severities?.Length ?? 0);
+        @ref.pSeverityList = (MessageSeverity*)UnsafeUtilities.AllocToPointer(Severities);
+        @ref.NumIDs = (uint)(Ids?.Length ?? 0);
+        @ref.pIDList = (MessageId*)UnsafeUtilities.AllocToPointer(Ids);
     }
     #endregion
 }

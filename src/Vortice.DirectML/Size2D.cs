@@ -10,12 +10,12 @@ public partial struct Size2D
     /// </summary>
     /// <param name="width"></param>
     /// <param name="height"></param>
-    public Size2D(int width, int height)
+    public Size2D(uint width, uint height)
     {
         Width = width;
         Height = height;
     }
 
     ///<inheritdoc></inheritdoc>
-    public override string ToString() => $"Width={Width} Height={Height}";
+    public override readonly string ToString() => $"Width={Width} Height={Height}";
 }

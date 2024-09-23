@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.Mathematics;
@@ -16,7 +16,7 @@ public partial struct StaticSamplerDescription
     /// <param name="shaderVisibility">The shader visibility.</param>
     /// <param name="shaderRegister">The shader register.</param>
     /// <param name="registerSpace">The register space.</param>
-    public StaticSamplerDescription(ShaderVisibility shaderVisibility, int shaderRegister, int registerSpace)
+    public StaticSamplerDescription(ShaderVisibility shaderVisibility, uint shaderRegister, uint registerSpace)
     {
         Filter = Filter.MinMagMipLinear;
         AddressU = TextureAddressMode.Clamp;
@@ -38,19 +38,19 @@ public partial struct StaticSamplerDescription
     /// Initializes a new instance of the <see cref="StaticSamplerDescription"/> struct.
     /// </summary>
     public StaticSamplerDescription(
-        int shaderRegister,
+        uint shaderRegister,
         Filter filter = Filter.Anisotropic,
         TextureAddressMode addressU = TextureAddressMode.Wrap,
         TextureAddressMode addressV = TextureAddressMode.Wrap,
         TextureAddressMode addressW = TextureAddressMode.Wrap,
         float mipLODBias = 0.0f,
-        int maxAnisotropy = 16,
+        uint maxAnisotropy = 16,
         ComparisonFunction comparisonFunction = ComparisonFunction.LessEqual,
         StaticBorderColor borderColor = StaticBorderColor.OpaqueWhite,
         float minLOD = 0.0f,
         float maxLOD = float.MaxValue,
         ShaderVisibility shaderVisibility = ShaderVisibility.All,
-        int registerSpace = 0
+        uint registerSpace = 0
         )
     {
         Filter = filter;
@@ -75,7 +75,7 @@ public partial struct StaticSamplerDescription
     /// <param name="shaderVisibility">The shader visibility.</param>
     /// <param name="shaderRegister">The shader register.</param>
     /// <param name="registerSpace">The register space.</param>
-    public StaticSamplerDescription(SamplerDescription samplerDescription, ShaderVisibility shaderVisibility, int shaderRegister, int registerSpace) : this()
+    public StaticSamplerDescription(SamplerDescription samplerDescription, ShaderVisibility shaderVisibility, uint shaderRegister, uint registerSpace) : this()
     {
         ShaderVisibility = shaderVisibility;
         ShaderRegister = shaderRegister;

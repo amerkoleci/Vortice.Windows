@@ -102,13 +102,13 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal struct __Native
+    internal unsafe struct __Native
     {
         public TensorDataType DataType;
         public TensorFlags Flags;
         public int DimensionCount;
-        public IntPtr PSizes;
-        public IntPtr PStrides;
+        public int* PSizes;
+        public int* PStrides;
         public long TotalTensorSizeInBytes;
         public int GuaranteedBaseOffsetAlignment;
     }
@@ -121,7 +121,7 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
         @ref->Flags = Flags;
         @ref->DimensionCount = Sizes.Length;
         @ref->PSizes = UnsafeUtilities.AllocToPointer(Sizes);
-        @ref->PStrides = IntPtr.Zero;
+        @ref->PStrides = default;
         if (Strides != null)
         {
             if (Strides.Length != Sizes.Length) { throw new IndexOutOfRangeException("Strides must have the same length as Sizes."); }
@@ -137,14 +137,14 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     {
         var @ref = (__Native*)pDesc;
 
-        if (@ref->PSizes != IntPtr.Zero)
+        if (@ref->PSizes != null)
         {
-            Marshal.FreeHGlobal(@ref->PSizes);
+            NativeMemory.Free(@ref->PSizes);
         }
 
-        if (@ref->PStrides != IntPtr.Zero)
+        if (@ref->PStrides != null)
         {
-            Marshal.FreeHGlobal(@ref->PStrides);
+            NativeMemory.Free(@ref->PStrides);
         }
 
         UnsafeUtilities.Free(@ref);

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Runtime.CompilerServices;
@@ -21,7 +21,7 @@ public partial struct RaytracingPipelineConfig1 : IStateSubObjectDescription, IS
     /// At the maximum recursion depth, <b>TraceRay</b> calls result in the device going into removed state.
     /// </param>
     /// <param name="flags">The <see cref="RaytracingPipelineFlags"/> value.</param>
-    public RaytracingPipelineConfig1(int maxTraceRecursionDepth, RaytracingPipelineFlags flags = RaytracingPipelineFlags.None)
+    public RaytracingPipelineConfig1(uint maxTraceRecursionDepth, RaytracingPipelineFlags flags = RaytracingPipelineFlags.None)
     {
         MaxTraceRecursionDepth = maxTraceRecursionDepth;
         Flags = flags;

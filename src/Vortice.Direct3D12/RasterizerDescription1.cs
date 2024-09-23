@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -52,7 +52,7 @@ public partial struct RasterizerDescription1
         bool depthClipEnable = true,
         bool multisampleEnable = false,
         bool antialiasedLineEnable = false,
-        int forcedSampleCount = 0,
+        uint forcedSampleCount = 0,
         ConservativeRasterizationMode conservativeRaster = ConservativeRasterizationMode.Off)
     {
         CullMode = cullMode;

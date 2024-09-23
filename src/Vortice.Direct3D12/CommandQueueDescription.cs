@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -12,7 +12,7 @@ public partial struct CommandQueueDescription
     /// <param name="priority">The priority.</param>
     /// <param name="flags">Options flags.</param>
     /// <param name="nodeMask">Node mask.</param>
-    public CommandQueueDescription(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
+    public CommandQueueDescription(CommandListType type, int priority = 0, CommandQueueFlags flags = CommandQueueFlags.None, uint nodeMask = 0)
     {
         Type = type;
         Priority = priority;
@@ -27,7 +27,7 @@ public partial struct CommandQueueDescription
     /// <param name="priority">The priority.</param>
     /// <param name="flags">Options flags.</param>
     /// <param name="nodeMask">Node mask.</param>
-    public CommandQueueDescription(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, int nodeMask = 0)
+    public CommandQueueDescription(CommandListType type, CommandQueuePriority priority, CommandQueueFlags flags = CommandQueueFlags.None, uint nodeMask = 0)
     {
         Type = type;
         Priority = (int)priority;

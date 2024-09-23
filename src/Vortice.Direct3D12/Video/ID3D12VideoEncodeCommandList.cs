@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12.Video;
@@ -12,7 +12,7 @@ public unsafe partial class ID3D12VideoEncodeCommandList
         ID3D12Resource resource,
         ResourceStates stateBefore,
         ResourceStates stateAfter,
-        int subresource = D3D12.ResourceBarrierAllSubResources,
+        uint subresource = D3D12.ResourceBarrierAllSubResources,
         ResourceBarrierFlags flags = ResourceBarrierFlags.None)
     {
         var barrier = new ResourceBarrier(
@@ -43,11 +43,11 @@ public unsafe partial class ID3D12VideoEncodeCommandList
     {
         fixed (ResourceBarrier* pBarriers = barriers)
         {
-            ResourceBarrier(barriers.Length, pBarriers);
+            ResourceBarrier((uint)barriers.Length, pBarriers);
         }
     }
 
-    public void ResourceBarrier(int barriersCount, ResourceBarrier[] barriers)
+    public void ResourceBarrier(uint barriersCount, ResourceBarrier[] barriers)
     {
         fixed (ResourceBarrier* pBarriers = barriers)
         {
@@ -59,7 +59,7 @@ public unsafe partial class ID3D12VideoEncodeCommandList
     {
         fixed (ResourceBarrier* barriersPtr = barriers)
         {
-            ResourceBarrier(barriers.Length, barriersPtr);
+            ResourceBarrier((uint) barriers.Length, barriersPtr);
         }
     }
 
@@ -68,7 +68,7 @@ public unsafe partial class ID3D12VideoEncodeCommandList
         int bufferSize = PixHelpers.CalculateNoArgsEventSize(name);
         void* buffer = stackalloc byte[bufferSize];
         PixHelpers.FormatNoArgsEventToBuffer(buffer, PixHelpers.PixEventType.PIXEvent_BeginEvent_NoArgs, 0, name);
-        BeginEvent(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), bufferSize);
+        BeginEvent(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), (uint)bufferSize);
     }
 
     public void SetMarker(string name)
@@ -76,7 +76,7 @@ public unsafe partial class ID3D12VideoEncodeCommandList
         int bufferSize = PixHelpers.CalculateNoArgsEventSize(name);
         void* buffer = stackalloc byte[bufferSize];
         PixHelpers.FormatNoArgsEventToBuffer(buffer, PixHelpers.PixEventType.PIXEvent_SetMarker_NoArgs, 0, name);
-        SetMarker(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), bufferSize);
+        SetMarker(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), (uint)bufferSize);
     }
 
 
@@ -86,7 +86,7 @@ public unsafe partial class ID3D12VideoEncodeCommandList
     /// <param name="resource">The resource to discard.</param>
     /// <param name="firstSubresource">Index of the first subresource in the resource to discard.</param>
     /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
-    public void DiscardResource(ID3D12Resource resource, int firstSubresource, int numSubresources)
+    public void DiscardResource(ID3D12Resource resource, uint firstSubresource, uint numSubresources)
     {
         DiscardResource(resource, new DiscardRegion
         {
@@ -105,7 +105,7 @@ public unsafe partial class ID3D12VideoEncodeCommandList
     /// <param name="rects">An array of  rectangles in the resource to discard. If null, DiscardResource discards the entire resource.</param>
     /// <param name="firstSubresource">Index of the first subresource in the resource to discard.</param>
     /// <param name="numSubresources">The number of subresources in the resource to discard.</param>
-    public unsafe void DiscardResource(ID3D12Resource resource, int rectCount, RawRect[] rects, int firstSubresource, int numSubresources)
+    public unsafe void DiscardResource(ID3D12Resource resource, uint rectCount, RawRect[] rects, uint firstSubresource, uint numSubresources)
     {
         fixed (void* rectsPtr = &rects[0])
         {

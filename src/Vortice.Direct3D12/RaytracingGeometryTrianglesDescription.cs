@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.DXGI;
@@ -33,11 +33,11 @@ public partial struct RaytracingGeometryTrianglesDescription
     public RaytracingGeometryTrianglesDescription(
         in GpuVirtualAddressAndStride vertexBuffer,
         Format vertexFormat,
-        int vertexCount,
+        uint vertexCount,
         ulong transform3x4 = 0,
         ulong indexBuffer = 0,
         Format indexFormat = Format.Unknown,
-        int indexCount = 0)
+        uint indexCount = 0)
     {
         Transform3x4 = transform3x4;
         IndexFormat = indexFormat;

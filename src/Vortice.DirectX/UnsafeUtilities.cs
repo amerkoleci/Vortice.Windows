@@ -27,6 +27,14 @@ public static unsafe class UnsafeUtilities
         }
     }
 
+    public static void Read<T>(void* source, T[] values, uint count) where T : unmanaged
+    {
+        fixed (void* destination = values)
+        {
+            NativeMemory.Copy(source, destination, (nuint)(count * sizeof(T)));
+        }
+    }
+
     public static void Read<T>(nint source, T[] values) where T : unmanaged
     {
         int count = values.Length;
@@ -156,17 +164,17 @@ public static unsafe class UnsafeUtilities
         NativeMemory.Free(ptr.ToPointer());
     }
 
-    public static IntPtr AllocToPointer<T>(T[]? values) where T : unmanaged
+    public static T* AllocToPointer<T>(T[]? values)
+        where T : unmanaged
     {
-        if (values == null
-            || values.Length == 0)
+        if (values == null || values.Length == 0)
         {
-            return IntPtr.Zero;
+            return null;
         }
 
         int structSize = sizeof(T);
         int totalSize = values.Length * structSize;
-        IntPtr ptr = Marshal.AllocHGlobal(totalSize);
+        T* ptr = (T*)NativeMemory.Alloc((nuint)totalSize);
 
         byte* walk = (byte*)ptr;
         for (int i = 0; i < values.Length; i++)

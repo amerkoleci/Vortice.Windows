@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -11,7 +11,7 @@ public partial struct MipRegion
     /// <param name="width">The width component of the region.</param>
     /// <param name="height">The height component of the region.</param>
     /// <param name="depth">The depth component of the region.</param>
-    public MipRegion(int width, int height, int depth)
+    public MipRegion(uint width, uint height, uint depth)
     {
         Width = width;
         Height = height;

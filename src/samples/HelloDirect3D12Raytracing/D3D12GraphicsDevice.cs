@@ -19,7 +19,7 @@ using Vortice.DXGI.Debug;
 
 namespace HelloDirect3D12Raytracing;
 
-public sealed class D3D12GraphicsDevice : IGraphicsDevice
+public sealed unsafe class D3D12GraphicsDevice : IGraphicsDevice
 {
     private static readonly FeatureLevel[] s_featureLevels =
     [
@@ -38,7 +38,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
     private readonly ID3D12InfoQueue? _infoQueue;
     private readonly ID3D12Resource[] _renderTargets;
     private readonly ID3D12DescriptorHeap _rtvHeap;
-    private readonly int _rtvDescriptorSize;
+    private readonly uint _rtvDescriptorSize;
     private readonly ID3D12CommandAllocator[] _commandAllocators;
 
     private readonly ID3D12Resource _outputBuffer;
@@ -59,7 +59,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
     private readonly ID3D12Resource _topLevelAccelerationStructure;
     private readonly ID3D12StateObjectProperties _raytracingStateObjectProperties;
 
-    private readonly int _shaderBindingTableEntrySize;
+    private readonly uint _shaderBindingTableEntrySize;
     private readonly ID3D12Resource _shaderBindingTableBuffer;
 
     private readonly ID3D12Fence _frameFence;
@@ -217,7 +217,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
             {
                 _renderTargets[i] = SwapChain.GetBuffer<ID3D12Resource>(i);
                 Device.CreateRenderTargetView(_renderTargets[i], null, rtvHandle);
-                rtvHandle += _rtvDescriptorSize;
+                rtvHandle += (int)_rtvDescriptorSize;
             }
         }
 
@@ -414,7 +414,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
             _instanceBuffer = Device.CreateCommittedResource(
                 HeapType.Upload,
-                ResourceDescription.Buffer(sizeof(RaytracingInstanceDescription)),
+                ResourceDescription.Buffer((ulong)sizeof(RaytracingInstanceDescription)),
                 ResourceStates.GenericRead);
 
             RaytracingInstanceDescription* instanceBufferDataPointer = _instanceBuffer.Map<RaytracingInstanceDescription>(0);
@@ -464,7 +464,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 Format = Format.R8G8B8A8_UNorm,
                 Flags = ResourceFlags.AllowUnorderedAccess,
                 Width = (ulong)window.ClientSize.Width,
-                Height = window.ClientSize.Height,
+                Height = (uint)window.ClientSize.Height,
                 Layout = TextureLayout.Unknown,
                 MipLevels = 1,
                 SampleDescription = new SampleDescription(1, 0),
@@ -499,7 +499,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
                 RaytracingAccelerationStructure = new RaytracingAccelerationStructureShaderResourceView { Location = _topLevelAccelerationStructure.GPUVirtualAddress },
             };
 
-            Device.CreateShaderResourceView(null, accelerationStructureViewDescription, shaderViewHandle + shaderViewDescriptorSize);
+            Device.CreateShaderResourceView(null, accelerationStructureViewDescription, shaderViewHandle + (int)shaderViewDescriptorSize);
         }
 
         // Create the shader binding table
@@ -510,7 +510,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
             _shaderBindingTableEntrySize += 8; // Ray generator descriptor table
             _shaderBindingTableEntrySize = Align(_shaderBindingTableEntrySize, D3D12.RaytracingShaderRecordByteAlignment);
 
-            var shaderBindingTableSize = _shaderBindingTableEntrySize * 3;
+            ulong shaderBindingTableSize = _shaderBindingTableEntrySize * 3;
 
             _shaderBindingTableBuffer = Device.CreateCommittedResource(
                 HeapType.Upload,
@@ -630,9 +630,9 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
 
         _commandList.DispatchRays(new DispatchRaysDescription
         {
-            Width = Window.ClientSize.Width,
-            Height = Window.ClientSize.Height,
-            Depth = 1,
+            Width = (uint)Window.ClientSize.Width,
+            Height = (uint)Window.ClientSize.Height,
+            Depth = 1u,
 
             RayGenerationShaderRecord = new GpuVirtualAddressRange
             {
@@ -725,7 +725,7 @@ public sealed class D3D12GraphicsDevice : IGraphicsDevice
         }
     }
 
-    private static int Align(int value, int alignment)
+    private static uint Align(uint value, uint alignment)
     {
         return ((value + alignment - 1) / alignment) * alignment;
     }

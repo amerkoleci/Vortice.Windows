@@ -21,8 +21,8 @@ public partial struct HeapProperties
         HeapType type,
         CpuPageProperty cpuPageProperty,
         MemoryPool memoryPoolPreference,
-        int creationNodeMask = 1,
-        int visibleNodeMask = 1)
+        uint creationNodeMask = 1,
+        uint visibleNodeMask = 1)
     {
         Type = type;
         CPUPageProperty = cpuPageProperty;
@@ -41,8 +41,8 @@ public partial struct HeapProperties
     public HeapProperties(
         CpuPageProperty cpuPageProperty,
         MemoryPool memoryPoolPreference,
-        int creationNodeMask = 1,
-        int visibleNodeMask = 1)
+        uint creationNodeMask = 1,
+        uint visibleNodeMask = 1)
     {
         Type = HeapType.Custom;
         CPUPageProperty = cpuPageProperty;
@@ -58,8 +58,8 @@ public partial struct HeapProperties
     /// <param name="creationNodeMask"></param>
     /// <param name="visibleNodeMask"></param>
     public HeapProperties(HeapType type,
-        int creationNodeMask = 1,
-        int visibleNodeMask = 1)
+        uint creationNodeMask = 1,
+        uint visibleNodeMask = 1)
     {
         Type = type;
         CPUPageProperty = CpuPageProperty.Unknown;

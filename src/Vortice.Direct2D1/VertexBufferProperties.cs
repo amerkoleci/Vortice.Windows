@@ -46,15 +46,15 @@ public partial class VertexBufferProperties
     {
         public int inputCount;
         public VertexUsage usage;
-        public IntPtr data;
+        public byte* data;
         public int byteWidth;
     }
 
     internal unsafe void __MarshalFree(ref __Native @ref)
     {
-        if (@ref.data != IntPtr.Zero)
+        if (@ref.data != null)
         {
-            Marshal.FreeHGlobal(@ref.data);
+            NativeMemory.Free(@ref.data);
         }
     }
 
@@ -68,7 +68,7 @@ public partial class VertexBufferProperties
         }
         else
         {
-            @ref.data = IntPtr.Zero;
+            @ref.data = null;
         }
         @ref.byteWidth = ByteWidth;
     }

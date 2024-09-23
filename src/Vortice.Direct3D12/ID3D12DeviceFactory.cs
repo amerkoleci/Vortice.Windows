@@ -73,7 +73,7 @@ public unsafe partial class ID3D12DeviceFactory
         return result;
     }
 
-    public Result EnableExperimentalFeatures(int numFeatures, Span<Guid> features)
+    public Result EnableExperimentalFeatures(uint numFeatures, Span<Guid> features)
     {
         fixed (Guid* pIIDs = features)
             return EnableExperimentalFeatures(numFeatures, pIIDs, null, null);
@@ -82,7 +82,7 @@ public unsafe partial class ID3D12DeviceFactory
     public Result EnableExperimentalFeatures(Span<Guid> features)
     {
         fixed (Guid* pIIDs = features)
-            return (Result)EnableExperimentalFeatures(features.Length, pIIDs, null, null);
+            return (Result)EnableExperimentalFeatures((uint)features.Length, pIIDs, null, null);
     }
 
     public Result EnableExperimentalFeatures<T>(Span<Guid> features, Span<T> configurationStructs)
@@ -100,6 +100,6 @@ public unsafe partial class ID3D12DeviceFactory
         fixed (Guid* pIIDs = features)
         fixed (void* pConfigurationStructs = configurationStructs)
         fixed (int* pConfigurationStructSizes = configurationStructSizes)
-            return (Result)EnableExperimentalFeatures(features.Length, pIIDs, pConfigurationStructs, pConfigurationStructSizes);
+            return (Result)EnableExperimentalFeatures((uint)features.Length, pIIDs, pConfigurationStructs, pConfigurationStructSizes);
     }
 }

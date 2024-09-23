@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -50,7 +50,7 @@ public partial struct RasterizerDescription2
         float slopeScaledDepthBias = D3D12.DefaultSlopeScaledDepthBias,
         bool depthClipEnable = true,
         LineRasterizationMode lineRasterizationMode = LineRasterizationMode.Aliased,
-        int forcedSampleCount = 0,
+        uint forcedSampleCount = 0,
         ConservativeRasterizationMode conservativeRaster = ConservativeRasterizationMode.Off)
     {
         CullMode = cullMode;

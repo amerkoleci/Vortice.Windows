@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -7,9 +7,9 @@ public static partial class D3D12
 {
     // https://docs.microsoft.com/en-us/windows/win32/direct3d12/constants
     public const byte IndexStripCutValue8Bit = 0xff;
-    public const short IndexStripCutValue16Bit = unchecked((short)0xffff);
-    public const int IndexStripCutValue32Bit = unchecked((int)0xffffffff);
-    public const int AppendAlignedElement = unchecked((int)0xffffffff);
+    public const ushort IndexStripCutValue16Bit = 0xffff;
+    public const uint IndexStripCutValue32Bit = 0xffffffff;
+    public const uint AppendAlignedElement = 0xffffffff;
     public const int ArrayAxisAddressRangeBitCount = 9;
     public const int ClipOrCullDistanceCount = 8;
     public const int ClipOrCullDistanceElementCount = 2;
@@ -144,7 +144,7 @@ public static partial class D3D12
 
     public const int DefaultResourcePlacementAlignment = 65536;
 
-    public const int DefaultSampleMask = unchecked((int)0xffffffff);
+    public const uint DefaultSampleMask = 0xffffffff;
 
     public const int DefaultScissorEndX = 0;
     public const int DefaultScissorEndY = 0;
@@ -166,10 +166,11 @@ public static partial class D3D12
     public const int DefaultViewportTopLeftY = 0;
     public const int DefaultViewportWidth = 0;
 
-    public const int DescriptorRangeOffsetAppend = unchecked((int)0xffffffff);
+    /// <unmanaged>D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND</unmanaged>
+    public const uint DescriptorRangeOffsetAppend = 0xffffffff;
 
-    public const int DriverReservedRegisterSpaceValuesEnd = unchecked((int)0xfffffff7);
-    public const int DriverReservedRegisterSpaceValuesStart = unchecked((int)0xfffffff0);
+    public const uint DriverReservedRegisterSpaceValuesEnd = 0xfffffff7;
+    public const uint DriverReservedRegisterSpaceValuesStart = 0xfffffff0;
 
     public const int DomainShaderInputControlPointsMaxTotalScalars = 3968;
     public const int DomainShaderInputControlPointRegisterComponents = 4;
@@ -240,7 +241,7 @@ public static partial class D3D12
     public const int HullShaderControlPointRegisterReadsPerInstance = 2;
     public const int HullShaderControlPointRegisterReadPorts = 1;
 
-    public const int HullShaderForkPhaseInstanceCountUpperBound = unchecked((int)0xffffffff);
+    public const uint HullShaderForkPhaseInstanceCountUpperBound = 0xffffffff;
     public const int HullShaderInputForkInstanceIdRegisterComponents = 1;
     public const int HullShaderInputForkInstanceIdRegisterComponentBitCount = 32;
     public const int HullShaderInputForkInstanceIdRegisterCount = 1;
@@ -256,7 +257,7 @@ public static partial class D3D12
     public const int HullShaderInputPrimitiveIdRegisterCount = 1;
     public const int HullShaderInputPrimitiveIdRegisterReadsPerInstance = 2;
     public const int HullShaderInputPrimitiveIdRegisterReadPorts = 1;
-    public const int HullShaderJoinPhaseInstanceCountUpperBound = unchecked((int)0xffffffff);
+    public const uint HullShaderJoinPhaseInstanceCountUpperBound = 0xffffffff;
     public const float HullShaderMaxTessFactorLowerBound = 1.0f;
     public const float HullShaderMaxTessFactorUpperBound = 64.0f;
     public const int HullShaderOutputControlPointsMaxTotalScalars = 3968;
@@ -285,11 +286,11 @@ public static partial class D3D12
     public const int InputAssemblerVertexInputStructureElementsComponents = 128;
     public const int InputAssemblerVertexInputStructureElementCount = 32;
 
-    public const int IntegerDivideByZeroQuotient = unchecked((int)0xffffffff);
-    public const int IntegerDivideByZeroRemained = unchecked((int)0xffffffff);
+    public const uint IntegerDivideByZeroQuotient = 0xffffffff;
+    public const uint IntegerDivideByZeroRemained = 0xffffffff;
 
-    public const int KeepRenderTargetsAndDepthStencil = unchecked((int)0xffffffff);
-    public const int KeepUnorderedAccessViews = unchecked((int)0xffffffff);
+    public const uint KeepRenderTargetsAndDepthStencil = 0xffffffff;
+    public const uint KeepUnorderedAccessViews = 0xffffffff;
 
     public const float LinearGamma = 1.0f;
     public const int MajorVersion = 12;
@@ -328,7 +329,7 @@ public static partial class D3D12
     public const float MultisampleAntialiasLineWidth = 1.4f;
     public const int NonSampleFetchOutOfRangeAccessResult = 0;
 
-    public const int PackedTile = unchecked((int)0xffffffff);
+    public const uint PackedTile = 0xffffffff;
 
     public const int PixelAddressRangeBit_Count = 15;
 
@@ -339,9 +340,9 @@ public static partial class D3D12
     public const int PixelShaderComputeShaderUnorderedAccessViewRegisterReadsPerInstance = 1;
     public const int PixelShaderComputeShaderUnorderedAccessViewRegisterReadPorts = 1;
 
-    public const int PixelShaderFrontFacingDefaultValue = unchecked((int)0xffffffff);
-    public const int PixelShaderFrontFacingFalseValue = 0;
-    public const int PixelShaderFrontFacingTrueValue = unchecked((int)0xffffffff);
+    public const uint PixelShaderFrontFacingDefaultValue = 0xffffffff;
+    public const uint PixelShaderFrontFacingFalseValue = 0;
+    public const uint PixelShaderFrontFacingTrueValue = 0xffffffff;
 
     public const int PixelShaderInputRegisterComponents = 4;
     public const int PixelShaderInputRegisterComponentBitCount = 32;
@@ -406,11 +407,12 @@ public static partial class D3D12
 
     public const int ResInfoInstructionMissingComponentReturnValue = 0;
 
-    public const int ResourceBarrierAllSubResources = unchecked((int)0xffffffff);
+    /// <unmanaged>D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES</unmanaged>
+    public const uint ResourceBarrierAllSubResources = 0xffffffff;
 
     public const int RSSetShadingRateCombinerCount = 2;
 
-    public const int ShaderIdentifierSizeInBytes = 32;
+    public const uint ShaderIdentifierSizeInBytes = 32;
     public const int ShaderMajorVersion = 5;
     public const int ShaderMaxInstances = 65535;
     public const int ShaderMaxInterfaces = 253;
@@ -429,8 +431,8 @@ public static partial class D3D12
     public const int StreamOutputBufferMaxStrideInBytes = 2048;
     public const int StreamOutputBufferMaxWriteWindowInBytes = 512;
     public const int StreamOutputBufferSlotCount = 4;
-    public const int StreamOutputDdiRegisterIndexDenotingGap = unchecked((int)0xffffffff);
-    public const int StreamOutputNoRasterizedStream = unchecked((int)0xffffffff);
+    public const uint StreamOutputDdiRegisterIndexDenotingGap = 0xffffffff;
+    public const uint StreamOutputNoRasterizedStream = 0xffffffff;
     public const int StreamOutputOutputComponentCount = 128;
     public const int StreamOutputStreamCount = 4;
 
@@ -459,8 +461,8 @@ public static partial class D3D12
     public const int SubpixelFractionalBitCount = 8;
     public const int SubtexelFractionalBitCount = 8;
 
-    public const int SystemReservedRegisterSpaceValuesEnd = unchecked((int)0xffffffff);
-    public const int SystemReservedRegisterSpaceValuesStart = unchecked((int)0xfffffff0);
+    public const uint SystemReservedRegisterSpaceValuesEnd = 0xffffffff;
+    public const uint SystemReservedRegisterSpaceValuesStart = 0xfffffff0;
 
     public const int TessellatorMaxEvenTessellationFactor = 64;
     public const int TessellatorMaxIsolineDensityTessellationFactor = 64;
@@ -489,7 +491,7 @@ public static partial class D3D12
     public const int VideoDecodeMaxHistogramComponents = 4;
     public const int VideoDecodeMinBitStreamOffsetAlignment = 256;
     public const int VideoDecodeMinHistogramOffsetAlignment = 256;
-    public const int VideoDecodeStatusMacroblocksAffectedUnknown = unchecked((int)0xffffffff);
+    public const uint VideoDecodeStatusMacroblocksAffectedUnknown = 0xffffffff;
     public const int VideoProcessMaxFilter = 32;
     public const int VideoProcessStereoViews = 2;
 

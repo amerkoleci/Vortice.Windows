@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -14,7 +14,7 @@ public partial struct RootDescriptor1
     /// <param name="shaderRegister">The shader register.</param>
     /// <param name="registerSpace">The register space.</param>
     /// <param name="flags">Specifies the <see cref="RootDescriptorFlags"/> that determine the volatility of descriptors and the data they reference.</param>
-    public RootDescriptor1(int shaderRegister, int registerSpace, RootDescriptorFlags flags = RootDescriptorFlags.None)
+    public RootDescriptor1(uint shaderRegister, uint registerSpace, RootDescriptorFlags flags = RootDescriptorFlags.None)
     {
         ShaderRegister = shaderRegister;
         RegisterSpace = registerSpace;

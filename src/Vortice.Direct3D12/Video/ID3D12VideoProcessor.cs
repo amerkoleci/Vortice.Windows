@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12.Video;
@@ -12,7 +12,7 @@ public unsafe partial class ID3D12VideoProcessor
     {
         fixed (VideoProcessInputStreamDescription* descriptionsPtr = &descriptions[0])
         {
-            return GetInputStreamDescriptions(descriptions.Length, descriptions);
+            return GetInputStreamDescriptions((uint)descriptions.Length, descriptions);
         }
     }
 
@@ -20,11 +20,11 @@ public unsafe partial class ID3D12VideoProcessor
     {
         fixed (VideoProcessInputStreamDescription* descriptionsPtr = &MemoryMarshal.GetReference(descriptions))
         {
-            return GetInputStreamDescriptions(descriptions.Length, (IntPtr)descriptionsPtr);
+            return GetInputStreamDescriptions((uint)descriptions.Length, (IntPtr)descriptionsPtr);
         }
     }
 
-    public Result GetInputStreamDescriptions(int count, VideoProcessInputStreamDescription[] descriptions)
+    public Result GetInputStreamDescriptions(uint count, VideoProcessInputStreamDescription[] descriptions)
     {
         fixed (VideoProcessInputStreamDescription* descriptionsPtr = &descriptions[0])
         {
@@ -32,7 +32,7 @@ public unsafe partial class ID3D12VideoProcessor
         }
     }
 
-    public Result GetInputStreamDescriptions(int count, Span<VideoProcessInputStreamDescription> descriptions)
+    public Result GetInputStreamDescriptions(uint count, Span<VideoProcessInputStreamDescription> descriptions)
     {
         fixed (VideoProcessInputStreamDescription* descriptionsPtr = &MemoryMarshal.GetReference(descriptions))
         {

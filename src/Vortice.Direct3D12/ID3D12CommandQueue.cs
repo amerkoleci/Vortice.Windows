@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -20,7 +20,7 @@ public unsafe partial class ID3D12CommandQueue
             commandListsPtr[i] = (commandLists[i] == null) ? IntPtr.Zero : commandLists[i].NativePointer;
         }
 
-        ExecuteCommandLists(count, commandListsPtr);
+        ExecuteCommandLists((uint)count, commandListsPtr);
     }
 
     public void ExecuteCommandLists(int count, ID3D12CommandList[] commandLists)
@@ -31,7 +31,7 @@ public unsafe partial class ID3D12CommandQueue
             commandListsPtr[i] = (commandLists[i] == null) ? IntPtr.Zero : commandLists[i].NativePointer;
         }
 
-        ExecuteCommandLists(count, commandListsPtr);
+        ExecuteCommandLists((uint)count, commandListsPtr);
     }
 
     public void ExecuteCommandLists(ReadOnlySpan<ID3D12CommandList> commandLists)
@@ -42,7 +42,7 @@ public unsafe partial class ID3D12CommandQueue
             commandListsPtr[i] = (commandLists[i] == null) ? IntPtr.Zero : commandLists[i].NativePointer;
         }
 
-        ExecuteCommandLists(commandLists.Length, commandListsPtr);
+        ExecuteCommandLists((uint)commandLists.Length, commandListsPtr);
     }
 
     public void BeginEvent(string name)
@@ -50,7 +50,7 @@ public unsafe partial class ID3D12CommandQueue
         int bufferSize = PixHelpers.CalculateNoArgsEventSize(name);
         void* buffer = stackalloc byte[bufferSize];
         PixHelpers.FormatNoArgsEventToBuffer(buffer, PixHelpers.PixEventType.PIXEvent_BeginEvent_NoArgs, 0, name);
-        BeginEvent(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), bufferSize);
+        BeginEvent(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), (uint)bufferSize);
     }
 
     public void SetMarker(string name)
@@ -58,7 +58,7 @@ public unsafe partial class ID3D12CommandQueue
         int bufferSize = PixHelpers.CalculateNoArgsEventSize(name);
         void* buffer = stackalloc byte[bufferSize];
         PixHelpers.FormatNoArgsEventToBuffer(buffer, PixHelpers.PixEventType.PIXEvent_SetMarker_NoArgs, 0, name);
-        SetMarker(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), bufferSize);
+        SetMarker(PixHelpers.WinPIXEventPIX3BlobVersion, new IntPtr(buffer), (uint)bufferSize);
     }
 
     public unsafe void UpdateTileMappings(
@@ -77,11 +77,11 @@ public unsafe partial class ID3D12CommandQueue
         fixed (int* pHeapRangeStartOffsets = heapRangeStartOffsets)
         fixed (int* pRangeTileCounts = rangeTileCounts)
             UpdateTileMappings(resource,
-                resourceRegionStartCoordinates.Length,
+                (uint)resourceRegionStartCoordinates.Length,
                 pResourceRegionStartCoordinates,
                 pResourceRegionSizes,
                 heap,
-                rangeFlags.Length,
+                (uint)rangeFlags.Length,
                 pRangeFlags,
                 pHeapRangeStartOffsets,
                 pRangeTileCounts,
@@ -104,11 +104,11 @@ public unsafe partial class ID3D12CommandQueue
         fixed (int* pHeapRangeStartOffsets = heapRangeStartOffsets)
         fixed (int* pRangeTileCounts = rangeTileCounts)
             UpdateTileMappings(resource,
-                resourceRegionStartCoordinates.Length,
+                (uint)resourceRegionStartCoordinates.Length,
                 pResourceRegionStartCoordinates,
                 pResourceRegionSizes,
                 heap,
-                rangeFlags.Length,
+                (uint)rangeFlags.Length,
                 pRangeFlags,
                 pHeapRangeStartOffsets,
                 pRangeTileCounts,

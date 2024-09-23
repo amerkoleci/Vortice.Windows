@@ -18,6 +18,6 @@ public partial class IDMLOperatorInitializer
     /// <returns></returns>
     public Result Reset(params IDMLCompiledOperator[]? operators)
     {
-        return Reset(operators?.Length ?? 0, operators);
+        return Reset((uint)(operators?.Length ?? 0), operators);
     }
 }

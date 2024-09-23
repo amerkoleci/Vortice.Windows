@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct3D12;
@@ -35,24 +35,24 @@ public partial class RootSignatureDescription2
 
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal struct __Native
+    internal unsafe struct __Native
     {
-        public int NumParameters;
-        public IntPtr PParameters;
-        public int NumStaticSamplers;
-        public IntPtr PStaticSamplers;
+        public uint NumParameters;
+        public RootParameter1* pParameters;
+        public uint NumStaticSamplers;
+        public StaticSamplerDescription1* pStaticSamplers;
         public RootSignatureFlags Flags;
 
         internal void __MarshalFree()
         {
-            if (PParameters != IntPtr.Zero)
+            if (pParameters != null)
             {
-                Marshal.FreeHGlobal(PParameters);
+                NativeMemory.Free(pParameters);
             }
 
-            if (PStaticSamplers != IntPtr.Zero)
+            if (pStaticSamplers != null)
             {
-                Marshal.FreeHGlobal(PStaticSamplers);
+                NativeMemory.Free(pStaticSamplers);
             }
         }
     }
@@ -67,13 +67,13 @@ public partial class RootSignatureDescription2
         Parameters = new RootParameter1[@ref.NumParameters];
         if (@ref.NumParameters > 0)
         {
-            UnsafeUtilities.Read(@ref.PParameters, Parameters);
+            UnsafeUtilities.Read(@ref.pParameters, Parameters);
         }
 
         StaticSamplers = new StaticSamplerDescription1[@ref.NumStaticSamplers];
         if (@ref.NumStaticSamplers > 0)
         {
-            UnsafeUtilities.Read(@ref.PStaticSamplers, StaticSamplers);
+            UnsafeUtilities.Read(@ref.pStaticSamplers, StaticSamplers);
         }
 
         Flags = @ref.Flags;
@@ -81,10 +81,10 @@ public partial class RootSignatureDescription2
 
     internal unsafe void __MarshalTo(ref __Native @ref)
     {
-        @ref.NumParameters = Parameters?.Length ?? 0;
-        @ref.PParameters = UnsafeUtilities.AllocToPointer(Parameters);
-        @ref.NumStaticSamplers = StaticSamplers?.Length ?? 0;
-        @ref.PStaticSamplers = UnsafeUtilities.AllocToPointer(StaticSamplers);
+        @ref.NumParameters = (uint)(Parameters?.Length ?? 0);
+        @ref.pParameters = UnsafeUtilities.AllocToPointer(Parameters);
+        @ref.NumStaticSamplers = (uint)(StaticSamplers?.Length ?? 0);
+        @ref.pStaticSamplers = UnsafeUtilities.AllocToPointer(StaticSamplers);
         @ref.Flags = Flags;
     }
     #endregion

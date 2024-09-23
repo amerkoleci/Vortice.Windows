@@ -37,6 +37,9 @@
   </extension>
 
   <bindings>
+    <bind from="UINT" to="System.UInt32" override="true" />
+    <bind from="UINT32" to="System.UInt32" override="true" />
+    
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
     <bind from="D3D12_BOX" to="Vortice.Mathematics.Box"/>

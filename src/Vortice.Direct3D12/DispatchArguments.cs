@@ -14,7 +14,7 @@ public partial struct DispatchArguments
     /// <param name="threadGroupCountX">The size, in thread groups, of the x-dimension of the thread-group grid.</param>
     /// <param name="threadGroupCountY">The size, in thread groups, of the y-dimension of the thread-group grid.</param>
     /// <param name="threadGroupCountZ">The size, in thread groups, of the z-dimension of the thread-group grid.</param>
-    public DispatchArguments(int threadGroupCountX, int threadGroupCountY, int threadGroupCountZ)
+    public DispatchArguments(uint threadGroupCountX, uint threadGroupCountY, uint threadGroupCountZ)
     {
         ThreadGroupCountX = threadGroupCountX;
         ThreadGroupCountY = threadGroupCountY;
