@@ -17,7 +17,7 @@ public unsafe partial class ID3D11Device
         get
         {
             byte* pname = stackalloc byte[1024];
-            int size = 1024 - 1;
+            uint size = 1024 - 1;
             if (GetPrivateData(CommonGuid.DebugObjectName, ref size, new IntPtr(pname)).Failure)
             {
                 return string.Empty;
@@ -35,7 +35,7 @@ public unsafe partial class ID3D11Device
             else
             {
                 IntPtr namePtr = Marshal.StringToHGlobalAnsi(value);
-                SetPrivateData(CommonGuid.DebugObjectName, value!.Length, namePtr);
+                SetPrivateData(CommonGuid.DebugObjectName, (uint)value!.Length, namePtr);
                 Marshal.FreeHGlobal(namePtr);
             }
         }
@@ -44,7 +44,7 @@ public unsafe partial class ID3D11Device
     public T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
     {
         T featureSupport = default;
-        CheckFeatureSupport(feature, &featureSupport, sizeof(T));
+        CheckFeatureSupport(feature, &featureSupport, (uint)sizeof(T));
         return featureSupport;
     }
 
@@ -52,7 +52,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (T* featureSupportPtr = &featureSupport)
         {
-            return CheckFeatureSupport(feature, featureSupportPtr, sizeof(T)).Success;
+            return CheckFeatureSupport(feature, featureSupportPtr, (uint)sizeof(T)).Success;
         }
     }
 
@@ -67,7 +67,7 @@ public unsafe partial class ID3D11Device
     public Result CheckThreadingSupport(out bool supportsConcurrentResources, out bool supportsCommandLists)
     {
         FeatureDataThreading support = default;
-        Result result = CheckFeatureSupport(Feature.Threading, &support, sizeof(FeatureDataThreading));
+        Result result = CheckFeatureSupport(Feature.Threading, &support, (uint)sizeof(FeatureDataThreading));
 
         if (result.Failure)
         {
@@ -147,7 +147,7 @@ public unsafe partial class ID3D11Device
     {
         FeatureDataFormatSupport support = default;
         support.InFormat = format;
-        if (CheckFeatureSupport(Feature.FormatSupport, &support, sizeof(FeatureDataFormatSupport2)).Failure)
+        if (CheckFeatureSupport(Feature.FormatSupport, &support, (uint)sizeof(FeatureDataFormatSupport2)).Failure)
         {
             return FormatSupport.None;
         }
@@ -159,7 +159,7 @@ public unsafe partial class ID3D11Device
     {
         FeatureDataFormatSupport2 support = default;
         support.InFormat = format;
-        if (CheckFeatureSupport(Feature.FormatSupport2, &support, sizeof(FeatureDataFormatSupport2)).Failure)
+        if (CheckFeatureSupport(Feature.FormatSupport2, &support, (uint)sizeof(FeatureDataFormatSupport2)).Failure)
         {
             return FormatSupport2.None;
         }
@@ -194,7 +194,7 @@ public unsafe partial class ID3D11Device
     public ID3D11Buffer CreateBuffer<T>(in T data, BufferDescription description) where T : unmanaged
     {
         if (description.ByteWidth == 0)
-            description.ByteWidth = sizeof(T);
+            description.ByteWidth = (uint)sizeof(T);
 
         fixed (T* dataPtr = &data)
         {
@@ -205,7 +205,7 @@ public unsafe partial class ID3D11Device
     public ID3D11Buffer CreateBuffer<T>(Span<T> data, BufferDescription description) where T : unmanaged
     {
         if (description.ByteWidth == 0)
-            description.ByteWidth = sizeof(T) * data.Length;
+            description.ByteWidth = (uint)(sizeof(T) * data.Length);
 
         fixed (T* dataPtr = data)
         {
@@ -216,7 +216,7 @@ public unsafe partial class ID3D11Device
     public ID3D11Buffer CreateBuffer<T>(ReadOnlySpan<T> data, BufferDescription description) where T : unmanaged
     {
         if (description.ByteWidth == 0)
-            description.ByteWidth = sizeof(T) * data.Length;
+            description.ByteWidth = (uint)(sizeof(T) * data.Length);
 
         fixed (T* dataPtr = data)
         {
@@ -235,12 +235,12 @@ public unsafe partial class ID3D11Device
     /// <param name="structureByteStride">The size (in bytes) of the structure element for structured buffers.</param>
     /// <returns>An initialized buffer</returns>
     public ID3D11Buffer CreateBuffer(
-        int sizeInBytes,
+        uint sizeInBytes,
         BindFlags bindFlags,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags accessFlags = CpuAccessFlags.None,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
-        int structureByteStride = 0)
+        uint structureByteStride = 0)
     {
         BufferDescription description = new()
         {
@@ -273,17 +273,17 @@ public unsafe partial class ID3D11Device
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags accessFlags = CpuAccessFlags.None,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
-        int sizeInBytes = 0,
-        int structureByteStride = 0) where T : unmanaged
+        uint sizeInBytes = 0,
+        uint structureByteStride = 0) where T : unmanaged
     {
         BufferDescription description = new()
         {
-            ByteWidth = sizeInBytes == 0 ? sizeof(T) * data.Length : sizeInBytes,
+            ByteWidth = sizeInBytes == 0 ? (uint)(sizeof(T) * data.Length) : sizeInBytes,
             BindFlags = bindFlags,
             CPUAccessFlags = accessFlags,
             MiscFlags = miscFlags,
             Usage = usage,
-            StructureByteStride = structureByteStride == 0 ? sizeof(T) : structureByteStride,
+            StructureByteStride = structureByteStride == 0 ? (uint)sizeof(T) : structureByteStride,
         };
 
         fixed (T* dataPtr = data)
@@ -309,17 +309,17 @@ public unsafe partial class ID3D11Device
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags accessFlags = CpuAccessFlags.None,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
-        int sizeInBytes = 0,
-        int structureByteStride = 0) where T : unmanaged
+        uint sizeInBytes = 0,
+        uint structureByteStride = 0) where T : unmanaged
     {
         BufferDescription description = new()
         {
-            ByteWidth = sizeInBytes == 0 ? sizeof(T) * data.Length : sizeInBytes,
+            ByteWidth = sizeInBytes == 0 ? (uint)(sizeof(T) * data.Length) : sizeInBytes,
             BindFlags = bindFlags,
             CPUAccessFlags = accessFlags,
             MiscFlags = miscFlags,
             Usage = usage,
-            StructureByteStride = structureByteStride == 0 ? sizeof(T) : structureByteStride,
+            StructureByteStride = structureByteStride == 0 ? (uint)sizeof(T) : structureByteStride,
         };
 
         fixed (T* dataPtr = data)
@@ -345,17 +345,17 @@ public unsafe partial class ID3D11Device
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags accessFlags = CpuAccessFlags.None,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
-        int sizeInBytes = 0,
-        int structureByteStride = 0) where T : unmanaged
+        uint sizeInBytes = 0,
+        uint structureByteStride = 0) where T : unmanaged
     {
         BufferDescription description = new()
         {
-            ByteWidth = sizeInBytes == 0 ? sizeof(T) * data.Length : sizeInBytes,
+            ByteWidth = sizeInBytes == 0 ? (uint)(sizeof(T) * data.Length) : sizeInBytes,
             BindFlags = bindFlags,
             CPUAccessFlags = accessFlags,
             MiscFlags = miscFlags,
             Usage = usage,
-            StructureByteStride = structureByteStride == 0 ? sizeof(T) : structureByteStride,
+            StructureByteStride = structureByteStride == 0 ? (uint)sizeof(T) : structureByteStride,
         };
 
         fixed (T* dataPtr = data)
@@ -366,10 +366,10 @@ public unsafe partial class ID3D11Device
 
     public ID3D11Buffer CreateConstantBuffer<T>() where T : unmanaged
     {
-        int sizeInBytes = sizeof(T);
+        uint sizeInBytes = (uint)sizeof(T);
         BufferDescription description = new()
         {
-            ByteWidth = (int)MathHelper.AlignUp((uint)sizeInBytes, 16),
+            ByteWidth = MathHelper.AlignUp(sizeInBytes, 16u),
             BindFlags = BindFlags.ConstantBuffer,
             CPUAccessFlags = CpuAccessFlags.Write,
             Usage = ResourceUsage.Dynamic
@@ -562,7 +562,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, (nuint)shaderBytecode.Length);
+            return CreateInputLayout(inputElements, (uint)inputElements.Length, pBuffer, (nuint)shaderBytecode.Length);
         }
     }
 
@@ -576,7 +576,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, (nuint)shaderBytecode.Length);
+            return CreateInputLayout(inputElements, (uint)inputElements.Length, pBuffer, (nuint)shaderBytecode.Length);
         }
     }
 
@@ -590,7 +590,7 @@ public unsafe partial class ID3D11Device
     {
         fixed (byte* pBuffer = shaderBytecode)
         {
-            return CreateInputLayout(inputElements, inputElements.Length, pBuffer, (nuint)shaderBytecode.Length);
+            return CreateInputLayout(inputElements, (uint)inputElements.Length, pBuffer, (nuint)shaderBytecode.Length);
         }
     }
 
@@ -602,7 +602,7 @@ public unsafe partial class ID3D11Device
     /// <returns>New instance of <see cref="ID3D11InputLayout"/> or throws exception.</returns>
     public ID3D11InputLayout CreateInputLayout(InputElementDescription[] inputElements, Blob blob)
     {
-        return CreateInputLayout(inputElements, inputElements.Length, blob.BufferPointer.ToPointer(), blob.BufferSize);
+        return CreateInputLayout(inputElements, (uint)inputElements.Length, blob.BufferPointer.ToPointer(), blob.BufferSize);
     }
 
     public ID3D11Query CreateQuery(QueryType queryType, QueryFlags miscFlags = QueryFlags.None)
@@ -652,9 +652,9 @@ public unsafe partial class ID3D11Device
     }
 
     public ID3D11Texture1D CreateTexture1D(Format format,
-        int width,
-        int arraySize = 1,
-        int mipLevels = 1,
+        uint width,
+        uint arraySize = 1,
+        uint mipLevels = 1,
         SubresourceData[]? initialData = null,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
@@ -666,36 +666,11 @@ public unsafe partial class ID3D11Device
     }
 
     public ID3D11Texture1D CreateTexture1D<T>(
-        T[] initialData,
-        Format format,
-        int width,
-        int arraySize = 1,
-        int mipLevels = 1,
-        BindFlags bindFlags = BindFlags.ShaderResource,
-        ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
-        ResourceUsage usage = ResourceUsage.Default,
-        CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
-        where T : unmanaged
-    {
-        Texture1DDescription description = new(format, width, arraySize, mipLevels, bindFlags,
-            usage: usage,
-            cpuAccessFlags: cpuAccessFlags,
-            miscFlags: miscFlags
-            );
-        fixed (T* initialDataPtr = initialData)
-        {
-            FormatHelper.GetSurfaceInfo(format, width, 1, out int rowPitch, out int slicePitch);
-            SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
-            return CreateTexture1D(description, &initData);
-        }
-    }
-
-    public ID3D11Texture1D CreateTexture1D<T>(
         Span<T> initialData,
         Format format,
-        int width,
-        int arraySize = 1,
-        int mipLevels = 1,
+        uint width,
+        uint arraySize = 1,
+        uint mipLevels = 1,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
@@ -709,7 +684,7 @@ public unsafe partial class ID3D11Device
             );
         fixed (T* initialDataPtr = initialData)
         {
-            FormatHelper.GetSurfaceInfo(format, width, 1, out int rowPitch, out int slicePitch);
+            FormatHelper.GetSurfaceInfo(format, width, 1, out uint rowPitch, out uint slicePitch);
             SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
             return CreateTexture1D(description, &initData);
         }
@@ -718,9 +693,9 @@ public unsafe partial class ID3D11Device
     public ID3D11Texture1D CreateTexture1D<T>(
         ReadOnlySpan<T> initialData,
         Format format,
-        int width,
-        int arraySize = 1,
-        int mipLevels = 1,
+        uint width,
+        uint arraySize = 1,
+        uint mipLevels = 1,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
@@ -734,7 +709,7 @@ public unsafe partial class ID3D11Device
             );
         fixed (T* initialDataPtr = initialData)
         {
-            FormatHelper.GetSurfaceInfo(format, width, 1, out int rowPitch, out int slicePitch);
+            FormatHelper.GetSurfaceInfo(format, width, 1, out uint rowPitch, out uint slicePitch);
             SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
             return CreateTexture1D(description, &initData);
         }
@@ -750,21 +725,6 @@ public unsafe partial class ID3D11Device
     public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, SubresourceData initialData)
     {
         return CreateTexture2D(description, &initialData);
-    }
-
-    public ID3D11Texture2D CreateTexture2D(Texture2DDescription description, SubresourceData[]? initialData = null)
-    {
-        if (initialData != null && initialData.Length > 0)
-        {
-            fixed (SubresourceData* initialDataPtr = initialData)
-            {
-                return CreateTexture2D(description, initialDataPtr);
-            }
-        }
-        else
-        {
-            return CreateTexture2D(description, (void*)null);
-        }
     }
 
     public ID3D11Texture2D CreateTexture2D(in Texture2DDescription description, Span<SubresourceData> initialData)
@@ -795,10 +755,10 @@ public unsafe partial class ID3D11Device
     }
 
     public ID3D11Texture2D CreateTexture2D(Format format,
-        int width,
-        int height,
-        int arraySize = 1,
-        int mipLevels = 1,
+        uint width,
+        uint height,
+        uint arraySize = 1,
+        uint mipLevels = 1,
         SubresourceData[]? initialData = null,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
@@ -810,10 +770,10 @@ public unsafe partial class ID3D11Device
 
     public ID3D11Texture2D CreateTexture2D<T>(T[] initialData,
         Format format,
-        int width,
-        int height,
-        int arraySize = 1,
-        int mipLevels = 1,
+        uint width,
+        uint height,
+        uint arraySize = 1,
+        uint mipLevels = 1,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
@@ -827,7 +787,7 @@ public unsafe partial class ID3D11Device
             );
         fixed (T* initialDataPtr = initialData)
         {
-            FormatHelper.GetSurfaceInfo(format, width, height, out int rowPitch, out int slicePitch);
+            FormatHelper.GetSurfaceInfo(format, width, height, out uint rowPitch, out uint slicePitch);
             SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
             return CreateTexture2D(description, &initData);
         }
@@ -835,10 +795,10 @@ public unsafe partial class ID3D11Device
 
     public ID3D11Texture2D CreateTexture2D<T>(Span<T> initialData,
         Format format,
-        int width,
-        int height,
-        int arraySize = 1,
-        int mipLevels = 1,
+        uint width,
+        uint height,
+        uint arraySize = 1,
+        uint mipLevels = 1,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
@@ -852,7 +812,7 @@ public unsafe partial class ID3D11Device
              );
         fixed (T* initialDataPtr = initialData)
         {
-            FormatHelper.GetSurfaceInfo(format, width, height, out int rowPitch, out int slicePitch);
+            FormatHelper.GetSurfaceInfo(format, width, height, out uint rowPitch, out uint slicePitch);
             SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
             return CreateTexture2D(description, &initData);
         }
@@ -860,10 +820,10 @@ public unsafe partial class ID3D11Device
 
     public ID3D11Texture2D CreateTexture2D<T>(ReadOnlySpan<T> initialData,
         Format format,
-        int width,
-        int height,
-        int arraySize = 1,
-        int mipLevels = 1,
+        uint width,
+        uint height,
+        uint arraySize = 1,
+        uint mipLevels = 1,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
@@ -877,17 +837,17 @@ public unsafe partial class ID3D11Device
              );
         fixed (T* initialDataPtr = initialData)
         {
-            FormatHelper.GetSurfaceInfo(format, width, height, out int rowPitch, out int slicePitch);
+            FormatHelper.GetSurfaceInfo(format, width, height, out uint rowPitch, out uint slicePitch);
             SubresourceData initData = new(initialDataPtr, rowPitch, slicePitch);
             return CreateTexture2D(description, &initData);
         }
     }
 
     public ID3D11Texture2D CreateTexture2DMultisample(Format format,
-        int width,
-        int height,
-        int sampleCount,
-        int arraySize = 1,
+        uint width,
+        uint height,
+        uint sampleCount,
+        uint arraySize = 1,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
@@ -900,15 +860,15 @@ public unsafe partial class ID3D11Device
     }
 
     public ID3D11Texture2D CreateTextureCube(Format format,
-        int size,
-        int mipLevels = 0,
+        uint size,
+        uint mipLevels = 0,
         SubresourceData[]? initialData = null,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None)
     {
-        Texture2DDescription description = new(format, size, size, 6, mipLevels, bindFlags, usage, cpuAccessFlags, 1, 0, miscFlags | ResourceOptionFlags.TextureCube);
+        Texture2DDescription description = new(format, size, size, 6u, mipLevels, bindFlags, usage, cpuAccessFlags, 1, 0, miscFlags | ResourceOptionFlags.TextureCube);
         return CreateTexture2D(description, initialData);
     }
     #endregion
@@ -940,10 +900,10 @@ public unsafe partial class ID3D11Device
     }
 
     public ID3D11Texture3D CreateTexture3D(Format format,
-        int width,
-        int height,
-        int depth,
-        int mipLevels = 0,
+        uint width,
+        uint height,
+        uint depth,
+        uint mipLevels = 0,
         SubresourceData[]? initialData = null,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,

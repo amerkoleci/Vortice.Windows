@@ -8,6 +8,6 @@ public partial class IDXGIOutputDuplication
     public DataRectangle MapDesktopSurface()
     {
         MapDesktopSurface(out MappedRect mappedRect).CheckError();
-        return new DataRectangle(mappedRect.Bits, mappedRect.Pitch);
+        return new DataRectangle(mappedRect.Bits, (uint)mappedRect.Pitch);
     }
 }

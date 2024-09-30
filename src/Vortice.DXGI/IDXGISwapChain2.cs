@@ -11,9 +11,9 @@ public partial class IDXGISwapChain2
     {
         get
         {
-            GetSourceSize(out int width, out int height);
-            return new(width, height);
+            GetSourceSize(out uint width, out uint height);
+            return new((int)width, (int)height);
         }
-        set => SetSourceSize(value.Width, value.Height);
+        set => SetSourceSize((uint)value.Width, (uint)value.Height);
     }
 }

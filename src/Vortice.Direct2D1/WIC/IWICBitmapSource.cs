@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.WIC;
@@ -10,8 +10,8 @@ public unsafe partial class IWICBitmapSource
     {
         get
         {
-            GetSize(out int width, out int height);
-            return new(width, height);
+            GetSize(out uint width, out uint height);
+            return new((int)width, (int)height);
         }
     }
 
@@ -24,61 +24,61 @@ public unsafe partial class IWICBitmapSource
         }
     }
 
-    public void CopyPixels(int stride, int size, IntPtr data)
+    public void CopyPixels(uint stride, uint size, IntPtr data)
     {
         CopyPixels(null, stride, size, data.ToPointer());
     }
 
-    public void CopyPixels(RectI rectangle, int stride, int size, IntPtr data)
+    public void CopyPixels(RectI rectangle, uint stride, uint size, IntPtr data)
     {
         CopyPixels(&rectangle, stride, size, data.ToPointer());
     }
 
-    public void CopyPixels(int stride, byte[] data)
+    public void CopyPixels(uint stride, byte[] data)
     {
         fixed (byte* dataPtr = data)
         {
-            CopyPixels(null, stride, data.Length, dataPtr);
+            CopyPixels(null, stride, (uint)data.Length, dataPtr);
         }
     }
 
-    public void CopyPixels(RectI rectangle, int stride, byte[] data)
+    public void CopyPixels(RectI rectangle, uint stride, byte[] data)
     {
         fixed (byte* dataPtr = &data[0])
         {
-            CopyPixels(&rectangle, stride, data.Length, dataPtr);
+            CopyPixels(&rectangle, stride, (uint)data.Length, dataPtr);
         }
     }
 
-    public void CopyPixels<T>(int stride, T[] data) where T : unmanaged
+    public void CopyPixels<T>(uint stride, T[] data) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {
-            CopyPixels(null, stride, data.Length * sizeof(T), dataPtr);
+            CopyPixels(null, stride, (uint)(data.Length * sizeof(T)), dataPtr);
         }
     }
 
-    public void CopyPixels<T>(RectI rectangle, int stride, T[] data) where T : unmanaged
+    public void CopyPixels<T>(RectI rectangle, uint stride, T[] data) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {
-            CopyPixels(&rectangle, stride, data.Length * sizeof(T), dataPtr);
+            CopyPixels(&rectangle, stride, (uint)(data.Length * sizeof(T)), dataPtr);
         }
     }
 
-    public void CopyPixels<T>(int stride, Span<T> data) where T : unmanaged
+    public void CopyPixels<T>(uint stride, Span<T> data) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {
-            CopyPixels(null, stride, data.Length * sizeof(T), dataPtr);
+            CopyPixels(null, stride, (uint)(data.Length * sizeof(T)), dataPtr);
         }
     }
 
-    public void CopyPixels<T>(RectI rectangle, int stride, Span<T> data) where T : unmanaged
+    public void CopyPixels<T>(RectI rectangle, uint stride, Span<T> data) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {
-            CopyPixels(&rectangle, stride, data.Length * sizeof(T), dataPtr);
+            CopyPixels(&rectangle, stride, (uint)(data.Length * sizeof(T)), dataPtr);
         }
     }
 }

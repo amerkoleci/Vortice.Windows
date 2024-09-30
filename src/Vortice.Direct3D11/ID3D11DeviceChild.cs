@@ -13,7 +13,7 @@ public unsafe partial class ID3D11DeviceChild
         get
         {
             byte* pname = stackalloc byte[1024];
-            int size = 1024 - 1;
+            uint size = 1024 - 1;
             if (GetPrivateData(CommonGuid.DebugObjectName, ref size, pname).Failure)
             {
                 return string.Empty;
@@ -31,7 +31,7 @@ public unsafe partial class ID3D11DeviceChild
             else
             {
                 IntPtr namePtr = Marshal.StringToHGlobalAnsi(value);
-                SetPrivateData(CommonGuid.DebugObjectName, value!.Length, namePtr.ToPointer());
+                SetPrivateData(CommonGuid.DebugObjectName, (uint)value!.Length, namePtr.ToPointer());
                 Marshal.FreeHGlobal(namePtr);
             }
         }

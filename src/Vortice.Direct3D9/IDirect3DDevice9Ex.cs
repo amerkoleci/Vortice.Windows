@@ -5,12 +5,12 @@ namespace Vortice.Direct3D9;
 
 public unsafe partial class IDirect3DDevice9Ex
 {
-    public IDirect3DSurface9 CreateRenderTargetEx(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable, Usage usage)
+    public IDirect3DSurface9 CreateRenderTargetEx(uint width, uint height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable, Usage usage)
     {
         return CreateRenderTargetEx_(width, height, format, multiSample, multisampleQuality, lockable, IntPtr.Zero, usage);
     }
 
-    public IDirect3DSurface9 CreateRenderTargetEx(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable, ref IntPtr sharedHandle, Usage usage)
+    public IDirect3DSurface9 CreateRenderTargetEx(uint width, uint height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable, ref IntPtr sharedHandle, Usage usage)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -18,12 +18,12 @@ public unsafe partial class IDirect3DDevice9Ex
         }
     }
 
-    public IDirect3DSurface9 CreateDepthStencilSurfaceEx(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard, Usage usage)
+    public IDirect3DSurface9 CreateDepthStencilSurfaceEx(uint width, uint height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard, Usage usage)
     {
         return CreateDepthStencilSurfaceEx_(width, height, format, multiSample, multisampleQuality, discard, IntPtr.Zero, usage);
     }
 
-    public IDirect3DSurface9 CreateDepthStencilSurfaceEx(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard, ref IntPtr sharedHandle, Usage usage)
+    public IDirect3DSurface9 CreateDepthStencilSurfaceEx(uint width, uint height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard, ref IntPtr sharedHandle, Usage usage)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -31,12 +31,12 @@ public unsafe partial class IDirect3DDevice9Ex
         }
     }
 
-    public IDirect3DSurface9 CreateOffscreenPlainSurfaceEx(int width, int height, Format format, Pool pool, Usage usage)
+    public IDirect3DSurface9 CreateOffscreenPlainSurfaceEx(uint width, uint height, Format format, Pool pool, Usage usage)
     {
         return CreateOffscreenPlainSurfaceEx_(width, height, format, pool, IntPtr.Zero, usage);
     }
 
-    public IDirect3DSurface9 CreateOffscreenPlainSurfaceEx(int width, int height, Format format, Pool pool, ref IntPtr sharedHandle, Usage usage)
+    public IDirect3DSurface9 CreateOffscreenPlainSurfaceEx(uint width, uint height, Format format, Pool pool, ref IntPtr sharedHandle, Usage usage)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -76,6 +76,6 @@ public unsafe partial class IDirect3DDevice9Ex
 
     public Result CheckResourceResidency(IDirect3DResource9[] resources)
     {
-        return CheckResourceResidency(resources, resources.Length);
+        return CheckResourceResidency(resources, (uint)resources.Length);
     }
 }

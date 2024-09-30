@@ -26,15 +26,15 @@ public partial struct Texture2DDescription
     /// <param name="miscFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
     public Texture2DDescription(
         Format format,
-        int width,
-        int height,
-        int arraySize = 1,
-        int mipLevels = 0,
+        uint width,
+        uint height,
+        uint arraySize = 1,
+        uint mipLevels = 0,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None,
-        int sampleCount = 1,
-        int sampleQuality = 0,
+        uint sampleCount = 1,
+        uint sampleQuality = 0,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None)
     {
         if (format == Format.Unknown)
@@ -66,9 +66,9 @@ public partial struct Texture2DDescription
     /// </summary>
     /// <param name="mipLevel"></param>
     /// <returns></returns>
-    public int GetWidth(int mipLevel = 0)
+    public uint GetWidth(uint mipLevel = 0)
     {
-        return (mipLevel == 0) || (mipLevel < MipLevels) ? Math.Max(1, Width >> mipLevel) : 0;
+        return (mipLevel == 0) || (mipLevel < MipLevels) ? Math.Max(1, Width >> (int)mipLevel) : 0;
     }
 
     /// <summary>
@@ -76,8 +76,8 @@ public partial struct Texture2DDescription
     /// </summary>
     /// <param name="mipLevel"></param>
     /// <returns></returns>
-    public int GetHeight(int mipLevel = 0)
+    public uint GetHeight(uint mipLevel = 0)
     {
-        return (mipLevel == 0) || (mipLevel < MipLevels) ? Math.Max(1, Height >> mipLevel) : 0;
+        return (mipLevel == 0) || (mipLevel < MipLevels) ? Math.Max(1, Height >> (int)mipLevel) : 0;
     }
 }

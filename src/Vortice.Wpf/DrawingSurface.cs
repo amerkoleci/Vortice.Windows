@@ -198,8 +198,8 @@ public class DrawingSurface : Image
         {
             BindFlags = BindFlags.RenderTarget | BindFlags.ShaderResource,
             Format = Format.B8G8R8A8_UNorm,
-            Width = TextureWidth,
-            Height = TextureHeight,
+            Width = (uint)TextureWidth,
+            Height = (uint)TextureHeight,
             MipLevels = 1,
             SampleDescription = new SampleDescription(1, 0),
             Usage = ResourceUsage.Default,
@@ -211,7 +211,7 @@ public class DrawingSurface : Image
 
         if (DepthStencilFormat != Format.Unknown)
         {
-            DepthStencilTexture = _device.CreateTexture2D(DepthStencilFormat, TextureWidth, TextureHeight, 1, 1, null, BindFlags.DepthStencil);
+            DepthStencilTexture = _device.CreateTexture2D(DepthStencilFormat, (uint)TextureWidth, (uint)TextureHeight, 1, 1, null, BindFlags.DepthStencil);
             DepthStencilView = _device.CreateDepthStencilView(DepthStencilTexture!, new DepthStencilViewDescription(DepthStencilTexture, DepthStencilViewDimension.Texture2D));
         }
 

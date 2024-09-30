@@ -1,17 +1,17 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Numerics;
 
 namespace Vortice.DirectWrite;
 
-public partial class IDWriteFontFace
+public unsafe partial class IDWriteFontFace
 {
-    public int FilesCount
+    public uint FilesCount
     {
         get
         {
-            int numberOfFiles = 0;
+            uint numberOfFiles = 0;
             GetFiles(ref numberOfFiles, null);
             return numberOfFiles;
         }
@@ -19,7 +19,7 @@ public partial class IDWriteFontFace
 
     public IDWriteFontFile[] GetFiles()
     {
-        int numberOfFiles = FilesCount;
+        uint numberOfFiles = FilesCount;
         IDWriteFontFile[] files = new IDWriteFontFile[numberOfFiles];
         GetFiles(ref numberOfFiles, files).CheckError();
         return files;
@@ -27,7 +27,7 @@ public partial class IDWriteFontFace
 
     public Result GetFiles(IDWriteFontFile[] files)
     {
-        int numberOfFiles = files.Length;
+        uint numberOfFiles = (uint)files.Length;
         return GetFiles(ref numberOfFiles, files);
     }
 
@@ -50,22 +50,38 @@ public partial class IDWriteFontFace
         return glyphMetrics;
     }
 
-    public ushort[] GetGlyphIndices(int[] codePoints)
+    public ushort[] GetGlyphIndices(uint[] codePoints)
     {
         ushort[] glyphIndices = new ushort[codePoints.Length];
-        GetGlyphIndicesW(codePoints, glyphIndices);
+        fixed (uint* codePointsPtr = codePoints)
+        fixed (ushort* glyphIndicesPtr = glyphIndices)
+            GetGlyphIndicesW(codePointsPtr, (uint)codePoints.Length, glyphIndicesPtr);
         return glyphIndices;
     }
 
-    public Result GetGlyphIndices(int[] codePoints, ushort[] glyphIndices)
+    public Result GetGlyphIndices(uint[] codePoints, ushort[] glyphIndices)
     {
-        return GetGlyphIndicesW(codePoints, glyphIndices);
+        fixed (uint* codePointsPtr = codePoints)
+        fixed (ushort* glyphIndicesPtr = glyphIndices)
+            return GetGlyphIndicesW(codePointsPtr, (uint)codePoints.Length, glyphIndicesPtr);
     }
 
-    public unsafe bool TryGetFontTable(int openTypeTableTag, out Span<byte> tableData, out IntPtr tableContext)
+    public Result GetGlyphIndices(ReadOnlySpan<uint> codePoints, Span<ushort> glyphIndices)
+    {
+        fixed (uint* codePointsPtr = codePoints)
+        fixed (ushort* glyphIndicesPtr = glyphIndices)
+            return GetGlyphIndicesW(codePointsPtr, (uint)codePoints.Length, glyphIndicesPtr);
+    }
+
+    public Result GetGlyphIndices(uint* codePoints, uint codePointCount, ushort* glyphIndices)
+    {
+        return GetGlyphIndicesW(codePoints, codePointCount, glyphIndices);
+    }
+
+    public unsafe bool TryGetFontTable(uint openTypeTableTag, out Span<byte> tableData, out IntPtr tableContext)
     {
         void* tableDataPtr = null;
-        Result result = TryGetFontTable(openTypeTableTag, &tableDataPtr, out int tableDataSize, out tableContext, out RawBool exists);
+        Result result = TryGetFontTable(openTypeTableTag, &tableDataPtr, out uint tableDataSize, out tableContext, out RawBool exists);
 
         if (result.Failure)
         {
@@ -73,7 +89,7 @@ public partial class IDWriteFontFace
             return false;
         }
 
-        tableData = new Span<byte>(tableDataPtr, tableDataSize);
+        tableData = new Span<byte>(tableDataPtr, (int)tableDataSize);
         return exists;
     }
 }

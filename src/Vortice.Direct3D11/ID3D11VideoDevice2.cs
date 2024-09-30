@@ -8,7 +8,7 @@ public partial class ID3D11VideoDevice2
     public unsafe T CheckFeatureSupport<T>(FeatureVideo feature) where T : unmanaged
     {
         T featureSupport = default;
-        CheckFeatureSupport(feature, &featureSupport, sizeof(T));
+        CheckFeatureSupport(feature, &featureSupport, (uint)sizeof(T));
         return featureSupport;
     }
 
@@ -16,7 +16,7 @@ public partial class ID3D11VideoDevice2
     {
         fixed (T* featureSupportPtr = &featureSupport)
         {
-            return CheckFeatureSupport(feature, featureSupportPtr, sizeof(T)).Success;
+            return CheckFeatureSupport(feature, featureSupportPtr, (uint)sizeof(T)).Success;
         }
     }
 }

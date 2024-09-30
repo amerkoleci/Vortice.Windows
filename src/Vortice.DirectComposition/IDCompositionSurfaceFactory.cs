@@ -7,13 +7,13 @@ namespace Vortice.DirectComposition;
 
 public partial class IDCompositionSurfaceFactory
 {
-    public IDCompositionSurface CreateSurface(int width, int height, Format pixelFormat, AlphaMode alphaMode)
+    public IDCompositionSurface CreateSurface(uint width, uint height, Format pixelFormat, AlphaMode alphaMode)
     {
         CreateSurface(width, height, pixelFormat, alphaMode, out IDCompositionSurface surface).CheckError();
         return surface;
     }
 
-    public IDCompositionVirtualSurface CreateVirtualSurface(int initialWidth, int initialHeight, Format pixelFormat, AlphaMode alphaMode)
+    public IDCompositionVirtualSurface CreateVirtualSurface(uint initialWidth, uint initialHeight, Format pixelFormat, AlphaMode alphaMode)
     {
         CreateVirtualSurface(initialWidth, initialHeight, pixelFormat, alphaMode, out IDCompositionVirtualSurface virtualSurface).CheckError();
         return virtualSurface;

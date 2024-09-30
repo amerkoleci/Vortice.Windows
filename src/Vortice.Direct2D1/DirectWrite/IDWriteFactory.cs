@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectWrite;
@@ -54,11 +54,11 @@ public partial class IDWriteFactory
     /// <param name="faceIndex">The zero-based index of a font face, in cases when the font files contain a collection of font faces. If the font files contain a single face, this value should be zero.</param>
     /// <param name="fontFaceSimulationFlags">A value that indicates which, if any, font face simulation flags for algorithmic means of making text bold or italic are applied to the current font face.</param>
     /// <returns>Instance of <see cref="IDWriteFontFace"/> or null if failed.</returns>
-    public IDWriteFontFace? CreateFontFace(FontFaceType fontFaceType, IDWriteFontFile[] fontFiles, int faceIndex = 0, FontSimulations fontFaceSimulationFlags = FontSimulations.None)
+    public IDWriteFontFace? CreateFontFace(FontFaceType fontFaceType, IDWriteFontFile[] fontFiles, uint faceIndex = 0, FontSimulations fontFaceSimulationFlags = FontSimulations.None)
     {
         Result result = CreateFontFace(
             fontFaceType,
-            fontFiles.Length, fontFiles,
+            (uint)fontFiles.Length, fontFiles,
             faceIndex,
             fontFaceSimulationFlags,
             out IDWriteFontFace? fontFace);

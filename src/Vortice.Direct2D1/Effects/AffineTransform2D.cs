@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct2D1.Effects;
@@ -17,19 +17,19 @@ public sealed class AffineTransform2D : ID2D1Effect
 
     public AffineTransform2DInterpolationMode InterPolationMode
     {
-        set => SetValue((int)AffineTransform2DProperties.InterpolationMode, value);
         get => GetEnumValue<AffineTransform2DInterpolationMode>((int)AffineTransform2DProperties.InterpolationMode);
+        set => SetValue((int)AffineTransform2DProperties.InterpolationMode, value);
     }
     public BorderMode BorderMode
     {
+        get => GetEnumValue<BorderMode>((uint)AffineTransform2DProperties.BorderMode);
         set => SetValue((int)AffineTransform2DProperties.BorderMode, value);
-        get => GetEnumValue<BorderMode>((int)AffineTransform2DProperties.BorderMode);
     }
 
     public Matrix3x2 TransformMatrix
     {
-        set => SetValue((int)AffineTransform2DProperties.TransformMatrix, value);
-        get => GetMatrix3x2Value((int)AffineTransform2DProperties.TransformMatrix);
+        set => SetValue((uint)AffineTransform2DProperties.TransformMatrix, value);
+        get => GetMatrix3x2Value((uint)AffineTransform2DProperties.TransformMatrix);
     }
 
     public float Sharpness

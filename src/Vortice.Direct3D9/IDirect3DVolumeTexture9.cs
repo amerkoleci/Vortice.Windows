@@ -30,7 +30,7 @@ public unsafe partial class IDirect3DVolumeTexture9
     /// <param name="level">The level.</param>
     /// <param name="flags">The flags.</param>
     /// <returns>A <see cref="LockedBox"/> describing the region locked.</returns>
-    public LockedBox LockBox(int level, LockFlags flags)
+    public LockedBox LockBox(uint level, LockFlags flags)
     {
         return LockBox(level, (void*)null, flags);
     }
@@ -42,7 +42,7 @@ public unsafe partial class IDirect3DVolumeTexture9
     /// <param name="box">The box.</param>
     /// <param name="flags">The flags.</param>
     /// <returns>A <see cref="LockedBox"/> describing the region locked.</returns>
-    public LockedBox LockBox(int level, Box box, LockFlags flags)
+    public LockedBox LockBox(uint level, Box box, LockFlags flags)
     {
         return LockBox(level, &box, flags);
     }

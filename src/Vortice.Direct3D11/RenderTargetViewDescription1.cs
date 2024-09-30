@@ -22,10 +22,10 @@ public partial struct RenderTargetViewDescription1
     public RenderTargetViewDescription1(
         RenderTargetViewDimension viewDimension,
         Format format = Format.Unknown,
-        int mipSlice = 0,
-        int firstArraySlice = 0,
-        int arraySize = -1,
-        int planeSlice = 0) : this()
+        uint mipSlice = 0,
+        uint firstArraySlice = 0,
+        uint arraySize = unchecked((uint)-1),
+        uint planeSlice = 0)
     {
         Format = format;
         ViewDimension = viewDimension;
@@ -76,8 +76,7 @@ public partial struct RenderTargetViewDescription1
     /// <param name="format"></param>
     /// <param name="firstElement"></param>
     /// <param name="numElements"></param>
-    public RenderTargetViewDescription1(ID3D11Buffer buffer, Format format, int firstElement, int numElements)
-        : this()
+    public RenderTargetViewDescription1(ID3D11Buffer buffer, Format format, uint firstElement, uint numElements)
     {
         Format = format;
         ViewDimension = RenderTargetViewDimension.Buffer;
@@ -89,19 +88,18 @@ public partial struct RenderTargetViewDescription1
         ID3D11Texture1D texture,
         bool isArray,
         Format format = Format.Unknown,
-        int mipSlice = 0,
-        int firstArraySlice = 0,
-        int arraySize = -1)
-        : this()
+        uint mipSlice = 0,
+        uint firstArraySlice = 0,
+        uint arraySize = unchecked((uint)-1))
     {
         ViewDimension = isArray ? RenderTargetViewDimension.Texture1DArray : RenderTargetViewDimension.Texture1D;
         if (format == Format.Unknown
-            || (arraySize == -1 && RenderTargetViewDimension.Texture1DArray == ViewDimension))
+            || (arraySize == unchecked((uint)-1) && RenderTargetViewDimension.Texture1DArray == ViewDimension))
         {
             var textureDesc = texture.Description;
             if (format == Format.Unknown)
                 format = textureDesc.Format;
-            if (arraySize == -1)
+            if (arraySize == unchecked((uint)-1))
                 arraySize = textureDesc.ArraySize - firstArraySlice;
         }
 
@@ -135,20 +133,19 @@ public partial struct RenderTargetViewDescription1
         ID3D11Texture2D texture,
         RenderTargetViewDimension viewDimension,
         Format format = Format.Unknown,
-        int mipSlice = 0,
-        int firstArraySlice = 0,
-        int arraySize = -1,
-        int planeSlice = 0)
-        : this()
+        uint mipSlice = 0,
+        uint firstArraySlice = 0,
+        uint arraySize = unchecked((uint)-1),
+        uint planeSlice = 0)
     {
         ViewDimension = viewDimension;
         if (format == Format.Unknown
-            || (-1 == arraySize && (RenderTargetViewDimension.Texture2DArray == viewDimension || RenderTargetViewDimension.Texture2DMultisampledArray == viewDimension)))
+            || (unchecked((uint)-1) == arraySize && (RenderTargetViewDimension.Texture2DArray == viewDimension || RenderTargetViewDimension.Texture2DMultisampledArray == viewDimension)))
         {
             var textureDesc = texture.Description;
             if (format == Format.Unknown)
                 format = textureDesc.Format;
-            if (-1 == arraySize)
+            if (unchecked((uint)-1) == arraySize)
             {
                 arraySize = textureDesc.ArraySize - firstArraySlice;
             }
@@ -188,18 +185,17 @@ public partial struct RenderTargetViewDescription1
     public RenderTargetViewDescription1(
         ID3D11Texture3D texture,
         Format format = Format.Unknown,
-        int mipSlice = 0,
-        int firstWSlice = 0,
-        int wSize = -1)
-        : this()
+        uint mipSlice = 0,
+        uint firstWSlice = 0,
+        uint wSize = unchecked((uint)-1))
     {
         ViewDimension = RenderTargetViewDimension.Texture3D;
-        if (format == Format.Unknown || wSize == -1)
+        if (format == Format.Unknown || wSize == unchecked((uint)-1))
         {
             var textureDesc = texture.Description;
             if (format == Format.Unknown)
                 format = textureDesc.Format;
-            if (wSize == -1)
+            if (wSize == unchecked((uint)-1))
                 wSize = textureDesc.Depth - firstWSlice;
         }
 

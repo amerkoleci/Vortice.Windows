@@ -26,12 +26,12 @@ public unsafe partial class IDirect3DDevice9
         }
     }
 
-    public IDirect3DVertexBuffer9 CreateVertexBuffer(int sizeInBytes, Usage usage, VertexFormat vertexFormat, Pool pool)
+    public IDirect3DVertexBuffer9 CreateVertexBuffer(uint sizeInBytes, Usage usage, VertexFormat vertexFormat, Pool pool)
     {
         return CreateVertexBuffer_(sizeInBytes, usage, vertexFormat, pool, IntPtr.Zero);
     }
 
-    public unsafe IDirect3DVertexBuffer9 CreateVertexBuffer(int sizeInBytes, Usage usage, VertexFormat vertexFormat, Pool pool, ref IntPtr sharedHandle)
+    public unsafe IDirect3DVertexBuffer9 CreateVertexBuffer(uint sizeInBytes, Usage usage, VertexFormat vertexFormat, Pool pool, ref IntPtr sharedHandle)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -39,12 +39,12 @@ public unsafe partial class IDirect3DDevice9
         }
     }
 
-    public IDirect3DIndexBuffer9 CreateIndexBuffer(int sizeInBytes, Usage usage, bool sixteenBit, Pool pool)
+    public IDirect3DIndexBuffer9 CreateIndexBuffer(uint sizeInBytes, Usage usage, bool sixteenBit, Pool pool)
     {
         return CreateIndexBuffer_(sizeInBytes, usage, sixteenBit ? Format.Index16 : Format.Index32, pool, IntPtr.Zero);
     }
 
-    public unsafe IDirect3DIndexBuffer9 CreateIndexBuffer(int sizeInBytes, Usage usage, bool sixteenBit, Pool pool, ref IntPtr sharedHandle)
+    public unsafe IDirect3DIndexBuffer9 CreateIndexBuffer(uint sizeInBytes, Usage usage, bool sixteenBit, Pool pool, ref IntPtr sharedHandle)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -52,12 +52,12 @@ public unsafe partial class IDirect3DDevice9
         }
     }
 
-    public IDirect3DTexture9 CreateTexture(int width, int height, int levels, Usage usage, Format format, Pool pool)
+    public IDirect3DTexture9 CreateTexture(uint width, uint height, uint levels, Usage usage, Format format, Pool pool)
     {
         return CreateTexture_(width, height, levels, usage, format, pool, IntPtr.Zero);
     }
 
-    public unsafe IDirect3DTexture9 CreateTexture(int width, int height, int levels, Usage usage, Format format, Pool pool, ref IntPtr sharedHandle)
+    public unsafe IDirect3DTexture9 CreateTexture(uint width, uint height, uint levels, Usage usage, Format format, Pool pool, ref IntPtr sharedHandle)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -65,12 +65,12 @@ public unsafe partial class IDirect3DDevice9
         }
     }
 
-    public IDirect3DVolumeTexture9 CreateVolumeTexture(int width, int height, int depth, int levels, Usage usage, Format format, Pool pool)
+    public IDirect3DVolumeTexture9 CreateVolumeTexture(uint width, uint height, uint depth, uint levels, Usage usage, Format format, Pool pool)
     {
         return CreateVolumeTexture_(width, height, depth, levels, usage, format, pool, IntPtr.Zero);
     }
 
-    public unsafe IDirect3DVolumeTexture9 CreateVolumeTexture(int width, int height, int depth, int levels, Usage usage, Format format, Pool pool, ref IntPtr sharedHandle)
+    public unsafe IDirect3DVolumeTexture9 CreateVolumeTexture(uint width, uint height, uint depth, uint levels, Usage usage, Format format, Pool pool, ref IntPtr sharedHandle)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -78,12 +78,12 @@ public unsafe partial class IDirect3DDevice9
         }
     }
 
-    public IDirect3DCubeTexture9 CreateCubeTexture(int edgeLength, int levels, Usage usage, Format format, Pool pool)
+    public IDirect3DCubeTexture9 CreateCubeTexture(uint edgeLength, uint levels, Usage usage, Format format, Pool pool)
     {
         return CreateCubeTexture_(edgeLength, levels, usage, format, pool, IntPtr.Zero);
     }
 
-    public unsafe IDirect3DCubeTexture9 CreateCubeTexture(int edgeLength, int levels, Usage usage, Format format, Pool pool, ref IntPtr sharedHandle)
+    public unsafe IDirect3DCubeTexture9 CreateCubeTexture(uint edgeLength, uint levels, Usage usage, Format format, Pool pool, ref IntPtr sharedHandle)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -91,12 +91,12 @@ public unsafe partial class IDirect3DDevice9
         }
     }
 
-    public IDirect3DSurface9 CreateRenderTarget(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable)
+    public IDirect3DSurface9 CreateRenderTarget(uint width, uint height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable)
     {
         return CreateRenderTarget_(width, height, format, multiSample, multisampleQuality, lockable, IntPtr.Zero);
     }
 
-    public unsafe IDirect3DSurface9 CreateRenderTarget(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable, ref IntPtr sharedHandle)
+    public unsafe IDirect3DSurface9 CreateRenderTarget(uint width, uint height, Format format, MultisampleType multiSample, int multisampleQuality, bool lockable, ref IntPtr sharedHandle)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -104,12 +104,12 @@ public unsafe partial class IDirect3DDevice9
         }
     }
 
-    public IDirect3DSurface9 CreateDepthStencilSurface(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard)
+    public IDirect3DSurface9 CreateDepthStencilSurface(uint width, uint height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard)
     {
         return CreateDepthStencilSurface_(width, height, format, multiSample, multisampleQuality, discard, IntPtr.Zero);
     }
 
-    public unsafe IDirect3DSurface9 CreateDepthStencilSurface(int width, int height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard, ref IntPtr sharedHandle)
+    public unsafe IDirect3DSurface9 CreateDepthStencilSurface(uint width, uint height, Format format, MultisampleType multiSample, int multisampleQuality, bool discard, ref IntPtr sharedHandle)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -117,12 +117,12 @@ public unsafe partial class IDirect3DDevice9
         }
     }
 
-    public IDirect3DSurface9 CreateOffscreenPlainSurface(int width, int height, Format format, Pool pool)
+    public IDirect3DSurface9 CreateOffscreenPlainSurface(uint width, uint height, Format format, Pool pool)
     {
         return CreateOffscreenPlainSurface_(width, height, format, pool, IntPtr.Zero);
     }
 
-    public unsafe IDirect3DSurface9 CreateOffscreenPlainSurface(int width, int height, Format format, Pool pool, ref IntPtr sharedHandle)
+    public unsafe IDirect3DSurface9 CreateOffscreenPlainSurface(uint width, uint height, Format format, Pool pool, ref IntPtr sharedHandle)
     {
         fixed (void* pSharedHandle = &sharedHandle)
         {
@@ -221,7 +221,7 @@ public unsafe partial class IDirect3DDevice9
     /// Resets the stream source frequency by setting the frequency to 1.
     /// </summary>
     /// <param name="stream">The stream index.</param>
-    public void ResetStreamSourceFrequency(int stream)
+    public void ResetStreamSourceFrequency(uint stream)
     {
         SetStreamSourceFrequency(stream, 1);
     }
@@ -232,9 +232,9 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="stream">The stream.</param>
     /// <param name="frequency">The frequency.</param>
     /// <param name="source">The source.</param>
-    public void SetStreamSourceFrequency(int stream, int frequency, StreamSource source)
+    public void SetStreamSourceFrequency(uint stream, uint frequency, StreamSource source)
     {
-        int value = (source == StreamSource.IndexedData) ? 0x40000000 : unchecked((int)0x80000000);
+        uint value = (source == StreamSource.IndexedData) ? 0x40000000 : 0x80000000;
         SetStreamSourceFrequency(stream, frequency | value);
     }
 
@@ -302,11 +302,11 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetVertexShaderConstant(int startRegister, Matrix4x4[] data)
+    public void SetVertexShaderConstant(uint startRegister, Matrix4x4[] data)
     {
         fixed (void* pData = data)
         {
-            SetVertexShaderConstantF(startRegister, (IntPtr)pData, data.Length << 2);
+            SetVertexShaderConstantF(startRegister, (IntPtr)pData, (uint)data.Length << 2);
         }
     }
 
@@ -315,12 +315,12 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetVertexShaderConstant(int startRegister, Vector4[] data)
+    public void SetVertexShaderConstant(uint startRegister, Vector4[] data)
     {
         unsafe
         {
             fixed (void* pData = data)
-                SetVertexShaderConstantF(startRegister, (IntPtr)pData, data.Length >> 2);
+                SetVertexShaderConstantF(startRegister, (IntPtr)pData, (uint)data.Length >> 2);
         }
     }
 
@@ -329,7 +329,7 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetVertexShaderConstant(int startRegister, bool[] data)
+    public void SetVertexShaderConstant(uint startRegister, bool[] data)
     {
         unsafe
         {
@@ -337,14 +337,14 @@ public unsafe partial class IDirect3DDevice9
             {
                 var result = stackalloc int[data.Length];
                 BooleanHelpers.ConvertToIntArray(data, result);
-                SetVertexShaderConstantB(startRegister, (IntPtr)result, data.Length);
+                SetVertexShaderConstantB(startRegister, (IntPtr)result, (uint)data.Length);
             }
             else
             {
                 var result = BooleanHelpers.ConvertToRawBoolArray(data);
                 fixed (void* pResult = result)
                 {
-                    SetVertexShaderConstantB(startRegister, (IntPtr)pResult, data.Length);
+                    SetVertexShaderConstantB(startRegister, (IntPtr)pResult, (uint)data.Length);
                 }
             }
         }
@@ -355,12 +355,12 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetVertexShaderConstant(int startRegister, int[] data)
+    public void SetVertexShaderConstant(uint startRegister, int[] data)
     {
         unsafe
         {
             fixed (void* pData = data)
-                SetVertexShaderConstantI(startRegister, (IntPtr)pData, data.Length >> 2);
+                SetVertexShaderConstantI(startRegister, (IntPtr)pData, (uint)data.Length >> 2);
         }
     }
 
@@ -369,12 +369,12 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetVertexShaderConstant(int startRegister, float[] data)
+    public void SetVertexShaderConstant(uint startRegister, float[] data)
     {
         unsafe
         {
             fixed (void* pData = data)
-                SetVertexShaderConstantF(startRegister, (IntPtr)pData, data.Length >> 2);
+                SetVertexShaderConstantF(startRegister, (IntPtr)pData, (uint)data.Length >> 2);
         }
     }
 
@@ -383,7 +383,7 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public unsafe void SetVertexShaderConstant(int startRegister, Matrix4x4* data)
+    public unsafe void SetVertexShaderConstant(uint startRegister, Matrix4x4* data)
     {
         SetVertexShaderConstantF(startRegister, (IntPtr)data, 4);
     }
@@ -393,7 +393,7 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetVertexShaderConstant(int startRegister, Matrix4x4 data)
+    public void SetVertexShaderConstant(uint startRegister, Matrix4x4 data)
     {
         unsafe
         {
@@ -407,7 +407,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
     /// <param name="count">The count.</param>
-    public unsafe void SetVertexShaderConstant(int startRegister, Matrix4x4* data, int count)
+    public unsafe void SetVertexShaderConstant(uint startRegister, Matrix4x4* data, uint count)
     {
         SetVertexShaderConstantF(startRegister, (IntPtr)data, count << 2);
     }
@@ -419,7 +419,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     /// <param name="offset">The offset.</param>
     /// <param name="count">The count.</param>
-    public unsafe void SetVertexShaderConstant(int startRegister, Matrix4x4[] data, int offset, int count)
+    public unsafe void SetVertexShaderConstant(uint startRegister, Matrix4x4[] data, uint offset, uint count)
     {
         fixed (void* pData = &data[offset])
         {
@@ -434,7 +434,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     /// <param name="offset">The offset.</param>
     /// <param name="count">The count.</param>
-    public unsafe void SetVertexShaderConstant(int startRegister, Vector4[] data, int offset, int count)
+    public unsafe void SetVertexShaderConstant(uint startRegister, Vector4[] data, uint offset, uint count)
     {
         fixed (void* pData = &data[offset])
         {
@@ -449,11 +449,11 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     /// <param name="offset">The offset.</param>
     /// <param name="count">The count.</param>
-    public unsafe void SetVertexShaderConstant(int startRegister, bool[] data, int offset, int count)
+    public void SetVertexShaderConstant(uint startRegister, bool[] data, uint offset, uint count)
     {
         if (count < 1024)
         {
-            var result = stackalloc int[data.Length];
+            int* result = stackalloc int[data.Length];
             BooleanHelpers.ConvertToIntArray(data, result);
             SetVertexShaderConstantB(startRegister, new IntPtr(&result[offset]), count);
         }
@@ -472,7 +472,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     /// <param name="offset">The offset.</param>
     /// <param name="count">The count.</param>
-    public unsafe void SetVertexShaderConstant(int startRegister, int[] data, int offset, int count)
+    public void SetVertexShaderConstant(uint startRegister, int[] data, uint offset, uint count)
     {
         fixed (void* pData = &data[offset])
         {
@@ -487,7 +487,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     /// <param name="offset">The offset.</param>
     /// <param name="count">The count.</param>
-    public unsafe void SetVertexShaderConstant(int startRegister, float[] data, int offset, int count)
+    public void SetVertexShaderConstant(uint startRegister, float[] data, uint offset, uint count)
     {
         fixed (void* pData = &data[offset])
         {
@@ -502,12 +502,12 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetPixelShaderConstant(int startRegister, Matrix4x4[] data)
+    public void SetPixelShaderConstant(uint startRegister, Matrix4x4[] data)
     {
         unsafe
         {
             fixed (void* pData = data)
-                SetPixelShaderConstantF(startRegister, (IntPtr)pData, data.Length << 2); // *4 is enough
+                SetPixelShaderConstantF(startRegister, (IntPtr)pData, (uint)data.Length << 2); // *4 is enough
         }
     }
 
@@ -516,12 +516,12 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetPixelShaderConstant(int startRegister, Vector4[] data)
+    public void SetPixelShaderConstant(uint startRegister, Vector4[] data)
     {
         unsafe
         {
             fixed (void* pData = data)
-                SetPixelShaderConstantF(startRegister, (IntPtr)pData, data.Length); // a vector4 is only one register
+                SetPixelShaderConstantF(startRegister, (IntPtr)pData, (uint)data.Length); // a vector4 is only one register
         }
     }
 
@@ -530,19 +530,19 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public unsafe void SetPixelShaderConstant(int startRegister, bool[] data)
+    public unsafe void SetPixelShaderConstant(uint startRegister, bool[] data)
     {
         if (data.Length < 1024)
         {
             var result = stackalloc int[data.Length];
             BooleanHelpers.ConvertToIntArray(data, result);
-            SetPixelShaderConstantB(startRegister, (IntPtr)result, data.Length);
+            SetPixelShaderConstantB(startRegister, (IntPtr)result, (uint)data.Length);
         }
         else
         {
             var result = BooleanHelpers.ConvertToRawBoolArray(data);
             fixed (void* pResult = result)
-                SetPixelShaderConstantB(startRegister, (IntPtr)pResult, data.Length);
+                SetPixelShaderConstantB(startRegister, (IntPtr)pResult, (uint)data.Length);
         }
     }
 
@@ -551,12 +551,12 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetPixelShaderConstant(int startRegister, int[] data)
+    public void SetPixelShaderConstant(uint startRegister, int[] data)
     {
         unsafe
         {
             fixed (void* pData = data)
-                SetPixelShaderConstantI(startRegister, (IntPtr)pData, data.Length >> 2); // /4 as it's the count of Vector4i
+                SetPixelShaderConstantI(startRegister, (IntPtr)pData, (uint)data.Length >> 2); // /4 as it's the count of Vector4i
         }
     }
 
@@ -565,12 +565,12 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetPixelShaderConstant(int startRegister, float[] data)
+    public void SetPixelShaderConstant(uint startRegister, float[] data)
     {
         unsafe
         {
             fixed (void* pData = data)
-                SetPixelShaderConstantF(startRegister, (IntPtr)pData, data.Length >> 2); // /4 as it's the count of Vector4f
+                SetPixelShaderConstantF(startRegister, (IntPtr)pData, (uint)data.Length >> 2); // /4 as it's the count of Vector4f
         }
     }
 
@@ -579,7 +579,7 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public unsafe void SetPixelShaderConstant(int startRegister, Matrix4x4* data)
+    public unsafe void SetPixelShaderConstant(uint startRegister, Matrix4x4* data)
     {
         SetPixelShaderConstantF(startRegister, (IntPtr)data, 4); // a matrix is only 4 registers
     }
@@ -589,12 +589,9 @@ public unsafe partial class IDirect3DDevice9
     /// </summary>
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
-    public void SetPixelShaderConstant(int startRegister, Matrix4x4 data)
+    public void SetPixelShaderConstant(uint startRegister, Matrix4x4 data)
     {
-        unsafe
-        {
-            SetPixelShaderConstantF(startRegister, new IntPtr(&data), 4); // a matrix is only 4 registers
-        }
+        SetPixelShaderConstantF(startRegister, new IntPtr(&data), 4); // a matrix is only 4 registers
     }
 
     /// <summary>
@@ -603,7 +600,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="startRegister">The start register.</param>
     /// <param name="data">The data.</param>
     /// <param name="count">The count.</param>
-    public unsafe void SetPixelShaderConstant(int startRegister, Matrix4x4* data, int count)
+    public void SetPixelShaderConstant(uint startRegister, Matrix4x4* data, uint count)
     {
         SetPixelShaderConstantF(startRegister, (IntPtr)data, count << 2); // *4 is enough as a matrix is still 4 registers
     }
@@ -615,7 +612,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     /// <param name="offset">The offset.</param>
     /// <param name="count">The count.</param>
-    public unsafe void SetPixelShaderConstant(int startRegister, Matrix4x4[] data, int offset, int count)
+    public void SetPixelShaderConstant(uint startRegister, Matrix4x4[] data, uint offset, uint count)
     {
         fixed (void* pData = &data[offset])
         {
@@ -630,12 +627,32 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     /// <param name="offset">The offset.</param>
     /// <param name="count">The count.</param>
-    public void SetPixelShaderConstant(int startRegister, Vector4[] data, int offset, int count)
+    public void SetPixelShaderConstant(uint startRegister, Vector4[] data, uint offset, uint count)
     {
-        unsafe
+        fixed (void* pData = &data[offset])
+            SetPixelShaderConstantF(startRegister, (IntPtr)pData, count); // count is enough, as a Vector4f is only one register
+    }
+
+    /// <summary>
+    /// Sets the pixel shader constant.
+    /// </summary>
+    /// <param name="startRegister">The start register.</param>
+    /// <param name="data">The data.</param>
+    /// <param name="offset">The offset.</param>
+    /// <param name="count">The count.</param>
+    public void SetPixelShaderConstant(uint startRegister, bool[] data, uint offset, uint count)
+    {
+        if (count < 1024)
         {
-            fixed (void* pData = &data[offset])
-                SetPixelShaderConstantF(startRegister, (IntPtr)pData, count); // count is enough, as a Vector4f is only one register
+            var result = stackalloc int[data.Length];
+            BooleanHelpers.ConvertToIntArray(data, result);
+            SetPixelShaderConstantB(startRegister, new IntPtr(&result[offset]), count);
+        }
+        else
+        {
+            var result = BooleanHelpers.ConvertToRawBoolArray(data);
+            fixed (void* pResult = &result[offset])
+                SetPixelShaderConstantB(startRegister, (IntPtr)pResult, count);
         }
     }
 
@@ -646,23 +663,10 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     /// <param name="offset">The offset.</param>
     /// <param name="count">The count.</param>
-    public void SetPixelShaderConstant(int startRegister, bool[] data, int offset, int count)
+    public void SetPixelShaderConstant(uint startRegister, int[] data, uint offset, uint count)
     {
-        unsafe
-        {
-            if (count < 1024)
-            {
-                var result = stackalloc int[data.Length];
-                BooleanHelpers.ConvertToIntArray(data, result);
-                SetPixelShaderConstantB(startRegister, new IntPtr(&result[offset]), count);
-            }
-            else
-            {
-                var result = BooleanHelpers.ConvertToRawBoolArray(data);
-                fixed (void* pResult = &result[offset])
-                    SetPixelShaderConstantB(startRegister, (IntPtr)pResult, count);
-            }
-        }
+        fixed (void* pData = &data[offset])
+            SetPixelShaderConstantI(startRegister, (IntPtr)pData, count);
     }
 
     /// <summary>
@@ -672,29 +676,10 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="data">The data.</param>
     /// <param name="offset">The offset.</param>
     /// <param name="count">The count.</param>
-    public void SetPixelShaderConstant(int startRegister, int[] data, int offset, int count)
+    public void SetPixelShaderConstant(uint startRegister, float[] data, uint offset, uint count)
     {
-        unsafe
-        {
-            fixed (void* pData = &data[offset])
-                SetPixelShaderConstantI(startRegister, (IntPtr)pData, count);
-        }
-    }
-
-    /// <summary>
-    /// Sets the pixel shader constant.
-    /// </summary>
-    /// <param name="startRegister">The start register.</param>
-    /// <param name="data">The data.</param>
-    /// <param name="offset">The offset.</param>
-    /// <param name="count">The count.</param>
-    public void SetPixelShaderConstant(int startRegister, float[] data, int offset, int count)
-    {
-        unsafe
-        {
-            fixed (void* pData = &data[offset])
-                SetPixelShaderConstantF(startRegister, (IntPtr)pData, count);
-        }
+        fixed (void* pData = &data[offset])
+            SetPixelShaderConstantF(startRegister, (IntPtr)pData, count);
     }
     #endregion
 
@@ -705,7 +690,7 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="backBuffer">The back buffer.</param>
     /// <param name="backBufferType">The backbuffer type.</param>
     /// <returns>A <see cref="IDirect3DSurface9" /> object describing the result of the operation.</returns>
-    public IDirect3DSurface9 GetBackBuffer(int swapChain, int backBuffer, BackBufferType backBufferType = BackBufferType.Mono)
+    public IDirect3DSurface9 GetBackBuffer(uint swapChain, uint backBuffer, BackBufferType backBufferType = BackBufferType.Mono)
     {
         return GetBackBuffer_(swapChain, backBuffer, backBufferType);
     }
@@ -714,10 +699,8 @@ public unsafe partial class IDirect3DDevice9
     /// Presents the contents of the next buffer in the sequence of back buffers to the screen.
     /// </summary>
     /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
-    public Result Present()
-    {
-        return Present(null, null, IntPtr.Zero, null);
-    }
+    public Result Present() => Present(null, null, IntPtr.Zero, null);
+
 
     /// <summary>
     /// Presents the contents of the next buffer in the sequence of back buffers to the screen.
@@ -725,10 +708,8 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="sourceRectangle">The area of the back buffer that should be presented.</param>
     /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
     /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
-    public Result Present(Rect sourceRectangle, Rect destinationRectangle)
-    {
-        return Present(sourceRectangle, destinationRectangle, IntPtr.Zero);
-    }
+    public Result Present(Rect sourceRectangle, Rect destinationRectangle) => Present(sourceRectangle, destinationRectangle, IntPtr.Zero);
+
 
 
     /// <summary>
@@ -738,8 +719,6 @@ public unsafe partial class IDirect3DDevice9
     /// <param name="destinationRectangle">The area of the front buffer that should receive the result of the presentation.</param>
     /// <param name="windowOverride">The destination window whose client area is taken as the target for this presentation.</param>
     /// <returns>A <see cref="Result" /> object describing the result of the operation.</returns>
-    public Result Present(Rect sourceRectangle, Rect destinationRectangle, IntPtr windowOverride)
-    {
-        return Present(&sourceRectangle, &destinationRectangle, windowOverride, null);
-    }
+    public Result Present(Rect sourceRectangle, Rect destinationRectangle, IntPtr windowOverride) => Present(&sourceRectangle, &destinationRectangle, windowOverride, null);
+
 }

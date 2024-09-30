@@ -10,7 +10,6 @@
 
   <bindings>
     <bind from="__MIDL___MIDL_itf_UIAnimation_0000_0002_0003" to="System.IntPtr" />
-    <bind from="UINT" to="System.Int32" />
   </bindings>
   
   <extension>

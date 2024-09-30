@@ -5,7 +5,7 @@ namespace Vortice.UIAnimation;
 
 internal static unsafe partial class IUIAnimationVariableChangeHandler2Vtbl
 {
-    private static unsafe partial int OnValueChangedImpl_(IntPtr thisObject, void* _storyboard, void* _variable, void* _newValue, void* _previousValue, int _cDimension)
+    private static unsafe partial int OnValueChangedImpl_(IntPtr thisObject, void* _storyboard, void* _variable, void* _newValue, void* _previousValue, uint _cDimension)
     {
         IUIAnimationVariableChangeHandler2 @this = CppObjectShadow.ToCallback<IUIAnimationVariableChangeHandler2>(thisObject);
 

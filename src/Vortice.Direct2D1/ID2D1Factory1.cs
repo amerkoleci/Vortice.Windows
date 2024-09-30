@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.DirectWrite;
@@ -31,7 +31,7 @@ public partial class ID2D1Factory1
 
     public ID2D1StrokeStyle1 CreateStrokeStyle(StrokeStyleProperties1 properties, float[] dashes)
     {
-        return CreateStrokeStyle(ref properties, dashes, dashes.Length);
+        return CreateStrokeStyle(ref properties, dashes, (uint)dashes.Length);
     }
 
     public Guid[] GetRegisteredEffects()

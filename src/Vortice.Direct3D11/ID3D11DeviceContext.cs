@@ -8,38 +8,35 @@ namespace Vortice.Direct3D11;
 
 public unsafe partial class ID3D11DeviceContext
 {
-    /// <summary>
-    /// D3D11_KEEP_RENDER_TARGETS_AND_DEPTH_STENCIL
-    /// </summary>
-    public const int KeepRenderTargetsAndDepthStencil = -1;
+    /// <unmanaged>D3D11_KEEP_RENDER_TARGETS_AND_DEPTH_STENCIL</unmanaged>
+    public const uint KeepRenderTargetsAndDepthStencil = 0xffffffff;
 
-    /// <summary>
-    /// D3D11_KEEP_UNORDERED_ACCESS_VIEWS
-    /// </summary>
-    public const int KeepUnorderedAccessViews = -1;
+    /// <unmanaged>D3D11_KEEP_UNORDERED_ACCESS_VIEWS</unmanaged>
+    public const uint KeepUnorderedAccessViews = 0xffffffff;
 
+    /// <unmanaged>D3D11_DEFAULT_SAMPLE_MASK</unmanaged>
     public const uint DefaultSampleMask = 0xffffffff;
 
-    private static readonly void*[] s_NullBuffers = new void*[CommonShaderConstantBufferSlotCount]
-    {
+    private static readonly void*[] s_NullBuffers =
+    [
         null, null, null, null, null, null, null,
         null, null, null, null, null, null, null
-    };
+    ];
 
-    private static readonly void*[] s_NullSamplers = new void*[CommonShaderSamplerSlotCount]
-    {
+    private static readonly void*[] s_NullSamplers =
+    [
         null, null, null, null, null, null, null, null,
         null, null, null, null, null, null, null, null
-    };
+    ];
 
-    private static readonly void*[] s_NullUAVs = new void*[UnorderedAccessViewRegisterCount]
-    {
+    private static readonly void*[] s_NullUAVs =
+    [
         null, null, null,
         null, null, null,
         null, null
-    };
+    ];
 
-    private static readonly int[] s_NegativeOnes = new int[UnorderedAccessViewRegisterCount]
+    private static readonly uint[] s_NegativeOnes = new uint[UnorderedAccessViewRegisterCount]
     {
         KeepUnorderedAccessViews, KeepUnorderedAccessViews, KeepUnorderedAccessViews,
         KeepUnorderedAccessViews, KeepUnorderedAccessViews, KeepUnorderedAccessViews,
@@ -114,9 +111,9 @@ public unsafe partial class ID3D11DeviceContext
         OMSetRenderTargets(1, &renderTargetViewPtr, depthStencilView);
     }
 
-    public void OMSetRenderTargets(int renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
+    public void OMSetRenderTargets(uint renderTargetViewsCount, ID3D11RenderTargetView[] renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
     {
-        IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViewsCount];
+        IntPtr* renderTargetViewsPtr = stackalloc IntPtr[(int)renderTargetViewsCount];
         for (int i = 0; i < renderTargetViewsCount; i++)
         {
             renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
@@ -133,18 +130,7 @@ public unsafe partial class ID3D11DeviceContext
             renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
         }
 
-        OMSetRenderTargets(renderTargetViews.Length, renderTargetViewsPtr, depthStencilView);
-    }
-
-    public void OMSetRenderTargets(Span<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
-    {
-        IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
-        for (int i = 0; i < renderTargetViews.Length; i++)
-        {
-            renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
-        }
-
-        OMSetRenderTargets(renderTargetViews.Length, renderTargetViewsPtr, depthStencilView);
+        OMSetRenderTargets((uint)renderTargetViews.Length, renderTargetViewsPtr, depthStencilView);
     }
 
     public void OMSetRenderTargets(ReadOnlySpan<ID3D11RenderTargetView> renderTargetViews, ID3D11DepthStencilView? depthStencilView = default)
@@ -155,10 +141,10 @@ public unsafe partial class ID3D11DeviceContext
             renderTargetViewsPtr[i] = (renderTargetViews[i] == null) ? IntPtr.Zero : renderTargetViews[i].NativePointer;
         }
 
-        OMSetRenderTargets(renderTargetViews.Length, renderTargetViewsPtr, depthStencilView);
+        OMSetRenderTargets((uint)renderTargetViews.Length, renderTargetViewsPtr, depthStencilView);
     }
 
-    public void OMSetUnorderedAccessView(int startSlot, ID3D11UnorderedAccessView unorderedAccessView, int uavInitialCount = -1)
+    public void OMSetUnorderedAccessView(uint startSlot, ID3D11UnorderedAccessView unorderedAccessView, uint uavInitialCount = unchecked((uint)-1))
     {
         IntPtr unorderedAccessViewPtr = unorderedAccessView != null ? unorderedAccessView.NativePointer : IntPtr.Zero;
 
@@ -170,7 +156,7 @@ public unsafe partial class ID3D11DeviceContext
             );
     }
 
-    public void OMUnsetUnorderedAccessView(int startSlot, int uavInitialCount = -1)
+    public void OMUnsetUnorderedAccessView(uint startSlot, uint uavInitialCount = unchecked((uint)-1))
     {
         void* nullUAV = default;
         OMSetRenderTargetsAndUnorderedAccessViews(
@@ -181,15 +167,15 @@ public unsafe partial class ID3D11DeviceContext
             );
     }
 
-    public void OMSetUnorderedAccessViews(int uavStartSlot, int unorderedAccessViewCount, ID3D11UnorderedAccessView[] unorderedAccessViews)
+    public void OMSetUnorderedAccessViews(uint uavStartSlot, uint unorderedAccessViewCount, ID3D11UnorderedAccessView[] unorderedAccessViews)
     {
-        IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[unorderedAccessViewCount];
+        IntPtr* unorderedAccessViewsPtr = stackalloc IntPtr[(int)unorderedAccessViewCount];
         for (int i = 0; i < unorderedAccessViewCount; i++)
         {
             unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
         }
 
-        fixed (int* negativeOnesPtr = &s_NegativeOnes[0])
+        fixed (uint* negativeOnesPtr = &s_NegativeOnes[0])
         {
             OMSetRenderTargetsAndUnorderedAccessViews(
                 KeepRenderTargetsAndDepthStencil, null, IntPtr.Zero,
@@ -203,7 +189,7 @@ public unsafe partial class ID3D11DeviceContext
     public void OMSetRenderTargetsAndUnorderedAccessViews(
         ID3D11RenderTargetView renderTargetView,
         ID3D11DepthStencilView depthStencilView,
-        int startSlot,
+        uint startSlot,
         ID3D11UnorderedAccessView[] unorderedAccessViews)
     {
         IntPtr renderTargetViewPtr = renderTargetView == null ? IntPtr.Zero : renderTargetView.NativePointer;
@@ -219,7 +205,7 @@ public unsafe partial class ID3D11DeviceContext
         OMSetRenderTargetsAndUnorderedAccessViews(1,
             &renderTargetViewPtr,
             depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
-            startSlot, unorderedAccessViews.Length,
+            startSlot, (uint)unorderedAccessViews.Length,
             unorderedAccessViewsPtr,
             uavInitialCounts);
     }
@@ -227,7 +213,7 @@ public unsafe partial class ID3D11DeviceContext
     public void OMSetRenderTargetsAndUnorderedAccessViews(
         ID3D11RenderTargetView[] renderTargetViews,
         ID3D11DepthStencilView depthStencilView,
-        int startSlot,
+        uint startSlot,
         ID3D11UnorderedAccessView[] unorderedAccessViews)
     {
         IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
@@ -244,10 +230,10 @@ public unsafe partial class ID3D11DeviceContext
             uavInitialCounts[i] = -1;
         }
 
-        OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViews.Length,
+        OMSetRenderTargetsAndUnorderedAccessViews((uint)renderTargetViews.Length,
             renderTargetViewsPtr,
             depthStencilView != null ? depthStencilView.NativePointer : IntPtr.Zero,
-            startSlot, unorderedAccessViews.Length,
+            startSlot, (uint)unorderedAccessViews.Length,
             unorderedAccessViewsPtr,
             uavInitialCounts);
     }
@@ -255,22 +241,22 @@ public unsafe partial class ID3D11DeviceContext
     public void OMSetRenderTargetsAndUnorderedAccessViews(
         ID3D11RenderTargetView[] renderTargetViews,
         ID3D11DepthStencilView depthStencilView,
-        int uavStartSlot,
+        uint uavStartSlot,
         ID3D11UnorderedAccessView[] unorderedAccessViews,
-        int[] uavInitialCounts)
+        uint[] uavInitialCounts)
     {
         OMSetRenderTargetsAndUnorderedAccessViews(
-            renderTargetViews.Length, renderTargetViews, depthStencilView,
-            uavStartSlot, unorderedAccessViews.Length, unorderedAccessViews, uavInitialCounts
+            (uint)renderTargetViews.Length, renderTargetViews, depthStencilView,
+            uavStartSlot, (uint)unorderedAccessViews.Length, unorderedAccessViews, uavInitialCounts
             );
     }
 
     public void OMSetRenderTargetsAndUnorderedAccessViews(
-        int renderTargetViewsCount,
+        uint renderTargetViewsCount,
         ID3D11RenderTargetView[] renderTargetViews,
         ID3D11DepthStencilView depthStencilView,
-        int startSlot,
-        int unorderedAccessViewsCount,
+        uint startSlot,
+        uint unorderedAccessViewsCount,
         ID3D11UnorderedAccessView[] unorderedAccessViews)
     {
         IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
@@ -285,7 +271,7 @@ public unsafe partial class ID3D11DeviceContext
             unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
         }
 
-        fixed (int* negativeOnesPtr = &s_NegativeOnes[0])
+        fixed (uint* negativeOnesPtr = &s_NegativeOnes[0])
         {
             OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
                 renderTargetViewsPtr,
@@ -298,13 +284,13 @@ public unsafe partial class ID3D11DeviceContext
     }
 
     public void OMSetRenderTargetsAndUnorderedAccessViews(
-        int renderTargetViewsCount,
+        uint renderTargetViewsCount,
         ID3D11RenderTargetView[] renderTargetViews,
         ID3D11DepthStencilView depthStencilView,
-        int startSlot,
-        int unorderedAccessViewsCount,
+        uint startSlot,
+        uint unorderedAccessViewsCount,
         ID3D11UnorderedAccessView[] unorderedAccessViews,
-        int[] uavInitialCounts)
+        ReadOnlySpan<uint> uavInitialCounts)
     {
         IntPtr* renderTargetViewsPtr = stackalloc IntPtr[renderTargetViews.Length];
         for (int i = 0; i < renderTargetViews.Length; i++)
@@ -318,7 +304,7 @@ public unsafe partial class ID3D11DeviceContext
             unorderedAccessViewsPtr[i] = unorderedAccessViews[i].NativePointer;
         }
 
-        fixed (int* pUAVInitialCounts = &uavInitialCounts[0])
+        fixed (uint* pUAVInitialCounts = uavInitialCounts)
         {
             OMSetRenderTargetsAndUnorderedAccessViews(renderTargetViewsCount,
                 renderTargetViewsPtr,
@@ -354,8 +340,8 @@ public unsafe partial class ID3D11DeviceContext
     /// <returns>The data retrieved from the GPU.</returns>
     public DataStream GetData(ID3D11Asynchronous data, AsyncGetDataFlags flags = AsyncGetDataFlags.None)
     {
-        var result = new DataStream(data.DataSize, true, true);
-        GetData(data, result.BasePointer, (int)result.Length, flags);
+        var result = new DataStream((int)data.DataSize, true, true);
+        GetData(data, result.BasePointer, (uint)result.Length, flags);
         return result;
     }
 
@@ -370,7 +356,7 @@ public unsafe partial class ID3D11DeviceContext
         result = default;
         fixed (void* resultPtr = &result)
         {
-            return GetData(data, (IntPtr)resultPtr, sizeof(T), flags) == Result.Ok;
+            return GetData(data, (IntPtr)resultPtr, (uint)sizeof(T), flags) == Result.Ok;
         }
     }
 
@@ -379,7 +365,7 @@ public unsafe partial class ID3D11DeviceContext
         result = default;
         fixed (void* resultPtr = &result)
         {
-            return GetData(data, (IntPtr)resultPtr, sizeof(T), AsyncGetDataFlags.None) == Result.Ok;
+            return GetData(data, (IntPtr)resultPtr, (uint)sizeof(T), AsyncGetDataFlags.None) == Result.Ok;
         }
     }
 
@@ -429,11 +415,11 @@ public unsafe partial class ID3D11DeviceContext
     {
         fixed (Viewport* pViewports = viewports)
         {
-            RSSetViewports(viewports.Length, pViewports);
+            RSSetViewports((uint)viewports.Length, pViewports);
         }
     }
 
-    public void RSSetViewports(int count, Viewport[] viewports)
+    public void RSSetViewports(uint count, Viewport[] viewports)
     {
         fixed (Viewport* pViewports = viewports)
         {
@@ -445,7 +431,7 @@ public unsafe partial class ID3D11DeviceContext
     {
         fixed (Viewport* pViewports = viewports)
         {
-            RSSetViewports(viewports.Length, pViewports);
+            RSSetViewports((uint)viewports.Length, pViewports);
         }
     }
 
@@ -472,7 +458,7 @@ public unsafe partial class ID3D11DeviceContext
 
         fixed (T* viewportsPtr = &viewports[0])
         {
-            RSSetViewports(viewports.Length, viewportsPtr);
+            RSSetViewports((uint)viewports.Length, viewportsPtr);
         }
     }
 
@@ -487,7 +473,7 @@ public unsafe partial class ID3D11DeviceContext
 
         fixed (T* viewportsPtr = viewports)
         {
-            RSSetViewports(viewports.Length, viewportsPtr);
+            RSSetViewports((uint)viewports.Length, viewportsPtr);
         }
     }
 
@@ -495,16 +481,16 @@ public unsafe partial class ID3D11DeviceContext
     /// Get the number of bound viewports.
     /// </summary>
     /// <returns></returns>
-    public int RSGetViewports()
+    public uint RSGetViewports()
     {
-        int numViewports = 0;
+        uint numViewports = 0;
         RSGetViewports(ref numViewports, (void*)null);
         return numViewports;
     }
 
     public Viewport RSGetViewport()
     {
-        int numViewports = 1;
+        uint numViewports = 1;
         Viewport viewport = default;
         RSGetViewports(ref numViewports, (void*)&viewport);
         return viewport;
@@ -512,19 +498,10 @@ public unsafe partial class ID3D11DeviceContext
 
     public void RSGetViewport(ref Viewport viewport)
     {
-        int numViewports = 1;
+        uint numViewports = 1;
         fixed (Viewport* viewportPtr = &viewport)
         {
             RSGetViewports(ref numViewports, viewportPtr);
-        }
-    }
-
-    public void RSGetViewports(Viewport[] viewports)
-    {
-        int numViewports = viewports.Length;
-        fixed (Viewport* viewportsPtr = &viewports[0])
-        {
-            RSGetViewports(ref numViewports, (void*)viewportsPtr);
         }
     }
 
@@ -532,12 +509,12 @@ public unsafe partial class ID3D11DeviceContext
     {
         fixed (Viewport* viewportsPtr = &MemoryMarshal.GetReference(viewports))
         {
-            int numViewports = viewports.Length;
+            uint numViewports = (uint)viewports.Length;
             RSGetViewports(ref numViewports, (void*)viewportsPtr);
         }
     }
 
-    public void RSGetViewports<T>(ref int count, T[] viewports) where T : unmanaged
+    public void RSGetViewports<T>(ref uint count, Span<T> viewports) where T : unmanaged
     {
 #if DEBUG
         if (sizeof(T) != sizeof(Viewport))
@@ -546,7 +523,7 @@ public unsafe partial class ID3D11DeviceContext
         }
 #endif
 
-        fixed (T* viewportsPtr = &viewports[0])
+        fixed (T* viewportsPtr = viewports)
         {
             RSGetViewports(ref count, viewportsPtr);
         }
@@ -563,28 +540,7 @@ public unsafe partial class ID3D11DeviceContext
 
         fixed (T* viewportsPtr = viewports)
         {
-            int numViewports = viewports.Length;
-            RSGetViewports(ref numViewports, viewportsPtr);
-        }
-    }
-
-    /// <summary>
-    /// Get the array of viewports bound  to the rasterizer stage.
-    /// </summary>
-    /// <typeparam name="T">An array of viewports,  must be size of <see cref="Viewport"/>.</typeparam>
-    /// <param name="viewports"></param>
-    public void RSGetViewports<T>(T[] viewports) where T : unmanaged
-    {
-#if DEBUG
-        if (sizeof(T) != sizeof(Viewport))
-        {
-            throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}", nameof(viewports));
-        }
-#endif
-
-        int numViewports = viewports.Length;
-        fixed (T* viewportsPtr = &viewports[0])
-        {
+            uint numViewports = (uint)viewports.Length;
             RSGetViewports(ref numViewports, viewportsPtr);
         }
     }
@@ -593,7 +549,7 @@ public unsafe partial class ID3D11DeviceContext
     /// Get the array of viewports bound  to the rasterizer stage.	
     /// </summary>	
     /// <returns>An array of viewports, must be size of <see cref="Viewport"/></returns>
-    public T[] RSGetViewports<T>() where T : unmanaged
+    public ReadOnlySpan<T> RSGetViewports<T>() where T : unmanaged
     {
 #if DEBUG
         if (sizeof(T) != sizeof(Viewport))
@@ -601,22 +557,18 @@ public unsafe partial class ID3D11DeviceContext
             throw new ArgumentException($"Type T must have same size and layout as {nameof(Viewport)}");
         }
 #endif
-        int numViewports = 0;
+        uint numViewports = 0;
         RSGetViewports(ref numViewports, (void*)null);
         T[] viewports = new T[numViewports];
-        RSGetViewports(viewports);
+
+        fixed (T* viewportsPtr = viewports)
+        {
+            RSGetViewports(ref numViewports, viewportsPtr);
+        }
         return viewports;
     }
 
-    public void RSGetViewports(ref int count, Viewport[] viewports)
-    {
-        fixed (Viewport* viewportsPtr = &viewports[0])
-        {
-            RSGetViewports(ref count, (void*)viewportsPtr);
-        }
-    }
-
-    public void RSGetViewports(ref int count, Span<Viewport> viewports)
+    public void RSGetViewports(ref uint count, Span<Viewport> viewports)
     {
         fixed (Viewport* viewportsPtr = &MemoryMarshal.GetReference(viewports))
         {
@@ -624,7 +576,7 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void RSGetViewports(ref int count, Viewport* viewports)
+    public void RSGetViewports(ref uint count, Viewport* viewports)
     {
         RSGetViewports(ref count, (void*)viewports);
     }
@@ -635,9 +587,9 @@ public unsafe partial class ID3D11DeviceContext
     /// Get the number of bound scissor rectangles.
     /// </summary>
     /// <returns></returns>
-    public int RSGetScissorRects()
+    public uint RSGetScissorRects()
     {
-        int numRects = 0;
+        uint numRects = 0;
         RSGetScissorRects(ref numRects, IntPtr.Zero);
         return numRects;
     }
@@ -669,11 +621,11 @@ public unsafe partial class ID3D11DeviceContext
     {
         fixed (RawRect* pRects = rectangles)
         {
-            RSSetScissorRects(rectangles.Length, pRects);
+            RSSetScissorRects((uint)rectangles.Length, pRects);
         }
     }
 
-    public void RSSetScissorRects(int count, RawRect[] rectangles)
+    public void RSSetScissorRects(uint count, RawRect[] rectangles)
     {
         fixed (RawRect* pRects = rectangles)
         {
@@ -685,11 +637,11 @@ public unsafe partial class ID3D11DeviceContext
     {
         fixed (RawRect* pRects = rectangles)
         {
-            RSSetScissorRects(rectangles.Length, pRects);
+            RSSetScissorRects((uint)rectangles.Length, pRects);
         }
     }
 
-    public void RSSetScissorRects(int count, Span<RawRect> rectangles)
+    public void RSSetScissorRects(uint count, Span<RawRect> rectangles)
     {
         fixed (RawRect* pRects = rectangles)
         {
@@ -720,11 +672,11 @@ public unsafe partial class ID3D11DeviceContext
 
         fixed (void* rectPtr = &rects[0])
         {
-            RSSetScissorRects(rects.Length, rectPtr);
+            RSSetScissorRects((uint)rects.Length, rectPtr);
         }
     }
 
-    public void RSSetScissorRects<T>(int numRects, T[] rects) where T : unmanaged
+    public void RSSetScissorRects<T>(uint numRects, T[] rects) where T : unmanaged
     {
 #if DEBUG
         if (sizeof(T) != Unsafe.SizeOf<RawRect>())
@@ -749,13 +701,13 @@ public unsafe partial class ID3D11DeviceContext
 #endif
         fixed (void* rectsPtr = rects)
         {
-            RSSetScissorRects(rects.Length, rectsPtr);
+            RSSetScissorRects((uint)rects.Length, rectsPtr);
         }
     }
 
     public RawRect RSGetScissorRect()
     {
-        int numRects = 1;
+        uint numRects = 1;
         var rect = new RawRect();
         RSGetScissorRects(ref numRects, new IntPtr(&rect));
         return rect;
@@ -763,7 +715,7 @@ public unsafe partial class ID3D11DeviceContext
 
     public void RSGetScissorRect(ref RawRect rect)
     {
-        int numRects = 1;
+        uint numRects = 1;
         fixed (void* rectPtr = &rect)
         {
             RSGetScissorRects(ref numRects, (IntPtr)rectPtr);
@@ -772,7 +724,7 @@ public unsafe partial class ID3D11DeviceContext
 
     public void RSGetScissorRects(RawRect[] rects)
     {
-        int numRects = rects.Length;
+        uint numRects = (uint)rects.Length;
         fixed (void* rectsPtr = &rects[0])
         {
             RSGetScissorRects(ref numRects, (IntPtr)rectsPtr);
@@ -783,20 +735,20 @@ public unsafe partial class ID3D11DeviceContext
     {
         fixed (RawRect* rectsPtr = &MemoryMarshal.GetReference(rects))
         {
-            int numRects = rects.Length;
+            uint numRects = (uint)rects.Length;
             RSGetScissorRects(ref numRects, (IntPtr)rectsPtr);
         }
     }
 
-    public void RSGetScissorRects(ref int count, RawRect[] rects)
+    public void RSGetScissorRects(ref uint count, RawRect[] rects)
     {
-        fixed (void* rectsPtr = &rects[0])
+        fixed (void* rectsPtr = rects)
         {
             RSGetScissorRects(ref count, (IntPtr)rectsPtr);
         }
     }
 
-    public void RSGetScissorRects(ref int count, RawRect* rects)
+    public void RSGetScissorRects(ref uint count, RawRect* rects)
     {
         RSGetScissorRects(ref count, (IntPtr)rects);
     }
@@ -807,9 +759,9 @@ public unsafe partial class ID3D11DeviceContext
     /// </summary>
     /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
     /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
-    public void SOSetTargets(ID3D11Buffer[] targets, int[]? offsets = null)
+    public void SOSetTargets(ID3D11Buffer[] targets, uint[]? offsets = null)
     {
-        SOSetTargets(targets.Length, targets, offsets);
+        SOSetTargets((uint)targets.Length, targets, offsets);
     }
 
     /// <summary>
@@ -818,9 +770,9 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="buffersCount">The number of buffer to bind to the device. A maximum of four output buffers can be set. If less than four are defined by the call, the remaining buffer slots are set to null.</param>
     /// <param name="targets">The array of output buffers <see cref="ID3D11Buffer"/> to bind to the device. The buffers must have been created with the <see cref="BindFlags.StreamOutput"/> flag.</param>
     /// <param name="offsets">Array of offsets to the output buffers from targets, one offset for each buffer. The offset values must be in bytes.</param>
-    public void SOSetTargets(int buffersCount, ID3D11Buffer[] targets, int[]? offsets = null)
+    public void SOSetTargets(uint buffersCount, ID3D11Buffer[] targets, uint[]? offsets = null)
     {
-        IntPtr* targetsPtr = stackalloc IntPtr[buffersCount];
+        IntPtr* targetsPtr = stackalloc IntPtr[(int)buffersCount];
         for (int i = 0; i < buffersCount; i++)
         {
             targetsPtr[i] = targets[i] != null ? targets[i].NativePointer : IntPtr.Zero;
@@ -828,7 +780,7 @@ public unsafe partial class ID3D11DeviceContext
 
         if (offsets != null && offsets.Length > 0)
         {
-            fixed (int* offsetsPtr = &offsets[0])
+            fixed (uint* offsetsPtr = offsets)
             {
                 SOSetTargets(buffersCount, targetsPtr, offsetsPtr);
             }
@@ -848,48 +800,40 @@ public unsafe partial class ID3D11DeviceContext
         SOSetTargets(0, (void*)null, (void*)null);
     }
 
-    public void IASetVertexBuffer(int slot, ID3D11Buffer buffer, int stride, int offset = 0)
+    public void IASetVertexBuffer(uint slot, ID3D11Buffer buffer, uint stride, uint offset = 0)
     {
         IntPtr pVertexBuffers = buffer == null ? IntPtr.Zero : buffer.NativePointer;
         IASetVertexBuffers(slot, 1, &pVertexBuffers, &stride, &offset);
     }
-    public void IASetVertexBuffers(int firstSlot, ID3D11Buffer[] vertexBuffers, int[] strides, int[] offsets)
+    public void IASetVertexBuffers(uint firstSlot, ID3D11Buffer[] vertexBuffers, ReadOnlySpan<uint> strides, ReadOnlySpan<uint> offsets)
     {
-        IASetVertexBuffers(firstSlot, vertexBuffers.Length, vertexBuffers, strides, offsets);
+        IASetVertexBuffers(firstSlot, (uint)vertexBuffers.Length, vertexBuffers, strides, offsets);
     }
 
-    public void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, ID3D11Buffer[] vertexBuffers, int[] strides, int[] offsets)
+    public void IASetVertexBuffers(uint firstSlot, uint vertexBufferViewsCount, ID3D11Buffer[] vertexBuffers, ReadOnlySpan<uint> strides, ReadOnlySpan<uint> offsets)
     {
-        IntPtr* vertexBuffersPtr = stackalloc IntPtr[vertexBufferViewsCount];
+        IntPtr* vertexBuffersPtr = stackalloc IntPtr[(int)vertexBufferViewsCount];
         for (int i = 0; i < vertexBufferViewsCount; i++)
         {
             vertexBuffersPtr[i] = (vertexBuffers[i] == null) ? IntPtr.Zero : vertexBuffers[i].NativePointer;
         }
 
-        fixed (int* pStrides = strides)
-        {
-            fixed (int* pOffsets = offsets)
-            {
-                IASetVertexBuffers(firstSlot, vertexBufferViewsCount, vertexBuffersPtr, pStrides, pOffsets);
-            }
-        }
+        fixed (uint* pStrides = strides)
+        fixed (uint* pOffsets = offsets)
+            IASetVertexBuffers(firstSlot, vertexBufferViewsCount, vertexBuffersPtr, pStrides, pOffsets);
     }
 
-    public void IASetVertexBuffers(int firstSlot, int vertexBufferViewsCount, ID3D11Buffer[] vertexBuffers, Span<int> strides, Span<int> offsets)
+    public void IASetVertexBuffers(uint firstSlot, uint vertexBufferViewsCount, ID3D11Buffer[] vertexBuffers, Span<uint> strides, Span<uint> offsets)
     {
-        IntPtr* vertexBuffersPtr = stackalloc IntPtr[vertexBufferViewsCount];
+        IntPtr* vertexBuffersPtr = stackalloc IntPtr[(int)vertexBufferViewsCount];
         for (int i = 0; i < vertexBufferViewsCount; i++)
         {
             vertexBuffersPtr[i] = (vertexBuffers[i] == null) ? IntPtr.Zero : vertexBuffers[i].NativePointer;
         }
 
-        fixed (int* pStrides = strides)
-        {
-            fixed (int* pOffsets = offsets)
-            {
-                IASetVertexBuffers(firstSlot, vertexBufferViewsCount, vertexBuffersPtr, pStrides, pOffsets);
-            }
-        }
+        fixed (uint* pStrides = strides)
+        fixed (uint* pOffsets = offsets)
+            IASetVertexBuffers(firstSlot, vertexBufferViewsCount, vertexBuffersPtr, pStrides, pOffsets);
     }
 
     #region VertexShader
@@ -901,16 +845,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void VSSetShader(ID3D11VertexShader? vertexShader, ID3D11ClassInstance[] classInstances)
     {
-        VSSetShader(vertexShader, classInstances, classInstances.Length);
+        VSSetShader(vertexShader, classInstances, (uint)classInstances.Length);
     }
 
-    public void VSUnsetConstantBuffer(int slot)
+    public void VSUnsetConstantBuffer(uint slot)
     {
         void* nullBuffer = default;
         VSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
-    public void VSUnsetConstantBuffers(int startSlot, int count)
+    public void VSUnsetConstantBuffers(uint startSlot, uint count)
     {
         fixed (void* nullBuffersPtr = s_NullBuffers)
         {
@@ -918,20 +862,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void VSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    public void VSSetConstantBuffer(uint slot, ID3D11Buffer? constantBuffer)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
         VSSetConstantBuffers(slot, 1, &nativePtr);
     }
 
-    public void VSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void VSSetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        VSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        VSSetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void VSSetConstantBuffers(int startSlot, int count, ID3D11Buffer[] constantBuffers)
+    public void VSSetConstantBuffers(uint startSlot, uint count, ID3D11Buffer[] constantBuffers)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -941,13 +885,13 @@ public unsafe partial class ID3D11DeviceContext
         VSSetConstantBuffers(startSlot, count, ppConstantBuffers);
     }
 
-    public void VSUnsetSampler(int slot)
+    public void VSUnsetSampler(uint slot)
     {
         void* nullSampler = default;
         VSSetSamplers(slot, 1, &nullSampler);
     }
 
-    public void VSUnsetSamplers(int startSlot, int count)
+    public void VSUnsetSamplers(uint startSlot, uint count)
     {
         fixed (void* nullSamplersPtr = s_NullSamplers)
         {
@@ -955,20 +899,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void VSSetSampler(int slot, ID3D11SamplerState? sampler)
+    public void VSSetSampler(uint slot, ID3D11SamplerState? sampler)
     {
         IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
         VSSetSamplers(slot, 1, &nativePtr);
     }
 
-    public void VSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void VSSetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        VSSetSamplers(startSlot, samplers.Length, samplers);
+        VSSetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void VSSetSamplers(int startSlot, int count, ID3D11SamplerState[] samplers)
+    public void VSSetSamplers(uint startSlot, uint count, ID3D11SamplerState[] samplers)
     {
-        IntPtr* ppSamplers = stackalloc IntPtr[count];
+        IntPtr* ppSamplers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -978,15 +922,15 @@ public unsafe partial class ID3D11DeviceContext
         VSSetSamplers(startSlot, count, ppSamplers);
     }
 
-    public void VSUnsetShaderResource(int slot)
+    public void VSUnsetShaderResource(uint slot)
     {
         void* nullResource = default;
         VSSetShaderResources(slot, 1, &nullResource);
     }
 
-    public void VSUnsetShaderResources(int startSlot, int count)
+    public void VSUnsetShaderResources(uint startSlot, uint count)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -996,20 +940,20 @@ public unsafe partial class ID3D11DeviceContext
         VSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
-    public void VSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
+    public void VSSetShaderResource(uint slot, ID3D11ShaderResourceView? shaderResourceView)
     {
         IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
         VSSetShaderResources(slot, 1, &nativePtr);
     }
 
-    public void VSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void VSSetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        VSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        VSSetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
 
-    public void VSSetShaderResources(int startSlot, int count, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void VSSetShaderResources(uint startSlot, uint count, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1021,37 +965,37 @@ public unsafe partial class ID3D11DeviceContext
 
     public ID3D11VertexShader VSGetShader()
     {
-        int count = 0;
+        uint count = 0;
         VSGetShader(out ID3D11VertexShader shader, null, ref count);
         return shader;
     }
 
     public ID3D11VertexShader VSGetShader(ID3D11ClassInstance[] classInstances)
     {
-        int count = classInstances.Length;
+        uint count = (uint)classInstances.Length;
         VSGetShader(out ID3D11VertexShader shader, classInstances, ref count);
         return shader;
     }
 
-    public ID3D11VertexShader VSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    public ID3D11VertexShader VSGetShader(ref uint classInstancesCount, ID3D11ClassInstance[] classInstances)
     {
         VSGetShader(out ID3D11VertexShader shader, classInstances, ref classInstancesCount);
         return shader;
     }
 
-    public void VSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void VSGetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        VSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        VSGetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void VSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void VSGetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        VSGetSamplers(startSlot, samplers.Length, samplers);
+        VSGetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void VSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void VSGetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        VSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        VSGetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
     #endregion
 
@@ -1064,16 +1008,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void PSSetShader(ID3D11PixelShader? pixelShader, ID3D11ClassInstance[] classInstances)
     {
-        PSSetShader(pixelShader, classInstances, classInstances.Length);
+        PSSetShader(pixelShader, classInstances, (uint)classInstances.Length);
     }
 
-    public void PSUnsetConstantBuffer(int slot)
+    public void PSUnsetConstantBuffer(uint slot)
     {
         void* nullBuffer = default;
         PSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
-    public void PSUnsetConstantBuffers(int startSlot, int count)
+    public void PSUnsetConstantBuffers(uint startSlot, uint count)
     {
         fixed (void* nullBuffersPtr = s_NullBuffers)
         {
@@ -1081,20 +1025,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void PSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    public void PSSetConstantBuffer(uint slot, ID3D11Buffer? constantBuffer)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
         PSSetConstantBuffers(slot, 1, &nativePtr);
     }
 
-    public void PSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void PSSetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        PSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        PSSetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void PSSetConstantBuffers(int startSlot, int count, ID3D11Buffer[] constantBuffers)
+    public void PSSetConstantBuffers(uint startSlot, uint count, ID3D11Buffer[] constantBuffers)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1104,13 +1048,13 @@ public unsafe partial class ID3D11DeviceContext
         PSSetConstantBuffers(startSlot, count, ppConstantBuffers);
     }
 
-    public void PSUnsetSampler(int slot)
+    public void PSUnsetSampler(uint slot)
     {
         void* nullSampler = default;
         PSSetSamplers(slot, 1, &nullSampler);
     }
 
-    public void PSUnsetSamplers(int startSlot, int count)
+    public void PSUnsetSamplers(uint startSlot, uint count)
     {
         fixed (void* nullSamplersPtr = s_NullSamplers)
         {
@@ -1118,20 +1062,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void PSSetSampler(int slot, ID3D11SamplerState? sampler)
+    public void PSSetSampler(uint slot, ID3D11SamplerState? sampler)
     {
         IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
         PSSetSamplers(slot, 1, &nativePtr);
     }
 
-    public void PSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void PSSetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        PSSetSamplers(startSlot, samplers.Length, samplers);
+        PSSetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void PSSetSamplers(int startSlot, int count, ID3D11SamplerState[] samplers)
+    public void PSSetSamplers(uint startSlot, uint count, ID3D11SamplerState[] samplers)
     {
-        IntPtr* ppSamplers = stackalloc IntPtr[count];
+        IntPtr* ppSamplers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1142,15 +1086,15 @@ public unsafe partial class ID3D11DeviceContext
     }
 
 
-    public void PSUnsetShaderResource(int slot)
+    public void PSUnsetShaderResource(uint slot)
     {
         void* nullResource = default;
         PSSetShaderResources(slot, 1, &nullResource);
     }
 
-    public void PSUnsetShaderResources(int startSlot, int count)
+    public void PSUnsetShaderResources(uint startSlot, uint count)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1160,20 +1104,20 @@ public unsafe partial class ID3D11DeviceContext
         PSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
-    public void PSSetShaderResource(int slot, ID3D11ShaderResourceView shaderResourceView)
+    public void PSSetShaderResource(uint slot, ID3D11ShaderResourceView shaderResourceView)
     {
         IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
         PSSetShaderResources(slot, 1, &nativePtr);
     }
 
-    public void PSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void PSSetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        PSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        PSSetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
 
-    public void PSSetShaderResources(int startSlot, int count, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void PSSetShaderResources(uint startSlot, uint count, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1185,37 +1129,37 @@ public unsafe partial class ID3D11DeviceContext
 
     public ID3D11PixelShader PSGetShader()
     {
-        int count = 0;
+        uint count = 0;
         PSGetShader(out ID3D11PixelShader shader, null, ref count);
         return shader;
     }
 
     public ID3D11PixelShader PSGetShader(ID3D11ClassInstance[] classInstances)
     {
-        int count = classInstances.Length;
+        uint count = (uint)classInstances.Length;
         PSGetShader(out ID3D11PixelShader shader, classInstances, ref count);
         return shader;
     }
 
-    public ID3D11PixelShader PSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    public ID3D11PixelShader PSGetShader(ref uint classInstancesCount, ID3D11ClassInstance[] classInstances)
     {
         PSGetShader(out ID3D11PixelShader shader, classInstances, ref classInstancesCount);
         return shader;
     }
 
-    public void PSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void PSGetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        PSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        PSGetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void PSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void PSGetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        PSGetSamplers(startSlot, samplers.Length, samplers);
+        PSGetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void PSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void PSGetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        PSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        PSGetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
     #endregion
 
@@ -1228,16 +1172,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void DSSetShader(ID3D11DomainShader? domainShader, ID3D11ClassInstance[] classInstances)
     {
-        DSSetShader(domainShader, classInstances, classInstances.Length);
+        DSSetShader(domainShader, classInstances, (uint)classInstances.Length);
     }
 
-    public void DSUnsetConstantBuffer(int slot)
+    public void DSUnsetConstantBuffer(uint slot)
     {
         void* nullBuffer = default;
         DSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
-    public void DSUnsetConstantBuffers(int startSlot, int count)
+    public void DSUnsetConstantBuffers(uint startSlot, uint count)
     {
         fixed (void* nullBuffersPtr = s_NullBuffers)
         {
@@ -1245,20 +1189,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void DSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    public void DSSetConstantBuffer(uint slot, ID3D11Buffer? constantBuffer)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
         DSSetConstantBuffers(slot, 1, &nativePtr);
     }
 
-    public void DSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void DSSetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        DSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        DSSetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void DSSetConstantBuffers(int startSlot, int count, ID3D11Buffer[] constantBuffers)
+    public void DSSetConstantBuffers(uint startSlot, uint count, ID3D11Buffer[] constantBuffers)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1268,13 +1212,13 @@ public unsafe partial class ID3D11DeviceContext
         DSSetConstantBuffers(startSlot, count, ppConstantBuffers);
     }
 
-    public void DSUnsetSampler(int slot)
+    public void DSUnsetSampler(uint slot)
     {
         void* nullSampler = default;
         DSSetSamplers(slot, 1, &nullSampler);
     }
 
-    public void DSUnsetSamplers(int startSlot, int count)
+    public void DSUnsetSamplers(uint startSlot, uint count)
     {
         fixed (void* nullSamplersPtr = s_NullSamplers)
         {
@@ -1282,20 +1226,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void DSSetSampler(int slot, ID3D11SamplerState? sampler)
+    public void DSSetSampler(uint slot, ID3D11SamplerState? sampler)
     {
         IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
         DSSetSamplers(slot, 1, &nativePtr);
     }
 
-    public void DSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void DSSetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        DSSetSamplers(startSlot, samplers.Length, samplers);
+        DSSetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void DSSetSamplers(int startSlot, int count, ID3D11SamplerState[] samplers)
+    public void DSSetSamplers(uint startSlot, uint count, ID3D11SamplerState[] samplers)
     {
-        IntPtr* ppSamplers = stackalloc IntPtr[count];
+        IntPtr* ppSamplers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1305,15 +1249,15 @@ public unsafe partial class ID3D11DeviceContext
         DSSetSamplers(startSlot, count, ppSamplers);
     }
 
-    public void DSUnsetShaderResource(int slot)
+    public void DSUnsetShaderResource(uint slot)
     {
         void* nullResource = default;
         DSSetShaderResources(slot, 1, &nullResource);
     }
 
-    public void DSUnsetShaderResources(int startSlot, int count)
+    public void DSUnsetShaderResources(uint startSlot, uint count)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1323,20 +1267,20 @@ public unsafe partial class ID3D11DeviceContext
         DSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
-    public void DSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
+    public void DSSetShaderResource(uint slot, ID3D11ShaderResourceView? shaderResourceView)
     {
         IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
         DSSetShaderResources(slot, 1, &nativePtr);
     }
 
-    public void DSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void DSSetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        DSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        DSSetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
 
-    public void DSSetShaderResources(int startSlot, int count, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void DSSetShaderResources(uint startSlot, uint count, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1348,37 +1292,37 @@ public unsafe partial class ID3D11DeviceContext
 
     public ID3D11DomainShader DSGetShader()
     {
-        int count = 0;
+        uint count = 0;
         DSGetShader(out ID3D11DomainShader shader, null, ref count);
         return shader;
     }
 
     public ID3D11DomainShader DSGetShader(ID3D11ClassInstance[] classInstances)
     {
-        int count = classInstances.Length;
+        uint count = (uint)classInstances.Length;
         DSGetShader(out ID3D11DomainShader shader, classInstances, ref count);
         return shader;
     }
 
-    public ID3D11DomainShader DSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    public ID3D11DomainShader DSGetShader(ref uint classInstancesCount, ID3D11ClassInstance[] classInstances)
     {
         DSGetShader(out ID3D11DomainShader shader, classInstances, ref classInstancesCount);
         return shader;
     }
 
-    public void DSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void DSGetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        DSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        DSGetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void DSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void DSGetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        DSGetSamplers(startSlot, samplers.Length, samplers);
+        DSGetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void DSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void DSGetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        DSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        DSGetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
     #endregion
 
@@ -1391,16 +1335,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void HSSetShader(ID3D11HullShader? hullShader, ID3D11ClassInstance[] classInstances)
     {
-        HSSetShader(hullShader, classInstances, classInstances.Length);
+        HSSetShader(hullShader, classInstances, (uint)classInstances.Length);
     }
 
-    public void HSUnsetConstantBuffer(int slot)
+    public void HSUnsetConstantBuffer(uint slot)
     {
         void* nullBuffer = default;
         HSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
-    public void HSUnsetConstantBuffers(int startSlot, int count)
+    public void HSUnsetConstantBuffers(uint startSlot, uint count)
     {
         fixed (void* nullBuffersPtr = s_NullBuffers)
         {
@@ -1408,20 +1352,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void HSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    public void HSSetConstantBuffer(uint slot, ID3D11Buffer? constantBuffer)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
         HSSetConstantBuffers(slot, 1, &nativePtr);
     }
 
-    public void HSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void HSSetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        HSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        HSSetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void HSSetConstantBuffers(int startSlot, int count, ID3D11Buffer[] constantBuffers)
+    public void HSSetConstantBuffers(uint startSlot, uint count, ID3D11Buffer[] constantBuffers)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1431,13 +1375,13 @@ public unsafe partial class ID3D11DeviceContext
         HSSetConstantBuffers(startSlot, count, ppConstantBuffers);
     }
 
-    public void HSUnsetSampler(int slot)
+    public void HSUnsetSampler(uint slot)
     {
         void* nullSampler = default;
         HSSetSamplers(slot, 1, &nullSampler);
     }
 
-    public void HSUnsetSamplers(int startSlot, int count)
+    public void HSUnsetSamplers(uint startSlot, uint count)
     {
         fixed (void* nullSamplersPtr = s_NullSamplers)
         {
@@ -1445,20 +1389,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void HSSetSampler(int slot, ID3D11SamplerState? sampler)
+    public void HSSetSampler(uint slot, ID3D11SamplerState? sampler)
     {
         IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
         HSSetSamplers(slot, 1, &nativePtr);
     }
 
-    public void HSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void HSSetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        HSSetSamplers(startSlot, samplers.Length, samplers);
+        HSSetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void HSSetSamplers(int startSlot, int count, ID3D11SamplerState[] samplers)
+    public void HSSetSamplers(uint startSlot, uint count, ID3D11SamplerState[] samplers)
     {
-        IntPtr* ppSamplers = stackalloc IntPtr[count];
+        IntPtr* ppSamplers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1468,15 +1412,15 @@ public unsafe partial class ID3D11DeviceContext
         HSSetSamplers(startSlot, count, ppSamplers);
     }
 
-    public void HSUnsetShaderResource(int slot)
+    public void HSUnsetShaderResource(uint slot)
     {
         void* nullResource = default;
         HSSetShaderResources(slot, 1, &nullResource);
     }
 
-    public void HSUnsetShaderResources(int startSlot, int count)
+    public void HSUnsetShaderResources(uint startSlot, uint count)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1486,20 +1430,20 @@ public unsafe partial class ID3D11DeviceContext
         HSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
-    public void HSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
+    public void HSSetShaderResource(uint slot, ID3D11ShaderResourceView? shaderResourceView)
     {
         IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
         HSSetShaderResources(slot, 1, &nativePtr);
     }
 
-    public void HSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void HSSetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        HSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        HSSetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
 
-    public void HSSetShaderResources(int startSlot, int count, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void HSSetShaderResources(uint startSlot, uint count, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1511,37 +1455,37 @@ public unsafe partial class ID3D11DeviceContext
 
     public ID3D11HullShader HSGetShader()
     {
-        int count = 0;
+        uint count = 0;
         HSGetShader(out ID3D11HullShader shader, null, ref count);
         return shader;
     }
 
     public ID3D11HullShader HSGetShader(ID3D11ClassInstance[] classInstances)
     {
-        int count = classInstances.Length;
+        uint count = (uint)classInstances.Length;
         HSGetShader(out ID3D11HullShader shader, classInstances, ref count);
         return shader;
     }
 
-    public ID3D11HullShader HSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    public ID3D11HullShader HSGetShader(ref uint classInstancesCount, ID3D11ClassInstance[] classInstances)
     {
         HSGetShader(out ID3D11HullShader shader, classInstances, ref classInstancesCount);
         return shader;
     }
 
-    public void HSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void HSGetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        HSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        HSGetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void HSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void HSGetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        HSGetSamplers(startSlot, samplers.Length, samplers);
+        HSGetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void HSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void HSGetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        HSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        HSGetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
     #endregion
 
@@ -1554,16 +1498,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void GSSetShader(ID3D11GeometryShader? geometryShader, ID3D11ClassInstance[] classInstances)
     {
-        GSSetShader(geometryShader, classInstances, classInstances.Length);
+        GSSetShader(geometryShader, classInstances, (uint)classInstances.Length);
     }
 
-    public void GSUnsetConstantBuffer(int slot)
+    public void GSUnsetConstantBuffer(uint slot)
     {
         void* nullBuffer = default;
         GSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
-    public void GSUnsetConstantBuffers(int startSlot, int count)
+    public void GSUnsetConstantBuffers(uint startSlot, uint count)
     {
         fixed (void* nullBuffersPtr = s_NullBuffers)
         {
@@ -1571,20 +1515,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void GSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    public void GSSetConstantBuffer(uint slot, ID3D11Buffer? constantBuffer)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
         GSSetConstantBuffers(slot, 1, &nativePtr);
     }
 
-    public void GSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void GSSetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        GSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        GSSetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void GSSetConstantBuffers(int startSlot, int count, ID3D11Buffer[] constantBuffers)
+    public void GSSetConstantBuffers(uint startSlot, uint count, ID3D11Buffer[] constantBuffers)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1594,13 +1538,13 @@ public unsafe partial class ID3D11DeviceContext
         GSSetConstantBuffers(startSlot, count, ppConstantBuffers);
     }
 
-    public void GSUnsetSampler(int slot)
+    public void GSUnsetSampler(uint slot)
     {
         void* nullSampler = default;
         GSSetSamplers(slot, 1, &nullSampler);
     }
 
-    public void GSUnsetSamplers(int startSlot, int count)
+    public void GSUnsetSamplers(uint startSlot, uint count)
     {
         fixed (void* nullSamplersPtr = s_NullSamplers)
         {
@@ -1608,20 +1552,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void GSSetSampler(int slot, ID3D11SamplerState? sampler)
+    public void GSSetSampler(uint slot, ID3D11SamplerState? sampler)
     {
         IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
         GSSetSamplers(slot, 1, &nativePtr);
     }
 
-    public void GSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void GSSetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        GSSetSamplers(startSlot, samplers.Length, samplers);
+        GSSetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void GSSetSamplers(int startSlot, int count, ID3D11SamplerState[] samplers)
+    public void GSSetSamplers(uint startSlot, uint count, ID3D11SamplerState[] samplers)
     {
-        IntPtr* ppSamplers = stackalloc IntPtr[count];
+        IntPtr* ppSamplers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1631,15 +1575,15 @@ public unsafe partial class ID3D11DeviceContext
         GSSetSamplers(startSlot, count, ppSamplers);
     }
 
-    public void GSUnsetShaderResource(int slot)
+    public void GSUnsetShaderResource(uint slot)
     {
         void* nullResource = default;
         GSSetShaderResources(slot, 1, &nullResource);
     }
 
-    public void GSUnsetShaderResources(int startSlot, int count)
+    public void GSUnsetShaderResources(uint startSlot, uint count)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1649,20 +1593,20 @@ public unsafe partial class ID3D11DeviceContext
         GSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
-    public void GSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
+    public void GSSetShaderResource(uint slot, ID3D11ShaderResourceView? shaderResourceView)
     {
         IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
         GSSetShaderResources(slot, 1, &nativePtr);
     }
 
-    public void GSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void GSSetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        GSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        GSSetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
 
-    public void GSSetShaderResources(int startSlot, int count, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void GSSetShaderResources(uint startSlot, uint count, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1674,37 +1618,37 @@ public unsafe partial class ID3D11DeviceContext
 
     public ID3D11GeometryShader GSGetShader()
     {
-        int count = 0;
+        uint count = 0;
         GSGetShader(out ID3D11GeometryShader shader, null, ref count);
         return shader;
     }
 
     public ID3D11GeometryShader GSGetShader(ID3D11ClassInstance[] classInstances)
     {
-        int count = classInstances.Length;
+        uint count = (uint)classInstances.Length;
         GSGetShader(out ID3D11GeometryShader shader, classInstances, ref count);
         return shader;
     }
 
-    public ID3D11GeometryShader GSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    public ID3D11GeometryShader GSGetShader(ref uint classInstancesCount, ID3D11ClassInstance[] classInstances)
     {
         GSGetShader(out ID3D11GeometryShader shader, classInstances, ref classInstancesCount);
         return shader;
     }
 
-    public void GSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void GSGetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        GSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        GSGetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void GSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void GSGetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        GSGetSamplers(startSlot, samplers.Length, samplers);
+        GSGetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void GSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void GSGetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        GSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        GSGetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
     #endregion
 
@@ -1717,16 +1661,16 @@ public unsafe partial class ID3D11DeviceContext
 
     public void CSSetShader(ID3D11ComputeShader? computeShader, ID3D11ClassInstance[] classInstances)
     {
-        CSSetShader(computeShader, classInstances, classInstances.Length);
+        CSSetShader(computeShader, classInstances, (uint)classInstances.Length);
     }
 
-    public void CSUnsetConstantBuffer(int slot)
+    public void CSUnsetConstantBuffer(uint slot)
     {
         void* nullBuffer = default;
         CSSetConstantBuffers(slot, 1, &nullBuffer);
     }
 
-    public void CSUnsetConstantBuffers(int startSlot, int count)
+    public void CSUnsetConstantBuffers(uint startSlot, uint count)
     {
         fixed (void* nullBuffersPtr = s_NullBuffers)
         {
@@ -1734,20 +1678,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void CSSetConstantBuffer(int slot, ID3D11Buffer? constantBuffer)
+    public void CSSetConstantBuffer(uint slot, ID3D11Buffer? constantBuffer)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
         CSSetConstantBuffers(slot, 1, &nativePtr);
     }
 
-    public void CSSetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void CSSetConstantBuffers(uint startSlot, Span<ID3D11Buffer> constantBuffers)
     {
-        CSSetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        CSSetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void CSSetConstantBuffers(int startSlot, int count, ID3D11Buffer[] constantBuffers)
+    public void CSSetConstantBuffers(uint startSlot, uint count, Span<ID3D11Buffer> constantBuffers)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1757,13 +1701,13 @@ public unsafe partial class ID3D11DeviceContext
         CSSetConstantBuffers(startSlot, count, ppConstantBuffers);
     }
 
-    public void CSUnsetSampler(int slot)
+    public void CSUnsetSampler(uint slot)
     {
         void* nullSampler = default;
         CSSetSamplers(slot, 1, &nullSampler);
     }
 
-    public void CSUnsetSamplers(int startSlot, int count)
+    public void CSUnsetSamplers(uint startSlot, uint count)
     {
         fixed (void* nullSamplersPtr = s_NullSamplers)
         {
@@ -1771,20 +1715,20 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void CSSetSampler(int slot, ID3D11SamplerState? sampler)
+    public void CSSetSampler(uint slot, ID3D11SamplerState? sampler)
     {
         IntPtr nativePtr = sampler == null ? IntPtr.Zero : sampler.NativePointer;
         CSSetSamplers(slot, 1, &nativePtr);
     }
 
-    public void CSSetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void CSSetSamplers(uint startSlot, Span<ID3D11SamplerState> samplers)
     {
-        CSSetSamplers(startSlot, samplers.Length, samplers);
+        CSSetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void CSSetSamplers(int startSlot, int count, ID3D11SamplerState[] samplers)
+    public void CSSetSamplers(uint startSlot, uint count, Span<ID3D11SamplerState> samplers)
     {
-        IntPtr* ppSamplers = stackalloc IntPtr[count];
+        IntPtr* ppSamplers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1794,15 +1738,15 @@ public unsafe partial class ID3D11DeviceContext
         CSSetSamplers(startSlot, count, ppSamplers);
     }
 
-    public void CSUnsetShaderResource(int slot)
+    public void CSUnsetShaderResource(uint slot)
     {
         void* nullResource = default;
         CSSetShaderResources(slot, 1, &nullResource);
     }
 
-    public void CSUnsetShaderResources(int startSlot, int count)
+    public void CSUnsetShaderResources(uint startSlot, uint count)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1812,20 +1756,20 @@ public unsafe partial class ID3D11DeviceContext
         CSSetShaderResources(startSlot, count, ppShaderResourceViews);
     }
 
-    public void CSSetShaderResource(int slot, ID3D11ShaderResourceView? shaderResourceView)
+    public void CSSetShaderResource(uint slot, ID3D11ShaderResourceView? shaderResourceView)
     {
         IntPtr nativePtr = shaderResourceView == null ? IntPtr.Zero : shaderResourceView.NativePointer;
         CSSetShaderResources(slot, 1, &nativePtr);
     }
 
-    public void CSSetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void CSSetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        CSSetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        CSSetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
 
-    public void CSSetShaderResources(int startSlot, int count, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void CSSetShaderResources(uint startSlot, uint count, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        IntPtr* ppShaderResourceViews = stackalloc IntPtr[count];
+        IntPtr* ppShaderResourceViews = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
@@ -1837,75 +1781,75 @@ public unsafe partial class ID3D11DeviceContext
 
     public ID3D11ComputeShader CSGetShader()
     {
-        int count = 0;
+        uint count = 0;
         CSGetShader(out ID3D11ComputeShader shader, null, ref count);
         return shader;
     }
 
     public ID3D11ComputeShader CSGetShader(ID3D11ClassInstance[] classInstances)
     {
-        int count = classInstances.Length;
+        uint count = (uint)classInstances.Length;
         CSGetShader(out ID3D11ComputeShader shader, classInstances, ref count);
         return shader;
     }
 
-    public ID3D11ComputeShader CSGetShader(ref int classInstancesCount, ID3D11ClassInstance[] classInstances)
+    public ID3D11ComputeShader CSGetShader(ref uint classInstancesCount, ID3D11ClassInstance[] classInstances)
     {
         CSGetShader(out ID3D11ComputeShader shader, classInstances, ref classInstancesCount);
         return shader;
     }
 
-    public void CSGetConstantBuffers(int startSlot, ID3D11Buffer[] constantBuffers)
+    public void CSGetConstantBuffers(uint startSlot, ID3D11Buffer[] constantBuffers)
     {
-        CSGetConstantBuffers(startSlot, constantBuffers.Length, constantBuffers);
+        CSGetConstantBuffers(startSlot, (uint)constantBuffers.Length, constantBuffers);
     }
 
-    public void CSGetSamplers(int startSlot, ID3D11SamplerState[] samplers)
+    public void CSGetSamplers(uint startSlot, ID3D11SamplerState[] samplers)
     {
-        CSGetSamplers(startSlot, samplers.Length, samplers);
+        CSGetSamplers(startSlot, (uint)samplers.Length, samplers);
     }
 
-    public void CSGetShaderResources(int startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
+    public void CSGetShaderResources(uint startSlot, ID3D11ShaderResourceView[] shaderResourceViews)
     {
-        CSGetShaderResources(startSlot, shaderResourceViews.Length, shaderResourceViews);
+        CSGetShaderResources(startSlot, (uint)shaderResourceViews.Length, shaderResourceViews);
     }
 
-    public void CSSetUnorderedAccessView(int slot, ID3D11UnorderedAccessView? unorderedAccessView, int uavInitialCount = KeepUnorderedAccessViews)
+    public void CSSetUnorderedAccessView(uint slot, ID3D11UnorderedAccessView? unorderedAccessView, uint uavInitialCount = KeepUnorderedAccessViews)
     {
         IntPtr nativePtr = unorderedAccessView == null ? IntPtr.Zero : unorderedAccessView.NativePointer;
         CSSetUnorderedAccessViews(slot, 1, &nativePtr, &uavInitialCount);
     }
 
-    public void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews)
+    public void CSSetUnorderedAccessViews(uint startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews)
     {
         int numUAVs = unorderedAccessViews.Length;
         IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
-        int* pUAVInitialCounts = stackalloc int[numUAVs];
+        uint* pUAVInitialCounts = stackalloc uint[numUAVs];
 
-        for (int i = 0; i < numUAVs; i++)
+        for (uint i = 0; i < numUAVs; i++)
         {
             ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
             pUAVInitialCounts[i] = KeepUnorderedAccessViews;
         }
 
-        CSSetUnorderedAccessViews(startSlot, numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
+        CSSetUnorderedAccessViews(startSlot, (uint)numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
     }
 
-    public void CSSetUnorderedAccessViews(int startSlot, int numUAVs, ID3D11UnorderedAccessView[] unorderedAccessViews)
+    public void CSSetUnorderedAccessViews(uint startSlot, uint numUAVs, ID3D11UnorderedAccessView[] unorderedAccessViews)
     {
-        IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
-        int* pUAVInitialCounts = stackalloc int[numUAVs];
+        IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[(int)numUAVs];
+        uint* pUAVInitialCounts = stackalloc uint[(int)numUAVs];
 
         for (int i = 0; i < numUAVs; i++)
         {
             ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
-            pUAVInitialCounts[i] = -1;
+            pUAVInitialCounts[i] = unchecked((uint)-1);
         }
 
         CSSetUnorderedAccessViews(startSlot, numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
     }
 
-    public void CSSetUnorderedAccessViews(int startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews, int[] uavInitialCounts)
+    public void CSSetUnorderedAccessViews(uint startSlot, ID3D11UnorderedAccessView[] unorderedAccessViews, uint[] uavInitialCounts)
     {
         int numUAVs = unorderedAccessViews.Length;
         IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
@@ -1914,33 +1858,33 @@ public unsafe partial class ID3D11DeviceContext
             ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
         }
 
-        fixed (int* pUAVInitialCounts = uavInitialCounts)
+        fixed (uint* pUAVInitialCounts = uavInitialCounts)
         {
-            CSSetUnorderedAccessViews(startSlot, numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
+            CSSetUnorderedAccessViews(startSlot, (uint)numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
         }
     }
 
-    public void CSSetUnorderedAccessViews(int startSlot, int numUAVs, ID3D11UnorderedAccessView[] unorderedAccessViews, int[] uavInitialCounts)
+    public void CSSetUnorderedAccessViews(uint startSlot, uint numUAVs, ID3D11UnorderedAccessView[] unorderedAccessViews, uint[] uavInitialCounts)
     {
-        IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[numUAVs];
+        IntPtr* ppUnorderedAccessViews = stackalloc IntPtr[(int)numUAVs];
         for (int i = 0; i < numUAVs; i++)
         {
             ppUnorderedAccessViews[i] = (unorderedAccessViews[i] == null) ? IntPtr.Zero : unorderedAccessViews[i].NativePointer;
         }
 
-        fixed (int* pUAVInitialCounts = &uavInitialCounts[0])
+        fixed (uint* pUAVInitialCounts = uavInitialCounts)
         {
             CSSetUnorderedAccessViews(startSlot, numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
         }
     }
 
-    public void CSUnsetUnorderedAccessView(int slot, int uavInitialCount = -1)
+    public void CSUnsetUnorderedAccessView(uint slot, uint uavInitialCount = unchecked((uint)-1))
     {
         void* nullUAV = default;
         CSSetUnorderedAccessViews(slot, 1, &nullUAV, &uavInitialCount);
     }
 
-    public void CSUnsetUnorderedAccessViews(int startSlot, int count, int uavInitialCount = -1)
+    public void CSUnsetUnorderedAccessViews(uint startSlot, uint count, uint uavInitialCount = unchecked((uint)-1))
     {
         fixed (void* nullUAVsPtr = s_NullUAVs)
         {
@@ -1963,7 +1907,7 @@ public unsafe partial class ID3D11DeviceContext
         return mappedSubresource;
     }
 
-    public MappedSubresource Map(ID3D11Resource resource, int subresource, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None)
+    public MappedSubresource Map(ID3D11Resource resource, uint subresource, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None)
     {
         Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
         return mappedSubresource;
@@ -1979,7 +1923,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="flags">The flags.</param>
     /// <param name="subresource">The mapped subresource index.</param>
     /// <param name="mipSize">Size of the selected miplevel.</param>
-    public MappedSubresource Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int subresource, out int mipSize)
+    public MappedSubresource Map(ID3D11Resource resource, uint mipSlice, uint arraySlice, MapMode mode, MapFlags flags, out uint subresource, out uint mipSize)
     {
         subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
         Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
@@ -1996,50 +1940,50 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="flags">The flags.</param>
     /// <param name="mipSize">Size of the selected miplevel.</param>
     /// <param name="mappedSubresource"></param>
-    public Result Map(ID3D11Resource resource, int mipSlice, int arraySlice, MapMode mode, MapFlags flags, out int mipSize, out MappedSubresource mappedSubresource)
+    public Result Map(ID3D11Resource resource, uint mipSlice, uint arraySlice, MapMode mode, MapFlags flags, out uint mipSize, out MappedSubresource mappedSubresource)
     {
-        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
+        uint subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out mipSize);
         return Map(resource, subresource, mode, flags, out mappedSubresource);
     }
 
-    public Span<T> Map<T>(ID3D11Texture1D resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
+    public Span<T> Map<T>(ID3D11Texture1D resource, uint mipSlice, uint arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
     {
         Texture1DDescription description = resource.GetDescription();
-        int subresource = D3D11.CalculateSubResourceIndex(mipSlice, arraySlice, description.MipLevels);
+        uint subresource = D3D11.CalculateSubResourceIndex(mipSlice, arraySlice, description.MipLevels);
         Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
-        Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mappedSubresource.RowPitch);
+        Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), (int)mappedSubresource.RowPitch);
         return MemoryMarshal.Cast<byte, T>(source);
     }
 
-    public Span<T> Map<T>(ID3D11Texture2D resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
+    public Span<T> Map<T>(ID3D11Texture2D resource, uint mipSlice, uint arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
     {
-        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
+        uint subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out uint mipSize);
         Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
-        Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mipSize * mappedSubresource.RowPitch);
+        Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), (int)(mipSize * mappedSubresource.RowPitch));
         return MemoryMarshal.Cast<byte, T>(source);
     }
 
-    public Span<T> Map<T>(ID3D11Texture3D resource, int mipSlice, int arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
+    public Span<T> Map<T>(ID3D11Texture3D resource, uint mipSlice, uint arraySlice, MapMode mode = MapMode.Read, MapFlags flags = MapFlags.None) where T : unmanaged
     {
-        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
+        uint subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out uint mipSize);
         Map(resource, subresource, mode, flags, out MappedSubresource mappedSubresource).CheckError();
-        Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mipSize * mappedSubresource.DepthPitch);
+        Span<byte> source = new(mappedSubresource.DataPointer.ToPointer(), (int)(mipSize * mappedSubresource.DepthPitch));
         return MemoryMarshal.Cast<byte, T>(source);
     }
 
-    public ReadOnlySpan<T> MapReadOnly<T>(ID3D11Resource resource, int mipSlice = 0, int arraySlice = 0, MapFlags flags = MapFlags.None) where T : unmanaged
+    public ReadOnlySpan<T> MapReadOnly<T>(ID3D11Resource resource, uint mipSlice = 0, uint arraySlice = 0, MapFlags flags = MapFlags.None) where T : unmanaged
     {
-        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out int mipSize);
+        uint subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out uint mipSize);
         Map(resource, subresource, MapMode.Read, flags, out MappedSubresource mappedSubresource).CheckError();
-        ReadOnlySpan<byte> source = new(mappedSubresource.DataPointer.ToPointer(), mipSize * mappedSubresource.RowPitch);
+        ReadOnlySpan<byte> source = new(mappedSubresource.DataPointer.ToPointer(), (int)(mipSize * mappedSubresource.RowPitch));
         return MemoryMarshal.Cast<byte, T>(source);
     }
 
     public void Unmap(ID3D11Buffer buffer) => Unmap(buffer, 0);
 
-    public void Unmap(ID3D11Resource resource, int mipSlice, int arraySlice)
+    public void Unmap(ID3D11Resource resource, uint mipSlice, uint arraySlice)
     {
-        int subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out _);
+        uint subresource = resource.CalculateSubResourceIndex(mipSlice, arraySlice, out _);
         Unmap(resource, subresource);
     }
     #endregion
@@ -2055,7 +1999,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="depthPitch">The depth pitch.</param>
     /// <param name="region">The region</param>
-    public void UpdateSubresource<T>(in T value, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    public void UpdateSubresource<T>(in T value, ID3D11Resource resource, uint subresource = 0, uint rowPitch = 0, uint depthPitch = 0, Box? region = null) where T : unmanaged
     {
         fixed (T* valuePtr = &value)
         {
@@ -2073,7 +2017,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="depthPitch">The depth pitch.</param>
     /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
-    public void UpdateSubresource<T>(T[] data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    public void UpdateSubresource<T>(T[] data, ID3D11Resource resource, uint subresource = 0, uint rowPitch = 0, uint depthPitch = 0, Box? region = null) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {
@@ -2091,7 +2035,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="depthPitch">The depth pitch.</param>
     /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
-    public void UpdateSubresource<T>(Span<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    public void UpdateSubresource<T>(Span<T> data, ID3D11Resource resource, uint subresource = 0, uint rowPitch = 0, uint depthPitch = 0, Box? region = null) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {
@@ -2109,7 +2053,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="depthPitch">The depth pitch.</param>
     /// <param name="region">A region that defines the portion of the destination subresource to copy the resource data into. Coordinates are in bytes for buffers and in texels for textures.</param>
-    public void UpdateSubresource<T>(ReadOnlySpan<T> data, ID3D11Resource resource, int subresource = 0, int rowPitch = 0, int depthPitch = 0, Box? region = null) where T : unmanaged
+    public void UpdateSubresource<T>(ReadOnlySpan<T> data, ID3D11Resource resource, uint subresource = 0, uint rowPitch = 0, uint depthPitch = 0, Box? region = null) where T : unmanaged
     {
         fixed (T* dataPtr = data)
         {
@@ -2117,98 +2061,98 @@ public unsafe partial class ID3D11DeviceContext
         }
     }
 
-    public void WriteTexture<T>(ID3D11Texture1D resource, int arraySlice, int mipLevel, T[] data) where T : unmanaged
+    public void WriteTexture<T>(ID3D11Texture1D resource, uint arraySlice, uint mipLevel, T[] data) where T : unmanaged
     {
         ReadOnlySpan<T> span = data.AsSpan();
         WriteTexture(resource, arraySlice, mipLevel, span);
     }
 
-    public void WriteTexture<T>(ID3D11Texture1D resource, int arraySlice, int mipLevel, Span<T> data) where T : unmanaged
+    public void WriteTexture<T>(ID3D11Texture1D resource, uint arraySlice, uint mipLevel, Span<T> data) where T : unmanaged
     {
         Texture1DDescription description = resource.Description;
         fixed (T* dataPtr = data)
         {
-            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            uint subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
             DXGI.FormatHelper.GetSurfaceInfo(
                 description.Format,
                 description.GetWidth(mipLevel),
                 1,
-                out int rowPitch,
-                out int slicePitch);
+                out uint rowPitch,
+                out uint slicePitch);
 
             UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
         }
     }
 
-    public void WriteTexture<T>(ID3D11Texture1D resource, int arraySlice, int mipLevel, ReadOnlySpan<T> data) where T : unmanaged
+    public void WriteTexture<T>(ID3D11Texture1D resource, uint arraySlice, uint mipLevel, ReadOnlySpan<T> data) where T : unmanaged
     {
         Texture1DDescription description = resource.Description;
         fixed (T* dataPtr = data)
         {
-            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            uint subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
             DXGI.FormatHelper.GetSurfaceInfo(
                 description.Format,
                 description.GetWidth(mipLevel),
                 1,
-                out int rowPitch,
-                out int slicePitch);
+                out uint rowPitch,
+                out uint slicePitch);
 
             UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
         }
     }
 
-    public void WriteTexture<T>(ID3D11Texture2D resource, int arraySlice, int mipLevel, T[] data) where T : unmanaged
+    public void WriteTexture<T>(ID3D11Texture2D resource, uint arraySlice, uint mipLevel, T[] data) where T : unmanaged
     {
         ReadOnlySpan<T> span = data.AsSpan();
         WriteTexture(resource, arraySlice, mipLevel, span);
     }
 
-    public void WriteTexture<T>(ID3D11Texture2D resource, int arraySlice, int mipLevel, Span<T> data) where T : unmanaged
+    public void WriteTexture<T>(ID3D11Texture2D resource, uint arraySlice, uint mipLevel, Span<T> data) where T : unmanaged
     {
         Texture2DDescription description = resource.Description;
         fixed (T* dataPtr = data)
         {
-            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            uint subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
             DXGI.FormatHelper.GetSurfaceInfo(
                 description.Format,
                 description.GetWidth(mipLevel),
                 description.GetHeight(mipLevel),
-                out int rowPitch,
-                out int slicePitch);
+                out uint rowPitch,
+                out uint slicePitch);
 
             UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
         }
     }
 
-    public void WriteTexture<T>(ID3D11Texture2D resource, int arraySlice, int mipLevel, ReadOnlySpan<T> data) where T : unmanaged
+    public void WriteTexture<T>(ID3D11Texture2D resource, uint arraySlice, uint mipLevel, ReadOnlySpan<T> data) where T : unmanaged
     {
         Texture2DDescription description = resource.Description;
         fixed (T* dataPtr = data)
         {
-            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            uint subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
             DXGI.FormatHelper.GetSurfaceInfo(
                 description.Format,
                 description.GetWidth(mipLevel),
                 description.GetHeight(mipLevel),
-                out int rowPitch,
-                out int slicePitch);
+                out uint rowPitch,
+                out uint slicePitch);
 
             UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
         }
     }
 
-    public unsafe void WriteTexture<T>(ID3D11Texture2D resource, int arraySlice, int mipLevel, ref T data) where T : unmanaged
+    public unsafe void WriteTexture<T>(ID3D11Texture2D resource, uint arraySlice, uint mipLevel, ref T data) where T : unmanaged
     {
         Texture2DDescription description = resource.Description;
         fixed (T* dataPtr = &data)
         {
-            int subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
+            uint subresource = D3D11.CalculateSubResourceIndex(mipLevel, arraySlice, description.MipLevels);
             DXGI.FormatHelper.GetSurfaceInfo(
                 description.Format,
                 description.GetWidth(mipLevel),
                 description.GetHeight(mipLevel),
-                out int rowPitch,
-                out int slicePitch);
+                out uint rowPitch,
+                out uint slicePitch);
 
             UpdateSubresource(resource, subresource, null, (IntPtr)dataPtr, rowPitch, slicePitch);
         }
@@ -2220,7 +2164,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="source">The source data.</param>
     /// <param name="resource">The destination resource.</param>
     /// <param name="subresource">The destination subresource.</param>
-    public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, int subresource = 0)
+    public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, uint subresource = 0)
     {
         UpdateSubresource(resource, subresource, null, source.DataPointer, source.RowPitch, source.DepthPitch);
     }
@@ -2232,7 +2176,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <param name="resource">The destination resource.</param>
     /// <param name="subresource">The destination subresource.</param>
     /// <param name="region">The destination region within the resource.</param>
-    public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, int subresource, Box region)
+    public void UpdateSubresource(MappedSubresource source, ID3D11Resource resource, uint subresource, Box region)
     {
         UpdateSubresource(resource, subresource, region, source.DataPointer, source.RowPitch, source.DepthPitch);
     }
@@ -2251,7 +2195,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <remarks>
     /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
     /// </remarks>
-    public void UpdateSubresourceSafe<T>(ref T value, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
+    public void UpdateSubresourceSafe<T>(ref T value, ID3D11Resource resource, uint srcBytesPerElement, uint subresource = 0, uint rowPitch = 0, uint depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
     {
         fixed (T* valuePtr = &value)
         {
@@ -2273,7 +2217,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <remarks>
     /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
     /// </remarks>
-    public void UpdateSubresourceSafe<T>(T[] data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
+    public void UpdateSubresourceSafe<T>(T[] data, ID3D11Resource resource, uint srcBytesPerElement, uint subresource = 0, uint rowPitch = 0, uint depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
     {
         unsafe
         {
@@ -2298,7 +2242,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <remarks>
     /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
     /// </remarks>
-    public unsafe void UpdateSubresourceSafe<T>(Span<T> data, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, int rowPitch = 0, int depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
+    public unsafe void UpdateSubresourceSafe<T>(Span<T> data, ID3D11Resource resource, uint srcBytesPerElement, uint subresource = 0, uint rowPitch = 0, uint depthPitch = 0, bool isCompressedResource = false) where T : unmanaged
     {
         fixed (void* dataPtr = data)
         {
@@ -2317,7 +2261,7 @@ public unsafe partial class ID3D11DeviceContext
     /// <remarks>
     /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
     /// </remarks>
-    public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, int srcBytesPerElement, int subresource = 0, bool isCompressedResource = false)
+    public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, uint srcBytesPerElement, uint subresource = 0, bool isCompressedResource = false)
     {
         UpdateSubresourceSafe(resource, subresource, null, source.DataPointer, source.RowPitch, source.DepthPitch, srcBytesPerElement, isCompressedResource);
     }
@@ -2334,14 +2278,14 @@ public unsafe partial class ID3D11DeviceContext
     /// <remarks>
     /// This method is implementing the <a href="http://blogs.msdn.com/b/chuckw/archive/2010/07/28/known-issue-direct3d-11-updatesubresource-and-deferred-contexts.aspx">workaround for deferred context</a>.
     /// </remarks>
-    public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, int srcBytesPerElement, int subresource, Box region, bool isCompressedResource = false)
+    public void UpdateSubresourceSafe(MappedSubresource source, ID3D11Resource resource, uint srcBytesPerElement, uint subresource, Box region, bool isCompressedResource = false)
     {
         UpdateSubresourceSafe(resource, subresource, region, source.DataPointer, source.RowPitch, source.DepthPitch, srcBytesPerElement, isCompressedResource);
     }
 
     internal unsafe bool UpdateSubresourceSafe(
-        ID3D11Resource dstResource, int dstSubresource, Box? dstBox,
-        IntPtr pSrcData, int srcRowPitch, int srcDepthPitch, int srcBytesPerElement, bool isCompressedResource)
+        ID3D11Resource dstResource, uint dstSubresource, Box? dstBox,
+        IntPtr pSrcData, uint srcRowPitch, uint srcDepthPitch, uint srcBytesPerElement, bool isCompressedResource)
     {
 
         bool needWorkaround = false;

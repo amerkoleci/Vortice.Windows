@@ -11,16 +11,16 @@ public partial class IDXGIDecodeSwapChain
     {
         get
         {
-            GetDestSize(out int width, out int height);
-            return new(width, height);
+            GetDestSize(out uint width, out uint height);
+            return new((int)width, (int)height);
         }
         set
         {
-            SetDestSize(value.Width, value.Height);
+            SetDestSize((uint)value.Width, (uint)value.Height);
         }
     }
 
-    public Result PresentBuffer(int bufferToPresent, int syncInterval)
+    public Result PresentBuffer(uint bufferToPresent, uint syncInterval)
     {
         return PresentBuffer(bufferToPresent, syncInterval, PresentFlags.None);
     }

@@ -147,9 +147,9 @@
   <bindings>
     <bind from="unsigned short" to="System.UInt16" />
     <bind from="uint16_t" to="System.UInt16" />
-    <bind from="uint32_t" to="System.Int32" />
-    <bind from="UINT32" to="System.Int32" />
-    <bind from="UINT" to="System.Int32" />
+    <bind from="uint32_t" to="System.UInt32" />
+    <bind from="UINT32" to="System.UInt32" />
+    <bind from="UINT" to="System.UInt32" />
     <bind from="LUID" to="Vortice.Luid"/>
     <bind from="HWND" to="System.IntPtr"/>
     <bind from="HDC" to="System.IntPtr"/>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Globalization;
@@ -8,7 +8,7 @@ namespace Vortice.WIC;
 
 public sealed partial class PixelFormat
 {
-    private static readonly Dictionary<Guid, int> s_mapGuidToSize;
+    private static readonly Dictionary<Guid, uint> s_mapGuidToSize;
     private static readonly Dictionary<Guid, Format> s_WICFormats;
 
     static PixelFormat()
@@ -126,9 +126,9 @@ public sealed partial class PixelFormat
     /// </summary>
     /// <param name="guid">The pixel format guid.</param>
     /// <returns>The number of bits per pixel. If the pixel format guid is invalid, returns 0</returns>
-    public static int GetBitsPerPixel(Guid guid)
+    public static uint GetBitsPerPixel(Guid guid)
     {
-        s_mapGuidToSize.TryGetValue(guid, out int bitsPerPixel);
+        s_mapGuidToSize.TryGetValue(guid, out uint bitsPerPixel);
         return bitsPerPixel;
     }
 
@@ -138,9 +138,9 @@ public sealed partial class PixelFormat
     /// <param name="guid">The pixel format guid.</param>
     /// <param name="width">The width.</param>
     /// <returns>The number of bytes per row.</returns>
-    public static int GetStride(Guid guid, int width)
+    public static uint GetStride(Guid guid, uint width)
     {
-        int bitsPerPixel = GetBitsPerPixel(guid);
+        uint bitsPerPixel = GetBitsPerPixel(guid);
         if (bitsPerPixel == 0)
         {
             throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Invalid PixelFormat guid [{0}]. Unable to calculate stride", guid));
@@ -159,7 +159,7 @@ public sealed partial class PixelFormat
         return Format.Unknown;
     }
 
-    public static int WICBitsPerPixel(IWICImagingFactory factory, Guid pixelFormat)
+    public static uint WICBitsPerPixel(IWICImagingFactory factory, Guid pixelFormat)
     {
         using IWICComponentInfo info = factory.CreateComponentInfo(pixelFormat);
         ComponentType type = info.ComponentType;

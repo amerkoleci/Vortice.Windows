@@ -24,10 +24,10 @@ public partial struct Texture3DDescription
     /// <param name="miscFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
     public Texture3DDescription(
         Format format,
-        int width,
-        int height,
-        int depth,
-        int mipLevels = 0,
+        uint width,
+        uint height,
+        uint depth,
+        uint mipLevels = 0,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None,

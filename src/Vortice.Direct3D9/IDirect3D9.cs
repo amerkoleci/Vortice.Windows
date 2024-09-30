@@ -5,7 +5,7 @@ namespace Vortice.Direct3D9;
 
 public partial class IDirect3D9
 {
-    public IDirect3DDevice9 CreateDevice(int adapter, DeviceType deviceType, IntPtr focusWindow, CreateFlags createFlags, PresentParameters presentationParameters)
+    public IDirect3DDevice9 CreateDevice(uint adapter, DeviceType deviceType, IntPtr focusWindow, CreateFlags createFlags, PresentParameters presentationParameters)
     {
         return CreateDevice(adapter, deviceType, focusWindow, (int)createFlags, ref presentationParameters);
     }
@@ -15,7 +15,7 @@ public partial class IDirect3D9
     /// </summary>
     /// <param name="adapter">The adapter.</param>
     /// <returns>The physical display adapters</returns>
-    public AdapterIdentifier GetAdapterIdentifier(int adapter)
+    public AdapterIdentifier GetAdapterIdentifier(uint adapter)
     {
         return GetAdapterIdentifier(adapter, 0);
     }

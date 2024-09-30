@@ -47,7 +47,7 @@ public partial struct ResourceDescription1
         DepthOrArraySize = depthOrArraySize;
         MipLevels = mipLevels;
         Format = format;
-        SampleDescription = new SampleDescription((int)sampleCount, (int)sampleQuality);
+        SampleDescription = new SampleDescription(sampleCount, sampleQuality);
         Layout = layout;
         Flags = flags;
         SamplerFeedbackMipRegion = new MipRegion(samplerFeedbackMipRegionWidth, samplerFeedbackMipRegionHeight, samplerFeedbackMipRegionDepth);

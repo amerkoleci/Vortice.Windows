@@ -24,14 +24,14 @@ public partial class ID3D11DeviceContext2
         TileRegionSize[] tiledResourceRegionSizes,
         ID3D11Buffer tilePool,
         TileRangeFlags[] rangeFlags,
-        int[] tilePoolStartOffsets,
-        int[] rangeTileCounts,
+        uint[] tilePoolStartOffsets,
+        uint[] rangeTileCounts,
         TileMappingFlags flags = TileMappingFlags.None)
     {
         return UpdateTileMappings(tiledResource,
-            tiledResourceRegionStartCoordinates.Length, tiledResourceRegionStartCoordinates, tiledResourceRegionSizes,
+            (uint)tiledResourceRegionStartCoordinates.Length, tiledResourceRegionStartCoordinates, tiledResourceRegionSizes,
             tilePool,
-            rangeFlags.Length, rangeFlags,
+            (uint)rangeFlags.Length, rangeFlags,
             tilePoolStartOffsets,
             rangeTileCounts,
             flags);

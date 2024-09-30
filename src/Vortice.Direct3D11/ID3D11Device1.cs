@@ -15,7 +15,8 @@ public partial class ID3D11Device1
     public ID3DDeviceContextState CreateDeviceContextState<T>(CreateDeviceContextStateFlags flags, FeatureLevel[] featureLevels, out FeatureLevel chosenFeatureLevel) where T : ComObject
     {
         return CreateDeviceContextState(
-            flags, featureLevels, featureLevels.Length,
+            flags, featureLevels,
+            (uint)featureLevels.Length,
             D3D11.SdkVersion,
             typeof(T).GUID, out chosenFeatureLevel);
     }

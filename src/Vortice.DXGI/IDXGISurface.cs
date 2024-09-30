@@ -12,8 +12,8 @@ public partial class IDXGISurface
     /// <returns>A <see cref="DataRectangle" /> for accessing the mapped data.</returns>.
     public DataRectangle Map(MapFlags flags)
     {
-        Map(out MappedRect mappedRect, (int)flags).CheckError();
-        return new DataRectangle(mappedRect.Bits, mappedRect.Pitch);
+        Map(out MappedRect mappedRect, (uint)flags).CheckError();
+        return new DataRectangle(mappedRect.Bits, (uint)mappedRect.Pitch);
     }
 
     /// <summary>
@@ -23,7 +23,7 @@ public partial class IDXGISurface
     /// <returns><see cref="DataStream"/> to contain the surface data.</returns>
     public DataStream MapDataStream(MapFlags flags)
     {
-        Map(out MappedRect mappedRect, (int)flags).CheckError();
+        Map(out MappedRect mappedRect, (uint)flags).CheckError();
         return new DataStream(mappedRect.Bits, Description.Height * mappedRect.Pitch, true, true);
     }
 }

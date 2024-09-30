@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using SharpGen.Runtime.Win32;
@@ -73,7 +73,7 @@ public unsafe partial class IWICImagingFactory
         return wicStream;
     }
 
-    public IWICBitmap CreateBitmap(int width, int height, Guid pixelFormatGuid, BitmapCreateCacheOption option = BitmapCreateCacheOption.CacheOnLoad)
+    public IWICBitmap CreateBitmap(uint width, uint height, Guid pixelFormatGuid, BitmapCreateCacheOption option = BitmapCreateCacheOption.CacheOnLoad)
     {
         return CreateBitmap_(width, height, pixelFormatGuid, option);
     }
@@ -174,33 +174,33 @@ public unsafe partial class IWICImagingFactory
         return CreateDecoderFromFilename_(fileName, guidVendor, (int)nativeAccess, metadataOptions);
     }
 
-    public IWICBitmap CreateBitmapFromMemory<T>(int width, int height, Guid pixelFormat, T[] source, int stride = 0) where T : unmanaged
+    public IWICBitmap CreateBitmapFromMemory<T>(uint width, uint height, Guid pixelFormat, T[] source, uint stride = 0) where T : unmanaged
     {
         ReadOnlySpan<T> span = source.AsSpan();
 
         return CreateBitmapFromMemory(width, height, pixelFormat, span, stride);
     }
 
-    public IWICBitmap CreateBitmapFromMemory<T>(int width, int height, Guid pixelFormat, ReadOnlySpan<T> source, int stride = 0) where T : unmanaged
+    public IWICBitmap CreateBitmapFromMemory<T>(uint width, uint height, Guid pixelFormat, ReadOnlySpan<T> source, uint stride = 0) where T : unmanaged
     {
         return CreateBitmapFromMemory(width, height, pixelFormat, ref MemoryMarshal.GetReference(source), stride);
     }
 
-    public IWICBitmap CreateBitmapFromMemory<T>(int width, int height, Guid pixelFormat, ref T source, int stride = 0) where T : unmanaged
+    public IWICBitmap CreateBitmapFromMemory<T>(uint width, uint height, Guid pixelFormat, ref T source, uint stride = 0) where T : unmanaged
     {
         if (stride == 0)
         {
             stride = PixelFormat.GetStride(pixelFormat, width);
         }
 
-        int sizeInBytes = height * stride;
+        uint sizeInBytes = height * stride;
         fixed (void* sourcePointer = &source)
         {
             return CreateBitmapFromMemory(width, height, pixelFormat, stride, sizeInBytes, sourcePointer);
         }
     }
 
-    public IWICBitmap CreateBitmapFromMemory(int width, int height, Guid pixelFormat, IntPtr buffer, int stride = 0, int bufferSize = 0)
+    public IWICBitmap CreateBitmapFromMemory(uint width, uint height, Guid pixelFormat, IntPtr buffer, uint stride = 0, uint bufferSize = 0)
     {
         if (stride == 0)
         {
@@ -215,7 +215,7 @@ public unsafe partial class IWICImagingFactory
         return CreateBitmapFromMemory(width, height, pixelFormat, stride, bufferSize, buffer.ToPointer());
     }
 
-    public IWICBitmap CreateBitmapFromMemory(int width, int height, Guid pixelFormat, int stride, int bufferSize, IntPtr buffer)
+    public IWICBitmap CreateBitmapFromMemory(uint width, uint height, Guid pixelFormat, uint stride, uint bufferSize, IntPtr buffer)
     {
         return CreateBitmapFromMemory(width, height, pixelFormat, stride, bufferSize, buffer.ToPointer());
     }

@@ -14,7 +14,7 @@ public readonly struct DataRectangle
     /// </summary>
     /// <param name="dataPointer">The data pointer.</param>
     /// <param name="pitch">The pitch.</param>
-    public DataRectangle(IntPtr dataPointer, int pitch)
+    public DataRectangle(IntPtr dataPointer, uint pitch)
     {
         DataPointer = dataPointer;
         Pitch = pitch;
@@ -28,5 +28,5 @@ public readonly struct DataRectangle
     /// <summary>
     /// Gets the number of bytes per row.
     /// </summary>
-    public readonly int Pitch;
+    public readonly uint Pitch;
 }

@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct2D1;
@@ -13,7 +13,7 @@ public unsafe partial class ID2D1ColorContext
         get
         {
             byte[] profileData = new byte[ProfileSize];
-            GetProfile(profileData, profileData.Length);
+            GetProfile(profileData, (uint)profileData.Length);
             return profileData;
         }
     }

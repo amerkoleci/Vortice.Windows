@@ -13,13 +13,13 @@ public unsafe partial class IDXGIFactory5
         get
         {
             RawBool allowTearing;
-            CheckFeatureSupport(Feature.PresentAllowTearing, &allowTearing, sizeof(RawBool));
+            CheckFeatureSupport(Feature.PresentAllowTearing, &allowTearing, (uint)sizeof(RawBool));
             return allowTearing;
         }
     }
 
     public bool CheckFeatureSupport<T>(Feature feature, T featureSupport) where T : unmanaged
     {
-        return CheckFeatureSupport(feature, &featureSupport, sizeof(T)).Success;
+        return CheckFeatureSupport(feature, &featureSupport, (uint)sizeof(T)).Success;
     }
 }

@@ -45,7 +45,7 @@ public unsafe partial class IDxcCompilerArgs
         }
     }
 
-    public Result AddArguments(string[] arguments, int argumentsCount)
+    public Result AddArguments(string[] arguments, uint argumentsCount)
     {
         Utf16PinnedStringArray native = new(arguments, argumentsCount);
         try
@@ -63,7 +63,7 @@ public unsafe partial class IDxcCompilerArgs
         Utf8PinnedStringArray native = new(arguments);
         try
         {
-            return AddArgumentsUTF8(native.Handle, native.Length);
+            return AddArgumentsUTF8(native.Handle, (uint)native.Length);
         }
         finally
         {
@@ -71,7 +71,7 @@ public unsafe partial class IDxcCompilerArgs
         }
     }
 
-    public Result AddArgumentsUTF8(string[] arguments, int argumentsCount)
+    public Result AddArgumentsUTF8(string[] arguments, uint argumentsCount)
     {
         Utf8PinnedStringArray native = new(arguments, argumentsCount);
         try

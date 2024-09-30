@@ -11,7 +11,7 @@ public unsafe partial class IDxcLinker
         return result!;
     }
 
-    public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount)
+    public IDxcOperationResult Link(string entryName, string targetProfile, string[] libNames, uint libCount, string[] arguments, uint argumentsCount)
     {
         Link(entryName, targetProfile, libNames, libCount, arguments, argumentsCount, out IDxcOperationResult? result).CheckError();
         return result!;
@@ -26,12 +26,12 @@ public unsafe partial class IDxcLinker
         {
             if (libNames?.Length > 0)
             {
-                libNamesPtr = new(libNames, libNames.Length);
+                libNamesPtr = new(libNames, (uint)libNames.Length);
             }
 
             if (arguments?.Length > 0)
             {
-                argumentsPtr = new(arguments, arguments.Length);
+                argumentsPtr = new(arguments, (uint)arguments.Length);
             }
 
             Result hr = Link(entryName,
@@ -55,7 +55,7 @@ public unsafe partial class IDxcLinker
         }
     }
 
-    public Result Link(string entryName, string targetProfile, string[] libNames, int libCount, string[] arguments, int argumentsCount, out IDxcOperationResult? result)
+    public Result Link(string entryName, string targetProfile, string[] libNames, uint libCount, string[] arguments, uint argumentsCount, out IDxcOperationResult? result)
     {
         Utf16PinnedStringArray libNamesPtr = default;
         Utf16PinnedStringArray argumentsPtr = default;

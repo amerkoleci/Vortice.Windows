@@ -35,12 +35,12 @@ public partial struct SwapChainDescription1
     /// A combination of <see cref="SwapChainFlags"/> values that are combined by using a bitwise OR operation. The resulting value specifies options for swap-chain behavior.
     /// </param>
     public SwapChainDescription1(
-        int width,
-        int height,
+        uint width,
+        uint height,
         Format format = Format.B8G8R8A8_UNorm,
         bool stereo = false,
         Usage bufferUsage = Usage.RenderTargetOutput,
-        int bufferCount = 2,
+        uint bufferCount = 2,
         Scaling scaling = Scaling.Stretch,
         SwapEffect swapEffect = SwapEffect.FlipDiscard,
         AlphaMode alphaMode = AlphaMode.Ignore,

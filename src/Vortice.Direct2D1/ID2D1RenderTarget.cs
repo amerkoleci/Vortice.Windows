@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using Vortice.DCommon;
@@ -33,7 +33,7 @@ public partial class ID2D1RenderTarget
         return CreateBitmap(size, IntPtr.Zero, 0, bitmapProperties);
     }
 
-    public ID2D1Bitmap CreateBitmap(SizeI size, IntPtr sourceData, int pitch)
+    public ID2D1Bitmap CreateBitmap(SizeI size, IntPtr sourceData, uint pitch)
     {
         return CreateBitmap(size, sourceData, pitch, new BitmapProperties(DCommon.PixelFormat.Unknown));
     }
@@ -51,17 +51,17 @@ public partial class ID2D1RenderTarget
 
     public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops)
     {
-        return CreateGradientStopCollection_(gradientStops, gradientStops.Length, Gamma.StandardRgb, ExtendMode.Clamp);
+        return CreateGradientStopCollection_(gradientStops, (uint)gradientStops.Length, Gamma.StandardRgb, ExtendMode.Clamp);
     }
 
     public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops, ExtendMode extendMode)
     {
-        return CreateGradientStopCollection_(gradientStops, gradientStops.Length, Gamma.StandardRgb, extendMode);
+        return CreateGradientStopCollection_(gradientStops, (uint)gradientStops.Length, Gamma.StandardRgb, extendMode);
     }
 
     public ID2D1GradientStopCollection CreateGradientStopCollection(GradientStop[] gradientStops, Gamma colorInterpolationGamma, ExtendMode extendMode)
     {
-        return CreateGradientStopCollection_(gradientStops, gradientStops.Length, colorInterpolationGamma, extendMode);
+        return CreateGradientStopCollection_(gradientStops, (uint)gradientStops.Length, colorInterpolationGamma, extendMode);
     }
 
     public ID2D1LinearGradientBrush CreateLinearGradientBrush(LinearGradientBrushProperties linearGradientBrushProperties, ID2D1GradientStopCollection gradientStopCollection)
@@ -364,7 +364,7 @@ public partial class ID2D1RenderTarget
     public void DrawText(string text, IDWriteTextFormat textFormat, Rect layoutRect, ID2D1Brush defaultForegroundBrush)
     {
         RawRectF rawLayoutRect = layoutRect;
-        DrawText(text, text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, DrawTextOptions.None, MeasuringMode.Natural);
+        DrawText(text, (uint)text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, DrawTextOptions.None, MeasuringMode.Natural);
     }
 
     /// <summary>	
@@ -381,7 +381,7 @@ public partial class ID2D1RenderTarget
     public void DrawText(string text, IDWriteTextFormat textFormat, Rect layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options)
     {
         RawRectF rawLayoutRect = layoutRect;
-        DrawText(text, text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, options, MeasuringMode.Natural);
+        DrawText(text, (uint)text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, options, MeasuringMode.Natural);
     }
 
     /// <summary>	
@@ -399,7 +399,7 @@ public partial class ID2D1RenderTarget
     public void DrawText(string text, IDWriteTextFormat textFormat, Rect layoutRect, ID2D1Brush defaultForegroundBrush, DrawTextOptions options, MeasuringMode measuringMode)
     {
         RawRectF rawLayoutRect = layoutRect;
-        DrawText(text, text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, options, measuringMode);
+        DrawText(text, (uint)text.Length, textFormat, rawLayoutRect, defaultForegroundBrush, options, measuringMode);
     }
 
     /// <summary>	

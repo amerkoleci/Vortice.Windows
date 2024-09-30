@@ -559,7 +559,6 @@
   </extension>
 
   <bindings>
-    <bind from="UINT32" to="System.UInt32" override="true" />
     <bind from="MEDIA_EVENT_TYPES" to="Vortice.MediaFoundation.MediaEventTypes"/>
     <bind from="MPEG1VIDEOINFO" to="Vortice.MediaFoundation.Mpeg1VideoInformation"/>
     <bind from="MPEG2VIDEOINFO" to="Vortice.MediaFoundation.Mpeg2VideoInformation"/>

@@ -13,15 +13,15 @@ public static unsafe partial class Apis
         DeviceCreationFlags flags,
         FeatureLevel[] featureLevels,
         IUnknown[] commandQueues,
-        int nodeMask,
+        uint nodeMask,
         out ID3D11Device device,
         out ID3D11DeviceContext immediateContext,
         out FeatureLevel chosenFeatureLevel)
     {
         Result result = D3D11On12CreateDevice(d3d12Device,
             flags,
-            featureLevels, featureLevels.Length,
-            commandQueues, commandQueues.Length,
+            featureLevels, (uint)featureLevels.Length,
+            commandQueues, (uint)commandQueues.Length,
             nodeMask,
             out device, out immediateContext, out chosenFeatureLevel);
 

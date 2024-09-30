@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectWrite;
@@ -13,7 +13,7 @@ public partial struct TextRange
     /// </summary>
     /// <param name="startPosition">The start position of the text range.</param>
     /// <param name="length">The number positions in the text range.</param>
-    public TextRange(int startPosition, int length)
+    public TextRange(uint startPosition, uint length)
     {
         StartPosition = startPosition;
         Length = length;

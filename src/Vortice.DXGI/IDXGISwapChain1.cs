@@ -54,7 +54,7 @@ public partial class IDXGISwapChain1
     /// <include file="Documentation.xml" path="/comments/comment[@id='IDXGISwapChain1::Present1']/*" />
     /// <unmanaged>HRESULT IDXGISwapChain1::Present1([In] UINT SyncInterval, [In] UINT PresentFlags, [In] const DXGI_PRESENT_PARAMETERS* pPresentParameters)</unmanaged>
     /// <unmanaged-short>IDXGISwapChain1::Present1</unmanaged-short>
-    public unsafe Result Present1(int syncInterval, PresentFlags presentFlags, PresentParameters presentParameters)
+    public unsafe Result Present1(uint syncInterval, PresentFlags presentFlags, PresentParameters presentParameters)
     {
         bool hasScrollRectangle = presentParameters.ScrollRectangle.HasValue;
         bool hasScrollOffset = presentParameters.ScrollOffset.HasValue;
@@ -75,7 +75,7 @@ public partial class IDXGISwapChain1
     }
 
     public unsafe Result Present1(
-        int syncInterval,
+        uint syncInterval,
         PresentFlags presentFlags,
         ReadOnlySpan<RawRect> dirtyRectangles,
         RawRect? scrollRectangle = default,

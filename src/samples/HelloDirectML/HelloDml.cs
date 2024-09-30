@@ -43,7 +43,7 @@ public class HelloDml : IDisposable
 
         ID3D12Device2? device = default;
 
-        for (int adapterIndex = 0;
+        for (uint adapterIndex = 0;
             DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
             adapterIndex++)
         {
@@ -93,8 +93,8 @@ public class HelloDml : IDisposable
 
     public void Run()
     {
-        var tensorSizes = new int[] { 1, 2, 3, 4 };
-        var tensorElementCount = tensorSizes.Aggregate((a, b) => a * b);
+        uint[] tensorSizes = [1, 2, 3, 4];
+        uint tensorElementCount = tensorSizes.Aggregate((a, b) => a * b);
 
 #if true
         var bufferTensorDesc = new BufferTensorDescription()
@@ -104,11 +104,7 @@ public class HelloDml : IDisposable
             Flags = TensorFlags.None,
         };
 
-        bufferTensorDesc.TotalTensorSizeInBytes = CalculateBufferTensorSize(
-            bufferTensorDesc.DataType,
-            bufferTensorDesc.Sizes,
-            bufferTensorDesc.Strides
-            );
+        bufferTensorDesc.TotalTensorSizeInBytes = bufferTensorDesc.CalculateMinimumImpliedSize();
 
         // Create DirectML operator(s). Operators represent abstract functions such as "multiply", "reduce", "convolution", or even
         // compound operations such as recurrent neural nets. This example creates an instance of the Identity operator,
@@ -130,7 +126,7 @@ public class HelloDml : IDisposable
         using IDMLCompiledOperator dmlCompiledOperator = DMLDevice.CompileOperator(dmlOperator, ExecutionFlags.None);
 
         // 24 elements * 4 == 96 bytes.
-        long tensorBufferSize = bufferTensorDesc.TotalTensorSizeInBytes;
+        ulong tensorBufferSize = bufferTensorDesc.TotalTensorSizeInBytes;
 #else
         // Create DirectML operator(s). Operators represent abstract functions such as "multiply", "reduce", "convolution", or even
         // compound operations such as recurrent neural nets. This example creates an instance of the Identity operator,
@@ -148,7 +144,7 @@ public class HelloDml : IDisposable
         long tensorBufferSize = input.OutputTensorDescription.TotalTensorSizeInBytes;
 #endif
 
-        using var dmlOperatorInitializer = DMLDevice.CreateOperatorInitializer(new IDMLCompiledOperator[] { dmlCompiledOperator });
+        using var dmlOperatorInitializer = DMLDevice.CreateOperatorInitializer([dmlCompiledOperator]);
 
         // Query the operator for the required size (in descriptors) of its binding table.
         // You need to initialize an operator exactly once before it can be executed, and
@@ -380,66 +376,5 @@ public class HelloDml : IDisposable
         DMLDevice.Dispose();
         D3D12Device.Dispose();
         DXGIFactory.Dispose();
-    }
-
-    public static long CalculateBufferTensorSize(
-        TensorDataType dataType,
-        int[] sizes,
-        int[]? strides)
-    {
-        long elementSizeInBytes = 0;
-        switch (dataType)
-        {
-            case TensorDataType.Float32:
-            case TensorDataType.Uint32:
-            case TensorDataType.Int32:
-                elementSizeInBytes = 4;
-                break;
-
-            case TensorDataType.Float16:
-            case TensorDataType.Uint16:
-            case TensorDataType.Int16:
-                elementSizeInBytes = 2;
-                break;
-
-            case TensorDataType.Uint8:
-            case TensorDataType.Int8:
-                elementSizeInBytes = 1;
-                break;
-
-            //case DML_TENSOR_DATA_TYPE_FLOAT64:
-            //case DML_TENSOR_DATA_TYPE_UINT64:
-            //case DML_TENSOR_DATA_TYPE_INT64:
-            //    elementSizeInBytes = 8;
-            //    break;
-
-            default:
-                return 0; // Invalid data type
-        }
-
-        long minimumImpliedSizeInBytes;
-        if (strides == null)
-        {
-            minimumImpliedSizeInBytes = 1;
-            for (int i = 0; i < sizes.Length; i++)
-            {
-                minimumImpliedSizeInBytes *= sizes[i];
-            }
-            minimumImpliedSizeInBytes *= elementSizeInBytes;
-        }
-        else
-        {
-            int indexOfLastElement = 0;
-            for (int i = 0; i < sizes.Length; i++)
-            {
-                indexOfLastElement += (sizes[i] - 1) * strides[i];
-            }
-            minimumImpliedSizeInBytes = (indexOfLastElement + 1) * elementSizeInBytes;
-        }
-
-        // Round up to the nearest 4 bytes.
-        minimumImpliedSizeInBytes = (minimumImpliedSizeInBytes + 3) & ~3L;
-
-        return minimumImpliedSizeInBytes;
     }
 }

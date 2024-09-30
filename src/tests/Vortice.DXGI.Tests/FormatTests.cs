@@ -42,9 +42,9 @@ public class FormatTests
     [TestCase]
     public void GetSurfaceInfoTest()
     {
-        FormatHelper.GetSurfaceInfo(Format.R8G8B8A8_UNorm, 256, 256, out int rowPitch, out int sliceCount, out int rowCount);
-        Assert.That(256 * 4, Is.EqualTo(rowPitch));
-        Assert.That(256 * 4 * rowCount, Is.EqualTo(sliceCount));
-        Assert.That(256, Is.EqualTo(rowCount));
+        FormatHelper.GetSurfaceInfo(Format.R8G8B8A8_UNorm, 256, 256, out uint rowPitch, out uint sliceCount, out uint rowCount);
+        Assert.That(256u * 4, Is.EqualTo(rowPitch));
+        Assert.That(256u * 4 * rowCount, Is.EqualTo(sliceCount));
+        Assert.That(256u, Is.EqualTo(rowCount));
     }
 }

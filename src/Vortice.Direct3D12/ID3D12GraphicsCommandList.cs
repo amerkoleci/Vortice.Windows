@@ -761,7 +761,7 @@ public unsafe partial class ID3D12GraphicsCommandList
         for (uint z = 0; z < NumSlices; ++z)
         {
             byte* pDestSlice = (byte*)(pDest->pData) + pDest->SlicePitch * (nuint)(z);
-            byte* pSrcSlice = unchecked((byte*)(pSrc->Data.ToPointer()) + pSrc->SlicePitch * z);
+            byte* pSrcSlice = unchecked((byte*)(pSrc->pData) + pSrc->SlicePitch * z);
 
             for (uint y = 0; y < NumRows; ++y)
             {

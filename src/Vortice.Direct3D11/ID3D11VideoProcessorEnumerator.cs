@@ -13,13 +13,13 @@ public partial class ID3D11VideoProcessorEnumerator
         return formatSupport;
     }
 
-    public VideoProcessorRateConversionCaps GetVideoProcessorRateConversionCaps(int typeIndex)
+    public VideoProcessorRateConversionCaps GetVideoProcessorRateConversionCaps(uint typeIndex)
     {
         GetVideoProcessorRateConversionCaps(typeIndex, out VideoProcessorRateConversionCaps caps).CheckError();
         return caps;
     }
 
-    public VideoProcessorCustomRate GetVideoProcessorCustomRate(int typeIndex, int customRateIndex)
+    public VideoProcessorCustomRate GetVideoProcessorCustomRate(uint typeIndex, uint customRateIndex)
     {
         GetVideoProcessorCustomRate(typeIndex, customRateIndex, out VideoProcessorCustomRate rate).CheckError();
         return rate;

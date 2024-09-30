@@ -9,11 +9,11 @@ public unsafe partial class IDXGIOutput5
     {
         fixed (Format* pSupportedFormats = supportedFormats)
         {
-            return DuplicateOutput1_(device, 0, supportedFormats.Length, pSupportedFormats);
+            return DuplicateOutput1_(device, 0, (uint)supportedFormats.Length, pSupportedFormats);
         }
     }
 
-    public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, int supportedFormatsCount, Format[] supportedFormats)
+    public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, uint supportedFormatsCount, Format[] supportedFormats)
     {
         fixed (Format* pSupportedFormats = supportedFormats)
         {
@@ -25,11 +25,11 @@ public unsafe partial class IDXGIOutput5
     {
         fixed (Format* pSupportedFormats = supportedFormats)
         {
-            return DuplicateOutput1_(device, 0, supportedFormats.Length, pSupportedFormats);
+            return DuplicateOutput1_(device, 0, (uint)supportedFormats.Length, pSupportedFormats);
         }
     }
 
-    public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, int supportedFormatsCount, Span<Format> supportedFormats)
+    public IDXGIOutputDuplication DuplicateOutput1(IUnknown device, uint supportedFormatsCount, Span<Format> supportedFormats)
     {
         fixed (Format* pSupportedFormats = supportedFormats)
         {

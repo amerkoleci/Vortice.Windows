@@ -61,7 +61,7 @@ public partial class DXGI
     /// <returns>Return the <see cref="Result"/>.</returns>
     public static Result CreateDXGIFactory2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(bool debug, out T? factory) where T : IDXGIFactory2
     {
-        int flags = debug ? CreateFactoryDebug : 0x00;
+        uint flags = debug ? CreateFactoryDebug : 0u;
         Result result = CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Success)
         {
@@ -80,7 +80,7 @@ public partial class DXGI
     /// <returns>Return an instance of <see cref="IDXGIFactory2"/> or null if failed.</returns>
     public static T CreateDXGIFactory2<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(bool debug) where T : IDXGIFactory2
     {
-        int flags = debug ? CreateFactoryDebug : 0x00;
+        uint flags = debug ? CreateFactoryDebug : 0u;
         CreateDXGIFactory2(flags, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }

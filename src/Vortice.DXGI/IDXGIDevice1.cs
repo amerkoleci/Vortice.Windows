@@ -5,11 +5,11 @@ namespace Vortice.DXGI;
 
 public partial class IDXGIDevice1
 {
-    public int MaximumFrameLatency
+    public uint MaximumFrameLatency
     {
         get
         {
-            GetMaximumFrameLatency(out int latency).CheckError();
+            GetMaximumFrameLatency(out uint latency).CheckError();
             return latency;
         }
         set

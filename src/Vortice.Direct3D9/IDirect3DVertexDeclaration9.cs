@@ -5,11 +5,11 @@ namespace Vortice.Direct3D9;
 
 public partial class IDirect3DVertexDeclaration9
 {
-    public int ElementsCount
+    public uint ElementsCount
     {
         get
         {
-            int count = 0;
+            uint count = 0;
             GetDeclaration(null, ref count);
             return count;
         }
@@ -22,7 +22,7 @@ public partial class IDirect3DVertexDeclaration9
     {
         get
         {
-            int count = 0;
+            uint count = 0;
             GetDeclaration(null, ref count);
             if (count == 0)
             {
@@ -36,9 +36,9 @@ public partial class IDirect3DVertexDeclaration9
         }
     }
 
-    public int GetElements(VertexElement[] elements)
+    public uint GetElements(VertexElement[] elements)
     {
-        int count = elements.Length;
+        uint count = (uint)elements.Length;
         GetDeclaration(elements, ref count);
         return count;
     }

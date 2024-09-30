@@ -24,11 +24,11 @@ public partial struct ShaderResourceViewDescription
     public ShaderResourceViewDescription(
         ShaderResourceViewDimension viewDimension,
         Format format = Format.Unknown,
-        int mostDetailedMip = 0,
-        int mipLevels = -1,
-        int firstArraySlice = 0,
-        int arraySize = -1,
-        BufferExtendedShaderResourceViewFlags flags = BufferExtendedShaderResourceViewFlags.None) : this()
+        uint mostDetailedMip = 0,
+        uint mipLevels = unchecked((uint)-1),
+        uint firstArraySlice = 0,
+        uint arraySize = unchecked((uint)-1),
+        BufferExtendedShaderResourceViewFlags flags = BufferExtendedShaderResourceViewFlags.None)
     {
         Format = format;
         ViewDimension = viewDimension;
@@ -96,8 +96,7 @@ public partial struct ShaderResourceViewDescription
     /// <param name="firstElement"></param>
     /// <param name="numElements"></param>
     /// <param name="flags"></param>
-    public ShaderResourceViewDescription(ID3D11Buffer buffer, Format format, int firstElement, int numElements, BufferExtendedShaderResourceViewFlags flags = BufferExtendedShaderResourceViewFlags.None)
-        : this()
+    public ShaderResourceViewDescription(ID3D11Buffer buffer, Format format, uint firstElement, uint numElements, BufferExtendedShaderResourceViewFlags flags = BufferExtendedShaderResourceViewFlags.None)
     {
         Format = format;
         ViewDimension = ShaderResourceViewDimension.BufferExtended;
@@ -110,23 +109,22 @@ public partial struct ShaderResourceViewDescription
         ID3D11Texture1D texture,
         bool isArray,
         Format format = Format.Unknown,
-        int mostDetailedMip = 0,
-        int mipLevels = -1,
-        int firstArraySlice = 0,
-        int arraySize = -1)
-        : this()
+        uint mostDetailedMip = 0,
+        uint mipLevels = unchecked((uint)-1),
+        uint firstArraySlice = 0,
+        uint arraySize = unchecked((uint)-1))
     {
         ViewDimension = isArray ? ShaderResourceViewDimension.Texture1DArray : ShaderResourceViewDimension.Texture1D;
         if (format == Format.Unknown
-            || mipLevels == -1
-            || (arraySize == -1 && ShaderResourceViewDimension.Texture1DArray == ViewDimension))
+            || mipLevels == unchecked((uint)-1)
+            || (arraySize == unchecked((uint)-1) && ShaderResourceViewDimension.Texture1DArray == ViewDimension))
         {
             Texture1DDescription textureDesc = texture.Description;
             if (format == Format.Unknown)
                 format = textureDesc.Format;
-            if (mipLevels == -1)
+            if (mipLevels == unchecked((uint)-1))
                 mipLevels = textureDesc.MipLevels - mostDetailedMip;
-            if (arraySize == -1)
+            if (arraySize == unchecked((uint)-1))
                 arraySize = textureDesc.ArraySize - firstArraySlice;
         }
 
@@ -162,23 +160,22 @@ public partial struct ShaderResourceViewDescription
         ID3D11Texture2D texture,
         ShaderResourceViewDimension viewDimension,
         Format format = Format.Unknown,
-        int mostDetailedMip = 0,
-        int mipLevels = -1,
-        int firstArraySlice = 0,
-        int arraySize = -1)
-        : this()
+        uint mostDetailedMip = 0,
+        uint mipLevels = unchecked((uint)-1),
+        uint firstArraySlice = 0,
+        uint arraySize = unchecked((uint)-1))
     {
         ViewDimension = viewDimension;
         if (format == Format.Unknown
-            || (mipLevels == -1 && viewDimension != ShaderResourceViewDimension.Texture2DMultisampled && viewDimension != ShaderResourceViewDimension.Texture2DMultisampledArray)
-            || (arraySize == -1 && (ShaderResourceViewDimension.Texture2DArray == viewDimension || ShaderResourceViewDimension.Texture2DMultisampledArray == viewDimension || ShaderResourceViewDimension.TextureCubeArray == viewDimension)))
+            || (mipLevels == unchecked((uint)-1) && viewDimension != ShaderResourceViewDimension.Texture2DMultisampled && viewDimension != ShaderResourceViewDimension.Texture2DMultisampledArray)
+            || (arraySize == unchecked((uint)-1) && (ShaderResourceViewDimension.Texture2DArray == viewDimension || ShaderResourceViewDimension.Texture2DMultisampledArray == viewDimension || ShaderResourceViewDimension.TextureCubeArray == viewDimension)))
         {
             Texture2DDescription textureDesc = texture.Description;
             if (format == Format.Unknown)
                 format = textureDesc.Format;
-            if (-1 == mipLevels)
+            if (unchecked((uint)-1) == mipLevels)
                 mipLevels = textureDesc.MipLevels - mostDetailedMip;
-            if (-1 == arraySize)
+            if (unchecked((uint)-1) == arraySize)
             {
                 arraySize = textureDesc.ArraySize - firstArraySlice;
                 if (viewDimension == ShaderResourceViewDimension.TextureCubeArray)
@@ -229,17 +226,16 @@ public partial struct ShaderResourceViewDescription
     public ShaderResourceViewDescription(
         ID3D11Texture3D texture,
         Format format = Format.Unknown,
-        int mostDetailedMip = 0,
-        int mipLevels = -1)
-        : this()
+        uint mostDetailedMip = 0,
+        uint mipLevels = unchecked((uint)-1))
     {
         ViewDimension = ShaderResourceViewDimension.Texture3D;
-        if (format == Format.Unknown || mipLevels == -1)
+        if (format == Format.Unknown || mipLevels == unchecked((uint)-1))
         {
             Texture3DDescription textureDesc = texture.Description;
             if (format == Format.Unknown)
                 format = textureDesc.Format;
-            if (mipLevels == -1)
+            if (mipLevels == unchecked((uint)-1))
                 mipLevels = textureDesc.MipLevels - mostDetailedMip;
         }
 

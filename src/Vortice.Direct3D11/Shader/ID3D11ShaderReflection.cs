@@ -17,8 +17,8 @@ public partial class ID3D11ShaderReflection
     {
         get
         {
-            GetThreadGroupSize(out int x, out int y, out int z);
-            return new Int3(x, y, z);
+            GetThreadGroupSize(out uint x, out uint y, out uint z);
+            return new Int3((int)x, (int)y, (int)z);
         }
     }
 
@@ -29,7 +29,7 @@ public partial class ID3D11ShaderReflection
             if (_inputParameters == null)
             {
                 _inputParameters = new ShaderParameterDescription[Description.InputParameters];
-                for (int i = 0; i < Description.InputParameters; i++)
+                for (uint i = 0; i < Description.InputParameters; i++)
                 {
                     _inputParameters[i] = GetInputParameterDescription(i);
                 }
@@ -46,7 +46,7 @@ public partial class ID3D11ShaderReflection
             if (_outputParameters == null)
             {
                 _outputParameters = new ShaderParameterDescription[Description.OutputParameters];
-                for (int i = 0; i < Description.OutputParameters; i++)
+                for (uint i = 0; i < Description.OutputParameters; i++)
                 {
                     _outputParameters[i] = GetOutputParameterDescription(i);
                 }
@@ -63,7 +63,7 @@ public partial class ID3D11ShaderReflection
             if (_constantBuffers == null)
             {
                 _constantBuffers = new ID3D11ShaderReflectionConstantBuffer[Description.ConstantBuffers];
-                for (int i = 0; i < Description.ConstantBuffers; i++)
+                for (uint i = 0; i < Description.ConstantBuffers; i++)
                 {
                     _constantBuffers[i] = GetConstantBufferByIndex(i);
                 }
@@ -80,7 +80,7 @@ public partial class ID3D11ShaderReflection
             if (_boundResources == null)
             {
                 _boundResources = new InputBindingDescription[Description.BoundResources];
-                for (int i = 0; i < Description.BoundResources; i++)
+                for (uint i = 0; i < Description.BoundResources; i++)
                 {
                     _boundResources[i] = GetResourceBindingDescription(i);
                 }
@@ -97,7 +97,7 @@ public partial class ID3D11ShaderReflection
             if (_patchConstantParameters == null)
             {
                 _patchConstantParameters = new ShaderParameterDescription[Description.PatchConstantParameters];
-                for (int i = 0; i < Description.BoundResources; i++)
+                for (uint i = 0; i < Description.BoundResources; i++)
                 {
                     _patchConstantParameters[i] = GetPatchConstantParameterDescription(i);
                 }
@@ -107,10 +107,10 @@ public partial class ID3D11ShaderReflection
         }
     }
 
-    public int GetThreadGroupSize(out Int3 size)
+    public uint GetThreadGroupSize(out Int3 size)
     {
-        int totalSize = GetThreadGroupSize(out int x, out int y, out int z);
-        size = new Int3(x, y, z);
+        uint totalSize = GetThreadGroupSize(out uint x, out uint y, out uint z);
+        size = new Int3((int)x, (int)y, (int)z);
         return totalSize;
     }
 }

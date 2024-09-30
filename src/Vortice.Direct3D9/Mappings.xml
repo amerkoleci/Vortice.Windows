@@ -101,8 +101,6 @@
 
   <bindings>
     <bind from="WORD" to="System.Int16" />
-    <bind from="UINT" to="System.Int32" />
-    <bind from="UINT32" to="System.Int32" />
     
     <bind from="HWND" to="System.IntPtr"/>
     <bind from="HMONITOR" to="System.IntPtr"/>

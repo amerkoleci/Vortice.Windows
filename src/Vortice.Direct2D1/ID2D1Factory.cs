@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Drawing;
@@ -26,7 +26,7 @@ public unsafe partial class ID2D1Factory
 
     public ID2D1GeometryGroup CreateGeometryGroup(FillMode fillMode, ID2D1Geometry[] geometries)
     {
-        return CreateGeometryGroup(fillMode, geometries, geometries.Length);
+        return CreateGeometryGroup(fillMode, geometries, (uint)geometries.Length);
     }
 
     public ID2D1RectangleGeometry CreateRectangleGeometry(in RectangleF rectangle)
@@ -47,7 +47,7 @@ public unsafe partial class ID2D1Factory
 
     public ID2D1StrokeStyle CreateStrokeStyle(StrokeStyleProperties properties, float[] dashes)
     {
-        return CreateStrokeStyle(ref properties, dashes, dashes.Length);
+        return CreateStrokeStyle(ref properties, dashes, (uint)dashes.Length);
     }
 
     public ID2D1TransformedGeometry CreateTransformedGeometry(ID2D1Geometry sourceGeometry, Matrix3x2 transform)

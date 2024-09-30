@@ -115,8 +115,8 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
 
             SwapChainDescription1 swapChainDescription = new()
             {
-                Width = window.ClientSize.Width,
-                Height = window.ClientSize.Height,
+                Width = (uint)window.ClientSize.Width,
+                Height = (uint)window.ClientSize.Height,
                 Format = colorFormat,
                 BufferCount = FrameCount,
                 BufferUsage = Usage.RenderTargetOutput,
@@ -143,7 +143,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         else
         {
             // Create offscreen texture
-            OffscreenTexture = Device.CreateTexture2D(colorFormat, Size.Width, Size.Height,
+            OffscreenTexture = Device.CreateTexture2D(colorFormat, (uint)Size.Width, (uint)Size.Height,
                 mipLevels: 1,
                 bindFlags: BindFlags.ShaderResource | BindFlags.RenderTarget
                 );
@@ -152,7 +152,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
 
         if (depthStencilFormat != Format.Unknown)
         {
-            DepthStencilTexture = Device.CreateTexture2D(depthStencilFormat, Size.Width, Size.Height,
+            DepthStencilTexture = Device.CreateTexture2D(depthStencilFormat, (uint)Size.Width, (uint)Size.Height,
                 mipLevels: 1,
                 bindFlags: BindFlags.DepthStencil
                 );
@@ -243,7 +243,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         IDXGIFactory6? factory6 = Factory.QueryInterfaceOrNull<IDXGIFactory6>();
         if (factory6 != null)
         {
-            for (int adapterIndex = 0;
+            for (uint adapterIndex = 0;
                 factory6.EnumAdapterByGpuPreference(adapterIndex, GpuPreference.HighPerformance, out IDXGIAdapter1? adapter).Success;
                 adapterIndex++)
             {
@@ -268,7 +268,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             factory6.Dispose();
         }
 
-        for (int adapterIndex = 0;
+        for (uint adapterIndex = 0;
             Factory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
             adapterIndex++)
         {
@@ -305,7 +305,7 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
         DeviceContext.VSSetShader(_vertexShader);
         DeviceContext.PSSetShader(_pixelShader);
         DeviceContext.IASetInputLayout(_inputLayout);
-        DeviceContext.IASetVertexBuffer(0, _vertexBuffer, sizeof(VertexPositionColor));
+        DeviceContext.IASetVertexBuffer(0, _vertexBuffer, (uint)sizeof(VertexPositionColor));
         DeviceContext.Draw(3, 0);
 
         // Call callback.
@@ -351,11 +351,11 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
                 throw new NotSupportedException($"Format {format} doesn't support multisample resolve");
             }
 
-            for (int item = 0; item < desc.ArraySize; ++item)
+            for (uint item = 0; item < desc.ArraySize; ++item)
             {
-                for (int level = 0; level < desc.MipLevels; ++level)
+                for (uint level = 0; level < desc.MipLevels; ++level)
                 {
-                    int index = CalculateSubResourceIndex(level, item, desc.MipLevels);
+                    uint index = CalculateSubResourceIndex(level, item, desc.MipLevels);
                     DeviceContext.ResolveSubresource(temp, index, source, index, format);
                 }
             }
@@ -414,11 +414,11 @@ public sealed class D3D11GraphicsDevice : IGraphicsDevice
             IDXGIOutput? bestOutput = default;
             long bestIntersectArea = -1;
 
-            for (int adapterIndex = 0;
+            for (uint adapterIndex = 0;
                 Factory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
                 adapterIndex++)
             {
-                for (int outputIndex = 0;
+                for (uint outputIndex = 0;
                     adapter.EnumOutputs(outputIndex, out IDXGIOutput? output).Success;
                     outputIndex++)
                 {

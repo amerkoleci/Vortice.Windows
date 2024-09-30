@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct2D1;
@@ -13,7 +13,7 @@ public partial struct VertexRange
     /// </summary>
     /// <param name="startVertex">The first vertex in the range to process.</param>
     /// <param name="vertexCount">The number of vertices to use.</param>
-    public VertexRange(int startVertex, int vertexCount)
+    public VertexRange(uint startVertex, uint vertexCount)
     {
         StartVertex = startVertex;
         VertexCount = vertexCount;

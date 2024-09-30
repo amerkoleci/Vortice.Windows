@@ -3,24 +3,24 @@
 
 namespace Vortice.Direct3D9;
 
-public partial class IDirect3DIndexBuffer9
+public unsafe partial class IDirect3DIndexBuffer9
 {
-    public unsafe Span<T> Lock<T>(int offsetToLock, int sizeToLock, LockFlags lockFlags = LockFlags.None) where T : unmanaged
+    public Span<T> Lock<T>(uint offsetToLock, uint sizeToLock, LockFlags lockFlags = LockFlags.None) where T : unmanaged
     {
         if (sizeToLock == 0)
             sizeToLock = Description.SizeInBytes;
 
         var pOut = Lock(offsetToLock, sizeToLock, lockFlags);
-        return new Span<T>(pOut.ToPointer(), sizeToLock);
+        return new Span<T>(pOut.ToPointer(), (int)sizeToLock);
     }
 
-    public unsafe ReadOnlySpan<T> LockAsReadOnly<T>(int offsetToLock, int sizeToLock, LockFlags lockFlags = LockFlags.ReadOnly) where T : unmanaged
+    public ReadOnlySpan<T> LockAsReadOnly<T>(uint offsetToLock, uint sizeToLock, LockFlags lockFlags = LockFlags.ReadOnly) where T : unmanaged
     {
         if (sizeToLock == 0)
             sizeToLock = Description.SizeInBytes;
 
         nint pOut = Lock(offsetToLock, sizeToLock, lockFlags);
-        return new ReadOnlySpan<T>(pOut.ToPointer(), sizeToLock);
+        return new ReadOnlySpan<T>(pOut.ToPointer(), (int)sizeToLock);
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ public partial class IDirect3DIndexBuffer9
     /// <param name="sizeToLock">The size of the buffer to lock.</param>
     /// <param name="lockFlags">The lock flags.</param>
     /// <returns>A <see cref="System.IntPtr" /> containing the locked index buffer.</returns>
-    public IntPtr LockToPointer(int offsetToLock, int sizeToLock, LockFlags lockFlags = LockFlags.None)
+    public IntPtr LockToPointer(uint offsetToLock, uint sizeToLock, LockFlags lockFlags = LockFlags.None)
     {
         if (sizeToLock == 0)
             sizeToLock = Description.SizeInBytes;

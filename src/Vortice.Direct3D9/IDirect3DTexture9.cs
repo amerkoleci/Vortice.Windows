@@ -30,7 +30,7 @@ public unsafe partial class IDirect3DTexture9
     /// <param name="level">The level.</param>
     /// <param name="flags">The flags.</param>
     /// <returns>A <see cref="LockedRectangle"/> describing the region locked.</returns>
-    public LockedRectangle LockRect(int level, LockFlags flags)
+    public LockedRectangle LockRect(uint level, LockFlags flags)
     {
         return LockRect(level, null, flags);
     }
@@ -42,7 +42,7 @@ public unsafe partial class IDirect3DTexture9
     /// <param name="rectangle">The rectangle.</param>
     /// <param name="flags">The flags.</param>
     /// <returns>A <see cref="LockedRectangle"/> describing the region locked.</returns>
-    public LockedRectangle LockRect(int level, RectI rectangle, LockFlags flags)
+    public LockedRectangle LockRect(uint level, RectI rectangle, LockFlags flags)
     {
         return LockRect(level, &rectangle, flags);
     }

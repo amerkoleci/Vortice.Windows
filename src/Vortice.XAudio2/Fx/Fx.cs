@@ -63,7 +63,7 @@ public static unsafe partial class Fx
         {
             reflectionsDelay = 1;
         }
-        result.ReflectionsDelay = (int)reflectionsDelay;
+        result.ReflectionsDelay = (uint)reflectionsDelay;
 
         reverbDelay = I3DL2Parameters.ReverbDelay * 1000.0f;
         if (reverbDelay >= ReverbMaxReverbDelay) // 85

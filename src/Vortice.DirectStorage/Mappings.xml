@@ -23,9 +23,6 @@
   </extension>
 
   <bindings>
-    <bind from="uint32_t" to="System.UInt32" />
-    <bind from="UINT32" to="System.UInt32" override="true" />
-    <bind from="UINT64" to="System.UInt64" />
     <bind from="DSTORAGE_REQUEST_OPTIONS" to="Vortice.DirectStorage.RequestOptions" />
   </bindings>
 

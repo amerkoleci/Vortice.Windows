@@ -12,7 +12,7 @@ public partial class ID3D11Device2
         return CreateDeferredContext2(0);
     }
 
-    public int CheckMultisampleQualityLevels1(Format format, int sampleCount)
+    public uint CheckMultisampleQualityLevels1(Format format, uint sampleCount)
     {
         return CheckMultisampleQualityLevels1(format, sampleCount, CheckMultisampleQualityLevelsFlags.TiledResource);
     }

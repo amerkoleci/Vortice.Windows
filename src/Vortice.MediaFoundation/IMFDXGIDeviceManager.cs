@@ -7,7 +7,7 @@ namespace Vortice.MediaFoundation;
 
 public partial class IMFDXGIDeviceManager
 {
-    public int ResetToken { get; internal set; }
+    public uint ResetToken { get; internal set; }
 
     public Result ResetDevice(ComObject direct3D11Device) => ResetDevice(direct3D11Device, ResetToken);
 

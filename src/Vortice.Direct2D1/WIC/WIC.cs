@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.WIC;
@@ -36,24 +36,24 @@ public static partial class WIC
         return WICConvertBitmapSource_(dstFormat, source, out destination);
     }
 
-    public static IWICBitmap WICCreateBitmapFromSection(int width, int height, Guid pixelFormat, IntPtr section, int stride, int offset)
+    public static IWICBitmap WICCreateBitmapFromSection(uint width, uint height, Guid pixelFormat, IntPtr section, uint stride, uint offset)
     {
         WICCreateBitmapFromSection_(width, height, pixelFormat, section, stride, offset, out IWICBitmap result).CheckError();
         return result;
     }
 
-    public static Result WICCreateBitmapFromSection(int width, int height, Guid pixelFormat, IntPtr section, int stride, int offset, out IWICBitmap result)
+    public static Result WICCreateBitmapFromSection(uint width, uint height, Guid pixelFormat, IntPtr section, uint stride, uint offset, out IWICBitmap result)
     {
         return WICCreateBitmapFromSection_(width, height, pixelFormat, section, stride, offset, out result);
     }
 
-    public static IWICBitmap WICCreateBitmapFromSectionEx(int width, int height, Guid pixelFormat, IntPtr section, int stride, int offset, SectionAccessLevel desiredAccessLevel)
+    public static IWICBitmap WICCreateBitmapFromSectionEx(uint width, uint height, Guid pixelFormat, IntPtr section, uint stride, uint offset, SectionAccessLevel desiredAccessLevel)
     {
         WICCreateBitmapFromSectionEx_(width, height, pixelFormat, section, stride, offset, desiredAccessLevel, out IWICBitmap bitmap).CheckError();
         return bitmap;
     }
 
-    public static Result WICCreateBitmapFromSectionEx(int width, int height, Guid pixelFormat, IntPtr section, int stride, int offset, SectionAccessLevel desiredAccessLevel, out IWICBitmap bitmap)
+    public static Result WICCreateBitmapFromSectionEx(uint width, uint height, Guid pixelFormat, IntPtr section, uint stride, uint offset, SectionAccessLevel desiredAccessLevel, out IWICBitmap bitmap)
     {
         return WICCreateBitmapFromSectionEx_(width, height, pixelFormat, section, stride, offset, desiredAccessLevel, out bitmap);
     }

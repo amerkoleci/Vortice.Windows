@@ -203,7 +203,7 @@ public static class Program
                 if (native)
                 {
                     MappedSubresource mappedSubresource = context.Map(staging, 0, MapMode.Read);
-                    int imageSize = mappedSubresource.RowPitch * textureDesc.Height;
+                    uint imageSize = mappedSubresource.RowPitch * textureDesc.Height;
                     if (targetGuid != pfGuid)
                     {
                         // Conversion required to write
@@ -224,7 +224,7 @@ public static class Program
                                 }
 
                                 formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                                frame.WriteSource(formatConverter, new RectI(0, 0, textureDesc.Width, textureDesc.Height));
+                                frame.WriteSource(formatConverter, new RectI(0, 0, (int)textureDesc.Width, (int)textureDesc.Height));
                             }
                         }
                     }
@@ -236,7 +236,7 @@ public static class Program
                 }
                 else
                 {
-                    int stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
+                    uint stride = WICPixelFormat.GetStride(pfGuid, textureDesc.Width);
                     ReadOnlySpan<Vortice.Mathematics.Color> colors = context.MapReadOnly<Vortice.Mathematics.Color>(staging);
 
                     if (targetGuid != pfGuid)
@@ -258,7 +258,7 @@ public static class Program
                                 }
 
                                 formatConverter.Initialize(bitmapSource, targetGuid, BitmapDitherType.None, null, 0, BitmapPaletteType.MedianCut);
-                                frame.WriteSource(formatConverter, new RectI(0, 0, textureDesc.Width, textureDesc.Height));
+                                frame.WriteSource(formatConverter, new RectI(0, 0, (int)textureDesc.Width, (int)textureDesc.Height));
                             }
                         }
                     }

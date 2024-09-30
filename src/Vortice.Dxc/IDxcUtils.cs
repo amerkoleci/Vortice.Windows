@@ -51,7 +51,7 @@ public unsafe partial class IDxcUtils
     }
 
     public IDxcCompilerArgs BuildArguments(string sourceName, string entryPoint, string targetProfile,
-        string[] arguments, int argumentsCount, DxcDefine[] defines, int defineCount)
+        string[] arguments, uint argumentsCount, DxcDefine[] defines, uint defineCount)
     {
         BuildArguments(sourceName, entryPoint, targetProfile, arguments, argumentsCount, defines, defineCount, out IDxcCompilerArgs? args).CheckError();
         return args!;
@@ -66,14 +66,15 @@ public unsafe partial class IDxcUtils
         {
             if (arguments?.Length > 0)
             {
-                argsPtr = new(arguments, arguments.Length);
+                argsPtr = new(arguments, (uint)arguments.Length);
             }
 
             Result hr = BuildArguments(sourceName,
                 entryPoint,
                 targetProfile,
                 argsPtr.Handle, argsPtr.Length,
-                defines, (defines?.Length) ?? 0,
+                defines,
+                (uint)(defines?.Length ?? 0),
                 out args);
 
             if (hr.Failure)
@@ -91,8 +92,8 @@ public unsafe partial class IDxcUtils
     }
 
     public Result BuildArguments(string sourceName, string entryPoint, string targetProfile,
-        string[] arguments, int argumentsCount,
-        DxcDefine[] defines, int defineCount, out IDxcCompilerArgs? args)
+        string[] arguments, uint argumentsCount,
+        DxcDefine[] defines, uint defineCount, out IDxcCompilerArgs? args)
     {
         Utf16PinnedStringArray argumentsPtr = default;
 
@@ -124,19 +125,19 @@ public unsafe partial class IDxcUtils
         }
     }
 
-    public IDxcBlobEncoding CreateBlob(IntPtr data, int size, int codePage)
+    public IDxcBlobEncoding CreateBlob(IntPtr data, uint size, uint codePage)
     {
         CreateBlob(data, size, codePage, out IDxcBlobEncoding result).CheckError();
         return result;
     }
 
-    public IDxcBlob CreateBlobFromBlob(IDxcBlob blob, int offset, int length)
+    public IDxcBlob CreateBlobFromBlob(IDxcBlob blob, uint offset, uint length)
     {
         CreateBlobFromBlob(blob, offset, length, out IDxcBlob result).CheckError();
         return result;
     }
 
-    public IDxcBlobEncoding CreateBlobFromPinned(IntPtr data, int size, int codePage)
+    public IDxcBlobEncoding CreateBlobFromPinned(IntPtr data, uint size, uint codePage)
     {
         CreateBlobFromPinned(data, size, codePage, out IDxcBlobEncoding result).CheckError();
         return result;
@@ -160,7 +161,7 @@ public unsafe partial class IDxcUtils
         return result;
     }
 
-    public Result GetDxilContainerPart(string shaderSource, int dxcPart, out IntPtr partData, out int partSizeInBytesRef)
+    public Result GetDxilContainerPart(string shaderSource, uint dxcPart, out IntPtr partData, out uint partSizeInBytesRef)
     {
         IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(shaderSource);
 
@@ -196,13 +197,13 @@ public unsafe partial class IDxcUtils
         return result;
     }
 
-    public IDxcBlobEncoding LoadFile(string fileName, int? codePage)
+    public IDxcBlobEncoding LoadFile(string fileName, uint? codePage)
     {
         LoadFile(fileName, codePage, out IDxcBlobEncoding result).CheckError();
         return result;
     }
 
-    public IDxcBlobEncoding MoveToBlob(IntPtr data, ComObject malloc, int size, int codePage)
+    public IDxcBlobEncoding MoveToBlob(IntPtr data, ComObject malloc, uint size, uint codePage)
     {
         MoveToBlob(data, malloc, size, codePage, out IDxcBlobEncoding result).CheckError();
         return result;

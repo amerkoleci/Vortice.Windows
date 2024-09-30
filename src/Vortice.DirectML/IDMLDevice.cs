@@ -156,7 +156,7 @@ public partial class IDMLDevice
     /// initializer has no target operators.
     /// </param>
     /// <returns></returns>
-    public unsafe IDMLOperatorInitializer CreateOperatorInitializer(params IDMLCompiledOperator[]? operators)
+    public IDMLOperatorInitializer CreateOperatorInitializer(params IDMLCompiledOperator[]? operators)
     {
         CreateOperatorInitializer((uint)(operators?.Length ?? 0), operators, typeof(IDMLOperatorInitializer).GUID, out IntPtr nativePtr).CheckError();
 

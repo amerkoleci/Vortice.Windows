@@ -19,7 +19,7 @@ public partial struct LockParameters
     internal unsafe struct __Native
     {
         public IntPtr pFormat;
-        public int MaxFrameCount;
+        public uint MaxFrameCount;
 
         internal void __MarshalFree()
         {

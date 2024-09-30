@@ -82,7 +82,7 @@ public class ShaderIncludeHandler : CallbackBase, IDxcIncludeHandler
 
             _dataPointer = GCHandle.Alloc(data, GCHandleType.Pinned);
 
-            _blob = DxcCompiler.Utils.CreateBlob(_dataPointer.AddrOfPinnedObject(), data.Length, Dxc.DXC_CP_UTF8);
+            _blob = DxcCompiler.Utils.CreateBlob(_dataPointer.AddrOfPinnedObject(), (uint)data.Length, Dxc.DXC_CP_UTF8);
         }
 
         public void Dispose()

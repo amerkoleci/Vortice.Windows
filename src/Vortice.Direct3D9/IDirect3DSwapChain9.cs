@@ -12,7 +12,7 @@ public unsafe partial class IDirect3DSwapChain9
     /// Index of the back buffer object to return. Back buffers are numbered from 0 to the total number of back buffers - 1. A value of 0 returns the first back buffer, not the front buffer.
     /// </param>
     /// <returns>The back buffer from the swap chain of the device.</returns>
-    public IDirect3DSurface9 GetBackBuffer(int backBuffer)
+    public IDirect3DSurface9 GetBackBuffer(uint backBuffer)
     {
         return GetBackBuffer(backBuffer, BackBufferType.Mono);
     }

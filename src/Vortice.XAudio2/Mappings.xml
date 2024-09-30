@@ -47,8 +47,8 @@
     <const from-macro="XAUDIO2_COMMIT_ALL" type="int" cpp-type="int" name="CommitAll" class="Vortice.XAudio2.XAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_NO_LOOP_REGION" type="int" cpp-type="int" name="NoLoopRegion" class="Vortice.XAudio2.XAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_LOOP_INFINITE" type="int" cpp-type="int" name="LoopInfinite" class="Vortice.XAudio2.XAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_DEFAULT_CHANNELS" type="int" cpp-type="int" name="DefaultChannels" class="Vortice.XAudio2.XAudio2" visibility="public const" />
-    <const from-macro="XAUDIO2_DEFAULT_SAMPLERATE" type="int" cpp-type="int" name="DefaultSampleRate" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_CHANNELS" type="uint" cpp-type="int" name="DefaultChannels" class="Vortice.XAudio2.XAudio2" visibility="public const" />
+    <const from-macro="XAUDIO2_DEFAULT_SAMPLERATE" type="uint" cpp-type="int" name="DefaultSampleRate" class="Vortice.XAudio2.XAudio2" visibility="public const" />
     <const from-macro="XAUDIO2_VOICE_NOSAMPLESPLAYED" type="int" cpp-type="int" name="NoSamplesPlayed" class="Vortice.XAudio2.IXAudio2SourceVoice" visibility="private const" />
 
     <create class="ResultCode" visibility="public"/>
@@ -136,7 +136,6 @@
   </extension>
 
   <bindings>
-    <bind from="UINT32" to="System.Int32" />
     <bind from="X3DAUDIOHANDLE" to="Vortice.XAudio2.X3DAudioHandle" />
     <bind from="X3DAUDIO_VECTOR" to="System.Numerics.Vector3"/>
   </bindings>
@@ -221,15 +220,20 @@
     <map interface="IXAudio2.*Callback" callback="true" callback-dual="false" />
 
     <!-- IXAudio2Voice -->
-    <map method="IXAudio2Voice::SetOutputVoices" visibility="internal" property="false"/>
+    <map method="IXAudio2Voice::(.*)" hresult="true" check="false"/>
+    <map method="IXAudio2Voice::SetOutputVoices" visibility="internal" property="false"  />
     <map method="IXAudio2Voice::GetEffectParameters" visibility="internal" />
-    <map method="IXAudio2Voice::SetEffectParameters" visibility="internal" hresult="true" check="false" />
+    <map method="IXAudio2Voice::SetEffectParameters" visibility="internal" />
     <map method="IXAudio2Voice::SetEffectChain" visibility="internal" property="false" />
     <map method="IXAudio2Voice::GetVolume" visibility="private" property="false"/>
+    <map method="IXAudio2Voice::SetVolume" hresult="true" check="false" />
+
+    <map param="IXAudio2Voice::SetEffectParameters::pParameters" type="void" keep-pointers="true" />
 
     <!-- IXAudio2SourceVoice -->
+    <map method="IXAudio2SourceVoice::(.*)" hresult="true" check="false"/>
     <map method="IXAudio2SourceVoice::SetSourceSampleRate" property="false"/>
-    <map method="IXAudio2SourceVoice::Start" visibility="internal" />
+    <map method="IXAudio2SourceVoice::Start" visibility="internal" hresult="true" check="false" />
     <map param="IXAudio2SourceVoice::Stop::Flags" type="XAUDIO2_PLAY_FLAGS" />
     <map method="IXAudio2SourceVoice::SubmitSourceBuffer" visibility="internal" />
     <map method="IXAudio2SourceVoice::GetState" visibility="internal" />
@@ -255,6 +259,8 @@
     <map struct="X3DAUDIO_DISTANCE_CURVE" visibility="internal"/>
     <map struct="X3DAUDIO_DISTANCE_CURVE_POINT" name="CurvePoint"/>
     <map field="X3DAUDIO_DISTANCE_CURVE_POINT::DSPSetting" name="DspSetting"/>
+
+    <map field="XAUDIO2_SEND_DESCRIPTOR::Flags" type="XAUDIO2_VOICE_SEND_FLAGS"/>
 
     <!-- X3DAUDIO_CONE -->
     <map field="X3DAUDIO_CONE::InnerLPF" name="InnerLpf"/>

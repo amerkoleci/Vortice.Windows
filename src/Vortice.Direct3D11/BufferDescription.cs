@@ -17,12 +17,12 @@ public partial struct BufferDescription
     /// <param name="cpuAccessFlags">The CPU access flags.</param>
     /// <param name="miscFlags">The option flags.</param>
     /// <param name="structureByteStride">The structure byte stride.</param>
-    public BufferDescription(int byteWidth,
+    public BufferDescription(uint byteWidth,
         BindFlags bindFlags,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None,
         ResourceOptionFlags miscFlags = ResourceOptionFlags.None,
-        int structureByteStride = 0)
+        uint structureByteStride = 0)
     {
         ByteWidth = byteWidth;
         BindFlags = bindFlags;

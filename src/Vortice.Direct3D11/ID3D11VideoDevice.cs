@@ -7,7 +7,7 @@ namespace Vortice.Direct3D11;
 
 public partial class ID3D11VideoDevice
 {
-    public Guid CheckCryptoKeyExchange(Guid cryptoType, Guid? decoderProfile, int index)
+    public Guid CheckCryptoKeyExchange(Guid cryptoType, Guid? decoderProfile, uint index)
     {
         CheckCryptoKeyExchange(cryptoType, decoderProfile, index, out Guid keyExchangeType).CheckError();
         return keyExchangeType;
@@ -43,7 +43,7 @@ public partial class ID3D11VideoDevice
         return view;
     }
 
-    public ID3D11VideoProcessor CreateVideoProcessor(ID3D11VideoProcessorEnumerator enumerator, int rateConversionIndex)
+    public ID3D11VideoProcessor CreateVideoProcessor(ID3D11VideoProcessorEnumerator enumerator, uint rateConversionIndex)
     {
         CreateVideoProcessor(enumerator, rateConversionIndex, out ID3D11VideoProcessor videoProcessor).CheckError();
         return videoProcessor;
@@ -84,29 +84,29 @@ public partial class ID3D11VideoDevice
         return caps;
     }
 
-    public VideoDecoderConfig GetVideoDecoderConfig(VideoDecoderDescription description, int index)
+    public VideoDecoderConfig GetVideoDecoderConfig(VideoDecoderDescription description, uint index)
     {
         GetVideoDecoderConfig(ref description, index, out VideoDecoderConfig config).CheckError();
         return config;
     }
 
-    public Result GetVideoDecoderConfig(VideoDecoderDescription description, int index, out VideoDecoderConfig config)
+    public Result GetVideoDecoderConfig(VideoDecoderDescription description, uint index, out VideoDecoderConfig config)
     {
         return GetVideoDecoderConfig(ref description, index, out config);
     }
 
-    public int GetVideoDecoderConfigCount(VideoDecoderDescription description)
+    public uint GetVideoDecoderConfigCount(VideoDecoderDescription description)
     {
-        GetVideoDecoderConfigCount(ref description, out int count).CheckError();
+        GetVideoDecoderConfigCount(ref description, out uint count).CheckError();
         return count;
     }
 
-    public Result GetVideoDecoderConfigCount(VideoDecoderDescription description, out int count)
+    public Result GetVideoDecoderConfigCount(VideoDecoderDescription description, out uint count)
     {
         return GetVideoDecoderConfigCount(ref description, out count);
     }
 
-    public Guid GetVideoDecoderProfile(int index)
+    public Guid GetVideoDecoderProfile(uint index)
     {
         GetVideoDecoderProfile(index, out Guid decoderProfile).CheckError();
         return decoderProfile;

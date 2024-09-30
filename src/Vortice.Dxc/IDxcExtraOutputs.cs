@@ -5,13 +5,15 @@ namespace Vortice.Dxc;
 
 public partial class IDxcExtraOutputs
 {
-    public T GetOutput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index, out IDxcBlobWide outputType, out IDxcBlobWide outputName) where T : IDxcBlob
+    public T GetOutput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint index, out IDxcBlobWide outputType, out IDxcBlobWide outputName)
+        where T : IDxcBlob
     {
         GetOutput(index, typeof(T).GUID, out IntPtr nativePtr, out outputType, out outputName).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result GetOutput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index, out T? @object, out IDxcBlobWide outputType, out IDxcBlobWide outputName) where T : IDxcBlob
+    public Result GetOutput<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint index, out T? @object, out IDxcBlobWide outputType, out IDxcBlobWide outputName)
+        where T : IDxcBlob
     {
         Result result = GetOutput(index, typeof(T).GUID, out IntPtr nativePtr, out outputType, out outputName);
         if (result.Failure)

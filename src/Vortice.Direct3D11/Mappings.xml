@@ -21,7 +21,7 @@
   <include file="windows.graphics.directx.direct3d11.interop.h" namespace="Vortice.Direct3D11" attach="true" />
 
   <extension>
-    <const from-macro="D3D11_SDK_VERSION" class="Vortice.Direct3D11.D3D11" type="int" name="SdkVersion" />
+    <const from-macro="D3D11_SDK_VERSION" class="Vortice.Direct3D11.D3D11" type="int" cpp-type="int" name="SdkVersion" />
     <create class="D3D11" visibility="public static" />
     <create class="Vortice.Direct3D11on12.Apis" visibility="public static"/>
     
@@ -63,6 +63,9 @@
   </extension>
 
   <bindings>
+    <bind from="UINT" to="System.UInt32" override="true" />
+    <bind from="UINT32" to="System.UInt32" override="true" />
+    
     <bind from="VORTICE_VECTOR4" to="System.Numerics.Vector4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />

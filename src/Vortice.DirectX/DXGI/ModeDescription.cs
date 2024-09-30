@@ -19,8 +19,8 @@ public partial struct ModeDescription
     /// </param>
     /// <param name="format">A <see cref="Vortice.DXGI.Format"/> describing the display format.</param>
     public ModeDescription(
-        int width,
-        int height,
+        uint width,
+        uint height,
         Format format = Format.B8G8R8A8_UNorm)
     {
         Width = width;
@@ -43,8 +43,8 @@ public partial struct ModeDescription
     /// <param name="refreshRate">A <see cref="Rational"/> describing the refresh rate in hertz</param>
     /// <param name="format">A <see cref="Vortice.DXGI.Format"/> describing the display format.</param>
     public ModeDescription(
-        int width,
-        int height,
+        uint width,
+        uint height,
         Rational refreshRate,
         Format format)
     {

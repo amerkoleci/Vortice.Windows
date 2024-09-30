@@ -1,14 +1,14 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct2D1.Effects;
 
 public sealed class DiscreteTransfer : ID2D1Effect
 {
-    private int _redTableSize = 2;
-    private int _greenTableSize = 2;
-    private int _blueTableSize = 2;
-    private int _alphaTableSize = 2;
+    private uint _redTableSize = 2;
+    private uint _greenTableSize = 2;
+    private uint _blueTableSize = 2;
+    private uint _alphaTableSize = 2;
 
     public DiscreteTransfer(ID2D1DeviceContext context)
         : base(context.CreateEffect(EffectGuids.DiscreteTransfer))
@@ -26,7 +26,7 @@ public sealed class DiscreteTransfer : ID2D1Effect
         get
         {
             var table = new float[_redTableSize];
-            fixed (void* tablePtr = &table[0])
+            fixed (void* tablePtr = table)
             {
                 GetValue((int)DiscreteTransferProperties.RedTable, PropertyType.Blob, tablePtr, sizeof(float) * _redTableSize);
             }
@@ -39,7 +39,7 @@ public sealed class DiscreteTransfer : ID2D1Effect
                 throw new ArgumentException("RedTable length cannot be 0");
             }
 
-            _redTableSize = value.Length;
+            _redTableSize = (uint)value.Length;
             fixed (void* valuePtr = &value[0])
             {
                 SetValue((int)DiscreteTransferProperties.RedTable, PropertyType.Blob, valuePtr, sizeof(float) * _redTableSize);
@@ -65,8 +65,8 @@ public sealed class DiscreteTransfer : ID2D1Effect
                 throw new ArgumentException("GreenTable length cannot be 0");
             }
 
-            _greenTableSize = value.Length;
-            fixed (void* valuePtr = &value[0])
+            _greenTableSize = (uint)value.Length;
+            fixed (void* valuePtr = value)
             {
                 SetValue((int)DiscreteTransferProperties.GreenTable, PropertyType.Blob, valuePtr, sizeof(float) * _greenTableSize);
             }
@@ -78,9 +78,9 @@ public sealed class DiscreteTransfer : ID2D1Effect
         get
         {
             var table = new float[_blueTableSize];
-            fixed (void* tablePtr = &table[0])
+            fixed (void* tablePtr = table)
             {
-                GetValue((int)DiscreteTransferProperties.BlueTable, PropertyType.Blob, tablePtr, sizeof(float) * _blueTableSize);
+                GetValue((int)DiscreteTransferProperties.BlueTable, PropertyType.Blob, tablePtr, sizeof(float) * (uint)_blueTableSize);
             }
             return table;
         }
@@ -91,8 +91,8 @@ public sealed class DiscreteTransfer : ID2D1Effect
                 throw new ArgumentException("BlueTable length cannot be 0");
             }
 
-            _blueTableSize = value.Length;
-            fixed (void* valuePtr = &value[0])
+            _blueTableSize = (uint)value.Length;
+            fixed (void* valuePtr = value)
             {
                 SetValue((int)DiscreteTransferProperties.BlueTable, PropertyType.Blob, valuePtr, sizeof(float) * _blueTableSize);
             }
@@ -104,9 +104,9 @@ public sealed class DiscreteTransfer : ID2D1Effect
         get
         {
             var table = new float[_alphaTableSize];
-            fixed (void* tablePtr = &table[0])
+            fixed (void* tablePtr = table)
             {
-                GetValue((int)DiscreteTransferProperties.AlphaTable, PropertyType.Blob, tablePtr, sizeof(float) * _alphaTableSize);
+                GetValue((int)DiscreteTransferProperties.AlphaTable, PropertyType.Blob, tablePtr, sizeof(float) * (uint)_alphaTableSize);
             }
             return table;
         }
@@ -117,8 +117,8 @@ public sealed class DiscreteTransfer : ID2D1Effect
                 throw new ArgumentException("AlphaTable length cannot be 0");
             }
 
-            _alphaTableSize = value.Length;
-            fixed (void* valuePtr = &value[0])
+            _alphaTableSize = (uint)value.Length;
+            fixed (void* valuePtr = value)
             {
                 SetValue((int)DiscreteTransferProperties.AlphaTable, PropertyType.Blob, valuePtr, sizeof(float) * _alphaTableSize);
             }
@@ -127,31 +127,31 @@ public sealed class DiscreteTransfer : ID2D1Effect
 
     public bool RedDisable
     {
-        set => SetValue((int)DiscreteTransferProperties.RedDisable, value);
         get => GetBoolValue((int)DiscreteTransferProperties.RedDisable);
+        set => SetValue((int)DiscreteTransferProperties.RedDisable, value);
     }
 
     public bool GreenDisable
     {
-        set => SetValue((int)DiscreteTransferProperties.GreenDisable, value);
         get => GetBoolValue((int)DiscreteTransferProperties.GreenDisable);
+        set => SetValue((int)DiscreteTransferProperties.GreenDisable, value);
     }
 
     public bool BlueDisable
     {
-        set => SetValue((int)DiscreteTransferProperties.BlueDisable, value);
         get => GetBoolValue((int)DiscreteTransferProperties.BlueDisable);
+        set => SetValue((int)DiscreteTransferProperties.BlueDisable, value);
     }
 
     public bool AlphaDisable
     {
-        set => SetValue((int)DiscreteTransferProperties.AlphaDisable, value);
         get => GetBoolValue((int)DiscreteTransferProperties.AlphaDisable);
+        set => SetValue((int)DiscreteTransferProperties.AlphaDisable, value);
     }
 
     public bool ClampOutput
     {
-        set => SetValue((int)DiscreteTransferProperties.ClampOutput, value);
         get => GetBoolValue((int)DiscreteTransferProperties.ClampOutput);
+        set => SetValue((int)DiscreteTransferProperties.ClampOutput, value);
     }
 }

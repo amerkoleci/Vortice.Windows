@@ -13,7 +13,7 @@ public partial class IXAudio2SourceVoice
     /// <remarks>
     /// In order to use this delegate, this instance must have been initialized with events delegate support.
     /// </remarks>
-    public event Action<int> ProcessingPassStart;
+    public event Action<uint> ProcessingPassStart;
 
     /// <summary>
     /// Occurs just after the processing pass for the voice ends.
@@ -91,7 +91,7 @@ public partial class IXAudio2SourceVoice
     public float FrequencyRatio
     {
         get => GetFrequencyRatio();
-        set => SetFrequencyRatio(value, 0);
+        set => SetFrequencyRatio(value, 0).CheckError();
     }
 
     /// <inheritdoc/>
@@ -109,36 +109,24 @@ public partial class IXAudio2SourceVoice
     /// <summary>	
     /// Starts consumption and processing of audio by the voice. Delivers the result to any connected submix or mastering voices, or to the output device, with CommitNow changes.
     /// </summary>	
-    public void Start()
-    {
-        Start(0, 0);
-    }
+    public Result Start() => Start(0, 0);
 
     /// <summary>	
     /// Starts consumption and processing of audio by the voice. Delivers the result to any connected submix or mastering voices, or to the output device.	
     /// </summary>	
     /// <param name="operationSet">Identifies this call as part of a deferred batch.</param>
-    public void Start(int operationSet)
-    {
-        Start(0, operationSet);
-    }
+    public Result Start(uint operationSet) => Start(0, operationSet);
 
-    public void Stop()
-    {
-        Stop(PlayFlags.None, 0);
-    }
+    public Result Stop() => Stop(PlayFlags.None, 0);
 
-    public void Stop(int operationSet)
-    {
-        Stop(PlayFlags.None, operationSet);
-    }
+    public Result Stop(uint operationSet) => Stop(PlayFlags.None, operationSet);
 
     /// <summary>
     /// Adds a new audio buffer to the voice queue.
     /// </summary>
     /// <param name="buffer"></param>
     /// <param name="decodedXMWAPacketInfo"></param>
-    public void SubmitSourceBuffer(AudioBuffer buffer, uint[]? decodedXMWAPacketInfo = null)
+    public Result SubmitSourceBuffer(AudioBuffer buffer, uint[]? decodedXMWAPacketInfo = null)
     {
         unsafe
         {
@@ -146,17 +134,17 @@ public partial class IXAudio2SourceVoice
             {
                 fixed (void* pBuffer = decodedXMWAPacketInfo)
                 {
-                    var bufferWma = new BufferWma
+                    BufferWma bufferWma = new()
                     {
-                        PacketCount = decodedXMWAPacketInfo.Length,
+                        PacketCount = (uint)decodedXMWAPacketInfo.Length,
                         DecodedPacketCumulativeBytesPointer = (IntPtr)pBuffer
                     };
-                    SubmitSourceBuffer(buffer, bufferWma);
+                    return SubmitSourceBuffer(buffer, bufferWma);
                 }
             }
             else
             {
-                SubmitSourceBuffer(buffer, (BufferWma?)null);
+                return SubmitSourceBuffer(buffer, (BufferWma?)null);
             }
         }
     }
@@ -165,7 +153,7 @@ public partial class IXAudio2SourceVoice
     {
         public IXAudio2SourceVoice Voice { get; set; }
 
-        void IXAudio2VoiceCallback.OnVoiceProcessingPassStart(int bytesRequired)
+        void IXAudio2VoiceCallback.OnVoiceProcessingPassStart(uint bytesRequired)
         {
             Voice.ProcessingPassStart?.Invoke(bytesRequired);
         }

@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.WIC;
@@ -9,8 +9,8 @@ public unsafe partial class IWICBitmapLock
     {
         get
         {
-            GetSize(out int width, out int height);
-            return new(width, height);
+            GetSize(out uint width, out uint height);
+            return new((int)width, (int)height);
         }
     }
 
@@ -28,13 +28,13 @@ public unsafe partial class IWICBitmapLock
 
     public Span<byte> GetDataPointer()
     {
-        IntPtr pointer = GetDataPointer(out int size);
-        return new(pointer.ToPointer(), size);
+        IntPtr pointer = GetDataPointer(out uint size);
+        return new(pointer.ToPointer(), (int)size);
     }
 
     public Span<T> GetDataPointer<T>() where T : unmanaged
     {
-        IntPtr pointer = GetDataPointer(out int size);
-        return new(pointer.ToPointer(), size / sizeof(T));
+        IntPtr pointer = GetDataPointer(out uint size);
+        return new(pointer.ToPointer(), (int)(size / sizeof(T)));
     }
 }

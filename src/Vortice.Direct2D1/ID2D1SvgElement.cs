@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Collections;
@@ -11,10 +11,10 @@ public unsafe partial class ID2D1SvgElement : IEnumerable<ID2D1SvgElement>
     {
         get
         {
-            int length = GetTextValueLength();
-            char* chars = stackalloc char[length + 1];
+            uint length = GetTextValueLength();
+            char* chars = stackalloc char[(int)length + 1];
             GetTextValue(chars, length + 1).CheckError();
-            return new string(chars, 0, length);
+            return new string(chars, 0, (int)length);
         }
     }
 
@@ -22,10 +22,10 @@ public unsafe partial class ID2D1SvgElement : IEnumerable<ID2D1SvgElement>
     {
         get
         {
-            int length = GetTagNameLength();
-            char* chars = stackalloc char[length + 1];
+            uint length = GetTagNameLength();
+            char* chars = stackalloc char[(int)length + 1];
             GetTagName(chars, length + 1).CheckError();
-            return new string(chars, 0, length);
+            return new string(chars, 0, (int)length);
         }
     }
 
@@ -69,17 +69,17 @@ public unsafe partial class ID2D1SvgElement : IEnumerable<ID2D1SvgElement>
     {
         get
         {
-            int count = GetSpecifiedAttributeCount();
-            for (int i = 0; i < count; i++)
+            uint count = GetSpecifiedAttributeCount();
+            for (uint i = 0; i < count; i++)
             {
                 yield return GetSpecifiedAttributeName(i);
             }
         }
     }
 
-    public unsafe string? GetSpecifiedAttributeName(int index)
+    public unsafe string? GetSpecifiedAttributeName(uint index)
     {
-        GetSpecifiedAttributeNameLength(index, out int nameLength, out _);
+        GetSpecifiedAttributeNameLength(index, out uint nameLength, out _);
         char* namePtr = (char*)NativeMemory.Alloc((nuint)nameLength, (nuint)sizeof(char));
         try
         {
@@ -87,7 +87,7 @@ public unsafe partial class ID2D1SvgElement : IEnumerable<ID2D1SvgElement>
             if (result.Failure)
                 return default;
 
-            return new string(namePtr, 0, nameLength);
+            return new string(namePtr, 0, (int)nameLength);
         }
         finally
         {
@@ -95,9 +95,9 @@ public unsafe partial class ID2D1SvgElement : IEnumerable<ID2D1SvgElement>
         }
     }
 
-    public unsafe string? GetSpecifiedAttributeName(int index, out bool inherited)
+    public unsafe string? GetSpecifiedAttributeName(uint index, out bool inherited)
     {
-        GetSpecifiedAttributeNameLength(index, out int nameLength, out RawBool inheritedResult);
+        GetSpecifiedAttributeNameLength(index, out uint nameLength, out RawBool inheritedResult);
         char* namePtr = (char*)NativeMemory.Alloc((nuint)nameLength, (nuint)sizeof(char));
         try
         {
@@ -109,7 +109,7 @@ public unsafe partial class ID2D1SvgElement : IEnumerable<ID2D1SvgElement>
             }
 
             inherited = inheritedResult;
-            return new string(namePtr, 0, nameLength);
+            return new string(namePtr, 0, (int) nameLength);
         }
         finally
         {
@@ -119,83 +119,83 @@ public unsafe partial class ID2D1SvgElement : IEnumerable<ID2D1SvgElement>
 
     public Result SetAttributeValue(string name, float value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.Float, &value, sizeof(float));
+        return SetAttributeValue(name, SvgAttributePodType.Float, &value, (uint)sizeof(float));
     }
 
     public Result SetAttributeValue(string name, Color4 value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.Color, (float*)&value, sizeof(Color4));
+        return SetAttributeValue(name, SvgAttributePodType.Color, (float*)&value, (uint)sizeof(Color4));
     }
 
     public Result SetAttributeValue(string name, FillMode value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.FillMode, &value, sizeof(FillMode));
+        return SetAttributeValue(name, SvgAttributePodType.FillMode, &value, (uint)sizeof(FillMode));
     }
 
     public Result SetAttributeValue(string name, SvgDisplay value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.Display, &value, sizeof(SvgDisplay));
+        return SetAttributeValue(name, SvgAttributePodType.Display, &value, (uint)sizeof(SvgDisplay));
     }
 
     public Result SetAttributeValue(string name, SvgOverflow value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.Overflow, &value, sizeof(SvgOverflow));
+        return SetAttributeValue(name, SvgAttributePodType.Overflow, &value, (uint)sizeof(SvgOverflow));
     }
 
     public Result SetAttributeValue(string name, SvgLineJoin value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.LineJoin, &value, sizeof(SvgLineJoin));
+        return SetAttributeValue(name, SvgAttributePodType.LineJoin, &value, (uint)sizeof(SvgLineJoin));
     }
 
     public Result SetAttributeValue(string name, SvgLineCap value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.LineCap, &value, sizeof(SvgLineCap));
+        return SetAttributeValue(name, SvgAttributePodType.LineCap, &value, (uint)sizeof(SvgLineCap));
     }
 
     public Result SetAttributeValue(string name, SvgVisibility value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.Visibility, &value, sizeof(SvgVisibility));
+        return SetAttributeValue(name, SvgAttributePodType.Visibility, &value, (uint)sizeof(SvgVisibility));
     }
 
     public Result SetAttributeValue(string name, Matrix3x2 value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.Matrix, (float*)&value, sizeof(Matrix3x2));
+        return SetAttributeValue(name, SvgAttributePodType.Matrix, (float*)&value, (uint)sizeof(Matrix3x2));
     }
 
     public Result SetAttributeValue(string name, SvgUnitType value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.UnitType, &value, sizeof(SvgUnitType));
+        return SetAttributeValue(name, SvgAttributePodType.UnitType, &value, (uint)sizeof(SvgUnitType));
     }
 
     public Result SetAttributeValue(string name, ExtendMode value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.ExtendMode, &value, sizeof(ExtendMode));
+        return SetAttributeValue(name, SvgAttributePodType.ExtendMode, &value, (uint)sizeof(ExtendMode));
     }
 
     public Result SetAttributeValue(string name, SvgPreserveAspectRatio value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.PreserveAspectRatio, &value, sizeof(SvgPreserveAspectRatio));
+        return SetAttributeValue(name, SvgAttributePodType.PreserveAspectRatio, &value, (uint)sizeof(SvgPreserveAspectRatio));
     }
 
     public Result SetAttributeValue(string name, SvgViewbox value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.Viewbox, &value, sizeof(SvgViewbox));
+        return SetAttributeValue(name, SvgAttributePodType.Viewbox, &value, (uint)sizeof(SvgViewbox));
     }
 
     public Result SetAttributeValue(string name, SvgLength value)
     {
-        return SetAttributeValue(name, SvgAttributePodType.Length, &value, sizeof(SvgLength));
+        return SetAttributeValue(name, SvgAttributePodType.Length, &value, (uint)sizeof(SvgLength));
     }
 
     public Result SetAttributeValue<T>(string name, SvgAttributePodType type, in T value) where T : unmanaged
     {
         fixed (T* pValue = &value)
         {
-            return SetAttributeValue(name, type, (IntPtr)pValue, sizeof(T));
+            return SetAttributeValue(name, type, (IntPtr)pValue, (uint)sizeof(T));
         }
     }
 
-    private Result SetAttributeValue(string name, SvgAttributePodType type, void* value, int valueSizeInBytes)
+    private Result SetAttributeValue(string name, SvgAttributePodType type, void* value, uint valueSizeInBytes)
     {
         return SetAttributeValue(name, type, (IntPtr)value, valueSizeInBytes);
     }

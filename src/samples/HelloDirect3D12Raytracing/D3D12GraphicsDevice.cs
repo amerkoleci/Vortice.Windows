@@ -66,7 +66,7 @@ public sealed unsafe class D3D12GraphicsDevice : IGraphicsDevice
     private readonly AutoResetEvent _frameFenceEvent;
     private ulong _frameCount;
     private ulong _frameIndex;
-    private int _backbufferIndex;
+    private uint _backbufferIndex;
 
     public ID3D12CommandQueue GraphicsQueue { get; }
 
@@ -101,7 +101,7 @@ public sealed unsafe class D3D12GraphicsDevice : IGraphicsDevice
             {
                 if (factory6 != null)
                 {
-                    for (int adapterIndex = 0;
+                    for (uint adapterIndex = 0;
                         d3d12Device == null && factory6.EnumAdapterByGpuPreference(adapterIndex, GpuPreference.HighPerformance,
                         out IDXGIAdapter1? adapter).Success;
                         adapterIndex++)
@@ -132,7 +132,7 @@ public sealed unsafe class D3D12GraphicsDevice : IGraphicsDevice
 
             if (d3d12Device == null)
             {
-                for (int adapterIndex = 0;
+                for (uint adapterIndex = 0;
                     DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
                     adapterIndex++)
                 {
@@ -187,8 +187,8 @@ public sealed unsafe class D3D12GraphicsDevice : IGraphicsDevice
             SwapChainDescription1 swapChainDesc = new()
             {
                 BufferCount = RenderLatency,
-                Width = window.ClientSize.Width,
-                Height = window.ClientSize.Height,
+                Width = (uint)window.ClientSize.Width,
+                Height = (uint)window.ClientSize.Height,
                 Format = Format.R8G8B8A8_UNorm,
                 BufferUsage = Usage.RenderTargetOutput,
                 SwapEffect = SwapEffect.FlipDiscard,
@@ -213,7 +213,7 @@ public sealed unsafe class D3D12GraphicsDevice : IGraphicsDevice
 
             // Create a RTV for each frame.
             _renderTargets = new ID3D12Resource[RenderLatency];
-            for (int i = 0; i < RenderLatency; i++)
+            for (uint i = 0; i < RenderLatency; i++)
             {
                 _renderTargets[i] = SwapChain.GetBuffer<ID3D12Resource>(i);
                 Device.CreateRenderTargetView(_renderTargets[i], null, rtvHandle);

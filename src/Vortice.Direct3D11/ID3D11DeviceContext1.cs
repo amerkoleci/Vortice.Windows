@@ -16,7 +16,7 @@ public unsafe partial class ID3D11DeviceContext1
     {
         fixed (RawRect* pRects = rects)
         {
-            ClearView(view, color, pRects, rects.Length);
+            ClearView(view, color, pRects, (uint)rects.Length);
         }
     }
 
@@ -24,7 +24,7 @@ public unsafe partial class ID3D11DeviceContext1
     {
         fixed (RawRect* pRects = rects)
         {
-            ClearView(view, color, pRects, rects.Length);
+            ClearView(view, color, pRects, (uint)rects.Length);
         }
     }
 
@@ -54,7 +54,7 @@ public unsafe partial class ID3D11DeviceContext1
     {
         fixed (RawRect* pRects = rects)
         {
-            DiscardView1(view, (IntPtr)pRects, rects.Length);
+            DiscardView1(view, (IntPtr)pRects, (uint)rects.Length);
         }
     }
 
@@ -71,70 +71,68 @@ public unsafe partial class ID3D11DeviceContext1
     {
         fixed (RawRect* pRects = rects)
         {
-            DiscardView1(view, (IntPtr)pRects, rects.Length);
+            DiscardView1(view, (IntPtr)pRects, (uint)rects.Length);
         }
     }
 
     #region VertexShader
-    public void VSSetConstantBuffer1(int slot, ID3D11Buffer? constantBuffer, int[] firstConstant, int[] numConstants)
+    public void VSSetConstantBuffer1(uint slot, ID3D11Buffer? constantBuffer, ReadOnlySpan<uint> firstConstant, ReadOnlySpan<uint> numConstants)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             VSSetConstantBuffers1(slot, 1, &nativePtr, firstConstantPtr, numConstantsPtr);
         }
     }
 
-    public void VSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void VSSetConstantBuffers1(uint startSlot, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint> firstConstant, ReadOnlySpan<uint> numConstants)
     {
-        VSSetConstantBuffers1(startSlot, constantBuffers.Length, constantBuffers, firstConstant, numConstants);
+        VSSetConstantBuffers1(startSlot, (uint)constantBuffers.Length, constantBuffers, firstConstant, numConstants);
     }
 
-    public void VSSetConstantBuffers1(int startSlot, int count, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void VSSetConstantBuffers1(uint startSlot, uint count, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint> firstConstant, ReadOnlySpan<uint> numConstants)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
             ppConstantBuffers[i] = (constantBuffers[i] == null) ? IntPtr.Zero : constantBuffers[i].NativePointer;
         }
 
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
-        {
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
             VSSetConstantBuffers1(startSlot, count, ppConstantBuffers, firstConstantPtr, numConstantsPtr);
-        }
     }
     #endregion
 
     #region PixelShader
-    public void PSSetConstantBuffer1(int slot, ID3D11Buffer? constantBuffer, int[] firstConstant, int[] numConstants)
+    public void PSSetConstantBuffer1(uint slot, ID3D11Buffer? constantBuffer, ReadOnlySpan<uint> firstConstant, ReadOnlySpan<uint> numConstants)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             PSSetConstantBuffers1(slot, 1, &nativePtr, firstConstantPtr, numConstantsPtr);
         }
     }
 
-    public void PSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void PSSetConstantBuffers1(uint startSlot, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint> firstConstant, ReadOnlySpan<uint> numConstants)
     {
-        PSSetConstantBuffers1(startSlot, constantBuffers.Length, constantBuffers, firstConstant, numConstants);
+        PSSetConstantBuffers1(startSlot, (uint)constantBuffers.Length, constantBuffers, firstConstant, numConstants);
     }
 
-    public void PSSetConstantBuffers1(int startSlot, int count, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void PSSetConstantBuffers1(uint startSlot, uint count, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint> firstConstant, ReadOnlySpan<uint> numConstants)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
             ppConstantBuffers[i] = (constantBuffers[i] == null) ? IntPtr.Zero : constantBuffers[i].NativePointer;
         }
 
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             PSSetConstantBuffers1(startSlot, count, ppConstantBuffers, firstConstantPtr, numConstantsPtr);
         }
@@ -142,32 +140,32 @@ public unsafe partial class ID3D11DeviceContext1
     #endregion
 
     #region DomainShader
-    public void DSSetConstantBuffer1(int slot, ID3D11Buffer? constantBuffer, int[] firstConstant, int[] numConstants)
+    public void DSSetConstantBuffer1(uint slot, ID3D11Buffer? constantBuffer, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             DSSetConstantBuffers1(slot, 1, &nativePtr, firstConstantPtr, numConstantsPtr);
         }
     }
 
-    public void DSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void DSSetConstantBuffers1(uint startSlot, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
-        DSSetConstantBuffers1(startSlot, constantBuffers.Length, constantBuffers, firstConstant, numConstants);
+        DSSetConstantBuffers1(startSlot, (uint)constantBuffers.Length, constantBuffers, firstConstant, numConstants);
     }
 
-    public void DSSetConstantBuffers1(int startSlot, int count, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void DSSetConstantBuffers1(uint startSlot, uint count, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
             ppConstantBuffers[i] = (constantBuffers[i] == null) ? IntPtr.Zero : constantBuffers[i].NativePointer;
         }
 
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             DSSetConstantBuffers1(startSlot, count, ppConstantBuffers, firstConstantPtr, numConstantsPtr);
         }
@@ -175,32 +173,32 @@ public unsafe partial class ID3D11DeviceContext1
     #endregion
 
     #region HullShader
-    public void HSSetConstantBuffer1(int slot, ID3D11Buffer? constantBuffer, int[] firstConstant, int[] numConstants)
+    public void HSSetConstantBuffer1(uint slot, ID3D11Buffer? constantBuffer, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             HSSetConstantBuffers1(slot, 1, &nativePtr, firstConstantPtr, numConstantsPtr);
         }
     }
 
-    public void HSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void HSSetConstantBuffers1(uint startSlot, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
-        HSSetConstantBuffers1(startSlot, constantBuffers.Length, constantBuffers, firstConstant, numConstants);
+        HSSetConstantBuffers1(startSlot, (uint)constantBuffers.Length, constantBuffers, firstConstant, numConstants);
     }
 
-    public void HSSetConstantBuffers1(int startSlot, int count, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void HSSetConstantBuffers1(uint startSlot, uint count, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
             ppConstantBuffers[i] = (constantBuffers[i] == null) ? IntPtr.Zero : constantBuffers[i].NativePointer;
         }
 
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             HSSetConstantBuffers1(startSlot, count, ppConstantBuffers, firstConstantPtr, numConstantsPtr);
         }
@@ -208,32 +206,32 @@ public unsafe partial class ID3D11DeviceContext1
     #endregion
 
     #region GeometryShader
-    public void GSSetConstantBuffer1(int slot, ID3D11Buffer? constantBuffer, int[] firstConstant, int[] numConstants)
+    public void GSSetConstantBuffer1(uint slot, ID3D11Buffer? constantBuffer, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             GSSetConstantBuffers1(slot, 1, &nativePtr, firstConstantPtr, numConstantsPtr);
         }
     }
 
-    public void GSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void GSSetConstantBuffers1(uint startSlot, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
-        GSSetConstantBuffers1(startSlot, constantBuffers.Length, constantBuffers, firstConstant, numConstants);
+        GSSetConstantBuffers1(startSlot, (uint)constantBuffers.Length, constantBuffers, firstConstant, numConstants);
     }
 
-    public void GSSetConstantBuffers1(int startSlot, int count, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void GSSetConstantBuffers1(uint startSlot, uint count, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
             ppConstantBuffers[i] = (constantBuffers[i] == null) ? IntPtr.Zero : constantBuffers[i].NativePointer;
         }
 
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             GSSetConstantBuffers1(startSlot, count, ppConstantBuffers, firstConstantPtr, numConstantsPtr);
         }
@@ -241,32 +239,32 @@ public unsafe partial class ID3D11DeviceContext1
     #endregion
 
     #region ComputeShader
-    public void CSSetConstantBuffer1(int slot, ID3D11Buffer? constantBuffer, int[] firstConstant, int[] numConstants)
+    public void CSSetConstantBuffer1(uint slot, ID3D11Buffer? constantBuffer, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
         IntPtr nativePtr = constantBuffer == null ? IntPtr.Zero : constantBuffer.NativePointer;
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             CSSetConstantBuffers1(slot, 1, &nativePtr, firstConstantPtr, numConstantsPtr);
         }
     }
 
-    public void CSSetConstantBuffers1(int startSlot, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void CSSetConstantBuffers1(uint startSlot, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
-        CSSetConstantBuffers1(startSlot, constantBuffers.Length, constantBuffers, firstConstant, numConstants);
+        CSSetConstantBuffers1(startSlot, (uint)constantBuffers.Length, constantBuffers, firstConstant, numConstants);
     }
 
-    public void CSSetConstantBuffers1(int startSlot, int count, ID3D11Buffer[] constantBuffers, int[] firstConstant, int[] numConstants)
+    public void CSSetConstantBuffers1(uint startSlot, uint count, ID3D11Buffer[] constantBuffers, ReadOnlySpan<uint>firstConstant, ReadOnlySpan<uint>numConstants)
     {
-        IntPtr* ppConstantBuffers = stackalloc IntPtr[count];
+        IntPtr* ppConstantBuffers = stackalloc IntPtr[(int)count];
 
         for (int i = 0; i < count; i++)
         {
             ppConstantBuffers[i] = (constantBuffers[i] == null) ? IntPtr.Zero : constantBuffers[i].NativePointer;
         }
 
-        fixed (int* firstConstantPtr = firstConstant)
-        fixed (int* numConstantsPtr = numConstants)
+        fixed (uint* firstConstantPtr = firstConstant)
+        fixed (uint* numConstantsPtr = numConstants)
         {
             CSSetConstantBuffers1(startSlot, count, ppConstantBuffers, firstConstantPtr, numConstantsPtr);
         }

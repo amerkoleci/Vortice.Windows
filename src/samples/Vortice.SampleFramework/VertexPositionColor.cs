@@ -8,7 +8,7 @@ namespace Vortice;
 
 public readonly struct VertexPositionColor
 {
-    public static unsafe readonly int SizeInBytes = sizeof(VertexPositionColor);
+    public static unsafe readonly uint SizeInBytes = (uint)sizeof(VertexPositionColor);
 
     public VertexPositionColor(in Vector3 position, in Color4 color)
     {

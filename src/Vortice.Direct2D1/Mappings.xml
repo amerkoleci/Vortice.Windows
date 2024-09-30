@@ -277,7 +277,7 @@
     <map enum="D2D1_SPOTDIFFUSE_SCALE_MODE" name="SpotDiffuseScaleMode"/>
     <map enum="D2D1_SPOTSPECULAR_PROP" name="SpotSpecularProperties"/>
     <map enum="D2D1_SPOTSPECULAR_SCALE_MODE" name="SpotSpecularScaleMode"/>
-    <map enum="D2D1_PROPERTY" name="Property"/>
+    <map enum="D2D1_PROPERTY" name="Property" type="uint" />
     <map enum="D2D1_SUBPROPERTY" name="SubProperty"/>
     <map enum="D2D1_TABLETRANSFER_PROP" name="TableTransferProperties"/>
     <map enum="D2D1_TILE_PROP" name="TileProperties"/>
@@ -575,7 +575,8 @@
     <map method="IDWriteFontFace::GetGdiCompatibleGlyphMetrics" visibility="internal" hresult="true" check="false"/>
     <map param="IDWriteFontFace::GetGdiCompatibleGlyphMetrics::glyphCount" relation="length(glyphIndices)" />
     <map method="IDWriteFontFace::GetGlyphIndicesW" visibility="internal" hresult="true" check="false"/>
-    <map param="IDWriteFontFace::GetGlyphIndicesW::codePointCount" relation="length(codePoints)" />
+    <map param="IDWriteFontFace::GetGlyphIndicesW::codePoints" type="void" keep-pointers="true"/>
+    <map param="IDWriteFontFace::GetGlyphIndicesW::glyphIndices" type="void" keep-pointers="true"/>
     <map method="IDWriteFontFace::TryGetFontTable" visibility="internal" hresult="true" check="false"/>
     <map param="IDWriteFontFace::TryGetFontTable::tableData" type="void" keep-pointers="true"/>
     <map method="IDWriteFontFace::GetType" name="GetFaceType" hresult="true" check="false"/>

@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Drawing;
@@ -54,12 +54,12 @@ public unsafe partial class ID2D1Bitmap
     /// <param name="pointer">The data to copy.</param>
     /// <param name="pitch">The stride, or pitch, of the source bitmap stored in srcData. The stride is the byte count of a scanline (one row of pixels in memory).</param>
     /// <returns>The result of the operation.</returns>
-    public Result CopyFromMemory(IntPtr pointer, int pitch)
+    public Result CopyFromMemory(IntPtr pointer, uint pitch)
     {
         return CopyFromMemory(null, pointer.ToPointer(), pitch);
     }
 
-    public Result CopyFromMemory(byte[] source, int pitch)
+    public Result CopyFromMemory(byte[] source, uint pitch)
     {
         fixed (byte* sourcePointer = source)
         {
@@ -67,22 +67,22 @@ public unsafe partial class ID2D1Bitmap
         }
     }
 
-    public Result CopyFromMemory<T>(T[] source, int pitch = 0) where T : unmanaged
+    public Result CopyFromMemory<T>(T[] source, uint pitch = 0) where T : unmanaged
     {
         ReadOnlySpan<T> span = source.AsSpan();
 
         return CopyFromMemory(span, pitch);
     }
 
-    public Result CopyFromMemory<T>(ReadOnlySpan<T> source, int pitch = 0) where T : unmanaged
+    public Result CopyFromMemory<T>(ReadOnlySpan<T> source, uint pitch = 0) where T : unmanaged
     {
         return CopyFromMemory(ref MemoryMarshal.GetReference(source), pitch);
     }
 
-    public Result CopyFromMemory<T>(ref T source, int pitch = 0) where T : unmanaged
+    public Result CopyFromMemory<T>(ref T source, uint pitch = 0) where T : unmanaged
     {
         if (pitch == 0)
-            pitch = PixelSize.Width * sizeof(T);
+            pitch = (uint)(PixelSize.Width * sizeof(T));
 
         fixed (void* sourcePointer = &source)
         {
@@ -97,7 +97,7 @@ public unsafe partial class ID2D1Bitmap
     /// <param name="data">The data to copy.</param>
     /// <param name="pitch">The stride, or pitch, of the source bitmap stored in srcData. The stride is the byte count of a scanline (one row of pixels in memory).</param>
     /// <returns>The result of the operation.</returns>
-    public Result CopyFromMemory(Rectangle destinationRect, byte[] data, int pitch)
+    public Result CopyFromMemory(Rectangle destinationRect, byte[] data, uint pitch)
     {
         RawRect dstRect = destinationRect;
 
@@ -107,24 +107,24 @@ public unsafe partial class ID2D1Bitmap
         }
     }
 
-    public Result CopyFromMemory<T>(Rectangle destinationRect, T[] source, int pitch = 0) where T : unmanaged
+    public Result CopyFromMemory<T>(Rectangle destinationRect, T[] source, uint pitch = 0) where T : unmanaged
     {
         ReadOnlySpan<T> span = source.AsSpan();
         return CopyFromMemory(destinationRect, span, pitch);
     }
 
-    public Result CopyFromMemory<T>(Rectangle destinationRect, ReadOnlySpan<T> source, int pitch = 0) where T : unmanaged
+    public Result CopyFromMemory<T>(Rectangle destinationRect, ReadOnlySpan<T> source, uint pitch = 0) where T : unmanaged
     {
         return CopyFromMemory(destinationRect, ref MemoryMarshal.GetReference(source), pitch);
     }
 
-    public Result CopyFromMemory<T>(Rectangle destinationRect, ref T source, int pitch = 0) where T : unmanaged
+    public Result CopyFromMemory<T>(Rectangle destinationRect, ref T source, uint pitch = 0) where T : unmanaged
     {
         RawRect dstRect = destinationRect;
 
         if (pitch == 0)
         {
-            pitch = PixelSize.Width * sizeof(T);
+            pitch = (uint)(PixelSize.Width * sizeof(T));
         }
 
         fixed (void* sourcePointer = &source)

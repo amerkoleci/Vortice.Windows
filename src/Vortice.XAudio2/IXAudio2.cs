@@ -69,8 +69,8 @@ public partial class IXAudio2
     }
 
     public unsafe IXAudio2MasteringVoice CreateMasteringVoice(
-        int inputChannels = DefaultChannels,
-        int inputSampleRate = DefaultSampleRate,
+        uint inputChannels = DefaultChannels,
+        uint inputSampleRate = DefaultSampleRate,
         AudioStreamCategory category = AudioStreamCategory.GameEffects,
         string deviceId = "",
         EffectDescriptor[]? effectDescriptors = null)
@@ -84,7 +84,7 @@ public partial class IXAudio2
                 effectDescriptors[i].__MarshalTo(ref effectDescriptorNatives[i]);
             }
 
-            effectChain.EffectCount = effectDescriptorNatives.Length;
+            effectChain.EffectCount = (uint)effectDescriptorNatives.Length;
             fixed (void* pEffectDescriptors = &effectDescriptorNatives[0])
             {
                 effectChain.EffectDescriptorPointer = (IntPtr)pEffectDescriptors;
@@ -138,7 +138,7 @@ public partial class IXAudio2
                     effectDescriptors[i].__MarshalTo(ref effectDescriptorNatives[i]);
                 }
 
-                effectChain.EffectCount = effectDescriptorNatives.Length;
+                effectChain.EffectCount = (uint)effectDescriptorNatives.Length;
                 fixed (void* pEffectDescriptors = &effectDescriptorNatives[0])
                 {
                     effectChain.EffectDescriptorPointer = (IntPtr)pEffectDescriptors;
@@ -169,10 +169,10 @@ public partial class IXAudio2
     }
 
     public unsafe IXAudio2SubmixVoice CreateSubmixVoice(
-        int inputChannels = 2,
-        int inputSampleRate = 44100,
+        uint inputChannels = 2,
+        uint inputSampleRate = 44100,
         SubmixVoiceFlags flags = SubmixVoiceFlags.None,
-        int processingStage = 0,
+        uint processingStage = 0,
         EffectDescriptor[]? effectDescriptors = null)
     {
         if (effectDescriptors != null)
@@ -184,16 +184,16 @@ public partial class IXAudio2
                 effectDescriptors[i].__MarshalTo(ref effectDescriptorNatives[i]);
             }
 
-            effectChain.EffectCount = effectDescriptorNatives.Length;
+            effectChain.EffectCount = (uint)effectDescriptorNatives.Length;
             fixed (void* pEffectDescriptors = &effectDescriptorNatives[0])
             {
                 effectChain.EffectDescriptorPointer = (IntPtr)pEffectDescriptors;
-                return CreateSubmixVoice(inputChannels, inputSampleRate, (int)flags, processingStage, null, effectChain);
+                return CreateSubmixVoice(inputChannels, inputSampleRate, (uint)flags, processingStage, null, effectChain);
             }
         }
         else
         {
-            return CreateSubmixVoice(inputChannels, inputSampleRate, (int)flags, processingStage, null, null);
+            return CreateSubmixVoice(inputChannels, inputSampleRate, (uint)flags, processingStage, null, null);
         }
     }
 

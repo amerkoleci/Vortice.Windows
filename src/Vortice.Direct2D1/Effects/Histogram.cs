@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct2D1.Effects;
@@ -15,10 +15,10 @@ public sealed class Histogram : ID2D1Effect
     {
     }
 
-    public int NumBins
+    public uint NumBins
     {
-        get => (int)GetUIntValue((int)HistogramProperties.NumBins);
-        set => SetValue((int)HistogramProperties.NumBins, (uint)value);
+        get => GetUIntValue((int)HistogramProperties.NumBins);
+        set => SetValue((int)HistogramProperties.NumBins, value);
     }
 
     public ChannelSelector ChannelSelect
@@ -29,10 +29,10 @@ public sealed class Histogram : ID2D1Effect
 
     public unsafe void GetHistogramOutput(float[] output)
     {
-        int numBins = NumBins;
+        uint numBins = NumBins;
         if (output.Length < numBins)
         {
-            throw new ArgumentException();
+            throw new ArgumentOutOfRangeException(nameof(NumBins));
         }
 
         fixed (float* outputPtr = output)
@@ -43,10 +43,10 @@ public sealed class Histogram : ID2D1Effect
 
     public unsafe void GetHistogramOutput(Span<float> output)
     {
-        int numBins = NumBins;
+        uint numBins = NumBins;
         if (output.Length < numBins)
         {
-            throw new ArgumentException();
+            throw new ArgumentOutOfRangeException(nameof(NumBins));
         }
 
         fixed (float* outputPtr = output)

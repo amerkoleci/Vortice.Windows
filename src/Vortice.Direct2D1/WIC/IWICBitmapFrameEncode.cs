@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.WIC;
@@ -13,10 +13,8 @@ public unsafe partial class IWICBitmapFrameEncode
     /// <param name="colorContexts">The color contexts to set for the encoder.</param>
     public void SetColorContexts(IWICColorContext[] colorContexts)
     {
-        SetColorContexts(colorContexts != null ? colorContexts.Length : 0, colorContexts);
+        SetColorContexts(colorContexts != null ? (uint)colorContexts.Length : 0u, colorContexts);
     }
-
-    public Result SetSize(in SizeI size) => SetSize(size.Width, size.Height);
 
     /// <summary>
     /// Requests that the encoder use the specified pixel format.
@@ -34,18 +32,15 @@ public unsafe partial class IWICBitmapFrameEncode
     /// Sets the output image dimensions for the frame.
     /// </summary>
     /// <param name="size">The width and height of the output image.</param>
-    public void SetSize(SizeI size)
-    {
-        SetSize(size.Width, size.Height);
-    }
+    public Result SetSize(SizeI size) => SetSize((uint)size.Width, (uint)size.Height);
 
     #region WritePixels
-    public Result WritePixels(int lineCount, DataRectangle buffer, int totalSizeInBytes = 0)
+    public Result WritePixels(uint lineCount, DataRectangle buffer, uint totalSizeInBytes = 0)
     {
-        return WritePixels(lineCount, buffer.DataPointer, buffer.Pitch, totalSizeInBytes);
+        return WritePixels(lineCount, buffer.DataPointer, (uint)buffer.Pitch, totalSizeInBytes);
     }
 
-    public Result WritePixels(int lineCount, IntPtr buffer, int stride, int totalSizeInBytes = 0)
+    public Result WritePixels(uint lineCount, IntPtr buffer, uint stride, uint totalSizeInBytes = 0)
     {
         if (totalSizeInBytes == 0)
         {
@@ -55,19 +50,19 @@ public unsafe partial class IWICBitmapFrameEncode
         return WritePixels(lineCount, stride, totalSizeInBytes, buffer.ToPointer());
     }
 
-    public Result WritePixels<T>(int lineCount, int stride, T[] source) where T : unmanaged
+    public Result WritePixels<T>(uint lineCount, uint stride, T[] source) where T : unmanaged
     {
         ReadOnlySpan<T> span = source.AsSpan();
 
         return WritePixels(lineCount, stride, span);
     }
 
-    public Result WritePixels<T>(int lineCount, int stride, ReadOnlySpan<T> source) where T : unmanaged
+    public Result WritePixels<T>(uint lineCount, uint stride, ReadOnlySpan<T> source) where T : unmanaged
     {
         return WritePixels(lineCount, ref MemoryMarshal.GetReference(source), stride);
     }
 
-    public Result WritePixels<T>(int lineCount, ref T source, int stride, int totalSizeInBytes = 0) where T : unmanaged
+    public Result WritePixels<T>(uint lineCount, ref T source, uint stride, uint totalSizeInBytes = 0) where T : unmanaged
     {
         if (totalSizeInBytes == 0)
         {
@@ -80,7 +75,7 @@ public unsafe partial class IWICBitmapFrameEncode
         }
     }
 
-    public Result WritePixels(int lineCount, int stride, int bufferSize, IntPtr pixels)
+    public Result WritePixels(uint lineCount, uint stride, uint bufferSize, IntPtr pixels)
     {
         return WritePixels(lineCount, stride, bufferSize, pixels);
     }

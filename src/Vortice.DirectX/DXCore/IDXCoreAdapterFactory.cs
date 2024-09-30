@@ -7,10 +7,11 @@ public partial class IDXCoreAdapterFactory
 {
     public Result CreateAdapterList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid[] filterAttributes, out T? adapterList) where T : IDXCoreAdapterList
     {
-        return CreateAdapterList(filterAttributes.Length, filterAttributes, out adapterList);
+        return CreateAdapterList((uint)filterAttributes.Length, filterAttributes, out adapterList);
     }
 
-    public Result CreateAdapterList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int numAttributes, Guid[] filterAttributes, out T? adapterList) where T : IDXCoreAdapterList
+    public Result CreateAdapterList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint numAttributes, Guid[] filterAttributes, out T? adapterList)
+        where T : IDXCoreAdapterList
     {
         Result result = CreateAdapterList(numAttributes, filterAttributes, typeof(T).GUID, out IntPtr adapterListPtr);
         if (result.Failure)
@@ -25,16 +26,17 @@ public partial class IDXCoreAdapterFactory
 
     public T CreateAdapterList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Guid[] filterAttributes) where T : IDXCoreAdapterList
     {
-        return CreateAdapterList<T>(filterAttributes.Length, filterAttributes);
+        return CreateAdapterList<T>((uint)filterAttributes.Length, filterAttributes);
     }
-
-    public T CreateAdapterList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int numAttributes, Guid[] filterAttributes) where T : IDXCoreAdapterList
+    public T CreateAdapterList<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint numAttributes, Guid[] filterAttributes)
+        where T : IDXCoreAdapterList
     {
         CreateAdapterList(numAttributes, filterAttributes, typeof(T).GUID, out IntPtr adapterListPtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(adapterListPtr)!;
     }
 
-    public Result GetAdapterByLuid<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Luid adapterLUID, out T? adapter) where T : IDXCoreAdapter
+    public Result GetAdapterByLuid<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Luid adapterLUID, out T? adapter)
+        where T : IDXCoreAdapter
     {
         Result result = GetAdapterByLuid(adapterLUID, typeof(T).GUID, out IntPtr adapterPtr);
         if (result.Failure)

@@ -5,13 +5,15 @@ namespace Vortice.DXCore;
 
 public partial class IDXCoreAdapterList
 {
-    public T GetAdapter<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index) where T : IDXCoreAdapter
+    public T GetAdapter<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint index)
+        where T : IDXCoreAdapter
     {
         GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(adapterPtr)!;
     }
 
-    public Result GetAdapter<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index, out T? adapter) where T : IDXCoreAdapter
+    public Result GetAdapter<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint index, out T? adapter)
+        where T : IDXCoreAdapter
     {
         Result result = GetAdapter(index, typeof(T).GUID, out IntPtr adapterPtr);
         if (result.Failure)
@@ -43,8 +45,5 @@ public partial class IDXCoreAdapterList
         return result;
     }
 
-    public Result Sort(AdapterPreference[] preferences)
-    {
-        return Sort(preferences.Length, preferences);
-    }
+    public Result Sort(AdapterPreference[] preferences) => Sort((uint)preferences.Length, preferences);
 }

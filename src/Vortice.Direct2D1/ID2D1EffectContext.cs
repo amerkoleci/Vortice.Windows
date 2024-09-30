@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct2D1;
@@ -16,7 +16,7 @@ public unsafe partial class ID2D1EffectContext
     public T CheckFeatureSupport<T>(Feature feature) where T : unmanaged
     {
         T featureSupport = default;
-        CheckFeatureSupport(feature, &featureSupport, sizeof(T));
+        CheckFeatureSupport(feature, &featureSupport, (uint)sizeof(T));
         return featureSupport;
     }
 
@@ -24,7 +24,7 @@ public unsafe partial class ID2D1EffectContext
     {
         fixed (T* featureSupportPtr = &featureSupport)
         {
-            return CheckFeatureSupport(feature, featureSupportPtr, sizeof(T)).Success;
+            return CheckFeatureSupport(feature, featureSupportPtr, (uint)sizeof(T)).Success;
         }
     }
 }

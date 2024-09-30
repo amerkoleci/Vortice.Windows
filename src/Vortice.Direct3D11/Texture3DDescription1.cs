@@ -25,10 +25,10 @@ public partial struct Texture3DDescription1
     /// <param name="textureLayout">A <see cref="TextureLayout"/> value that identifies the layout of the texture.</param>
     public Texture3DDescription1(
         Format format,
-        int width,
-        int height,
-        int depth,
-        int mipLevels = 0,
+        uint width,
+        uint height,
+        uint depth,
+        uint mipLevels = 0,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None,

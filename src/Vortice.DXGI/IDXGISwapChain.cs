@@ -34,13 +34,15 @@ public partial class IDXGISwapChain
         return result;
     }
 
-    public T GetBuffer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index) where T : ComObject
+    public T GetBuffer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint index)
+        where T : ComObject
     {
         GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result GetBuffer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index, out T? surface) where T : ComObject
+    public Result GetBuffer<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint index, out T? surface)
+        where T : ComObject
     {
         Result result = GetBuffer(index, typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)
@@ -59,13 +61,10 @@ public partial class IDXGISwapChain
 
     public Result ResizeTarget(ModeDescription newTargetParameters) => ResizeTarget(ref newTargetParameters);
 
-    public Result ResizeBuffers(int bufferCount, int width, int height, Format newFormat = Format.Unknown)
+    public Result ResizeBuffers(uint bufferCount, uint width, uint height, Format newFormat = Format.Unknown)
     {
         return ResizeBuffers(bufferCount, width, height, newFormat, SwapChainFlags.None);
     }
 
-    public Result Present(int syncInterval)
-    {
-        return Present(syncInterval, PresentFlags.None);
-    }
+    public Result Present(uint syncInterval) => Present(syncInterval, PresentFlags.None);
 }

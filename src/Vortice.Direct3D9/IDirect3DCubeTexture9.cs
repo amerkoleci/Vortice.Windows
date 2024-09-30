@@ -32,7 +32,7 @@ public unsafe partial class IDirect3DCubeTexture9
     /// <param name="flags">The flags.</param>
     /// <returns>A <see cref="LockedRectangle"/> describing the region locked.</returns>
     /// <unmanaged>HREULT IDirect3DCubeTexture9::LockRect([In] D3DCUBEMAP_FACES FaceType,[In] unsigned int Level,[In] D3DLOCKED_RECT* pLockedRect,[In] const void* pRect,[In] D3DLOCK Flags)</unmanaged>
-    public LockedRectangle LockRect(CubeMapFace faceType, int level, LockFlags flags)
+    public LockedRectangle LockRect(CubeMapFace faceType, uint level, LockFlags flags)
     {
         return LockRect(faceType, level, null, flags);
     }
@@ -45,7 +45,7 @@ public unsafe partial class IDirect3DCubeTexture9
     /// <param name="rectangle">The rectangle.</param>
     /// <param name="flags">The flags.</param>
     /// <returns>A <see cref="LockedRectangle"/> describing the region locked.</returns>
-    public LockedRectangle LockRect(CubeMapFace faceType, int level, Rect rectangle, LockFlags flags)
+    public LockedRectangle LockRect(CubeMapFace faceType, uint level, Rect rectangle, LockFlags flags)
     {
         return LockRect(faceType, level, &rectangle, flags);
     }

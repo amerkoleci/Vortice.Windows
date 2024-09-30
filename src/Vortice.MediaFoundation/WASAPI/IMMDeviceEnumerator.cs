@@ -28,8 +28,8 @@ public partial class IMMDeviceEnumerator
     public IReadOnlyList<IMMDevice> EnumAudioEndpoints(DataFlow dataFlow, DeviceStates states = DeviceStates.Active)
     {
         EnumAudioEndpoints(dataFlow, (int)states, out IMMDeviceCollection collection).CheckError();
-        List<IMMDevice> result = new List<IMMDevice>(collection.Count);
-        for (int i = 0; i < collection.Count; i++)
+        List<IMMDevice> result = new((int)collection.Count);
+        for (uint i = 0; i < collection.Count; i++)
         {
             result.Add(collection.Item(i));
         }

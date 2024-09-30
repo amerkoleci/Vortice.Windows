@@ -32,13 +32,13 @@ public partial class IDXGIDevice
         return CreateSurface(null, 1, 0, new SharedResource { Handle = sharedResource });
     }
 
-    public IDXGISurface CreateSurface(SurfaceDescription description, int numSurfaces, Usage usage)
+    public IDXGISurface CreateSurface(SurfaceDescription description, uint numSurfaces, Usage usage)
     {
-        return CreateSurface(description, numSurfaces, (int)usage, null);
+        return CreateSurface(description, numSurfaces, (uint)usage, null);
     }
 
     public Result QueryResourceResidency(IUnknown[] resources, Residency[] residencyStatus)
     {
-        return QueryResourceResidency(resources, residencyStatus, resources.Length);
+        return QueryResourceResidency(resources, residencyStatus, (uint)resources.Length);
     }
 }

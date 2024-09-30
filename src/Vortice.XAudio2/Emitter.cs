@@ -40,9 +40,9 @@ public partial class Emitter
         public Vector3 Velocity;
         public float InnerRadius;
         public float InnerRadiusAngle;
-        public int ChannelCount;
+        public uint ChannelCount;
         public float ChannelRadius;
-        public IntPtr ChannelAzimuthsPointer;
+        public void* ChannelAzimuthsPointer;
         public IntPtr VolumeCurvePointer;
         public IntPtr LFECurvePointer;
         public IntPtr LPFDirectCurvePointer;
@@ -54,8 +54,8 @@ public partial class Emitter
 
         internal unsafe void __MarshalFree()
         {
-            if (ChannelAzimuthsPointer != IntPtr.Zero)
-                Marshal.FreeHGlobal(ChannelAzimuthsPointer);
+            if (ChannelAzimuthsPointer != null)
+                NativeMemory.Free(ChannelAzimuthsPointer);
             if (VolumeCurvePointer != IntPtr.Zero)
                 Marshal.FreeHGlobal(VolumeCurvePointer);
             if (LFECurvePointer != IntPtr.Zero)
@@ -85,11 +85,11 @@ public partial class Emitter
         @ref.ChannelCount = ChannelCount;
         @ref.ChannelRadius = ChannelRadius;
 
-        if (ChannelAzimuths != null 
+        if (ChannelAzimuths != null
             && ChannelAzimuths.Length > 0 && ChannelCount > 0)
         {
-            @ref.ChannelAzimuthsPointer = Marshal.AllocHGlobal(sizeof(float) * Math.Min(ChannelCount, ChannelAzimuths.Length));
-            MemoryHelpers.Write(@ref.ChannelAzimuthsPointer, new Span<float>(ChannelAzimuths), ChannelCount);
+            @ref.ChannelAzimuthsPointer = NativeMemory.Alloc((nuint)(sizeof(float) * Math.Min(ChannelCount, ChannelAzimuths.Length)));
+            MemoryHelpers.Write((nint)@ref.ChannelAzimuthsPointer, new Span<float>(ChannelAzimuths), (int)ChannelCount);
         }
 
         @ref.VolumeCurvePointer = DistanceCurve.FromCurvePoints(VolumeCurve);

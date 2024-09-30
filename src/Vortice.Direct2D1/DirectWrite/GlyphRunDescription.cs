@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectWrite;
@@ -7,13 +7,13 @@ public partial class GlyphRunDescription
 {
     #region Marshal
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    internal partial struct __Native
+    internal unsafe struct __Native
     {
         public IntPtr LocaleName;
         public IntPtr Text;
-        public int TextLength;
-        public IntPtr ClusterMap;
-        public int TextPosition;
+        public uint TextLength;
+        public ushort* ClusterMap;
+        public uint TextPosition;
 
         internal unsafe void __MarshalFree()
         {
@@ -32,9 +32,9 @@ public partial class GlyphRunDescription
     internal unsafe void __MarshalFrom(ref __Native @ref)
     {
         LocaleName = (@ref.LocaleName == IntPtr.Zero) ? null : Marshal.PtrToStringUni(@ref.LocaleName);
-        Text = (@ref.Text == IntPtr.Zero) ? null : Marshal.PtrToStringUni(@ref.Text, @ref.TextLength);
+        Text = (@ref.Text == IntPtr.Zero) ? null : Marshal.PtrToStringUni(@ref.Text, (int)@ref.TextLength);
         TextLength = @ref.TextLength;
-        ClusterMap = @ref.ClusterMap;
+        ClusterMap = (nint)@ref.ClusterMap;
         TextPosition = @ref.TextPosition;
     }
 
@@ -42,8 +42,8 @@ public partial class GlyphRunDescription
     {
         @ref.LocaleName = string.IsNullOrEmpty(LocaleName) ? IntPtr.Zero : Marshal.StringToHGlobalUni(LocaleName);
         @ref.Text = string.IsNullOrEmpty(Text) ? IntPtr.Zero : Marshal.StringToHGlobalUni(Text);
-        @ref.TextLength = string.IsNullOrEmpty(Text) ? 0 : Text.Length;
-        @ref.ClusterMap = ClusterMap;
+        @ref.TextLength = string.IsNullOrEmpty(Text) ? 0u : (uint)Text.Length;
+        @ref.ClusterMap = (ushort*)ClusterMap.ToPointer();
         @ref.TextPosition = TextPosition;
     }
     #endregion Marshal

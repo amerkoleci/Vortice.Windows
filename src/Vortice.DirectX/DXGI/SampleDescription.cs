@@ -15,7 +15,7 @@ public partial struct SampleDescription
     /// </summary>
     /// <param name="count"></param>
     /// <param name="quality"></param>
-    public SampleDescription(int count, int quality)
+    public SampleDescription(uint count, uint quality)
     {
         Count = count;
         Quality = quality;

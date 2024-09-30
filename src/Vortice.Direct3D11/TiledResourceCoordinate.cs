@@ -18,7 +18,7 @@ public partial struct TiledResourceCoordinate
     /// A subresource index value into mipmaps and arrays. Used for 1D, 2D, and 3D textures.
     /// For mipmaps that use nonstandard tiling, or are packed, or both use nonstandard tiling and are packed, any subresource value that indicates any of the packed mipmaps all refer to the same tile.
     /// </param>
-    public TiledResourceCoordinate(int x, int y, int z, int subresource)
+    public TiledResourceCoordinate(uint x, uint y, uint z, uint subresource)
     {
         X = x;
         Y = y;

@@ -20,7 +20,7 @@ public partial class EffectDescriptor
     /// </summary>
     /// <param name="effect">The effect.</param>
     /// <param name="outputChannelCount">The output channel count.</param>
-    public EffectDescriptor(IUnknown effect, int outputChannelCount)
+    public EffectDescriptor(IUnknown effect, uint outputChannelCount)
     {
         EffectPointer = null;
         Effect = effect;

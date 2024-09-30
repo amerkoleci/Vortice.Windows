@@ -5,7 +5,7 @@ namespace Vortice.Dxc;
 
 public partial class IDxcVersionInfo2
 {
-    public unsafe Result GetCommitInfo(out int commitCount, out string? commitHash)
+    public unsafe Result GetCommitInfo(out uint commitCount, out string? commitHash)
     {
         Result result = GetCommitInfo(out commitCount, out nint commitHashPtr);
         commitHash = Marshal.PtrToStringUTF8(commitHashPtr);

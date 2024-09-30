@@ -18,7 +18,7 @@ public unsafe partial class Apis
             overrides[i].__MarshalTo(ref overrideList[i]);
         }
 
-        return Direct3DCreate9On12(Direct3D9.D3D9.SdkVersion, overrideList, overrides.Length);
+        return Direct3DCreate9On12(Direct3D9.D3D9.SdkVersion, overrideList, (uint)overrides.Length);
     }
 
     public static IDirect3D9Ex Direct3DCreate9On12Ex(D3D9On12Arguments[] overrides)
@@ -29,7 +29,7 @@ public unsafe partial class Apis
             overrides[i].__MarshalTo(ref overrideList[i]);
         }
 
-        Direct3DCreate9On12Ex(Direct3D9.D3D9.SdkVersion, overrideList, overrides.Length, out IDirect3D9Ex outputInterface).CheckError();
+        Direct3DCreate9On12Ex(Direct3D9.D3D9.SdkVersion, overrideList, (uint)overrides.Length, out IDirect3D9Ex outputInterface).CheckError();
         return outputInterface;
     }
 
@@ -41,6 +41,6 @@ public unsafe partial class Apis
             overrides[i].__MarshalTo(ref overrideList[i]);
         }
 
-        return Direct3DCreate9On12Ex(Direct3D9.D3D9.SdkVersion, overrideList, overrides.Length, out outputInterface);
+        return Direct3DCreate9On12Ex(Direct3D9.D3D9.SdkVersion, overrideList, (uint)overrides.Length, out outputInterface);
     }
 }

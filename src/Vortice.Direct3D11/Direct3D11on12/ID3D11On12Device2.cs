@@ -41,7 +41,7 @@ public partial class ID3D11On12Device2
 
         fixed (ulong* pSignalValues = signalValues)
         {
-            return ReturnUnderlyingResource(resource11, signalValues.Length, pSignalValues, ppFences);
+            return ReturnUnderlyingResource(resource11, (uint)signalValues.Length, pSignalValues, ppFences);
         }
     }
 
@@ -60,7 +60,7 @@ public partial class ID3D11On12Device2
 
         fixed (ulong* pSignalValues = signalValues)
         {
-            return ReturnUnderlyingResource(resource11, signalValues.Length, pSignalValues, ppFences);
+            return ReturnUnderlyingResource(resource11, (uint)signalValues.Length, pSignalValues, ppFences);
         }
     }
 }

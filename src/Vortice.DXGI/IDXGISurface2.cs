@@ -5,13 +5,15 @@ namespace Vortice.DXGI;
 
 public partial class IDXGISurface2
 {
-    public T GetResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out int subresourceIndex) where T : ComObject
+    public T GetResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out uint subresourceIndex)
+        where T : ComObject
     {
         GetResource(typeof(T).GUID, out IntPtr nativePtr, out subresourceIndex).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result GetResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out int subresourceIndex, out T? parentResource) where T : ComObject
+    public Result GetResource<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out uint subresourceIndex, out T? parentResource)
+        where T : ComObject
     {
         Result result = GetResource(typeof(T).GUID, out IntPtr nativePtr, out subresourceIndex);
         if (result.Failure)

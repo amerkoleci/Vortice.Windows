@@ -39,15 +39,4 @@ public static class Program
         using TestApplication app = new();
         app.Run();
     }
-
-    public static Vortice.DXGI.IDXGIAdapter1[] GetAdapters(Vortice.DXGI.IDXGIFactory5 factory)
-    {
-        var result = new List<Vortice.DXGI.IDXGIAdapter1>();
-        for (int index = 0; factory.EnumAdapters1(index, out var adapter).Success; index++)
-        {
-            result.Add(adapter);
-        }
-
-        return result.ToArray();
-    }
 }

@@ -11,7 +11,8 @@ public partial class IDxcCompiler3
         return result!;
     }
 
-    public unsafe Result Compile<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string source, string[] arguments, IDxcIncludeHandler includeHandler, out T? result) where T : ComObject
+    public unsafe Result Compile<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(string source, string[] arguments, IDxcIncludeHandler includeHandler, out T? result)
+        where T : ComObject
     {
         IntPtr shaderSourcePtr = Marshal.StringToHGlobalAnsi(source);
         Utf16PinnedStringArray argsPtr = default;
@@ -25,10 +26,10 @@ public partial class IDxcCompiler3
 
         try
         {
-            int argumentsCount = 0;
+            uint argumentsCount = 0;
             if (arguments != null && arguments.Length > 0)
             {
-                argumentsCount = arguments.Length;
+                argumentsCount = (uint) arguments.Length;
                 argsPtr = new Utf16PinnedStringArray(arguments, argumentsCount);
             }
 

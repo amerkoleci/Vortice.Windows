@@ -5,7 +5,8 @@ namespace Vortice.DXGI;
 
 public partial class IDXGIFactory6
 {
-    public Result EnumAdapterByGpuPreference<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index, GpuPreference gpuPreference, out T? adapter) where T : IDXGIAdapter
+    public Result EnumAdapterByGpuPreference<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint index, GpuPreference gpuPreference, out T? adapter)
+        where T : IDXGIAdapter
     {
         Result result = EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr);
         if (result.Success)
@@ -18,7 +19,8 @@ public partial class IDXGIFactory6
         return result;
     }
 
-    public T EnumAdapterByGpuPreference<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(int index, GpuPreference gpuPreference) where T : IDXGIAdapter
+    public T EnumAdapterByGpuPreference<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(uint index, GpuPreference gpuPreference)
+        where T : IDXGIAdapter
     {
         EnumAdapterByGpuPreference(index, gpuPreference, typeof(T).GUID, out IntPtr adapterPtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(adapterPtr)!;
@@ -33,7 +35,7 @@ public partial class IDXGIFactory6
     {
         int count = 0;
 
-        for (int adapterIndex = 0; EnumAdapterByGpuPreference(adapterIndex, gpuPreference, out IDXGIAdapter1? adapter).Success; adapterIndex++)
+        for (uint adapterIndex = 0; EnumAdapterByGpuPreference(adapterIndex, gpuPreference, out IDXGIAdapter1? adapter).Success; adapterIndex++)
         {
             count++;
             adapter!.Dispose();

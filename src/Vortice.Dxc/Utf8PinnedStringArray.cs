@@ -13,11 +13,11 @@ public unsafe readonly ref struct Utf8PinnedStringArray
 
     public nint Handle => (nint)_handle;
 
-    public readonly int Length;
+    public readonly uint Length;
 
-    public Utf8PinnedStringArray(string[] strings, int length = 0)
+    public Utf8PinnedStringArray(string[] strings, uint length = 0)
     {
-        Length = length == 0 ? strings.Length : length;
+        Length = length == 0 ? (uint)strings.Length : length;
         _handle = (byte**)NativeMemory.Alloc((nuint)(Length * sizeof(byte*)));
 
         for (int i = 0; i < Length; i++)

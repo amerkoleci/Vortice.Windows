@@ -32,7 +32,7 @@ public unsafe partial class MediaFactory
 
     public static IMFDXGIDeviceManager MFCreateDXGIDeviceManager()
     {
-        MFCreateDXGIDeviceManager(out int resetToken, out IMFDXGIDeviceManager deviceManager).CheckError();
+        MFCreateDXGIDeviceManager(out uint resetToken, out IMFDXGIDeviceManager deviceManager).CheckError();
         deviceManager.ResetToken = resetToken;
         return deviceManager;
     }

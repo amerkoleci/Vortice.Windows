@@ -15,7 +15,7 @@ public partial class DspSettings
     /// </summary>
     /// <param name="sourceChannelCount">The source channel count.</param>
     /// <param name="destinationChannelCount">The destination channel count.</param>
-    public DspSettings(int sourceChannelCount, int destinationChannelCount)
+    public DspSettings(uint sourceChannelCount, uint destinationChannelCount)
     {
         SourceChannelCount = sourceChannelCount;
         DestinationChannelCount = destinationChannelCount;
@@ -40,8 +40,8 @@ public partial class DspSettings
     {
         public IntPtr MatrixCoefficientsPointer;
         public IntPtr DelayTimesPointer;
-        public int SrcChannelCount;
-        public int DstChannelCount;
+        public uint SrcChannelCount;
+        public uint DstChannelCount;
         public float LPFDirectCoefficient;
         public float LPFReverbCoefficient;
         public float ReverbLevel;

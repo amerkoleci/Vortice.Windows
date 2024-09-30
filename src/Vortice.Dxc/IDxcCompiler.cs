@@ -26,7 +26,7 @@ public unsafe partial class IDxcCompiler
             entryPoint,
             targetProfile,
             arguments,
-            arguments?.Length ?? 0,
+            (uint)(arguments?.Length ?? 0),
             defines,
             includeHandler);
     }
@@ -36,7 +36,7 @@ public unsafe partial class IDxcCompiler
         string entryPoint,
         string targetProfile,
         string[] arguments,
-        int argumentsCount,
+        uint argumentsCount,
         DxcDefine[] defines,
         IDxcIncludeHandler includeHandler)
     {
@@ -51,7 +51,7 @@ public unsafe partial class IDxcCompiler
 
             Compile(source, sourceName,
                 entryPoint, targetProfile,
-                _argsPtr.Handle, _argsPtr.Length,
+                _argsPtr.Handle, (uint)_argsPtr.Length,
                 defines,
                 includeHandler,
                 out IDxcOperationResult? result).CheckError();
@@ -77,7 +77,7 @@ public unsafe partial class IDxcCompiler
             entryPoint,
             targetProfile,
             arguments,
-            arguments?.Length ?? 0,
+            (uint)(arguments?.Length ?? 0),
             defines,
             includeHandler,
             out result);
@@ -88,7 +88,7 @@ public unsafe partial class IDxcCompiler
                                  string entryPoint,
                                  string targetProfile,
                                  string[] arguments,
-                                 int argumentsCount,
+                                 uint argumentsCount,
                                  DxcDefine[] defines,
                                  IDxcIncludeHandler includeHandler,
                                  out IDxcOperationResult? result)
@@ -136,7 +136,7 @@ public unsafe partial class IDxcCompiler
             source,
             sourceName,
             arguments,
-            arguments?.Length ?? 0,
+            (uint)(arguments?.Length ?? 0),
             defines,
             includeHandler);
     }
@@ -144,7 +144,7 @@ public unsafe partial class IDxcCompiler
     public unsafe IDxcOperationResult Preprocess(IDxcBlob source,
         string sourceName,
         string[] arguments,
-        int argumentsCount,
+        uint argumentsCount,
         DxcDefine[] defines,
         IDxcIncludeHandler includeHandler)
     {
@@ -182,7 +182,7 @@ public unsafe partial class IDxcCompiler
             source,
             sourceName,
             arguments,
-            arguments?.Length ?? 0,
+            (uint)(arguments?.Length ?? 0),
             defines,
             includeHandler,
             out result);
@@ -191,7 +191,7 @@ public unsafe partial class IDxcCompiler
     public unsafe Result Preprocess(IDxcBlob source,
         string sourceName,
         string[] arguments,
-        int argumentsCount,
+        uint argumentsCount,
         DxcDefine[] defines,
         IDxcIncludeHandler includeHandler,
         out IDxcOperationResult? result)

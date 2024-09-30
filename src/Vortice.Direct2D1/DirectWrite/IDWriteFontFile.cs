@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectWrite;
@@ -12,7 +12,7 @@ public partial class IDWriteFontFile
     public unsafe Span<byte> GetReferenceKey()
     {
         void* keyPtr;
-        GetReferenceKey(&keyPtr, out int keySize);
-        return new Span<byte>(keyPtr, keySize);
+        GetReferenceKey(&keyPtr, out uint keySize);
+        return new Span<byte>(keyPtr, (int)keySize);
     }
 }

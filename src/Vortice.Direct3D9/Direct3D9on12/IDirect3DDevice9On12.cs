@@ -60,7 +60,7 @@ public partial class IDirect3DDevice9On12
 
         fixed (ulong* pSignalValues = signalValues)
         {
-            return ReturnUnderlyingResource(resource, signalValues.Length, pSignalValues, ppFences);
+            return ReturnUnderlyingResource(resource, (uint)signalValues.Length, pSignalValues, ppFences);
         }
     }
 
@@ -79,7 +79,7 @@ public partial class IDirect3DDevice9On12
 
         fixed (ulong* pSignalValues = signalValues)
         {
-            return ReturnUnderlyingResource(resource, signalValues.Length, pSignalValues, ppFences);
+            return ReturnUnderlyingResource(resource, (uint)signalValues.Length, pSignalValues, ppFences);
         }
     }
 }

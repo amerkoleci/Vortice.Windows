@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct2D1;
@@ -10,7 +10,7 @@ public unsafe partial class ID2D1DrawInfo
     {
         fixed (byte* dataPtr = data)
         {
-            SetVertexShaderConstantBuffer(dataPtr, data.Length);
+            SetVertexShaderConstantBuffer(dataPtr, (uint)data.Length);
         }
     }
 
@@ -18,7 +18,7 @@ public unsafe partial class ID2D1DrawInfo
     {
         fixed (T* pConstants = constants)
         {
-            SetVertexShaderConstantBuffer(pConstants, constants.Length * sizeof(T));
+            SetVertexShaderConstantBuffer(pConstants, (uint)(constants.Length * sizeof(T)));
         }
     }
 
@@ -26,7 +26,7 @@ public unsafe partial class ID2D1DrawInfo
     {
         fixed (T* pConstants = constants)
         {
-            SetVertexShaderConstantBuffer(pConstants, constants.Length * sizeof(T));
+            SetVertexShaderConstantBuffer(pConstants, (uint)(constants.Length * sizeof(T)));
         }
     }
 
@@ -34,7 +34,7 @@ public unsafe partial class ID2D1DrawInfo
     {
         fixed (T* pConstants = &constants)
         {
-            SetVertexShaderConstantBuffer(pConstants, sizeof(T));
+            SetVertexShaderConstantBuffer(pConstants, (uint)sizeof(T));
         }
     }
     #endregion SetVertexShaderConstantBuffer
@@ -44,7 +44,7 @@ public unsafe partial class ID2D1DrawInfo
     {
         fixed (byte* dataPtr = data)
         {
-            SetPixelShaderConstantBuffer(dataPtr, data.Length);
+            SetPixelShaderConstantBuffer(dataPtr, (uint)data.Length);
         }
     }
 
@@ -52,7 +52,7 @@ public unsafe partial class ID2D1DrawInfo
     {
         fixed (T* pConstants = constants)
         {
-            SetPixelShaderConstantBuffer(pConstants, constants.Length * sizeof(T));
+            SetPixelShaderConstantBuffer(pConstants, (uint)(constants.Length * sizeof(T)));
         }
     }
 
@@ -60,7 +60,7 @@ public unsafe partial class ID2D1DrawInfo
     {
         fixed (T* pConstants = constants)
         {
-            SetPixelShaderConstantBuffer(pConstants, constants.Length * sizeof(T));
+            SetPixelShaderConstantBuffer(pConstants, (uint)(constants.Length * sizeof(T)));
         }
     }
 
@@ -68,7 +68,7 @@ public unsafe partial class ID2D1DrawInfo
     {
         fixed (T* pConstants = &constants)
         {
-            SetPixelShaderConstantBuffer(pConstants, sizeof(T));
+            SetPixelShaderConstantBuffer(pConstants, (uint)sizeof(T));
         }
     }
     #endregion SetPixelShaderConstantBuffer

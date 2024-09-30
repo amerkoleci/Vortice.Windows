@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.WIC;
@@ -12,19 +12,19 @@ public unsafe partial class IWICColorContext
     {
         get
         {
-            GetProfileBytes(0, null, out int actualSize);
+            GetProfileBytes(0, null, out uint actualSize);
             if (actualSize == 0)
                 return null;
-            var buffer = new DataStream(actualSize, true, true);
+            var buffer = new DataStream((int)actualSize, true, true);
             GetProfileBytes(actualSize, buffer.BaseUnsafePointer, out _);
             return buffer;
         }
     }
 
-    public Result InitializeFromMemory(byte[] data, int dataLength = 0)
+    public Result InitializeFromMemory(byte[] data, uint dataLength = 0)
     {
         if (dataLength == 0)
-            dataLength = data.Length;
+            dataLength = (uint)data.Length;
 
         fixed (void* dataPtr = data)
         {
@@ -32,10 +32,10 @@ public unsafe partial class IWICColorContext
         }
     }
 
-    public Result InitializeFromMemory(ReadOnlySpan<byte> data, int dataLength = 0)
+    public Result InitializeFromMemory(ReadOnlySpan<byte> data, uint dataLength = 0)
     {
         if (dataLength == 0)
-            dataLength = data.Length;
+            dataLength = (uint)data.Length;
 
         fixed (void* dataPtr = data)
         {
@@ -47,7 +47,7 @@ public unsafe partial class IWICColorContext
     {
         fixed (void* dataPtr = data)
         {
-            return InitializeFromMemory(dataPtr, data.Length * sizeof(T));
+            return InitializeFromMemory(dataPtr, (uint)(data.Length * sizeof(T)));
         }
     }
 
@@ -55,15 +55,15 @@ public unsafe partial class IWICColorContext
     {
         fixed (void* dataPtr = data)
         {
-            return InitializeFromMemory(dataPtr, data.Length * sizeof(T));
+            return InitializeFromMemory(dataPtr, (uint)(data.Length * sizeof(T)));
         }
     }
 
-    public Result GetProfileBytes(byte[] buffer, out int actual)
+    public Result GetProfileBytes(byte[] buffer, out uint actual)
     {
         fixed (byte* bufferPtr = buffer)
         {
-            return GetProfileBytes(buffer.Length, bufferPtr, out actual);
+            return GetProfileBytes((uint)buffer.Length, bufferPtr, out actual);
         }
     }
 }

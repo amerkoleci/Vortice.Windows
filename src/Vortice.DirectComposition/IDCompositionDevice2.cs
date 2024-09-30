@@ -67,7 +67,7 @@ public partial class IDCompositionDevice2
         return skewTransform;
     }
 
-    public IDCompositionSurface CreateSurface(int width, int height, Format pixelFormat, AlphaMode alphaMode)
+    public IDCompositionSurface CreateSurface(uint width, uint height, Format pixelFormat, AlphaMode alphaMode)
     {
         CreateSurface(width, height, pixelFormat, alphaMode, out IDCompositionSurface surface).CheckError();
         return surface;
@@ -81,11 +81,11 @@ public partial class IDCompositionDevice2
 
     public IDCompositionTransform CreateTransformGroup(IDCompositionTransform[] transforms)
     {
-        CreateTransformGroup(transforms, transforms.Length, out IDCompositionTransform transformGroup).CheckError();
+        CreateTransformGroup(transforms, (uint)transforms.Length, out IDCompositionTransform transformGroup).CheckError();
         return transformGroup;
     }
 
-    public IDCompositionTransform CreateTransformGroup(IDCompositionTransform[] transforms, int count)
+    public IDCompositionTransform CreateTransformGroup(IDCompositionTransform[] transforms, uint count)
     {
         CreateTransformGroup(transforms, count, out IDCompositionTransform transformGroup).CheckError();
         return transformGroup;
@@ -93,11 +93,11 @@ public partial class IDCompositionDevice2
 
     public IDCompositionTransform3D CreateTransform3DGroup(IDCompositionTransform3D[] transforms3D)
     {
-        CreateTransform3DGroup(transforms3D, transforms3D.Length, out IDCompositionTransform3D transform3DGroup).CheckError();
+        CreateTransform3DGroup(transforms3D, (uint)transforms3D.Length, out IDCompositionTransform3D transform3DGroup).CheckError();
         return transform3DGroup;
     }
 
-    public IDCompositionTransform3D CreateTransform3DGroup(IDCompositionTransform3D[] transforms3D, int count)
+    public IDCompositionTransform3D CreateTransform3DGroup(IDCompositionTransform3D[] transforms3D, uint count)
     {
         CreateTransform3DGroup(transforms3D, count, out IDCompositionTransform3D transform3DGroup).CheckError();
         return transform3DGroup;
@@ -121,7 +121,7 @@ public partial class IDCompositionDevice2
         return visual;
     }
 
-    public IDCompositionVirtualSurface CreateVirtualSurface(int initialWidth, int initialHeight, Format pixelFormat, AlphaMode alphaMode)
+    public IDCompositionVirtualSurface CreateVirtualSurface(uint initialWidth, uint initialHeight, Format pixelFormat, AlphaMode alphaMode)
     {
         CreateVirtualSurface(initialWidth, initialHeight, pixelFormat, alphaMode, out IDCompositionVirtualSurface virtualSurface).CheckError();
         return virtualSurface;

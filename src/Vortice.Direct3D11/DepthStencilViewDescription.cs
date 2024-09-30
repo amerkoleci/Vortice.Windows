@@ -22,10 +22,10 @@ public partial struct DepthStencilViewDescription
     public DepthStencilViewDescription(
         DepthStencilViewDimension viewDimension,
         Format format = Format.Unknown,
-        int mipSlice = 0,
-        int firstArraySlice = 0,
-        int arraySize = -1,
-        DepthStencilViewFlags flags = DepthStencilViewFlags.None) : this()
+        uint mipSlice = 0,
+        uint firstArraySlice = 0,
+        uint arraySize = unchecked((uint)-1),
+        DepthStencilViewFlags flags = DepthStencilViewFlags.None)
     {
         Format = format;
         ViewDimension = viewDimension;
@@ -73,20 +73,20 @@ public partial struct DepthStencilViewDescription
         ID3D11Texture1D texture,
         bool isArray,
         Format format = Format.Unknown,
-        int mipSlice = 0,
-        int firstArraySlice = 0,
-        int arraySize = -1,
-        DepthStencilViewFlags flags = DepthStencilViewFlags.None) : this()
+        uint mipSlice = 0,
+        uint firstArraySlice = 0,
+        uint arraySize = unchecked((uint)-1),
+        DepthStencilViewFlags flags = DepthStencilViewFlags.None)
     {
         ViewDimension = isArray ? DepthStencilViewDimension.Texture1DArray : DepthStencilViewDimension.Texture1D;
         Flags = flags;
         if (format == Format.Unknown
-            || (arraySize == -1 && DepthStencilViewDimension.Texture1DArray == ViewDimension))
+            || ((arraySize == unchecked((uint)-1)) && DepthStencilViewDimension.Texture1DArray == ViewDimension))
         {
             var textureDesc = texture.Description;
             if (format == Format.Unknown)
                 format = textureDesc.Format;
-            if (arraySize == -1)
+            if (arraySize == unchecked((uint)-1))
                 arraySize = textureDesc.ArraySize - firstArraySlice;
         }
 
@@ -120,21 +120,21 @@ public partial struct DepthStencilViewDescription
         ID3D11Texture2D texture,
         DepthStencilViewDimension viewDimension,
         Format format = Format.Unknown,
-        int mipSlice = 0,
-        int firstArraySlice = 0,
-        int arraySize = -1,
-        DepthStencilViewFlags flags = DepthStencilViewFlags.None) : this()
+        uint mipSlice = 0,
+        uint firstArraySlice = 0,
+        uint arraySize = unchecked((uint)-1),
+        DepthStencilViewFlags flags = DepthStencilViewFlags.None)
     {
         ViewDimension = viewDimension;
         Flags = flags;
 
         if (format == Format.Unknown
-            || (-1 == arraySize && (DepthStencilViewDimension.Texture2DArray == viewDimension || DepthStencilViewDimension.Texture2DMultisampledArray == viewDimension)))
+            || ((arraySize == unchecked((uint)-1)) && (DepthStencilViewDimension.Texture2DArray == viewDimension || DepthStencilViewDimension.Texture2DMultisampledArray == viewDimension)))
         {
             var textureDesc = texture.Description;
             if (format == Format.Unknown)
                 format = textureDesc.Format;
-            if (arraySize == -1)
+            if (arraySize == unchecked((uint)-1))
                 arraySize = textureDesc.ArraySize - firstArraySlice;
         }
         Format = format;

@@ -13,8 +13,8 @@ public unsafe partial class ID3D11Device3
     }
 
     public void WriteToSubresource<T>(
-        ID3D11Resource destinationResource, int destinationSubresource,
-        Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
+        ID3D11Resource destinationResource, uint destinationSubresource,
+        Span<T> sourceData, uint sourceRowPitch, uint srcDepthPitch) where T : unmanaged
     {
         fixed (void* dataPtr = sourceData)
         {
@@ -25,8 +25,8 @@ public unsafe partial class ID3D11Device3
     }
 
     public void WriteToSubresource<T>(
-        ID3D11Resource destinationResource, int destinationSubresource, Box destinationBox,
-        Span<T> sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
+        ID3D11Resource destinationResource, uint destinationSubresource, Box destinationBox,
+        Span<T> sourceData, uint sourceRowPitch, uint srcDepthPitch) where T : unmanaged
     {
         fixed (void* dataPtr = sourceData)
         {
@@ -37,8 +37,8 @@ public unsafe partial class ID3D11Device3
     }
 
     public void WriteToSubresource<T>(
-        ID3D11Resource destinationResource, int destinationSubresource,
-        T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
+        ID3D11Resource destinationResource, uint destinationSubresource,
+        T[] sourceData, uint sourceRowPitch, uint srcDepthPitch) where T : unmanaged
     {
         fixed (void* sourceDataPtr = &sourceData[0])
         {
@@ -50,8 +50,8 @@ public unsafe partial class ID3D11Device3
     }
 
     public void WriteToSubresource<T>(
-        ID3D11Resource destinationResource, int destinationSubresource, Box destinationBox,
-        T[] sourceData, int sourceRowPitch, int srcDepthPitch) where T : unmanaged
+        ID3D11Resource destinationResource, uint destinationSubresource, Box destinationBox,
+        T[] sourceData, uint sourceRowPitch, uint srcDepthPitch) where T : unmanaged
     {
         fixed (void* sourceDataPtr = &sourceData[0])
         {
@@ -63,8 +63,8 @@ public unsafe partial class ID3D11Device3
     }
 
     public void ReadFromSubresource<T>(
-        T[] destination, int destinationRowPitch, int destinationDepthPitch,
-        ID3D11Resource sourceResource, int sourceSubresource, Box? sourceBox = null) where T : unmanaged
+        T[] destination, uint destinationRowPitch, uint destinationDepthPitch,
+        ID3D11Resource sourceResource, uint sourceSubresource, Box? sourceBox = null) where T : unmanaged
     {
         fixed (void* destinationPtr = &destination[0])
         {

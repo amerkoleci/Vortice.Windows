@@ -1,19 +1,27 @@
-// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
-namespace Vortice.Direct3D11;
+using System.Runtime.CompilerServices;
 
-public partial struct SubresourceData
+namespace Vortice.Direct3D12;
+
+public unsafe partial struct SubresourceData
 {
+    public void* pData;
+
+    public nint RowPitch;
+
+    public nint SlicePitch;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="SubresourceData"/> struct.
     /// </summary>
     /// <param name="dataPointer">The dataPointer.</param>
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="slicePitch">The slice pitch.</param>
-    public SubresourceData(IntPtr dataPointer, uint rowPitch = 0, uint slicePitch = 0)
+    public SubresourceData(IntPtr dataPointer, nint rowPitch = 0, nint slicePitch = 0)
     {
-        DataPointer = dataPointer;
+        pData = dataPointer.ToPointer();
         RowPitch = rowPitch;
         SlicePitch = slicePitch;
     }
@@ -24,10 +32,11 @@ public partial struct SubresourceData
     /// <param name="dataPointer">The dataPointer.</param>
     /// <param name="rowPitch">The row pitch.</param>
     /// <param name="slicePitch">The slice pitch.</param>
-    public unsafe SubresourceData(void* dataPointer, uint rowPitch = 0, uint slicePitch = 0)
+    public SubresourceData(void* dataPointer, nint rowPitch = 0, nint slicePitch = 0)
     {
-        DataPointer = new IntPtr(dataPointer);
+        pData = dataPointer;
         RowPitch = rowPitch;
         SlicePitch = slicePitch;
     }
 }
+

@@ -10,7 +10,7 @@ public partial struct Rational
     /// </summary>
     /// <param name="numerator"></param>
     /// <param name="denominator"></param>
-    public Rational(int numerator, int denominator)
+    public Rational(uint numerator, uint denominator)
     {
         Numerator = numerator;
         Denominator = denominator;

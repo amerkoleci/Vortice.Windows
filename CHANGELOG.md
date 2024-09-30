@@ -4,6 +4,7 @@ Current Stable Release:    3.5.0 (March 2024)
 
 -----------------------------------------------
 Release:     3.6.X (August 2024)
+- [ENH] Breaking change: Map C++ UINT, UINT32, uint32_t to UInt32 in C# not Int32 as before_
 - [ENH] Direct3D12 and DirectML: Use uint instead of int remap.
 - [ENH] DirectML : Update to 1.15.2.
 - [ENH] Direct3D12: Add D3D12GetInterface support and relative class Guids.

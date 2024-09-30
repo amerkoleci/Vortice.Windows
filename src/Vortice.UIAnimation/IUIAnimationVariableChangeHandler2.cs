@@ -5,5 +5,5 @@ namespace Vortice.UIAnimation;
 
 public partial interface IUIAnimationVariableChangeHandler2
 {
-    void OnValueChanged(IUIAnimationStoryboard2 storyboard, IUIAnimationVariable2 variable, Span<double> newValue, Span<double> previousValue, int dimension);
+    void OnValueChanged(IUIAnimationStoryboard2 storyboard, IUIAnimationVariable2 variable, Span<double> newValue, Span<double> previousValue, uint dimension);
 }

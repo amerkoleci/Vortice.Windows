@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.ComponentModel;
@@ -34,25 +34,25 @@ public sealed class ConvolveMatrix : ID2D1Effect
     }
 
     [DefaultValue(3)]
-    public int KernelSizeX
+    public uint KernelSizeX
     {
-        get => (int)GetUIntValue((int)ConvolveMatrixProperties.KernelSizeX);
-        set => SetValue((int)ConvolveMatrixProperties.KernelSizeX, (uint)value);
+        get => GetUIntValue((int)ConvolveMatrixProperties.KernelSizeX);
+        set => SetValue((int)ConvolveMatrixProperties.KernelSizeX, value);
     }
 
     [DefaultValue(3)]
-    public int KernelSizeY
+    public uint KernelSizeY
     {
-        get => (int)GetUIntValue((int)ConvolveMatrixProperties.KernelSizeY);
-        set => SetValue((int)ConvolveMatrixProperties.KernelSizeY, (uint)value);
+        get => GetUIntValue((int)ConvolveMatrixProperties.KernelSizeY);
+        set => SetValue((int)ConvolveMatrixProperties.KernelSizeY, value);
     }
 
     public unsafe float[] KernelMatrix
     {
         get
         {
-            int size = KernelSizeX * KernelSizeY;
-            Span<float> value = stackalloc float[size];
+            uint size = KernelSizeX * KernelSizeY;
+            Span<float> value = stackalloc float[(int)size];
             fixed (float* valuePtr = value)
             {
                 GetValue((int)ConvolveMatrixProperties.KernelMatrix, PropertyType.Blob, valuePtr, sizeof(float) * size);
@@ -62,7 +62,7 @@ public sealed class ConvolveMatrix : ID2D1Effect
         }
         set
         {
-            int size = KernelSizeX * KernelSizeY;
+            uint size = KernelSizeX * KernelSizeY;
             if (value.Length != size)
             {
                 throw new ArgumentException($"{nameof(KernelMatrix)} must be KernelSizeX * KernelSizeY");
@@ -78,21 +78,21 @@ public sealed class ConvolveMatrix : ID2D1Effect
     [DefaultValue(1.0f)]
     public float Divisor
     {
-        get => GetFloatValue((int)ConvolveMatrixProperties.Divisor);
-        set => SetValue((int)ConvolveMatrixProperties.Divisor, value);
+        get => GetFloatValue((uint)ConvolveMatrixProperties.Divisor);
+        set => SetValue((uint)ConvolveMatrixProperties.Divisor, value);
     }
 
     [DefaultValue(0.0f)]
     public float Bias
     {
-        get => GetFloatValue((int)ConvolveMatrixProperties.Bias);
-        set => SetValue((int)ConvolveMatrixProperties.Bias, value);
+        get => GetFloatValue((uint)ConvolveMatrixProperties.Bias);
+        set => SetValue((uint)ConvolveMatrixProperties.Bias, value);
     }
 
     public Vector2 KernelOffset
     {
-        get => GetVector2Value((int)ConvolveMatrixProperties.KernelOffset);
-        set => SetValue((int)ConvolveMatrixProperties.KernelOffset, value);
+        get => GetVector2Value((uint)ConvolveMatrixProperties.KernelOffset);
+        set => SetValue((uint)ConvolveMatrixProperties.KernelOffset, value);
     }
 
     [DefaultValue(false)]

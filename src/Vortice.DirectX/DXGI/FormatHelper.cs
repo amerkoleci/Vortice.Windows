@@ -22,7 +22,7 @@ public static class FormatHelper
     /// </summary>
     /// <param name="format">The DXGI format.</param>
     /// <returns>BPP of </returns>
-    public static int GetBitsPerPixel(this Format format)
+    public static uint GetBitsPerPixel(this Format format)
     {
         switch (format)
         {
@@ -440,16 +440,16 @@ public static class FormatHelper
 
     public static void GetSurfaceInfo(
         Format format,
-        int width,
-        int height,
-        out int rowPitch,
-        out int slicePitch,
-        out int rowCount)
+        uint width,
+        uint height,
+        out uint rowPitch,
+        out uint slicePitch,
+        out uint rowCount)
     {
         bool bc = false;
         bool packed = false;
         bool planar = false;
-        int bpe = 0;
+        uint bpe = 0;
 
         switch (format)
         {
@@ -514,12 +514,12 @@ public static class FormatHelper
 
         if (bc)
         {
-            int numBlocksWide = 0;
+            uint numBlocksWide = 0;
             if (width > 0)
             {
                 numBlocksWide = Math.Max(1, (width + 3) / 4);
             }
-            int numBlocksHigh = 0;
+            uint numBlocksHigh = 0;
             if (height > 0)
             {
                 numBlocksHigh = Math.Max(1, (height + 3) / 4);
@@ -544,18 +544,18 @@ public static class FormatHelper
         {
             rowPitch = ((width + 1) >> 1) * bpe;
             slicePitch = (rowPitch * height) + ((rowPitch * height + 1) >> 1);
-            rowCount = (int)(height + ((height + 1u) >> 1));
+            rowCount = height + ((height + 1u) >> 1);
         }
         else
         {
-            int bpp = GetBitsPerPixel(format);
+            uint bpp = GetBitsPerPixel(format);
             rowPitch = (width * bpp + 7) / 8; // round up to nearest byte
             rowCount = height;
             slicePitch = rowPitch * height;
         }
     }
 
-    public static void GetSurfaceInfo(Format format, int width, int height, out int rowPitch,out int slicePitch)
+    public static void GetSurfaceInfo(Format format, uint width, uint height, out uint rowPitch,out uint slicePitch)
     {
         GetSurfaceInfo(format, width, height, out rowPitch, out slicePitch, out _);
     }

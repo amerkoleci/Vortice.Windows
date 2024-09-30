@@ -6,7 +6,7 @@ namespace Vortice.Direct3D11;
 public partial class ID3D11Texture3D
 {
     /// <inheritdoc/>
-    public override int CalculateSubResourceIndex(int mipSlice, int arraySlice, out int mipSize)
+    public override uint CalculateSubResourceIndex(uint mipSlice, uint arraySlice, out uint mipSize)
     {
         var desc = GetDescription();
         mipSize = D3D11.CalculateMipSize(mipSlice, desc.Depth);

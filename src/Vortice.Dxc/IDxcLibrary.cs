@@ -7,31 +7,31 @@ namespace Vortice.Dxc;
 
 public partial class IDxcLibrary
 {
-    public IDxcBlob CreateBlobFromBlob(IDxcBlob blob, int offset, int length)
+    public IDxcBlob CreateBlobFromBlob(IDxcBlob blob, uint offset, uint length)
     {
         CreateBlobFromBlob(blob, offset, length, out IDxcBlob result).CheckError();
         return result;
     }
 
-    public IDxcBlobEncoding CreateBlobFromFile(string fileName, int? codePage)
+    public IDxcBlobEncoding CreateBlobFromFile(string fileName, uint? codePage)
     {
         CreateBlobFromFile(fileName, codePage, out IDxcBlobEncoding result).CheckError();
         return result;
     }
 
-    public IDxcBlobEncoding CreateBlobWithEncodingFromPinned(IntPtr text, int size, int codePage)
+    public IDxcBlobEncoding CreateBlobWithEncodingFromPinned(IntPtr text, uint size, uint codePage)
     {
         CreateBlobWithEncodingFromPinned(text, size, codePage, out IDxcBlobEncoding result).CheckError();
         return result;
     }
 
-    public IDxcBlobEncoding CreateBlobWithEncodingOnHeapCopy(IntPtr text, int size, int codePage)
+    public IDxcBlobEncoding CreateBlobWithEncodingOnHeapCopy(IntPtr text, uint size, uint codePage)
     {
         CreateBlobWithEncodingOnHeapCopy(text, size, codePage, out IDxcBlobEncoding result).CheckError();
         return result;
     }
 
-    public IDxcBlobEncoding CreateBlobWithEncodingOnMalloc(IntPtr text, ComObject malloc, int size, int codePage)
+    public IDxcBlobEncoding CreateBlobWithEncodingOnMalloc(IntPtr text, ComObject malloc, uint size, uint codePage)
     {
         CreateBlobWithEncodingOnMalloc(text, malloc, size, codePage, out IDxcBlobEncoding result).CheckError();
         return result;

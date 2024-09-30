@@ -65,9 +65,9 @@ public static unsafe partial class D3D11
             adapter != null ? adapter.NativePointer : IntPtr.Zero,
             driverType,
             IntPtr.Zero,
-            (int)flags,
+            (uint)flags,
             featureLevels,
-            (featureLevels != null) ? featureLevels.Length : 0,
+            (featureLevels != null) ? (uint)featureLevels.Length : 0u,
             SdkVersion,
             out device,
             out featureLevel,
@@ -109,7 +109,7 @@ public static unsafe partial class D3D11
             (void*)adapterPtr,
             (int)driverType,
             null,
-            (int)flags,
+            (uint)flags,
             &featureLevel,
             1,
             SdkVersion,
@@ -139,10 +139,10 @@ public static unsafe partial class D3D11
         out ID3D11Device device, out FeatureLevel featureLevel, out ID3D11DeviceContext immediateContext)
     {
         Result result = D3D11CreateDevice(adapterPtr, driverType, IntPtr.Zero,
-            (int)flags,
+            (uint)flags,
             featureLevels,
-            (featureLevels != null) ? featureLevels.Length : 0,
-            SdkVersion,
+            (featureLevels != null) ? (uint)featureLevels.Length : 0u,
+            (uint)SdkVersion,
             out device,
             out featureLevel,
             out immediateContext);
@@ -317,10 +317,10 @@ public static unsafe partial class D3D11
                 (void*)adapterPtr,
                 (int)driverType,
                 null,
-                (int)flags,
+                (uint)flags,
                 featureLevelsPtr,
-                featureLevels != null ? featureLevels.Length : 0,
-                SdkVersion,
+                featureLevels != null ? (uint)featureLevels.Length : 0u,
+                (uint)SdkVersion,
                 swapChainDesc == null ? (void*)0 : &swapChainDescIn,
                 &swapChainPtr,
                 &devicePtr,
@@ -345,7 +345,7 @@ public static unsafe partial class D3D11
     /// <returns>
     /// The index which equals mipSlice + (arraySlice * mipLevels).
     /// </returns>
-    public static int CalculateSubResourceIndex(int mipSlice, int arraySlice, int mipLevels)
+    public static uint CalculateSubResourceIndex(uint mipSlice, uint arraySlice, uint mipLevels)
     {
         return (mipLevels * arraySlice) + mipSlice;
     }
@@ -358,9 +358,9 @@ public static unsafe partial class D3D11
     /// <returns>
     /// Size of the mipLevel
     /// </returns>
-    public static int CalculateMipSize(int mipLevel, int baseSize)
+    public static uint CalculateMipSize(uint mipLevel, uint baseSize)
     {
-        baseSize >>= mipLevel;
+        baseSize >>= (int)mipLevel;
         return baseSize > 0 ? baseSize : 1;
     }
 
@@ -382,9 +382,9 @@ public static unsafe partial class D3D11
                 (void*)adapterPtr,
                 (int)driverType,
                 null,
-                (int)flags,
+                (uint)flags,
                 featureLevelsPtr,
-                (featureLevels != null) ? featureLevels.Length : 0,
+                (featureLevels != null) ? (uint)featureLevels.Length : 0u,
                 SdkVersion,
                 &devicePtr,
                 featureLevelPtr,
@@ -414,10 +414,10 @@ public static unsafe partial class D3D11
                     (void*)adapterPtr,
                     (int)driverType,
                     null,
-                    (int)flags,
+                    (uint)flags,
                     featureLevelsPtr,
-                    featureLevels.Length,
-                    SdkVersion,
+                    (uint)featureLevels.Length,
+                    (uint)SdkVersion,
                     null,
                     featureLevelPtr,
                     null);
@@ -432,7 +432,7 @@ public static unsafe partial class D3D11
                     (void*)adapterPtr,
                     (int)driverType,
                     null,
-                    (int)flags,
+                    (uint)flags,
                     null,
                     0,
                     SdkVersion,

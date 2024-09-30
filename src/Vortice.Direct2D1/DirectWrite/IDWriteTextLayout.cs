@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Numerics;
@@ -11,7 +11,7 @@ public unsafe partial class IDWriteTextLayout
     {
         get
         {
-            GetLineMetrics(null, out int actualLineCount);
+            GetLineMetrics(null, out uint actualLineCount);
             var lineMetrics = new LineMetrics[actualLineCount];
             if (actualLineCount > 0)
                 GetLineMetrics(lineMetrics, out _).CheckError();
@@ -24,7 +24,7 @@ public unsafe partial class IDWriteTextLayout
     {
         get
         {
-            GetClusterMetrics(null, out int actualClusterCount);
+            GetClusterMetrics(null, out uint actualClusterCount);
             var clusterMetrics = new ClusterMetrics[actualClusterCount];
             if (actualClusterCount > 0)
                 GetClusterMetrics(clusterMetrics, out _).CheckError();
@@ -33,33 +33,33 @@ public unsafe partial class IDWriteTextLayout
         }
     }
 
-    public string GetFontFamilyName(int currentPosition, out TextRange textRange)
+    public string GetFontFamilyName(uint currentPosition, out TextRange textRange)
     {
-        GetFontFamilyNameLength(currentPosition, out int nameLength, out textRange);
+        GetFontFamilyNameLength(currentPosition, out uint nameLength, out textRange);
 
-        int bufferLength = nameLength + 1;
-        char* fontFamilyNamePtr = stackalloc char[bufferLength];
+        uint bufferLength = nameLength + 1;
+        char* fontFamilyNamePtr = stackalloc char[(int)bufferLength];
 
         textRange = GetFontFamilyName(currentPosition, new IntPtr(fontFamilyNamePtr), bufferLength);
 
-        return new string(fontFamilyNamePtr, 0, nameLength);
+        return new string(fontFamilyNamePtr, 0, (int)nameLength);
     }
 
-    public unsafe string GetLocaleName(int currentPosition, out TextRange textRange)
+    public unsafe string GetLocaleName(uint currentPosition, out TextRange textRange)
     {
-        GetLocaleNameLength(currentPosition, out int nameLength, out textRange);
+        GetLocaleNameLength(currentPosition, out uint nameLength, out textRange);
 
-        int bufferLength = nameLength + 1;
-        char* localeNamePtr = stackalloc char[bufferLength];
+        uint bufferLength = nameLength + 1;
+        char* localeNamePtr = stackalloc char[(int)bufferLength];
 
         textRange = GetLocaleName(currentPosition, new IntPtr(localeNamePtr), bufferLength);
 
-        return new string(localeNamePtr, 0, nameLength);
+        return new string(localeNamePtr, 0, (int)nameLength);
     }
 
-    public HitTestMetrics[] HitTestTextRange(int textPosition, int textLength, float originX, float originY)
+    public HitTestMetrics[] HitTestTextRange(uint textPosition, uint textLength, float originX, float originY)
     {
-        HitTestTextRange(textPosition, textLength, originX, originY, null, out int actualHitTestMetricsCount);
+        HitTestTextRange(textPosition, textLength, originX, originY, null, out uint actualHitTestMetricsCount);
 
         var hitTestMetrics = new HitTestMetrics[actualHitTestMetricsCount];
         if (actualHitTestMetricsCount > 0)
@@ -80,13 +80,13 @@ public unsafe partial class IDWriteTextLayout
         return hitTestMetrics;
     }
 
-    public HitTestMetrics HitTestTextPosition(int textPosition, bool isTrailingHit)
+    public HitTestMetrics HitTestTextPosition(uint textPosition, bool isTrailingHit)
     {
         HitTestTextPosition(textPosition, isTrailingHit, out _, out _, out HitTestMetrics hitTestMetrics);
         return hitTestMetrics;
     }
 
-    public HitTestMetrics HitTestTextPosition(int textPosition, bool isTrailingHit, out Vector2 point)
+    public HitTestMetrics HitTestTextPosition(uint textPosition, bool isTrailingHit, out Vector2 point)
     {
         HitTestTextPosition(textPosition, isTrailingHit, out float x, out float y, out HitTestMetrics hitTestMetrics);
         point = new(x, y);

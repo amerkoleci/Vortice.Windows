@@ -23,9 +23,9 @@ public partial struct Texture1DDescription
     /// <param name="miscFlags">The <see cref="ResourceOptionFlags"/> that identify other, less common resource options. </param>
     public Texture1DDescription(
         Format format,
-        int width,
-        int arraySize = 1,
-        int mipLevels = 0,
+        uint width,
+        uint arraySize = 1,
+        uint mipLevels = 0,
         BindFlags bindFlags = BindFlags.ShaderResource,
         ResourceUsage usage = ResourceUsage.Default,
         CpuAccessFlags cpuAccessFlags = CpuAccessFlags.None,
@@ -55,8 +55,8 @@ public partial struct Texture1DDescription
     /// </summary>
     /// <param name="mipLevel"></param>
     /// <returns></returns>
-    public int GetWidth(int mipLevel = 0)
+    public uint GetWidth(uint mipLevel = 0)
     {
-        return (mipLevel == 0) || (mipLevel < MipLevels) ? Math.Max(1, Width >> mipLevel) : 0;
+        return (mipLevel == 0) || (mipLevel < MipLevels) ? Math.Max(1, Width >> (int)mipLevel) : 0;
     }
 }

@@ -18,8 +18,6 @@
   </extension>
 
   <bindings>
-    <bind from="uint32_t" to="System.Int32" />
-    <bind from="UINT32" to="System.Int32" />
     <bind from="IMalloc" to="SharpGen.Runtime.ComObject" />
     <bind from="DxcValidatorFlags" to="Vortice.Dxc.DxcValidatorFlags" />
     <bind from="DxcVersionInfoFlags" to="Vortice.Dxc.DxcVersionInfoFlags" />

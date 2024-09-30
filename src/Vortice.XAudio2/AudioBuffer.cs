@@ -9,7 +9,7 @@ public unsafe partial class AudioBuffer : IDisposable
 {
     private readonly bool _ownsBuffer;
 
-    private AudioBuffer(BufferFlags flags, void* data, int sizeInBytes, bool ownsBuffer)
+    private AudioBuffer(BufferFlags flags, void* data, uint sizeInBytes, bool ownsBuffer)
     {
         Flags = flags;
         AudioBytes = sizeInBytes;
@@ -23,7 +23,7 @@ public unsafe partial class AudioBuffer : IDisposable
     /// <param name="data">The data pointer.</param>
     /// <param name="sizeInBytes">Size in bytes of the buffer.</param>
     /// <param name="flags">The <see cref="BufferFlags"/> flags.</param>
-    public AudioBuffer(IntPtr data, int sizeInBytes, BufferFlags flags = BufferFlags.None)
+    public AudioBuffer(IntPtr data, uint sizeInBytes, BufferFlags flags = BufferFlags.None)
     {
         Flags = flags;
         AudioBytes = sizeInBytes;
@@ -31,7 +31,7 @@ public unsafe partial class AudioBuffer : IDisposable
         _ownsBuffer = false;
     }
 
-    public AudioBuffer(int sizeInBytes, BufferFlags flags = BufferFlags.EndOfStream)
+    public AudioBuffer(uint sizeInBytes, BufferFlags flags = BufferFlags.EndOfStream)
     {
         Flags = flags;
         AudioBytes = sizeInBytes;
@@ -42,7 +42,7 @@ public unsafe partial class AudioBuffer : IDisposable
     public AudioBuffer(byte[] data, BufferFlags flags = BufferFlags.EndOfStream)
     {
         Flags = flags;
-        AudioBytes = data.Length;
+        AudioBytes = (uint)data.Length;
         AudioDataPointer = (IntPtr)MemoryHelpers.AllocateMemory((nuint)data.Length);
         fixed (void* dataPtr = &data[0])
         {
@@ -65,7 +65,7 @@ public unsafe partial class AudioBuffer : IDisposable
         MemoryHelpers.CopyMemory(AudioDataPointer, stream.PositionPointer, length);
 
         Flags = flags;
-        AudioBytes = (int)stream.Length;
+        AudioBytes = (uint)stream.Length;
         _ownsBuffer = true;
     }
 
@@ -77,8 +77,8 @@ public unsafe partial class AudioBuffer : IDisposable
 
     public static AudioBuffer Create<T>(ReadOnlySpan<T> data, BufferFlags flags = BufferFlags.EndOfStream) where T : unmanaged
     {
-        int sizeInBytes = data.Length * sizeof(T);
-        void* dataPtr = MemoryHelpers.AllocateMemory((nuint)sizeInBytes);
+        uint sizeInBytes = (uint)(data.Length * sizeof(T));
+        void* dataPtr = MemoryHelpers.AllocateMemory(sizeInBytes);
         MemoryHelpers.CopyMemory(dataPtr, data);
         return new AudioBuffer(flags, dataPtr, sizeInBytes, true);
     }
@@ -93,10 +93,10 @@ public unsafe partial class AudioBuffer : IDisposable
         }
     }
 
-    public Span<byte> AsSpan() => new(AudioDataPointer.ToPointer(), AudioBytes);
+    public Span<byte> AsSpan() => new(AudioDataPointer.ToPointer(), (int)AudioBytes);
 
     public Span<T> AsSpan<T>() where T : unmanaged
     {
-        return new(AudioDataPointer.ToPointer(), AudioBytes / sizeof(T));
+        return new(AudioDataPointer.ToPointer(), (int)(AudioBytes / sizeof(T)));
     }
 }

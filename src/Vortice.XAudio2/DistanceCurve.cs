@@ -8,16 +8,16 @@ namespace Vortice.XAudio2;
 
 internal unsafe partial struct DistanceCurve
 {
-    public static IntPtr FromCurvePoints(CurvePoint[]? points)
+    public static IntPtr FromCurvePoints(Span<CurvePoint> points)
     {
         if (points == null || points.Length == 0)
             return IntPtr.Zero;
 
         var pDistanceCurve = (DistanceCurve*)Marshal.AllocHGlobal(Unsafe.SizeOf<DistanceCurve>() + points.Length * Unsafe.SizeOf<CurvePoint>());
         var pPoints = (CurvePoint*)&pDistanceCurve[1];
-        pDistanceCurve->PointCount = points.Length;
+        pDistanceCurve->PointCount = (uint)points.Length;
         pDistanceCurve->PointsPointer = new IntPtr(pPoints);
-        MemoryHelpers.Write(pDistanceCurve->PointsPointer, new Span<CurvePoint>(points), points.Length);
+        MemoryHelpers.Write(pDistanceCurve->PointsPointer, points, points.Length);
         return (IntPtr)pDistanceCurve;
     }
 }

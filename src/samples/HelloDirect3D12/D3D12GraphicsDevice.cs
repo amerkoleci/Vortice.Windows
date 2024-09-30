@@ -47,7 +47,7 @@ public sealed unsafe partial class D3D12GraphicsDevice : IGraphicsDevice
     private readonly AutoResetEvent _frameFenceEvent;
     private ulong _frameCount;
     private ulong _frameIndex;
-    private int _backbufferIndex;
+    private uint _backbufferIndex;
 
     public bool UseRenderPass { get; set; } = true;
 
@@ -87,7 +87,7 @@ public sealed unsafe partial class D3D12GraphicsDevice : IGraphicsDevice
         DXGIFactory = CreateDXGIFactory2<IDXGIFactory4>(validation);
 
         ID3D12Device2? d3d12Device = default;
-        for (int adapterIndex = 0;
+        for (uint adapterIndex = 0;
             DXGIFactory.EnumAdapters1(adapterIndex, out IDXGIAdapter1? adapter).Success;
             adapterIndex++)
         {
@@ -137,8 +137,8 @@ public sealed unsafe partial class D3D12GraphicsDevice : IGraphicsDevice
         SwapChainDescription1 swapChainDesc = new()
         {
             BufferCount = RenderLatency,
-            Width = window.ClientSize.Width,
-            Height = window.ClientSize.Height,
+            Width = (uint)window.ClientSize.Width,
+            Height = (uint)window.ClientSize.Height,
             Format = Format.R8G8B8A8_UNorm,
             BufferUsage = Usage.RenderTargetOutput,
             SwapEffect = SwapEffect.FlipDiscard,
@@ -190,7 +190,7 @@ public sealed unsafe partial class D3D12GraphicsDevice : IGraphicsDevice
 
             // Create a RTV for each frame.
             _renderTargets = new ID3D12Resource[RenderLatency];
-            for (int i = 0; i < RenderLatency; i++)
+            for (uint i = 0; i < RenderLatency; i++)
             {
                 _renderTargets[i] = SwapChain.GetBuffer<ID3D12Resource>(i);
                 Device.CreateRenderTargetView(_renderTargets[i], null, rtvHandle);
@@ -369,7 +369,7 @@ public sealed unsafe partial class D3D12GraphicsDevice : IGraphicsDevice
         // Indicate that the back buffer will be used as a render target.
         _commandList.ResourceBarrierTransition(_renderTargets[_backbufferIndex], ResourceStates.Present, ResourceStates.RenderTarget);
 
-        CpuDescriptorHandle rtvDescriptor = new(_rtvDescriptorHeap.GetCPUDescriptorHandleForHeapStart(), _backbufferIndex, _rtvDescriptorSize);
+        CpuDescriptorHandle rtvDescriptor = new(_rtvDescriptorHeap.GetCPUDescriptorHandleForHeapStart(), (int)_backbufferIndex, _rtvDescriptorSize);
         CpuDescriptorHandle? dsvDescriptor = _dsvDescriptorHeap != null ? _dsvDescriptorHeap.GetCPUDescriptorHandleForHeapStart() : null;
 
         Color4 clearColor = Colors.CornflowerBlue;

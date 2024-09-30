@@ -20,7 +20,7 @@ public unsafe partial class IDxcCompiler2
             entryPoint,
             targetProfile,
             arguments,
-            arguments?.Length ?? 0,
+            (uint)(arguments?.Length ?? 0),
             defines,
             includeHandler,
             out debugBlobName, out debugBlob);
@@ -31,7 +31,7 @@ public unsafe partial class IDxcCompiler2
         string entryPoint,
         string targetProfile,
         string[] arguments,
-        int argumentsCount,
+        uint argumentsCount,
         DxcDefine[] defines,
         IDxcIncludeHandler includeHandler,
         out string? debugBlobName, out IDxcBlob? debugBlob)
@@ -89,7 +89,7 @@ public unsafe partial class IDxcCompiler2
             entryPoint,
             targetProfile,
             arguments,
-            arguments?.Length ?? 0,
+            (uint)(arguments?.Length ?? 0),
             defines,
             includeHandler,
             out result, out debugBlobName, out debugBlob);
@@ -100,7 +100,7 @@ public unsafe partial class IDxcCompiler2
                                    string entryPoint,
                                    string targetProfile,
                                    string[] arguments,
-                                   int argumentsCount,
+                                   uint argumentsCount,
                                    DxcDefine[] defines,
                                    IDxcIncludeHandler includeHandler,
                                    out IDxcOperationResult? result,
@@ -120,7 +120,8 @@ public unsafe partial class IDxcCompiler2
 
             Result hr = CompileWithDebug(source, sourceName,
                 entryPoint, targetProfile,
-                argumentsPtr.Handle, argumentsCount,
+                argumentsPtr.Handle,
+                argumentsCount,
                 defines,
                 includeHandler,
                 out result,

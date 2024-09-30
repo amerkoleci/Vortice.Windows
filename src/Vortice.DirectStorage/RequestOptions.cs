@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.DirectStorage;
@@ -7,12 +7,12 @@ namespace Vortice.DirectStorage;
 public partial struct RequestOptions
 {
     [FieldOffset(0)]
-    internal CompressionFormat _CompressionFormat;
+    internal CompressionFormat _compressionFormat;
 
     public CompressionFormat CompressionFormat
     {
-        get => _CompressionFormat;
-        set => _CompressionFormat = value;
+        get => _compressionFormat;
+        set => _compressionFormat = value;
     }
 
     [FieldOffset(8)]

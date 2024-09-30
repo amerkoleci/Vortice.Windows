@@ -14,7 +14,7 @@ public static class Program
 
     static void Main()
     {
-        int userIndex = 0;
+        uint userIndex = 0;
 
         while (true)
         {
@@ -26,7 +26,7 @@ public static class Program
                         return;
 
                     case char c when c >= '1' && c <= '4':
-                        userIndex = c - '1';
+                        userIndex = (uint)(c - '1');
                         break;
                 }
             }

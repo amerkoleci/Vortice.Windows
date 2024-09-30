@@ -1,4 +1,4 @@
-// Copyright (c) Amer Koleci and contributors.
+// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 using System.Drawing;
@@ -18,14 +18,14 @@ public partial class ID2D1DeviceContext
         return CreateBitmap(size, IntPtr.Zero, 0, bitmapProperties);
     }
 
-    public ID2D1Bitmap1 CreateBitmap(in SizeI size, IntPtr sourceData, int pitch)
+    public ID2D1Bitmap1 CreateBitmap(in SizeI size, IntPtr sourceData, uint pitch)
     {
         return CreateBitmap(size, sourceData, pitch, new BitmapProperties1(PixelFormat.Unknown));
     }
 
     public ID2D1ColorContext CreateColorContext(ColorSpace space, byte[] profile)
     {
-        return CreateColorContext(space, profile, profile.Length);
+        return CreateColorContext(space, profile, (uint)profile.Length);
     }
 
     public void DrawBitmap(ID2D1Bitmap bitmap, float opacity, InterpolationMode interpolationMode)
@@ -105,36 +105,36 @@ public partial class ID2D1DeviceContext
             return invalidRects;
         }
 
-        GetEffectInvalidRectangles(effect, invalidRects, invalidRects.Length);
+        GetEffectInvalidRectangles(effect, invalidRects, (uint)invalidRects.Length);
         return invalidRects;
     }
 
     public void GetEffectInvalidRectangles(ID2D1Effect effect, RawRectF[] invalidRects)
     {
-        GetEffectInvalidRectangles(effect, invalidRects, invalidRects.Length);
+        GetEffectInvalidRectangles(effect, invalidRects, (uint)invalidRects.Length);
     }
 
     public RawRectF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, EffectInputDescription[] inputDescriptions)
     {
         var result = new RawRectF[inputDescriptions.Length];
-        GetEffectRequiredInputRectangles(renderEffect, null, inputDescriptions, result, inputDescriptions.Length);
+        GetEffectRequiredInputRectangles(renderEffect, null, inputDescriptions, result, (uint)inputDescriptions.Length);
         return result;
     }
 
     public RawRectF[] GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, RawRectF renderImageRectangle, EffectInputDescription[] inputDescriptions)
     {
         var result = new RawRectF[inputDescriptions.Length];
-        GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, result, inputDescriptions.Length);
+        GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, result, (uint)inputDescriptions.Length);
         return result;
     }
 
     public void GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, EffectInputDescription[] inputDescriptions, RawRectF[] requiredInputRects)
     {
-        GetEffectRequiredInputRectangles(renderEffect, null, inputDescriptions, requiredInputRects, inputDescriptions.Length);
+        GetEffectRequiredInputRectangles(renderEffect, null, inputDescriptions, requiredInputRects, (uint)inputDescriptions.Length);
     }
 
     public void GetEffectRequiredInputRectangles(ID2D1Effect renderEffect, RawRectF renderImageRectangle, EffectInputDescription[] inputDescriptions, RawRectF[] requiredInputRects)
     {
-        GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, requiredInputRects, inputDescriptions.Length);
+        GetEffectRequiredInputRectangles(renderEffect, renderImageRectangle, inputDescriptions, requiredInputRects, (uint)inputDescriptions.Length);
     }
 }

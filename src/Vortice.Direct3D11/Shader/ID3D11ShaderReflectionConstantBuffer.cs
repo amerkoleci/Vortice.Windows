@@ -14,7 +14,7 @@ public partial class ID3D11ShaderReflectionConstantBuffer
             if (_variables == null)
             {
                 _variables = new ID3D11ShaderReflectionVariable[Description.VariableCount];
-                for (int i = 0; i < Description.VariableCount; i++)
+                for (uint i = 0; i < Description.VariableCount; i++)
                 {
                     _variables[i] = GetVariableByIndex(i);
                 }

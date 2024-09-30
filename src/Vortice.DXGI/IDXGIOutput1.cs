@@ -7,12 +7,12 @@ public partial class IDXGIOutput1
 {
     public ModeDescription1[] GetDisplayModeList1(Format format, DisplayModeEnumerationFlags flags)
     {
-        int count = 0;
-        GetDisplayModeList1(format, (int)flags, ref count, null);
+        uint count = 0;
+        GetDisplayModeList1(format, (uint)flags, ref count, null);
         var result = new ModeDescription1[count];
         if (count > 0)
         {
-            GetDisplayModeList1(format, (int)flags, ref count, result);
+            GetDisplayModeList1(format, (uint)flags, ref count, result);
         }
 
         return result;

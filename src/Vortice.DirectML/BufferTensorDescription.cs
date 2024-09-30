@@ -17,23 +17,23 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     public TensorFlags Flags { get; set; }
 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::Sizes']/*" />
-    public int[] Sizes { get; set; }
+    public uint[] Sizes { get; set; }
 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::Strides']/*" />
-    public int[]? Strides { get; set; }
+    public uint[]? Strides { get; set; }
 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::TotalTensorSizeInBytes']/*" />
-    public long TotalTensorSizeInBytes { get; set; }
+    public ulong TotalTensorSizeInBytes { get; set; }
 
     /// <include file="Documentation.xml" path="/comments/comment[@id='DML_BUFFER_TENSOR_DESC::GuaranteedBaseOffsetAlignment']/*" />
-    public int GuaranteedBaseOffsetAlignment { get; set; }
+    public uint GuaranteedBaseOffsetAlignment { get; set; }
 
     /// <summary>
     /// Calculates the minimum implied tensor size in bytes given the data type, sizes, and
     /// strides for this <see cref="BufferTensorDescription"/>.
     /// </summary>
     /// <returns></returns>
-    public readonly long CalculateMinimumImpliedSize() => CalculateMinimumImpliedSize(DataType, Sizes, Strides);
+    public readonly ulong CalculateMinimumImpliedSize() => CalculateMinimumImpliedSize(DataType, Sizes, Strides);
 
     /// <summary>
     /// Calculates the minimum implied tensor size in bytes given the data type, sizes, and
@@ -46,9 +46,7 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     /// Based on the DirectMLX.h DMLCalcBufferTensorSize function. See
     /// <see href="https://github.com/microsoft/DirectML/blob/master/Libraries/DirectMLX.h"/>.
     /// </remarks>
-    public static long CalculateMinimumImpliedSize(
-        TensorDataType dataType,
-        params int[] sizes)
+    public static ulong CalculateMinimumImpliedSize(TensorDataType dataType, params uint[] sizes)
     {
         return CalculateMinimumImpliedSize(dataType, sizes, null);
     }
@@ -65,9 +63,9 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     /// Based on the DirectMLX.h DMLCalcBufferTensorSize function. See
     /// <see href="https://github.com/microsoft/DirectML/blob/master/Libraries/DirectMLX.h"/>.
     /// </remarks>
-    public static long CalculateMinimumImpliedSize(TensorDataType dataType, int[] sizes, int[]? strides = null)
+    public static ulong CalculateMinimumImpliedSize(TensorDataType dataType, uint[] sizes, uint[]? strides = null)
     {
-        var elementSizeInBytes = dataType switch
+        uint elementSizeInBytes = dataType switch
         {
             TensorDataType.Uint64 or TensorDataType.Int64 or TensorDataType.Float64 => 8,
             TensorDataType.Uint32 or TensorDataType.Int32 or TensorDataType.Float32 => 4,
@@ -76,11 +74,11 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
             _ => 0
         };
 
-        long minimumImpliedSizeInBytes;
+        ulong minimumImpliedSizeInBytes;
         if (strides == null)
         {
             minimumImpliedSizeInBytes = 1;
-            for (var i = 0; i < sizes.Length; i++)
+            for (int i = 0; i < sizes.Length; i++)
             {
                 minimumImpliedSizeInBytes *= sizes[i];
             }
@@ -88,8 +86,8 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
         }
         else
         {
-            var indexOfLastElement = 0;
-            for (var i = 0; i < sizes.Length; i++)
+            uint indexOfLastElement = 0;
+            for (int i = 0; i < sizes.Length; i++)
             {
                 indexOfLastElement += (sizes[i] - 1) * strides[i];
             }
@@ -97,7 +95,7 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
         }
 
         // Round up to the nearest 4 bytes.
-        return minimumImpliedSizeInBytes + 3 & ~3L;
+        return (minimumImpliedSizeInBytes + 3) & ~3ul;
     }
 
     #region Marshal
@@ -106,11 +104,11 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
     {
         public TensorDataType DataType;
         public TensorFlags Flags;
-        public int DimensionCount;
-        public int* PSizes;
-        public int* PStrides;
-        public long TotalTensorSizeInBytes;
-        public int GuaranteedBaseOffsetAlignment;
+        public uint DimensionCount;
+        public uint* PSizes;
+        public uint* PStrides;
+        public ulong TotalTensorSizeInBytes;
+        public uint GuaranteedBaseOffsetAlignment;
     }
 
     unsafe IntPtr ITensorDescriptionMarshal.__MarshalAlloc()
@@ -119,7 +117,7 @@ public partial struct BufferTensorDescription : ITensorDescription, ITensorDescr
 
         @ref->DataType = DataType;
         @ref->Flags = Flags;
-        @ref->DimensionCount = Sizes.Length;
+        @ref->DimensionCount = (uint)Sizes.Length;
         @ref->PSizes = UnsafeUtilities.AllocToPointer(Sizes);
         @ref->PStrides = default;
         if (Strides != null)

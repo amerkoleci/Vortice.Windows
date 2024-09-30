@@ -10,7 +10,7 @@ namespace Vortice.Direct3D11;
 /// </summary>
 public partial struct InputElementDescription : IEquatable<InputElementDescription>
 {
-    public const int AppendAligned = -1;
+    public const uint AppendAligned = 0xffffffff;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InputElementDescription"/> struct.
@@ -22,7 +22,7 @@ public partial struct InputElementDescription : IEquatable<InputElementDescripti
     /// <param name="slot">The input-assembler slot.</param>
     /// <param name="slotClass">A <see cref="InputClassification"/> value that identifies the input data class for a single input slot.</param>
     /// <param name="stepRate">The number of instances to draw using the same per-instance data before advancing in the buffer by one element. This value must be 0 for an element that contains per-vertex data (the slot class is set to the <see cref="InputClassification.PerVertexData"/> member of <see cref="InputClassification"/>).</param>
-    public InputElementDescription(string semanticName, int semanticIndex, Format format, int offset, int slot, InputClassification slotClass, int stepRate)
+    public InputElementDescription(string semanticName, uint semanticIndex, Format format, uint offset, uint slot, InputClassification slotClass, uint stepRate)
     {
         SemanticName = semanticName;
         SemanticIndex = semanticIndex;
@@ -41,7 +41,7 @@ public partial struct InputElementDescription : IEquatable<InputElementDescripti
     /// <param name="format">The <see cref="Vortice.DXGI.Format"/> value that specifies the format of the element data.</param>
     /// <param name="offset">Offset, in bytes, between each element. Use <see cref="AppendAligned"/> (0xffffffff) for convenience to define the current element directly after the previous one, including any packing if necessary.</param>
     /// <param name="slot">The input-assembler slot.</param>
-    public InputElementDescription(string semanticName, int semanticIndex, Format format, int offset, int slot)
+    public InputElementDescription(string semanticName, uint semanticIndex, Format format, uint offset, uint slot)
     {
         SemanticName = semanticName;
         SemanticIndex = semanticIndex;
@@ -59,7 +59,7 @@ public partial struct InputElementDescription : IEquatable<InputElementDescripti
     /// <param name="semanticIndex">The semantic index for the element. A semantic index modifies a semantic, with an integer index number. A semantic index is only needed in a case where there is more than one element with the same semantic.</param>
     /// <param name="format">The <see cref="DXGI.Format"/> value that specifies the format of the element data.</param>
     /// <param name="slot">The input-assembler slot.</param>
-    public InputElementDescription(string semanticName, int semanticIndex, Format format, int slot)
+    public InputElementDescription(string semanticName, uint semanticIndex, Format format, uint slot)
     {
         SemanticName = semanticName;
         SemanticIndex = semanticIndex;
@@ -71,7 +71,7 @@ public partial struct InputElementDescription : IEquatable<InputElementDescripti
     }
 
     /// <inheritdoc/>
-    public override bool Equals(object? obj) => obj is InputElementDescription value && Equals(value);
+    public override bool Equals([NotNullWhen(true)] object? obj) => obj is InputElementDescription value && Equals(value);
 
     /// <summary>
     /// Determines whether the specified <see cref="InputElementDescription"/> is equal to this instance.

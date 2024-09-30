@@ -13,7 +13,7 @@ public partial class X3DAudio
     public const float SpeedOfSound = 343.5f;
 
     private X3DAudioHandle _handle;
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="X3DAudio"/> class.
     /// </summary>
@@ -46,9 +46,9 @@ public partial class X3DAudio
     /// <param name="sourceChannelCount">The source channel count.</param>
     /// <param name="destinationChannelCount">The destination channel count.</param>
     /// <returns>An instance of <see cref="DspSettings"/> class.</returns>
-    public DspSettings Calculate(Listener listener, Emitter emitter, CalculateFlags flags, int sourceChannelCount, int destinationChannelCount)
+    public DspSettings Calculate(Listener listener, Emitter emitter, CalculateFlags flags, uint sourceChannelCount, uint destinationChannelCount)
     {
-        var settings = new DspSettings(sourceChannelCount, destinationChannelCount);
+        DspSettings settings = new(sourceChannelCount, destinationChannelCount);
         Calculate(listener, emitter, flags, settings);
         return settings;
     }

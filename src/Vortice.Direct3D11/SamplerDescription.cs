@@ -38,7 +38,7 @@ public unsafe partial struct SamplerDescription : IEquatable<SamplerDescription>
         TextureAddressMode addressV,
         TextureAddressMode addressW,
         float mipLODBias,
-        int maxAnisotropy,
+        uint maxAnisotropy,
         ComparisonFunction comparisonFunc,
         in Color4 borderColor,
         float minLOD = float.MinValue,
@@ -74,7 +74,7 @@ public unsafe partial struct SamplerDescription : IEquatable<SamplerDescription>
         TextureAddressMode addressV,
         TextureAddressMode addressW,
         float mipLODBias = 0.0f,
-        int maxAnisotropy = 1,
+        uint maxAnisotropy = 1,
         ComparisonFunction comparisonFunc = ComparisonFunction.Never,
         float minLOD = float.MinValue,
         float maxLOD = float.MaxValue)
@@ -105,7 +105,7 @@ public unsafe partial struct SamplerDescription : IEquatable<SamplerDescription>
         Filter filter,
         TextureAddressMode address,
         float mipLODBias = 0.0f,
-        int maxAnisotropy = 1,
+        uint maxAnisotropy = 1,
         ComparisonFunction comparisonFunc = ComparisonFunction.Never,
         float minLOD = float.MinValue,
         float maxLOD = float.MaxValue)
@@ -146,7 +146,7 @@ public unsafe partial struct SamplerDescription : IEquatable<SamplerDescription>
 
     public bool Equals(SamplerDescription other) => this == other;
 
-    public override int GetHashCode()
+    public override readonly int GetHashCode()
     {
         HashCode hashCode = new();
         hashCode.Add(Filter);

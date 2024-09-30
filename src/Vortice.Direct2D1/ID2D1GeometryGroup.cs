@@ -1,4 +1,4 @@
-﻿// Copyright (c) Amer Koleci and contributors.
+﻿// Copyright (c) Amer Koleci and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
 namespace Vortice.Direct2D1;
@@ -10,7 +10,7 @@ public partial class ID2D1GeometryGroup
         return GetSourceGeometry(SourceGeometryCount);
     }
 
-    public ID2D1Geometry[] GetSourceGeometry(int geometriesCount)
+    public ID2D1Geometry[] GetSourceGeometry(uint geometriesCount)
     {
         var geometries = new ID2D1Geometry[geometriesCount];
         GetSourceGeometries(geometries, geometriesCount);
@@ -19,6 +19,6 @@ public partial class ID2D1GeometryGroup
 
     public void GetSourceGeometry(ID2D1Geometry[] geometries)
     {
-        GetSourceGeometries(geometries, geometries.Length);
+        GetSourceGeometries(geometries, (uint)geometries.Length);
     }
 }

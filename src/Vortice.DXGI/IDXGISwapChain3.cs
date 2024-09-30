@@ -16,7 +16,7 @@ public partial class IDXGISwapChain3
         return colorSpaceSupport;
     }
 
-    public Result ResizeBuffers1(int bufferCount, int width, int height, Format format = Format.Unknown, SwapChainFlags swapChainFlags = SwapChainFlags.None)
+    public Result ResizeBuffers1(uint bufferCount, uint width, uint height, Format format = Format.Unknown, SwapChainFlags swapChainFlags = SwapChainFlags.None)
     {
         return ResizeBuffers1(bufferCount, width, height, format, swapChainFlags, null, null);
     }
