@@ -65,7 +65,7 @@ public unsafe partial class IXAudio2Voice
     /// <param name="outputVoices">
     /// Array of <see cref="VoiceSendDescriptor"/> structure pointers to destination voices. If outputVoices is null, the voice will send its output to the current mastering voice. To set the voice to not send its output anywhere set an array of length 0. All of the voices in a send list must have the same input sample rate, see {{XAudio2 Sample Rate Conversions}} for additional information.
     /// </param>
-    public Result SetOutputVoices(params Span<VoiceSendDescriptor> outputVoices)
+    public Result SetOutputVoices(Span<VoiceSendDescriptor> outputVoices)
     {
         if (outputVoices.Length > 0)
         {
