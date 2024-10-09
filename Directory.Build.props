@@ -16,8 +16,8 @@
 
   <!-- Version -->
   <PropertyGroup>
-    <VersionPrefix>3.6.1</VersionPrefix>
-    <VersionSuffix Condition="'$(VersionSuffix)' == ''">beta</VersionSuffix>
+    <VersionPrefix>3.6.2</VersionPrefix>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''"></VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup>

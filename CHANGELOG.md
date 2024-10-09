@@ -1,9 +1,9 @@
 # Changelog
 
-Current Stable Release:    3.5.0 (March 2024)
+Current Stable Release:    3.6.0 (October 2024)
 
 -----------------------------------------------
-Release:     3.6.X (August 2024)
+Release:     3.6.2 (October 2024)
 - [ENH] Breaking change: Map C++ UINT, UINT32, uint32_t to UInt32 in C# not Int32 as before_
 - [ENH] Direct3D12 and DirectML: Use uint instead of int remap.
 - [ENH] DirectML : Update to 1.15.2.
@@ -19,7 +19,7 @@ Release:     3.6.X (August 2024)
 - [ENH] Update DirectX Headers to 1.614.0
 
 -----------------------------------------------
-Release:     3.5.X (March 2024)
+Release:     3.5.0 (March 2024)
 
 - [ENH] Update DirectX Headers to 1.613.0
 - [ENH] Update DX Compiler release for March 2024
