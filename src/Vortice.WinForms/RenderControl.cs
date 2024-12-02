@@ -60,8 +60,8 @@ public class RenderControl : UserControl
             _fontForDesignMode ??= new Font("Calibri", 24, FontStyle.Regular);
 
             e.Graphics.Clear(Color.WhiteSmoke);
-            string text = "SharpDX RenderControl";
-            var sizeText = e.Graphics.MeasureString(text, _fontForDesignMode!);
+            string text = "Vortice RenderControl";
+            SizeF sizeText = e.Graphics.MeasureString(text, _fontForDesignMode!);
 
             e.Graphics.DrawString(text, _fontForDesignMode!, new SolidBrush(Color.Black), (Width - sizeText.Width) / 2, (Height - sizeText.Height) / 2);
         }

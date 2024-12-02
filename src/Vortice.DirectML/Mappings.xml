@@ -5,7 +5,7 @@
   <depends>Vortice.DXGI</depends>
   <depends>Vortice.Direct3D12</depends>
 
-  <sdk name="WindowsSdk" version="10.0.22621.0" />
+  <sdk name="WindowsSdk" version="10.0.26100.0" />
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 

@@ -3,7 +3,7 @@
   <namespace>Vortice.MediaFoundation</namespace>
   <depends>Vortice.DirectX</depends>
 
-  <sdk name="WindowsSdk" version="10.0.22621.0" />
+  <sdk name="WindowsSdk" version="10.0.26100.0" />
   <sdk name="StdLib" />
 
   <!--<include file="uuids.h" attach="true"/>-->

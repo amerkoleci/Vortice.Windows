@@ -3,8 +3,8 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net8.0-windows10.0.19041</TargetFrameworks>
-    <Description>A .NET bindings for DXGI</Description>
+    <TargetFrameworks>net8.0;net9.0;net8.0-windows10.0.22621</TargetFrameworks>
+    <Description>DXGI bindings</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-windows</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;net9.0-windows</TargetFrameworks>
     <RootNamespace>Vortice.WinForms</RootNamespace>
-    <Description>WinForms integration.</Description>
+    <Description>Direct3D11 WinForms integration</Description>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 

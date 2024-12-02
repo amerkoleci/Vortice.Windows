@@ -3,8 +3,8 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Description>D3DCompiler bindings.</Description>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Description>D3DCompiler bindings</Description>
   </PropertyGroup>
 
   <ItemGroup>

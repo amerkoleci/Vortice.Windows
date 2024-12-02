@@ -3,8 +3,8 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Description>A .NET wrapper for Microsoft's DirectXShaderCompiler.</Description>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Description>DirectXShaderCompiler (DXC) bindings</Description>
     <RootNamespace>Vortice.Dxc</RootNamespace>
   </PropertyGroup>
 

@@ -3,8 +3,8 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Description>DirectML bindings.</Description>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Description>DirectML bindings</Description>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -28,7 +28,7 @@
     <SharpGenMapping Include="Mappings.xml" />
     <SharpGenExternalDocs Include="Documentation.xml" />
 
-    <Using Include="System.Diagnostics.CodeAnalysis"/>
+    <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Runtime.InteropServices" />
     <Using Include="SharpGen.Runtime" />
     <ProjectReference Include="..\Vortice.DirectX\Vortice.DirectX.csproj" />

@@ -3,8 +3,8 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Description>A .NET bindings for DirectSound</Description>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Description>DirectSound bindings</Description>
   </PropertyGroup>
 
   <ItemGroup>

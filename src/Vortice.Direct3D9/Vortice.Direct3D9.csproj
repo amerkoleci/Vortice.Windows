@@ -3,13 +3,9 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Description>Direct3D9 bindings.</Description>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Description>Direct3D9 bindings</Description>
   </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-    <Compile Remove="Shims/UnscopedRefAttribute.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <Using Include="System.Diagnostics.CodeAnalysis" />

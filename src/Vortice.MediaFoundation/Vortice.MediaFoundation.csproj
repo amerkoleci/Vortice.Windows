@@ -3,8 +3,8 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Description>A .NET bindings for Media Foundation</Description>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Description>Media Foundation bindings</Description>
   </PropertyGroup>
 
   <ItemGroup>

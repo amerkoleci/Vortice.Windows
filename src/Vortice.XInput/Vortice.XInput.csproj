@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <RootNamespace>Vortice.XInput</RootNamespace>
-    <Description>XInput bindings.</Description>
+    <Description>XInput bindings</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,8 +2,8 @@
 <config id="vortice-dxgi" xmlns="urn:SharpGen.Config">
   <namespace>Vortice.DXGI</namespace>
   <depends>Vortice.DirectX</depends>
-  
-  <sdk name="WindowsSdk" version="10.0.22621.0" />
+
+  <sdk name="WindowsSdk" version="10.0.26100.0" />
   <sdk name="StdLib" />
   <include-dir override="true">$(THIS_CONFIG_PATH)/../native/include/directx</include-dir>
 

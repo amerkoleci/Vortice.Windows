@@ -3,8 +3,8 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Description>A .NET bindings for DirectInput</Description>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <Description>DirectInput bindings</Description>
   </PropertyGroup>
 
   <ItemGroup>
