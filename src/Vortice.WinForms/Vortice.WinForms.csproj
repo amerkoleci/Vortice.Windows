@@ -5,6 +5,7 @@
     <RootNamespace>Vortice.WinForms</RootNamespace>
     <Description>Direct3D11 WinForms integration</Description>
     <UseWindowsForms>true</UseWindowsForms>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
