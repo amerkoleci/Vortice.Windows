@@ -1,7 +1,7 @@
 <Project>
   <!-- https://learn.microsoft.com/nuget/consume-packages/central-package-management -->
   <PropertyGroup>
-    <SharpGenVersion>2.3.4-beta</SharpGenVersion>
+    <SharpGenVersion>2.4.0-beta</SharpGenVersion>
   </PropertyGroup>
   
   <ItemGroup>

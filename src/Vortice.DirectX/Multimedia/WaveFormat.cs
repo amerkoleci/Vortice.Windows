@@ -247,9 +247,9 @@ public partial class WaveFormat
     /// </summary>
     /// <param name="rawData">Buffer to the WaveFormat rawdata</param>
     /// <returns>WaveFormat structure</returns>
-    public unsafe static WaveFormat MarshalFrom(byte[] rawData)
+    public unsafe static WaveFormat MarshalFrom(Span<byte> rawData)
     {
-        fixed (void* pRawData = rawData)
+        fixed (byte* pRawData = rawData)
         {
             return MarshalFrom(pRawData);
         }

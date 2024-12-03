@@ -67,11 +67,11 @@ public class RiffChunk
     /// Gets the raw data contained in this chunk.
     /// </summary>
     /// <returns></returns>
-    public byte[] GetData()
+    public Span<byte> GetData()
     {
-        byte[] data = new byte[Size];
+        Span<byte> data = new byte[Size];
         Stream.Position = DataPosition;
-        Stream.Read(data, 0, (int)Size);
+        Stream.ReadExactly(data);
         return data;
     }
 
@@ -85,8 +85,8 @@ public class RiffChunk
     public unsafe T GetDataAs<T>() where T : unmanaged
     {
         T value = new();
-        byte[] data = GetData();
-        fixed (void* ptr = data)
+        Span<byte> data = GetData();
+        fixed (byte* ptr = data)
         {
             MemoryHelpers.Read((IntPtr)ptr, ref value);
         }
@@ -105,7 +105,7 @@ public class RiffChunk
             throw new ArgumentException("Size of T is incompatible with size of chunk");
 
         T[] values = new T[Size / sizeOfT];
-        byte[] data = GetData();
+        Span<byte> data = GetData();
         fixed (byte* dataPtr = data)
         {
             MemoryHelpers.Read((IntPtr)dataPtr, values, 0, values.Length);
