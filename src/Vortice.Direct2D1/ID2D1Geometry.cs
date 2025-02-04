@@ -312,7 +312,7 @@ public partial class ID2D1Geometry
     /// <unmanaged>HRESULT ID2D1Geometry::StrokeContainsPoint([None] D2D1_POINT_2F point,[None] float strokeWidth,[In, Optional] ID2D1StrokeStyle* strokeStyle,[In, Optional] const D2D1_MATRIX_3X2_F* worldTransform,[None] float flatteningTolerance,[Out] BOOL* contains)</unmanaged>
     public bool StrokeContainsPoint(Vector2 point, float strokeWidth, ID2D1StrokeStyle strokeStyle, Matrix3x2 transform, float flatteningTolerance)
     {
-        return StrokeContainsPoint(point, strokeWidth, strokeStyle, transform, flatteningTolerance);
+        return StrokeContainsPoint(point, strokeWidth, strokeStyle, (Matrix3x2?)transform, flatteningTolerance);
     }
 
     /// <summary>	
