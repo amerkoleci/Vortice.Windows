@@ -18,7 +18,7 @@ public sealed partial class Window
     private const int CW_USEDEFAULT = unchecked((int)0x80000000);
     private HWND hWnd;
 
-    public nint Handle => hWnd.Value;
+    public unsafe nint Handle => (nint)hWnd.Value;
 
     private unsafe void PlatformConstruct()
     {
@@ -99,7 +99,7 @@ public sealed partial class Window
             null
         );
 
-        if (hWnd.Value == IntPtr.Zero)
+        if (hWnd.Value == null)
         {
             return;
         }

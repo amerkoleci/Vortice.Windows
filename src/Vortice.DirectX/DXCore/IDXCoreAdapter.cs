@@ -51,7 +51,7 @@ public unsafe partial class IDXCoreAdapter
 
     public nuint GetPropertySize(AdapterProperty property)
     {
-        GetPropertySize(property, out PointerUSize propertySize).CheckError();
+        GetPropertySize(property, out nuint propertySize).CheckError();
         return propertySize;
     }
 
@@ -64,7 +64,7 @@ public unsafe partial class IDXCoreAdapter
 
     public string GetStringProperty(AdapterProperty property)
     {
-        GetPropertySize(property, out PointerUSize propertySize).CheckError();
+        GetPropertySize(property, out nuint propertySize).CheckError();
         byte* strBytes = stackalloc byte[(int)((uint)propertySize)];
         GetProperty(property, propertySize, strBytes).CheckError();
         return System.Text.Encoding.UTF8.GetString(strBytes, (int)((uint)propertySize - 1));
