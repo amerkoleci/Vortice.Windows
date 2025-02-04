@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  
   <Import Project="$(MSBuildThisFileDirectory)..\Directory.Build.props" />
 
   <ItemGroup>

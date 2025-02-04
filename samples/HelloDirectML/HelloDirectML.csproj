@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
-    <ProjectReference Include="..\..\Vortice.DirectML\Vortice.DirectML.csproj" />
-    <ProjectReference Include="..\..\Vortice.Dxc\Vortice.Dxc.csproj" />
+    <ProjectReference Include="..\..\src\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
+    <ProjectReference Include="..\..\src\Vortice.DirectML\Vortice.DirectML.csproj" />
+    <ProjectReference Include="..\..\src\Vortice.Dxc\Vortice.Dxc.csproj" />
     <ProjectReference Include="..\Vortice.SampleFramework\Vortice.SampleFramework.csproj" />
   </ItemGroup>
   

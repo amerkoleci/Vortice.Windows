@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Vortice.DirectStorage\Vortice.DirectStorage.csproj" />
+    <ProjectReference Include="..\..\src\Vortice.DirectStorage\Vortice.DirectStorage.csproj" />
   </ItemGroup>
 
   <ItemGroup>

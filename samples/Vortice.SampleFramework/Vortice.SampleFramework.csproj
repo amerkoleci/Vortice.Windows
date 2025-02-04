@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Vortice.DirectX\Vortice.DirectX.csproj" />
+    <ProjectReference Include="..\..\src\Vortice.DirectX\Vortice.DirectX.csproj" />
 
     <PackageReference Include="Microsoft.Windows.CsWin32" PrivateAssets="all" />
   </ItemGroup>

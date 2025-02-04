@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Vortice.MediaFoundation\Vortice.MediaFoundation.csproj" />
+    <ProjectReference Include="..\..\..\src\Vortice.MediaFoundation\Vortice.MediaFoundation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

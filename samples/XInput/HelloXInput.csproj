@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Vortice.XInput\Vortice.XInput.csproj" />
+    <ProjectReference Include="..\..\src\Vortice.XInput\Vortice.XInput.csproj" />
   </ItemGroup>
 
 </Project>

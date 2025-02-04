@@ -5,6 +5,6 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)../../Directory.Build.props" />
+  <Import Project="$(MSBuildThisFileDirectory)../Directory.Build.props" />
 
 </Project>
