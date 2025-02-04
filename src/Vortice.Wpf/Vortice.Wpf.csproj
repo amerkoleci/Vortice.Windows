@@ -5,7 +5,12 @@
     <RootNamespace>Vortice.Wpf</RootNamespace>
     <Description>WPF integration</Description>
     <UseWPF>true</UseWPF>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Vortice.Direct3D11\Vortice.Direct3D11.csproj" />

@@ -4,7 +4,12 @@
     <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <RootNamespace>Vortice.XInput</RootNamespace>
     <Description>XInput bindings</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <ItemGroup>
     <Using Include="System.Runtime.InteropServices" />

@@ -5,7 +5,12 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0;net8.0-windows10.0.22621</TargetFrameworks>
     <Description>DXGI bindings</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <ItemGroup>
     <Using Include="System.Diagnostics.CodeAnalysis" />
