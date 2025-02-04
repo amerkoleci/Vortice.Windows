@@ -2,7 +2,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31815.197
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{0DBFE3CB-7EB1-469D-9F87-40D414DEF509}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		CHANGELOG.md = CHANGELOG.md
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
+		global.json = global.json
+		LICENSE = LICENSE
+		NuGet.config = NuGet.config
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5676F50D-CC54-4DC6-980D-6B68FFF64065}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{736CFFF1-F854-46D3-B033-E43013E35E7C}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectX", "src\Vortice.DirectX\Vortice.DirectX.csproj", "{A9645572-0847-4FDA-90F4-0ACA2C257847}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI", "src\Vortice.DXGI\Vortice.DXGI.csproj", "{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D11", "src\Vortice.Direct3D11\Vortice.Direct3D11.csproj", "{26314741-88F5-4C0A-B34C-09FD714380A7}"
 EndProject
@@ -16,8 +35,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XInput", "src\Vorti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc", "src\Vortice.Dxc\Vortice.Dxc.csproj", "{B9511CB1-AF96-4108-BD05-A85973C60AC9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI", "src\Vortice.DXGI\Vortice.DXGI.csproj", "{2FA22A6B-D85E-4718-8C7D-9BC1A6212B9D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.XAudio2", "src\Vortice.XAudio2\Vortice.XAudio2.csproj", "{D9CBA826-85A4-47B3-BCA2-2D72AA8E2C5D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Direct3D9", "src\Vortice.Direct3D9\Vortice.Direct3D9.csproj", "{B51C4D23-F3EC-4E69-9CEA-76D340BD6749}"
@@ -28,8 +45,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.MediaFoundation", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.WinUI", "src\Vortice.WinUI\Vortice.WinUI.csproj", "{9BF45C22-6C5B-4468-AD57-151D3E73947C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5676F50D-CC54-4DC6-980D-6B68FFF64065}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.SampleFramework", "src\samples\Vortice.SampleFramework\Vortice.SampleFramework.csproj", "{58C451C2-994B-41E6-80C5-975C23D6ECF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D11", "src\samples\HelloDirect3D11\HelloDirect3D11.csproj", "{5368F2D1-D113-4C92-ABBC-A6FC3DE781B2}"
@@ -38,30 +53,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D12", "src\samp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirect3D12Raytracing", "src\samples\HelloDirect3D12Raytracing\HelloDirect3D12Raytracing.csproj", "{61F8DB50-54D3-44C7-A438-FE5201C01DD4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{0DBFE3CB-7EB1-469D-9F87-40D414DEF509}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		CHANGELOG.md = CHANGELOG.md
-		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
-		Directory.Packages.props = Directory.Packages.props
-		global.json = global.json
-		LICENSE = LICENSE
-		NuGet.config = NuGet.config
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Direct2D1", "Direct2D1", "{4E805E04-239C-4352-841F-5175483FE6A0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedTextRenderingApp", "src\samples\AdvancedTextRenderingApp\AdvancedTextRenderingApp.csproj", "{40EEE371-A385-4515-AA81-9C8AA90C4FCE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DirectInput", "src\Vortice.DirectInput\Vortice.DirectInput.csproj", "{BE5235C5-57D4-42A1-B084-0A3DEDABDF15}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{736CFFF1-F854-46D3-B033-E43013E35E7C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc.Test", "src\tests\Vortice.Dxc.Test\Vortice.Dxc.Test.csproj", "{3AE41313-5D1F-4CF7-B3C9-DAECBA9AA846}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3DCompiler.Test", "src\tests\Vortice.D3DCompiler.Test\Vortice.D3DCompiler.Test.csproj", "{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloDirectInput", "src\samples\HelloDirectInput\HelloDirectInput.csproj", "{ABB39205-20AC-4A1F-9066-1339E6F41ED6}"
 EndProject
@@ -91,7 +87,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MediaFoundation", "MediaFou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumerateDevices", "src\samples\MediaFoundation\EnumerateDevices\EnumerateDevices.csproj", "{2678C6FC-569D-4125-BCD9-E02690598A3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI.Tests", "src\tests\Vortice.DXGI.Tests\Vortice.DXGI.Tests.csproj", "{C623E8AC-E35F-4E86-9F65-459E072208C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.DXGI.Tests", "tests\Vortice.DXGI.Tests\Vortice.DXGI.Tests.csproj", "{C623E8AC-E35F-4E86-9F65-459E072208C0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.Dxc.Test", "tests\Vortice.Dxc.Test\Vortice.Dxc.Test.csproj", "{3AE41313-5D1F-4CF7-B3C9-DAECBA9AA846}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vortice.D3DCompiler.Test", "tests\Vortice.D3DCompiler.Test\Vortice.D3DCompiler.Test.csproj", "{FD828EA8-A79B-4DF8-ACC3-23C20C5342FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioPlay", "src\samples\MediaFoundation\AudioPlay\AudioPlay.csproj", "{FD18B683-7DC0-46AA-ABF6-0DFAD35A0DB6}"
 EndProject

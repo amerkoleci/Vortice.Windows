@@ -7,13 +7,13 @@
   <ItemGroup>
     <PackageVersion Include="Vortice.Mathematics" Version="1.9.3" />
     <PackageVersion Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
-    <PackageVersion Include="Vortice.Dxc.Native" Version="1.0.2" />
+    <PackageVersion Include="Vortice.Dxc.Native" Version="1.0.3" />
     
-    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.106" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
+    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.162" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.6.250108002" />
 
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageVersion Include="NUnit" Version="4.2.2" />
+    <PackageVersion Include="NUnit" Version="4.3.2" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.6.0" />
   </ItemGroup>
 
