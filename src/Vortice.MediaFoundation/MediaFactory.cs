@@ -125,6 +125,14 @@ public unsafe partial class MediaFactory
         return new(pSourceActivate, count);
     }
 
+    public static unsafe IMFActivateCollection MFTEnumEx(Guid guidCategory, uint flags, RegisterTypeInfo? inputType, RegisterTypeInfo? outputType)
+    {
+        nint pppMFTActivate;
+        uint pnumMFTActivate;
+        MFTEnumEx(guidCategory, flags, inputType, outputType, out pppMFTActivate, out pnumMFTActivate);
+        return new(pppMFTActivate, pnumMFTActivate);
+    }
+
     public static unsafe IStream MFCreateStreamOnMFByteStream(IMFByteStream byteStream)
     {
         MFCreateStreamOnMFByteStream(byteStream, out IStream stream).CheckError();
