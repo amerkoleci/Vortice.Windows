@@ -33,6 +33,7 @@
     </post>
   </include>
   <include file="d3d9on12.h" namespace="Vortice.Direct3D9on12" attach="true"/>
+  <include file="dxva2api.h" namespace="Vortice.DirectXVA2api" attach="true"/>
 
   <extension>
     <define struct="Vortice.Direct3D9.Rect" sizeof="16" />
@@ -1504,5 +1505,31 @@
     <map param="Direct3DCreate9On12Ex::pOverrideList" type="void" keep-pointers="true"/>
 
     <remove function="D3DPERF.*" />
+
+    <!-- IDirect3DDeviceManager9  -->
+    <remove function="DXVA2CreateDirect3DDeviceManager9" />
+    <remove function="DXVA2CreateVideoService" />
+    <remove struct="DXVA2_VideoProcessBltParams" />
+    <remove interface ="IDirectXVideoAccelerationService" />
+    <remove interface ="IDirectXVideoDecoder" />
+    <remove interface ="IDirectXVideoDecoderService" />
+    <remove interface ="IDirectXVideoMemoryConfiguration" />
+    <remove interface ="IDirectXVideoProcessor" />
+    <remove interface ="IDirectXVideoProcessorService" />
+
+    <map method="IDirect3DDeviceManager9::CloseDeviceHandle" visibility="internal" />
+    <!-- HRESULT CloseDeviceHandle([in] HANDLE hDevice); -->
+    <map method="IDirect3DDeviceManager9::GetVideoService" visibility="internal" />
+    <!-- HRESULT GetVideoService([in] HANDLE hDevice,[in] REFIID riid, [out] void **ppService); -->
+    <map method="IDirect3DDeviceManager9::LockDevice" visibility="internal" />
+    <!-- HRESULT LockDevice([in] HANDLE hDevice, [out] IDirect3DDevice9 **ppDevice, [in]  BOOL fBlock);-->
+    <map method="IDirect3DDeviceManager9::OpenDeviceHandle" visibility="internal" />
+    <!-- HRESULT OpenDeviceHandle([out] HANDLE *phDevice);-->
+    <map method="IDirect3DDeviceManager9::ResetDevice" visibility="internal" />
+    <!-- HRESULT ResetDevice([in] IDirect3DDevice9 *pDevice,[in] UINT resetToken);-->
+    <map method="IDirect3DDeviceManager9::TestDevice" visibility="internal" />
+    <!-- HRESULT TestDevice([in] HANDLE hDevice);-->
+    <map method="IDirect3DDeviceManager9::UnlockDevice" visibility="internal" />
+    <!-- HRESULT UnlockDevice([in] HANDLE hDevice,[in] BOOL fSaveState);-->
   </mapping>
 </config>
