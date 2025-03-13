@@ -3,7 +3,7 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0;net8.0-windows10.0.22621;net8.0-windows10.0.22621</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net8.0-windows10.0.22621</TargetFrameworks>
     <Description>WinUI DirectX bindings</Description>
     <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
     <EnableMsixTooling>true</EnableMsixTooling>
