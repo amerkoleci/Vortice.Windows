@@ -799,26 +799,26 @@ EXTERN_C const IID IID_DirectMLPyTorchCreatorID;
 #define __DirectMLWebNNCreatorID_INTERFACE_DEFINED__
 
 /* interface DirectMLWebNNCreatorID */
-/* [unique][local][object][uuid] */
+/* [unique][local][object][uuid] */ 
 
 
 EXTERN_C const IID IID_DirectMLWebNNCreatorID;
 
 #if defined(__cplusplus) && !defined(CINTERFACE)
-
+    
     MIDL_INTERFACE("fdf01a76-1e11-450f-902b-74f04ea08094")
     DirectMLWebNNCreatorID : public IUnknown
     {
     public:
     };
-
-
+    
+    
 #else 	/* C style interface */
 
     typedef struct DirectMLWebNNCreatorIDVtbl
     {
         BEGIN_INTERFACE
-
+        
         DECLSPEC_XFGVIRT(IUnknown, QueryInterface)
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
             DirectMLWebNNCreatorID * This,
@@ -838,10 +838,10 @@ EXTERN_C const IID IID_DirectMLWebNNCreatorID;
 
     interface DirectMLWebNNCreatorID
     {
-        CONST_VTBL struct DirectMLWebNNCreatorIDVtbl* lpVtbl;
+        CONST_VTBL struct DirectMLWebNNCreatorIDVtbl *lpVtbl;
     };
 
-
+    
 
 #ifdef COBJMACROS
 
@@ -867,7 +867,7 @@ EXTERN_C const IID IID_DirectMLWebNNCreatorID;
 #endif 	/* __DirectMLWebNNCreatorID_INTERFACE_DEFINED__ */
 
 
-/* interface __MIDL_itf_d3d12compatibility_0000_0008 */
+/* interface __MIDL_itf_d3d12compatibility_0000_0009 */
 /* [local] */ 
 
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP | WINAPI_PARTITION_GAMES) */
@@ -880,11 +880,11 @@ DEFINE_GUID(IID_OpenCLOn12CreatorID,0x3f76bb74,0x91b5,0x4a88,0xb1,0x26,0x20,0xca
 DEFINE_GUID(IID_VulkanOn12CreatorID,0xbc806e01,0x3052,0x406c,0xa3,0xe8,0x9f,0xc0,0x7f,0x04,0x8f,0x98);
 DEFINE_GUID(IID_DirectMLTensorFlowCreatorID,0xcb7490ac,0x8a0f,0x44ec,0x9b,0x7b,0x6f,0x4c,0xaf,0xe8,0xe9,0xab);
 DEFINE_GUID(IID_DirectMLPyTorchCreatorID,0xaf029192,0xfba1,0x4b05,0x91,0x16,0x23,0x5e,0x06,0x56,0x03,0x54);
-DEFINE_GUID(IID_DirectMLWebNNCreatorID, 0xfdf01a76, 0x1e11, 0x450f, 0x90, 0x2b, 0x74, 0xf0, 0x4e, 0xa0, 0x80, 0x94);
+DEFINE_GUID(IID_DirectMLWebNNCreatorID,0xfdf01a76,0x1e11,0x450f,0x90,0x2b,0x74,0xf0,0x4e,0xa0,0x80,0x94);
 
 
-extern RPC_IF_HANDLE __MIDL_itf_d3d12compatibility_0000_0008_v0_0_c_ifspec;
-extern RPC_IF_HANDLE __MIDL_itf_d3d12compatibility_0000_0008_v0_0_s_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_d3d12compatibility_0000_0009_v0_0_c_ifspec;
+extern RPC_IF_HANDLE __MIDL_itf_d3d12compatibility_0000_0009_v0_0_s_ifspec;
 
 /* Additional Prototypes for ALL interfaces */
 

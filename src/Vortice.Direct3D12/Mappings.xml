@@ -31,9 +31,11 @@
     <const from-guid="CLSID_D3D12DeviceRemovedExtendedData" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DeviceRemovedExtendedDataClsId">new System.Guid("$1")</const>
     <const from-guid="CLSID_D3D12SDKConfiguration" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12SDKConfigurationClsId">new System.Guid("$1")</const>
     <const from-guid="CLSID_D3D12DeviceFactory" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DeviceFactoryClsId">new System.Guid("$1")</const>
-
+    <const from-guid="CLSID_D3D12DSRDeviceFactory" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DSRDeviceFactory">new System.Guid("$1")</const>
+    
     <const from-guid="D3D12ExperimentalShaderModels" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12ExperimentalShaderModels">new System.Guid("$1")</const>
     <const from-guid="D3D12TiledResourceTier4" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12TiledResourceTier4">new System.Guid("$1")</const>
+    <const from-guid="D3D12GPUUploadHeapsOnUnsupportedOS" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12GPUUploadHeapsOnUnsupportedOS">new System.Guid("$1")</const>
   </extension>
 
   <bindings>
@@ -851,6 +853,8 @@
     <map param="ID3D12Resource::ReadFromSubresource::pDstData" attribute="in value"/>
     <map param="ID3D12Resource::ReadFromSubresource::pSrcBox" default="null"/>
 
+    <map method="ID3D12Resource::OMSetBlendState" custom-vtbl="true" visibility="private"/>
+
     <!-- ID3D12Resource1 methods -->
     <map method="ID3D12Resource1::GetProtectedResourceSession" visibility="private" hresult="true" check="false"/>
 
@@ -1133,11 +1137,16 @@
     <map param="ID3D12DeviceFactory::EnableExperimentalFeatures::pIIDs" type="void" keep-pointers="true"/>
     <map param="ID3D12DeviceFactory::EnableExperimentalFeatures::pConfigurationStructs" type="void" keep-pointers="true"/>
     <map param="ID3D12DeviceFactory::EnableExperimentalFeatures::pConfigurationStructSizes" type="void" keep-pointers="true"/>
-    
-    <!-- ID3D12DescriptorHeap -->
-    <map method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" property="false" />
-    <map method="ID3D12DescriptorHeap::GetGPUDescriptorHandleForHeapStart" property="false" />
 
+    <!-- ID3D12DSRDeviceFactory -->
+    <map method="ID3D12DSRDeviceFactory::CreateDSRDevice" visibility="private" hresult="true" check="false"/>
+
+    <!-- ID3D12DescriptorHeap -->
+    <map method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" property="false" custom-vtbl="true" visibility="private" />
+    <map method="ID3D12DescriptorHeap::GetGPUDescriptorHandleForHeapStart" property="false" custom-vtbl="true" visibility="private" />
+    <remove method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" />
+    <remove method="ID3D12DescriptorHeap::GetGPUDescriptorHandleForHeapStart" />
+    
     <!-- ID3D12PipelineLibrary methods -->
     <map method="ID3D12PipelineLibrary::LoadComputePipeline" visibility="private"/>
     <map param="ID3D12PipelineLibrary::LoadComputePipeline::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
@@ -1168,6 +1177,8 @@
 
     <map function="D3D12CreateVersionedRootSignatureDeserializer" hresult="true" check="false"/>
     <map param="D3D12CreateVersionedRootSignatureDeserializer::pSrcData" type="void" keep-pointers="true"/>
+    <map function="D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary" hresult="true" check="false"/>
+    <map param="D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary::pSrcData" type="void" keep-pointers="true"/>
 
     <map method="ID3D12CommandList::GetType" name="GetCommandListType" />
 

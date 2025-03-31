@@ -348,4 +348,58 @@ public static unsafe partial class D3D12
     {
         return D3D12CreateVersionedRootSignatureDeserializer<T>(signatureData.BufferPointer.ToPointer(), signatureData.BufferSize);
     }
+
+    private static Result D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
+        void* srcData,
+        nuint srcDataSizeInBytes,
+        string rootSignatureSubObjectName,
+        out T? rootSignatureDeserializer)
+        where T : ID3D12VersionedRootSignatureDeserializer
+    {
+        Result result = D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary(srcData, srcDataSizeInBytes,
+            rootSignatureSubObjectName,
+            typeof(T).GUID,
+            out IntPtr nativePtr);
+
+        if (result.Failure)
+        {
+            rootSignatureDeserializer = default;
+            return result;
+        }
+
+        rootSignatureDeserializer = MarshallingHelpers.FromPointer<T>(nativePtr);
+        return result;
+    }
+
+    private static T D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(void* srcData, nuint srcDataSizeInBytes, string rootSignatureSubObjectName) where T : ID3D12VersionedRootSignatureDeserializer
+    {
+        D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary(srcData, srcDataSizeInBytes, rootSignatureSubObjectName, typeof(T).GUID, out IntPtr nativePtr).CheckError();
+        return MarshallingHelpers.FromPointer<T>(nativePtr)!;
+    }
+
+    public static Result D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Span<byte> srcData, string rootSignatureSubObjectName, out T? rootSignatureDeserializer) where T : ID3D12VersionedRootSignatureDeserializer
+    {
+        fixed (byte* srcDataPtr = srcData)
+        {
+            return D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary(srcDataPtr, (nuint)srcData.Length, rootSignatureSubObjectName, out rootSignatureDeserializer);
+        }
+    }
+
+    public static Result D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Blob srcData, string rootSignatureSubObjectName, out T? rootSignatureDeserializer) where T : ID3D12VersionedRootSignatureDeserializer
+    {
+        return D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary(srcData.BufferPointer.ToPointer(), srcData.BufferSize, rootSignatureSubObjectName, out rootSignatureDeserializer);
+    }
+
+    public static T D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Span<byte> srcData, string rootSignatureSubObjectName) where T : ID3D12VersionedRootSignatureDeserializer
+    {
+        fixed (byte* srcDataPtr = srcData)
+        {
+            return D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary<T>(srcDataPtr, (nuint)srcData.Length, rootSignatureSubObjectName);
+        }
+    }
+
+    public static T D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(Blob signatureData, string rootSignatureSubObjectName) where T : ID3D12VersionedRootSignatureDeserializer
+    {
+        return D3D12CreateVersionedRootSignatureDeserializerFromSubobjectInLibrary<T>(signatureData.BufferPointer.ToPointer(), signatureData.BufferSize, rootSignatureSubObjectName);
+    }
 }

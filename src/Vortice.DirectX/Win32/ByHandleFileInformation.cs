@@ -9,9 +9,9 @@ namespace Vortice.Win32;
 public partial struct ByHandleFileInformation
 {
     public uint FileAttributes;
-    public FileTime CreationTime;
-    public FileTime LastAccessTime;
-    public FileTime LastWriteTime;
+    public ulong CreationTime;
+    public ulong LastAccessTime;
+    public ulong LastWriteTime;
     public uint VolumeSerialNumber;
     public uint FileSizeHigh;
     public uint FileSizeLow;
