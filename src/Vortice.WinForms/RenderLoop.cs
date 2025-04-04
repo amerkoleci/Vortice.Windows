@@ -1,15 +1,15 @@
 // Copyright (c) 2010-2014 SharpDX - Alexandre Mutel
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,10 +28,10 @@ using static Vortice.WinForms.Win32Native;
 namespace Vortice.WinForms;
 
 /// <summary>
-/// RenderLoop provides a rendering loop infrastructure. See remarks for usage. 
+/// RenderLoop provides a rendering loop infrastructure. See remarks for usage.
 /// </summary>
 /// <remarks>
-/// Use static <see cref="Run(Control?, RenderCallback, bool)"/> 
+/// Use static <see cref="Run(Control?, RenderCallback, bool)"/>
 /// method to directly use a renderloop with a render callback or use your own loop:
 /// <code>
 /// control.Show();
@@ -102,7 +102,7 @@ public class RenderLoop : IDisposable
     /// Gets or sets a value indicating whether the render loop should use the default <see cref="Application.DoEvents"/> instead of a custom window message loop lightweight for GC. Default is false.
     /// </summary>
     /// <value><c>true</c> if the render loop should use the default <see cref="Application.DoEvents"/> instead of a custom window message loop (default false); otherwise, <c>false</c>.</value>
-    /// <remarks>By default, RenderLoop is using a custom window message loop that is more lightweight than <see cref="Application.DoEvents" /> to process windows event message. 
+    /// <remarks>By default, RenderLoop is using a custom window message loop that is more lightweight than <see cref="Application.DoEvents" /> to process windows event message.
     /// Set this parameter to true to use the default <see cref="Application.DoEvents"/>.</remarks>
     public bool UseApplicationDoEvents { get; set; }
 
@@ -141,7 +141,7 @@ public class RenderLoop : IDisposable
                     NativeMessage msg;
                     while (PeekMessageW(&msg, 0, 0, 0, 0))
                     {
-                        if (GetMessageW(&msg, 0, 0, 0) == new RawBool(-1))
+                        if (GetMessageW(&msg, 0, 0, 0) == -1)
                         {
                             throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
                                 "An error happened in rendering loop while processing windows messages. Error: {0}",
