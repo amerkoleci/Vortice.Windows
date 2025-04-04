@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Vortice.Direct2D1\Vortice.Direct2D1.csproj"/>
+    <ProjectReference Include="..\..\src\Vortice.WinForms\Vortice.WinForms.csproj"/>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PublishAot>true</PublishAot>
+    <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+<!--    <OptimizationPreference>Size</OptimizationPreference>-->
+<!--    <XmlResolverIsNetworkingEnabledByDefault>false</XmlResolverIsNetworkingEnabledByDefault>-->
+<!--    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>-->
+<!--    <InvariantGlobalization>true</InvariantGlobalization>-->
+<!--    <StackTraceSupport>false</StackTraceSupport>-->
+<!--    <UseSystemResourceKeys>true</UseSystemResourceKeys>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+<!--    <RuntimeHostConfigurationOption Include="System.Windows.Forms.PictureBox.UseWebRequest" Value="false" Trim="true"/>-->
+  </ItemGroup>
+
+</Project>

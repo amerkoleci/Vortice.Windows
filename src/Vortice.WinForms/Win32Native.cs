@@ -12,7 +12,7 @@ internal unsafe static partial class Win32Native
     public static partial RawBool PeekMessageW(NativeMessage* lpMsg, nint hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
 
     [LibraryImport("user32")]
-    public static partial RawBool GetMessageW(NativeMessage* lpMsg, nint hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+    public static partial int GetMessageW(NativeMessage* lpMsg, nint hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
 
     [LibraryImport("user32")]
     public static partial RawBool TranslateMessage(NativeMessage* lpMsg);
