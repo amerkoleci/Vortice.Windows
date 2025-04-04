@@ -258,3 +258,6 @@ Session.vim
 
 .vscode
 launchSettings.json
+
+#Rider
+.idea
