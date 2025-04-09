@@ -136,6 +136,11 @@ public unsafe partial class IWICImagingFactory
         return encoder;
     }
 
+    public IWICBitmapDecoder CreateDecoder(Guid guidContainerFormat)
+    {
+        return CreateDecoder(guidContainerFormat, null);
+    }
+
     public IWICBitmapDecoder CreateDecoderFromStream(IStream stream, DecodeOptions metadataOptions = DecodeOptions.CacheOnDemand)
     {
         return CreateDecoderFromStream_(stream, null, metadataOptions);
@@ -148,8 +153,8 @@ public unsafe partial class IWICImagingFactory
 
     public IWICBitmapDecoder CreateDecoderFromStream(Stream stream, DecodeOptions metadataOptions = DecodeOptions.CacheOnDemand)
     {
-        var wicStream = CreateStream(stream);
-        var decoder = CreateDecoderFromStream_(wicStream, null, metadataOptions);
+        IWICStream wicStream = CreateStream(stream);
+        IWICBitmapDecoder decoder = CreateDecoderFromStream_(wicStream, null, metadataOptions);
         decoder._wicStream = wicStream;
         return decoder;
     }

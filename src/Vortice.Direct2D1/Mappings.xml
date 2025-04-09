@@ -134,6 +134,42 @@
     <short name="VALUEOUTOFRANGE">ValueOutOfRange</short>
     <short name="UNKNOWNIMAGEFORMAT">UnknownImageFormat</short>
     <short name="UNSUPPORTEDVERSION">UnsupportedVersion</short>
+    <short name="NOTINITIALIZED">NotInitialized</short>
+    <short name="ALREADYLOCKED">AlreadyLocked</short>
+    <short name="PROPERTYNOTFOUND">PropertyNotFound</short>
+    <short name="PROPERTYNOTSUPPORTED">PropertyNotSupported</short>
+    <short name="PROPERTYSIZE">PropertySize</short>
+    <short name="CODECPRESENT">CodecPresent</short>
+    <short name="CODECNOTHUMBNAIL">CodecNoThumbnail</short>
+    <short name="PALETTEUNAVAILABLE">PaletteUnavailable</short>
+    <short name="CODECTOOMANYSCANLINES">CodecTooManyScanLines</short>
+    <short name="INTERNALERROR">InternalError</short>
+    <short name="COMPONENTNOTFOUND">ComponentNotFound</short>
+    <short name="SOURCERECTDOESNOTMATCHDIMENSIONS">SourceRectDoesNotMatchDimensions</short>
+    <short name="IMAGESIZEOUTOFRANGE">ImageSizeOutOfRange</short>
+    <short name="TOOMUCHMETADATA">TooMuchMetadata</short>
+    <short name="BADIMAGE">BadImage</short>
+    <short name="BADHEADER">BadHeader</short>
+    <short name="BADMETADATAHEADER">BadMetadataHeader</short>
+    <short name="BADSTREAMDATA">BadStreamData</short>
+    <short name="STREAMWRITE">StreamWrite</short>
+    <short name="STREAMREAD">StreamRead</short>
+    <short name="STREAMNOTAVAILABLE">StreamNotAvailable</short>
+    <short name="FRAMEMISSING">FrameMissing</short>
+    <short name="UNSUPPORTEDPIXELFORMAT">UnsupportedPixelFormat</short>
+    <short name="INVALIDREGISTRATION">InvalidRegistration</short>
+    <short name="COMPONENTINITIALIZEFAILURE">ComponentInitializeFailure</short>
+    <short name="INSUFFICIENTBUFFER">InsufficientBuffer</short>
+    <short name="DUPLICATEMETADATAPRESENT">DuplicateMetadataPresent</short>
+    <short name="PROPERTYUNEXPECTEDTYPE">PropertyUnexpectedType</short>
+    <short name="UNEXPECTEDSIZE">UnexpectedSize</short>
+    <short name="INVALIDQUERYREQUEST">InvalidQueryRequest</short>
+    <short name="UNEXPECTEDMETADATATYPE">UnexpectedMetadataType</short>
+    <short name="REQUESTONLYVALIDATMETADATAROOT">RequestOnlyValidatMetadataRoot</short>
+    <short name="INVALIDPROGRESSIVELEVEL">InvalidProgressiveLevel</short>
+    <short name="INVALIDJPEGSCANINDEX">InvalidJpegScanIndex</short>
+    <short name="WIN32ERROR">Win32Error</short>
+    <short name="WIN32ERROR">Win32Error</short>
     <short name="POINTER">Pointer</short>
     <short name="POINTERS">Pointers</short>
     <short name="NOPERSPECTIVE">NoPerspective</short>
@@ -167,6 +203,7 @@
     <short name="DEST">Destination</short>
     <short name="DESTINATION">Destination</short>
     <short name="INV">Inverse</short>
+    <short name="UNSUPPORTEDOPERATION">UnsupportedOperation</short>
   </naming>
 
   <mapping>
@@ -532,7 +569,23 @@
     <map param="IWICBitmap::Lock::ppILock" return="true"/>
 
     <!-- IWICBitmapDecoder -->
+    <map method="IWICBitmapDecoder::Initialize" visibility="internal" name="Initialize_" />
+    <map method="IWICBitmapDecoder::GetColorContexts" visibility="internal" check="false"/>
+    <map param="IWICBitmapDecoder::GetColorContexts::ppIColorContexts" attribute="inout buffer optional"/>
+    
     <map param="IWICBitmapDecoder::GetFrame::ppIBitmapFrame" attribute="out" return="true" />
+    <map param="IWICBitmapDecoder::QueryCapability::pdwCapability" type="WICBitmapDecoderCapabilities" return="true"/>
+
+    <!--IWICBitmapDecoderInfo -->
+    <map method="IWICBitmapDecoderInfo::GetPatterns" visibility="internal"/>
+    <map param="IWICBitmapDecoderInfo::GetPatterns::pPatterns" attribute="out buffer optional"/>
+    <map param="IWICBitmapDecoderInfo::GetPatterns::pcPatterns" name="patternCount" attribute="out"/>
+    <map param="IWICBitmapDecoderInfo::GetPatterns::pcbPatternsActual" attribute="out"/>
+
+    <!--<map method="IWICBitmapDecoderInfo::CreateInstance" visibility="internal"/>
+    <map param="IWICBitmapDecoderInfo::CreateInstance::ppIBitmapDecoder" attribute="out fast"/>-->
+
+    <map param="IWICBitmapDecoderInfo::MatchesPattern::pfMatches" return="true"/>
 
     <!-- IWICImageEncoder -->
     <map method="IWICImageEncoder::WriteFrame" hresult="true" check="false" />
@@ -544,7 +597,11 @@
     <map param="IWICColorContext::InitializeFromMemory::pbBuffer" type="void" keep-pointers="true"/>
     <map method="IWICColorContext::GetProfileBytes"  hresult="true" check="false" />
     <map param="IWICColorContext::GetProfileBytes::pbBuffer" type="void" keep-pointers="true"/>
-    
+
+    <!--IWICBitmapFrameDecode-->
+    <map method="IWICBitmapFrameDecode::GetColorContexts" visibility="internal" check="false"/>
+    <map param="IWICBitmapFrameDecode::GetColorContexts::ppIColorContexts" attribute="inout buffer optional"/>
+
     <!-- TODO: Handle DXGI_JPEG_AC_HUFFMAN_TABLE -->
     <remove method="IWICJpegFrameDecode::GetAcHuffmanTable" />
     <remove method="IWICJpegFrameDecode::GetDcHuffmanTable" />

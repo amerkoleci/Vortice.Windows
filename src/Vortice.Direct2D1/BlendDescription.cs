@@ -13,27 +13,22 @@ public partial struct BlendDescription
     /// <summary>
     /// A built-in description with settings for default blend, that is no blend at all.
     /// </summary>
-    public static readonly BlendDescription Default = new BlendDescription(Blend.One, Blend.Zero);
-
-    /// <summary>
-    /// A built-in description with settings for additive blend, that is adding the destination data to the source data without using alpha.
-    /// </summary>
-    public static readonly BlendDescription Additive = new BlendDescription(Blend.SourceAlpha, Blend.One);
+    public static BlendDescription Opaque => new(Blend.One, Blend.Zero);
 
     /// <summary>
     /// A built-in description with settings for alpha blend, that is blending the source and destination data using alpha.
     /// </summary>
-    public static readonly BlendDescription AlphaBlend = new BlendDescription(Blend.One, Blend.InverseSourceAlpha);
+    public static BlendDescription AlphaBlend => new(Blend.One, Blend.InverseSourceAlpha);
+
+    /// <summary>
+    /// A built-in description with settings for additive blend, that is adding the destination data to the source data without using alpha.
+    /// </summary>
+    public static BlendDescription Additive => new(Blend.SourceAlpha, Blend.One);
 
     /// <summary>
     /// A built-in description with settings for blending with non-premultipled alpha, that is blending source and destination data using alpha while assuming the color data contains no alpha information.
     /// </summary>
-    public static readonly BlendDescription NonPremultiplied = new BlendDescription(Blend.SourceAlpha, Blend.InverseSourceAlpha);
-
-    /// <summary>
-    /// A built-in description with settings for opaque blend, that is overwriting the source with the destination data.
-    /// </summary>
-    public static readonly BlendDescription Opaque = new BlendDescription(Blend.One, Blend.Zero);
+    public static BlendDescription NonPremultiplied => new(Blend.SourceAlpha, Blend.InverseSourceAlpha);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BlendDescription"/> struct.
