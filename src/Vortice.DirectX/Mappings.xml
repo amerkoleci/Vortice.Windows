@@ -76,6 +76,10 @@
     <attach>D3D12_RESOURCE_STATES</attach>
   </include>
 
+  <include file="objidl.h" namespace="Vortice.Win32">
+    <attach>IPersistStream</attach>
+  </include>
+
   <extension>
     <define struct="Vortice.RawRect" sizeof="16" />
     <define struct="Vortice.RawRectF" sizeof="16" />
@@ -361,6 +365,11 @@
     <remove enum-item=".*_FORCE_DWORD" />
     <remove enum-item=".*_FORCE_UINT" />
 
+    <!-- IPersistStream -->
+    <map method="IPersistStream::IsDirty" hresult="true" check="false" />
+    <map method="IPersistStream::Load" hresult="true" check="false" />
+    <map method="IPersistStream::Save" hresult="true" check="false" />
+    
     <!-- d3dcommon structs -->
     <map struct="D3D_SHADER_MACRO" name="ShaderMacro" native="true" marshal="true" />
 

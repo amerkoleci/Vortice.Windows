@@ -3,7 +3,8 @@
 Current Stable Release:    3.6.0 (October 2024)
 
 -----------------------------------------------
-Release:     3.7.x (Decembre 2024)
+Release:     3.7.x (June 2025)
+- [ENH] Add IPersistStream support in Vortice.Win32
 - [ENH] Add support for **.net9**, target 10.0.26100.0 SDK
 
 -----------------------------------------------
