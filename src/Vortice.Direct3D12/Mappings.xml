@@ -32,7 +32,7 @@
     <const from-guid="CLSID_D3D12SDKConfiguration" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12SDKConfigurationClsId">new System.Guid("$1")</const>
     <const from-guid="CLSID_D3D12DeviceFactory" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DeviceFactoryClsId">new System.Guid("$1")</const>
     <const from-guid="CLSID_D3D12DSRDeviceFactory" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12DSRDeviceFactory">new System.Guid("$1")</const>
-    
+
     <const from-guid="D3D12ExperimentalShaderModels" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12ExperimentalShaderModels">new System.Guid("$1")</const>
     <const from-guid="D3D12TiledResourceTier4" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12TiledResourceTier4">new System.Guid("$1")</const>
     <const from-guid="D3D12GPUUploadHeapsOnUnsupportedOS" class="Vortice.Direct3D12.D3D12" type="System.Guid" name="D3D12GPUUploadHeapsOnUnsupportedOS">new System.Guid("$1")</const>
@@ -41,7 +41,7 @@
   <bindings>
     <bind from="UINT" to="System.UInt32" override="true" />
     <bind from="UINT32" to="System.UInt32" override="true" />
-    
+
     <bind from="VORTICE_INT4" to="Vortice.Mathematics.Int4" />
     <bind from="VORTICE_COLOR4" to="Vortice.Mathematics.Color4" />
     <bind from="D3D12_BOX" to="Vortice.Mathematics.Box"/>
@@ -504,7 +504,7 @@
     <map enum-item="D3D12_SAMPLER_FEEDBACK_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D12_WORK_GRAPHS_TIER_(.*)" name="Tier$1"/>
     <map enum-item="D3D12_EXECUTE_INDIRECT_TIER_(.*)" name="Tier$1"/>
-    
+
     <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_UNDEFINED_SWIZZLE" name="UndefinedSwizzle64kb"/>
     <map enum-item="D3D12_TEXTURE_LAYOUT_64KB_STANDARD_SWIZZLE" name="StandardSwizzle64kb"/>
 
@@ -638,6 +638,11 @@
     <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_AS" name="AmplificationShader"/>
     <map enum-item="D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_MS" name="MeshShader"/>
 
+    <map enum-item="D3D12_HEAP_FLAG_DENY_RT_DS_TEXTURES" name="DenyRenderTargetDepthStencilTextures"/>
+    <map enum-item="D3D12_HEAP_FLAG_DENY_NON_RT_DS_TEXTURES" name="DenyNonRenderTargetDepthStencilTextures"/>
+    <map enum-item="D3D12_HEAP_FLAG_ALLOW_ONLY_NON_RT_DS_TEXTURES" name="AllowOnlyNonRenderTargetDepthStencilTextures"/>
+    <map enum-item="D3D12_HEAP_FLAG_ALLOW_ONLY_RT_DS_TEXTURES" name="AllowOnlyRenderTargetDepthStencilTextures"/>
+
     <!--Remove all fields for D3D12_RESOURCE_BARRIER_DESC as the union with pointers cannot be mapped safely in x86/x64 with C# explicit layout-->
     <remove field="D3D12_SUBRESOURCE_DATA::.*" />
     <remove field="D3D12_RESOURCE_BARRIER::.*"/>
@@ -671,7 +676,7 @@
 
     <map method="ID3D12InfoQueue1::RegisterMessageCallback" visibility="private"/>
     <map param="ID3D12InfoQueue1::RegisterMessageCallback::pCallbackCookie" attribute="out" return="false" />
-    
+
     <map method="ID3D12InfoQueue1::UnregisterMessageCallback" visibility="private" />
 
     <map enum-item="D3D12_MESSAGE_ID_(.*)" name-tmp="$1" />
@@ -811,7 +816,7 @@
 
     <map struct="D3D12_AUTO_BREADCRUMB_NODE1" name="AutoBreadcrumbNode1" native="true" struct-to-class="true" marshal="true" />
     <remove field="D3D12_AUTO_BREADCRUMB_NODE1::.*"/>
-    
+
     <map struct="D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT" name="DredAutoBreadcrumbsOutput" native="true" struct-to-class="true" marshal="true" />
     <remove field="D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT::.*"/>
 
@@ -1075,7 +1080,7 @@
     <map param="ID3D12GraphicsCommandList::RSSetScissorRects::pRects" type="void" keep-pointers="true"/>
     <map method="ID3D12GraphicsCommandList::IASetVertexBuffers" visibility="private" />
     <map param="ID3D12GraphicsCommandList::IASetVertexBuffers::pViews" type="void" keep-pointers="true"/>
-    
+
     <map method="ID3D12GraphicsCommandList::IASetIndexBuffer" visibility="private" />
     <map param="ID3D12GraphicsCommandList::IASetIndexBuffer::pView" type="void" keep-pointers="true"/>
 
@@ -1146,7 +1151,7 @@
     <map method="ID3D12DescriptorHeap::GetGPUDescriptorHandleForHeapStart" property="false" custom-vtbl="true" visibility="private" />
     <remove method="ID3D12DescriptorHeap::GetCPUDescriptorHandleForHeapStart" />
     <remove method="ID3D12DescriptorHeap::GetGPUDescriptorHandleForHeapStart" />
-    
+
     <!-- ID3D12PipelineLibrary methods -->
     <map method="ID3D12PipelineLibrary::LoadComputePipeline" visibility="private"/>
     <map param="ID3D12PipelineLibrary::LoadComputePipeline::ppPipelineState" attribute="out" type="ID3D12PipelineState" return="true"/>
@@ -1172,7 +1177,7 @@
     <map function="D3D12.*" dll='"d3d12.dll"' group="Vortice.Direct3D12.D3D12" visibility="internal" hresult="true" check="false"/>
     <map param="D3D12EnableExperimentalFeatures::pIIDs" type="void" keep-pointers="true"/>
     <map param="D3D12EnableExperimentalFeatures::pConfigurationStructSizes" type="void" keep-pointers="true"/>
-    
+
     <map param="D3D12CreateDevice::pAdapter" type="void" attribute="in"/>
 
     <map function="D3D12CreateVersionedRootSignatureDeserializer" hresult="true" check="false"/>
@@ -1196,7 +1201,7 @@
     <remove field="D3D12_SHADER_NODE::.*"/>
     <map struct="D3D12_DISPATCH_GRAPH_DESC" name="DispatchGraphDescription" native="true"  />
     <remove field="D3D12_DISPATCH_GRAPH_DESC::.*"/>
-    
+
     <!-- d3d12shader -->
     <map enum-item="D3D12_SHVER_(.*)" name-tmp="$1"/>
 
@@ -1286,7 +1291,7 @@
 
     <map struct="D3D12_VIDEO_ENCODER_AV1_REFERENCE_PICTURE_WARPED_MOTION_INFO" name="VideoEncoderAv1ReferencePictureWarpedMotionInfo" marshal="false" />
     <remove field="D3D12_VIDEO_ENCODER_AV1_REFERENCE_PICTURE_WARPED_MOTION_INFO::.*"/>
-    
+
     <map struct="D3D12_VIDEO_ENCODER_AV1_CODEC_CONFIGURATION_SUPPORT" name="VideoEncoderAV1CodecConfigurationSupport" native="true" struct-to-class="true" marshal="true" />
     <remove field="D3D12_VIDEO_ENCODER_AV1_CODEC_CONFIGURATION_SUPPORT::.*"/>
 
