@@ -28,11 +28,12 @@ public unsafe partial class IWICBitmapLock
 
     public Span<byte> GetDataPointer()
     {
-        IntPtr pointer = GetDataPointer(out uint size);
+        nint pointer = GetDataPointer(out uint size);
         return new(pointer.ToPointer(), (int)size);
     }
 
-    public Span<T> GetDataPointer<T>() where T : unmanaged
+    public Span<T> GetDataPointer<T>()
+        where T : unmanaged
     {
         IntPtr pointer = GetDataPointer(out uint size);
         return new(pointer.ToPointer(), (int)(size / sizeof(T)));

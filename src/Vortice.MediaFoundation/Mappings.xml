@@ -720,9 +720,9 @@
     <map interface="IMFCaptureEngineOnEventCallback" callback="true" visibility="internal" />
 
     <!-- IMFMediaEngineNotify -->
-    <map interface="IMFClockStateSink" callback="true"/>
+    <!--<map interface="IMFClockStateSink" callback="true"/>
     <map interface="IMFSampleGrabberSinkCallback" callback="true"/>
-    <map interface="IMFSampleGrabberSinkCallback2" callback="true"/>
+    <map interface="IMFSampleGrabberSinkCallback2" callback="true"/>-->
 
     <!-- IMFVideoPresenter -->
     <!--<map interface="IMFVideoPresenter" callback="true"/>-->
