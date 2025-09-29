@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using SharpGen.Runtime;
 using SharpGen.Runtime.Win32;
 using Vortice.Multimedia;
+using Vortice.Win32;
 
 namespace Vortice.MediaFoundation;
 
@@ -253,7 +254,7 @@ public unsafe partial class MediaFactory
     #region IMFSourceReader
     public static unsafe IMFSourceReader MFCreateSourceReaderFromByteStream(byte[] buffer, IMFAttributes? attributes = null)
     {
-        var byteStream = new MFByteStream(new MemoryStream(buffer));
+        MFByteStream byteStream = new(new MemoryStream(buffer));
         IMFSourceReader reader = MFCreateSourceReaderFromByteStream(byteStream, attributes);
         reader._byteStream = byteStream;
         return reader;
@@ -261,7 +262,7 @@ public unsafe partial class MediaFactory
 
     public static unsafe IMFSourceReader MFCreateSourceReaderFromByteStream(Stream buffer, IMFAttributes? attributes = null)
     {
-        var byteStream = new MFByteStream(buffer);
+        MFByteStream byteStream = new(buffer);
         IMFSourceReader reader = MFCreateSourceReaderFromByteStream(byteStream, attributes);
         reader._byteStream = byteStream;
         return reader;
@@ -269,7 +270,7 @@ public unsafe partial class MediaFactory
 
     public static unsafe IMFSourceReader MFCreateSourceReaderFromByteStream(ComStream comStream, IMFAttributes attributes = null)
     {
-        var byteStream = new MFByteStream(comStream);
+        MFByteStream byteStream = new(comStream);
         IMFSourceReader reader = MFCreateSourceReaderFromByteStream(byteStream, attributes);
         reader._byteStream = byteStream;
         return reader;
@@ -329,5 +330,51 @@ public unsafe partial class MediaFactory
         Result result = MFIsVirtualCameraTypeSupported_(unchecked((int)type), &supported);
         result.CheckError();
         return supported;
+    }
+
+    public static IMFActivate MFCreateMediaExtensionActivate(string activatableClassId, IUnknown? propertySet = null)
+    {
+        MFCreateMediaExtensionActivate(activatableClassId, propertySet, typeof(IMFActivate).GUID, out nint objectHandle).CheckError();
+        return new(objectHandle);
+    }
+
+    public static Result MFCreateMediaExtensionActivate(
+        string activatableClassId,
+        IUnknown? propertySet,
+        out IMFActivate? activate)
+    {
+        Result result = MFCreateMediaExtensionActivate(activatableClassId, propertySet, typeof(IMFActivate).GUID, out nint objectHandle);
+        if (result.Failure)
+        {
+            activate = default;
+            return result;
+        }
+
+        activate = new(objectHandle);
+        return result;
+    }
+
+    public static T MFCreateMediaExtensionActivate<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
+        string activatableClassId,
+        IUnknown? propertySet = default) where T : ComObject
+    {
+        MFCreateMediaExtensionActivate(activatableClassId, propertySet, typeof(T).GUID, out nint objectHandle).CheckError();
+        return MarshallingHelpers.FromPointer<T>(objectHandle)!;
+    }
+
+    public static Result MFCreateMediaExtensionActivate<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(
+        string activatableClassId,
+        IUnknown? propertySet,
+        out T? @object) where T : ComObject
+    {
+        Result result = MFCreateMediaExtensionActivate(activatableClassId, propertySet, typeof(T).GUID, out nint objectHandle);
+        if (result.Failure)
+        {
+            @object = default;
+            return result;
+        }
+
+        @object = MarshallingHelpers.FromPointer<T>(objectHandle);
+        return result;
     }
 }

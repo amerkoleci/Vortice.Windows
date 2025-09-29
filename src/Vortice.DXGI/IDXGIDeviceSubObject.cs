@@ -5,13 +5,15 @@ namespace Vortice.DXGI;
 
 public partial class IDXGIDeviceSubObject
 {
-    public T GetDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : IDXGIDevice
+    public T GetDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
+        where T : ComObject
     {
         GetDevice(typeof(T).GUID, out IntPtr nativePtr).CheckError();
         return MarshallingHelpers.FromPointer<T>(nativePtr)!;
     }
 
-    public Result GetDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? device) where T : IDXGIDevice
+    public Result GetDevice<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>(out T? device)
+        where T : ComObject
     {
         Result result = GetDevice(typeof(T).GUID, out IntPtr nativePtr);
         if (result.Failure)

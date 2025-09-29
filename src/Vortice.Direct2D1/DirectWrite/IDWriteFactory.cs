@@ -5,8 +5,8 @@ namespace Vortice.DirectWrite;
 
 public partial class IDWriteFactory
 {
-    private readonly List<IDWriteFontCollectionLoader> _fontCollectionLoaderCallbacks = new();
-    private readonly List<IDWriteFontFileLoader> _fontFileLoaderCallbacks = new();
+    private readonly List<IDWriteFontCollectionLoader> _fontCollectionLoaderCallbacks = [];
+    private readonly List<IDWriteFontFileLoader> _fontFileLoaderCallbacks = [];
 
     internal IDWriteFactory()
     {
@@ -37,10 +37,10 @@ public partial class IDWriteFactory
     }
 
     public IDWriteTextFormat CreateTextFormat(
-        string fontFamilyName, 
-        IDWriteFontCollection fontCollection, 
-        FontWeight fontWeight, 
-        FontStyle fontStyle, 
+        string fontFamilyName,
+        IDWriteFontCollection fontCollection,
+        FontWeight fontWeight,
+        FontStyle fontStyle,
         FontStretch fontStretch, float fontSize)
     {
         return CreateTextFormat(fontFamilyName, fontCollection, fontWeight, fontStyle, fontStretch, fontSize, "");
@@ -126,5 +126,14 @@ public partial class IDWriteFactory
 
         UnregisterFontFileLoader_(fontFileLoader);
         _fontFileLoaderCallbacks.Remove(fontFileLoader);
+    }
+
+    public unsafe IDWriteFontCollection CreateCustomFontCollection<T>(IDWriteFontCollectionLoader collectionLoader, Span<T> collectionKey)
+        where T : unmanaged
+    {
+        fixed (T* collectionKeyPtr = collectionKey)
+        {
+            return CreateCustomFontCollection(collectionLoader, new nint(collectionKeyPtr), (uint)(collectionKey.Length / sizeof(T)));
+        }
     }
 }

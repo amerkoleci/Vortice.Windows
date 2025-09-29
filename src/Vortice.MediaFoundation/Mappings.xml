@@ -720,9 +720,9 @@
     <map interface="IMFCaptureEngineOnEventCallback" callback="true" visibility="internal" />
 
     <!-- IMFMediaEngineNotify -->
-    <!--<map interface="IMFClockStateSink" callback="true"/>
+    <map interface="IMFClockStateSink" callback="true"/>
     <map interface="IMFSampleGrabberSinkCallback" callback="true"/>
-    <map interface="IMFSampleGrabberSinkCallback2" callback="true"/>-->
+    <map interface="IMFSampleGrabberSinkCallback2" callback="true"/>
 
     <!-- IMFVideoPresenter -->
     <!--<map interface="IMFVideoPresenter" callback="true"/>-->
@@ -872,7 +872,8 @@
     <remove function="MFInitMediaTypeFromMPEG2VideoInfo" />
     <remove function="MFInitAMMediaTypeFromMFMediaType" />
     <remove function="MFCreateAMMediaTypeFromMFMediaType"/>
-
+    <map function="MFCreateMediaExtensionActivate" dll='"Mfplat.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" visibility="internal" />
+    
     <map function="MFStartup" visibility="private" hresult="true" check="false" />
     <map function="MFShutdown" hresult="true" check="false" />
     <map param="MFCreateAttributes::cInitialSize" default="0"/>
