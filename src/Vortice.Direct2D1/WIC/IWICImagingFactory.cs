@@ -224,4 +224,20 @@ public unsafe partial class IWICImagingFactory
     {
         return CreateBitmapFromMemory(width, height, pixelFormat, stride, bufferSize, buffer.ToPointer());
     }
+
+    public Result CreateComponentEnumerator(ComponentType componentTypes, out IEnumUnknown result)
+    {
+        return CreateComponentEnumerator((int)componentTypes, (int)ComponentEnumerateOptions.Default, out result);
+    }
+
+    public Result CreateComponentEnumerator(ComponentType componentTypes, ComponentEnumerateOptions options, out IEnumUnknown result)
+    {
+        return CreateComponentEnumerator((int)componentTypes, (int)options, out result);
+    }
+
+    public IEnumUnknown CreateComponentEnumerator(ComponentType componentTypes, ComponentEnumerateOptions options = ComponentEnumerateOptions.Default)
+    {
+        CreateComponentEnumerator((int)componentTypes, (int)options, out IEnumUnknown result).CheckError();
+        return result;
+    }
 }

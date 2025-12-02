@@ -720,7 +720,6 @@
     <remove function=".*_UserFree"/>
 
     <!-- IWICImagingFactory -->
-    <remove method="IWICImagingFactory::CreateComponentEnumerator" />
     <map method="IWICImagingFactory::CreateBitmap" visibility="private" name="CreateBitmap_" />
     <map param="IWICImagingFactory::Create.*::pp.*" attribute="out" return="true"/>
     <map method="IWICImagingFactory::CreateDecoderFromFilename" visibility="private" name="CreateDecoderFromFilename_" />
@@ -730,6 +729,9 @@
 
     <map method="IWICImagingFactory::CreateBitmapFromMemory" visibility="public"  />
     <map param="IWICImagingFactory::CreateBitmapFromMemory::pbBuffer" type="void" keep-pointers="true"/>
+
+    <map method="IWICImagingFactory::CreateComponentEnumerator" visibility="private" hresult="true" check="false" />
+    <map param="IWICImagingFactory::CreateComponentEnumerator::ppIEnumUnknown" attribute="out" return="false" />
 
     <!-- IWICImagingFactory2 -->
     <map param="IWICImagingFactory2::CreateImageEncoder::ppWICImageEncoder" attribute="out" return="true"/>
