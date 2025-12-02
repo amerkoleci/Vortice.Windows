@@ -975,8 +975,10 @@
     <map param="ID3D11VideoProcessorEnumerator::CheckVideoProcessorFormat::pFlags" type="D3D11_VIDEO_PROCESSOR_FORMAT_SUPPORT" />
 
     <!--ID3D11VideoContext -->
-    <!--<map method="ID3D11VideoContext::(.*)" hresult="true" check="false" />-->
-
+    <map method="ID3D11VideoContext::(.*)" hresult="true" check="false" />
+    <map method="ID3D11VideoContext::GetDecoderBuffer" visibility="internal"/>
+    <map param="ID3D11VideoContext::GetDecoderBuffer::ppBuffer" attribute="out"/>
+    
     <map field="D3D11_VIDEO_CONTENT_PROTECTION_CAPS::Caps" name="Caps" type="D3D11_CONTENT_PROTECTION_CAPS" />
     <map field="D3D11_VIDEO_PROCESSOR_CAPS::DeviceCaps" name="DeviceCaps" type="D3D11_VIDEO_PROCESSOR_DEVICE_CAPS" />
     <map field="D3D11_VIDEO_PROCESSOR_CAPS::FeatureCaps" name="FeatureCaps" type="D3D11_VIDEO_PROCESSOR_FEATURE_CAPS" />

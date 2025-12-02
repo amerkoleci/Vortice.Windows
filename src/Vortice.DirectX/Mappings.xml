@@ -372,6 +372,7 @@
     
     <!-- d3dcommon structs -->
     <map struct="D3D_SHADER_MACRO" name="ShaderMacro" native="true" marshal="true" />
+    <remove field="D3D_SHADER_MACRO::.*" />
 
     <map interface="ID3D10Blob" name="Blob" />
     <map interface="ID3DInclude" name="Include" callback="true" shadow-name="Vortice.Direct3D.IncludeShadow" />

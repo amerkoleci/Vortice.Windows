@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
@@ -26,7 +26,7 @@ jobs:
         global-json-file: ./global.json
 
     - name: Pack
-      run: dotnet pack Vortice.Windows.sln --configuration Release -p:Packing=true
+      run: dotnet pack Vortice.Windows.slnx --configuration Release -p:Packing=true
 
     - name: Publish to NuGet
       if: github.event_name == 'push'

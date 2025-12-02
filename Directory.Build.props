@@ -16,14 +16,14 @@
 
   <!-- Version -->
   <PropertyGroup>
-    <VersionPrefix>3.7.6</VersionPrefix>
+    <VersionPrefix>3.8.0</VersionPrefix>
     <VersionSuffix Condition="'$(VersionSuffix)' == ''">beta</VersionSuffix>
   </PropertyGroup>
 
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>14</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <!-- Local builds should embed PDBs so we never lose them when a subsequent build occurs. -->

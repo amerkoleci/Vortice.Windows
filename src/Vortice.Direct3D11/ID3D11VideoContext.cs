@@ -10,4 +10,20 @@ public unsafe partial class ID3D11VideoContext
     //    ConfigureAuthenticatedChannel(channel, inputSize, input, out AuthenticatedConfigureOutput output).CheckError();
     //    return output;
     //}
+
+    public Span<byte> GetDecoderBuffer(ID3D11VideoDecoder decoder, VideoDecoderBufferType type)
+    {
+        GetDecoderBuffer(decoder, type, out uint size, out nint dataPtr);
+
+        return new Span<byte>(dataPtr.ToPointer(), (int)size);
+    }
+
+    public Result VideoProcessorBlt(
+        ID3D11VideoProcessor videoProcessor,
+        ID3D11VideoProcessorOutputView view,
+        uint outputFrame,
+        Vortice.Direct3D11.VideoProcessorStream[] streams)
+    {
+        return VideoProcessorBlt(videoProcessor, view, outputFrame, (uint)streams.Length, streams);
+    }
 }

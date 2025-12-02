@@ -3,7 +3,7 @@
   <Sdk Name="SharpGenTools.Sdk" Version="$(SharpGenVersion)" />
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0;net8.0-windows10.0.22621</TargetFrameworks>
+    <TargetFrameworks>net9.0;net10.0;net9.0-windows10.0.22621;net10.0-windows10.0.22621</TargetFrameworks>
     <Description>DXGI bindings</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

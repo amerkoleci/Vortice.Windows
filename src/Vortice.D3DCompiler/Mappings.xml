@@ -132,6 +132,9 @@
     <map param="D3DCreateLinker::ppLinker" attribute="out fast" />
     <map param="D3DCreateFunctionLinkingGraph::ppFunctionLinkingGraph" attribute="out fast" />
 
+    <map function="D3DCompile" visibility="private" name="D3DCompile" />
+    <map function="D3DCompile2" visibility="private" name="D3DCompile2" />
+    <map function="D3DCompileFromFile" visibility="private" name="D3DCompileFromFile" />
     <map function="D3DCompressShaders" visibility="internal" />
     <map function="D3DCreateBlob" check="false" />
     

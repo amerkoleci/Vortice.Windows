@@ -1,0 +1,74 @@
+<Solution>
+  <Folder Name="/.root/">
+    <File Path=".editorconfig" />
+    <File Path="CHANGELOG.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="NuGet.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/Vortice.SampleFramework/Vortice.SampleFramework.csproj" />
+  </Folder>
+  <Folder Name="/samples/Direct2D1/">
+    <Project Path="samples/AdvancedTextRenderingApp/AdvancedTextRenderingApp.csproj" />
+  </Folder>
+  <Folder Name="/samples/Direct3D11/">
+    <Project Path="samples/HelloDirect3D11.Wpf/HelloDirect3D11.Wpf.csproj" />
+    <Project Path="samples/HelloDirect3D11/HelloDirect3D11.csproj" />
+  </Folder>
+  <Folder Name="/samples/Direct3D12/">
+    <Project Path="samples/HelloDirect3D12/HelloDirect3D12.csproj" />
+    <Project Path="samples/HelloDirect3D12Raytracing/HelloDirect3D12Raytracing.csproj" />
+  </Folder>
+  <Folder Name="/samples/DirectML/">
+    <Project Path="samples/HelloDirectML/HelloDirectML.csproj" />
+  </Folder>
+  <Folder Name="/samples/DirectStorage/">
+    <Project Path="samples/HelloDirectStorage/HelloDirectStorage.csproj" />
+  </Folder>
+  <Folder Name="/samples/Legacy/">
+    <Project Path="samples/HelloDirectInput/HelloDirectInput.csproj" />
+  </Folder>
+  <Folder Name="/samples/MediaFoundation/">
+    <Project Path="samples/MediaFoundation/AudioPlay/AudioPlay.csproj" />
+    <Project Path="samples/MediaFoundation/EnumerateDevices/EnumerateDevices.csproj" />
+  </Folder>
+  <Folder Name="/samples/WinForms/">
+    <Project Path="samples/HelloWinForms/HelloWinForms.csproj" />
+  </Folder>
+  <Folder Name="/samples/XAudio2/">
+    <Project Path="samples/HelloXAudio2/HelloXAudio2.csproj" />
+  </Folder>
+  <Folder Name="/samples/XInput/">
+    <Project Path="samples/XInput/HelloXInput.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Vortice.D3DCompiler.Test/Vortice.D3DCompiler.Test.csproj" />
+    <Project Path="tests/Vortice.Dxc.Test/Vortice.Dxc.Test.csproj" />
+    <Project Path="tests/Vortice.DXGI.Tests/Vortice.DXGI.Tests.csproj" />
+  </Folder>
+  <Project Path="src/Vortice.D3DCompiler/Vortice.D3DCompiler.csproj" />
+  <Project Path="src/Vortice.Direct2D1/Vortice.Direct2D1.csproj" />
+  <Project Path="src/Vortice.Direct3D11/Vortice.Direct3D11.csproj" />
+  <Project Path="src/Vortice.Direct3D12/Vortice.Direct3D12.csproj" />
+  <Project Path="src/Vortice.Direct3D9/Vortice.Direct3D9.csproj" />
+  <Project Path="src/Vortice.DirectComposition/Vortice.DirectComposition.csproj" />
+  <Project Path="src/Vortice.DirectInput/Vortice.DirectInput.csproj" />
+  <Project Path="src/Vortice.DirectML/Vortice.DirectML.csproj" />
+  <Project Path="src/Vortice.DirectSound/Vortice.DirectSound.csproj" />
+  <Project Path="src/Vortice.DirectStorage/Vortice.DirectStorage.csproj" />
+  <Project Path="src/Vortice.DirectX/Vortice.DirectX.csproj" />
+  <Project Path="src/Vortice.Dxc/Vortice.Dxc.csproj" />
+  <Project Path="src/Vortice.DXGI/Vortice.DXGI.csproj" />
+  <Project Path="src/Vortice.MediaFoundation/Vortice.MediaFoundation.csproj" />
+  <Project Path="src/Vortice.UIAnimation/Vortice.UIAnimation.csproj" />
+  <Project Path="src/Vortice.WinForms/Vortice.WinForms.csproj" />
+  <Project Path="src/Vortice.WinUI/Vortice.WinUI.csproj" />
+  <Project Path="src/Vortice.Wpf/Vortice.Wpf.csproj" />
+  <Project Path="src/Vortice.XAudio2/Vortice.XAudio2.csproj" />
+  <Project Path="src/Vortice.XInput/Vortice.XInput.csproj" />
+</Solution>
