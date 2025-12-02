@@ -1,9 +1,9 @@
 # Changelog
 
-Current Stable Release:    3.6.0 (October 2024)
+Current Stable Release:    3.8.1 (December 2025)
 
 -----------------------------------------------
-Release:     3.8.x (December 2025)
+Release:     3.8.1 (December 2025)
 - [ENH] Add support for net10 and drop net8
 - [ENH] Direct3D12: Improve naming of HeapFlags
 - [ENH] Add IPersistStream support in Vortice.Win32
