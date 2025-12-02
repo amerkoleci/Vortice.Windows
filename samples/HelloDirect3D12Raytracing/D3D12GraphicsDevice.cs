@@ -622,7 +622,7 @@ public sealed unsafe class D3D12GraphicsDevice : IGraphicsDevice
         // Raytracing
         _commandList.ResourceBarrierTransition(_outputBuffer, ResourceStates.CopySource, ResourceStates.UnorderedAccess);
 
-        _commandList.SetDescriptorHeaps(1, new[] { _shaderViewHeap });
+        _commandList.SetDescriptorHeaps(1, [_shaderViewHeap]);
 
         _commandList.SetComputeRootSignature(_globalRootSignature);
 

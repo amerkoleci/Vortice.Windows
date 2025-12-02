@@ -616,6 +616,11 @@
     <short name="NORESOLUTION">NoResolution</short>
     <short name="UPSTREAM">UpStream</short>
     <short name="DOWNSTREAM">DownStream</short>
+    <short name="INVALIDATEMEDIATYPE">InvalidateMediaType</short>
+    <short name="PROCESSINPUTNOTIFY">ProcessInputNotify</short>
+    <short name="BEGINSTREAMING">BeginStreaming</short>
+    <short name="ENDSTREAMING">EndStreaming</short>
+    <short name="CANCELSTEP">CancelStep</short>
   </naming>
 
   <mapping>
@@ -720,9 +725,12 @@
     <map interface="IMFCaptureEngineOnEventCallback" callback="true" visibility="internal" />
 
     <!-- IMFMediaEngineNotify -->
-    <!--<map interface="IMFClockStateSink" callback="true"/>
-    <map interface="IMFSampleGrabberSinkCallback" callback="true"/>
-    <map interface="IMFSampleGrabberSinkCallback2" callback="true"/>-->
+    <map interface="IMFClockStateSink" callback="true"/>
+    <map interface="IMFSampleGrabberSinkCallback" callback="true" />
+    <map method="IMFSampleGrabberSinkCallback::.+" hidden="true" managed-partial="true" />
+    <map interface="IMFSampleGrabberSinkCallback2" callback="true"/>
+    <map method="IMFSampleGrabberSinkCallback2::.+" hidden="true" managed-partial="true" />
+    <map interface="IMFVideoPresenter" callback="true"/>
 
     <!-- IMFVideoPresenter -->
     <!--<map interface="IMFVideoPresenter" callback="true"/>-->
@@ -924,7 +932,7 @@
     <map function="MFCreateSequencerSource" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateSequencerSegmentOffset" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateSecureHttpSchemePlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
-    <map function="MFCreateSampleGrabberSinkActivate" visibility="internal" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
+    <map function="MFCreateSampleGrabberSinkActivate" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateSampleCopierMFT" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateSAMIByteStreamPlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />
     <map function="MFCreateRemoteDesktopPlugin" dll='"mf.dll"' group="Vortice.MediaFoundation.MediaFactory" hresult="true" check="false" />

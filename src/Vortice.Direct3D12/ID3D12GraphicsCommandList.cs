@@ -63,34 +63,58 @@ public unsafe partial class ID3D12GraphicsCommandList
         }
     }
 
+    public void UnsetDescriptorHeaps()
+    {
+        SetDescriptorHeaps(0, (void*)null);
+    }
+
     public void SetDescriptorHeaps(ID3D12DescriptorHeap? heap)
     {
-        IntPtr heapPtr = heap == null ? IntPtr.Zero : heap.NativePointer;
-        SetDescriptorHeaps(1, &heapPtr);
+        if (heap is not null)
+        {
+            IntPtr heapPtr = heap.NativePointer;
+            SetDescriptorHeaps(1, &heapPtr);
+        }
+        else
+        {
+            SetDescriptorHeaps(0, (void*)null);
+        }
     }
 
     public void SetDescriptorHeaps(ID3D12DescriptorHeap[] descriptorHeaps)
     {
-        SetDescriptorHeaps((uint)descriptorHeaps.Length, descriptorHeaps);
+        SetDescriptorHeaps(descriptorHeaps.Length, descriptorHeaps);
     }
 
-    public void SetDescriptorHeaps(uint numDescriptorHeaps, ID3D12DescriptorHeap[] descriptorHeaps)
+    public void SetDescriptorHeaps(int numDescriptorHeaps, ID3D12DescriptorHeap[] descriptorHeaps)
     {
-        IntPtr* descriptorHeapsPtr = stackalloc IntPtr[(int)numDescriptorHeaps];
+        if (numDescriptorHeaps == 0)
+        {
+            SetDescriptorHeaps(0, (void*)null);
+            return;
+        }
+
+        IntPtr* descriptorHeapsPtr = stackalloc IntPtr[numDescriptorHeaps];
         for (int i = 0; i < numDescriptorHeaps; i++)
         {
             descriptorHeapsPtr[i] = (descriptorHeaps[i] == null) ? IntPtr.Zero : descriptorHeaps[i].NativePointer;
         }
-        SetDescriptorHeaps(numDescriptorHeaps, descriptorHeapsPtr);
+        SetDescriptorHeaps((uint)numDescriptorHeaps, descriptorHeapsPtr);
     }
 
     public void SetDescriptorHeaps(ReadOnlySpan<ID3D12DescriptorHeap> descriptorHeaps)
     {
-        SetDescriptorHeaps((uint)descriptorHeaps.Length, descriptorHeaps);
+        SetDescriptorHeaps(descriptorHeaps.Length, descriptorHeaps);
     }
 
-    public void SetDescriptorHeaps(uint numDescriptorHeaps, ReadOnlySpan<ID3D12DescriptorHeap> descriptorHeaps)
+    public void SetDescriptorHeaps(int numDescriptorHeaps, ReadOnlySpan<ID3D12DescriptorHeap> descriptorHeaps)
     {
+        if (numDescriptorHeaps == 0)
+        {
+            SetDescriptorHeaps(0, (void*)null);
+            return;
+        }
+
         IntPtr* descriptorHeapsPtr = stackalloc IntPtr[(int)numDescriptorHeaps];
         for (int i = 0; i < numDescriptorHeaps; i++)
         {

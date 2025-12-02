@@ -377,4 +377,10 @@ public unsafe partial class MediaFactory
         @object = MarshallingHelpers.FromPointer<T>(objectHandle);
         return result;
     }
+
+    public static IMFActivate MFCreateSampleGrabberSinkActivate(IMFMediaType mediaType, IMFSampleGrabberSinkCallback sampleGrabberSinkCallback)
+    {
+        MFCreateSampleGrabberSinkActivate(mediaType, sampleGrabberSinkCallback, out IMFActivate activate).CheckError();
+        return activate;
+    }
 }
