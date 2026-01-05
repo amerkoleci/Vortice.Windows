@@ -1,6 +1,10 @@
 # Changelog
 
-Current Stable Release:    3.8.1 (December 2025)
+Current Stable Release:    3.8.2 (January 2026)
+
+-----------------------------------------------
+Release:     3.8.2 (January 2026)
+- [ENH] Bring back support for net8
 
 -----------------------------------------------
 Release:     3.8.1 (December 2025)

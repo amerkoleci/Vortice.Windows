@@ -10,7 +10,7 @@
     <PackageVersion Include="MessagePack" Version="3.1.4" />
     <PackageVersion Include="Microsoft.Windows.SDK.Win32Docs" Version="0.1.42-alpha" />
     
-    <PackageVersion Include="Vortice.Mathematics" Version="2.0.0" />
+    <PackageVersion Include="Vortice.Mathematics" Version="2.1.0" />
     <PackageVersion Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
     <PackageVersion Include="Vortice.Dxc.Native" Version="1.0.4" />
     
