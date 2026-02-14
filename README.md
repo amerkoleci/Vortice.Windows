@@ -40,6 +40,7 @@ Also, you need to install **Visual Studio 2022** with the following components:
 - [Veldrid](https://github.com/mellinoe/veldrid)
 - [MiniEngine](https://github.com/roy-t/MiniEngine3) 
 - [SharpAudio](https://github.com/feliwir/SharpAudio)
+- [Sucrose Wallpaper Engine](https://github.com/Taiizor/Sucrose)
 
 ## Samples
 - [Collection of samples](https://github.com/amerkoleci/Vortice.Windows.Samples)
