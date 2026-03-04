@@ -1,6 +1,10 @@
 # Changelog
 
-Current Stable Release:    3.8.2 (January 2026)
+Current Stable Release:    3.8.3 (February 2026)
+
+-----------------------------------------------
+Release:     3.8.3 (February 2026)
+- [ENH] Bring back support for net8 in Vortice.Dxc
 
 -----------------------------------------------
 Release:     3.8.2 (January 2026)
