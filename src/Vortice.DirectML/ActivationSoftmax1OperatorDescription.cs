@@ -1,0 +1,63 @@
+// Copyright © Aaron Sun, Amer Koleci, and Contributors.
+// Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
+
+namespace Vortice.DirectML;
+
+public partial struct ActivationSoftmax1OperatorDescription : IOperatorDescription, IOperatorDescriptionMarshal
+{
+    /// <summary>
+    /// Gets the type of operator description.
+    /// </summary>
+    public OperatorType OperatorType => OperatorType.ActivationSoftmax1;
+
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SOFTMAX1_OPERATOR_DESC::InputTensor']/*" />
+    public TensorDescription InputTensor { get; set; }
+
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SOFTMAX1_OPERATOR_DESC::OutputTensor']/*" />
+    public TensorDescription OutputTensor { get; set; }
+
+    /// <include file="Documentation.xml" path="/comments/comment[@id='DML_ACTIVATION_SOFTMAX1_OPERATOR_DESC::Axes']/*" />
+    public int[] Axes { get; set; }
+
+    /// <inheritdoc></inheritdoc>/>
+    public override string ToString() => $"ActivationSoftmax1";
+
+    #region Marshal
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    internal struct __Native
+    {
+        public IntPtr InputTensor;
+        public IntPtr OutputTensor;
+        public int AxisCount;
+        public IntPtr Axes;
+    }
+
+    unsafe IntPtr IOperatorDescriptionMarshal.__MarshalAlloc()
+    {
+        __Native* @ref = UnsafeUtilities.Alloc<__Native>();
+
+        @ref->InputTensor = InputTensor.__MarshalAlloc();
+        @ref->OutputTensor = OutputTensor.__MarshalAlloc();
+        @ref->AxisCount = Axes.Length;
+        @ref->Axes = new(UnsafeUtilities.AllocWithData(Axes));
+
+        return new(@ref);
+    }
+
+    unsafe void IOperatorDescriptionMarshal.__MarshalFree(ref IntPtr pDesc)
+    {
+        var @ref = (__Native*)pDesc;
+
+        InputTensor.__MarshalFree(ref @ref->InputTensor);
+        OutputTensor.__MarshalFree(ref @ref->OutputTensor);
+        UnsafeUtilities.Free(@ref->Axes);
+
+        UnsafeUtilities.Free(@ref);
+    }
+    #endregion
+
+    public static implicit operator OperatorDescription(ActivationSoftmax1OperatorDescription description)
+    {
+        return new(description);
+    }
+}

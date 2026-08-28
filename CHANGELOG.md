@@ -3,6 +3,11 @@
 Current Stable Release:    3.8.3 (February 2026)
 
 -----------------------------------------------
+Release:     3.8.x (August 2026)
+- [ENH] DirectML: Expose ActivationGelu, ActivationSoftmax1 and MultiheadAttention operators
+- [FIX] DirectML: A default BindingDescription binds as DML_BINDING_TYPE_NONE, so optional operator tensors can be skipped in BindInputs/BindOutputs
+
+-----------------------------------------------
 Release:     3.8.3 (February 2026)
 - [ENH] Bring back support for net8 in Vortice.Dxc
 

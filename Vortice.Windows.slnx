@@ -48,6 +48,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Vortice.D3DCompiler.Test/Vortice.D3DCompiler.Test.csproj" />
+    <Project Path="tests/Vortice.DirectML.Tests/Vortice.DirectML.Tests.csproj" />
     <Project Path="tests/Vortice.Dxc.Test/Vortice.Dxc.Test.csproj" />
     <Project Path="tests/Vortice.DXGI.Tests/Vortice.DXGI.Tests.csproj" />
   </Folder>

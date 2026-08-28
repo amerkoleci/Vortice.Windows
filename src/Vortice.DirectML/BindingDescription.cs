@@ -25,14 +25,21 @@ public partial struct BindingDescription
 
     internal void __MarshalFree(ref __Native @ref)
     {
-        ((IBindingDescriptionMarshal)Description).__MarshalFree(ref @ref.Description);
+        if (Description != null)
+        {
+            ((IBindingDescriptionMarshal)Description).__MarshalFree(ref @ref.Description);
+        }
+
         @ref.Description = IntPtr.Zero;
     }
 
     internal void __MarshalTo(ref __Native @ref)
     {
-        @ref.Type = Description.BindingType;
-        @ref.Description = ((IBindingDescriptionMarshal)Description).__MarshalAlloc();
+        // A default BindingDescription marshals as DML_BINDING_TYPE_NONE, which
+        // is how an optional operator tensor that was left null is skipped in
+        // BindInputs and BindOutputs.
+        @ref.Type = Description?.BindingType ?? BindingType.None;
+        @ref.Description = (Description != null) ? ((IBindingDescriptionMarshal)Description).__MarshalAlloc() : IntPtr.Zero;
     }
     #endregion
 }
