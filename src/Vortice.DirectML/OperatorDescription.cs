@@ -28,6 +28,9 @@ public partial struct OperatorDescription
     {
         __Native* @ref = UnsafeUtilities.Alloc<__Native>();
 
+        // The allocation is not zeroed, so Type has to be written here the same
+        // way __MarshalTo writes it.
+        @ref->Type = Description.OperatorType;
         @ref->Description = ((IOperatorDescriptionMarshal)Description).__MarshalAlloc();
 
         return new(@ref);

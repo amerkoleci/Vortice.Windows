@@ -4515,4 +4515,100 @@ for (UINT i = 0; i &lt; DimensionCount; ++i) {
   <comment id="DML_ELEMENT_WISE_IF_OPERATOR_DESC::OutputTensor">
     <summary>The output tensor to write the results to.</summary>
   </comment>
+  <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_ACTIVATION_GELU">
+    <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_activation_gelu_operator_desc">DML_ACTIVATION_GELU_OPERATOR_DESC</a> structure.</summary>
+  </comment>
+  <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_ACTIVATION_SOFTMAX1">
+    <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_activation_softmax1_operator_desc">DML_ACTIVATION_SOFTMAX1_OPERATOR_DESC</a> structure.</summary>
+  </comment>
+  <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_MULTIHEAD_ATTENTION">
+    <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_multihead_attention_operator_desc">DML_MULTIHEAD_ATTENTION_OPERATOR_DESC</a> structure.</summary>
+  </comment>
+  <comment id="DML_ACTIVATION_GELU_OPERATOR_DESC">
+    <summary>
+      <para>Performs the gaussian error linear unit (GELU) activation function on every element in <i>InputTensor</i>, placing the result into the corresponding element of <i>OutputTensor</i>. <c>f(x) = 0.5 * x * (1.0 + erf(x / sqrt(2)))</c>. This is the exact form, not the tanh approximation. This operator was introduced in DML_FEATURE_LEVEL_5_1.</para>
+      <para>Microsoft Docs: <see href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_activation_gelu_operator_desc" /></para>
+    </summary>
+  </comment>
+  <comment id="DML_ACTIVATION_GELU_OPERATOR_DESC::InputTensor">
+    <summary>The input tensor to read from.</summary>
+  </comment>
+  <comment id="DML_ACTIVATION_GELU_OPERATOR_DESC::OutputTensor">
+    <summary>The output tensor to write the results to.</summary>
+  </comment>
+  <comment id="DML_ACTIVATION_SOFTMAX1_OPERATOR_DESC">
+    <summary>
+      <para>Performs a softmax activation function on <i>InputTensor</i> across the given axes, placing the result into the corresponding element of <i>OutputTensor</i>. Equivalent to DML_ACTIVATION_SOFTMAX_OPERATOR_DESC when <i>Axes</i> holds only the last dimension. This operator was introduced in DML_FEATURE_LEVEL_5_1.</para>
+      <para>Microsoft Docs: <see href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_activation_softmax1_operator_desc" /></para>
+    </summary>
+  </comment>
+  <comment id="DML_ACTIVATION_SOFTMAX1_OPERATOR_DESC::InputTensor">
+    <summary>The input tensor to read from.</summary>
+  </comment>
+  <comment id="DML_ACTIVATION_SOFTMAX1_OPERATOR_DESC::OutputTensor">
+    <summary>The output tensor to write the results to.</summary>
+  </comment>
+  <comment id="DML_ACTIVATION_SOFTMAX1_OPERATOR_DESC::Axes">
+    <summary>The axes along which the sum of exponentials is reduced. Values must be in the range <c>[0, InputTensor.DimensionCount - 1]</c>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC">
+    <summary>
+      <para>Performs a multi-head attention operation: <c>GEMM(Query, Transposed(Key)) * Scale</c>, optionally biased and masked, through a softmax and a final <c>GEMM</c> with <i>Value</i>. Exactly one query, key and value must be present, whether as the separate tensors or through one of the stacked forms; the tensors a stacked form replaces must be null. This operator was introduced in DML_FEATURE_LEVEL_6_1.</para>
+      <para>Microsoft Docs: <see href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_multihead_attention_operator_desc" /></para>
+    </summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::QueryTensor">
+    <summary>Optional query of shape <c>[batchSize, sequenceLength, hiddenSize]</c>, where <c>hiddenSize = headCount * headSize</c>. The tensor can also have 4 or 5 dimensions, as long as the leading dimensions are 1's. Mutually exclusive with <i>StackedQueryKeyTensor</i> and <i>StackedQueryKeyValueTensor</i>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::KeyTensor">
+    <summary>Optional key of shape <c>[batchSize, keyValueSequenceLength, hiddenSize]</c>, where <c>hiddenSize = headCount * headSize</c>. The tensor can also have 4 or 5 dimensions, as long as the leading dimensions are 1's. Mutually exclusive with <i>StackedQueryKeyTensor</i>, <i>StackedKeyValueTensor</i> and <i>StackedQueryKeyValueTensor</i>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::ValueTensor">
+    <summary>Optional value of shape <c>[batchSize, keyValueSequenceLength, valueHiddenSize]</c>, where <c>valueHiddenSize = headCount * valueHeadSize</c>. The tensor can also have 4 or 5 dimensions, as long as the leading dimensions are 1's. Mutually exclusive with <i>StackedKeyValueTensor</i> and <i>StackedQueryKeyValueTensor</i>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::StackedQueryKeyTensor">
+    <summary>Optional stacked query and key of shape <c>[batchSize, sequenceLength, headCount, 2, headSize]</c>. Mutually exclusive with <i>QueryTensor</i>, <i>KeyTensor</i>, <i>StackedKeyValueTensor</i> and <i>StackedQueryKeyValueTensor</i>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::StackedKeyValueTensor">
+    <summary>Optional stacked key and value of shape <c>[batchSize, keyValueSequenceLength, headCount, 2, headSize]</c>. Mutually exclusive with <i>KeyTensor</i>, <i>ValueTensor</i>, <i>StackedQueryKeyTensor</i> and <i>StackedQueryKeyValueTensor</i>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::StackedQueryKeyValueTensor">
+    <summary>Optional stacked query, key and value of shape <c>[batchSize, sequenceLength, headCount, 3, headSize]</c>. Mutually exclusive with <i>QueryTensor</i>, <i>KeyTensor</i>, <i>ValueTensor</i>, <i>StackedQueryKeyTensor</i> and <i>StackedKeyValueTensor</i>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::BiasTensor">
+    <summary>Optional bias of shape <c>[hiddenSize + hiddenSize + valueHiddenSize]</c>, added to the query, key and value before the first GEMM operation. The tensor can also have 2, 3, 4 or 5 dimensions, as long as the leading dimensions are 1's.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::MaskTensor">
+    <summary>Optional mask determining which elements have <i>MaskFilterValue</i> added after the QxK GEMM operation. Its interpretation and shape depend on <i>MaskType</i>. Applied after <i>RelativePositionBiasTensor</i>, or after the first GEMM operation if that tensor is null.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::RelativePositionBiasTensor">
+    <summary>Optional bias added to the result of the first GEMM operation.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::PastKeyTensor">
+    <summary>Optional key from the previous iteration, of shape <c>[batchSize, headCount, pastSequenceLength, headSize]</c>. When not null it is concatenated with the key, giving a tensor of shape <c>[batchSize, headCount, pastSequenceLength + keyValueSequenceLength, headSize]</c>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::PastValueTensor">
+    <summary>Optional value from the previous iteration, of shape <c>[batchSize, headCount, pastSequenceLength, headSize]</c>. When not null it is concatenated with the value, giving a tensor of shape <c>[batchSize, headCount, pastSequenceLength + keyValueSequenceLength, headSize]</c>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::OutputTensor">
+    <summary>The output tensor to write the results to, of shape <c>[batchSize, sequenceLength, valueHiddenSize]</c>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::OutputPresentKeyTensor">
+    <summary>Optional present state for the key, of shape <c>[batchSize, headCount, keyValueSequenceLength, headSize]</c> for cross attention or <c>[batchSize, headCount, pastSequenceLength + keyValueSequenceLength, headSize]</c> for self attention. It receives either the key or the concatenated past key and key, to pass to the next iteration.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::OutputPresentValueTensor">
+    <summary>Optional present state for the value, of shape <c>[batchSize, headCount, keyValueSequenceLength, headSize]</c> for cross attention or <c>[batchSize, headCount, pastSequenceLength + keyValueSequenceLength, headSize]</c> for self attention. It receives either the value or the concatenated past value and value, to pass to the next iteration.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::Scale">
+    <summary>Scale multiplying the result of the QxK GEMM operation, before the softmax. This value is usually <c>1 / sqrt(headSize)</c>.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::MaskFilterValue">
+    <summary>Value added to the result of the QxK GEMM operation at the positions the mask defines as padding. This should be a very large negative number, usually -10000.0f.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::HeadCount">
+    <summary>Number of attention heads.</summary>
+  </comment>
+  <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::MaskType">
+    <summary>Describes the behavior of <i>MaskTensor</i>.</summary>
+  </comment>
 </comments>

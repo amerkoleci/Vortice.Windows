@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+    <!-- Pick the redistributable DirectML.dll matching the host, so the tests do
+         not depend on the (usually older) inbox copy in System32. -->
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == '' and $([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture) == 'Arm64'">arm64</DirectMLPlatform>
+    <DirectMLPlatform Condition="'$(DirectMLPlatform)' == ''">x64</DirectMLPlatform>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\src\Vortice.DirectML\runtimes\win-$(DirectMLPlatform)\native\DirectML.dll">
+      <Link>DirectML.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
+    <ProjectReference Include="..\..\src\Vortice.DirectML\Vortice.DirectML.csproj" />
+  </ItemGroup>
+
+</Project>
