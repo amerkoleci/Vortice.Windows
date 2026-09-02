@@ -4524,6 +4524,9 @@ for (UINT i = 0; i &lt; DimensionCount; ++i) {
   <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_MULTIHEAD_ATTENTION">
     <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_multihead_attention_operator_desc">DML_MULTIHEAD_ATTENTION_OPERATOR_DESC</a> structure.</summary>
   </comment>
+  <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_DEQUANTIZE">
+    <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_dequantize_operator_desc">DML_DEQUANTIZE_OPERATOR_DESC</a> structure.</summary>
+  </comment>
   <comment id="DML_ACTIVATION_GELU_OPERATOR_DESC">
     <summary>
       <para>Performs the gaussian error linear unit (GELU) activation function on every element in <i>InputTensor</i>, placing the result into the corresponding element of <i>OutputTensor</i>. <c>f(x) = 0.5 * x * (1.0 + erf(x / sqrt(2)))</c>. This is the exact form, not the tanh approximation. This operator was introduced in DML_FEATURE_LEVEL_5_1.</para>
@@ -4610,5 +4613,23 @@ for (UINT i = 0; i &lt; DimensionCount; ++i) {
   </comment>
   <comment id="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::MaskType">
     <summary>Describes the behavior of <i>MaskTensor</i>.</summary>
+  </comment>
+  <comment id="DML_DEQUANTIZE_OPERATOR_DESC">
+    <summary>
+      <para>Dequantizes <i>InputTensor</i> element by element using the quantization parameters in <i>QuantizationTensors</i>, placing the result into <i>OutputTensor</i>: <c>output = (input - zeroPoint) * scale</c>. Every dimension of a quantization tensor must evenly divide the corresponding dimension of the input, so one scale (and zero point) can cover a block of elements; a quantization tensor of all 1's is per-tensor quantization, one matching the input is per-element. This operator was introduced in DML_FEATURE_LEVEL_6_3.</para>
+      <para>Microsoft Docs: <see href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_dequantize_operator_desc" /></para>
+    </summary>
+  </comment>
+  <comment id="DML_DEQUANTIZE_OPERATOR_DESC::InputTensor">
+    <summary>The quantized input tensor to read from.</summary>
+  </comment>
+  <comment id="DML_DEQUANTIZE_OPERATOR_DESC::QuantizationType">
+    <summary>Which quantization parameters <i>QuantizationTensors</i> carries: a scale, or a scale and a zero point.</summary>
+  </comment>
+  <comment id="DML_DEQUANTIZE_OPERATOR_DESC::QuantizationTensors">
+    <summary>The quantization parameters, in the order <i>QuantizationType</i> lists them: the scale tensor, then the zero-point tensor when there is one. The scale has the data type of <i>OutputTensor</i>; the zero point has the data type of <i>InputTensor</i>.</summary>
+  </comment>
+  <comment id="DML_DEQUANTIZE_OPERATOR_DESC::OutputTensor">
+    <summary>The output tensor to write the results to, with the same sizes as <i>InputTensor</i>.</summary>
   </comment>
 </comments>

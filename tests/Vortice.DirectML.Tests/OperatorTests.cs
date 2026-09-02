@@ -1,6 +1,7 @@
 // Copyright © Aaron Sun, Amer Koleci, and Contributors.
 // Licensed under the MIT License (MIT). See LICENSE in the repository root for more information.
 
+using System.Runtime.InteropServices;
 using NUnit.Framework;
 using Vortice.Direct3D12;
 using Vortice.DXGI;
@@ -172,6 +173,40 @@ public class OperatorTests
         Assert.That(output, Is.EqualTo(expected).Within(1e-4f));
     }
 
+    [TestCase]
+    public void DequantizeTest()
+    {
+        RequireFeatureLevel(FeatureLevel.Level6_3);
+
+        // Two rows of eight int8 values, one scale per block of four.
+        BufferTensorDescription inputTensor = CreateTensor(TensorDataType.Int8, 1, 1, 2, 8);
+        BufferTensorDescription scaleTensor = CreateTensor(1, 1, 2, 2);
+        BufferTensorDescription outputTensor = CreateTensor(1, 1, 2, 8);
+
+        var description = new DequantizeOperatorDescription
+        {
+            InputTensor = inputTensor,
+            QuantizationType = QuantizationType.Scale,
+            QuantizationTensors = [scaleTensor],
+            OutputTensor = outputTensor,
+        };
+
+        sbyte[] input = [-128, -1, 0, 1, 2, 3, 4, 127, 10, 20, 30, 40, -10, -20, -30, -40];
+        float[] scales = [0.5f, 2.0f, 0.1f, 1.0f];
+
+        // The harness uploads floats; the int8 values ride along packed four to a float.
+        float[] packedInput = MemoryMarshal.Cast<sbyte, float>(input).ToArray();
+        float[] output = Dispatch(description, [(inputTensor, packedInput), (scaleTensor, scales)], outputTensor);
+
+        var expected = new float[input.Length];
+        for (int i = 0; i < input.Length; i++)
+        {
+            expected[i] = input[i] * scales[i / 4];
+        }
+
+        Assert.That(output, Is.EqualTo(expected).Within(1e-6f));
+    }
+
     /// <summary>
     /// softmax(query x transposed(key) * scale) x value, per head, in doubles.
     /// </summary>
@@ -222,11 +257,14 @@ public class OperatorTests
         }
     }
 
-    private static BufferTensorDescription CreateTensor(params uint[] sizes)
+    private static BufferTensorDescription CreateTensor(params uint[] sizes) =>
+        CreateTensor(TensorDataType.Float32, sizes);
+
+    private static BufferTensorDescription CreateTensor(TensorDataType dataType, params uint[] sizes)
     {
         var tensor = new BufferTensorDescription
         {
-            DataType = TensorDataType.Float32,
+            DataType = dataType,
             Sizes = sizes,
             Flags = TensorFlags.None,
         };
