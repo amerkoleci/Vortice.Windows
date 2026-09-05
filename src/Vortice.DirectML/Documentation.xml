@@ -4527,6 +4527,9 @@ for (UINT i = 0; i &lt; DimensionCount; ++i) {
   <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_DEQUANTIZE">
     <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_dequantize_operator_desc">DML_DEQUANTIZE_OPERATOR_DESC</a> structure.</summary>
   </comment>
+  <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_ACTIVATION_SWISH">
+    <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_activation_swish_operator_desc">DML_ACTIVATION_SWISH_OPERATOR_DESC</a> structure.</summary>
+  </comment>
   <comment id="DML_ACTIVATION_GELU_OPERATOR_DESC">
     <summary>
       <para>Performs the gaussian error linear unit (GELU) activation function on every element in <i>InputTensor</i>, placing the result into the corresponding element of <i>OutputTensor</i>. <c>f(x) = 0.5 * x * (1.0 + erf(x / sqrt(2)))</c>. This is the exact form, not the tanh approximation. This operator was introduced in DML_FEATURE_LEVEL_5_1.</para>
@@ -4631,5 +4634,20 @@ for (UINT i = 0; i &lt; DimensionCount; ++i) {
   </comment>
   <comment id="DML_DEQUANTIZE_OPERATOR_DESC::OutputTensor">
     <summary>The output tensor to write the results to, with the same sizes as <i>InputTensor</i>.</summary>
+  </comment>
+  <comment id="DML_ACTIVATION_SWISH_OPERATOR_DESC">
+    <summary>
+      <para>Performs the swish activation function on every element in <i>InputTensor</i>, placing the result into the corresponding element of <i>OutputTensor</i>. <c>f(x) = x * sigmoid(SigmoidInputScale * x)</c>. With <i>SigmoidInputScale</i> = 1 this is the SiLU activation. This operator was introduced in DML_FEATURE_LEVEL_6_2.</para>
+      <para>Microsoft Docs: <see href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_activation_swish_operator_desc" /></para>
+    </summary>
+  </comment>
+  <comment id="DML_ACTIVATION_SWISH_OPERATOR_DESC::InputTensor">
+    <summary>The input tensor to read from.</summary>
+  </comment>
+  <comment id="DML_ACTIVATION_SWISH_OPERATOR_DESC::OutputTensor">
+    <summary>The output tensor to write the results to.</summary>
+  </comment>
+  <comment id="DML_ACTIVATION_SWISH_OPERATOR_DESC::SigmoidInputScale">
+    <summary>The scale applied to the input before it enters the sigmoid. Use 1 for SiLU.</summary>
   </comment>
 </comments>

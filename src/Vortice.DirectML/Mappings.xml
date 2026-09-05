@@ -231,6 +231,9 @@
     <!-- DML_TARGET_VERSION >= 0x6100 -->
     <remove field="DML_MULTIHEAD_ATTENTION_OPERATOR_DESC::.*" />
 
+    <!-- DML_TARGET_VERSION >= 0x6200 -->
+    <remove field="DML_ACTIVATION_SWISH_OPERATOR_DESC::.*" />
+
     <!-- DML_TARGET_VERSION >= 0x6300 -->
     <remove field="DML_DEQUANTIZE_OPERATOR_DESC::.*" />
 
