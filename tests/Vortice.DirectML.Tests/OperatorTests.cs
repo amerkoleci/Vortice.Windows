@@ -105,6 +105,35 @@ public class OperatorTests
     }
 
     [TestCase]
+    public void ActivationSwishTest()
+    {
+        RequireFeatureLevel(FeatureLevel.Level6_2);
+
+        BufferTensorDescription tensor = CreateTensor(1, 1, 1, 7);
+        float[] input = [-4.0f, -1.0f, -0.5f, 0.0f, 0.5f, 1.0f, 3.0f];
+
+        // f(x) = x * sigmoid(x), which is SiLU.
+        float[] output = Dispatch(new ActivationSwishOperatorDescription
+        {
+            InputTensor = tensor,
+            OutputTensor = tensor,
+            SigmoidInputScale = 1.0f,
+        }, [(tensor, input)], tensor);
+        float[] expected = [-0.07194484f, -0.26894142f, -0.18877033f, 0.0f, 0.31122967f, 0.73105858f, 2.85772238f];
+        Assert.That(output, Is.EqualTo(expected).Within(1e-4f));
+
+        // f(x) = x * sigmoid(2x): the scale reaches the sigmoid, not the outer x.
+        output = Dispatch(new ActivationSwishOperatorDescription
+        {
+            InputTensor = tensor,
+            OutputTensor = tensor,
+            SigmoidInputScale = 2.0f,
+        }, [(tensor, input)], tensor);
+        expected = [-0.0013414f, -0.11920292f, -0.13447071f, 0.0f, 0.36552929f, 0.88079708f, 2.99258213f];
+        Assert.That(output, Is.EqualTo(expected).Within(1e-4f));
+    }
+
+    [TestCase]
     public void ActivationSoftmax1Test()
     {
         RequireFeatureLevel(FeatureLevel.Level5_1);
