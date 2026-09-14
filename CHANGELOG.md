@@ -7,6 +7,7 @@ Release:     3.8.x (August 2026)
 - [ENH] DirectML: Expose ActivationGelu, ActivationSoftmax1 and MultiheadAttention operators
 - [ENH] DirectML: Expose ActivationSwish operator
 - [FIX] DirectML: A default BindingDescription binds as DML_BINDING_TYPE_NONE, so optional operator tensors can be skipped in BindInputs/BindOutputs
+- [ENH] Add Vortice.D3D12MemoryAllocator: D3D12MemoryAllocator bindings backed by Vortice.D3D12MA.Native
 
 -----------------------------------------------
 Release:     3.8.3 (February 2026)

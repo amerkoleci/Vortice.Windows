@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <Description>D3D12MemoryAllocator bindings</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <Using Include="System.Diagnostics.CodeAnalysis" />
+    <Using Include="System.Runtime.InteropServices" />
+    <Using Include="SharpGen.Runtime" />
+    <ProjectReference Include="..\Vortice.Direct3D12\Vortice.Direct3D12.csproj" />
+    <PackageReference Include="Vortice.D3D12MA.Native" />
+  </ItemGroup>
+</Project>

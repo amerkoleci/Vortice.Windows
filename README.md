@@ -10,6 +10,8 @@ This library targets **.net9.0** and **.net10.0** and uses modern C#, see [CHANG
 
 If you are looking for high-performance low level bindings, please visit [Vortice.Win32](https://github.com/amerkoleci/Vortice.Win32)
 
+[Vortice.D3D12MemoryAllocator](src/Vortice.D3D12MemoryAllocator/README.md) provides D3D12MemoryAllocator bindings using Vortice.Direct3D12 resources, with native libraries for Windows x64 and ARM64.
+
 ## Sponsors
 Please consider becoming a [SPONSOR](https://github.com/sponsors/amerkoleci) to further help development and to allow faster issue triaging and new features to be implemented.
 **_NOTE:_** **any feature request** would require a [sponsor](https://github.com/sponsors/amerkoleci) in order to allow faster implementation and allow this project to continue.
