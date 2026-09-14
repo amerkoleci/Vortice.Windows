@@ -13,6 +13,7 @@
     <PackageVersion Include="Vortice.Mathematics" Version="2.1.0" />
     <PackageVersion Include="SharpGen.Runtime.COM" Version="$(SharpGenVersion)" />
     <PackageVersion Include="Vortice.Dxc.Native" Version="1.0.5" />
+    <PackageVersion Include="Vortice.D3D12MA.Native" Version="1.0.2" />
     
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.269" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.260209005" />

@@ -28,6 +28,9 @@ jobs:
     - name: Pack
       run: dotnet pack Vortice.Windows.slnx --configuration Release -p:Packing=true
 
+    - name: Test D3D12MemoryAllocator
+      run: dotnet test tests/Vortice.D3D12MemoryAllocator.Tests/Vortice.D3D12MemoryAllocator.Tests.csproj --configuration Release
+
     - name: Publish to NuGet
       if: github.event_name == 'push'
       run: dotnet nuget push artifacts/**/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{secrets.NUGET_TOKEN}} --skip-duplicate
