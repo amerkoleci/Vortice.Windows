@@ -236,6 +236,70 @@ public class OperatorTests
         Assert.That(output, Is.EqualTo(expected).Within(1e-6f));
     }
 
+    [TestCase]
+    public void MeanVarianceNormalization2Test()
+    {
+        RequireFeatureLevel(FeatureLevel.Level6_3);
+
+        BufferTensorDescription tensor = CreateTensor(1, 1, 2, 4);
+        BufferTensorDescription featureTensor = CreateTensor(1, 1, 1, 4);
+        float[] input = [1.0f, -2.0f, 3.0f, 4.0f, 0.5f, 0.5f, -1.5f, 2.5f];
+        float[] scale = [1.0f, 2.0f, -1.0f, 0.5f];
+        float[] bias = [0.0f, 1.0f, -1.0f, 2.0f];
+        const float Epsilon = 1e-5f;
+
+        // Without the mean the variance is taken about zero: RMS normalization.
+        float[] output = Dispatch(new MeanVarianceNormalization2OperatorDescription
+        {
+            InputTensor = tensor,
+            OutputTensor = tensor,
+            Axes = [3],
+            UseMean = false,
+            UseVariance = true,
+            Epsilon = Epsilon,
+        }, [(tensor, input), null, null], tensor);
+        Assert.That(output, Is.EqualTo(NormalizeRows(input, 4, false, Epsilon, null, null)).Within(1e-4f));
+
+        // With the mean, and a scale and bias that vary along the normalized axis.
+        output = Dispatch(new MeanVarianceNormalization2OperatorDescription
+        {
+            InputTensor = tensor,
+            ScaleTensor = featureTensor,
+            BiasTensor = featureTensor,
+            OutputTensor = tensor,
+            Axes = [3],
+            UseMean = true,
+            UseVariance = true,
+            Epsilon = Epsilon,
+        }, [(tensor, input), (featureTensor, scale), (featureTensor, bias)], tensor);
+        Assert.That(output, Is.EqualTo(NormalizeRows(input, 4, true, Epsilon, scale, bias)).Within(1e-4f));
+    }
+
+    private static float[] NormalizeRows(float[] input, int width, bool useMean, float epsilon,
+        float[]? scale, float[]? bias)
+    {
+        float[] output = new float[input.Length];
+        for (int row = 0; row < input.Length / width; row++)
+        {
+            ReadOnlySpan<float> x = input.AsSpan(row * width, width);
+            double mean = 0.0;
+            if (useMean)
+            {
+                foreach (float v in x) mean += v;
+                mean /= width;
+            }
+            double variance = 0.0;
+            foreach (float v in x) variance += (v - mean) * (v - mean);
+            variance /= width;
+            for (int i = 0; i < width; i++)
+            {
+                double normalized = (x[i] - mean) / Math.Sqrt(variance + epsilon);
+                output[row * width + i] = (float)(normalized * (scale?[i] ?? 1.0) + (bias?[i] ?? 0.0));
+            }
+        }
+        return output;
+    }
+
     /// <summary>
     /// softmax(query x transposed(key) * scale) x value, per head, in doubles.
     /// </summary>
