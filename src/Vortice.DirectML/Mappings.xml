@@ -235,6 +235,7 @@
     <remove field="DML_ACTIVATION_SWISH_OPERATOR_DESC::.*" />
 
     <!-- DML_TARGET_VERSION >= 0x6300 -->
+    <remove field="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::.*" />
     <remove field="DML_DEQUANTIZE_OPERATOR_DESC::.*" />
 
     <!-- GraphDescription -->

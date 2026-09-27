@@ -4527,6 +4527,9 @@ for (UINT i = 0; i &lt; DimensionCount; ++i) {
   <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_DEQUANTIZE">
     <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_dequantize_operator_desc">DML_DEQUANTIZE_OPERATOR_DESC</a> structure.</summary>
   </comment>
+  <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_MEAN_VARIANCE_NORMALIZATION2">
+    <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_mean_variance_normalization2_operator_desc">DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC</a> structure.</summary>
+  </comment>
   <comment id="DML_OPERATOR_TYPE::DML_OPERATOR_ACTIVATION_SWISH">
     <summary>Indicates the operator described by the <a href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_activation_swish_operator_desc">DML_ACTIVATION_SWISH_OPERATOR_DESC</a> structure.</summary>
   </comment>
@@ -4649,5 +4652,41 @@ for (UINT i = 0; i &lt; DimensionCount; ++i) {
   </comment>
   <comment id="DML_ACTIVATION_SWISH_OPERATOR_DESC::SigmoidInputScale">
     <summary>The scale applied to the input before it enters the sigmoid. Use 1 for SiLU.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC">
+    <summary>
+      <para>Normalizes <i>InputTensor</i> over the given axes: <c>Output = FusedActivation(Scale * (Input - Mean) / sqrt(Variance + Epsilon) + Bias)</c>, where <i>UseMean</i> and <i>UseVariance</i> choose whether the mean is subtracted and whether the result is divided by the deviation. With the mean left out the variance is taken about zero, so <i>UseMean</i> = FALSE and <i>UseVariance</i> = TRUE is RMS normalization. This operator was introduced in DML_FEATURE_LEVEL_6_3.</para>
+      <para>Microsoft Docs: <see href="https://learn.microsoft.com/windows/ai/directml/api/ns-directml-dml_mean_variance_normalization2_operator_desc" /></para>
+    </summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::InputTensor">
+    <summary>The input tensor to read from.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::ScaleTensor">
+    <summary>An optional tensor of scale values, with as many dimensions as <i>InputTensor</i>, each either matching it or 1 to broadcast.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::BiasTensor">
+    <summary>An optional tensor of bias values, with as many dimensions as <i>InputTensor</i>, each either matching it or 1 to broadcast.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::OutputTensor">
+    <summary>The output tensor to write the results to, with the same sizes as <i>InputTensor</i>.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::AxisCount">
+    <summary>The number of axes. This field determines the size of the <i>Axes</i> array.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::Axes">
+    <summary>The axes along which to calculate the mean and variance.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::UseMean">
+    <summary><b>TRUE</b> to subtract the mean; <b>FALSE</b> to leave it out, so the variance is taken about zero.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::UseVariance">
+    <summary><b>TRUE</b> to divide by <c>sqrt(Variance + Epsilon)</c>; <b>FALSE</b> to leave the scale of the input as it is.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::Epsilon">
+    <summary>The epsilon value to use to avoid division by zero.</summary>
+  </comment>
+  <comment id="DML_MEAN_VARIANCE_NORMALIZATION2_OPERATOR_DESC::FusedActivation">
+    <summary>An optional fused activation layer to apply after the normalization.</summary>
   </comment>
 </comments>
