@@ -197,7 +197,59 @@ public class OperatorTests
             null, null, null, null, null, null, null, null], outputTensor, outputCount: 3);
 
         float[] expected = AttentionReference(
-            query, key, value, SequenceLength, KeySequenceLength, HeadCount, HeadSize, scale);
+            query, key, value, SequenceLength, KeySequenceLength, HeadCount, HeadCount, HeadSize, scale);
+
+        Assert.That(output, Is.EqualTo(expected).Within(1e-4f));
+    }
+
+    [TestCase]
+    public void MultiheadAttention1Test()
+    {
+        RequireFeatureLevel(FeatureLevel.Level6_3);
+
+        const int SequenceLength = 2;
+        const int KeySequenceLength = 3;
+        const int QueryHeadCount = 4;
+        const int KeyValueHeadCount = 2;
+        const int HeadSize = 2;
+        const int HiddenSize = QueryHeadCount * HeadSize;
+        const int KeyValueHiddenSize = KeyValueHeadCount * HeadSize;
+        float scale = 1.0f / MathF.Sqrt(HeadSize);
+
+        BufferTensorDescription queryTensor = CreateTensor(1, SequenceLength, HiddenSize);
+        BufferTensorDescription keyTensor = CreateTensor(1, KeySequenceLength, KeyValueHiddenSize);
+        BufferTensorDescription valueTensor = CreateTensor(1, KeySequenceLength, KeyValueHiddenSize);
+        BufferTensorDescription outputTensor = CreateTensor(1, SequenceLength, HiddenSize);
+
+        // Grouped-query attention: four query heads over two key-value heads.
+        var description = new MultiheadAttention1OperatorDescription
+        {
+            QueryTensor = queryTensor,
+            KeyTensor = keyTensor,
+            ValueTensor = valueTensor,
+            OutputTensor = outputTensor,
+            Scale = scale,
+            QueryHeadCount = QueryHeadCount,
+            KeyValueHeadCount = KeyValueHeadCount,
+            MaskType = MultiheadAttentionMaskType.None,
+        };
+
+        float[] query =
+        [
+            0.1f, -0.2f, 0.3f, 0.4f, -0.5f, 0.6f, 0.7f, -0.8f,
+            0.9f, 0.2f, -0.4f, 0.1f, 0.3f, -0.7f, 0.5f, 0.6f,
+        ];
+        float[] key = [0.2f, 0.1f, -0.3f, 0.5f, 0.4f, -0.6f, 0.2f, 0.3f, -0.1f, 0.8f, -0.7f, 0.1f];
+        float[] value = [1.0f, 2.0f, -1.0f, 0.5f, -0.5f, 1.5f, 2.0f, -2.0f, 0.25f, -0.75f, 1.25f, 0.0f];
+
+        // The inputs are those of MultiheadAttention with the past sequence
+        // lengths after the past key-value cache, twelve in all.
+        float[] output = Dispatch(description, [
+            (queryTensor, query), (keyTensor, key), (valueTensor, value),
+            null, null, null, null, null, null, null, null, null], outputTensor, outputCount: 3);
+
+        float[] expected = AttentionReference(
+            query, key, value, SequenceLength, KeySequenceLength, QueryHeadCount, KeyValueHeadCount, HeadSize, scale);
 
         Assert.That(output, Is.EqualTo(expected).Within(1e-4f));
     }
@@ -302,16 +354,20 @@ public class OperatorTests
 
     /// <summary>
     /// softmax(query x transposed(key) * scale) x value, per head, in doubles.
+    /// With fewer key-value heads than query heads, consecutive query heads
+    /// share a key-value head.
     /// </summary>
     private static float[] AttentionReference(
         float[] query, float[] key, float[] value,
-        int sequenceLength, int keySequenceLength, int headCount, int headSize, float scale)
+        int sequenceLength, int keySequenceLength, int headCount, int keyValueHeadCount, int headSize, float scale)
     {
         int hiddenSize = headCount * headSize;
+        int keyValueHiddenSize = keyValueHeadCount * headSize;
         float[] output = new float[sequenceLength * hiddenSize];
 
         for (int head = 0; head < headCount; head++)
         {
+            int keyValueHead = head / (headCount / keyValueHeadCount);
             for (int q = 0; q < sequenceLength; q++)
             {
                 var scores = new double[keySequenceLength];
@@ -320,7 +376,7 @@ public class OperatorTests
                     double score = 0.0;
                     for (int d = 0; d < headSize; d++)
                     {
-                        score += query[q * hiddenSize + head * headSize + d] * key[k * hiddenSize + head * headSize + d];
+                        score += query[q * hiddenSize + head * headSize + d] * key[k * keyValueHiddenSize + keyValueHead * headSize + d];
                     }
                     scores[k] = score * scale;
                 }
@@ -332,7 +388,7 @@ public class OperatorTests
                     double attended = 0.0;
                     for (int k = 0; k < keySequenceLength; k++)
                     {
-                        attended += Math.Exp(scores[k]) / sum * value[k * hiddenSize + head * headSize + d];
+                        attended += Math.Exp(scores[k]) / sum * value[k * keyValueHiddenSize + keyValueHead * headSize + d];
                     }
                     output[q * hiddenSize + head * headSize + d] = (float)attended;
                 }
